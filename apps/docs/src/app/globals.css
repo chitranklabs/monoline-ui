@@ -37,4 +37,16 @@
 	.label-eyebrow {
 		@apply text-muted-foreground font-mono text-xs uppercase tracking-[0.32em];
 	}
+
+	.docs-nav-link {
+		@apply text-muted-foreground hover:bg-accent hover:text-accent-foreground block rounded-xl px-3 py-2 text-sm transition-colors;
+	}
+
+	.docs-section {
+		@apply border-border/60 border-b py-10 first:pt-0 last:border-b-0 last:pb-0;
+	}
+
+	.docs-code {
+		@apply bg-muted/60 text-foreground overflow-x-auto rounded-[1.25rem] border p-4 font-mono text-sm leading-6;
+	}
 }

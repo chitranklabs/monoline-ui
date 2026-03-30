@@ -7,7 +7,7 @@
 		},
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": [".next/**", "dist/**", "storybook-static/**"]
+			"outputs": [".next/**", "dist/**"]
 		},
 		"biome-lint": {
 			"dependsOn": ["^biome-lint"],

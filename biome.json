@@ -9,8 +9,7 @@
 			"!**/.next",
 			"!**/.turbo",
 			"!**/dist",
-			"!**/coverage",
-			"!**/storybook-static"
+			"!**/coverage"
 		]
 	},
 	"formatter": {

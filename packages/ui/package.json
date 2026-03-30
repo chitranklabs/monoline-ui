@@ -42,9 +42,13 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
 			"import": "./dist/index.js"
 		},
-		"./theme.css": "./dist/styles/theme.css",
+		"./theme.css": {
+			"development": "./src/styles/theme.css",
+			"default": "./dist/styles/theme.css"
+		},
 		"./package.json": "./package.json"
 	},
 	"scripts": {
