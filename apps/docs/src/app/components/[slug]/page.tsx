@@ -14,12 +14,13 @@ import { Blocks, Layers3, Sparkles } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { CommandTabs } from "../../../components/command-tabs"
+import { ComponentPreview } from "../../../components/component-preview"
 import { DocsShell } from "../../../components/docs-shell"
 
 const toc = [
 	{ id: "installation", label: "Installation" },
 	{ id: "usage", label: "Usage" },
-	{ id: "api", label: "API" },
+	{ id: "examples", label: "Examples" },
 	{ id: "preview", label: "Preview" },
 ] as const
 
@@ -506,6 +507,8 @@ export default async function ComponentPage({
 		notFound()
 	}
 
+	const typedSlug = slug as keyof typeof componentPages
+
 	return (
 		<DocsShell
 			eyebrow="Component"
@@ -523,16 +526,20 @@ export default async function ComponentPage({
 				</pre>
 			</section>
 
-			<section id="api" className="docs-section">
-				<div className="docs-preview">
-					{renderApi(slug as keyof typeof componentPages)}
-				</div>
+			<section id="examples" className="docs-section">
+				<ComponentPreview
+					code={`import { ${page.importName} } from "@chitrank2050/monoline-ui"\n\n${page.usage}`}
+				>
+					{renderApi(typedSlug)}
+				</ComponentPreview>
 			</section>
 
 			<section id="preview" className="docs-section">
-				<div className="docs-preview">
-					{renderPreview(slug as keyof typeof componentPages)}
-				</div>
+				<ComponentPreview
+					code={`import { ${page.importName} } from "@chitrank2050/monoline-ui"\n\n// See full example in the documentation`}
+				>
+					{renderPreview(typedSlug)}
+				</ComponentPreview>
 			</section>
 		</DocsShell>
 	)

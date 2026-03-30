@@ -1,8 +1,44 @@
+import { cva, type VariantProps } from "class-variance-authority"
 import { ArrowUpRight } from "lucide-react"
 import type * as React from "react"
 
 import { cn } from "../lib/utils"
 import { Button } from "./button"
+
+const bentoGridVariants = cva("grid w-full gap-4", {
+	variants: {
+		columns: {
+			2: "grid-cols-1 md:grid-cols-2",
+			3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+			4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
+		},
+	},
+	defaultVariants: {
+		columns: 3,
+	},
+})
+
+interface BentoGridProps
+	extends React.ComponentProps<"div">,
+		VariantProps<typeof bentoGridVariants> {
+	autoRows?: string
+}
+
+function BentoGrid({
+	className,
+	columns,
+	autoRows = "22rem",
+	...props
+}: BentoGridProps) {
+	return (
+		<div
+			data-slot="bento-grid"
+			className={cn(bentoGridVariants({ columns }), className)}
+			style={{ gridAutoRows: autoRows }}
+			{...props}
+		/>
+	)
+}
 
 export interface BentoPanelProps extends React.ComponentProps<"div"> {
 	eyebrow?: string
@@ -60,4 +96,4 @@ function BentoPanel({
 	)
 }
 
-export { BentoPanel }
+export { BentoGrid, BentoPanel, bentoGridVariants }
