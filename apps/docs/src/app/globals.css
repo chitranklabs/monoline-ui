@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@source "../../../../packages/ui/src";
+@source "../components";
+@source "../app";
+@import "@foundry/tokens/theme.css";
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		@apply bg-background text-foreground min-h-screen antialiased;
+		background-image:
+			radial-gradient(circle at top, color-mix(in oklab, var(--primary) 16%, transparent), transparent 30%),
+			linear-gradient(to bottom, color-mix(in oklab, var(--background) 92%, black), var(--background));
+	}
+
+	::selection {
+		background: color-mix(in oklab, var(--primary) 22%, transparent);
+	}
+}
+
+@layer components {
+	.shell {
+		@apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+	}
+
+	.panel {
+		@apply bg-card/86 text-card-foreground border-border/80 rounded-3xl border shadow-[0_16px_50px_-26px_color-mix(in_oklab,var(--foreground)_22%,transparent)] backdrop-blur;
+	}
+
+	.label-eyebrow {
+		@apply text-muted-foreground font-mono text-xs uppercase tracking-[0.32em];
+	}
+}

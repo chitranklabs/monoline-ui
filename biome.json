@@ -1,0 +1,32 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
+	"files": {
+		"includes": [
+			"**",
+			"!**/*.css",
+			"!**/node_modules",
+			"!.next",
+			"!.turbo",
+			"!**/dist",
+			"!**/coverage",
+			"!**/storybook-static"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"semicolons": "asNeeded",
+			"trailingCommas": "es5"
+		}
+	}
+}

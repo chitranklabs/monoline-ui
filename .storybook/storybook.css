@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@source "../packages/ui/src";
+@source "../apps/docs/src";
+@import "../packages/tokens/src/theme.css";
+
+body {
+	@apply bg-background text-foreground min-h-screen p-6;
+}
