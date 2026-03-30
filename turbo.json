@@ -9,11 +9,15 @@
 			"dependsOn": ["^build"],
 			"outputs": [".next/**", "dist/**", "storybook-static/**"]
 		},
-		"lint": {
-			"dependsOn": ["^lint"],
+		"biome-lint": {
+			"dependsOn": ["^biome-lint"],
 			"outputs": []
 		},
-		"format": {
+		"biome-lint:fix": {
+			"cache": false,
+			"outputs": []
+		},
+		"biome-format": {
 			"cache": false,
 			"outputs": []
 		},
