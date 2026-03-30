@@ -2,7 +2,7 @@
 @source "../../../../packages/ui/src";
 @source "../components";
 @source "../app";
-@import "@chitrank2050/foundry-ui/theme.css";
+@import "@chitrank2050/monoline-ui/theme.css";
 
 @layer base {
 	* {

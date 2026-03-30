@@ -1,7 +1,7 @@
 {
-	"name": "@chitrank2050/foundry-tokens",
+	"name": "@chitrank2050/monoline-tokens",
 	"version": "0.1.0",
-	"description": "Private theme tokens and CSS variables used internally by Foundry UI.",
+	"description": "Private theme tokens and CSS variables used internally by Monoline UI.",
 	"private": true,
 	"author": {
 		"name": "Chitrank Agnihotri",
@@ -10,10 +10,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chitrank2050/foundry-ui"
+		"url": "https://github.com/chitrank2050/monoline-ui"
 	},
 	"bugs": {
-		"url": "https://github.com/chitrank2050/foundry-ui/issues"
+		"url": "https://github.com/chitrank2050/monoline-ui/issues"
 	},
 	"keywords": [
 		"design-tokens",

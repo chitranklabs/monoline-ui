@@ -1,6 +1,6 @@
-# Foundry UI
+# Monoline UI
 
-Foundry UI is a modular design-system monorepo built to showcase product-thinking, interface craft, and production-ready UI architecture.
+Monoline UI is a modular design-system monorepo built to showcase product-thinking, interface craft, and production-ready UI architecture.
 
 ## Stack
 
@@ -39,7 +39,7 @@ Recommended Vercel project settings:
 - Root Directory: `apps/docs`
 - Framework Preset: `Next.js`
 - Install Command: `pnpm install`
-- Build Command: `pnpm --filter @chitrank2050/foundry-docs build`
+- Build Command: `pnpm --filter @chitrank2050/monoline-docs build`
 
 Environment variables:
 
@@ -47,7 +47,7 @@ Environment variables:
 
 Notes:
 
-- `@chitrank2050/foundry-ui` is the public npm package.
+- `@chitrank2050/monoline-ui` is the public npm package.
 - `apps/docs` stays private and acts as the public showcase site.
 - `packages/tokens` stays internal for now and is consumed by the docs app and UI package workspace.
 

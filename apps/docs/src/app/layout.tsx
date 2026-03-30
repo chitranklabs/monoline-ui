@@ -1,4 +1,4 @@
-import { cn } from "@chitrank2050/foundry-ui"
+import { cn } from "@chitrank2050/monoline-ui"
 import type { Metadata } from "next"
 import { Caveat, IBM_Plex_Mono, Inter } from "next/font/google"
 

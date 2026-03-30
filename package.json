@@ -1,5 +1,5 @@
 {
-	"name": "foundry-ui",
+	"name": "monoline-ui",
 	"version": "0.1.0",
 	"description": "A modular design system and UI blueprint built from my portfolio’s visual language.",
 	"private": true,
@@ -10,10 +10,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chitrank2050/foundry-ui"
+		"url": "https://github.com/chitrank2050/monoline-ui"
 	},
 	"bugs": {
-		"url": "https://github.com/chitrank2050/foundry-ui/issues"
+		"url": "https://github.com/chitrank2050/monoline-ui/issues"
 	},
 	"keywords": [
 		"design-system",
@@ -27,7 +27,7 @@
 	],
 	"scripts": {
 		"dev": "pnpm run dev:docs",
-		"dev:docs": "pnpm --filter @chitrank2050/foundry-docs dev",
+		"dev:docs": "pnpm --filter @chitrank2050/monoline-docs dev",
 		"build": "turbo run build",
 		"lint": "pnpm biome-lint && turbo run biome-lint",
 		"lint:fix": "pnpm biome-lint:fix && turbo run biome-lint:fix",

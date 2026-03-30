@@ -1,5 +1,5 @@
 {
-	"name": "@chitrank2050/foundry-ui",
+	"name": "@chitrank2050/monoline-ui",
 	"version": "0.1.0",
 	"description": "A React component library for polished interfaces built with Tailwind CSS and design-system principles.",
 	"private": false,
@@ -10,10 +10,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chitrank2050/foundry-ui"
+		"url": "https://github.com/chitrank2050/monoline-ui"
 	},
 	"bugs": {
-		"url": "https://github.com/chitrank2050/foundry-ui/issues"
+		"url": "https://github.com/chitrank2050/monoline-ui/issues"
 	},
 	"keywords": [
 		"react",

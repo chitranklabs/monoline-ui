@@ -3,9 +3,10 @@ import {
 	spacingScale,
 	themeModes,
 	typographyScale,
-} from "@chitrank2050/foundry-tokens"
+} from "@chitrank2050/monoline-tokens"
 import {
 	Badge,
+	BentoPanel,
 	Button,
 	Card,
 	CardContent,
@@ -13,12 +14,17 @@ import {
 	CardHeader,
 	CardTitle,
 	Input,
-} from "@chitrank2050/foundry-ui"
+	SectionHeader,
+	StatCard,
+} from "@chitrank2050/monoline-ui"
 import {
 	ArrowUpRight,
+	Blocks,
+	ChartNoAxesColumn,
 	Layers3,
 	MoonStar,
 	Palette,
+	PanelTop,
 	Sparkles,
 } from "lucide-react"
 
@@ -57,7 +63,7 @@ export default function HomePage() {
 								variant="outline"
 								className="rounded-full px-3 py-1 font-mono"
 							>
-								Foundry UI v0
+								Monoline UI v0
 							</Badge>
 							<div className="space-y-4">
 								<p className="font-script text-primary text-3xl leading-none sm:text-4xl">
@@ -300,6 +306,61 @@ export default function HomePage() {
 						</div>
 					</CardContent>
 				</Card>
+			</section>
+
+			<section className="shell mt-8">
+				<div className="panel p-6 sm:p-8">
+					<SectionHeader
+						eyebrow="Patterns"
+						title="System components beyond primitives"
+						description="The next layer of the library should make composition easier, not just add more low-level parts."
+						actions={
+							<>
+								<Button>Use in Docs</Button>
+								<Button variant="outline">Add to Storybook</Button>
+							</>
+						}
+					/>
+
+					<div className="mt-8 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+						<div className="grid gap-4 sm:grid-cols-2">
+							<StatCard
+								label="Patterns"
+								value="03"
+								helper="Section header, stat card, and bento panel are now first-class building blocks."
+							/>
+							<StatCard
+								label="Theme Modes"
+								value="04"
+								helper="Neutral-first palettes that keep the UI aligned with shadcn and Tailwind expectations."
+							/>
+						</div>
+
+						<div className="grid gap-4 md:grid-cols-3">
+							<BentoPanel
+								eyebrow="Section"
+								title="SectionHeader"
+								description="A reusable heading pattern for docs, landing sections, and pattern galleries."
+								icon={<PanelTop className="size-5" />}
+								ctaLabel="See pattern"
+							/>
+							<BentoPanel
+								eyebrow="Metrics"
+								title="StatCard"
+								description="A compact surface for KPIs, benchmarks, or credibility cues inside portfolio layouts."
+								icon={<ChartNoAxesColumn className="size-5" />}
+								ctaLabel="See pattern"
+							/>
+							<BentoPanel
+								eyebrow="Layout"
+								title="BentoPanel"
+								description="A more expressive content shell for feature grids and modular landing page compositions."
+								icon={<Blocks className="size-5" />}
+								ctaLabel="See pattern"
+							/>
+						</div>
+					</div>
+				</div>
 			</section>
 		</main>
 	)

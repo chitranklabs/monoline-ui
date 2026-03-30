@@ -7,7 +7,7 @@ export default defineConfig({
 		trace: "on-first-retry",
 	},
 	webServer: {
-		command: "pnpm --filter @chitrank2050/foundry-docs dev",
+		command: "pnpm --filter @chitrank2050/monoline-docs dev",
 		port: 3001,
 		reuseExistingServer: !process.env.CI,
 	},

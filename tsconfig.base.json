@@ -16,10 +16,10 @@
 		"incremental": true,
 		"baseUrl": ".",
 		"paths": {
-			"@chitrank2050/foundry-ui": ["packages/ui/src/index.ts"],
-			"@chitrank2050/foundry-ui/*": ["packages/ui/src/*"],
-			"@chitrank2050/foundry-tokens": ["packages/tokens/src/index.ts"],
-			"@chitrank2050/foundry-tokens/*": ["packages/tokens/src/*"]
+			"@chitrank2050/monoline-ui": ["packages/ui/src/index.ts"],
+			"@chitrank2050/monoline-ui/*": ["packages/ui/src/*"],
+			"@chitrank2050/monoline-tokens": ["packages/tokens/src/index.ts"],
+			"@chitrank2050/monoline-tokens/*": ["packages/tokens/src/*"]
 		}
 	}
 }

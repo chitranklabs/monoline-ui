@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test"
 
-test("homepage renders core Foundry UI content", async ({ page }) => {
+test("homepage renders core Monoline UI content", async ({ page }) => {
 	await page.goto("/")
 
 	await expect(

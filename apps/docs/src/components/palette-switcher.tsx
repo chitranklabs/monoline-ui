@@ -1,10 +1,10 @@
 "use client"
 
-import { themeModes } from "@chitrank2050/foundry-tokens"
-import { Button, cn } from "@chitrank2050/foundry-ui"
+import { themeModes } from "@chitrank2050/monoline-tokens"
+import { Button, cn } from "@chitrank2050/monoline-ui"
 import { useEffect, useState } from "react"
 
-const storageKey = "foundry-theme-mode"
+const storageKey = "monoline-theme-mode"
 
 export function PaletteSwitcher() {
 	const [activeMode, setActiveMode] = useState("neutral")

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, cn } from "@chitrank2050/foundry-ui"
+import { Button, cn } from "@chitrank2050/monoline-ui"
 import { MoonStar, SunMedium } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"

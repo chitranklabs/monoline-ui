@@ -1,7 +1,7 @@
-const fallbackSiteUrl = "http://localhost:3000"
+const fallbackSiteUrl = "http://localhost:3001"
 
 export const siteConfig = {
-	name: "Foundry UI",
+	name: "Monoline UI",
 	description:
 		"A modular design system and UI blueprint built from Chitrank's portfolio language.",
 	url:

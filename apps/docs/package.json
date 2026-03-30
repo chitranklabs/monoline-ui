@@ -1,7 +1,7 @@
 {
-	"name": "@chitrank2050/foundry-docs",
+	"name": "@chitrank2050/monoline-docs",
 	"version": "0.1.0",
-	"description": "Private documentation and showcase app for the Foundry UI design system.",
+	"description": "Private documentation and showcase app for the Monoline UI design system.",
 	"private": true,
 	"author": {
 		"name": "Chitrank Agnihotri",
@@ -10,10 +10,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chitrank2050/foundry-ui"
+		"url": "https://github.com/chitrank2050/monoline-ui"
 	},
 	"bugs": {
-		"url": "https://github.com/chitrank2050/foundry-ui/issues"
+		"url": "https://github.com/chitrank2050/monoline-ui/issues"
 	},
 	"keywords": [
 		"design-system-docs",
@@ -33,8 +33,8 @@
 		"test": "vitest run --passWithNoTests"
 	},
 	"dependencies": {
-		"@chitrank2050/foundry-tokens": "workspace:*",
-		"@chitrank2050/foundry-ui": "workspace:*",
+		"@chitrank2050/monoline-tokens": "workspace:*",
+		"@chitrank2050/monoline-ui": "workspace:*",
 		"clsx": "^2.1.1",
 		"lucide-react": "^0.511.0",
 		"next": "^16.1.6",
