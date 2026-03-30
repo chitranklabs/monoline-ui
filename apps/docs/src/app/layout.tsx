@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Caveat, IBM_Plex_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
+import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "../components/theme-provider"
 import { siteConfig } from "../lib/site"
 
@@ -48,6 +49,8 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+
 	return (
 		<html
 			lang="en"
@@ -56,6 +59,7 @@ export default function RootLayout({
 		>
 			<body className="font-sans">
 				<ThemeProvider>{children}</ThemeProvider>
+				{isProduction && <Analytics />}
 			</body>
 		</html>
 	)
