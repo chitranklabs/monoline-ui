@@ -24,7 +24,7 @@ export function DocsSidebar() {
 									href={item.href}
 									className={cn(
 										"docs-nav-link",
-										isActive && "bg-accent text-accent-foreground"
+										isActive ? "text-foreground font-medium" : "font-normal"
 									)}
 								>
 									{item.label}

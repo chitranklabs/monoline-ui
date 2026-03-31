@@ -1,4 +1,4 @@
-import { Badge, Button, Navbar, SectionHeader } from "@chitrank2050/monoline-ui"
+import { Button, Navbar, SectionHeader } from "@chitrank2050/monoline-ui"
 
 import type { TocItem } from "../lib/docs"
 import { DocsSidebar } from "./docs-sidebar"
@@ -47,40 +47,29 @@ export function DocsShell({
 				}
 			/>
 
-			<div className="shell py-6 sm:py-8">
-				<div className="grid gap-8 xl:grid-cols-[240px_minmax(0,1fr)_220px]">
-					<aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start xl:max-h-[calc(100vh-7rem)]">
-						<div className="panel relative flex max-h-[calc(100vh-7rem)] flex-col overflow-hidden p-5">
-							<div className="mb-5 shrink-0 space-y-3 border-b pb-5">
-								<Badge variant="outline" className="rounded-full font-mono">
-									Docs
-								</Badge>
-								<p className="text-muted-foreground text-sm leading-6">
-									Foundations, installation, and components in one navigation
-									system.
-								</p>
-							</div>
-							<div className="sidebar-scroll flex-1 overflow-y-auto">
+			<div className="shell py-8 lg:py-10">
+				<div className="grid gap-10 xl:grid-cols-[220px_minmax(0,1fr)_200px]">
+					<aside className="hidden xl:sticky xl:top-20 xl:block xl:max-h-[calc(100vh-5rem)] xl:self-start">
+						<div className="relative flex max-h-[calc(100vh-5rem)] flex-col overflow-hidden">
+							<div className="sidebar-scroll flex-1 overflow-y-auto pr-2">
 								<DocsSidebar />
 							</div>
-							<div className="sidebar-fade pointer-events-none absolute inset-x-0 bottom-0 h-12 rounded-b-3xl" />
+							<div className="sidebar-fade pointer-events-none absolute inset-x-0 bottom-0 h-10" />
 						</div>
 					</aside>
 
 					<main className="min-w-0">
-						<div className="panel overflow-hidden">
-							<div className="border-b px-6 py-5 sm:px-8">
-								<SectionHeader
-									eyebrow={eyebrow}
-									title={title}
-									description={description}
-								/>
-							</div>
-							<div className="px-6 py-6 sm:px-8 sm:py-8">{children}</div>
+						<div className="mb-8">
+							<SectionHeader
+								eyebrow={eyebrow}
+								title={title}
+								description={description}
+							/>
 						</div>
+						<div className="border-t border-border pt-8">{children}</div>
 					</main>
 
-					<aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
+					<aside className="hidden xl:sticky xl:top-20 xl:block xl:self-start">
 						<OnThisPage items={toc} />
 					</aside>
 				</div>

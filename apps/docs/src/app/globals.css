@@ -15,9 +15,6 @@
 
 	body {
 		@apply bg-background text-foreground min-h-screen antialiased;
-		background-image:
-			radial-gradient(circle at top, color-mix(in oklab, var(--primary) 16%, transparent), transparent 30%),
-			linear-gradient(to bottom, color-mix(in oklab, var(--background) 92%, black), var(--background));
 	}
 
 	::selection {
@@ -31,7 +28,7 @@
 	}
 
 	.panel {
-		@apply bg-card/86 text-card-foreground border-border/80 rounded-3xl border shadow-[0_16px_50px_-26px_color-mix(in_oklab,var(--foreground)_22%,transparent)] backdrop-blur;
+		@apply bg-card text-card-foreground border-border rounded-xl border;
 	}
 
 	.label-eyebrow {
@@ -39,23 +36,27 @@
 	}
 
 	.docs-nav-link {
-		@apply text-muted-foreground hover:bg-accent hover:text-accent-foreground block rounded-xl px-3 py-2 text-sm transition-colors;
+		@apply text-muted-foreground hover:text-foreground block px-0 py-1 text-sm transition-colors;
 	}
 
 	.docs-section {
-		@apply border-border/60 border-b py-10 first:pt-0 last:border-b-0 last:pb-0;
+		@apply border-border/60 border-b py-8 first:pt-0 last:border-b-0 last:pb-0;
 	}
 
 	.docs-code {
-		@apply bg-muted/60 text-foreground overflow-x-auto rounded-[1.25rem] border p-4 font-mono text-sm leading-6;
+		@apply bg-zinc-950 text-zinc-200 overflow-x-auto rounded-lg border border-border p-4 font-mono text-[13px] leading-relaxed;
 	}
 
 	.docs-preview {
-		@apply bg-background rounded-[1.5rem] border border-border/80 p-6;
+		@apply rounded-lg border border-border;
+	}
+
+	.docs-section-title {
+		@apply text-foreground mb-4 text-lg font-semibold tracking-tight;
 	}
 
 	.sidebar-fade {
-		background: linear-gradient(to bottom, transparent, var(--card));
+		background: linear-gradient(to bottom, transparent, var(--background));
 	}
 
 	.sidebar-scroll {
