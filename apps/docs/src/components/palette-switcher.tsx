@@ -2,29 +2,41 @@
 
 import { themeModes } from "@chitrank2050/monoline-tokens"
 import { Button, cn } from "@chitrank2050/monoline-ui"
-import { useEffect, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useState } from "react"
 
-const storageKey = "monoline-theme-mode"
+function setAccentCookie(mode: string) {
+	const maxAge = 365 * 24 * 60 * 60
+	const value = `monoline-accent=${mode};path=/;max-age=${maxAge};samesite=lax`
+	// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API lacks broad support; document.cookie is the reliable cross-browser approach for setting cookies client-side.
+	document.cookie = value
+}
 
-export function PaletteSwitcher() {
-	const [activeMode, setActiveMode] = useState("neutral")
+export function PaletteSwitcher({
+	defaultAccent = "neutral",
+}: {
+	defaultAccent?: string
+}) {
+	const router = useRouter()
+	const pathname = usePathname()
+	const searchParams = useSearchParams()
 
-	useEffect(() => {
-		const savedMode = window.localStorage.getItem(storageKey)
-		if (savedMode) {
-			setActiveMode(savedMode)
-			document.documentElement.dataset.accent = savedMode
-			return
-		}
+	const [accent, setAccent] = useState(
+		() => searchParams.get("accent") || defaultAccent
+	)
 
-		document.documentElement.dataset.accent = "neutral"
-	}, [])
+	const handleModeChange = useCallback(
+		(mode: string) => {
+			setAccent(mode)
+			document.documentElement.dataset.accent = mode
+			setAccentCookie(mode)
 
-	const handleModeChange = (mode: string) => {
-		setActiveMode(mode)
-		document.documentElement.dataset.accent = mode
-		window.localStorage.setItem(storageKey, mode)
-	}
+			const params = new URLSearchParams(searchParams.toString())
+			params.set("accent", mode)
+			router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+		},
+		[router, pathname, searchParams]
+	)
 
 	return (
 		<div className="flex flex-wrap gap-2">
@@ -33,10 +45,10 @@ export function PaletteSwitcher() {
 					key={theme.id}
 					type="button"
 					size="sm"
-					variant={activeMode === theme.id ? "default" : "outline"}
+					variant={accent === theme.id ? "default" : "outline"}
 					className={cn(
 						"rounded-full px-3",
-						activeMode !== theme.id && "bg-transparent"
+						accent !== theme.id && "bg-transparent"
 					)}
 					onClick={() => handleModeChange(theme.id)}
 				>

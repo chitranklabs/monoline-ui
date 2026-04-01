@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { SectionHeader } from "./section-header"
+import { SectionHeader } from "../../src/components/section-header"
 
 describe("SectionHeader", () => {
 	it("renders title", () => {

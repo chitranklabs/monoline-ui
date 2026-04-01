@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { Navbar } from "./navbar"
+import { Navbar } from "../../src/components/navbar"
 
 describe("Navbar", () => {
 	it("renders brand text", () => {

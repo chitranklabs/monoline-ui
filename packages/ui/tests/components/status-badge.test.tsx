@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { StatusBadge } from "./status-badge"
+import { StatusBadge } from "../../src/components/status-badge"
 
 describe("StatusBadge", () => {
 	it("renders label text", () => {

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
-import { ToggleButton } from "./toggle-button"
+import { ToggleButton } from "../../src/components/toggle-button"
 
 const options = [
 	{ value: "light" as const, label: "Light" },

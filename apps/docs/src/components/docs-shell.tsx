@@ -1,4 +1,6 @@
 import { Button, Navbar, SectionHeader } from "@chitrank2050/monoline-ui"
+import { cookies } from "next/headers"
+import { Suspense } from "react"
 
 import type { TocItem } from "../lib/docs"
 import { DocsSidebar } from "./docs-sidebar"
@@ -6,7 +8,7 @@ import { OnThisPage } from "./on-this-page"
 import { PaletteSwitcher } from "./palette-switcher"
 import { ThemeToggle } from "./theme-toggle"
 
-export function DocsShell({
+export async function DocsShell({
 	eyebrow,
 	title,
 	description,
@@ -19,6 +21,8 @@ export function DocsShell({
 	toc: readonly TocItem[]
 	children: React.ReactNode
 }) {
+	const cookieStore = await cookies()
+	const accent = cookieStore.get("monoline-accent")?.value || "neutral"
 	return (
 		<div className="min-h-screen">
 			<Navbar
@@ -34,7 +38,9 @@ export function DocsShell({
 							<ThemeToggle />
 						</div>
 						<div className="hidden xl:flex">
-							<PaletteSwitcher />
+							<Suspense fallback={null}>
+								<PaletteSwitcher defaultAccent={accent} />
+							</Suspense>
 						</div>
 						<Button
 							asChild

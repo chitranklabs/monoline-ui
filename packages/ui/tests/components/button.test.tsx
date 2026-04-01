@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { Button } from "./button"
+import { Button } from "../../src/components/button"
 
 describe("Button", () => {
 	it("renders its label", () => {

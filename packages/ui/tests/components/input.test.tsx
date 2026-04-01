@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { Input } from "./input"
+import { Input } from "../../src/components/input"
 
 describe("Input", () => {
 	it("renders an input element", () => {

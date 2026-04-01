@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { Card } from "./card"
+import { Card } from "../../src/components/card"
 
 describe("Card", () => {
 	it("renders with data-slot", () => {

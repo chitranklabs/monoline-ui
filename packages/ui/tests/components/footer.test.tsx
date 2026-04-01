@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { Footer } from "./footer"
+import { Footer } from "../../src/components/footer"
 
 describe("Footer", () => {
 	it("renders credit text", () => {

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { Container } from "./container"
+import { Container } from "../../src/components/container"
 
 describe("Container", () => {
 	it("renders with data-slot", () => {

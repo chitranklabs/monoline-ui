@@ -10,10 +10,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chitrank2050/monoline-ui"
+		"url": "https://github.com/chitranklabs/monoline-ui"
 	},
 	"bugs": {
-		"url": "https://github.com/chitrank2050/monoline-ui/issues"
+		"url": "https://github.com/chitranklabs/monoline-ui/issues"
 	},
 	"keywords": [
 		"design-system",

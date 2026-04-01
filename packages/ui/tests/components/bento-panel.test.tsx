@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 
-import { BentoGrid, BentoPanel } from "./bento-panel"
+import { BentoGrid, BentoPanel } from "../../src/components/bento-panel"
 
 describe("BentoPanel", () => {
 	it("renders title and description", () => {

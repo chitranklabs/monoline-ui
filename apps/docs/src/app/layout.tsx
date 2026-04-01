@@ -1,6 +1,8 @@
 import { cn } from "@chitrank2050/monoline-ui"
 import type { Metadata } from "next"
 import { Caveat, IBM_Plex_Mono, Inter, Manrope } from "next/font/google"
+import { cookies } from "next/headers"
+import Script from "next/script"
 
 import "./globals.css"
 import { Analytics } from "@vercel/analytics/next"
@@ -64,17 +66,20 @@ export const metadata: Metadata = {
 	},
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
 	const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+	const cookieStore = await cookies()
+	const accent = cookieStore.get("monoline-accent")?.value || "neutral"
 
 	return (
 		<html
 			lang="en"
 			suppressHydrationWarning
+			data-accent={accent}
 			className={cn(
 				inter.variable,
 				manrope.variable,
@@ -82,6 +87,9 @@ export default function RootLayout({
 				caveat.variable
 			)}
 		>
+			<head>
+				<Script src="/accent-init.js" strategy="beforeInteractive" />
+			</head>
 			<body className="font-sans">
 				<ThemeProvider>{children}</ThemeProvider>
 				{isProduction && <Analytics />}
