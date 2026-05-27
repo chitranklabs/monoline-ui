@@ -295,11 +295,17 @@
 :root {
 	/* ─── Typography families (wire to next/font CSS vars) ─── */
 	--font-sans:
-		var(--font-inter-sans), "Inter", ui-sans-serif, system-ui, sans-serif;
-	--font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
-	--font-script: var(--font-caveat-script), "Caveat", cursive;
+		var(--font-monoline-sans, var(--font-inter-sans, "Inter")), ui-sans-serif,
+		system-ui, sans-serif;
+	--font-mono:
+		var(--font-monoline-mono, var(--font-plex-mono, "IBM Plex Mono")),
+		ui-monospace, monospace;
+	--font-script:
+		var(--font-monoline-script, var(--font-caveat-script, "Caveat")), cursive;
 	--font-headline:
-		"Manrope", var(--font-inter-sans), "Inter", ui-sans-serif, sans-serif;
+		var(--font-monoline-headline, var(--font-manrope-headline, "Manrope")),
+		var(--font-monoline-sans, var(--font-inter-sans, "Inter")), ui-sans-serif,
+		system-ui, sans-serif;
 
 	/* ─── Type scale (px-pinned for predictability) ─── */
 	--text-3xs: 10px; /* eyebrow xs, badge xs */

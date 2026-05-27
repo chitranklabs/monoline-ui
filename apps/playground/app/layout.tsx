@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { SiteFooter } from "./_components/site-footer"
 import { SiteHeader } from "./_components/site-header"
+import { monolineFontClassName } from "./lib/fonts"
 
 export const metadata: Metadata = {
 	title: "monoline/ui",
@@ -16,7 +17,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en" data-theme="light">
+		<html lang="en" data-theme="light" className={monolineFontClassName}>
 			<body>
 				<div className="min-h-screen bg-background">
 					<SiteHeader />
