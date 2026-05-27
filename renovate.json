@@ -1,0 +1,30 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"labels": ["dependencies"],
+	"reviewers": ["chitrank2050"],
+	"schedule": ["before 6am on monday"],
+	"prConcurrentLimit": 5,
+	"packageRules": [
+		{
+			"matchManagers": ["npm"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "npm minor and patch dependencies"
+		},
+		{
+			"matchManagers": ["npm"],
+			"matchDepTypes": ["dependencies"],
+			"groupName": "production dependencies"
+		},
+		{
+			"matchManagers": ["npm"],
+			"matchDepTypes": ["devDependencies"],
+			"groupName": "development dependencies"
+		},
+		{
+			"matchManagers": ["github-actions"],
+			"labels": ["ci", "dependencies"],
+			"groupName": "github actions"
+		}
+	]
+}

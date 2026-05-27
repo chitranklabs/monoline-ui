@@ -2,5 +2,6 @@ node_modules
 .next
 .turbo
 dist
+dist-playground
 coverage
 pnpm-lock.yaml

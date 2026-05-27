@@ -1,93 +1,40 @@
-# Monoline UI
+# monoline/ui
 
-Monoline UI is a modular design-system monorepo built to showcase product-thinking, interface craft, and production-ready UI architecture.
+Monoline is a workspace with two products:
 
-## Stack
+- `apps/playground`: a Next.js docs and playground site deployed to Vercel.
+- `packages/monoline-ui`: the React design library published to npm and JSR.
 
-- Next.js app router for the showcase and documentation app
-- Tailwind CSS v4 for utility styling and token-driven theming
-- shadcn-style component primitives built on Radix Slot and CVA
-- Vitest and Playwright for quality gates
-- Turborepo, pnpm workspaces, ESLint, Prettier, and Changesets for maintainable scale
+The playground consumes the local package through `workspace:*`. Playground-only
+UI stays inside the app. Shared UI moves into `packages/monoline-ui` only after
+it is needed by the library or repeated across package consumers.
 
-## Workspace
-
-- `apps/docs`: public docs and showcase site
-- `packages/tokens`: theme tokens, palettes, and foundation metadata
-- `packages/ui`: reusable UI primitives
-
-## Getting started
+## Commands
 
 ```bash
 pnpm install
-pnpm dev:docs
+pnpm dev              # Next.js playground
+pnpm build            # npm library build only
+pnpm build:playground # Vercel playground build
+pnpm test
+pnpm lint
 ```
 
-## Install the package
+## Structure
 
-Use the public package in either Next.js or Vite:
+```txt
+apps/playground/
+  app/
+    page.tsx
+    installation/page.tsx
+    foundations/
+    components/
 
-```bash
-pnpm add @chitrank2050/monoline-ui
+packages/monoline-ui/
+  src/foundations/theme.css
+  src/components/footer.tsx
 ```
 
-Import the shared theme CSS once near your app entry:
-
-```ts
-import "@chitrank2050/monoline-ui/theme.css"
-```
-
-Then use the components:
-
-```tsx
-import { Button, SectionHeader } from "@chitrank2050/monoline-ui"
-
-export function Hero() {
-	return (
-		<section>
-			<SectionHeader
-				eyebrow="System"
-				title="Consistent interface building blocks"
-				description="Ship polished sections faster with a shared visual language."
-			/>
-			<Button>Explore components</Button>
-		</section>
-	)
-}
-```
-
-## Vercel deploy
-
-Deploy the docs app as the first Vercel project in this monorepo.
-
-Recommended Vercel project settings:
-
-- Root Directory: `apps/docs`
-- Framework Preset: `Next.js`
-- Install Command: `pnpm install`
-- Build Command: `pnpm --filter @chitrank2050/monoline-docs build`
-
-Environment variables:
-
-- `NEXT_PUBLIC_SITE_URL=https://your-production-domain`
-
-Notes:
-
-- `@chitrank2050/monoline-ui` is the public npm package.
-- `apps/docs` stays private and acts as the public showcase site.
-- `packages/tokens` stays internal for now and supports the docs app and package authoring workflow.
-
-## Release workflow
-
-Monoline UI uses Changesets for versioning and GitHub Actions for publishing.
-
-Release flow:
-
-1. Create a changeset with `pnpm changeset`
-2. Merge the changeset to `main`
-3. GitHub Actions opens or updates a release PR
-4. Merging that release PR publishes `@chitrank2050/monoline-ui` to npm
-
-Required GitHub secret:
-
-- `NPM_TOKEN`: npm automation token with access to publish `@chitrank2050/monoline-ui`
+The package owns design foundations and components. The playground owns docs,
+navigation, search, preview canvas, and any layout chrome needed to inspect the
+library.

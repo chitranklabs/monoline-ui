@@ -2,6 +2,7 @@ node_modules
 .next
 .turbo
 dist
+dist-playground
 coverage
 storybook-static
 playwright-report

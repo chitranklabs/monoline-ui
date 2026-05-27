@@ -1,8 +1,9 @@
 {
-	"name": "monoline-ui",
+	"name": "monoline",
 	"version": "0.1.0",
-	"description": "A modular design system and UI blueprint built from my portfolio’s visual language.",
 	"private": true,
+	"description": "Monoline UI design library and Next.js playground.",
+	"type": "module",
 	"author": {
 		"name": "Chitrank Agnihotri",
 		"email": "chitrank2050@gmail.com",
@@ -12,77 +13,55 @@
 		"type": "git",
 		"url": "https://github.com/chitranklabs/monoline-ui"
 	},
-	"bugs": {
-		"url": "https://github.com/chitranklabs/monoline-ui/issues"
-	},
-	"keywords": [
-		"design-system",
-		"component-library",
-		"tailwindcss",
-		"shadcn",
-		"nextjs",
-		"react",
-		"monorepo"
-	],
 	"scripts": {
-		"dev": "pnpm run dev:docs",
-		"dev:docs": "pnpm --filter @chitrank2050/monoline-docs dev",
-		"build": "turbo run build",
-		"lint": "turbo run lint && eslint commitlint.config.mjs",
-		"lint:fix": "turbo run lint:fix && eslint commitlint.config.mjs --fix",
+		"dev": "pnpm --filter @monoline/playground dev",
+		"build": "pnpm --filter @chitrank2050/monoline-ui build",
+		"build:playground": "pnpm --filter @monoline/playground build",
+		"build:all": "pnpm -r build",
+		"lint": "pnpm -r lint && eslint .",
+		"lint:fix": "pnpm -r lint:fix && eslint . --fix",
+		"lint:branch": "git-hygiene branch",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"test": "turbo run test",
-		"test:e2e": "playwright test",
-		"changeset": "changeset",
-		"version-packages": "changeset version",
-		"release": "changeset publish",
-		"prepare": "husky",
-		"commitlint": "commitlint --edit",
-		"lint-staged": "lint-staged"
+		"test": "pnpm -r test",
+		"prepare": "lefthook install",
+		"lefthook": "lefthook"
 	},
 	"devDependencies": {
+		"@chitrank2050/git-hygiene": "^0.4.11",
 		"@eslint/js": "^9.18.0",
-		"@changesets/cli": "^2.30.0",
-		"@commitlint/cli": "^20.5.0",
-		"@commitlint/config-conventional": "^20.5.0",
-		"@tailwindcss/postcss": "^4.2.0",
-		"@playwright/test": "^1.58.0",
-		"@testing-library/jest-dom": "^6.6.0",
-		"@testing-library/react": "^16.3.0",
-		"@testing-library/user-event": "^14.6.0",
-		"@types/node": "^24.0.0",
-		"@types/react": "^19.0.0",
-		"@types/react-dom": "^19.0.0",
-		"@vitejs/plugin-react": "^4.4.0",
 		"eslint": "^9.18.0",
 		"globals": "^16.0.0",
-		"husky": "^9.1.7",
-		"jsdom": "^26.1.0",
-		"lint-staged": "^16.4.0",
-		"next": "^16.2.0",
-		"playwright": "^1.58.0",
-		"react": "^19.2.0",
-		"react-dom": "^19.2.0",
+		"lefthook": "^1.13.6",
 		"prettier": "^3.4.2",
-		"tailwindcss": "^4.2.0",
-		"turbo": "^2.9.0",
 		"typescript": "^6.0.0",
-		"typescript-eslint": "^8.58.0",
-		"vitest": "^4.1.0"
-	},
-	"lint-staged": {
-		"*.{js,mjs,cjs,jsx,ts,tsx,mts,cts}": [
-			"eslint --fix",
-			"prettier --write"
-		],
-		"*.{json,css,md,yml,yaml}": [
-			"prettier --write"
-		]
+		"typescript-eslint": "^8.58.0"
 	},
 	"packageManager": "pnpm@10.33.0",
 	"engines": {
 		"node": ">=22.0.0",
 		"pnpm": ">=10.0.0"
+	},
+	"git-hygiene": {
+		"types": [
+			"feat",
+			"fix",
+			"chore",
+			"docs",
+			"style",
+			"refactor",
+			"perf",
+			"test",
+			"build",
+			"ci",
+			"revert",
+			"maintenance",
+			"renovate"
+		],
+		"ignoreBranches": [
+			"main",
+			"master",
+			"gh-pages"
+		]
 	}
 }
