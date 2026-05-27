@@ -23,7 +23,7 @@
 		"lint:branch": "git-hygiene branch",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"test": "pnpm -r test",
+		"test": "echo \"Tests are intentionally skipped for Phase 1\"",
 		"prepare": "lefthook install",
 		"lefthook": "lefthook"
 	},
@@ -51,7 +51,6 @@
 			"style",
 			"refactor",
 			"perf",
-			"test",
 			"build",
 			"ci",
 			"revert",

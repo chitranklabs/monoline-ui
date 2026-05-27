@@ -8,8 +8,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"test": "echo \"No playground tests yet\""
+		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
 		"@chitrank2050/monoline-ui": "workspace:*",

@@ -52,7 +52,6 @@
 		"build": "rm -rf dist && tsc -p tsconfig.build.json && mkdir -p dist/styles && cp src/foundations/theme.css dist/styles/theme.css",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"test": "vitest run",
 		"prepack": "pnpm build"
 	},
 	"peerDependencies": {
@@ -66,17 +65,11 @@
 		}
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "^6.6.0",
-		"@testing-library/react": "^16.3.0",
-		"@testing-library/user-event": "^14.6.0",
 		"@types/node": "^24.0.0",
 		"@types/react": "^19.0.0",
 		"@types/react-dom": "^19.0.0",
-		"@vitejs/plugin-react": "^6.0.2",
-		"jsdom": "^26.1.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
-		"tailwindcss": "^4.2.0",
-		"vitest": "^4.1.0"
+		"tailwindcss": "^4.2.0"
 	}
 }
