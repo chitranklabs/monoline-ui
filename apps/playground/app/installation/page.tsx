@@ -5,7 +5,7 @@ export default function InstallationPage() {
 			<h1 className="mt-5 text-5xl font-semibold tracking-tight text-primary">
 				Install monoline/ui
 			</h1>
-			<p className="mt-5 max-w-3xl text-lg leading-8 text-secondary">
+			<p className="mt-5 max-w-3xl text-lg leading-8 text-body">
 				The playground consumes the local workspace package. External consumers
 				will install the npm package and import the theme CSS once.
 			</p>

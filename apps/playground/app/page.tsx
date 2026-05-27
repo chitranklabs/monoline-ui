@@ -14,7 +14,7 @@ export default function HomePage() {
 				<h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-tight text-primary md:text-7xl">
 					monoline/ui component library
 				</h1>
-				<p className="mt-6 max-w-3xl text-xl leading-8 text-secondary">
+				<p className="mt-6 max-w-3xl text-xl leading-8 text-body">
 					A docs and preview surface for the React design library built for the
 					portfolio. The playground imports the package directly so every page
 					uses the same tokens and components consumers will install.
@@ -45,7 +45,7 @@ export default function HomePage() {
 							<span className="font-mono text-sm text-accent">
 								0{index + 1}
 							</span>
-							<p className="text-lg text-secondary">{principle}</p>
+							<p className="text-lg text-body">{principle}</p>
 						</div>
 					))}
 				</div>
