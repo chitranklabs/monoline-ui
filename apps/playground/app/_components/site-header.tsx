@@ -58,7 +58,8 @@ export function SiteHeader() {
 						GitHub
 					</a>
 					<a className="site-action-link" href="https://figma.com">
-						∞ Figma
+						<span aria-hidden="true">∞</span>
+						<span>Figma</span>
 					</a>
 					<button
 						className="site-theme-button"
