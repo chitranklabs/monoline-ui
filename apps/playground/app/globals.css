@@ -189,9 +189,9 @@ a {
 
 .intro-hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 422px;
+	grid-template-columns: minmax(0, 1fr) 408px;
 	align-items: start;
-	gap: 58px;
+	gap: 54px;
 }
 
 .intro-pills {
@@ -215,10 +215,10 @@ a {
 	max-width: 560px;
 	color: var(--text);
 	font-family: var(--font-mono);
-	font-size: clamp(44px, 5.45vw, 64px);
-	font-weight: 800;
-	letter-spacing: -0.07em;
-	line-height: 0.92;
+	font-size: clamp(43px, 5.3vw, 62px);
+	font-weight: 760;
+	letter-spacing: -0.073em;
+	line-height: 0.915;
 }
 
 .intro-hero h1 span {
@@ -275,7 +275,7 @@ a {
 	border-radius: var(--radius-xl);
 	background: var(--surface);
 	box-shadow: 0 18px 56px rgba(20, 15, 10, 0.06);
-	margin-top: 48px;
+	margin-top: 42px;
 }
 
 .intro-preview__bar {
@@ -306,7 +306,7 @@ a {
 .intro-preview__body {
 	display: grid;
 	gap: 14px;
-	padding: 16px;
+	padding: 15px;
 }
 
 .intro-preview__actions {
@@ -344,7 +344,7 @@ a {
 	border: 1px solid var(--border);
 	border-radius: var(--radius-md);
 	background: var(--surface-2);
-	padding: 16px;
+	padding: 15px;
 }
 
 .intro-preview__article p,
