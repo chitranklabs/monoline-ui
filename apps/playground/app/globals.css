@@ -380,50 +380,58 @@ a {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: var(--space-6);
-	margin-top: 48px;
+	margin-top: 44px;
 	border-top: 1px solid var(--border);
-	padding-top: 24px;
+	padding-top: 22px;
 }
 
 .intro-stats strong {
 	display: block;
 	color: var(--text);
-	font-size: 24px;
-	font-weight: 900;
+	font-family: var(--font-mono);
+	font-size: 22px;
+	font-weight: 700;
 	line-height: 1;
+	letter-spacing: -0.02em;
 }
 
 .intro-stats span {
 	display: block;
-	margin-top: 7px;
+	margin-top: 6px;
 	color: var(--text-muted);
 	font-family: var(--font-mono);
 	font-size: 10px;
-	font-weight: 800;
-	letter-spacing: 0.18em;
+	font-weight: 700;
+	letter-spacing: 0.16em;
 	text-transform: uppercase;
 }
 
 .intro-band,
 .intro-section {
-	margin-top: 84px;
+	margin-top: 78px;
 	border-top: 1px solid var(--border);
 	padding-top: 32px;
+}
+
+.intro-band {
+	padding-bottom: 32px;
+	border-bottom: 1px solid var(--border);
 }
 
 .intro-band__grid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 48px;
-	margin-top: 24px;
+	gap: 32px;
+	margin-top: 18px;
 }
 
 .intro-band h2,
 .intro-components h3,
 .intro-rules h3 {
 	color: var(--text);
-	font-size: 15px;
-	font-weight: 850;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: -0.005em;
 }
 
 .intro-band p,
@@ -431,9 +439,9 @@ a {
 .intro-rules p {
 	margin-top: 6px;
 	color: var(--text-muted);
-	font-size: 14px;
-	font-weight: 520;
-	line-height: 1.45;
+	font-size: 12.5px;
+	font-weight: 500;
+	line-height: 1.4;
 }
 
 .intro-section__head {
@@ -445,26 +453,26 @@ a {
 
 .intro-section h2 {
 	max-width: 600px;
-	margin-top: 14px;
+	margin-top: 8px;
 	color: var(--text);
 	font-family: var(--font-mono);
-	font-size: 31px;
-	font-weight: 900;
-	letter-spacing: -0.06em;
-	line-height: 1.04;
+	font-size: 30px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.1;
 }
 
 .intro-section__head > a {
 	color: var(--accent);
-	font-size: 14px;
-	font-weight: 800;
+	font-size: 13px;
+	font-weight: 600;
 }
 
 .intro-components {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 10px;
-	margin-top: 22px;
+	gap: 8px;
+	margin-top: 24px;
 }
 
 .intro-components article,
@@ -475,8 +483,8 @@ a {
 }
 
 .intro-components article {
-	min-height: 72px;
-	padding: 14px 16px;
+	min-height: 84px;
+	padding: 13px 14px;
 }
 
 .intro-section--rules {
