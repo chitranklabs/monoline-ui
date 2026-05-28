@@ -488,30 +488,35 @@ a {
 }
 
 .intro-section--rules {
-	margin-bottom: 168px;
+	margin-bottom: 152px;
 }
 
 .intro-rules {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 26px;
-	margin-top: 36px;
+	gap: 24px;
+	margin-top: 32px;
 }
 
 .intro-rules article {
 	min-height: 160px;
-	padding: 26px 22px;
+	padding: 20px;
 }
 
 .intro-rules span {
 	color: var(--accent);
 	font-family: var(--font-mono);
 	font-size: 11px;
-	font-weight: 800;
+	font-weight: 700;
+	margin-bottom: 10px;
 }
 
 .intro-rules h3 {
-	margin-top: 24px;
+	margin-top: 0;
+	margin-bottom: 8px;
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
 }
 
 .site-footer {
@@ -522,29 +527,29 @@ a {
 .site-footer__inner {
 	width: min(1226px, calc(100% - 56px));
 	margin: 0 auto;
-	padding-block: 56px 28px;
+	padding-block: 56px 32px;
 }
 
 .site-footer__top {
 	display: grid;
 	grid-template-columns: minmax(260px, 1.2fr) repeat(3, minmax(140px, 1fr));
-	gap: 72px;
+	gap: 48px;
 }
 
 .site-footer__brand p {
 	max-width: 310px;
-	margin-top: 18px;
+	margin-top: 12px;
 	color: var(--text-secondary);
-	font-size: 14px;
-	font-weight: 540;
-	line-height: 1.5;
+	font-size: 13.5px;
+	font-weight: 500;
+	line-height: 1.6;
 }
 
 .site-footer__badges {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin-top: 22px;
+	margin-top: 8px;
 }
 
 .site-footer__badges span {
@@ -571,7 +576,7 @@ a {
 .site-footer__group {
 	display: grid;
 	align-content: start;
-	gap: 13px;
+	gap: 10px;
 }
 
 .site-footer__group h2 {
@@ -579,24 +584,24 @@ a {
 	color: var(--text-muted);
 	font-family: var(--font-mono);
 	font-size: 11px;
-	font-weight: 800;
-	letter-spacing: 0.18em;
+	font-weight: 700;
+	letter-spacing: 0.16em;
 	text-transform: uppercase;
 }
 
 .site-footer__group a {
 	color: var(--text-secondary);
-	font-size: 14px;
-	font-weight: 560;
+	font-size: 13.5px;
+	font-weight: 500;
 }
 
 .site-footer__bottom {
 	display: flex;
 	justify-content: space-between;
 	gap: 24px;
-	margin-top: 48px;
+	margin-top: 40px;
 	border-top: 1px solid var(--border);
-	padding-top: 25px;
+	padding-top: 24px;
 	color: var(--text-muted);
 	font-family: var(--font-mono);
 	font-size: 11px;
