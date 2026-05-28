@@ -8,8 +8,20 @@ const colorGroups = [
 			["bg", "oklch(0.145 0 0)", "oklch(0.98 0.005 80)", "#101010", "#f7f5ee"],
 			["card", "oklch(0.205 0 0)", "oklch(1 0 0)", "#232323", "#ffffff"],
 			["surface", "oklch(0.18 0 0)", "oklch(1 0 0)", "#1a1a1a", "#ffffff"],
-			["surface-2", "oklch(0.17 0 0)", "oklch(0.975 0.003 80)", "#191919", "#f7f5f0"],
-			["surface-3", "oklch(0.16 0 0)", "oklch(0.955 0.004 80)", "#171717", "#efede8"],
+			[
+				"surface-2",
+				"oklch(0.17 0 0)",
+				"oklch(0.975 0.003 80)",
+				"#191919",
+				"#f7f5f0",
+			],
+			[
+				"surface-3",
+				"oklch(0.16 0 0)",
+				"oklch(0.955 0.004 80)",
+				"#171717",
+				"#efede8",
+			],
 			["button", "oklch(0.22 0 0)", "oklch(0.96 0 0)", "#262626", "#efefef"],
 		],
 	},
@@ -32,8 +44,20 @@ const colorGroups = [
 			"Hairline + visible. Use border for cards; border-strong for buttons and inputs.",
 		badge: "2 tokens",
 		tokens: [
-			["border", "rgba(255,255,255,0.10)", "rgba(10,10,10,0.08)", "#323232", "#efefef"],
-			["border-strong", "rgba(255,255,255,0.18)", "rgba(10,10,10,0.18)", "#505050", "#d1d1d1"],
+			[
+				"border",
+				"rgba(255,255,255,0.10)",
+				"rgba(10,10,10,0.08)",
+				"#323232",
+				"#efefef",
+			],
+			[
+				"border-strong",
+				"rgba(255,255,255,0.18)",
+				"rgba(10,10,10,0.18)",
+				"#505050",
+				"#d1d1d1",
+			],
 		],
 	},
 	{
@@ -42,8 +66,20 @@ const colorGroups = [
 			'One accent — warm terracotta. Earns its colour on hover, active filters, and "Live" states.',
 		badge: "2 tokens",
 		tokens: [
-			["accent", "oklch(0.78 0.09 60)", "oklch(0.55 0.13 40)", "#e4ae75", "#bc5c32"],
-			["accent-soft", "oklch(0.78 0.09 60 / 0.14)", "oklch(0.55 0.13 40 / 0.10)", "#3d3126", "#f4e3da"],
+			[
+				"accent",
+				"oklch(0.78 0.09 60)",
+				"oklch(0.55 0.13 40)",
+				"#e4ae75",
+				"#bc5c32",
+			],
+			[
+				"accent-soft",
+				"oklch(0.78 0.09 60 / 0.14)",
+				"oklch(0.55 0.13 40 / 0.10)",
+				"#3d3126",
+				"#f4e3da",
+			],
 		],
 	},
 ] as const

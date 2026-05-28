@@ -1,4 +1,13 @@
-const installSteps = [
+interface InstallStep {
+	number: string
+	title: string
+	description: string
+	tabs?: string[]
+	label?: string
+	code?: string
+}
+
+const installSteps: InstallStep[] = [
 	{
 		number: "01",
 		title: "Prerequisites",
@@ -28,7 +37,7 @@ const installSteps = [
 		number: "04",
 		title: "Set the theme on <html>",
 		description:
-			'data-theme controls light vs dark. Either hard-code one, or wire up the included <ThemeProvider>.',
+			"data-theme controls light vs dark. Either hard-code one, or wire up the included <ThemeProvider>.",
 		label: "src/app/layout.tsx",
 		code: `export default function RootLayout({ children }) {
   return (
@@ -66,8 +75,8 @@ export default function InstallationPage() {
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
 				<h1>Installation</h1>
 				<p>
-					monoline/ui is distributed as a single npm package. Install, paste
-					the tokens file, you&apos;re done.
+					monoline/ui is distributed as a single npm package. Install, paste the
+					tokens file, you&apos;re done.
 				</p>
 			</header>
 
@@ -119,8 +128,9 @@ export default function InstallationPage() {
 					<h3>You&apos;re ready.</h3>
 					<p>
 						Browse the <a href="/components/footer">component reference</a> for
-						the full API, or jump to <a href="/foundations/colors">Foundations</a>{" "}
-						to see the token system.
+						the full API, or jump to{" "}
+						<a href="/foundations/colors">Foundations</a> to see the token
+						system.
 					</p>
 				</div>
 			</div>

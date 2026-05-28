@@ -6,12 +6,11 @@ import { usePathname } from "next/navigation"
 import { componentNavGroups, foundationsNav } from "../lib/docs-nav"
 
 function isActivePath(pathname: string, href?: string) {
-	if (!href) {
+	if (!href || href.includes("#")) {
 		return false
 	}
 
-	const [pathOnly] = href.split("#")
-	return pathname === pathOnly
+	return pathname === href
 }
 
 export function DocsSidebar() {
@@ -44,7 +43,7 @@ export function DocsSidebar() {
 					<p className="ml-eyebrow">{group.label}</p>
 					<nav className="docs-sidebar__nav">
 						{group.items.map((item) =>
-							item.href ? (
+							"href" in item && item.href ? (
 								<Link
 									key={item.label}
 									href={item.href}
@@ -54,14 +53,14 @@ export function DocsSidebar() {
 									className="docs-sidebar__item"
 								>
 									<span>{item.label}</span>
-									{item.meta ? (
+									{"meta" in item && item.meta ? (
 										<span className="docs-sidebar__meta">{item.meta}</span>
 									) : null}
 								</Link>
 							) : (
 								<span key={item.label} className="docs-sidebar__item">
 									<span>{item.label}</span>
-									{item.meta ? (
+									{"meta" in item && item.meta ? (
 										<span className="docs-sidebar__meta">{item.meta}</span>
 									) : null}
 								</span>

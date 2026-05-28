@@ -1,11 +1,22 @@
-export const foundationsNav = [
+export interface DocsNavItem {
+	label: string
+	href?: string
+	meta?: string
+}
+
+export interface DocsNavGroup {
+	label: string
+	items: DocsNavItem[]
+}
+
+export const foundationsNav: DocsNavItem[] = [
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
 	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
 	{ href: "/foundations/spacing-motion#motion", label: "Motion" },
 ] as const
 
-export const componentNavGroups = [
+export const componentNavGroups: DocsNavGroup[] = [
 	{
 		label: "Layout & structure",
 		items: [
