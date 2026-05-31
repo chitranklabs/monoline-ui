@@ -91,9 +91,9 @@ export default function ColorsPage() {
 				<p className="ml-eyebrow">Foundations · Colors</p>
 				<h1>Two palettes, one variable name.</h1>
 				<p>
-					Every colour resolves through a CSS custom property. Switch
-					`data-theme` on `&lt;html&gt;` and the same variable takes a different
-					value — components don&apos;t know which mode they&apos;re in.
+					Every colour resolves through a CSS custom property. Switch data-theme
+					on {"<html>"} and the same variable takes a different value —
+					components don&apos;t know which mode they&apos;re in.
 				</p>
 			</header>
 

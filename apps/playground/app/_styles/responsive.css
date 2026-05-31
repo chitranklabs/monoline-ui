@@ -195,6 +195,28 @@
 	.site-footer__group a {
 		font-size: 13px;
 	}
+
+	.docs-shell {
+		grid-template-columns: 220px minmax(0, 1fr);
+	}
+
+	.docs-main {
+		padding: 36px 28px 72px;
+	}
+
+	.docs-sidebar {
+		position: sticky;
+		top: 58px;
+		height: calc(100vh - 58px);
+		border-right: 1px solid var(--border);
+		border-bottom: 0;
+		padding: 22px 14px 28px 22px;
+	}
+
+	.color-grid,
+	.theme-preview {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 @media (max-width: 520px) {
@@ -332,24 +354,55 @@
 		gap: 12px;
 	}
 
-	.docs-page__head h1,
 	.install-hero h1,
 	.component-headline h1 {
 		font-size: 39px;
 	}
 
+	.docs-page__head h1 {
+		font-size: 32px;
+	}
+
+	.docs-page__head {
+		margin-bottom: 24px;
+	}
+
+	.docs-page__head p:last-child {
+		margin-top: 8px;
+		font-size: 13px;
+		line-height: 1.45;
+	}
+
+	.theme-preview__panel {
+		min-height: 0;
+		padding: 18px 20px;
+	}
+
+	.theme-preview__panel h2 {
+		margin-top: 12px;
+		font-size: 19px;
+	}
+
+	.theme-preview__panel p {
+		font-size: 11.5px;
+		line-height: 1.38;
+	}
+
+	.theme-preview__badge {
+		margin-top: 12px;
+	}
+
 	.docs-main {
-		padding: 24px 20px 56px;
+		padding: 8px 20px 56px;
 	}
 
 	.docs-sidebar {
-		padding: 18px 20px;
+		display: none;
 	}
 
 	.spacing-table__row,
 	.docs-scale__row,
-	.props-table__row,
-	.color-row {
+	.props-table__row {
 		grid-template-columns: 1fr;
 	}
 
