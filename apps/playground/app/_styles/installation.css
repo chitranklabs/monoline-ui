@@ -107,7 +107,7 @@
 
 .install-command__body code {
 	color: var(--text);
-	font-size: 18px;
+	font-size: 13px;
 }
 
 .install-command__body button,

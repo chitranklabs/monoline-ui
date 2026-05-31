@@ -355,7 +355,7 @@
 
 	.install-page {
 		width: calc(100% - 28px);
-		padding-top: 24px;
+		padding-top: 8px;
 		padding-bottom: 76px;
 	}
 
@@ -368,8 +368,6 @@
 		grid-template-columns: 1fr 1fr;
 	}
 
-	.install-command__body,
-	.install-code__meta,
 	.playground-canvas__meta {
 		flex-direction: column;
 		align-items: flex-start;
