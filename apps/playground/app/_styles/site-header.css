@@ -101,9 +101,7 @@
 
 .site-search:focus-within {
 	border-color: var(--border-strong);
-	box-shadow:
-		0 0 0 2px var(--surface),
-		0 0 0 4px var(--accent-soft);
+	box-shadow: var(--focus-ring-layered);
 }
 
 .site-search input {

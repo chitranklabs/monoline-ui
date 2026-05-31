@@ -163,7 +163,7 @@ function FooterSubscribeForm({
 			<p className="max-w-[18rem] text-base leading-relaxed text-body">
 				{description}
 			</p>
-			<div className="flex h-11 w-full max-w-[20rem] overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-[var(--duration-micro)] focus-within:border-accent focus-within:shadow-[0_0_0_3px_var(--accent-soft)]">
+			<div className="flex h-11 w-full max-w-[20rem] overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-[var(--duration-micro)] focus-within:border-accent focus-within:shadow-[var(--focus-ring)]">
 				<input
 					type="email"
 					name={inputName}
@@ -175,7 +175,7 @@ function FooterSubscribeForm({
 				<button
 					type="submit"
 					aria-label={submitLabel}
-					className="inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-transform duration-[var(--duration-micro)] hover:scale-[0.98] focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_var(--accent-soft)]"
+					className="inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-transform duration-[var(--duration-micro)] hover:scale-[0.98] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
 				>
 					<span aria-hidden="true">→</span>
 				</button>
@@ -295,7 +295,7 @@ function Footer({
 												(external ? "noopener noreferrer" : undefined)
 											}
 											className={cn(
-												"inline-flex w-fit items-center leading-none text-body no-underline transition-colors duration-[var(--duration-micro)] hover:text-primary focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_var(--accent-soft)]",
+												"inline-flex w-fit items-center leading-none text-body no-underline transition-colors duration-[var(--duration-micro)] hover:text-primary focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]",
 												sizeClasses.link
 											)}
 										>

@@ -372,6 +372,11 @@
 	--border-medium: 2px;
 	--border-thick: 4px;
 
+	/* ─── Focus rings ─── */
+	--focus-ring: 0 0 0 3px var(--accent-soft);
+	--focus-ring-offset: 0 0 0 2px var(--surface);
+	--focus-ring-layered: var(--focus-ring-offset), 0 0 0 4px var(--accent-soft);
+
 	/* ─── Z-index layers ─── */
 	--z-base: 0;
 	--z-elevated: 10;
@@ -704,7 +709,7 @@
 	/* Focus ring is consistent across all focusable elements */
 	:where(button, a, input, textarea, select, [tabindex]):focus-visible {
 		outline: none;
-		box-shadow: 0 0 0 3px var(--accent-soft);
+		box-shadow: var(--focus-ring);
 		border-color: var(--accent);
 	}
 }
