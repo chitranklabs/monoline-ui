@@ -339,6 +339,22 @@
 	--tracking-eyebrow: 0.16em;
 	--tracking-meta: 0.14em;
 
+	/* ─── Typography roles ─── */
+	--type-docs-title-size: 42px;
+	--type-docs-title-leading: 1.02;
+	--type-docs-title-tracking: -0.03em;
+	--type-hero-title-size: 58px;
+	--type-hero-title-leading: 1.02;
+	--type-hero-title-tracking: -0.03em;
+	--type-page-title-mobile-size: 39px;
+	--type-docs-title-mobile-size: 32px;
+	--type-lede-size: var(--text-md);
+	--type-lede-leading: 1.6;
+	--type-subtitle-size: 18px;
+	--type-subtitle-tracking: -0.01em;
+	--type-ui-label-size: 13.5px;
+	--type-ui-label-leading: 1.2;
+
 	/* ─── Spacing scale (4px base) ─── */
 	--space-0: 0;
 	--space-px: 1px;

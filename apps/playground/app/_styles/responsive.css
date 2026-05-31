@@ -368,11 +368,11 @@
 
 	.install-hero h1,
 	.component-headline h1 {
-		font-size: 39px;
+		font-size: var(--type-page-title-mobile-size);
 	}
 
 	.docs-page__head h1 {
-		font-size: 32px;
+		font-size: var(--type-docs-title-mobile-size);
 	}
 
 	.docs-page__head {

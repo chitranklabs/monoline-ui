@@ -37,8 +37,8 @@
 	border-radius: 8px;
 	padding: 7px 10px;
 	color: var(--text-secondary);
-	font-size: 13.5px;
-	line-height: 1.2;
+	font-size: var(--type-ui-label-size);
+	line-height: var(--type-ui-label-leading);
 }
 
 .docs-sidebar__item[aria-current="page"] {
@@ -72,10 +72,10 @@
 	margin-top: 10px;
 	color: var(--text);
 	font-family: var(--font-mono);
-	font-size: 42px;
+	font-size: var(--type-docs-title-size);
 	font-weight: 700;
-	letter-spacing: -0.03em;
-	line-height: 1.02;
+	letter-spacing: var(--type-docs-title-tracking);
+	line-height: var(--type-docs-title-leading);
 }
 
 .install-hero h1,
@@ -83,10 +83,10 @@
 	margin-top: 10px;
 	color: var(--text);
 	font-family: var(--font-mono);
-	font-size: 58px;
+	font-size: var(--type-hero-title-size);
 	font-weight: 700;
-	letter-spacing: -0.03em;
-	line-height: 1.02;
+	letter-spacing: var(--type-hero-title-tracking);
+	line-height: var(--type-hero-title-leading);
 }
 
 .docs-page__head p:last-child,
@@ -94,8 +94,8 @@
 	max-width: 720px;
 	margin-top: 12px;
 	color: var(--text-secondary);
-	font-size: 15px;
-	line-height: 1.6;
+	font-size: var(--type-lede-size);
+	line-height: var(--type-lede-leading);
 }
 
 .docs-page__head--component {
@@ -138,9 +138,9 @@
 .docs-subhead h2,
 .color-section__head h2 {
 	color: var(--text);
-	font-size: 18px;
+	font-size: var(--type-subtitle-size);
 	font-weight: 600;
-	letter-spacing: -0.01em;
+	letter-spacing: var(--type-subtitle-tracking);
 }
 
 .docs-subhead p,
