@@ -25,17 +25,17 @@ const propsRows = [
 	[
 		"brand",
 		"ReactNode",
-		"Brand block — usually a wordmark + tagline + status pill",
+		"Brand block - usually a wordmark + tagline + status pill",
 	],
 	[
 		"columns",
 		"Column[]",
-		"Array of { title, links } — auto-laid into 2/3/4 cols",
+		"Array of { title, links } - auto-laid into 2/3/4 cols",
 	],
 	[
 		"subscribe",
 		"ReactNode?",
-		"Optional subscribe form slot — adds a 4th column",
+		"Optional subscribe form slot - adds a 4th column",
 	],
 	["meta", "ReactNode?", "Left-aligned text in the bottom bar"],
 	["attribution", "ReactNode?", "Right-aligned text in the bottom bar"],

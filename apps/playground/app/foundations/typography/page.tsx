@@ -59,7 +59,7 @@ export default function TypographyPage() {
 				<h1>Three families. One job each.</h1>
 				<p>
 					Inter handles UI and body. IBM Plex Mono handles headlines, eyebrows,
-					and code. Caveat handles the personal signature. No fourth family —
+					and code. Caveat handles the personal signature. No fourth family -
 					and almost no font-weight gymnastics.
 				</p>
 			</header>
@@ -87,7 +87,7 @@ export default function TypographyPage() {
 				<div className="docs-subhead">
 					<h2>Scale</h2>
 					<p>
-						Scoped roles — no free-for-all sizing. Pick a role, not a number.
+						Scoped roles - no free-for-all sizing. Pick a role, not a number.
 					</p>
 				</div>
 				<div className="docs-scale">

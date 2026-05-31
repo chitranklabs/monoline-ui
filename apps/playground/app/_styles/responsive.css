@@ -214,8 +214,19 @@
 	}
 
 	.color-grid,
+	.family-grid,
+	.motion-grid,
+	.radius-grid,
 	.theme-preview {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.family-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.radius-grid {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
 }
 
@@ -400,10 +411,20 @@
 		display: none;
 	}
 
-	.spacing-table__row,
-	.docs-scale__row,
 	.props-table__row {
 		grid-template-columns: 1fr;
+	}
+
+	.docs-scale__row {
+		grid-template-columns: 74px 72px minmax(0, 1fr);
+		gap: 12px;
+		padding: 14px;
+	}
+
+	.spacing-table__row {
+		grid-template-columns: 86px 40px 54px minmax(0, 1fr);
+		gap: 10px;
+		padding: 14px;
 	}
 
 	.install-page {
@@ -430,7 +451,16 @@
 		gap: 14px;
 	}
 
+	.playground-controls__group:nth-child(3),
+	.playground-controls__group:nth-child(5) {
+		display: none;
+	}
+
 	.playground-canvas__viewport {
 		padding: 14px;
+	}
+
+	.playground-detail {
+		display: none;
 	}
 }

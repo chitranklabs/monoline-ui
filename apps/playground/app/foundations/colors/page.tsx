@@ -2,7 +2,7 @@ const colorGroups = [
 	{
 		title: "Surfaces",
 		blurb:
-			"Backgrounds — page → card → nested. Order them from least to most prominent.",
+			"Backgrounds - page → card → nested. Order them from least to most prominent.",
 		badge: "6 tokens",
 		tokens: [
 			["bg", "oklch(0.145 0 0)", "oklch(0.98 0.005 80)", "#101010", "#f7f5ee"],
@@ -28,7 +28,7 @@ const colorGroups = [
 	{
 		title: "Text",
 		blurb:
-			"Three text levels — primary for headings, secondary for body, muted for meta.",
+			"Three text levels - primary for headings, secondary for body, muted for meta.",
 		badge: "5 tokens",
 		tokens: [
 			["primary", "oklch(0.985 0 0)", "oklch(0.18 0 0)", "#ffffff", "#1f1f1f"],
@@ -63,7 +63,7 @@ const colorGroups = [
 	{
 		title: "Brand",
 		blurb:
-			'One accent — warm terracotta. Earns its colour on hover, active filters, and "Live" states.',
+			'One accent - warm terracotta. Earns its colour on hover, active filters, and "Live" states.',
 		badge: "2 tokens",
 		tokens: [
 			[
@@ -92,7 +92,7 @@ export default function ColorsPage() {
 				<h1>Two palettes, one variable name.</h1>
 				<p>
 					Every colour resolves through a CSS custom property. Switch data-theme
-					on {"<html>"} and the same variable takes a different value —
+					on {"<html>"} and the same variable takes a different value -
 					components don&apos;t know which mode they&apos;re in.
 				</p>
 			</header>

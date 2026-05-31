@@ -33,7 +33,7 @@ const rules = [
 	[
 		"01",
 		"Two themes, one source of truth",
-		'Toggle data-theme="light" on <html> and every component re-themes — no dark variants in component code.',
+		'Toggle data-theme="light" on <html> and every component re-themes - no dark variants in component code.',
 	],
 	[
 		"02",

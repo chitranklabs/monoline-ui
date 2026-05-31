@@ -59,7 +59,7 @@ export default function SpacingMotionPage() {
 				<div className="docs-subhead">
 					<h2>Border radius</h2>
 					<p>
-						Match the radius to the element — buttons stay smaller, cards go
+						Match the radius to the element - buttons stay smaller, cards go
 						larger, status pills are fully rounded.
 					</p>
 				</div>
@@ -80,7 +80,7 @@ export default function SpacingMotionPage() {
 				<div className="docs-subhead">
 					<h2>Motion</h2>
 					<p>
-						Four durations, two easings. Use named tokens — never pick raw ms in
+						Four durations, two easings. Use named tokens - never pick raw ms in
 						components.
 					</p>
 				</div>

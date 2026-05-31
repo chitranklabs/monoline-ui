@@ -2,19 +2,19 @@
  * foundation.css · single source of truth for personal-portfolio AND monoline-ui
  * ─────────────────────────────────────────────────────────────────────────────
  * This file owns:
- *   1. Colour tokens — dark (default) + light, shadcn-compatible
- *   2. Typography — three font families, scale, line-heights
- *   3. Spacing — 8-step scale
- *   4. Radius — 7-step scale
- *   5. Shadow — 4-step scale
- *   6. Z-index — semantic layers
+ *   1. Colour tokens - dark (default) + light, shadcn-compatible
+ *   2. Typography - three font families, scale, line-heights
+ *   3. Spacing - 8-step scale
+ *   4. Radius - 7-step scale
+ *   5. Shadow - 4-step scale
+ *   6. Z-index - semantic layers
  *   7. Border widths
- *   8. Breakpoints — published as CSS vars for JS to read
- *   9. Motion — 4 durations + 3 easings
- *  10. Tailwind v4 @theme inline mapping — utility-class generation
- *  11. Base layer — body, ::selection, scrollbar, focus ring
- *  12. Typography helpers — .prose / .eyebrow / .img-placeholder
- *  13. Animations — keyframes + .animate-* utilities for every micro-interaction
+ *   8. Breakpoints - published as CSS vars for JS to read
+ *   9. Motion - 4 durations + 3 easings
+ *  10. Tailwind v4 @theme inline mapping - utility-class generation
+ *  11. Base layer - body, ::selection, scrollbar, focus ring
+ *  12. Typography helpers - .prose / .eyebrow / .img-placeholder
+ *  13. Animations - keyframes + .animate-* utilities for every micro-interaction
  *  14. Reduced-motion preference
  *  15. Print styles
  *
@@ -22,7 +22,7 @@
  *   app/globals.css → import Tailwind first, then this package theme file.
  *   Add data-theme="dark" or "light" on <html> (dark is default if absent).
  *
- * Theme switch — three ways, all wired:
+ * Theme switch - three ways, all wired:
  *   <html data-theme="dark">          ← attribute
  *   <html class="dark">                ← shadcn-style class
  *   media(prefers-color-scheme: dark)  ← system-driven (when neither set)
@@ -110,7 +110,7 @@
 	--code-string: oklch(0.82 0.12 70);
 	--code-number: oklch(0.78 0.14 30);
 
-	/* Semantic — tip / warn / info */
+	/* Semantic - tip / warn / info */
 	--callout-tip-text: oklch(0.85 0.13 150);
 	--callout-tip-accent: oklch(0.72 0.15 150);
 	--callout-warn-text: oklch(0.85 0.13 80);
@@ -245,7 +245,7 @@
  * ========================================================================== */
 @media (prefers-color-scheme: light) {
 	:root:not([data-theme]):not(.dark):not(.light) {
-		/* Light tokens inline — copy the value set from [data-theme="light"] */
+		/* Light tokens inline - copy the value set from [data-theme="light"] */
 		--background: oklch(0.98 0.005 80);
 		--foreground: oklch(0.18 0 0);
 		--card: oklch(1 0 0);
@@ -290,7 +290,7 @@
 }
 
 /* =============================================================================
- * 4. NON-COLOUR TOKENS — applied everywhere, regardless of theme
+ * 4. NON-COLOUR TOKENS - applied everywhere, regardless of theme
  * ========================================================================== */
 :root {
 	/* ─── Typography families (wire to next/font CSS vars) ─── */
@@ -482,7 +482,7 @@
 }
 
 /* =============================================================================
- * 5. TAILWIND v4 @theme — utility-class generation
+ * 5. TAILWIND v4 @theme - utility-class generation
  * ========================================================================== */
 @theme inline {
 	/* Colours (shadcn-compat) */
@@ -651,7 +651,7 @@
 }
 
 /* =============================================================================
- * 6. BASE — body, selection, scrollbar, focus ring
+ * 6. BASE - body, selection, scrollbar, focus ring
  * ========================================================================== */
 @layer base {
 	* {
@@ -678,7 +678,7 @@
 		color: var(--foreground);
 	}
 
-	/* Themed scrollbar — subtle, follows the surface ladder */
+	/* Themed scrollbar - subtle, follows the surface ladder */
 	::-webkit-scrollbar {
 		width: 10px;
 		height: 10px;
@@ -710,7 +710,7 @@
 }
 
 /* =============================================================================
- * 7. TYPOGRAPHY — article body
+ * 7. TYPOGRAPHY - article body
  * ========================================================================== */
 .prose {
 	color: var(--text-body);
@@ -816,7 +816,7 @@
 }
 
 /* =============================================================================
- * 8. UTILITY CLASSES — used everywhere
+ * 8. UTILITY CLASSES - used everywhere
  * ========================================================================== */
 .eyebrow,
 .ml-eyebrow {
@@ -841,7 +841,7 @@
 	overflow: hidden;
 }
 
-/* Card-hover pattern — composable: parent has .group-hover-card, image
+/* Card-hover pattern - composable: parent has .group-hover-card, image
  * inside gets .group-hover-card-img, arrow gets .group-hover-card-arrow.
  * Lets you compose the lift+zoom+arrow-reveal without a wrapper component. */
 .group-hover-card {
@@ -878,7 +878,7 @@
 }
 
 /* =============================================================================
- * 9. ANIMATIONS — every micro-interaction in the system
+ * 9. ANIMATIONS - every micro-interaction in the system
  * ========================================================================== */
 
 /* Heart pop (like button) */
@@ -971,7 +971,7 @@
 	animation: toast-in 3.4s var(--ease-in-out);
 }
 
-/* Fade-up entry — used by sections on first paint */
+/* Fade-up entry - used by sections on first paint */
 @keyframes fade-up {
 	0% {
 		opacity: 0;
@@ -988,7 +988,7 @@
 	animation: fade-up var(--duration-long) var(--ease-out-expo) both;
 }
 
-/* Slide-in from left / right — used by drawers, sidebar */
+/* Slide-in from left / right - used by drawers, sidebar */
 @keyframes slide-in-left {
 	from {
 		transform: translateX(-100%);
@@ -1038,7 +1038,7 @@
 	animation: spin 0.8s linear infinite;
 }
 
-/* Pulse (status dot — Open to work) */
+/* Pulse (status dot - Open to work) */
 @keyframes pulse {
 	0%,
 	100% {
@@ -1066,7 +1066,7 @@
 	animation: glow-pulse 2.2s var(--ease-in-out) infinite;
 }
 
-/* Entry animation — your existing @starting-style pattern, preserved */
+/* Entry animation - your existing @starting-style pattern, preserved */
 @layer utilities {
 	.animate-entry {
 		opacity: 1;
@@ -1086,7 +1086,7 @@
 }
 
 /* =============================================================================
- * 10. TRANSITIONS — composable utility classes
+ * 10. TRANSITIONS - composable utility classes
  * ========================================================================== */
 .transition-micro {
 	transition: all var(--duration-micro) var(--ease-out);
@@ -1102,7 +1102,7 @@
 }
 
 /* =============================================================================
- * 11. REDUCED MOTION — respect user preference
+ * 11. REDUCED MOTION - respect user preference
  * ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
 	*,
@@ -1122,7 +1122,7 @@
 }
 
 /* =============================================================================
- * 12. PRINT — clean reader output
+ * 12. PRINT - clean reader output
  * ========================================================================== */
 @media print {
 	:root,
@@ -1165,7 +1165,7 @@
 }
 
 /* =============================================================================
- * 13. FONT FAMILY UTILITY CLASSES — beyond Tailwind's auto-generated set
+ * 13. FONT FAMILY UTILITY CLASSES - beyond Tailwind's auto-generated set
  * ========================================================================== */
 .font-sans {
 	font-family: var(--font-sans);
@@ -1192,7 +1192,7 @@
  * - Animations:    <div className="animate-heart-pop">  or  animation: heart-pop ...
  * - Motion tokens: transition-duration: var(--duration-short)
  *                  transition-timing-function: var(--ease-out-expo)
- * - Reduced motion is handled automatically — your custom transitions in
+ * - Reduced motion is handled automatically - your custom transitions in
  *   component code should still use the duration tokens so they're caught.
  *
  * If you need a token that isn't here, add it to the appropriate section
