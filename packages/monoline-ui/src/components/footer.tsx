@@ -112,7 +112,7 @@ const footerSizeClasses = {
 		brand: "text-4xl sm:text-5xl lg:text-3xl",
 		description: "max-w-[var(--ml-footer-description-max-sm)] text-sm leading-[var(--ml-footer-description-leading-sm)]",
 		columns: "gap-x-footer-column-gap-x-sm gap-y-footer-column-gap-y-sm",
-		link: "min-h-7 text-sm",
+		link: "min-h-[var(--ml-footer-link-min-height-sm)] text-sm",
 		meta: "mt-footer-meta-mt-sm pt-footer-meta-pt-sm text-[length:var(--ml-footer-meta-text-sm)]",
 	},
 	md: {
@@ -125,7 +125,7 @@ const footerSizeClasses = {
 		brand: "text-5xl sm:text-6xl lg:text-4xl",
 		description: "max-w-[var(--ml-footer-description-max-md)] text-base leading-[var(--ml-footer-description-leading-md)]",
 		columns: "gap-x-footer-column-gap-x-md gap-y-footer-column-gap-y-md",
-		link: "min-h-8 text-base",
+		link: "min-h-[var(--ml-footer-link-min-height-md)] text-base",
 		meta: "mt-footer-meta-mt-md pt-footer-meta-pt-md text-[length:var(--ml-footer-meta-text-md)]",
 	},
 	lg: {
@@ -138,7 +138,7 @@ const footerSizeClasses = {
 		brand: "text-6xl sm:text-7xl lg:text-5xl",
 		description: "max-w-[var(--ml-footer-description-max-lg)] text-lg leading-[var(--ml-footer-description-leading-lg)]",
 		columns: "gap-x-footer-column-gap-x-lg gap-y-footer-column-gap-y-lg",
-		link: "min-h-9 text-lg",
+		link: "min-h-[var(--ml-footer-link-min-height-lg)] text-lg",
 		meta: "mt-footer-meta-mt-lg pt-footer-meta-pt-lg text-[length:var(--ml-footer-meta-text-lg)]",
 	},
 } as const
@@ -175,7 +175,7 @@ function FooterSubscribeForm({
 				<button
 					type="submit"
 					aria-label={submitLabel}
-					className="inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-transform duration-[var(--duration-micro)] hover:scale-[0.98] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
+					className="inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-transform duration-[var(--duration-micro)] hover:scale-[var(--ml-footer-submit-hover-scale)] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
 				>
 					<span aria-hidden="true">→</span>
 				</button>

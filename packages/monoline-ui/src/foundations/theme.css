@@ -526,7 +526,11 @@
 	--ml-footer-subscribe-copy-max: 18rem;
 	--ml-footer-subscribe-control-max: 20rem;
 	--ml-footer-subscribe-control-height: 44px;
+	--ml-footer-submit-hover-scale: 0.98;
 	--ml-footer-meta-copy-max: 38rem;
+	--ml-footer-link-min-height-sm: 28px;
+	--ml-footer-link-min-height-md: 32px;
+	--ml-footer-link-min-height-lg: 36px;
 }
 
 /* =============================================================================
