@@ -108,9 +108,9 @@ const footerSizeClasses = {
 			"max-w-5xl px-footer-x-sm sm:px-footer-x-sm-tablet lg:px-footer-x-sm-desktop",
 		layout:
 			"gap-footer-layout-gap-sm lg:grid-cols-[minmax(0,1fr)_minmax(0,1.65fr)] lg:gap-footer-layout-gap-sm-desktop",
-		intro: "max-w-[34rem] gap-footer-intro-gap-sm",
+		intro: "max-w-[var(--ml-footer-intro-max-sm)] gap-footer-intro-gap-sm",
 		brand: "text-4xl sm:text-5xl lg:text-3xl",
-		description: "max-w-[34rem] text-sm leading-[var(--ml-footer-description-leading-sm)]",
+		description: "max-w-[var(--ml-footer-description-max-sm)] text-sm leading-[var(--ml-footer-description-leading-sm)]",
 		columns: "gap-x-footer-column-gap-x-sm gap-y-footer-column-gap-y-sm",
 		link: "min-h-7 text-sm",
 		meta: "mt-footer-meta-mt-sm pt-footer-meta-pt-sm text-[length:var(--ml-footer-meta-text-sm)]",
@@ -121,9 +121,9 @@ const footerSizeClasses = {
 			"max-w-7xl px-footer-x-md sm:px-footer-x-md-tablet lg:px-footer-x-md-desktop",
 		layout:
 			"gap-footer-layout-gap-md lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.9fr)] lg:gap-footer-layout-gap-md-desktop",
-		intro: "max-w-[42rem] gap-footer-intro-gap-md",
+		intro: "max-w-[var(--ml-footer-intro-max-md)] gap-footer-intro-gap-md",
 		brand: "text-5xl sm:text-6xl lg:text-4xl",
-		description: "max-w-[40rem] text-base leading-[var(--ml-footer-description-leading-md)]",
+		description: "max-w-[var(--ml-footer-description-max-md)] text-base leading-[var(--ml-footer-description-leading-md)]",
 		columns: "gap-x-footer-column-gap-x-md gap-y-footer-column-gap-y-md",
 		link: "min-h-8 text-base",
 		meta: "mt-footer-meta-mt-md pt-footer-meta-pt-md text-[length:var(--ml-footer-meta-text-md)]",
@@ -134,9 +134,9 @@ const footerSizeClasses = {
 			"max-w-[90rem] px-footer-x-lg sm:px-footer-x-lg-tablet lg:px-footer-x-lg-desktop",
 		layout:
 			"gap-footer-layout-gap-lg lg:grid-cols-[minmax(0,1.15fr)_minmax(0,2fr)] lg:gap-footer-layout-gap-lg-desktop",
-		intro: "max-w-[48rem] gap-footer-intro-gap-lg",
+		intro: "max-w-[var(--ml-footer-intro-max-lg)] gap-footer-intro-gap-lg",
 		brand: "text-6xl sm:text-7xl lg:text-5xl",
-		description: "max-w-[46rem] text-lg leading-[var(--ml-footer-description-leading-lg)]",
+		description: "max-w-[var(--ml-footer-description-max-lg)] text-lg leading-[var(--ml-footer-description-leading-lg)]",
 		columns: "gap-x-footer-column-gap-x-lg gap-y-footer-column-gap-y-lg",
 		link: "min-h-9 text-lg",
 		meta: "mt-footer-meta-mt-lg pt-footer-meta-pt-lg text-[length:var(--ml-footer-meta-text-lg)]",
@@ -160,10 +160,10 @@ function FooterSubscribeForm({
 			className={cn("flex min-w-0 flex-col gap-ml-3", className)}
 			{...props}
 		>
-			<p className="max-w-[18rem] text-base leading-relaxed text-body">
+			<p className="max-w-[var(--ml-footer-subscribe-copy-max)] text-base leading-relaxed text-body">
 				{description}
 			</p>
-			<div className="flex h-11 w-full max-w-[20rem] overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-[var(--duration-micro)] focus-within:border-accent focus-within:shadow-[var(--focus-ring)]">
+			<div className="flex h-[var(--ml-footer-subscribe-control-height)] w-full max-w-[var(--ml-footer-subscribe-control-max)] overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-[var(--duration-micro)] focus-within:border-accent focus-within:shadow-[var(--focus-ring)]">
 				<input
 					type="email"
 					name={inputName}
@@ -329,7 +329,7 @@ function Footer({
 					)}
 				>
 					{resolvedMeta ? (
-						<p className="max-w-[38rem]">{resolvedMeta}</p>
+					<p className="max-w-[var(--ml-footer-meta-copy-max)]">{resolvedMeta}</p>
 					) : null}
 					{attribution ? <p>{attribution}</p> : null}
 				</div>

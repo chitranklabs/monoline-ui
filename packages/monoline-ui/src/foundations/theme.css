@@ -513,6 +513,16 @@
 	--ml-footer-description-leading-sm: 1.7;
 	--ml-footer-description-leading-md: var(--leading-loose);
 	--ml-footer-description-leading-lg: 1.8;
+	--ml-footer-intro-max-sm: 34rem;
+	--ml-footer-intro-max-md: 42rem;
+	--ml-footer-intro-max-lg: 48rem;
+	--ml-footer-description-max-sm: 34rem;
+	--ml-footer-description-max-md: 40rem;
+	--ml-footer-description-max-lg: 46rem;
+	--ml-footer-subscribe-copy-max: 18rem;
+	--ml-footer-subscribe-control-max: 20rem;
+	--ml-footer-subscribe-control-height: 44px;
+	--ml-footer-meta-copy-max: 38rem;
 }
 
 /* =============================================================================
