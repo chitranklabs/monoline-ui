@@ -42,6 +42,16 @@
 			"development": "./src/index.ts",
 			"import": "./dist/index.js"
 		},
+		"./footer": {
+			"types": "./dist/components/footer.d.ts",
+			"development": "./src/components/footer.tsx",
+			"import": "./dist/components/footer.js"
+		},
+		"./foundations/breakpoints": {
+			"types": "./dist/foundations/breakpoints.d.ts",
+			"development": "./src/foundations/breakpoints.ts",
+			"import": "./dist/foundations/breakpoints.js"
+		},
 		"./theme.css": {
 			"development": "./src/foundations/theme.css",
 			"default": "./dist/styles/theme.css"
