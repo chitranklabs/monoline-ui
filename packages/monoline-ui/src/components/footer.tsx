@@ -15,7 +15,7 @@ export interface FooterColumn {
 
 export type FooterSize = "sm" | "md" | "lg"
 
-interface FooterSubscribeFormProps extends Omit<
+export interface FooterSubscribeFormProps extends Omit<
 	React.ComponentProps<"form">,
 	"children"
 > {
@@ -23,6 +23,10 @@ interface FooterSubscribeFormProps extends Omit<
 	placeholder?: string
 	inputName?: string
 	submitLabel?: string
+}
+
+export interface FooterStatusProps extends React.ComponentProps<"span"> {
+	children?: React.ReactNode
 }
 
 export interface FooterProps extends React.ComponentProps<"footer"> {
@@ -90,11 +94,17 @@ function cn(...inputs: ClassValue[]) {
 
 function FooterStatus({
 	children = "Open to work",
-}: {
-	children?: React.ReactNode
-}) {
+	className,
+	...props
+}: FooterStatusProps) {
 	return (
-		<span className="inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-[length:var(--ml-footer-status-text)] font-semibold tracking-[var(--ml-footer-status-tracking)] text-accent uppercase sm:text-[length:var(--ml-footer-status-text-tablet)]">
+		<span
+			className={cn(
+				"inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-[length:var(--ml-footer-status-text)] font-semibold tracking-[var(--ml-footer-status-tracking)] text-accent uppercase sm:text-[length:var(--ml-footer-status-text-tablet)]",
+				className
+			)}
+			{...props}
+		>
 			<span className="size-ml-1-5 shrink-0 rounded-full bg-accent" />
 			{children}
 		</span>
@@ -110,7 +120,8 @@ const footerSizeClasses = {
 			"gap-footer-layout-gap-sm lg:grid-cols-[var(--ml-footer-layout-cols-sm-desktop)] lg:gap-footer-layout-gap-sm-desktop",
 		intro: "max-w-[var(--ml-footer-intro-max-sm)] gap-footer-intro-gap-sm",
 		brand: "text-4xl sm:text-5xl lg:text-3xl",
-		description: "max-w-[var(--ml-footer-description-max-sm)] text-sm leading-[var(--ml-footer-description-leading-sm)]",
+		description:
+			"max-w-[var(--ml-footer-description-max-sm)] text-sm leading-[var(--ml-footer-description-leading-sm)]",
 		columns: "gap-x-footer-column-gap-x-sm gap-y-footer-column-gap-y-sm",
 		link: "min-h-[var(--ml-footer-link-min-height-sm)] text-sm",
 		meta: "mt-footer-meta-mt-sm pt-footer-meta-pt-sm text-[length:var(--ml-footer-meta-text-sm)]",
@@ -123,7 +134,8 @@ const footerSizeClasses = {
 			"gap-footer-layout-gap-md lg:grid-cols-[var(--ml-footer-layout-cols-md-desktop)] lg:gap-footer-layout-gap-md-desktop",
 		intro: "max-w-[var(--ml-footer-intro-max-md)] gap-footer-intro-gap-md",
 		brand: "text-5xl sm:text-6xl lg:text-4xl",
-		description: "max-w-[var(--ml-footer-description-max-md)] text-base leading-[var(--ml-footer-description-leading-md)]",
+		description:
+			"max-w-[var(--ml-footer-description-max-md)] text-base leading-[var(--ml-footer-description-leading-md)]",
 		columns: "gap-x-footer-column-gap-x-md gap-y-footer-column-gap-y-md",
 		link: "min-h-[var(--ml-footer-link-min-height-md)] text-base",
 		meta: "mt-footer-meta-mt-md pt-footer-meta-pt-md text-[length:var(--ml-footer-meta-text-md)]",
@@ -136,7 +148,8 @@ const footerSizeClasses = {
 			"gap-footer-layout-gap-lg lg:grid-cols-[var(--ml-footer-layout-cols-lg-desktop)] lg:gap-footer-layout-gap-lg-desktop",
 		intro: "max-w-[var(--ml-footer-intro-max-lg)] gap-footer-intro-gap-lg",
 		brand: "text-6xl sm:text-7xl lg:text-5xl",
-		description: "max-w-[var(--ml-footer-description-max-lg)] text-lg leading-[var(--ml-footer-description-leading-lg)]",
+		description:
+			"max-w-[var(--ml-footer-description-max-lg)] text-lg leading-[var(--ml-footer-description-leading-lg)]",
 		columns: "gap-x-footer-column-gap-x-lg gap-y-footer-column-gap-y-lg",
 		link: "min-h-[var(--ml-footer-link-min-height-lg)] text-lg",
 		meta: "mt-footer-meta-mt-lg pt-footer-meta-pt-lg text-[length:var(--ml-footer-meta-text-lg)]",
@@ -188,7 +201,7 @@ function isExternalHref(link: FooterLink) {
 	return link.external ?? /^(https?:|mailto:|tel:)/.test(link.href)
 }
 
-function Footer({
+function FooterRoot({
 	size = "md",
 	brand = "Chitrank",
 	description = "Technical Lead. Nine years bridging React, Node, and ML pipelines. Currently in Delhi, working on inference infra.",
@@ -329,7 +342,9 @@ function Footer({
 					)}
 				>
 					{resolvedMeta ? (
-					<p className="max-w-[var(--ml-footer-meta-copy-max)]">{resolvedMeta}</p>
+						<p className="max-w-[var(--ml-footer-meta-copy-max)]">
+							{resolvedMeta}
+						</p>
 					) : null}
 					{attribution ? <p>{attribution}</p> : null}
 				</div>
@@ -337,5 +352,10 @@ function Footer({
 		</footer>
 	)
 }
+
+const Footer = Object.assign(FooterRoot, {
+	Status: FooterStatus,
+	Subscribe: FooterSubscribeForm,
+})
 
 export { Footer }

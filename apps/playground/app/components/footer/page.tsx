@@ -137,6 +137,7 @@ export default function FooterPage() {
 					<h3>Basic usage</h3>
 					<pre>{`<Footer
   brand={<Brand />}
+  status={<Footer.Status>Open to work</Footer.Status>}
   columns={[
     { title: "Navigate", links: [
       { label: "Projects", href: "/projects" },
@@ -146,7 +147,7 @@ export default function FooterPage() {
       { label: "LinkedIn", href: "...", external: true },
     ]},
   ]}
-  subscribe={<SubscribeForm />}
+  subscribe={<Footer.Subscribe />}
   meta="© 2026 · v3.2.0"
   attribution="Next 15 · Sanity · Tailwind 4"
 />`}</pre>
