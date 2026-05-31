@@ -3,12 +3,12 @@
 @source "./**/*.{ts,tsx}";
 @import "@chitrank2050/monoline-ui/theme.css";
 
-@import "./styles/base.css";
-@import "./styles/site-header.css";
-@import "./styles/intro.css";
-@import "./styles/site-footer.css";
-@import "./styles/docs-shell.css";
-@import "./styles/foundations.css";
-@import "./styles/installation.css";
-@import "./styles/component-playground.css";
-@import "./styles/responsive.css";
+@import "./_styles/base.css";
+@import "./_styles/site-header.css";
+@import "./_styles/intro.css";
+@import "./_styles/site-footer.css";
+@import "./_styles/docs-shell.css";
+@import "./_styles/foundations.css";
+@import "./_styles/installation.css";
+@import "./_styles/component-playground.css";
+@import "./_styles/responsive.css";
