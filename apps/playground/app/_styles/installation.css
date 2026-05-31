@@ -1,5 +1,5 @@
 .install-page {
-	width: min(100%, 870px);
+	width: min(100% - 48px, 800px);
 	margin: 0 auto;
 	padding: 60px 0 88px;
 }
@@ -16,7 +16,7 @@
 .install-step {
 	display: grid;
 	grid-template-columns: 20px minmax(0, 1fr);
-	gap: 16px;
+	gap: 22px;
 }
 
 .install-step__number {
@@ -24,6 +24,10 @@
 	color: var(--text-muted);
 	font-family: var(--font-mono);
 	font-size: 11px;
+}
+
+.install-step__body {
+	min-width: 0;
 }
 
 .install-step__body h2 {

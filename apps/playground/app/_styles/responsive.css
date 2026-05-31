@@ -72,8 +72,7 @@
 	}
 
 	.install-page {
-		width: min(100%, 760px);
-		padding-inline: 20px;
+		width: min(100% - 52px, 782px);
 	}
 
 	.playground-canvas__frame {
@@ -350,9 +349,19 @@
 	.spacing-table__row,
 	.docs-scale__row,
 	.props-table__row,
-	.install-step,
 	.color-row {
 		grid-template-columns: 1fr;
+	}
+
+	.install-page {
+		width: calc(100% - 28px);
+		padding-top: 24px;
+		padding-bottom: 76px;
+	}
+
+	.install-step {
+		grid-template-columns: 14px minmax(0, 1fr);
+		gap: 15px;
 	}
 
 	.radius-grid {
