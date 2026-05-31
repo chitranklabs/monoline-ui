@@ -94,7 +94,7 @@ function FooterStatus({
 	children?: React.ReactNode
 }) {
 	return (
-		<span className="inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-accent sm:text-[11px]">
+		<span className="inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-[length:var(--ml-footer-status-text)] font-semibold tracking-[var(--ml-footer-status-tracking)] text-accent uppercase sm:text-[length:var(--ml-footer-status-text-tablet)]">
 			<span className="size-ml-1-5 shrink-0 rounded-full bg-accent" />
 			{children}
 		</span>
@@ -110,10 +110,10 @@ const footerSizeClasses = {
 			"gap-footer-layout-gap-sm lg:grid-cols-[minmax(0,1fr)_minmax(0,1.65fr)] lg:gap-footer-layout-gap-sm-desktop",
 		intro: "max-w-[34rem] gap-footer-intro-gap-sm",
 		brand: "text-4xl sm:text-5xl lg:text-3xl",
-		description: "max-w-[34rem] text-sm leading-[1.7]",
+		description: "max-w-[34rem] text-sm leading-[var(--ml-footer-description-leading-sm)]",
 		columns: "gap-x-footer-column-gap-x-sm gap-y-footer-column-gap-y-sm",
 		link: "min-h-7 text-sm",
-		meta: "mt-footer-meta-mt-sm pt-footer-meta-pt-sm text-[11px]",
+		meta: "mt-footer-meta-mt-sm pt-footer-meta-pt-sm text-[length:var(--ml-footer-meta-text-sm)]",
 	},
 	md: {
 		root: "py-footer-y-md sm:py-footer-y-md-tablet lg:py-footer-y-md-desktop",
@@ -123,10 +123,10 @@ const footerSizeClasses = {
 			"gap-footer-layout-gap-md lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.9fr)] lg:gap-footer-layout-gap-md-desktop",
 		intro: "max-w-[42rem] gap-footer-intro-gap-md",
 		brand: "text-5xl sm:text-6xl lg:text-4xl",
-		description: "max-w-[40rem] text-base leading-[1.75]",
+		description: "max-w-[40rem] text-base leading-[var(--ml-footer-description-leading-md)]",
 		columns: "gap-x-footer-column-gap-x-md gap-y-footer-column-gap-y-md",
 		link: "min-h-8 text-base",
-		meta: "mt-footer-meta-mt-md pt-footer-meta-pt-md text-xs",
+		meta: "mt-footer-meta-mt-md pt-footer-meta-pt-md text-[length:var(--ml-footer-meta-text-md)]",
 	},
 	lg: {
 		root: "py-footer-y-lg sm:py-footer-y-lg-tablet lg:py-footer-y-lg-desktop",
@@ -136,10 +136,10 @@ const footerSizeClasses = {
 			"gap-footer-layout-gap-lg lg:grid-cols-[minmax(0,1.15fr)_minmax(0,2fr)] lg:gap-footer-layout-gap-lg-desktop",
 		intro: "max-w-[48rem] gap-footer-intro-gap-lg",
 		brand: "text-6xl sm:text-7xl lg:text-5xl",
-		description: "max-w-[46rem] text-lg leading-[1.8]",
+		description: "max-w-[46rem] text-lg leading-[var(--ml-footer-description-leading-lg)]",
 		columns: "gap-x-footer-column-gap-x-lg gap-y-footer-column-gap-y-lg",
 		link: "min-h-9 text-lg",
-		meta: "mt-footer-meta-mt-lg pt-footer-meta-pt-lg text-sm",
+		meta: "mt-footer-meta-mt-lg pt-footer-meta-pt-lg text-[length:var(--ml-footer-meta-text-lg)]",
 	},
 } as const
 
@@ -256,7 +256,7 @@ function Footer({
 							<div className="flex flex-wrap items-center gap-x-ml-5 gap-y-ml-3">
 								{status}
 								{localTime ? (
-									<span className="text-muted-foreground font-mono text-xs tracking-[0.08em]">
+									<span className="text-muted-foreground font-mono text-xs tracking-[var(--ml-footer-local-time-tracking)]">
 										{localTime}
 									</span>
 								) : null}
