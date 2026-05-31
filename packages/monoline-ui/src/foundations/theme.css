@@ -388,9 +388,12 @@
 	--z-tooltip: 70;
 	--z-max: 999;
 
-	/* ─── Breakpoints (read by JS via getComputedStyle) ─── */
-	--bp-mobile: 640px;
-	--bp-tablet: 1024px;
+	/* ─── Breakpoints (mirror foundations/breakpoints.ts) ─── */
+	--bp-mobile: 390px;
+	--bp-mobile-max: 767px;
+	--bp-tablet: 834px;
+	--bp-tablet-min: 768px;
+	--bp-tablet-max: 1023px;
 	--bp-desktop: 1280px;
 	--bp-wide: 1536px;
 

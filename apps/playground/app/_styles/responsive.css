@@ -1,3 +1,4 @@
+/* Keep these media query values aligned with monolineBreakpoints in the package. */
 @media (max-width: 1023px) {
 	.site-header__inner {
 		grid-template-columns: 1fr auto;
