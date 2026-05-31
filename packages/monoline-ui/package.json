@@ -47,10 +47,15 @@
 			"development": "./src/components/footer.tsx",
 			"import": "./dist/components/footer.js"
 		},
-		"./foundations/breakpoints": {
-			"types": "./dist/foundations/breakpoints.d.ts",
-			"development": "./src/foundations/breakpoints.ts",
-			"import": "./dist/foundations/breakpoints.js"
+		"./components/*": {
+			"types": "./dist/components/*.d.ts",
+			"development": "./src/components/*.tsx",
+			"import": "./dist/components/*.js"
+		},
+		"./foundations/*": {
+			"types": "./dist/foundations/*.d.ts",
+			"development": "./src/foundations/*.ts",
+			"import": "./dist/foundations/*.js"
 		},
 		"./theme.css": {
 			"development": "./src/foundations/theme.css",

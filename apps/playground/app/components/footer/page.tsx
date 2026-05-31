@@ -1,4 +1,4 @@
-import { Footer } from "@chitrank2050/monoline-ui"
+import { Footer } from "@chitrank2050/monoline-ui/components/footer"
 
 const footerColumns = [
 	{
@@ -132,7 +132,7 @@ export default function FooterPage() {
 				</div>
 				<div className="playground-detail__body">
 					<h3>Import</h3>
-					<pre>{`import { Footer } from "monoline-ui/Footer"`}</pre>
+					<pre>{`import { Footer } from "@chitrank2050/monoline-ui/components/footer"`}</pre>
 
 					<h3>Basic usage</h3>
 					<pre>{`<Footer
