@@ -473,6 +473,7 @@
 	--ml-footer-y-lg: var(--space-24);
 	--ml-footer-y-lg-tablet: var(--space-32);
 	--ml-footer-y-lg-desktop: var(--space-24);
+	--ml-footer-container-max-lg: 90rem;
 	--ml-footer-x-sm: var(--space-5);
 	--ml-footer-x-sm-tablet: var(--space-8);
 	--ml-footer-x-sm-desktop: var(--space-8);
@@ -488,6 +489,9 @@
 	--ml-footer-layout-gap-md-desktop: var(--space-20);
 	--ml-footer-layout-gap-lg: var(--space-20);
 	--ml-footer-layout-gap-lg-desktop: var(--space-24);
+	--ml-footer-layout-cols-sm-desktop: minmax(0, 1fr) minmax(0, 1.65fr);
+	--ml-footer-layout-cols-md-desktop: minmax(0, 1.1fr) minmax(0, 1.9fr);
+	--ml-footer-layout-cols-lg-desktop: minmax(0, 1.15fr) minmax(0, 2fr);
 	--ml-footer-intro-gap-sm: var(--space-5);
 	--ml-footer-intro-gap-md: var(--space-6);
 	--ml-footer-intro-gap-lg: var(--space-8);

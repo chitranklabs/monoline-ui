@@ -107,7 +107,7 @@ const footerSizeClasses = {
 		container:
 			"max-w-5xl px-footer-x-sm sm:px-footer-x-sm-tablet lg:px-footer-x-sm-desktop",
 		layout:
-			"gap-footer-layout-gap-sm lg:grid-cols-[minmax(0,1fr)_minmax(0,1.65fr)] lg:gap-footer-layout-gap-sm-desktop",
+			"gap-footer-layout-gap-sm lg:grid-cols-[var(--ml-footer-layout-cols-sm-desktop)] lg:gap-footer-layout-gap-sm-desktop",
 		intro: "max-w-[var(--ml-footer-intro-max-sm)] gap-footer-intro-gap-sm",
 		brand: "text-4xl sm:text-5xl lg:text-3xl",
 		description: "max-w-[var(--ml-footer-description-max-sm)] text-sm leading-[var(--ml-footer-description-leading-sm)]",
@@ -120,7 +120,7 @@ const footerSizeClasses = {
 		container:
 			"max-w-7xl px-footer-x-md sm:px-footer-x-md-tablet lg:px-footer-x-md-desktop",
 		layout:
-			"gap-footer-layout-gap-md lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.9fr)] lg:gap-footer-layout-gap-md-desktop",
+			"gap-footer-layout-gap-md lg:grid-cols-[var(--ml-footer-layout-cols-md-desktop)] lg:gap-footer-layout-gap-md-desktop",
 		intro: "max-w-[var(--ml-footer-intro-max-md)] gap-footer-intro-gap-md",
 		brand: "text-5xl sm:text-6xl lg:text-4xl",
 		description: "max-w-[var(--ml-footer-description-max-md)] text-base leading-[var(--ml-footer-description-leading-md)]",
@@ -131,9 +131,9 @@ const footerSizeClasses = {
 	lg: {
 		root: "py-footer-y-lg sm:py-footer-y-lg-tablet lg:py-footer-y-lg-desktop",
 		container:
-			"max-w-[90rem] px-footer-x-lg sm:px-footer-x-lg-tablet lg:px-footer-x-lg-desktop",
+			"max-w-[var(--ml-footer-container-max-lg)] px-footer-x-lg sm:px-footer-x-lg-tablet lg:px-footer-x-lg-desktop",
 		layout:
-			"gap-footer-layout-gap-lg lg:grid-cols-[minmax(0,1.15fr)_minmax(0,2fr)] lg:gap-footer-layout-gap-lg-desktop",
+			"gap-footer-layout-gap-lg lg:grid-cols-[var(--ml-footer-layout-cols-lg-desktop)] lg:gap-footer-layout-gap-lg-desktop",
 		intro: "max-w-[var(--ml-footer-intro-max-lg)] gap-footer-intro-gap-lg",
 		brand: "text-6xl sm:text-7xl lg:text-5xl",
 		description: "max-w-[var(--ml-footer-description-max-lg)] text-lg leading-[var(--ml-footer-description-leading-lg)]",
