@@ -199,7 +199,10 @@
 	gap: var(--space-6);
 	margin-top: 44px;
 	border-top: 1px solid var(--border);
-	padding-top: 22px;
+	border-bottom: 1px solid var(--border);
+	padding-block: 22px;
+	min-height: 150px;
+	align-items: center;
 }
 
 .intro-stats strong {
@@ -226,13 +229,13 @@
 .intro-band,
 .intro-section {
 	margin-top: 78px;
-	border-top: 1px solid var(--border);
 	padding-top: 32px;
 }
 
 .intro-band {
-	padding-bottom: 32px;
 	border-bottom: 1px solid var(--border);
+	padding-bottom: 32px;
+	padding-top: 0;
 }
 
 .intro-band__grid {
@@ -305,7 +308,7 @@
 }
 
 .intro-section--rules {
-	margin-bottom: 152px;
+	margin-bottom: 72px;
 }
 
 .intro-rules {
