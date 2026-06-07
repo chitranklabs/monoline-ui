@@ -100,9 +100,6 @@ export default function FooterPage() {
 	return (
 		<ComponentPlayground<FooterSize>
 			title="Footer"
-			status="stable"
-			version="v0.2.0"
-			gzippedSize="2.1 kb gzipped"
 			description="Inspect the footer at real viewport widths, switch component size, render all sizes together, and zoom the canvas without losing the package's actual Tailwind/theme styling."
 			sizes={footerSizes}
 			defaultSize="md"

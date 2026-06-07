@@ -264,9 +264,6 @@ export interface ComponentPlaygroundProps<T extends string = string> {
 
 function ComponentPlaygroundClient<T extends string = string>({
 	title,
-	version,
-	status,
-	gzippedSize,
 	description,
 	sizes,
 	defaultSize,
@@ -426,26 +423,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
 					<h1>{title}</h1>
-					{status && (
-						<span
-							className={`playground-badge playground-badge--status playground-badge--${status.toLowerCase()}`}
-						>
-							{status === "stable" && (
-								<span className="playground-badge__dot" />
-							)}
-							{status}
-						</span>
-					)}
-					{version && (
-						<span className="playground-badge playground-badge--version">
-							{version}
-						</span>
-					)}
-					{gzippedSize && (
-						<span className="playground-badge playground-badge--size">
-							{gzippedSize}
-						</span>
-					)}
 				</div>
 				<p>{description}</p>
 			</header>

@@ -17,7 +17,12 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en" data-theme="light" className={monolineFontClassName}>
+		<html
+			lang="en"
+			data-theme="light"
+			data-scroll-behavior="smooth"
+			className={monolineFontClassName}
+		>
 			<body>
 				<div className="min-h-screen bg-background">
 					<SiteHeader />
