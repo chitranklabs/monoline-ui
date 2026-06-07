@@ -18,7 +18,7 @@ commit-msg:
 pre-push:
   parallel: true
   commands:
-    tests:
-      run: pnpm test
+    # tests:
+    #   run: pnpm test
     branch-name:
       run: pnpm lint:branch

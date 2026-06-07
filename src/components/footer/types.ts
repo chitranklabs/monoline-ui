@@ -6,6 +6,7 @@ export interface FooterLink {
 	external?: boolean
 	rel?: string
 	target?: React.HTMLAttributeAnchorTarget
+	as?: React.ComponentType<any>
 }
 
 export interface FooterColumn {
@@ -29,6 +30,10 @@ export interface FooterStatusProps extends React.ComponentProps<"span"> {
 	children?: React.ReactNode
 }
 
+export interface FooterLinkProps extends React.ComponentProps<"a"> {
+	asChild?: boolean
+}
+
 export interface FooterProps extends React.ComponentProps<"footer"> {
 	size?: FooterSize
 	brand?: React.ReactNode
@@ -41,4 +46,5 @@ export interface FooterProps extends React.ComponentProps<"footer"> {
 	credit?: React.ReactNode
 	meta?: React.ReactNode
 	attribution?: React.ReactNode
+	linkComponent?: React.ComponentType<any>
 }
