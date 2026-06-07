@@ -1,7 +1,15 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import {
+	Suspense,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+	type ReactNode,
+} from "react"
 import { createPortal } from "react-dom"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import {
 	Footer,
@@ -9,6 +17,7 @@ import {
 } from "@chitrank2050/monoline-ui/components/footer"
 
 type RenderMode = "single" | "all"
+type DetailTab = "usage" | "props" | "tokens" | "source"
 type ThemeMode = "light" | "dark"
 type ViewportKey = "mobile" | "tablet" | "desktop" | "wide"
 
@@ -25,6 +34,7 @@ interface ZoomOption {
 
 interface PreviewFrameProps {
 	children: ReactNode
+	contentKey: string
 	theme: ThemeMode
 	viewportWidth: number
 	zoom: number
@@ -45,6 +55,15 @@ const zoomOptions: ZoomOption[] = [
 	{ label: "100%", value: 1 },
 	{ label: "125%", value: 1.25 },
 ]
+
+const defaultControls = {
+	render: "single" as RenderMode,
+	size: "md" as FooterSize,
+	viewport: "desktop" as ViewportKey,
+	theme: "light" as ThemeMode,
+	zoom: 0.75,
+	tab: "usage" as DetailTab,
+}
 
 const footerColumns = [
 	{
@@ -87,8 +106,80 @@ const propsRows = [
 	["attribution", "ReactNode?", "Right-aligned text in the bottom bar"],
 ] as const
 
+const tokenRows = [
+	["--ml-footer-y-sm/md/lg", "Vertical padding for each component size"],
+	["--ml-footer-x-sm/md/lg", "Horizontal container padding by size"],
+	["--ml-footer-layout-cols-*-desktop", "Desktop grid tracks"],
+	["--ml-footer-subscribe-control-height", "Inline subscribe input height"],
+	["--ml-footer-link-hover-x", "External link hover offset"],
+] as const
+
+const sourceSnippet = `import { Footer } from "@chitrank2050/monoline-ui/components/footer"
+
+export function SiteFooter() {
+  return (
+    <Footer
+      size="md"
+      columns={[
+        { title: "Navigate", links: [
+          { label: "Projects", href: "/projects" },
+          { label: "Blog", href: "/blog" },
+        ]},
+        { title: "Elsewhere", links: [
+          { label: "GitHub", href: "https://github.com", external: true },
+        ]},
+      ]}
+      subscribe={<Footer.Subscribe />}
+      meta="© 2026 · v3.2.0"
+      attribution="Next 15 · Sanity · Tailwind 4"
+    />
+  )
+}`
+
+const detailTabs: Array<{ key: DetailTab; label: string }> = [
+	{ key: "usage", label: "Usage" },
+	{ key: "props", label: "Props" },
+	{ key: "tokens", label: "Tokens" },
+	{ key: "source", label: "Source" },
+]
+
 function formatSize(size: FooterSize) {
 	return size.toUpperCase()
+}
+
+function parseRenderMode(value: string | null): RenderMode {
+	return value === "all" ? "all" : defaultControls.render
+}
+
+function parseFooterSize(value: string | null): FooterSize {
+	return footerSizes.includes(value as FooterSize)
+		? (value as FooterSize)
+		: defaultControls.size
+}
+
+function parseViewport(value: string | null): ViewportKey {
+	return viewportOptions.some((option) => option.key === value)
+		? (value as ViewportKey)
+		: defaultControls.viewport
+}
+
+function parseTheme(value: string | null): ThemeMode {
+	return value === "dark" ? "dark" : defaultControls.theme
+}
+
+function parseZoom(value: string | null) {
+	const parsed = Number(value)
+	const matchedOption = zoomOptions.find(
+		(option) => Math.round(option.value * 100) === parsed
+	)
+
+	return matchedOption?.value ?? defaultControls.zoom
+}
+
+function parseDetailTab(value: string | null): DetailTab {
+	return detailTabs.some((tab) => tab.key === value)
+		? (value as DetailTab)
+		: defaultControls.tab
 }
 
 function FooterPreview({ size }: { size: FooterSize }) {
@@ -104,8 +195,17 @@ function FooterPreview({ size }: { size: FooterSize }) {
 	)
 }
 
+export default function FooterPage() {
+	return (
+		<Suspense fallback={null}>
+			<FooterPageClient />
+		</Suspense>
+	)
+}
+
 function PreviewFrame({
 	children,
+	contentKey,
 	theme,
 	viewportWidth,
 	zoom,
@@ -167,23 +267,25 @@ function PreviewFrame({
 		}
 
 		const updateHeight = () => {
+			const contentRect = mountNode.getBoundingClientRect()
 			const nextHeight = Math.max(
 				456,
-				mountNode.scrollHeight,
-				iframeDocument.body.scrollHeight,
-				iframeDocument.documentElement.scrollHeight
+				Math.ceil(contentRect.height),
+				mountNode.scrollHeight
 			)
 			setContentHeight(nextHeight)
 		}
 		const observer = new ResizeObserver(updateHeight)
+		const frame = requestAnimationFrame(updateHeight)
 
 		observer.observe(mountNode)
 		updateHeight()
 
 		return () => {
+			cancelAnimationFrame(frame)
 			observer.disconnect()
 		}
-	}, [mountNode, viewportWidth, zoom])
+	}, [contentKey, mountNode, viewportWidth])
 
 	return (
 		<div
@@ -208,12 +310,16 @@ function PreviewFrame({
 	)
 }
 
-export default function FooterPage() {
-	const [renderMode, setRenderMode] = useState<RenderMode>("single")
-	const [size, setSize] = useState<FooterSize>("md")
-	const [viewport, setViewport] = useState<ViewportKey>("desktop")
-	const [theme, setTheme] = useState<ThemeMode>("light")
-	const [zoom, setZoom] = useState(0.75)
+function FooterPageClient() {
+	const pathname = usePathname()
+	const router = useRouter()
+	const searchParams = useSearchParams()
+	const renderMode = parseRenderMode(searchParams.get("render"))
+	const size = parseFooterSize(searchParams.get("size"))
+	const viewport = parseViewport(searchParams.get("viewport"))
+	const theme = parseTheme(searchParams.get("theme"))
+	const zoom = parseZoom(searchParams.get("zoom"))
+	const detailTab = parseDetailTab(searchParams.get("tab"))
 
 	const viewportOption = useMemo(
 		() =>
@@ -226,6 +332,65 @@ export default function FooterPage() {
 		[zoom]
 	)
 	const renderedSizes = renderMode === "all" ? footerSizes : [size]
+	const previewKey = `${renderMode}:${renderedSizes.join(",")}:${viewport}:${theme}`
+
+	const setControl = (
+		updates: Partial<{
+			render: RenderMode
+			size: FooterSize
+			viewport: ViewportKey
+			theme: ThemeMode
+			zoom: number
+			tab: DetailTab
+		}>
+	) => {
+		const nextState = {
+			render: renderMode,
+			size,
+			viewport,
+			theme,
+			zoom,
+			tab: detailTab,
+			...updates,
+		}
+		const nextParams = new URLSearchParams(searchParams.toString())
+		const writeParam = <T extends string | number>(
+			key: string,
+			value: T,
+			defaultValue: T
+		) => {
+			if (value === defaultValue) {
+				nextParams.delete(key)
+				return
+			}
+
+			nextParams.set(key, String(value))
+		}
+
+		writeParam("render", nextState.render, defaultControls.render)
+		writeParam("size", nextState.size, defaultControls.size)
+		writeParam("viewport", nextState.viewport, defaultControls.viewport)
+		writeParam("theme", nextState.theme, defaultControls.theme)
+		writeParam(
+			"zoom",
+			Math.round(nextState.zoom * 100),
+			Math.round(defaultControls.zoom * 100)
+		)
+		writeParam("tab", nextState.tab, defaultControls.tab)
+
+		for (const [key, value] of searchParams.entries()) {
+			if (
+				!["render", "size", "viewport", "theme", "zoom", "tab"].includes(key)
+			) {
+				nextParams.set(key, value)
+			}
+		}
+
+		const queryString = nextParams.toString()
+		router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+			scroll: false,
+		})
+	}
 
 	return (
 		<main className="docs-page">
@@ -251,7 +416,7 @@ export default function FooterPage() {
 							type="button"
 							aria-pressed={renderMode === "single"}
 							className="ml-interaction-surface"
-							onClick={() => setRenderMode("single")}
+							onClick={() => setControl({ render: "single" })}
 						>
 							Single
 						</button>
@@ -259,7 +424,7 @@ export default function FooterPage() {
 							type="button"
 							aria-pressed={renderMode === "all"}
 							className="ml-interaction-surface"
-							onClick={() => setRenderMode("all")}
+							onClick={() => setControl({ render: "all" })}
 						>
 							All sizes
 						</button>
@@ -275,8 +440,7 @@ export default function FooterPage() {
 								aria-pressed={size === footerSize}
 								className="ml-interaction-surface"
 								onClick={() => {
-									setRenderMode("single")
-									setSize(footerSize)
+									setControl({ render: "single", size: footerSize })
 								}}
 							>
 								{formatSize(footerSize)}
@@ -293,7 +457,7 @@ export default function FooterPage() {
 								type="button"
 								aria-pressed={viewport === option.key}
 								className="ml-interaction-surface"
-								onClick={() => setViewport(option.key)}
+								onClick={() => setControl({ viewport: option.key })}
 							>
 								{option.label}
 							</button>
@@ -307,7 +471,7 @@ export default function FooterPage() {
 							type="button"
 							aria-pressed={theme === "light"}
 							className="ml-interaction-surface"
-							onClick={() => setTheme("light")}
+							onClick={() => setControl({ theme: "light" })}
 						>
 							Light
 						</button>
@@ -315,7 +479,7 @@ export default function FooterPage() {
 							type="button"
 							aria-pressed={theme === "dark"}
 							className="ml-interaction-surface"
-							onClick={() => setTheme("dark")}
+							onClick={() => setControl({ theme: "dark" })}
 						>
 							Dark
 						</button>
@@ -330,7 +494,7 @@ export default function FooterPage() {
 								type="button"
 								aria-pressed={zoom === option.value}
 								className="ml-interaction-surface"
-								onClick={() => setZoom(option.value)}
+								onClick={() => setControl({ zoom: option.value })}
 							>
 								{option.label}
 							</button>
@@ -351,6 +515,7 @@ export default function FooterPage() {
 				</div>
 				<div className="playground-canvas__viewport">
 					<PreviewFrame
+						contentKey={previewKey}
 						theme={theme}
 						viewportWidth={viewportOption.width}
 						zoom={zoom}
@@ -363,30 +528,29 @@ export default function FooterPage() {
 			</section>
 
 			<section className="playground-detail">
-				<div className="playground-detail__tabs">
-					<button
-						type="button"
-						aria-pressed="true"
-						className="ml-interaction-tab-underline"
-					>
-						Usage
-					</button>
-					<button type="button" className="ml-interaction-tab-underline">
-						Props
-					</button>
-					<button type="button" className="ml-interaction-tab-underline">
-						Tokens
-					</button>
-					<button type="button" className="ml-interaction-tab-underline">
-						Source
-					</button>
+				<div className="playground-detail__tabs" role="tablist">
+					{detailTabs.map((tab) => (
+						<button
+							key={tab.key}
+							type="button"
+							role="tab"
+							aria-selected={detailTab === tab.key}
+							aria-pressed={detailTab === tab.key}
+							className="ml-interaction-tab-underline"
+							onClick={() => setControl({ tab: tab.key })}
+						>
+							{tab.label}
+						</button>
+					))}
 				</div>
 				<div className="playground-detail__body">
-					<h3>Import</h3>
-					<pre>{`import { Footer } from "@chitrank2050/monoline-ui/components/footer"`}</pre>
+					{detailTab === "usage" ? (
+						<>
+							<h3>Import</h3>
+							<pre>{`import { Footer } from "@chitrank2050/monoline-ui/components/footer"`}</pre>
 
-					<h3>Basic usage</h3>
-					<pre>{`<Footer
+							<h3>Basic usage</h3>
+							<pre>{`<Footer
   brand={<Brand />}
   status={<Footer.Status>Open to work</Footer.Status>}
   columns={[
@@ -402,21 +566,53 @@ export default function FooterPage() {
   meta="© 2026 · v3.2.0"
   attribution="Next 15 · Sanity · Tailwind 4"
 />`}</pre>
+						</>
+					) : null}
 
-					<h3>Props at a glance</h3>
-					<div className="props-table">
-						{propsRows.map(([name, type, description], index) => (
-							<div
-								key={name}
-								className="props-table__row"
-								data-odd={index % 2 === 1}
-							>
-								<span>{name}</span>
-								<span>{type}</span>
-								<span>{description}</span>
+					{detailTab === "props" ? (
+						<>
+							<h3>Props at a glance</h3>
+							<div className="props-table">
+								{propsRows.map(([name, type, description], index) => (
+									<div
+										key={name}
+										className="props-table__row"
+										data-odd={index % 2 === 1}
+									>
+										<span>{name}</span>
+										<span>{type}</span>
+										<span>{description}</span>
+									</div>
+								))}
 							</div>
-						))}
-					</div>
+						</>
+					) : null}
+
+					{detailTab === "tokens" ? (
+						<>
+							<h3>Footer tokens</h3>
+							<div className="props-table">
+								{tokenRows.map(([name, description], index) => (
+									<div
+										key={name}
+										className="props-table__row props-table__row--token"
+										data-odd={index % 2 === 1}
+									>
+										<span>{name}</span>
+										<span>CSS var</span>
+										<span>{description}</span>
+									</div>
+								))}
+							</div>
+						</>
+					) : null}
+
+					{detailTab === "source" ? (
+						<>
+							<h3>Source pattern</h3>
+							<pre>{sourceSnippet}</pre>
+						</>
+					) : null}
 				</div>
 			</section>
 		</main>

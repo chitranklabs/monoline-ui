@@ -300,12 +300,12 @@ function FooterRoot({
 								className="flex min-w-0 flex-col gap-ml-3"
 							>
 								<span className="ml-eyebrow block">{column.title}</span>
-								{column.links.map((link) => {
+								{column.links.map((link, linkIndex) => {
 									const external = isExternalHref(link)
 
 									return (
 										<a
-											key={link.href}
+											key={`${link.href}-${linkIndex}`}
 											href={link.href}
 											target={link.target ?? (external ? "_blank" : undefined)}
 											rel={
