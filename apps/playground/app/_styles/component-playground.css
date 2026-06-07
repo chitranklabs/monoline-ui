@@ -1,6 +1,5 @@
 .playground-controls,
-.playground-canvas,
-.playground-detail {
+.playground-canvas {
 	border: 1px solid var(--border);
 	border-radius: 14px;
 	background: var(--surface);
@@ -20,8 +19,7 @@
 }
 
 .playground-controls__group label,
-.playground-canvas__meta,
-.playground-detail__tabs button {
+.playground-canvas__meta {
 	font-family: var(--font-mono);
 }
 
@@ -56,6 +54,7 @@
 
 .playground-canvas {
 	margin-top: 24px;
+	margin-bottom: 56px;
 	overflow: hidden;
 }
 
@@ -98,42 +97,14 @@
 	border-top: 0;
 }
 
-.playground-detail {
-	margin-top: 32px;
-	overflow: hidden;
-}
-
-.playground-detail__tabs {
-	display: flex;
-	border-bottom: 1px solid var(--border);
-	background: var(--surface-2);
-}
-
-.playground-detail__tabs button {
-	padding: 10px 18px;
-	border-bottom: 2px solid transparent;
-	color: var(--text-muted);
-	font-size: 13px;
-}
-
-.playground-detail__tabs button[aria-pressed="true"] {
-	border-bottom-color: var(--accent);
-	color: var(--text);
-	font-weight: 700;
-}
-
-.playground-detail__body {
-	padding: 24px;
-}
-
-.playground-detail__body h3 {
+.docs-section h3 {
 	margin: 0 0 8px;
 	color: var(--text);
 	font-size: 15px;
 	font-weight: 600;
 }
 
-.playground-detail__body h3:not(:first-child) {
+.docs-section h3:not(:first-of-type) {
 	margin-top: 24px;
 }
 
@@ -241,4 +212,57 @@ pre[class*="language-"] {
 .token.important,
 .token.variable {
 	color: var(--accent);
+}
+
+/* Code block copy button styling */
+.code-block-wrapper {
+	position: relative;
+	margin: 8px 0 16px;
+}
+
+.code-block-wrapper pre {
+	margin: 0 !important; /* Reset margin since wrapper handles it */
+}
+
+.code-block-copy-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--surface);
+	color: var(--text-muted);
+	opacity: 0.6;
+	transition:
+		opacity var(--duration-micro) var(--ease-out),
+		background var(--duration-micro),
+		border-color var(--duration-micro),
+		color var(--duration-micro);
+}
+
+@media (hover: hover) {
+	.code-block-copy-btn {
+		opacity: 0;
+	}
+	.code-block-wrapper:hover .code-block-copy-btn,
+	.code-block-copy-btn:focus-visible {
+		opacity: 1;
+	}
+}
+
+.code-block-copy-btn:hover {
+	color: var(--text);
+	border-color: var(--border-strong);
+	background: var(--surface-2);
+}
+
+.code-block-copy-btn svg {
+	width: 14px;
+	height: 14px;
 }

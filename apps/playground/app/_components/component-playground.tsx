@@ -17,7 +17,6 @@ import "prismjs/components/prism-typescript"
 type RenderMode = "single" | "all"
 type ThemeMode = "light" | "dark"
 type ViewportKey = "mobile" | "tablet" | "desktop" | "wide"
-type DetailTab = "usage" | "props" | "tokens" | "source"
 
 interface ViewportOption {
 	key: ViewportKey
@@ -49,15 +48,7 @@ const defaultControls = {
 	viewport: "desktop" as ViewportKey,
 	theme: "light" as ThemeMode,
 	zoom: 0.75,
-	tab: "usage" as DetailTab,
 }
-
-const detailTabs: Array<{ key: DetailTab; label: string }> = [
-	{ key: "usage", label: "Usage" },
-	{ key: "props", label: "Props" },
-	{ key: "tokens", label: "Tokens" },
-	{ key: "source", label: "Source" },
-]
 
 function CodeBlock({
 	code,
@@ -66,18 +57,69 @@ function CodeBlock({
 	code: string
 	language?: string
 }) {
+	const [copied, setCopied] = useState(false)
+
 	const html = useMemo(() => {
 		const lang = Prism.languages[language] || Prism.languages.javascript
 		return Prism.highlight(code, lang, language)
 	}, [code, language])
 
+	const handleCopy = async () => {
+		try {
+			await navigator.clipboard.writeText(code)
+			setCopied(true)
+			setTimeout(() => setCopied(false), 2000)
+		} catch (err) {
+			console.error("Failed to copy code: ", err)
+		}
+	}
+
 	return (
-		<pre className={`language-${language}`}>
-			<code
-				className={`language-${language}`}
-				dangerouslySetInnerHTML={{ __html: html }}
-			/>
-		</pre>
+		<div className="code-block-wrapper">
+			<button
+				type="button"
+				onClick={handleCopy}
+				className="code-block-copy-btn ml-interaction-control"
+				aria-label={copied ? "Copied" : "Copy code"}
+			>
+				{copied ? (
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						style={{
+							color: "var(--accent)",
+							animation: "scale-in var(--duration-short) var(--ease-out-expo)",
+						}}
+					>
+						<polyline points="20 6 9 17 4 12" />
+					</svg>
+				) : (
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					>
+						<rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+						<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+					</svg>
+				)}
+			</button>
+			<pre className={`language-${language}`}>
+				<code
+					className={`language-${language}`}
+					dangerouslySetInnerHTML={{ __html: html }}
+				/>
+			</pre>
+		</div>
 	)
 }
 
@@ -257,12 +299,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 		return matchedOption?.value ?? defaultControls.zoom
 	}
 
-	const parseDetailTab = (value: string | null): DetailTab => {
-		return detailTabs.some((tab) => tab.key === value)
-			? (value as DetailTab)
-			: defaultControls.tab
-	}
-
 	const [renderMode, setRenderMode] = useState<RenderMode>(() =>
 		parseRenderMode(searchParams.get("render"))
 	)
@@ -278,9 +314,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 	const [zoom, setZoom] = useState<number>(() =>
 		parseZoom(searchParams.get("zoom"))
 	)
-	const [detailTab, setDetailTab] = useState<DetailTab>(() =>
-		parseDetailTab(searchParams.get("tab"))
-	)
 
 	useEffect(() => {
 		setRenderMode(parseRenderMode(searchParams.get("render")))
@@ -288,7 +321,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 		setViewport(parseViewport(searchParams.get("viewport")))
 		setTheme(parseTheme(searchParams.get("theme")))
 		setZoom(parseZoom(searchParams.get("zoom")))
-		setDetailTab(parseDetailTab(searchParams.get("tab")))
 	}, [searchParams])
 
 	const viewportOption = useMemo(
@@ -316,7 +348,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 			viewport: ViewportKey
 			theme: ThemeMode
 			zoom: number
-			tab: DetailTab
 		}>
 	) => {
 		if (updates.render !== undefined) setRenderMode(updates.render)
@@ -324,7 +355,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 		if (updates.viewport !== undefined) setViewport(updates.viewport)
 		if (updates.theme !== undefined) setTheme(updates.theme)
 		if (updates.zoom !== undefined) setZoom(updates.zoom)
-		if (updates.tab !== undefined) setDetailTab(updates.tab)
 
 		const nextState = {
 			render: updates.render !== undefined ? updates.render : renderMode,
@@ -332,7 +362,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 			viewport: updates.viewport !== undefined ? updates.viewport : viewport,
 			theme: updates.theme !== undefined ? updates.theme : theme,
 			zoom: updates.zoom !== undefined ? updates.zoom : zoom,
-			tab: updates.tab !== undefined ? updates.tab : detailTab,
 		}
 		const nextParams = new URLSearchParams(window.location.search)
 
@@ -361,12 +390,9 @@ function ComponentPlaygroundClient<T extends string = string>({
 			Math.round(nextState.zoom * 100),
 			Math.round(defaultControls.zoom * 100)
 		)
-		writeParam("tab", nextState.tab, defaultControls.tab)
 
 		for (const [key, value] of searchParams.entries()) {
-			if (
-				!["render", "size", "viewport", "theme", "zoom", "tab"].includes(key)
-			) {
+			if (!["render", "size", "viewport", "theme", "zoom"].includes(key)) {
 				nextParams.set(key, value)
 			}
 		}
@@ -530,78 +556,68 @@ function ComponentPlaygroundClient<T extends string = string>({
 				</div>
 			</section>
 
-			<section className="playground-detail">
-				<div className="playground-detail__tabs" role="tablist">
-					{detailTabs.map((tab) => (
-						<button
-							key={tab.key}
-							type="button"
-							role="tab"
-							aria-selected={detailTab === tab.key}
-							aria-pressed={detailTab === tab.key}
-							className="ml-interaction-tab-underline"
-							onClick={() => setControl({ tab: tab.key })}
-						>
-							{tab.label}
-						</button>
-					))}
+			<section className="docs-section">
+				<div className="docs-subhead">
+					<h2>Usage</h2>
+					<p>How to import and use the component in your project.</p>
 				</div>
-				<div className="playground-detail__body">
-					{detailTab === "usage" && (
-						<>
-							<h3>Import</h3>
-							<CodeBlock code={importStatement} language="typescript" />
+				<h3>Import</h3>
+				<CodeBlock code={importStatement} language="typescript" />
 
-							<h3>Basic usage</h3>
-							<CodeBlock code={usageCode} language="jsx" />
-						</>
-					)}
+				<h3>Basic usage</h3>
+				<CodeBlock code={usageCode} language="jsx" />
+			</section>
 
-					{detailTab === "props" && props && (
-						<>
-							<h3>Props at a glance</h3>
-							<div className="props-table">
-								{props.map(([name, type, desc], index) => (
-									<div
-										key={name}
-										className="props-table__row"
-										data-odd={index % 2 === 1}
-									>
-										<span>{name}</span>
-										<span>{type}</span>
-										<span>{desc}</span>
-									</div>
-								))}
+			{props && props.length > 0 && (
+				<section className="docs-section">
+					<div className="docs-subhead">
+						<h2>API Reference</h2>
+						<p>Properties and callbacks supported by this component.</p>
+					</div>
+					<div className="props-table">
+						{props.map(([name, type, desc], index) => (
+							<div
+								key={name}
+								className="props-table__row"
+								data-odd={index % 2 === 1}
+							>
+								<span>{name}</span>
+								<span>{type}</span>
+								<span>{desc}</span>
 							</div>
-						</>
-					)}
+						))}
+					</div>
+				</section>
+			)}
 
-					{detailTab === "tokens" && tokens && (
-						<>
-							<h3>Tokens</h3>
-							<div className="props-table">
-								{tokens.map(([name, desc], index) => (
-									<div
-										key={name}
-										className="props-table__row props-table__row--token"
-										data-odd={index % 2 === 1}
-									>
-										<span>{name}</span>
-										<span>CSS var</span>
-										<span>{desc}</span>
-									</div>
-								))}
+			{tokens && tokens.length > 0 && (
+				<section className="docs-section">
+					<div className="docs-subhead">
+						<h2>Design Tokens</h2>
+						<p>CSS custom properties available for styling customizations.</p>
+					</div>
+					<div className="props-table">
+						{tokens.map(([name, desc], index) => (
+							<div
+								key={name}
+								className="props-table__row props-table__row--token"
+								data-odd={index % 2 === 1}
+							>
+								<span>{name}</span>
+								<span>CSS var</span>
+								<span>{desc}</span>
 							</div>
-						</>
-					)}
+						))}
+					</div>
+				</section>
+			)}
 
-					{detailTab === "source" && (
-						<>
-							<h3>Source pattern</h3>
-							<CodeBlock code={sourceSnippet} language="jsx" />
-						</>
-					)}
+			<section className="docs-section">
+				<div className="docs-subhead">
+					<h2>Implementation</h2>
+					<p>The raw source code pattern for reference or manual copy.</p>
 				</div>
+				<CodeBlock code={sourceSnippet} language="jsx" />
 			</section>
 		</main>
 	)
