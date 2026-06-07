@@ -55,7 +55,7 @@
 	text-decoration: underline;
 	text-decoration-color: var(--accent);
 	text-decoration-thickness: 1px;
-	text-underline-offset: 3px;
+	text-underline-offset: 0.1875rem;
 	transition: text-decoration-color var(--duration-micro);
 }
 .prose a:hover {
@@ -85,7 +85,7 @@
 	font-family: var(--font-mono);
 	font-size: 0.9em;
 	background: var(--surface-2);
-	padding: 2px var(--space-2);
+	padding: 0.125rem var(--space-2);
 	border-radius: var(--radius-xs);
 	border: 1px solid var(--border);
 }

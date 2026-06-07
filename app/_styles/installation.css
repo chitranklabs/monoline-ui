@@ -1,29 +1,29 @@
 .install-page {
-	width: min(100% - 48px, 800px);
+	width: min(100% - 3rem, 50rem);
 	margin: 0 auto;
-	padding: 60px 0 88px;
+	padding: 3.75rem 0 5.5rem;
 }
 
 .install-hero {
-	margin-bottom: 42px;
+	margin-bottom: 2.625rem;
 }
 
 .install-steps {
 	display: grid;
-	gap: 34px;
+	gap: 2.125rem;
 }
 
 .install-step {
 	display: grid;
-	grid-template-columns: 20px minmax(0, 1fr);
-	gap: 22px;
+	grid-template-columns: 1.25rem minmax(0, 1fr);
+	gap: 1.375rem;
 }
 
 .install-step__number {
-	padding-top: 4px;
+	padding-top: 0.25rem;
 	color: var(--text-muted);
 	font-family: var(--font-mono);
-	font-size: 11px;
+	font-size: 0.6875rem;
 }
 
 .install-step__body {
@@ -32,16 +32,16 @@
 
 .install-step__body h2 {
 	color: var(--text);
-	font-size: 18px;
+	font-size: 1.125rem;
 	font-weight: 600;
 	letter-spacing: -0.01em;
 }
 
 .install-step__body p {
-	margin-top: 10px;
-	max-width: 680px;
+	margin-top: 0.625rem;
+	max-width: 42.5rem;
 	color: var(--text-secondary);
-	font-size: 15px;
+	font-size: 0.9375rem;
 	line-height: 1.55;
 }
 
@@ -50,7 +50,7 @@
 	margin-top: 16px;
 	overflow: hidden;
 	border: 1px solid var(--border);
-	border-radius: 12px;
+	border-radius: 0.75rem;
 	background: var(--surface);
 }
 
@@ -69,11 +69,11 @@
 }
 
 .install-command__tabs button {
-	padding: 12px 16px;
+	padding: 0.75rem 1rem;
 	border-right: 1px solid var(--border);
 	color: var(--text-muted);
 	font-family: var(--font-mono);
-	font-size: 12px;
+	font-size: 0.75rem;
 	text-align: left;
 }
 
@@ -92,11 +92,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 16px;
+	gap: 1rem;
 }
 
 .install-command__body {
-	padding: 14px 16px;
+	padding: 0.875rem 1rem;
 }
 
 .install-command__body code,
@@ -107,26 +107,26 @@
 
 .install-command__body code {
 	color: var(--text);
-	font-size: 13px;
+	font-size: 0.8125rem;
 }
 
 .install-command__body button,
 .install-code__meta button {
 	border: 1px solid var(--border);
-	border-radius: 8px;
+	border-radius: 0.5rem;
 	background: var(--surface);
-	padding: 8px 12px;
+	padding: 0.5rem 0.75rem;
 	color: var(--text-muted);
-	font-size: 12px;
+	font-size: 0.75rem;
 }
 
 .install-code__meta {
 	border-bottom: 1px solid var(--border);
 	background: var(--surface-2);
-	padding: 10px 14px;
+	padding: 0.625rem 0.875rem;
 	color: var(--text-muted);
 	font-family: var(--font-mono);
-	font-size: 11px;
+	font-size: 0.6875rem;
 }
 
 .install-code pre,
@@ -134,45 +134,45 @@
 	margin: 0;
 	overflow: auto;
 	background: #151515;
-	padding: 16px;
+	padding: 1rem;
 	color: #e6e6e6;
-	font-size: 12.5px;
+	font-size: 0.78125rem;
 	line-height: 1.7;
 }
 
 .install-ready {
 	display: grid;
-	grid-template-columns: 40px minmax(0, 1fr);
-	gap: 18px;
-	margin-top: 46px;
+	grid-template-columns: 2.5rem minmax(0, 1fr);
+	gap: 1.125rem;
+	margin-top: 2.875rem;
 	border: 1px solid var(--accent);
-	border-radius: 14px;
+	border-radius: 0.875rem;
 	background: color-mix(in oklch, var(--accent-soft) 45%, var(--surface));
-	padding: 20px;
+	padding: 1.25rem;
 }
 
 .install-ready__icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 28px;
-	height: 28px;
+	width: 1.75rem;
+	height: 1.75rem;
 	border-radius: 999px;
 	background: var(--accent);
 	color: #fff;
-	font-size: 14px;
+	font-size: 0.875rem;
 }
 
 .install-ready h3 {
 	color: var(--text);
-	font-size: 16px;
+	font-size: 1rem;
 	font-weight: 600;
 }
 
 .install-ready p {
 	margin-top: 4px;
 	color: var(--text-secondary);
-	font-size: 14px;
+	font-size: 0.875rem;
 }
 
 .install-ready a {

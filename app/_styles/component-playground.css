@@ -1,21 +1,21 @@
 .playground-controls,
 .playground-canvas {
 	border: 1px solid var(--border);
-	border-radius: 14px;
+	border-radius: 0.875rem;
 	background: var(--surface);
 }
 
 .playground-controls {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 28px;
-	padding: 16px 18px;
+	gap: 1.75rem;
+	padding: 1rem 1.125rem;
 }
 
 .playground-controls__group {
 	display: inline-flex;
 	align-items: center;
-	gap: 10px;
+	gap: 0.625rem;
 }
 
 .playground-controls__group label,
@@ -25,7 +25,7 @@
 
 .playground-controls__group label {
 	color: var(--text-muted);
-	font-size: 10px;
+	font-size: 0.625rem;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
 }
@@ -33,16 +33,16 @@
 .playground-segmented {
 	display: inline-flex;
 	border: 1px solid var(--border);
-	border-radius: 8px;
-	padding: 2px;
+	border-radius: 0.5rem;
+	padding: 0.125rem;
 }
 
 .playground-segmented button {
-	border-radius: 6px;
-	padding: 6px 12px;
+	border-radius: 0.375rem;
+	padding: 0.375rem 0.75rem;
 	border: 1px solid transparent;
 	color: var(--text-secondary);
-	font-size: 12.5px;
+	font-size: 0.78125rem;
 }
 
 .playground-segmented button[aria-pressed="true"] {
@@ -54,8 +54,8 @@
 }
 
 .playground-canvas {
-	margin-top: 24px;
-	margin-bottom: 56px;
+	margin-top: 1.5rem;
+	margin-bottom: 3.5rem;
 	overflow: hidden;
 }
 
@@ -63,19 +63,20 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 10px 16px;
+	padding: 0.625rem 1rem;
 	border-bottom: 1px solid var(--border);
 	color: var(--text-muted);
-	font-size: 11px;
+	font-size: 0.6875rem;
 }
 
 .playground-canvas__viewport {
-	min-height: 456px;
+	min-height: 28.5rem;
 	overflow: auto;
-	padding: 28px;
+	padding: 1.75rem;
 	background:
-		linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 24px 24px,
-		linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 24px 24px,
+		linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+		linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 1.5rem
+			1.5rem,
 		var(--surface-2);
 }
 
@@ -87,7 +88,7 @@
 .playground-canvas__frame {
 	overflow: hidden;
 	display: block;
-	border-radius: 10px;
+	border-radius: 0.625rem;
 	border: 0;
 	background: var(--surface);
 	box-shadow: 0 1px 0 rgba(20, 15, 10, 0.05);
@@ -99,29 +100,29 @@
 }
 
 .docs-section h3 {
-	margin: 0 0 8px;
+	margin: 0 0 0.5rem;
 	color: var(--text);
-	font-size: 15px;
+	font-size: 0.9375rem;
 	font-weight: 600;
 }
 
 .docs-section h3:not(:first-of-type) {
-	margin-top: 24px;
+	margin-top: 1.5rem;
 }
 
 .props-table {
 	overflow: hidden;
 	border: 1px solid var(--border);
-	border-radius: 10px;
+	border-radius: 0.625rem;
 }
 
 .props-table__row {
 	display: grid;
-	grid-template-columns: 140px 160px minmax(0, 1fr);
-	gap: 16px;
-	padding: 12px 16px;
+	grid-template-columns: 8.75rem 10rem minmax(0, 1fr);
+	gap: 1rem;
+	padding: 0.75rem 1rem;
 	border-top: 1px solid var(--border);
-	font-size: 12.5px;
+	font-size: 0.78125rem;
 }
 
 .props-table__row[data-odd="true"] {
@@ -152,10 +153,10 @@ pre[class*="language-"] {
 	background: var(--code);
 	color: var(--code-text);
 	font-family: var(--font-mono);
-	font-size: 13px;
+	font-size: 0.8125rem;
 	line-height: 1.6;
-	padding: 16px;
-	border-radius: 8px;
+	padding: 1rem;
+	border-radius: 0.5rem;
 	border: 1px solid var(--border);
 	overflow-x: auto;
 }
@@ -218,7 +219,7 @@ pre[class*="language-"] {
 /* Code block copy button styling */
 .code-block-wrapper {
 	position: relative;
-	margin: 8px 0 16px;
+	margin: 0.5rem 0 1rem;
 }
 
 .code-block-wrapper pre {
@@ -227,16 +228,16 @@ pre[class*="language-"] {
 
 .code-block-copy-btn {
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 0.625rem;
+	right: 0.625rem;
 	z-index: 10;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 28px;
-	height: 28px;
+	width: 1.75rem;
+	height: 1.75rem;
 	border: 1px solid var(--border);
-	border-radius: 6px;
+	border-radius: 0.375rem;
 	background: var(--surface);
 	color: var(--text-muted);
 	opacity: 0.6;
@@ -264,19 +265,19 @@ pre[class*="language-"] {
 }
 
 .code-block-copy-btn svg {
-	width: 14px;
-	height: 14px;
+	width: 0.875rem;
+	height: 0.875rem;
 }
 
 /* Styled Status Badges */
 .playground-badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: 0.375rem;
 	border-radius: 999px;
-	padding: 3px 8px;
+	padding: 0.1875rem 0.5rem;
 	font-family: var(--font-mono);
-	font-size: 10px;
+	font-size: 0.625rem;
 	font-weight: 500;
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
@@ -289,8 +290,8 @@ pre[class*="language-"] {
 }
 
 .playground-badge__dot {
-	width: 5px;
-	height: 5px;
+	width: 0.3125rem;
+	height: 0.3125rem;
 	border-radius: 50%;
 	background-color: currentColor;
 	animation: badge-pulse 2s ease-in-out infinite;

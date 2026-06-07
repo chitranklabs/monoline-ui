@@ -20,10 +20,10 @@
 	background-color: var(--placeholder-bg);
 	background-image: repeating-linear-gradient(
 		135deg,
-		var(--placeholder-stripe) 0px,
+		var(--placeholder-stripe) 0,
 		var(--placeholder-stripe) 1px,
 		transparent 1px,
-		transparent 14px
+		transparent 0.875rem
 	);
 	position: relative;
 	overflow: hidden;
@@ -40,7 +40,7 @@
 }
 .group-hover-card:hover {
 	border-color: var(--border-strong);
-	transform: translateY(-4px);
+	transform: translateY(-0.25rem);
 	box-shadow: var(--shadow-lg);
 }
 .group-hover-card-img > * {
@@ -54,7 +54,7 @@
 }
 .group-hover-card-arrow {
 	opacity: 0;
-	transform: translateX(-4px);
+	transform: translateX(-0.25rem);
 	transition:
 		opacity var(--duration-short),
 		transform var(--duration-short);

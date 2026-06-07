@@ -31,15 +31,15 @@
 
 	/* Themed scrollbar - subtle, follows the surface ladder */
 	::-webkit-scrollbar {
-		width: 10px;
-		height: 10px;
+		width: 0.625rem;
+		height: 0.625rem;
 	}
 	::-webkit-scrollbar-track {
 		background: transparent;
 	}
 	::-webkit-scrollbar-thumb {
 		background: var(--border-strong);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 		border: 2px solid var(--background);
 	}
 	::-webkit-scrollbar-thumb:hover {

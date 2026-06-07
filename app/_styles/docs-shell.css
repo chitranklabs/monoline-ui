@@ -1,29 +1,29 @@
 .docs-shell {
 	display: grid;
-	grid-template-columns: 248px minmax(0, 1fr);
+	grid-template-columns: 15.5rem minmax(0, 1fr);
 	align-items: start;
 }
 
 .docs-main {
 	min-width: 0;
-	padding: 30px 40px 72px;
+	padding: 1.875rem 2.5rem 4.5rem;
 }
 
 .docs-sidebar {
 	position: sticky;
-	top: 55px;
-	height: calc(100vh - 55px);
+	top: 3.4375rem;
+	height: calc(100vh - 3.4375rem);
 	overflow-y: auto;
 	border-right: 1px solid var(--border);
-	padding: 22px 16px 28px 24px;
+	padding: 1.375rem 1rem 1.75rem 1.5rem;
 }
 
 .docs-sidebar__group {
-	margin-bottom: 24px;
+	margin-bottom: 1.5rem;
 }
 
 .docs-sidebar__nav {
-	margin-top: 10px;
+	margin-top: 0.625rem;
 	display: grid;
 	gap: 1px;
 }
@@ -32,10 +32,10 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-left: -8px;
+	margin-left: -0.5rem;
 	border: 1px solid transparent;
-	border-radius: 8px;
-	padding: 7px 10px 7px 14px;
+	border-radius: 0.5rem;
+	padding: 0.4375rem 0.625rem 0.4375rem 0.875rem;
 	color: var(--text-secondary);
 	font-size: var(--type-ui-label-size);
 	line-height: var(--type-ui-label-leading);
@@ -45,11 +45,11 @@
 .docs-sidebar__item::before {
 	content: "";
 	position: absolute;
-	left: 4px;
+	left: 0.25rem;
 	top: 50%;
 	transform: translateY(-50%) scaleY(0);
-	width: 3px;
-	height: 16px;
+	width: 0.1875rem;
+	height: 1rem;
 	border-radius: 99px;
 	background: var(--accent);
 	transition: transform var(--duration-medium) var(--ease-out-expo);
@@ -69,26 +69,26 @@
 }
 
 .docs-sidebar__meta {
-	border-radius: 4px;
+	border-radius: 0.25rem;
 	background: var(--accent-soft);
-	padding: 1px 5px;
+	padding: 0.0625rem 0.3125rem;
 	color: var(--accent);
 	font-family: var(--font-mono);
-	font-size: 9px;
+	font-size: 0.5625rem;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 }
 
 .docs-page {
-	width: min(100%, 976px);
+	width: min(100%, 61rem);
 }
 
 .docs-page__head {
-	margin-bottom: 40px;
+	margin-bottom: 2.5rem;
 }
 
 .docs-page__head h1 {
-	margin-top: 10px;
+	margin-top: 0.625rem;
 	color: var(--text);
 	font-family: var(--font-mono);
 	font-size: var(--type-docs-title-size);
@@ -99,7 +99,7 @@
 
 .install-hero h1,
 .component-headline h1 {
-	margin-top: 10px;
+	margin-top: 0.625rem;
 	color: var(--text);
 	font-family: var(--font-mono);
 	font-size: var(--type-hero-title-size);
@@ -110,23 +110,23 @@
 
 .docs-page__head p:last-child,
 .install-hero > p:last-child {
-	max-width: 720px;
-	margin-top: 12px;
+	max-width: 45rem;
+	margin-top: 0.75rem;
 	color: var(--text-secondary);
 	font-size: var(--type-lede-size);
 	line-height: var(--type-lede-leading);
 }
 
 .docs-page__head--component {
-	margin-bottom: 28px;
+	margin-bottom: 1.75rem;
 }
 
 .component-headline {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 0.625rem;
 	flex-wrap: wrap;
-	margin-top: 8px;
+	margin-top: 0.5rem;
 }
 
 .component-headline span,
@@ -135,23 +135,23 @@
 	align-items: center;
 	border-radius: 999px;
 	background: var(--surface-2);
-	padding: 3px 8px;
+	padding: 0.1875rem 0.5rem;
 	color: var(--text-muted);
 	font-family: var(--font-mono);
-	font-size: 10px;
+	font-size: 0.625rem;
 }
 
 .docs-stack {
 	display: grid;
-	gap: 42px;
+	gap: 2.625rem;
 }
 
 .docs-section {
-	margin-bottom: 56px;
+	margin-bottom: 3.5rem;
 }
 
 .docs-subhead {
-	margin-bottom: 18px;
+	margin-bottom: 1.125rem;
 }
 
 .docs-subhead h2,
@@ -164,8 +164,8 @@
 
 .docs-subhead p,
 .color-section > p {
-	margin-top: 4px;
+	margin-top: 0.25rem;
 	color: var(--text-muted);
-	font-size: 13px;
+	font-size: 0.8125rem;
 	line-height: 1.5;
 }

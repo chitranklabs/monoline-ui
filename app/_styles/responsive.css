@@ -1,9 +1,9 @@
 /* Keep these media query values aligned with monolineBreakpoints in the package. */
-@media (max-width: 1023px) {
+@media (max-width: 63.9375rem) {
 	.site-header__inner {
 		grid-template-columns: 1fr auto;
-		height: 56px;
-		padding-inline: 20px;
+		height: 3.5rem;
+		padding-inline: 1.25rem;
 	}
 
 	.site-version,
@@ -17,8 +17,8 @@
 	}
 
 	.intro-page {
-		width: min(100% - 40px, 760px);
-		padding-top: 44px;
+		width: min(100% - 2.5rem, 47.5rem);
+		padding-top: 2.75rem;
 	}
 
 	.intro-hero {
@@ -30,13 +30,13 @@
 	}
 
 	.intro-hero h1 {
-		font-size: clamp(42px, 11vw, 68px);
+		font-size: clamp(2.625rem, 11vw, 4.25rem);
 	}
 
 	.intro-band__grid,
 	.intro-components {
 		grid-template-columns: repeat(2, 1fr);
-		gap: 12px;
+		gap: 0.75rem;
 	}
 
 	.intro-rules,
@@ -46,11 +46,11 @@
 	}
 
 	.site-footer__top {
-		gap: 34px;
+		gap: 2.125rem;
 	}
 
 	.docs-main {
-		padding: 32px 20px 64px;
+		padding: 2rem 1.25rem 4rem;
 	}
 
 	.docs-sidebar {
@@ -58,7 +58,7 @@
 		height: auto;
 		border-right: 0;
 		border-bottom: 1px solid var(--border);
-		padding: 20px;
+		padding: 1.25rem;
 	}
 
 	.color-grid,
@@ -73,7 +73,7 @@
 	}
 
 	.install-page {
-		width: min(100% - 52px, 782px);
+		width: min(100% - 3.25rem, 48.875rem);
 	}
 
 	.playground-canvas__frame {
@@ -86,11 +86,11 @@
 	}
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 48rem) and (max-width: 63.9375rem) {
 	.site-header__inner {
-		grid-template-columns: minmax(170px, 1fr) auto minmax(180px, 1fr);
-		height: 58px;
-		padding-inline: 20px;
+		grid-template-columns: minmax(10.625rem, 1fr) auto minmax(11.25rem, 1fr);
+		height: 3.625rem;
+		padding-inline: 1.25rem;
 	}
 
 	.site-version,
@@ -100,15 +100,15 @@
 	}
 
 	.site-nav {
-		gap: 24px;
+		gap: 1.5rem;
 	}
 
 	.site-nav__item {
-		font-size: 13px;
+		font-size: 0.8125rem;
 	}
 
 	.site-actions {
-		gap: 12px;
+		gap: 0.75rem;
 	}
 
 	.site-search,
@@ -121,97 +121,100 @@
 	}
 
 	.intro-page {
-		width: min(100% - 48px, 786px);
-		padding-top: 56px;
+		width: min(100% - 3rem, 49.125rem);
+		padding-top: 3.5rem;
 	}
 
 	.intro-hero {
 		display: grid;
 		grid-template-columns: minmax(0, 1.12fr) 0.9fr;
-		gap: 34px;
+		gap: 2.125rem;
 	}
 
 	.intro-preview {
 		display: block;
-		margin-top: 30px;
+		margin-top: 1.875rem;
 		margin-left: 0;
 	}
 
 	.intro-hero h1 {
-		max-width: 420px;
-		font-size: 58px;
+		max-width: 26.25rem;
+		font-size: 3.625rem;
 		line-height: 0.96;
 	}
 
 	.intro-hero__copy > p {
-		max-width: 360px;
-		font-size: 15px;
+		max-width: 22.5rem;
+		font-size: 0.9375rem;
 		line-height: 1.56;
 	}
 
 	.intro-actions {
-		gap: 10px 14px;
+		gap: 0.625rem 0.875rem;
 	}
 
 	.intro-actions code {
 		width: 100%;
-		padding-left: 10px;
+		padding-left: 0.625rem;
 	}
 
 	.intro-stats {
-		gap: 18px;
+		gap: 1.125rem;
 	}
 
 	.intro-band__grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 24px;
+		gap: 1.5rem;
 	}
 
 	.intro-components {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 10px;
+		gap: 0.625rem;
 	}
 
 	.intro-rules {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 18px;
+		gap: 1.125rem;
 	}
 
 	.intro-rules article {
-		min-height: 190px;
-		padding: 18px;
+		min-height: 11.875rem;
+		padding: 1.125rem;
 	}
 
 	.site-footer__inner {
-		width: calc(100% - 48px);
-		padding-block: 44px 28px;
+		width: calc(100% - 3rem);
+		padding-block: 2.75rem 1.75rem;
 	}
 
 	.site-footer__top {
-		grid-template-columns: minmax(220px, 1.1fr) repeat(3, minmax(110px, 1fr));
-		gap: 24px;
+		grid-template-columns: minmax(13.75rem, 1.1fr) repeat(
+				3,
+				minmax(6.875rem, 1fr)
+			);
+		gap: 1.5rem;
 	}
 
 	.site-footer__brand p,
 	.site-footer__group a {
-		font-size: 13px;
+		font-size: 0.8125rem;
 	}
 
 	.docs-shell {
-		grid-template-columns: 220px minmax(0, 1fr);
+		grid-template-columns: 13.75rem minmax(0, 1fr);
 	}
 
 	.docs-main {
-		padding: 36px 28px 72px;
+		padding: 2.25rem 1.75rem 4.5rem;
 	}
 
 	.docs-sidebar {
 		position: sticky;
-		top: 58px;
-		height: calc(100vh - 58px);
+		top: 3.625rem;
+		height: calc(100vh - 3.625rem);
 		border-right: 1px solid var(--border);
 		border-bottom: 0;
-		padding: 22px 14px 28px 22px;
+		padding: 1.375rem 0.875rem 1.75rem 1.375rem;
 	}
 
 	.color-grid,
@@ -231,90 +234,90 @@
 	}
 }
 
-@media (max-width: 520px) {
+@media (max-width: 32.5rem) {
 	.site-wordmark {
-		font-size: 15px;
+		font-size: 0.9375rem;
 	}
 
 	.intro-page {
-		width: calc(100% - 40px);
-		padding-top: 38px;
+		width: calc(100% - 2.5rem);
+		padding-top: 2.375rem;
 	}
 
 	.intro-pills {
-		margin-bottom: 22px;
+		margin-bottom: 1.375rem;
 	}
 
 	.intro-pill {
-		padding: 6px 9px;
-		font-size: 10px;
+		padding: 0.375rem 0.5625rem;
+		font-size: 0.625rem;
 	}
 
 	.intro-hero h1 {
-		max-width: 300px;
-		font-size: 37px;
+		max-width: 18.75rem;
+		font-size: 2.3125rem;
 		letter-spacing: -0.065em;
 		line-height: 0.97;
 	}
 
 	.intro-hero__copy > p {
-		max-width: 310px;
-		margin-top: 16px;
-		font-size: 14px;
+		max-width: 19.375rem;
+		margin-top: 1rem;
+		font-size: 0.875rem;
 		line-height: 1.5;
 	}
 
 	.intro-actions {
 		align-items: flex-start;
-		gap: 12px;
+		gap: 0.75rem;
 	}
 
 	.intro-button {
-		height: 42px;
-		padding-inline: 16px;
-		font-size: 12px;
+		height: 2.625rem;
+		padding-inline: 1rem;
+		font-size: 0.75rem;
 	}
 
 	.intro-actions code {
 		width: 100%;
-		padding-left: 14px;
-		font-size: 12px;
+		padding-left: 0.875rem;
+		font-size: 0.75rem;
 	}
 
 	.intro-stats {
-		gap: 12px;
-		margin-top: 38px;
-		padding-top: 20px;
+		gap: 0.75rem;
+		margin-top: 2.375rem;
+		padding-top: 1.25rem;
 	}
 
 	.intro-stats strong {
-		font-size: 17px;
+		font-size: 1.0625rem;
 	}
 
 	.intro-stats span {
-		font-size: 8px;
+		font-size: 0.5rem;
 	}
 
 	.intro-band,
 	.intro-section {
-		margin-top: 48px;
-		padding-top: 24px;
+		margin-top: 3rem;
+		padding-top: 1.5rem;
 	}
 
 	.intro-band__grid {
-		gap: 18px 20px;
+		gap: 1.125rem 1.25rem;
 	}
 
 	.intro-band h2,
 	.intro-components h3,
 	.intro-rules h3 {
-		font-size: 12px;
+		font-size: 0.75rem;
 	}
 
 	.intro-band p,
 	.intro-components p,
 	.intro-rules p {
-		font-size: 11px;
+		font-size: 0.6875rem;
 	}
 
 	.intro-section__head {
@@ -322,48 +325,48 @@
 	}
 
 	.intro-section h2 {
-		max-width: 320px;
-		font-size: 23px;
+		max-width: 20rem;
+		font-size: 1.4375rem;
 		line-height: 1.08;
 	}
 
 	.intro-section__head > a {
 		display: inline-flex;
-		margin-top: 8px;
-		font-size: 12px;
+		margin-top: 0.5rem;
+		font-size: 0.75rem;
 	}
 
 	.intro-components article {
-		min-height: 78px;
-		padding: 13px;
+		min-height: 4.875rem;
+		padding: 0.8125rem;
 	}
 
 	.intro-rules {
-		gap: 18px;
-		margin-top: 24px;
+		gap: 1.125rem;
+		margin-top: 1.5rem;
 	}
 
 	.intro-rules article {
-		min-height: 156px;
-		padding: 18px 16px;
+		min-height: 9.75rem;
+		padding: 1.125rem 1rem;
 	}
 
 	.intro-section--rules {
-		margin-bottom: 84px;
+		margin-bottom: 5.25rem;
 	}
 
 	.site-footer__inner {
-		width: calc(100% - 40px);
-		padding-block: 40px 26px;
+		width: calc(100% - 2.5rem);
+		padding-block: 2.5rem 1.625rem;
 	}
 
 	.site-footer__brand p,
 	.site-footer__group a {
-		font-size: 14px;
+		font-size: 0.875rem;
 	}
 
 	.site-footer__group {
-		gap: 12px;
+		gap: 0.75rem;
 	}
 
 	.install-hero h1,
@@ -376,36 +379,36 @@
 	}
 
 	.docs-page__head {
-		margin-bottom: 24px;
+		margin-bottom: 1.5rem;
 	}
 
 	.docs-page__head p:last-child {
-		margin-top: 8px;
-		font-size: 13px;
+		margin-top: 0.5rem;
+		font-size: 0.8125rem;
 		line-height: 1.45;
 	}
 
 	.theme-preview__panel {
 		min-height: 0;
-		padding: 18px 20px;
+		padding: 1.125rem 1.25rem;
 	}
 
 	.theme-preview__panel h2 {
-		margin-top: 12px;
-		font-size: 19px;
+		margin-top: 0.75rem;
+		font-size: 1.1875rem;
 	}
 
 	.theme-preview__panel p {
-		font-size: 11.5px;
+		font-size: 0.71875rem;
 		line-height: 1.38;
 	}
 
 	.theme-preview__badge {
-		margin-top: 12px;
+		margin-top: 0.75rem;
 	}
 
 	.docs-main {
-		padding: 8px 20px 56px;
+		padding: 0.5rem 1.25rem 3.5rem;
 	}
 
 	.docs-sidebar {
@@ -417,26 +420,26 @@
 	}
 
 	.docs-scale__row {
-		grid-template-columns: 74px 72px minmax(0, 1fr);
-		gap: 12px;
-		padding: 14px;
+		grid-template-columns: 4.625rem 4.5rem minmax(0, 1fr);
+		gap: 0.75rem;
+		padding: 0.875rem;
 	}
 
 	.spacing-table__row {
-		grid-template-columns: 86px 40px 54px minmax(0, 1fr);
-		gap: 10px;
-		padding: 14px;
+		grid-template-columns: 5.375rem 2.5rem 3.375rem minmax(0, 1fr);
+		gap: 0.625rem;
+		padding: 0.875rem;
 	}
 
 	.install-page {
-		width: calc(100% - 28px);
-		padding-top: 8px;
-		padding-bottom: 76px;
+		width: calc(100% - 1.75rem);
+		padding-top: 0.5rem;
+		padding-bottom: 4.75rem;
 	}
 
 	.install-step {
-		grid-template-columns: 14px minmax(0, 1fr);
-		gap: 15px;
+		grid-template-columns: 0.875rem minmax(0, 1fr);
+		gap: 0.9375rem;
 	}
 
 	.radius-grid {
@@ -449,7 +452,7 @@
 	}
 
 	.playground-controls {
-		gap: 14px;
+		gap: 0.875rem;
 	}
 
 	.playground-controls__group:nth-child(3),
@@ -458,7 +461,7 @@
 	}
 
 	.playground-canvas__viewport {
-		padding: 14px;
+		padding: 0.875rem;
 	}
 
 	.playground-detail {
