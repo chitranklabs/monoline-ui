@@ -25,7 +25,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="en" className={monolineFontClassName}>
+		<html lang="en" className={monolineFontClassName} suppressHydrationWarning>
 			<head>
 				{/* Blocking theme init — must be first in <head> to prevent FOUC */}
 				<script dangerouslySetInnerHTML={{ __html: themeInitScript }} />

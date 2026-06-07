@@ -33,7 +33,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}
 
 	const toggleTheme = () => {
-		handleSetTheme(theme === "light" ? "dark" : "light")
+		const nextTheme = theme === "light" ? "dark" : "light"
+		document.documentElement.classList.add("theme-transitioning")
+		handleSetTheme(nextTheme)
+		setTimeout(() => {
+			document.documentElement.classList.remove("theme-transitioning")
+		}, 250) // matching --duration-short (250ms)
 	}
 
 	return (

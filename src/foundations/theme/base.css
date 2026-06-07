@@ -28,6 +28,16 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 
+	/* Enable smooth transitions only when explicitly toggling themes */
+	.theme-transitioning,
+	.theme-transitioning * {
+		transition:
+			background-color var(--duration-short) var(--ease-out-expo) !important,
+			color var(--duration-short) var(--ease-out-expo) !important,
+			border-color var(--duration-short) var(--ease-out-expo) !important,
+			box-shadow var(--duration-short) var(--ease-out-expo) !important;
+	}
+
 	::selection {
 		background: var(--accent-soft);
 		color: var(--foreground);

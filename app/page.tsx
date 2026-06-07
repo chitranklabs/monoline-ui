@@ -1,4 +1,5 @@
 import { CliBadge } from "./_components/cli-badge"
+import { CodeBlock } from "./_components/component-playground"
 import Link from "next/link"
 
 const stats = [
@@ -53,9 +54,9 @@ function PreviewCard() {
 		<div className="intro-preview" aria-label="Component preview">
 			<div className="intro-preview__bar">
 				<div>
-					<span className="bg-[#ff5f57]" />
-					<span className="bg-[#ffbd2e]" />
-					<span className="bg-[#28c840]" />
+					<span style={{ backgroundColor: "var(--mac-red)" }} />
+					<span style={{ backgroundColor: "var(--mac-amber)" }} />
+					<span style={{ backgroundColor: "var(--mac-green)" }} />
 				</div>
 				<p>card.tsx</p>
 			</div>
@@ -77,12 +78,14 @@ function PreviewCard() {
 					<h2>Designing a type-safe BFF</h2>
 					<small>May 12, 2026 · ↗</small>
 				</article>
-				<pre>{`<Card variant="hover">
+				<CodeBlock
+					code={`<Card variant="hover">
   <CardBody>
     <Eyebrow>Engineering</Eyebrow>
     <h3>Designing a type-safe BFF</h3>
   </CardBody>
-</Card>`}</pre>
+</Card>`}
+				/>
 			</div>
 		</div>
 	)
