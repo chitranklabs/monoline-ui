@@ -111,7 +111,7 @@ export default function HomePage() {
 						<Link href="/components/footer" className="intro-button">
 							Browse components
 						</Link>
-						<code>$ npm i monoline-ui ⧉</code>
+						<code>$ npm i @chitrank2050/monoline-ui ⧉</code>
 					</div>
 				</div>
 				<PreviewCard />

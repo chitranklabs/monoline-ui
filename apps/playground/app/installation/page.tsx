@@ -19,25 +19,25 @@ const installSteps: InstallStep[] = [
 		title: "Install the package",
 		description: "Pick your package manager:",
 		tabs: ["npm", "pnpm", "yarn", "bun"],
-		code: "$ pnpm add monoline-ui",
+		code: "$ pnpm add @chitrank2050/monoline-ui",
 	},
 	{
 		number: "03",
 		title: "Add the design tokens",
 		description:
-			"Drop the tokens file into your app and import it from globals.css. This defines every CSS variable the components consume.",
+			"Import the package theme once from globals.css. This defines every CSS variable the components consume.",
 		label: "src/app/globals.css",
 		code: `@import "tailwindcss";
-@import "monoline-ui/tokens.css";
+@source "./node_modules/@chitrank2050/monoline-ui/dist/**/*.{js,mjs}";
+@import "@chitrank2050/monoline-ui/theme.css";
 
-/* That's it. Every variable is now available:
-   --primary, --secondary, --surface, --accent, etc. */`,
+/* The package theme now owns colours, typography, spacing, and component tokens. */`,
 	},
 	{
 		number: "04",
 		title: "Set the theme on <html>",
 		description:
-			"data-theme controls light vs dark. Either hard-code one, or wire up the included <ThemeProvider>.",
+			'data-theme controls light vs dark. Use "light" or "dark" on the root html element.',
 		label: "src/app/layout.tsx",
 		code: `export default function RootLayout({ children }) {
   return (
@@ -51,18 +51,19 @@ const installSteps: InstallStep[] = [
 		number: "05",
 		title: "Import a component",
 		description:
-			"Tree-shake by default. Each component is its own entry point.",
+			"Use component subpaths for feature code. The root package remains available as a convenience barrel.",
 		label: "src/app/page.tsx",
-		code: `import { Button } from "monoline-ui/Button"
-import { Card, CardBody } from "monoline-ui/Card"
+		code: `import { Footer } from "@chitrank2050/monoline-ui/components/footer"
 
 export default function Page() {
   return (
-    <Card variant="hover">
-      <CardBody>
-        <Button variant="primary">Contact me</Button>
-      </CardBody>
-    </Card>
+    <Footer
+      size="md"
+      columns={[
+        { title: "Navigate", links: [{ label: "Projects", href: "/projects" }] },
+        { title: "Elsewhere", links: [{ label: "GitHub", href: "https://github.com", external: true }] },
+      ]}
+    />
   )
 }`,
 	},
@@ -76,7 +77,7 @@ export default function InstallationPage() {
 				<h1>Installation</h1>
 				<p>
 					monoline/ui is distributed as a single npm package. Install, paste the
-					tokens file, you&apos;re done.
+					theme import, you&apos;re done.
 				</p>
 			</header>
 
