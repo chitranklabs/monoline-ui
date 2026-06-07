@@ -174,3 +174,71 @@
 	color: var(--text-secondary);
 	line-height: 1.5;
 }
+
+/* Custom Prism Syntax Highlighting Theme */
+pre[class*="language-"] {
+	background: var(--code);
+	color: var(--code-text);
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 1.6;
+	padding: 16px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	overflow-x: auto;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: var(--code-comment);
+	font-style: italic;
+}
+
+.token.punctuation {
+	color: var(--text-muted);
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: var(--code-number);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: var(--code-string);
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+	color: var(--text-secondary);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: var(--code-keyword);
+	font-weight: 500;
+}
+
+.token.function,
+.token.class-name {
+	color: var(--code-ident);
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: var(--accent);
+}

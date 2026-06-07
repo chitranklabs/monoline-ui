@@ -10,6 +10,9 @@ import {
 } from "react"
 import { createPortal } from "react-dom"
 import { usePathname, useSearchParams } from "next/navigation"
+import Prism from "prismjs"
+import "prismjs/components/prism-jsx"
+import "prismjs/components/prism-typescript"
 
 type RenderMode = "single" | "all"
 type ThemeMode = "light" | "dark"
@@ -55,6 +58,28 @@ const detailTabs: Array<{ key: DetailTab; label: string }> = [
 	{ key: "tokens", label: "Tokens" },
 	{ key: "source", label: "Source" },
 ]
+
+function CodeBlock({
+	code,
+	language = "jsx",
+}: {
+	code: string
+	language?: string
+}) {
+	const html = useMemo(() => {
+		const lang = Prism.languages[language] || Prism.languages.javascript
+		return Prism.highlight(code, lang, language)
+	}, [code, language])
+
+	return (
+		<pre className={`language-${language}`}>
+			<code
+				className={`language-${language}`}
+				dangerouslySetInnerHTML={{ __html: html }}
+			/>
+		</pre>
+	)
+}
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
@@ -525,10 +550,10 @@ function ComponentPlaygroundClient<T extends string = string>({
 					{detailTab === "usage" && (
 						<>
 							<h3>Import</h3>
-							<pre>{importStatement}</pre>
+							<CodeBlock code={importStatement} language="typescript" />
 
 							<h3>Basic usage</h3>
-							<pre>{usageCode}</pre>
+							<CodeBlock code={usageCode} language="jsx" />
 						</>
 					)}
 
@@ -573,7 +598,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 					{detailTab === "source" && (
 						<>
 							<h3>Source pattern</h3>
-							<pre>{sourceSnippet}</pre>
+							<CodeBlock code={sourceSnippet} language="jsx" />
 						</>
 					)}
 				</div>
