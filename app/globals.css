@@ -11,4 +11,5 @@
 @import "./_styles/foundations.css";
 @import "./_styles/installation.css";
 @import "./_styles/component-playground.css";
+@import "./_styles/command-palette.css";
 @import "./_styles/responsive.css";

@@ -5,3 +5,4 @@ dist
 dist-playground
 coverage
 pnpm-lock.yaml
+next-env.d.ts
