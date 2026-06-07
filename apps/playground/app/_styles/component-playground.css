@@ -80,35 +80,22 @@
 }
 
 .playground-canvas__stage {
-	width: calc(var(--playground-frame-width) * var(--playground-frame-scale));
-	min-width: min(
-		100%,
-		calc(var(--playground-frame-width) * var(--playground-frame-scale))
-	);
+	position: relative;
+	flex: 0 0 auto;
 }
 
 .playground-canvas__frame {
 	overflow: hidden;
+	display: block;
 	border-radius: 10px;
-	background: var(--background);
+	border: 0;
+	background: var(--surface);
 	box-shadow: 0 1px 0 rgba(20, 15, 10, 0.05);
-	width: var(--playground-frame-width);
-	zoom: var(--playground-frame-scale);
-}
-
-.playground-canvas__preview + .playground-canvas__preview {
-	border-top: 1px solid var(--border);
+	transform-origin: top left;
 }
 
 .playground-canvas__preview > footer {
 	border-top: 0;
-}
-
-@supports not (zoom: 1) {
-	.playground-canvas__frame {
-		transform: scale(var(--playground-frame-scale));
-		transform-origin: top left;
-	}
 }
 
 .playground-detail {

@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo, useState, type CSSProperties } from "react"
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { createPortal } from "react-dom"
 
 import {
 	Footer,
@@ -20,6 +21,13 @@ interface ViewportOption {
 interface ZoomOption {
 	label: string
 	value: number
+}
+
+interface PreviewFrameProps {
+	children: ReactNode
+	theme: ThemeMode
+	viewportWidth: number
+	zoom: number
 }
 
 const footerSizes: FooterSize[] = ["sm", "md", "lg"]
@@ -96,6 +104,110 @@ function FooterPreview({ size }: { size: FooterSize }) {
 	)
 }
 
+function PreviewFrame({
+	children,
+	theme,
+	viewportWidth,
+	zoom,
+}: PreviewFrameProps) {
+	const iframeRef = useRef<HTMLIFrameElement>(null)
+	const [mountNode, setMountNode] = useState<HTMLElement | null>(null)
+	const [contentHeight, setContentHeight] = useState(456)
+
+	useEffect(() => {
+		const iframe = iframeRef.current
+
+		if (!iframe) {
+			return
+		}
+
+		const iframeDocument = iframe.contentDocument
+
+		if (!iframeDocument) {
+			return
+		}
+
+		iframeDocument.open()
+		iframeDocument.write(
+			'<!doctype html><html><head><base target="_parent" /></head><body><div id="playground-preview-root"></div></body></html>'
+		)
+		iframeDocument.close()
+		iframeDocument.documentElement.dataset.theme = theme
+		iframeDocument.body.style.margin = "0"
+		iframeDocument.body.style.background = "var(--background)"
+
+		for (const node of document.querySelectorAll(
+			'link[rel="stylesheet"], style'
+		)) {
+			iframeDocument.head.appendChild(node.cloneNode(true))
+		}
+
+		setMountNode(
+			iframeDocument.getElementById("playground-preview-root") as HTMLElement
+		)
+	}, [theme])
+
+	useEffect(() => {
+		const iframeDocument = iframeRef.current?.contentDocument
+
+		if (iframeDocument) {
+			iframeDocument.documentElement.dataset.theme = theme
+		}
+	}, [theme])
+
+	useEffect(() => {
+		if (!mountNode) {
+			return
+		}
+
+		const iframeDocument = iframeRef.current?.contentDocument
+
+		if (!iframeDocument) {
+			return
+		}
+
+		const updateHeight = () => {
+			const nextHeight = Math.max(
+				456,
+				mountNode.scrollHeight,
+				iframeDocument.body.scrollHeight,
+				iframeDocument.documentElement.scrollHeight
+			)
+			setContentHeight(nextHeight)
+		}
+		const observer = new ResizeObserver(updateHeight)
+
+		observer.observe(mountNode)
+		updateHeight()
+
+		return () => {
+			observer.disconnect()
+		}
+	}, [mountNode, viewportWidth, zoom])
+
+	return (
+		<div
+			className="playground-canvas__stage"
+			style={{
+				width: viewportWidth * zoom,
+				height: contentHeight * zoom,
+			}}
+		>
+			<iframe
+				ref={iframeRef}
+				title="Footer preview"
+				className="playground-canvas__frame"
+				style={{
+					width: viewportWidth,
+					height: contentHeight,
+					transform: `scale(${zoom})`,
+				}}
+			/>
+			{mountNode ? createPortal(children, mountNode) : null}
+		</div>
+	)
+}
+
 export default function FooterPage() {
 	const [renderMode, setRenderMode] = useState<RenderMode>("single")
 	const [size, setSize] = useState<FooterSize>("md")
@@ -114,10 +226,6 @@ export default function FooterPage() {
 		[zoom]
 	)
 	const renderedSizes = renderMode === "all" ? footerSizes : [size]
-	const frameStyle = {
-		"--playground-frame-width": `${viewportOption.width}px`,
-		"--playground-frame-scale": zoom,
-	} as CSSProperties
 
 	return (
 		<main className="docs-page">
@@ -242,13 +350,15 @@ export default function FooterPage() {
 					</span>
 				</div>
 				<div className="playground-canvas__viewport">
-					<div className="playground-canvas__stage" style={frameStyle}>
-						<div className="playground-canvas__frame" data-theme={theme}>
-							{renderedSizes.map((footerSize) => (
-								<FooterPreview key={footerSize} size={footerSize} />
-							))}
-						</div>
-					</div>
+					<PreviewFrame
+						theme={theme}
+						viewportWidth={viewportOption.width}
+						zoom={zoom}
+					>
+						{renderedSizes.map((footerSize) => (
+							<FooterPreview key={footerSize} size={footerSize} />
+						))}
+					</PreviewFrame>
 				</div>
 			</section>
 
