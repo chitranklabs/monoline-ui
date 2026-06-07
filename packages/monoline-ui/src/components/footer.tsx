@@ -100,12 +100,12 @@ function FooterStatus({
 	return (
 		<span
 			className={cn(
-				"inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-[length:var(--ml-footer-status-text)] font-semibold tracking-[var(--ml-footer-status-tracking)] text-accent uppercase sm:text-[length:var(--ml-footer-status-text-tablet)]",
+				"group/status inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-(length:--ml-footer-status-text) font-semibold tracking-(--ml-footer-status-tracking) text-accent uppercase transition-[background-color,border-color,transform] duration-(--duration-micro) motion-safe:hover:-translate-y-px sm:text-[length:var(--ml-footer-status-text-tablet)]",
 				className
 			)}
 			{...props}
 		>
-			<span className="size-ml-1-5 shrink-0 rounded-full bg-accent" />
+			<span className="size-ml-1-5 shrink-0 rounded-full bg-accent transition-transform duration-(--duration-micro) group-hover/status:scale-(--ml-footer-status-dot-hover-scale)" />
 			{children}
 		</span>
 	)
@@ -176,21 +176,26 @@ function FooterSubscribeForm({
 			<p className="max-w-[var(--ml-footer-subscribe-copy-max)] text-base leading-relaxed text-body">
 				{description}
 			</p>
-			<div className="flex h-[var(--ml-footer-subscribe-control-height)] w-full max-w-[var(--ml-footer-subscribe-control-max)] overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-[var(--duration-micro)] focus-within:border-accent focus-within:shadow-[var(--focus-ring)]">
+			<div className="flex h-[var(--ml-footer-subscribe-control-height)] w-full max-w-[var(--ml-footer-subscribe-control-max)] overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow,transform] duration-[var(--duration-micro)] focus-within:border-accent focus-within:shadow-[var(--focus-ring)] motion-safe:hover:-translate-y-px">
 				<input
 					type="email"
 					name={inputName}
 					required
 					placeholder={placeholder}
 					aria-label="Email address"
-					className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent px-ml-3 text-sm text-primary outline-none"
+					className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent px-ml-3 text-sm text-primary outline-none transition-colors duration-[var(--duration-micro)] focus:placeholder:text-muted-foreground/70"
 				/>
 				<button
 					type="submit"
 					aria-label={submitLabel}
-					className="inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-transform duration-[var(--duration-micro)] hover:scale-[var(--ml-footer-submit-hover-scale)] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
+					className="group/submit inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-transform duration-[var(--duration-micro)] hover:scale-[var(--ml-footer-submit-hover-scale)] active:scale-95 focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]"
 				>
-					<span aria-hidden="true">→</span>
+					<span
+						aria-hidden="true"
+						className="transition-transform duration-[var(--duration-micro)] group-hover/submit:translate-x-[var(--ml-footer-submit-arrow-hover-x)]"
+					>
+						→
+					</span>
 				</button>
 			</div>
 		</form>
@@ -308,14 +313,14 @@ function FooterRoot({
 												(external ? "noopener noreferrer" : undefined)
 											}
 											className={cn(
-												"inline-flex w-fit items-center leading-none text-body no-underline transition-colors duration-[var(--duration-micro)] hover:text-primary focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]",
+												"group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,transform] duration-[var(--duration-micro)] motion-safe:hover:translate-x-[var(--ml-footer-link-hover-x)] hover:text-primary focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)]",
 												sizeClasses.link
 											)}
 										>
 											<span>{link.label}</span>
 											{external ? (
 												<span
-													className="text-muted-foreground ml-ml-1"
+													className="text-muted-foreground ml-ml-1 transition-transform duration-[var(--duration-micro)] group-hover/link:translate-x-[var(--ml-footer-link-arrow-hover-x)]"
 													aria-hidden="true"
 												>
 													↗

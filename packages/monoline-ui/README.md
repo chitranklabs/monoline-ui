@@ -29,7 +29,35 @@ library grows.
 import { Footer } from "@chitrank2050/monoline-ui/components/footer"
 
 export function PageFooter() {
-	return <Footer size="md" />
+	return (
+		<Footer
+			size="md"
+			status={<Footer.Status>Open to work</Footer.Status>}
+			columns={[
+				{
+					title: "Navigate",
+					links: [
+						{ href: "/projects", label: "Projects" },
+						{ href: "/blog", label: "Blog" },
+					],
+				},
+				{
+					title: "Elsewhere",
+					links: [
+						{ href: "https://github.com", label: "GitHub", external: true },
+						{
+							href: "mailto:hello@example.com",
+							label: "Email",
+							external: true,
+						},
+					],
+				},
+			]}
+			subscribe={<Footer.Subscribe />}
+			meta="© 2026 · Built by Chitrank Agnihotri · v3.2.0"
+			attribution="Next 15 · Sanity · Tailwind 4"
+		/>
+	)
 }
 ```
 
