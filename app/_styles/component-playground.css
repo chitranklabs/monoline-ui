@@ -101,6 +101,11 @@
 		linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 1.5rem
 			1.5rem,
 		var(--surface-2);
+	display: flex;
+}
+
+.playground-canvas__viewport > * {
+	margin: auto;
 }
 
 .playground-canvas__stage {

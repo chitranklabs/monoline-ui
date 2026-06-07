@@ -42,12 +42,12 @@ export default function SpacingMotionPage() {
 					<h2>Spacing scale</h2>
 				</div>
 				<div className="spacing-table">
-					{spacingRows.map(([token, px, width, use]) => (
+					{spacingRows.map(([token, px, , use]) => (
 						<div key={token} className="spacing-table__row">
 							<span className="spacing-table__token">--{token}</span>
 							<span className="spacing-table__px">{px}</span>
 							<div className="spacing-table__bar">
-								<div style={{ width }} />
+								<div style={{ width: `var(--${token})` }} />
 							</div>
 							<span className="spacing-table__use">{use}</span>
 						</div>
@@ -64,9 +64,9 @@ export default function SpacingMotionPage() {
 					</p>
 				</div>
 				<div className="radius-grid">
-					{radii.map(([token, px, use, radius]) => (
+					{radii.map(([token, px, use]) => (
 						<article key={token} className="radius-card">
-							<div style={{ borderRadius: radius }} />
+							<div style={{ borderRadius: `var(--${token})` }} />
 							<h3>--{token}</h3>
 							<p>
 								{px} · {use}
