@@ -124,6 +124,74 @@ function CodeBlock({
 	)
 }
 
+interface PlaygroundSegmentedOption<T> {
+	value: T
+	label: string
+}
+
+function PlaygroundSegmented<T extends string | number>({
+	options,
+	value,
+	onChange,
+}: {
+	options: PlaygroundSegmentedOption<T>[]
+	value: T | undefined
+	onChange: (value: T) => void
+}) {
+	const containerRef = useRef<HTMLDivElement>(null)
+	const [style, setStyle] = useState<React.CSSProperties>({
+		transform: "translateX(0)",
+		width: 0,
+		opacity: 0,
+	})
+
+	useEffect(() => {
+		const container = containerRef.current
+		if (!container) return
+
+		const updatePosition = () => {
+			const activeButton = container.querySelector(
+				'button[aria-pressed="true"]'
+			) as HTMLButtonElement | null
+			if (activeButton) {
+				setStyle({
+					transform: `translateX(${activeButton.offsetLeft}px)`,
+					width: activeButton.offsetWidth,
+					opacity: 1,
+				})
+			} else {
+				setStyle((prev) => ({ ...prev, opacity: 0 }))
+			}
+		}
+
+		updatePosition()
+		const handle = requestAnimationFrame(updatePosition)
+
+		window.addEventListener("resize", updatePosition)
+		return () => {
+			cancelAnimationFrame(handle)
+			window.removeEventListener("resize", updatePosition)
+		}
+	}, [value, options])
+
+	return (
+		<div className="playground-segmented" ref={containerRef}>
+			<div className="playground-segmented__indicator" style={style} />
+			{options.map((option) => (
+				<button
+					key={option.value}
+					type="button"
+					aria-pressed={value === option.value}
+					className="ml-interaction-surface"
+					onClick={() => onChange(option.value)}
+				>
+					{option.label}
+				</button>
+			))}
+		</div>
+	)
+}
+
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
 	children: ReactNode
@@ -432,101 +500,64 @@ function ComponentPlaygroundClient<T extends string = string>({
 					<>
 						<div className="playground-controls__group">
 							<label>Render</label>
-							<div className="playground-segmented">
-								<button
-									type="button"
-									aria-pressed={renderMode === "single"}
-									className="ml-interaction-surface"
-									onClick={() => setControl({ render: "single" })}
-								>
-									Single
-								</button>
-								<button
-									type="button"
-									aria-pressed={renderMode === "all"}
-									className="ml-interaction-surface"
-									onClick={() => setControl({ render: "all" })}
-								>
-									All sizes
-								</button>
-							</div>
+							<PlaygroundSegmented
+								options={[
+									{ value: "single", label: "Single" },
+									{ value: "all", label: "All sizes" },
+								]}
+								value={renderMode}
+								onChange={(val) => setControl({ render: val })}
+							/>
 						</div>
 
 						<div className="playground-controls__group">
 							<label>Size</label>
-							<div className="playground-segmented">
-								{sizes.map((item) => (
-									<button
-										key={item}
-										type="button"
-										aria-pressed={size === item}
-										className="ml-interaction-surface"
-										onClick={() => {
-											setControl({ render: "single", size: item })
-										}}
-									>
-										{formatSize(item)}
-									</button>
-								))}
-							</div>
+							<PlaygroundSegmented
+								options={sizes.map((item) => ({
+									value: item,
+									label: formatSize(item),
+								}))}
+								value={size}
+								onChange={(val) => setControl({ render: "single", size: val })}
+							/>
 						</div>
 					</>
 				)}
 
 				<div className="playground-controls__group">
 					<label>Viewport</label>
-					<div className="playground-segmented">
-						{viewportOptions.map((option) => (
-							<button
-								key={option.key}
-								type="button"
-								aria-pressed={viewport === option.key}
-								className="ml-interaction-surface"
-								onClick={() => setControl({ viewport: option.key })}
-							>
-								{option.label}
-							</button>
-						))}
-					</div>
+					<PlaygroundSegmented
+						options={viewportOptions.map((option) => ({
+							value: option.key,
+							label: option.label,
+						}))}
+						value={viewport}
+						onChange={(val) => setControl({ viewport: val })}
+					/>
 				</div>
 
 				<div className="playground-controls__group">
 					<label>Theme</label>
-					<div className="playground-segmented">
-						<button
-							type="button"
-							aria-pressed={theme === "light"}
-							className="ml-interaction-surface"
-							onClick={() => setControl({ theme: "light" })}
-						>
-							Light
-						</button>
-						<button
-							type="button"
-							aria-pressed={theme === "dark"}
-							className="ml-interaction-surface"
-							onClick={() => setControl({ theme: "dark" })}
-						>
-							Dark
-						</button>
-					</div>
+					<PlaygroundSegmented
+						options={[
+							{ value: "light", label: "Light" },
+							{ value: "dark", label: "Dark" },
+						]}
+						value={theme}
+						onChange={(val) => setControl({ theme: val })}
+					/>
 				</div>
 
 				<div className="playground-controls__group">
 					<label>Zoom</label>
-					<div className="playground-segmented">
-						{zoomOptions.map((option) => (
-							<button
-								key={option.label}
-								type="button"
-								aria-pressed={zoom === option.value}
-								className="ml-interaction-surface"
-								onClick={() => setControl({ zoom: option.value })}
-							>
-								{option.label}
-							</button>
-						))}
-					</div>
+					<PlaygroundSegmented
+						options={zoomOptions.map((option) => ({
+							value: option.value,
+							label: option.label,
+						}))}
+						value={zoom}
+						onChange={(val) => setControl({ zoom: val })}
+					/>
 				</div>
 			</section>
 
