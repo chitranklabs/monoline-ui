@@ -1,0 +1,58 @@
+/* =============================================================================
+ * 6. BASE - body, selection, scrollbar, focus ring
+ * ========================================================================== */
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+
+	html {
+		/* Smooth scroll for anchor jumps (table of contents) */
+		scroll-behavior: smooth;
+	}
+
+	body {
+		background: var(--background);
+		color: var(--foreground);
+		font-family: var(--font-sans);
+		font-feature-settings: "ss01", "cv11";
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	::selection {
+		background: var(--accent-soft);
+		color: var(--foreground);
+	}
+
+	/* Themed scrollbar - subtle, follows the surface ladder */
+	::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--border-strong);
+		border-radius: 999px;
+		border: 2px solid var(--background);
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--muted-foreground);
+	}
+
+	/* Firefox */
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: var(--border-strong) transparent;
+	}
+
+	/* Focus ring is consistent across all focusable elements */
+	:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+		border-color: var(--accent);
+	}
+}

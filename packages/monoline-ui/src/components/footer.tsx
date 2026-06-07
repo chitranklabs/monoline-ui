@@ -347,9 +347,7 @@ function FooterRoot({
 					)}
 				>
 					{resolvedMeta ? (
-						<p className="max-w-(--ml-footer-meta-copy-max)">
-							{resolvedMeta}
-						</p>
+						<p className="max-w-(--ml-footer-meta-copy-max)">{resolvedMeta}</p>
 					) : null}
 					{attribution ? <p>{attribution}</p> : null}
 				</div>

@@ -32,5 +32,10 @@ await run("pnpm", ["exec", "tsc", "-p", "tsconfig.build.json"])
 await mkdir(path.join(distDir, "styles"), { recursive: true })
 await cp(
 	path.join(packageRoot, "src/foundations/theme.css"),
-	path.join(distDir, "styles/theme.css"),
+	path.join(distDir, "styles/theme.css")
+)
+await cp(
+	path.join(packageRoot, "src/foundations/theme"),
+	path.join(distDir, "styles/theme"),
+	{ recursive: true }
 )

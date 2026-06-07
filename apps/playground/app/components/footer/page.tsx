@@ -1,4 +1,42 @@
-import { Footer } from "@chitrank2050/monoline-ui/components/footer"
+"use client"
+
+import { useMemo, useState, type CSSProperties } from "react"
+
+import {
+	Footer,
+	type FooterSize,
+} from "@chitrank2050/monoline-ui/components/footer"
+
+type RenderMode = "single" | "all"
+type ThemeMode = "light" | "dark"
+type ViewportKey = "mobile" | "tablet" | "desktop" | "wide"
+
+interface ViewportOption {
+	key: ViewportKey
+	label: string
+	width: number
+}
+
+interface ZoomOption {
+	label: string
+	value: number
+}
+
+const footerSizes: FooterSize[] = ["sm", "md", "lg"]
+
+const viewportOptions: ViewportOption[] = [
+	{ key: "mobile", label: "Mobile", width: 390 },
+	{ key: "tablet", label: "Tablet", width: 834 },
+	{ key: "desktop", label: "Desktop", width: 1280 },
+	{ key: "wide", label: "Wide", width: 1920 },
+]
+
+const zoomOptions: ZoomOption[] = [
+	{ label: "50%", value: 0.5 },
+	{ label: "75%", value: 0.75 },
+	{ label: "100%", value: 1 },
+	{ label: "125%", value: 1.25 },
+]
 
 const footerColumns = [
 	{
@@ -41,7 +79,46 @@ const propsRows = [
 	["attribution", "ReactNode?", "Right-aligned text in the bottom bar"],
 ] as const
 
+function formatSize(size: FooterSize) {
+	return size.toUpperCase()
+}
+
+function FooterPreview({ size }: { size: FooterSize }) {
+	return (
+		<div className="playground-canvas__preview" data-size={size}>
+			<Footer
+				size={size}
+				columns={[...footerColumns]}
+				meta="© 2026 · Built by Chitrank Agnihotri · v3.2.0"
+				attribution="Next 15 · Sanity · Tailwind 4"
+			/>
+		</div>
+	)
+}
+
 export default function FooterPage() {
+	const [renderMode, setRenderMode] = useState<RenderMode>("single")
+	const [size, setSize] = useState<FooterSize>("md")
+	const [viewport, setViewport] = useState<ViewportKey>("desktop")
+	const [theme, setTheme] = useState<ThemeMode>("light")
+	const [zoom, setZoom] = useState(0.75)
+
+	const viewportOption = useMemo(
+		() =>
+			viewportOptions.find((option) => option.key === viewport) ??
+			viewportOptions[2],
+		[viewport]
+	)
+	const zoomOption = useMemo(
+		() => zoomOptions.find((option) => option.value === zoom) ?? zoomOptions[1],
+		[zoom]
+	)
+	const renderedSizes = renderMode === "all" ? footerSizes : [size]
+	const frameStyle = {
+		"--playground-frame-width": `${viewportOption.width}px`,
+		"--playground-frame-scale": zoom,
+	} as CSSProperties
+
 	return (
 		<main className="docs-page">
 			<header className="docs-page__head docs-page__head--component">
@@ -64,12 +141,18 @@ export default function FooterPage() {
 					<div className="playground-segmented">
 						<button
 							type="button"
-							aria-pressed="true"
+							aria-pressed={renderMode === "single"}
 							className="ml-interaction-surface"
+							onClick={() => setRenderMode("single")}
 						>
 							Single
 						</button>
-						<button type="button" className="ml-interaction-surface">
+						<button
+							type="button"
+							aria-pressed={renderMode === "all"}
+							className="ml-interaction-surface"
+							onClick={() => setRenderMode("all")}
+						>
 							All sizes
 						</button>
 					</div>
@@ -77,40 +160,36 @@ export default function FooterPage() {
 				<div className="playground-controls__group">
 					<label>Size</label>
 					<div className="playground-segmented">
-						<button type="button" className="ml-interaction-surface">
-							SM
-						</button>
-						<button
-							type="button"
-							aria-pressed="true"
-							className="ml-interaction-surface"
-						>
-							MD
-						</button>
-						<button type="button" className="ml-interaction-surface">
-							LG
-						</button>
+						{footerSizes.map((footerSize) => (
+							<button
+								key={footerSize}
+								type="button"
+								aria-pressed={size === footerSize}
+								className="ml-interaction-surface"
+								onClick={() => {
+									setRenderMode("single")
+									setSize(footerSize)
+								}}
+							>
+								{formatSize(footerSize)}
+							</button>
+						))}
 					</div>
 				</div>
 				<div className="playground-controls__group">
 					<label>Viewport</label>
 					<div className="playground-segmented">
-						<button type="button" className="ml-interaction-surface">
-							Mobile
-						</button>
-						<button type="button" className="ml-interaction-surface">
-							Tablet
-						</button>
-						<button
-							type="button"
-							aria-pressed="true"
-							className="ml-interaction-surface"
-						>
-							Desktop
-						</button>
-						<button type="button" className="ml-interaction-surface">
-							Wide
-						</button>
+						{viewportOptions.map((option) => (
+							<button
+								key={option.key}
+								type="button"
+								aria-pressed={viewport === option.key}
+								className="ml-interaction-surface"
+								onClick={() => setViewport(option.key)}
+							>
+								{option.label}
+							</button>
+						))}
 					</div>
 				</div>
 				<div className="playground-controls__group">
@@ -118,35 +197,57 @@ export default function FooterPage() {
 					<div className="playground-segmented">
 						<button
 							type="button"
-							aria-pressed="true"
+							aria-pressed={theme === "light"}
 							className="ml-interaction-surface"
+							onClick={() => setTheme("light")}
 						>
 							Light
 						</button>
-						<button type="button" className="ml-interaction-surface">
+						<button
+							type="button"
+							aria-pressed={theme === "dark"}
+							className="ml-interaction-surface"
+							onClick={() => setTheme("dark")}
+						>
 							Dark
 						</button>
 					</div>
 				</div>
 				<div className="playground-controls__group">
 					<label>Zoom</label>
-					<div className="playground-zoom">75%</div>
+					<div className="playground-segmented">
+						{zoomOptions.map((option) => (
+							<button
+								key={option.label}
+								type="button"
+								aria-pressed={zoom === option.value}
+								className="ml-interaction-surface"
+								onClick={() => setZoom(option.value)}
+							>
+								{option.label}
+							</button>
+						))}
+					</div>
 				</div>
 			</section>
 
 			<section className="playground-canvas">
 				<div className="playground-canvas__meta">
-					<span>MD · 75%</span>
-					<span>Desktop · 1280px · 75%</span>
+					<span>
+						{renderMode === "all" ? "All sizes" : formatSize(size)} ·{" "}
+						{zoomOption.label}
+					</span>
+					<span>
+						{viewportOption.label} · {viewportOption.width}px · {theme}
+					</span>
 				</div>
 				<div className="playground-canvas__viewport">
-					<div className="playground-canvas__frame">
-						<Footer
-							size="md"
-							columns={[...footerColumns]}
-							meta="© 2026 · Built by Chitrank Agnihotri · v3.2.0"
-							attribution="Next 15 · Sanity · Tailwind 4"
-						/>
+					<div className="playground-canvas__stage" style={frameStyle}>
+						<div className="playground-canvas__frame" data-theme={theme}>
+							{renderedSizes.map((footerSize) => (
+								<FooterPreview key={footerSize} size={footerSize} />
+							))}
+						</div>
 					</div>
 				</div>
 			</section>

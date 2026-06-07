@@ -1,0 +1,207 @@
+/* =============================================================================
+ * 9. ANIMATIONS - every micro-interaction in the system
+ * ========================================================================== */
+
+/* Heart pop (like button) */
+@keyframes heart-pop {
+	0% {
+		transform: scale(1);
+	}
+	35% {
+		transform: scale(1.35);
+	}
+	70% {
+		transform: scale(0.92);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+.animate-heart-pop {
+	animation: heart-pop var(--duration-medium) var(--ease-spring);
+}
+
+/* Ring ripple (around like button) */
+@keyframes ring-ripple {
+	0% {
+		opacity: 0.6;
+		transform: scale(0.4);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(2.2);
+	}
+}
+.animate-ring-ripple {
+	animation: ring-ripple 550ms ease-out;
+}
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+	0% {
+		background-position: -200px 0;
+	}
+	100% {
+		background-position: 200px 0;
+	}
+}
+.animate-shimmer {
+	background: linear-gradient(
+		90deg,
+		var(--surface-2) 0%,
+		var(--surface-3) 50%,
+		var(--surface-2) 100%
+	);
+	background-size: 200px 100%;
+	animation: shimmer 1.4s linear infinite;
+}
+
+/* Reading progress indeterminate sweep */
+@keyframes progress-loop {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(400%);
+	}
+}
+.animate-progress-loop {
+	animation: progress-loop 1.4s var(--ease-in-out) infinite;
+}
+
+/* Toast slide-in / out */
+@keyframes toast-in {
+	0% {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	15% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	85% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(-8px);
+		opacity: 0;
+	}
+}
+.animate-toast-in {
+	animation: toast-in 3.4s var(--ease-in-out);
+}
+
+/* Fade-up entry - used by sections on first paint */
+@keyframes fade-up {
+	0% {
+		opacity: 0;
+		transform: translateY(12px);
+		filter: blur(4px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
+	}
+}
+.animate-fade-up {
+	animation: fade-up var(--duration-long) var(--ease-out-expo) both;
+}
+
+/* Slide-in from left / right - used by drawers, sidebar */
+@keyframes slide-in-left {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+@keyframes slide-in-right {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+.animate-slide-in-left {
+	animation: slide-in-left var(--duration-short) var(--ease-out-expo);
+}
+.animate-slide-in-right {
+	animation: slide-in-right var(--duration-short) var(--ease-out-expo);
+}
+
+/* Scale-in (popovers, dropdowns) */
+@keyframes scale-in {
+	from {
+		opacity: 0;
+		transform: scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+.animate-scale-in {
+	animation: scale-in var(--duration-short) var(--ease-out-expo);
+	transform-origin: top center;
+}
+
+/* Spin (loading) */
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+.animate-spin {
+	animation: spin 0.8s linear infinite;
+}
+
+/* Pulse (status dot - Open to work) */
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+.animate-pulse {
+	animation: pulse 2s var(--ease-in-out) infinite;
+}
+
+/* Glow pulse (status dot with shadow ring) */
+@keyframes glow-pulse {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 var(--accent-soft);
+	}
+	50% {
+		box-shadow: 0 0 0 6px transparent;
+	}
+}
+.animate-glow-pulse {
+	animation: glow-pulse 2.2s var(--ease-in-out) infinite;
+}
+
+/* Entry animation - your existing @starting-style pattern, preserved */
+@layer utilities {
+	.animate-entry {
+		opacity: 1;
+		transform: translateY(0);
+		transition:
+			opacity 0.8s ease-out,
+			transform 0.8s var(--ease-out-expo),
+			filter 0.8s ease-out;
+		filter: blur(0);
+
+		@starting-style {
+			opacity: 0;
+			transform: translateY(20px);
+			filter: blur(8px);
+		}
+	}
+}

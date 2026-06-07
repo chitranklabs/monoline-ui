@@ -1,0 +1,254 @@
+/* =============================================================================
+ * 8. UTILITY CLASSES - used everywhere
+ * ========================================================================== */
+.eyebrow,
+.ml-eyebrow {
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	letter-spacing: var(--tracking-eyebrow);
+	text-transform: uppercase;
+	color: var(--text-muted);
+	display: inline-block;
+}
+
+.img-placeholder {
+	background-color: var(--placeholder-bg);
+	background-image: repeating-linear-gradient(
+		135deg,
+		var(--placeholder-stripe) 0px,
+		var(--placeholder-stripe) 1px,
+		transparent 1px,
+		transparent 14px
+	);
+	position: relative;
+	overflow: hidden;
+}
+
+/* Card-hover pattern - composable: parent has .group-hover-card, image
+ * inside gets .group-hover-card-img, arrow gets .group-hover-card-arrow.
+ * Lets you compose the lift+zoom+arrow-reveal without a wrapper component. */
+.group-hover-card {
+	transition:
+		border-color var(--duration-short),
+		transform var(--duration-short) var(--ease-out-expo),
+		box-shadow var(--duration-short);
+}
+.group-hover-card:hover {
+	border-color: var(--border-strong);
+	transform: translateY(-4px);
+	box-shadow: var(--shadow-lg);
+}
+.group-hover-card-img > * {
+	transition:
+		transform 600ms var(--ease-out-expo),
+		filter 600ms ease;
+}
+.group-hover-card:hover .group-hover-card-img > * {
+	transform: scale(1.06);
+	filter: grayscale(0);
+}
+.group-hover-card-arrow {
+	opacity: 0;
+	transform: translateX(-4px);
+	transition:
+		opacity var(--duration-short),
+		transform var(--duration-short);
+	color: var(--accent);
+}
+.group-hover-card:hover .group-hover-card-arrow {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* =============================================================================
+ * 10. TRANSITIONS - composable utility classes
+ * ========================================================================== */
+.transition-micro {
+	transition: all var(--duration-micro) var(--ease-out);
+}
+.transition-short {
+	transition: all var(--duration-short) var(--ease-out-expo);
+}
+.transition-medium {
+	transition: all var(--duration-medium) var(--ease-out-expo);
+}
+.transition-long {
+	transition: all var(--duration-long) var(--ease-out-expo);
+}
+
+@layer utilities {
+	.ml-interaction-color {
+		transition: color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-color:hover {
+		color: var(--text);
+	}
+
+	.ml-interaction-focus {
+		transition:
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-focus:focus-within {
+		border-color: var(--border-strong);
+		box-shadow: var(--focus-ring-layered);
+	}
+
+	.ml-interaction-surface {
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-surface:hover {
+		border-color: var(--border);
+		background: var(--surface);
+		color: var(--text);
+	}
+
+	.ml-interaction-control {
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out),
+			transform var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-control:hover {
+		border-color: var(--border-strong);
+		color: var(--text);
+	}
+
+	.ml-interaction-control:active {
+		transform: scale(var(--control-press-scale, 0.96));
+	}
+
+	.ml-interaction-control-primary:hover {
+		background: var(--btn-primary-hover);
+	}
+
+	.ml-interaction-tab {
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-tab:hover {
+		color: var(--text);
+	}
+
+	.ml-interaction-tab-underline {
+		transition:
+			border-color var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-tab-underline:hover {
+		color: var(--text);
+	}
+}
+
+/* =============================================================================
+ * 11. REDUCED MOTION - respect user preference
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+	.group-hover-card:hover {
+		transform: none;
+	}
+	.group-hover-card:hover .group-hover-card-img > * {
+		transform: none;
+	}
+}
+
+/* =============================================================================
+ * 12. PRINT - clean reader output
+ * ========================================================================== */
+@media print {
+	:root,
+	.dark,
+	[data-theme="dark"] {
+		--background: #ffffff;
+		--foreground: #000000;
+		--text: #000000;
+		--text-body: #000000;
+		--text-secondary: #333333;
+		--text-muted: #666666;
+		--surface: #ffffff;
+		--border: #cccccc;
+		color-scheme: light;
+	}
+	body {
+		background: #fff;
+		color: #000;
+	}
+	nav,
+	.navbar,
+	footer,
+	.footer,
+	button {
+		display: none !important;
+	}
+	.prose,
+	.prose * {
+		color: #000 !important;
+	}
+	a {
+		color: #000;
+		text-decoration: underline;
+	}
+	a::after {
+		content: " (" attr(href) ")";
+		font-size: 0.8em;
+		color: #666;
+	}
+}
+
+/* =============================================================================
+ * 13. FONT FAMILY UTILITY CLASSES - beyond Tailwind's auto-generated set
+ * ========================================================================== */
+.font-sans {
+	font-family: var(--font-sans);
+}
+.font-mono {
+	font-family: var(--font-mono);
+}
+.font-script {
+	font-family: var(--font-script);
+}
+.font-headline {
+	font-family: var(--font-headline);
+}
+
+/* =============================================================================
+ * USAGE NOTES (read these once, then forget them)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * - Theme switch:  <html data-theme="dark">  or  <html class="dark">
+ *                  Either works; pick whichever your app already toggles.
+ * - Tailwind:      bg-background, text-foreground, bg-card, border-border-strong
+ *                  All auto-generated from the @theme block above.
+ * - CSS direct:    background: var(--surface);  color: var(--text-muted);
+ *                  Use directly when Tailwind utility names would be ugly.
+ * - Animations:    <div className="animate-heart-pop">  or  animation: heart-pop ...
+ * - Motion tokens: transition-duration: var(--duration-short)
+ *                  transition-timing-function: var(--ease-out-expo)
+ * - Reduced motion is handled automatically - your custom transitions in
+ *   component code should still use the duration tokens so they're caught.
+ *
+ * If you need a token that isn't here, add it to the appropriate section
+ * (DARK + LIGHT + @theme inline) instead of inlining a value in a component.
+ * This file is the single source. Components reference, don't redefine.
+ * ========================================================================== */

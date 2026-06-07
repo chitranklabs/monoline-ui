@@ -1,0 +1,538 @@
+/* =============================================================================
+ * foundation.css · single source of truth for personal-portfolio AND monoline-ui
+ * ─────────────────────────────────────────────────────────────────────────────
+ * This file owns:
+ *   1. Colour tokens - dark (default) + light, shadcn-compatible
+ *   2. Typography - three font families, scale, line-heights
+ *   3. Spacing - 8-step scale
+ *   4. Radius - 7-step scale
+ *   5. Shadow - 4-step scale
+ *   6. Z-index - semantic layers
+ *   7. Border widths
+ *   8. Breakpoints - published as CSS vars for JS to read
+ *   9. Motion - 4 durations + 3 easings
+ *  10. Tailwind v4 @theme inline mapping - utility-class generation
+ *  11. Base layer - body, ::selection, scrollbar, focus ring
+ *  12. Typography helpers - .prose / .eyebrow / .img-placeholder
+ *  13. Animations - keyframes + .animate-* utilities for every micro-interaction
+ *  14. Reduced-motion preference
+ *  15. Print styles
+ *
+ * Install:
+ *   app/globals.css → import Tailwind first, then this package theme file.
+ *   Add data-theme="dark" or "light" on <html> (dark is default if absent).
+ *
+ * Theme switch - three ways, all wired:
+ *   <html data-theme="dark">          ← attribute
+ *   <html class="dark">                ← shadcn-style class
+ *   media(prefers-color-scheme: dark)  ← system-driven (when neither set)
+ * ========================================================================== */
+
+@custom-variant dark (&:is(.dark, [data-theme="dark"], .dark *, [data-theme="dark"] *));
+
+/* =============================================================================
+ * 1. COLOUR · DARK (default)
+ * ========================================================================== */
+:root,
+.dark,
+[data-theme="dark"] {
+	/* ─── shadcn-paired surfaces (keep your DropdownMenu et al. working) ─── */
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.985 0 0);
+
+	--card: oklch(0.205 0 0);
+	--card-foreground: oklch(0.985 0 0);
+
+	--popover: oklch(0.205 0 0);
+	--popover-foreground: oklch(0.985 0 0);
+
+	--primary: oklch(0.985 0 0);
+	--primary-foreground: oklch(0.1 0 0);
+
+	--secondary: oklch(0.22 0 0);
+	--secondary-foreground: oklch(0.985 0 0);
+
+	--muted: oklch(0.22 0 0);
+	--muted-foreground: oklch(0.62 0 0);
+
+	--accent: oklch(0.78 0.09 60);
+	--accent-foreground: oklch(0.1 0 0);
+
+	--destructive: oklch(0.704 0.191 22);
+	--destructive-foreground: oklch(0.985 0 0);
+
+	--border: rgba(255, 255, 255, 0.1);
+	--input: rgba(255, 255, 255, 0.15);
+	--ring: oklch(0.556 0 0);
+
+	--radius: 0.625rem;
+
+	/* ─── extended palette ─── */
+	--accent-soft: oklch(0.78 0.09 60 / 0.14);
+	--border-strong: rgba(255, 255, 255, 0.18);
+
+	/* Surface ladder (deeper than --card for nesting) */
+	--surface: oklch(0.18 0 0);
+	--surface-2: oklch(0.17 0 0);
+	--surface-3: oklch(0.16 0 0);
+	--button: oklch(0.22 0 0);
+	--button-hover: oklch(0.27 0 0);
+	--code: oklch(0.12 0 0);
+
+	/* Text ladder */
+	--text: oklch(0.985 0 0);
+	--text-secondary: oklch(0.87 0 0);
+	--text-muted: oklch(0.62 0 0);
+	--text-body: oklch(0.91 0 0);
+	--code-text: oklch(0.86 0 0);
+
+	--btn-primary-hover: oklch(0.92 0 0);
+	--navbar-bg: rgba(20, 20, 20, 0.85);
+	--pill-bg: rgba(10, 10, 10, 0.7);
+
+	/* Image placeholders */
+	--placeholder-bg: oklch(0.27 0 0);
+	--placeholder-stripe: oklch(0.3 0 0);
+	--placeholder-text: oklch(0.65 0 0);
+	--placeholder-fade: oklch(0.16 0 0);
+
+	/* Avatar + portrait gradients */
+	--avatar-from: oklch(0.4 0 0);
+	--avatar-to: oklch(0.62 0 0);
+	--portrait-from: oklch(0.32 0 0);
+	--portrait-to: oklch(0.18 0 0);
+	--portrait-stripe: oklch(0.36 0 0);
+
+	/* Syntax highlighting */
+	--code-comment: oklch(0.62 0 0);
+	--code-keyword: oklch(0.72 0.16 305);
+	--code-ident: oklch(0.85 0.11 215);
+	--code-string: oklch(0.82 0.12 70);
+	--code-number: oklch(0.78 0.14 30);
+
+	/* Semantic - tip / warn / info */
+	--callout-tip-text: oklch(0.85 0.13 150);
+	--callout-tip-accent: oklch(0.72 0.15 150);
+	--callout-warn-text: oklch(0.85 0.13 80);
+	--callout-warn-accent: oklch(0.7 0.16 80);
+	--callout-info-text: oklch(0.82 0.12 230);
+	--callout-info-accent: oklch(0.65 0.16 230);
+
+	/* Shadow scale (depth) */
+	--shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+	--shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.25);
+	--shadow-md: 0 8px 20px rgba(0, 0, 0, 0.3);
+	--shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.35);
+	--shadow-xl: 0 28px 64px rgba(0, 0, 0, 0.42);
+
+	/* Charts */
+	--chart-1: oklch(0.488 0.243 264.376);
+	--chart-2: oklch(0.696 0.17 162.48);
+	--chart-3: oklch(0.769 0.188 70.08);
+	--chart-4: oklch(0.627 0.265 303.9);
+	--chart-5: oklch(0.645 0.246 16.439);
+
+	/* Sidebar (shadcn) */
+	--sidebar: oklch(0.205 0 0);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.269 0 0);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: rgba(255, 255, 255, 0.1);
+	--sidebar-ring: oklch(0.556 0 0);
+
+	color-scheme: dark;
+}
+
+/* =============================================================================
+ * 2. COLOUR · LIGHT
+ * ========================================================================== */
+.light,
+[data-theme="light"] {
+	--background: oklch(0.98 0.005 80);
+	--foreground: oklch(0.18 0 0);
+
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.18 0 0);
+
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.18 0 0);
+
+	--primary: oklch(0.18 0 0);
+	--primary-foreground: oklch(1 0 0);
+
+	--secondary: oklch(0.96 0 0);
+	--secondary-foreground: oklch(0.18 0 0);
+
+	--muted: oklch(0.96 0 0);
+	--muted-foreground: oklch(0.5 0 0);
+
+	--accent: oklch(0.55 0.13 40);
+	--accent-foreground: oklch(1 0 0);
+
+	--destructive: oklch(0.55 0.19 22);
+	--destructive-foreground: oklch(1 0 0);
+
+	--border: rgba(10, 10, 10, 0.08);
+	--input: rgba(10, 10, 10, 0.15);
+	--ring: oklch(0.65 0 0);
+
+	--accent-soft: oklch(0.55 0.13 40 / 0.1);
+	--border-strong: rgba(10, 10, 10, 0.18);
+
+	--surface: oklch(1 0 0);
+	--surface-2: oklch(0.975 0.003 80);
+	--surface-3: oklch(0.955 0.004 80);
+	--button: oklch(0.96 0 0);
+	--button-hover: oklch(0.92 0 0);
+	--code: oklch(0.96 0 0);
+
+	--text: oklch(0.18 0 0);
+	--text-secondary: oklch(0.32 0 0);
+	--text-muted: oklch(0.5 0 0);
+	--text-body: oklch(0.22 0 0);
+	--code-text: oklch(0.28 0 0);
+
+	--btn-primary-hover: oklch(0.28 0 0);
+	--navbar-bg: rgba(255, 255, 255, 0.85);
+	--pill-bg: rgba(255, 255, 255, 0.85);
+
+	--placeholder-bg: oklch(0.92 0 0);
+	--placeholder-stripe: oklch(0.88 0 0);
+	--placeholder-text: oklch(0.38 0 0);
+	--placeholder-fade: oklch(0.94 0 0);
+
+	--avatar-from: oklch(0.78 0 0);
+	--avatar-to: oklch(0.88 0 0);
+	--portrait-from: oklch(0.88 0 0);
+	--portrait-to: oklch(0.96 0 0);
+	--portrait-stripe: oklch(0.82 0 0);
+
+	--code-comment: oklch(0.5 0 0);
+	--code-keyword: oklch(0.45 0.18 305);
+	--code-ident: oklch(0.45 0.15 215);
+	--code-string: oklch(0.5 0.14 70);
+	--code-number: oklch(0.5 0.16 30);
+
+	--callout-tip-text: oklch(0.4 0.13 150);
+	--callout-tip-accent: oklch(0.55 0.14 150);
+	--callout-warn-text: oklch(0.4 0.13 80);
+	--callout-warn-accent: oklch(0.55 0.14 80);
+	--callout-info-text: oklch(0.4 0.13 230);
+	--callout-info-accent: oklch(0.5 0.16 230);
+
+	--shadow-xs: 0 1px 2px rgba(20, 15, 10, 0.05);
+	--shadow-sm: 0 2px 6px rgba(20, 15, 10, 0.07);
+	--shadow-md: 0 8px 20px rgba(20, 15, 10, 0.08);
+	--shadow-lg: 0 16px 40px rgba(20, 15, 10, 0.1);
+	--shadow-xl: 0 28px 64px rgba(20, 15, 10, 0.12);
+
+	--sidebar: oklch(0.98 0.005 80);
+	--sidebar-foreground: oklch(0.18 0 0);
+	--sidebar-primary: oklch(0.205 0 0);
+	--sidebar-primary-foreground: oklch(1 0 0);
+	--sidebar-accent: oklch(0.95 0 0);
+	--sidebar-accent-foreground: oklch(0.18 0 0);
+	--sidebar-border: rgba(10, 10, 10, 0.1);
+	--sidebar-ring: oklch(0.65 0 0);
+
+	color-scheme: light;
+}
+
+/* =============================================================================
+ * 3. SYSTEM-DRIVEN THEME (only when no explicit data-theme/class is set)
+ * ========================================================================== */
+@media (prefers-color-scheme: light) {
+	:root:not([data-theme]):not(.dark):not(.light) {
+		/* Light tokens inline - copy the value set from [data-theme="light"] */
+		--background: oklch(0.98 0.005 80);
+		--foreground: oklch(0.18 0 0);
+		--card: oklch(1 0 0);
+		--card-foreground: oklch(0.18 0 0);
+		--popover: oklch(1 0 0);
+		--popover-foreground: oklch(0.18 0 0);
+		--primary: oklch(0.18 0 0);
+		--primary-foreground: oklch(1 0 0);
+		--secondary: oklch(0.96 0 0);
+		--secondary-foreground: oklch(0.18 0 0);
+		--muted: oklch(0.96 0 0);
+		--muted-foreground: oklch(0.5 0 0);
+		--accent: oklch(0.55 0.13 40);
+		--accent-foreground: oklch(1 0 0);
+		--border: rgba(10, 10, 10, 0.08);
+		--input: rgba(10, 10, 10, 0.15);
+		--ring: oklch(0.65 0 0);
+
+		--accent-soft: oklch(0.55 0.13 40 / 0.1);
+		--border-strong: rgba(10, 10, 10, 0.18);
+		--surface: oklch(1 0 0);
+		--surface-2: oklch(0.975 0.003 80);
+		--surface-3: oklch(0.955 0.004 80);
+		--button: oklch(0.96 0 0);
+		--button-hover: oklch(0.92 0 0);
+		--code: oklch(0.96 0 0);
+		--text: oklch(0.18 0 0);
+		--text-secondary: oklch(0.32 0 0);
+		--text-muted: oklch(0.5 0 0);
+		--text-body: oklch(0.22 0 0);
+		--code-text: oklch(0.28 0 0);
+		--btn-primary-hover: oklch(0.28 0 0);
+		--navbar-bg: rgba(255, 255, 255, 0.85);
+		--pill-bg: rgba(255, 255, 255, 0.85);
+		--placeholder-bg: oklch(0.92 0 0);
+		--placeholder-stripe: oklch(0.88 0 0);
+		--placeholder-text: oklch(0.38 0 0);
+		--placeholder-fade: oklch(0.94 0 0);
+
+		color-scheme: light;
+	}
+}
+
+/* =============================================================================
+ * 4. NON-COLOUR TOKENS - applied everywhere, regardless of theme
+ * ========================================================================== */
+:root {
+	/* ─── Typography families (wire to next/font CSS vars) ─── */
+	--font-sans:
+		var(--font-monoline-sans, var(--font-inter-sans, "Inter")), ui-sans-serif,
+		system-ui, sans-serif;
+	--font-mono:
+		var(--font-monoline-mono, var(--font-plex-mono, "IBM Plex Mono")),
+		ui-monospace, monospace;
+	--font-script:
+		var(--font-monoline-script, var(--font-caveat-script, "Caveat")), cursive;
+	--font-headline:
+		var(--font-monoline-headline, var(--font-manrope-headline, "Manrope")),
+		var(--font-monoline-sans, var(--font-inter-sans, "Inter")), ui-sans-serif,
+		system-ui, sans-serif;
+
+	/* ─── Type scale (px-pinned for predictability) ─── */
+	--text-3xs: 10px; /* eyebrow xs, badge xs */
+	--text-2xs: 11px; /* eyebrow sm, meta */
+	--text-xs: 12px; /* badge md, mono small */
+	--text-sm: 13px; /* button md, body small */
+	--text-base: 14px; /* button lg label */
+	--text-md: 15px; /* lede, mobile body */
+	--text-lg: 17.5px; /* article body desktop */
+	--text-xl: 20px; /* card h3 */
+	--text-2xl: 24px; /* pullquote */
+	--text-3xl: 30px; /* H2 desktop */
+	--text-4xl: 36px; /* H1 mobile / featured */
+	--text-5xl: 44px; /* H1 desktop */
+	--text-6xl: 64px; /* display */
+	--text-7xl: 88px; /* page masthead */
+
+	/* ─── Line heights ─── */
+	--leading-none: 1;
+	--leading-tight: 1.1;
+	--leading-snug: 1.25;
+	--leading-normal: 1.5;
+	--leading-relaxed: 1.65;
+	--leading-loose: 1.75;
+
+	/* ─── Letter spacing ─── */
+	--tracking-display: -0.04em;
+	--tracking-heading: -0.025em;
+	--tracking-body: -0.005em;
+	--tracking-mono: 0.04em;
+	--tracking-eyebrow: 0.16em;
+	--tracking-meta: 0.14em;
+
+	/* ─── Typography roles ─── */
+	--type-docs-title-size: 42px;
+	--type-docs-title-leading: 1.02;
+	--type-docs-title-tracking: -0.03em;
+	--type-hero-title-size: 58px;
+	--type-hero-title-leading: 1.02;
+	--type-hero-title-tracking: -0.03em;
+	--type-page-title-mobile-size: 39px;
+	--type-docs-title-mobile-size: 32px;
+	--type-lede-size: var(--text-md);
+	--type-lede-leading: 1.6;
+	--type-subtitle-size: 18px;
+	--type-subtitle-tracking: -0.01em;
+	--type-ui-label-size: 13.5px;
+	--type-ui-label-leading: 1.2;
+
+	/* ─── Spacing scale (4px base) ─── */
+	--space-0: 0;
+	--space-px: 1px;
+	--space-0-5: 2px;
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 40px;
+	--space-12: 48px;
+	--space-16: 64px;
+	--space-20: 80px;
+	--space-24: 96px;
+	--space-32: 128px;
+
+	/* ─── Radius scale ─── */
+	--radius-xs: 4px;
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--radius-2xl: calc(var(--radius) + 8px);
+	--radius-3xl: calc(var(--radius) + 12px);
+	--radius-pill: 999px;
+
+	/* ─── Border widths ─── */
+	--border-thin: 1px;
+	--border-medium: 2px;
+	--border-thick: 4px;
+
+	/* ─── Focus rings ─── */
+	--focus-ring: 0 0 0 3px var(--accent-soft);
+	--focus-ring-offset: 0 0 0 2px var(--surface);
+	--focus-ring-layered: var(--focus-ring-offset), 0 0 0 4px var(--accent-soft);
+
+	/* ─── Z-index layers ─── */
+	--z-base: 0;
+	--z-elevated: 10;
+	--z-sticky: 20;
+	--z-dropdown: 30;
+	--z-overlay: 40;
+	--z-modal: 50;
+	--z-toast: 60;
+	--z-tooltip: 70;
+	--z-max: 999;
+
+	/* ─── Breakpoints (mirror foundations/breakpoints.ts) ─── */
+	--bp-mobile: 390px;
+	--bp-mobile-max: 767px;
+	--bp-tablet: 834px;
+	--bp-tablet-min: 768px;
+	--bp-tablet-max: 1023px;
+	--bp-desktop: 1280px;
+	--bp-wide: 1536px;
+
+	/* ─── Container widths ─── */
+	--container-sm: 640px;
+	--container-md: 768px;
+	--container-lg: 1024px;
+	--container-xl: 1216px;
+	--container-2xl: 1440px;
+	--container-prose: 68ch; /* article body */
+
+	/* ─── Motion: durations ─── */
+	--duration-instant: 0ms;
+	--duration-micro: 120ms; /* button bg, focus ring, tag hover */
+	--duration-short: 250ms; /* card lift, image zoom */
+	--duration-medium: 450ms; /* heart pop, toggle spring */
+	--duration-long: 700ms; /* page entry, scrubber */
+	--duration-xlong: 1200ms; /* drawer, modal */
+
+	/* ─── Motion: easings ─── */
+	--ease-linear: linear;
+	--ease-in: cubic-bezier(0.4, 0, 1, 1);
+	--ease-out: cubic-bezier(0, 0, 0.2, 1);
+	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* default for layout */
+	--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* pop / overshoot */
+	--ease-out-back: cubic-bezier(0.18, 0.89, 0.32, 1.27);
+
+	/* ─── Blurs (for backdrop) ─── */
+	--blur-sm: 4px;
+	--blur-md: 8px;
+	--blur-lg: 16px;
+	--blur-xl: 24px;
+
+	/* ─── Component spacing aliases ─── */
+	--ml-space-0: var(--space-0);
+	--ml-space-px: var(--space-px);
+	--ml-space-0-5: var(--space-0-5);
+	--ml-space-1: var(--space-1);
+	--ml-space-1-5: 6px;
+	--ml-space-2: var(--space-2);
+	--ml-space-3: var(--space-3);
+	--ml-space-4: var(--space-4);
+	--ml-space-5: var(--space-5);
+	--ml-space-6: var(--space-6);
+	--ml-space-7: 28px;
+	--ml-space-8: var(--space-8);
+	--ml-space-9: 36px;
+	--ml-space-10: var(--space-10);
+	--ml-space-12: var(--space-12);
+	--ml-space-14: 56px;
+	--ml-space-16: var(--space-16);
+	--ml-space-20: var(--space-20);
+
+	--ml-footer-y-sm: var(--space-16);
+	--ml-footer-y-sm-tablet: var(--space-20);
+	--ml-footer-y-sm-desktop: var(--space-16);
+	--ml-footer-y-md: var(--space-20);
+	--ml-footer-y-md-tablet: var(--space-24);
+	--ml-footer-y-md-desktop: var(--space-20);
+	--ml-footer-y-lg: var(--space-24);
+	--ml-footer-y-lg-tablet: var(--space-32);
+	--ml-footer-y-lg-desktop: var(--space-24);
+	--ml-footer-container-max-lg: 90rem;
+	--ml-footer-x-sm: var(--space-5);
+	--ml-footer-x-sm-tablet: var(--space-8);
+	--ml-footer-x-sm-desktop: var(--space-8);
+	--ml-footer-x-md: var(--space-6);
+	--ml-footer-x-md-tablet: var(--space-10);
+	--ml-footer-x-md-desktop: var(--space-12);
+	--ml-footer-x-lg: var(--space-8);
+	--ml-footer-x-lg-tablet: var(--space-12);
+	--ml-footer-x-lg-desktop: var(--space-16);
+	--ml-footer-layout-gap-sm: var(--space-12);
+	--ml-footer-layout-gap-sm-desktop: var(--space-16);
+	--ml-footer-layout-gap-md: var(--space-16);
+	--ml-footer-layout-gap-md-desktop: var(--space-20);
+	--ml-footer-layout-gap-lg: var(--space-20);
+	--ml-footer-layout-gap-lg-desktop: var(--space-24);
+	--ml-footer-layout-cols-sm-desktop: minmax(0, 1fr) minmax(0, 1.65fr);
+	--ml-footer-layout-cols-md-desktop: minmax(0, 1.1fr) minmax(0, 1.9fr);
+	--ml-footer-layout-cols-lg-desktop: minmax(0, 1.15fr) minmax(0, 2fr);
+	--ml-footer-intro-gap-sm: var(--space-5);
+	--ml-footer-intro-gap-md: var(--space-6);
+	--ml-footer-intro-gap-lg: var(--space-8);
+	--ml-footer-column-gap-x-sm: var(--space-8);
+	--ml-footer-column-gap-y-sm: var(--space-8);
+	--ml-footer-column-gap-x-md: var(--space-12);
+	--ml-footer-column-gap-y-md: var(--space-10);
+	--ml-footer-column-gap-x-lg: var(--space-16);
+	--ml-footer-column-gap-y-lg: var(--space-12);
+	--ml-footer-meta-mt-sm: var(--space-12);
+	--ml-footer-meta-pt-sm: var(--space-8);
+	--ml-footer-meta-mt-md: var(--space-16);
+	--ml-footer-meta-pt-md: var(--space-10);
+	--ml-footer-meta-mt-lg: var(--space-20);
+	--ml-footer-meta-pt-lg: var(--space-12);
+	--ml-footer-status-text: var(--text-3xs);
+	--ml-footer-status-text-tablet: var(--text-2xs);
+	--ml-footer-status-tracking: 0.18em;
+	--ml-footer-meta-text-sm: var(--text-2xs);
+	--ml-footer-meta-text-md: var(--text-xs);
+	--ml-footer-meta-text-lg: var(--text-sm);
+	--ml-footer-local-time-tracking: 0.08em;
+	--ml-footer-description-leading-sm: 1.7;
+	--ml-footer-description-leading-md: var(--leading-loose);
+	--ml-footer-description-leading-lg: 1.8;
+	--ml-footer-intro-max-sm: 34rem;
+	--ml-footer-intro-max-md: 42rem;
+	--ml-footer-intro-max-lg: 48rem;
+	--ml-footer-description-max-sm: 34rem;
+	--ml-footer-description-max-md: 40rem;
+	--ml-footer-description-max-lg: 46rem;
+	--ml-footer-subscribe-copy-max: 18rem;
+	--ml-footer-subscribe-control-max: 20rem;
+	--ml-footer-subscribe-control-height: 44px;
+	--ml-footer-submit-hover-scale: 0.98;
+	--ml-footer-submit-press-scale: 0.96;
+	--ml-footer-submit-arrow-hover-x: 2px;
+	--ml-footer-meta-copy-max: 38rem;
+	--ml-footer-link-min-height-sm: 28px;
+	--ml-footer-link-min-height-md: 32px;
+	--ml-footer-link-min-height-lg: 36px;
+	--ml-footer-link-hover-x: 2px;
+	--ml-footer-link-arrow-hover-x: 3px;
+}

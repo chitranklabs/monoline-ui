@@ -21,7 +21,6 @@
 
 .playground-controls__group label,
 .playground-canvas__meta,
-.playground-zoom,
 .playground-detail__tabs button {
 	font-family: var(--font-mono);
 }
@@ -55,14 +54,6 @@
 	font-weight: 600;
 }
 
-.playground-zoom {
-	border: 1px solid var(--border);
-	border-radius: 8px;
-	padding: 6px 12px;
-	color: var(--text);
-	font-size: 12.5px;
-}
-
 .playground-canvas {
 	margin-top: 24px;
 	overflow: hidden;
@@ -80,6 +71,7 @@
 
 .playground-canvas__viewport {
 	min-height: 456px;
+	overflow: auto;
 	padding: 28px;
 	background:
 		linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 24px 24px,
@@ -87,14 +79,36 @@
 		var(--surface-2);
 }
 
+.playground-canvas__stage {
+	width: calc(var(--playground-frame-width) * var(--playground-frame-scale));
+	min-width: min(
+		100%,
+		calc(var(--playground-frame-width) * var(--playground-frame-scale))
+	);
+}
+
 .playground-canvas__frame {
 	overflow: hidden;
 	border-radius: 10px;
-	background: #fff;
+	background: var(--background);
 	box-shadow: 0 1px 0 rgba(20, 15, 10, 0.05);
-	transform: scale(0.76);
-	transform-origin: top left;
-	width: 131.58%;
+	width: var(--playground-frame-width);
+	zoom: var(--playground-frame-scale);
+}
+
+.playground-canvas__preview + .playground-canvas__preview {
+	border-top: 1px solid var(--border);
+}
+
+.playground-canvas__preview > footer {
+	border-top: 0;
+}
+
+@supports not (zoom: 1) {
+	.playground-canvas__frame {
+		transform: scale(var(--playground-frame-scale));
+		transform-origin: top left;
+	}
 }
 
 .playground-detail {

@@ -1,0 +1,105 @@
+/* =============================================================================
+ * 7. TYPOGRAPHY - article body
+ * ========================================================================== */
+.prose {
+	color: var(--text-body);
+	font-size: var(--text-lg);
+	line-height: var(--leading-loose);
+	font-weight: 400;
+	max-width: var(--container-prose);
+	text-wrap: pretty;
+}
+.prose h1 {
+	font-family: var(--font-mono);
+	font-size: var(--text-5xl);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-heading);
+	font-weight: 700;
+	color: var(--text);
+	margin: var(--space-12) 0 var(--space-4);
+	scroll-margin-top: var(--space-20);
+}
+.prose h2 {
+	font-family: var(--font-headline);
+	font-size: var(--text-3xl);
+	line-height: var(--leading-snug);
+	letter-spacing: var(--tracking-heading);
+	font-weight: 700;
+	color: var(--text);
+	margin: var(--space-12) 0 var(--space-4);
+	scroll-margin-top: var(--space-20);
+}
+.prose h3 {
+	font-family: var(--font-headline);
+	font-size: var(--text-xl);
+	line-height: var(--leading-snug);
+	font-weight: 600;
+	color: var(--text);
+	margin: var(--space-8) 0 var(--space-3);
+}
+.prose p {
+	margin: 0 0 var(--space-5) 0;
+}
+.prose strong {
+	color: var(--text);
+	font-weight: 600;
+}
+.prose em {
+	color: var(--text-secondary);
+	font-style: italic;
+}
+.prose a {
+	color: var(--text);
+	text-decoration: underline;
+	text-decoration-color: var(--accent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	transition: text-decoration-color var(--duration-micro);
+}
+.prose a:hover {
+	text-decoration-color: var(--text);
+}
+.prose ul,
+.prose ol {
+	margin: 0 0 var(--space-5) 0;
+	padding-left: var(--space-6);
+}
+.prose li {
+	margin-bottom: var(--space-2);
+}
+.prose blockquote {
+	font-family: var(--font-headline);
+	font-size: var(--text-2xl);
+	line-height: var(--leading-snug);
+	letter-spacing: var(--tracking-body);
+	font-weight: 500;
+	color: var(--text);
+	border-left: var(--border-medium) solid var(--accent);
+	padding-left: var(--space-6);
+	margin: var(--space-10) 0;
+	text-wrap: balance;
+}
+.prose code:not(pre code) {
+	font-family: var(--font-mono);
+	font-size: 0.9em;
+	background: var(--surface-2);
+	padding: 2px var(--space-2);
+	border-radius: var(--radius-xs);
+	border: 1px solid var(--border);
+}
+.prose pre {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	line-height: var(--leading-loose);
+	color: var(--code-text);
+	background: var(--code);
+	padding: var(--space-4);
+	border-radius: var(--radius-md);
+	overflow-x: auto;
+	margin: var(--space-6) 0;
+}
+.prose hr {
+	border: none;
+	border-top: 1px solid var(--border);
+	margin: var(--space-12) 0;
+}
