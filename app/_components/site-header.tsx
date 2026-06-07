@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { CommandPalette } from "./command-palette"
+import { useTheme } from "./theme-provider"
 
 const navItems = [
 	{ href: "/", label: "Introduction" },
@@ -25,6 +26,7 @@ function isActive(pathname: string, href: string) {
 export function SiteHeader() {
 	const pathname = usePathname()
 	const [paletteOpen, setPaletteOpen] = useState(false)
+	const { theme, toggleTheme } = useTheme()
 
 	// ⌘K global shortcut
 	useEffect(() => {
@@ -84,8 +86,9 @@ export function SiteHeader() {
 							className="site-theme-button ml-interaction-control"
 							type="button"
 							aria-label="Theme"
+							onClick={toggleTheme}
 						>
-							☼
+							{theme === "light" ? "☼" : "☾"}
 						</button>
 					</div>
 
