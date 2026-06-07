@@ -1,5 +1,7 @@
 /* =============================================================================
- * 7. TYPOGRAPHY - article body
+ * typography.css · Typographic styles for articles and rich text
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Defines the .prose component styles (headings, links, lists, code blocks).
  * ========================================================================== */
 .prose {
 	color: var(--text-body);

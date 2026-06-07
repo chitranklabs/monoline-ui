@@ -1,6 +1,33 @@
+/* =============================================================================
+ * theme.css · entry point for monoline-ui theme foundations
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Bundles design tokens, tailwind config, base, typography, animations,
+ * and utilities.
+ * ========================================================================== */
+
 @import "./theme/tokens.css";
 @import "./theme/tailwind.css";
 @import "./theme/base.css";
 @import "./theme/typography.css";
 @import "./theme/animations.css";
 @import "./theme/utilities.css";
+
+/* =============================================================================
+ * USAGE NOTES (read these once, then forget them)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * - Theme switch:  <html data-theme="dark">  or  <html class="dark">
+ *                  Either works; pick whichever your app already toggles.
+ * - Tailwind:      bg-background, text-foreground, bg-card, border-border-strong
+ *                  All auto-generated from the @theme block above.
+ * - CSS direct:    background: var(--surface);  color: var(--text-muted);
+ *                  Use directly when Tailwind utility names would be ugly.
+ * - Animations:    <div className="animate-heart-pop">  or  animation: heart-pop ...
+ * - Motion tokens: transition-duration: var(--duration-short)
+ *                  transition-timing-function: var(--ease-out-expo)
+ * - Reduced motion is handled automatically - your custom transitions in
+ *   component code should still use the duration tokens so they're caught.
+ *
+ * If you need a token that isn't here, add it to the appropriate section
+ * (DARK + LIGHT + @theme inline) instead of inlining a value in a component.
+ * This file is the single source. Components reference, don't redefine.
+ * ========================================================================== */

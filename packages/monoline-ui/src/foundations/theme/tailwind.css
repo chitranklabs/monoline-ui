@@ -1,5 +1,7 @@
 /* =============================================================================
- * 5. TAILWIND v4 @theme - utility-class generation
+ * tailwind.css · Tailwind v4 @theme customization
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Maps our custom properties (variables) to Tailwind's utility class generator.
  * ========================================================================== */
 @theme inline {
 	/* Colours (shadcn-compat) */

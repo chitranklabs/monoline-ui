@@ -1,6 +1,11 @@
 /* =============================================================================
- * 8. UTILITY CLASSES - used everywhere
+ * utilities.css · Custom helper classes, print, accessibility, and transitions
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Contains custom layout utility classes, interaction states, font families,
+ * print stylesheet rules, and reduced motion configurations.
  * ========================================================================== */
+
+/* --- Custom Utility Classes --- */
 .eyebrow,
 .ml-eyebrow {
 	font-family: var(--font-mono);
@@ -60,9 +65,7 @@
 	transform: translateX(0);
 }
 
-/* =============================================================================
- * 10. TRANSITIONS - composable utility classes
- * ========================================================================== */
+/* --- Transitions & Composable Interaction States --- */
 .transition-micro {
 	transition: all var(--duration-micro) var(--ease-out);
 }
@@ -121,6 +124,8 @@
 
 	.ml-interaction-control:hover {
 		border-color: var(--border-strong);
+		background: var(--surface-2);
+		box-shadow: var(--shadow-sm);
 		color: var(--text);
 	}
 
@@ -129,7 +134,9 @@
 	}
 
 	.ml-interaction-control-primary:hover {
+		border-color: var(--btn-primary-hover);
 		background: var(--btn-primary-hover);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.ml-interaction-tab {
@@ -154,9 +161,7 @@
 	}
 }
 
-/* =============================================================================
- * 11. REDUCED MOTION - respect user preference
- * ========================================================================== */
+/* --- Reduced Motion (prefers-reduced-motion: reduce) --- */
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
@@ -174,9 +179,7 @@
 	}
 }
 
-/* =============================================================================
- * 12. PRINT - clean reader output
- * ========================================================================== */
+/* --- Print Stylesheet --- */
 @media print {
 	:root,
 	.dark,
@@ -217,9 +220,7 @@
 	}
 }
 
-/* =============================================================================
- * 13. FONT FAMILY UTILITY CLASSES - beyond Tailwind's auto-generated set
- * ========================================================================== */
+/* --- Font Family Utility Classes (beyond Tailwind's default set) --- */
 .font-sans {
 	font-family: var(--font-sans);
 }
@@ -232,23 +233,3 @@
 .font-headline {
 	font-family: var(--font-headline);
 }
-
-/* =============================================================================
- * USAGE NOTES (read these once, then forget them)
- * ─────────────────────────────────────────────────────────────────────────────
- * - Theme switch:  <html data-theme="dark">  or  <html class="dark">
- *                  Either works; pick whichever your app already toggles.
- * - Tailwind:      bg-background, text-foreground, bg-card, border-border-strong
- *                  All auto-generated from the @theme block above.
- * - CSS direct:    background: var(--surface);  color: var(--text-muted);
- *                  Use directly when Tailwind utility names would be ugly.
- * - Animations:    <div className="animate-heart-pop">  or  animation: heart-pop ...
- * - Motion tokens: transition-duration: var(--duration-short)
- *                  transition-timing-function: var(--ease-out-expo)
- * - Reduced motion is handled automatically - your custom transitions in
- *   component code should still use the duration tokens so they're caught.
- *
- * If you need a token that isn't here, add it to the appropriate section
- * (DARK + LIGHT + @theme inline) instead of inlining a value in a component.
- * This file is the single source. Components reference, don't redefine.
- * ========================================================================== */

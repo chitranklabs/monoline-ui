@@ -1,5 +1,8 @@
 /* =============================================================================
- * 6. BASE - body, selection, scrollbar, focus ring
+ * base.css · Global resets and base element styles
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Defines core rules for body background/colors, ::selection, customized
+ * scrollbars, and focus outlines inside the @layer base scope.
  * ========================================================================== */
 @layer base {
 	* {

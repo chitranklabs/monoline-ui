@@ -1,31 +1,19 @@
 /* =============================================================================
- * foundation.css · single source of truth for personal-portfolio AND monoline-ui
+ * tokens.css · single source of truth for design tokens (variables)
  * ─────────────────────────────────────────────────────────────────────────────
  * This file owns:
  *   1. Colour tokens - dark (default) + light, shadcn-compatible
- *   2. Typography - three font families, scale, line-heights
- *   3. Spacing - 8-step scale
- *   4. Radius - 7-step scale
- *   5. Shadow - 4-step scale
- *   6. Z-index - semantic layers
- *   7. Border widths
- *   8. Breakpoints - published as CSS vars for JS to read
- *   9. Motion - 4 durations + 3 easings
- *  10. Tailwind v4 @theme inline mapping - utility-class generation
- *  11. Base layer - body, ::selection, scrollbar, focus ring
- *  12. Typography helpers - .prose / .eyebrow / .img-placeholder
- *  13. Animations - keyframes + .animate-* utilities for every micro-interaction
- *  14. Reduced-motion preference
- *  15. Print styles
- *
- * Install:
- *   app/globals.css → import Tailwind first, then this package theme file.
- *   Add data-theme="dark" or "light" on <html> (dark is default if absent).
- *
- * Theme switch - three ways, all wired:
- *   <html data-theme="dark">          ← attribute
- *   <html class="dark">                ← shadcn-style class
- *   media(prefers-color-scheme: dark)  ← system-driven (when neither set)
+ *   2. System-driven theme preference fallback
+ *   3. Typography - font families, size scale, line-heights, tracking
+ *   4. Spacing scale (4px base)
+ *   5. Radius scale
+ *   6. Border widths
+ *   7. Semantic focus rings
+ *   8. Z-index layers
+ *   9. Breakpoints (mirrored in foundations/breakpoints.ts)
+ *  10. Container widths
+ *  11. Motion - durations & easings
+ *  12. Component spacing aliases (--ml-*)
  * ========================================================================== */
 
 @custom-variant dark (&:is(.dark, [data-theme="dark"], .dark *, [data-theme="dark"] *));
