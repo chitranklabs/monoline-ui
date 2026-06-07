@@ -12,9 +12,13 @@
 	html {
 		/* Smooth scroll for anchor jumps (table of contents) */
 		scroll-behavior: smooth;
+		/* Prevent horizontal scroll from any overflowing child.
+		   clip (not hidden) preserves position: sticky on descendants. */
+		overflow-x: clip;
 	}
 
 	body {
+		overflow-x: clip;
 		background: var(--background);
 		color: var(--foreground);
 		font-family: var(--font-sans);
