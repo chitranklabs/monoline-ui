@@ -60,7 +60,8 @@ function CodeBlock({
 	const [copied, setCopied] = useState(false)
 
 	const html = useMemo(() => {
-		const lang = Prism.languages[language] || Prism.languages.javascript
+		const lang = (Prism.languages[language] ||
+			Prism.languages.javascript) as Prism.Grammar
 		return Prism.highlight(code, lang, language)
 	}, [code, language])
 
@@ -165,10 +166,21 @@ function PreviewFrame({
 			iframeDocument.head.appendChild(node.cloneNode(true))
 		}
 
+		// Inject transition stylesheet for smooth theme toggles
+		const styleNode = iframeDocument.createElement("style")
+		styleNode.textContent = `
+			* {
+				transition: background-color var(--duration-medium) var(--ease-out),
+				            color var(--duration-medium) var(--ease-out),
+				            border-color var(--duration-medium) var(--ease-out);
+			}
+		`
+		iframeDocument.head.appendChild(styleNode)
+
 		setMountNode(
 			iframeDocument.getElementById("playground-preview-root") as HTMLElement
 		)
-	}, [theme])
+	}, [])
 
 	useEffect(() => {
 		const iframeDocument = iframeRef.current?.contentDocument
@@ -325,12 +337,14 @@ function ComponentPlaygroundClient<T extends string = string>({
 
 	const viewportOption = useMemo(
 		() =>
-			viewportOptions.find((option) => option.key === viewport) ??
-			viewportOptions[2],
+			(viewportOptions.find((option) => option.key === viewport) ??
+				viewportOptions[2]) as ViewportOption,
 		[viewport]
 	)
 	const zoomOption = useMemo(
-		() => zoomOptions.find((option) => option.value === zoom) ?? zoomOptions[1],
+		() =>
+			(zoomOptions.find((option) => option.value === zoom) ??
+				zoomOptions[1]) as ZoomOption,
 		[zoom]
 	)
 
@@ -412,9 +426,26 @@ function ComponentPlaygroundClient<T extends string = string>({
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
 					<h1>{title}</h1>
-					{status && <span>{status}</span>}
-					{version && <span>{version}</span>}
-					{gzippedSize && <span>{gzippedSize}</span>}
+					{status && (
+						<span
+							className={`playground-badge playground-badge--status playground-badge--${status.toLowerCase()}`}
+						>
+							{status === "stable" && (
+								<span className="playground-badge__dot" />
+							)}
+							{status}
+						</span>
+					)}
+					{version && (
+						<span className="playground-badge playground-badge--version">
+							{version}
+						</span>
+					)}
+					{gzippedSize && (
+						<span className="playground-badge playground-badge--size">
+							{gzippedSize}
+						</span>
+					)}
 				</div>
 				<p>{description}</p>
 			</header>

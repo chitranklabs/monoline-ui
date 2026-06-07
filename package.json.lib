@@ -1,0 +1,70 @@
+{
+	"name": "@chitrank2050/monoline-ui",
+	"version": "0.1.0",
+	"description": "A React footer component and Tailwind CSS theme for Chitrank's portfolio interface.",
+	"type": "module",
+	"author": {
+		"name": "Chitrank Agnihotri",
+		"email": "chitrank2050@gmail.com",
+		"url": "https://www.chitrankagnihotri.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/chitranklabs/monoline-ui"
+	},
+	"bugs": {
+		"url": "https://github.com/chitranklabs/monoline-ui/issues"
+	},
+	"keywords": [
+		"react",
+		"footer",
+		"tailwindcss",
+		"portfolio",
+		"ui"
+	],
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"**/*"
+	],
+	"main": "./index.js",
+	"module": "./index.js",
+	"types": "./index.d.ts",
+	"sideEffects": [
+		"./styles/theme.css"
+	],
+	"exports": {
+		".": {
+			"types": "./index.d.ts",
+			"import": "./index.js"
+		},
+		"./footer": {
+			"types": "./components/footer.d.ts",
+			"import": "./components/footer.js"
+		},
+		"./components/*": {
+			"types": "./components/*.d.ts",
+			"import": "./components/*.js"
+		},
+		"./foundations/*": {
+			"types": "./foundations/*.d.ts",
+			"import": "./foundations/*.js"
+		},
+		"./theme.css": {
+			"default": "./styles/theme.css"
+		},
+		"./package.json": "./package.json"
+	},
+	"peerDependencies": {
+		"react": "^18.2.0 || ^19.0.0",
+		"react-dom": "^18.2.0 || ^19.0.0",
+		"tailwindcss": ">=4.0.0"
+	},
+	"peerDependenciesMeta": {
+		"tailwindcss": {
+			"optional": true
+		}
+	}
+}

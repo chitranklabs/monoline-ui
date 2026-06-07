@@ -35,10 +35,25 @@
 	margin-left: -8px;
 	border: 1px solid transparent;
 	border-radius: 8px;
-	padding: 7px 10px;
+	padding: 7px 10px 7px 14px;
 	color: var(--text-secondary);
 	font-size: var(--type-ui-label-size);
 	line-height: var(--type-ui-label-leading);
+	position: relative;
+}
+
+.docs-sidebar__item::before {
+	content: "";
+	position: absolute;
+	left: 4px;
+	top: 50%;
+	transform: translateY(-50%) scaleY(0);
+	width: 3px;
+	height: 16px;
+	border-radius: 99px;
+	background: var(--accent);
+	transition: transform var(--duration-medium) var(--ease-out-expo);
+	transform-origin: center;
 }
 
 .docs-sidebar__item[aria-current="page"] {
@@ -47,6 +62,10 @@
 	box-shadow: 0 1px 2px rgba(20, 15, 10, 0.03);
 	color: var(--text);
 	font-weight: 500;
+}
+
+.docs-sidebar__item[aria-current="page"]::before {
+	transform: translateY(-50%) scaleY(1);
 }
 
 .docs-sidebar__meta {

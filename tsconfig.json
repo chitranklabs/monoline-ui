@@ -18,16 +18,22 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./*"]
+			"@/*": ["./app/*"],
+			"@chitrank2050/monoline-ui": ["./src/index.ts"],
+			"@chitrank2050/monoline-ui/*": ["./src/*"]
 		},
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"noUncheckedIndexedAccess": true,
+		"ignoreDeprecations": "6.0"
 	},
 	"include": [
 		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
+		"app/**/*.ts",
+		"app/**/*.tsx",
+		"src/**/*.ts",
+		"src/**/*.tsx",
 		".next/types/**/*.ts",
 		".next/dev/types/**/*.ts"
 	],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "dist"]
 }

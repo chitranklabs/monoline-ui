@@ -338,3 +338,59 @@
 	font-weight: 600;
 	letter-spacing: -0.01em;
 }
+
+/* CLI Badge */
+.cli-badge {
+	display: inline-flex;
+	align-items: center;
+	height: 40px;
+	gap: 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	background: var(--surface-2);
+	padding-inline: 14px;
+	color: var(--text-secondary);
+	font-family: var(--font-mono);
+	font-size: 12px;
+	cursor: pointer;
+	transition: all var(--duration-short) var(--ease-out-expo);
+}
+
+.cli-badge:hover {
+	border-color: var(--border-strong);
+	background: var(--surface-3);
+	color: var(--text);
+}
+
+.cli-badge__prefix {
+	color: var(--accent);
+	font-weight: 700;
+}
+
+.cli-badge__code {
+	user-select: all;
+}
+
+.cli-badge__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	color: var(--text-muted);
+	transition: color var(--duration-short) var(--ease-out-expo);
+}
+
+.cli-badge:hover .cli-badge__icon {
+	color: var(--text-secondary);
+}
+
+.cli-badge__svg {
+	width: 100%;
+	height: 100%;
+}
+
+.cli-badge__svg--success {
+	color: var(--accent);
+	animation: scale-in var(--duration-short) var(--ease-out-expo);
+}

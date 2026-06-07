@@ -266,3 +266,55 @@ pre[class*="language-"] {
 	width: 14px;
 	height: 14px;
 }
+
+/* Styled Status Badges */
+.playground-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border-radius: 999px;
+	padding: 3px 8px;
+	font-family: var(--font-mono);
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.playground-badge--stable {
+	background: rgba(16, 185, 129, 0.08) !important;
+	color: #10b981 !important;
+	border: 1px solid rgba(16, 185, 129, 0.15) !important;
+}
+
+.playground-badge__dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: currentColor;
+	animation: badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.4;
+		transform: scale(0.85);
+	}
+}
+
+.playground-badge--version {
+	background: var(--surface-2) !important;
+	border: 1px solid var(--border) !important;
+	color: var(--text-secondary) !important;
+}
+
+.playground-badge--size {
+	background: var(--surface-3) !important;
+	border: 1px solid var(--border) !important;
+	color: var(--text-muted) !important;
+}

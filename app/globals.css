@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@source "../../../packages/monoline-ui/src/**/*.{ts,tsx}";
+@source "../src/**/*.{ts,tsx}";
 @source "./**/*.{ts,tsx}";
-@import "@chitrank2050/monoline-ui/theme.css";
+@import "../src/foundations/theme.css";
 
 @import "./_styles/base.css";
 @import "./_styles/site-header.css";

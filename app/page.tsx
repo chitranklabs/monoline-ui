@@ -1,3 +1,4 @@
+import { CliBadge } from "./_components/cli-badge"
 import Link from "next/link"
 
 const stats = [
@@ -22,7 +23,7 @@ const components = [
 	["Navbar", "Top chrome with active underline"],
 	["Footer", "Brand block + link columns + meta bar"],
 	["Rail", "Sidebar tag list with counts"],
-	["Toc", "Table of contents with scroll-spy"],
+	["Toc", "Table ofContents with scroll-spy"],
 	["Button", "5 variants × 4 sizes, icon, asChild"],
 	["Input", "Text/search with prefix icon + kbd"],
 	["Toggle", "On/off switch with spring thumb"],
@@ -121,7 +122,7 @@ export default function HomePage() {
 						>
 							Browse components
 						</Link>
-						<code>$ npm i @chitrank2050/monoline-ui ⧉</code>
+						<CliBadge />
 					</div>
 				</div>
 				<PreviewCard />
