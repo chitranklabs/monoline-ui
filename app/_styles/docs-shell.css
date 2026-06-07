@@ -65,7 +65,7 @@
 .docs-sidebar__item[aria-current="page"] {
 	border-color: var(--border);
 	background: var(--surface);
-	box-shadow: 0 1px 2px rgba(20, 15, 10, 0.03);
+	box-shadow: var(--shadow-xs);
 	color: var(--text);
 	font-weight: 500;
 }

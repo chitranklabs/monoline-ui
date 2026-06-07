@@ -91,7 +91,7 @@
 	border: 1px solid var(--border);
 	border-radius: var(--radius-xl);
 	background: var(--surface);
-	box-shadow: 0 18px 56px rgba(20, 15, 10, 0.06);
+	box-shadow: var(--shadow-md);
 	margin-top: 2.4375rem;
 	margin-left: 0.375rem;
 }

@@ -59,6 +59,11 @@
 	--accent-soft: oklch(0.78 0.09 60 / 0.14);
 	--border-strong: rgba(255, 255, 255, 0.18);
 
+	/* ─── semantic: live / stable state ─── */
+	--color-live: oklch(0.68 0.15 162);
+	--color-live-soft: oklch(0.68 0.15 162 / 0.1);
+	--color-live-border: oklch(0.68 0.15 162 / 0.18);
+
 	/* Surface ladder (deeper than --card for nesting) */
 	--surface: oklch(0.18 0 0);
 	--surface-2: oklch(0.17 0 0);
@@ -168,6 +173,11 @@
 
 	--accent-soft: oklch(0.55 0.13 40 / 0.1);
 	--border-strong: rgba(10, 10, 10, 0.18);
+
+	/* ─── semantic: live / stable state ─── */
+	--color-live: oklch(0.5 0.14 162);
+	--color-live-soft: oklch(0.5 0.14 162 / 0.08);
+	--color-live-border: oklch(0.5 0.14 162 / 0.15);
 
 	--surface: oklch(1 0 0);
 	--surface-2: oklch(0.975 0.003 80);
@@ -412,6 +422,7 @@
 	/* ─── Motion: durations ─── */
 	--duration-instant: 0ms;
 	--duration-micro: 120ms; /* button bg, focus ring, tag hover */
+	--duration-fast: 150ms; /* search hover, command palette fade */
 	--duration-short: 250ms; /* card lift, image zoom */
 	--duration-medium: 450ms; /* heart pop, toggle spring */
 	--duration-long: 700ms; /* page entry, scrubber */

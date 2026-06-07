@@ -28,18 +28,18 @@
 }
 
 .theme-preview__panel--dark {
-	background: #121212;
+	background: var(--code);
 }
 
 .theme-preview__panel--dark .ml-eyebrow,
 .theme-preview__panel--dark h2,
 .theme-preview__panel--dark p {
-	color: #f3f3f3;
+	color: var(--foreground);
 }
 
 .theme-preview__panel--light {
 	border-left: 1px solid var(--border);
-	background: #fff;
+	background: var(--surface);
 }
 
 .theme-preview__badge {
@@ -65,7 +65,7 @@
 }
 
 .theme-preview__badge--dark {
-	background: rgba(228, 174, 117, 0.12);
+	background: var(--accent-soft);
 }
 
 .color-section__head {

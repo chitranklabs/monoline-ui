@@ -135,9 +135,9 @@
 .playground-detail pre {
 	margin: 0;
 	overflow: auto;
-	background: #151515;
+	background: var(--code);
 	padding: 1rem;
-	color: #e6e6e6;
+	color: var(--code-text);
 	font-size: 0.78125rem;
 	line-height: 1.7;
 }
@@ -161,7 +161,7 @@
 	height: 1.75rem;
 	border-radius: 999px;
 	background: var(--accent);
-	color: #fff;
+	color: var(--accent-foreground);
 	font-size: 0.875rem;
 }
 
