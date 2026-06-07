@@ -52,10 +52,18 @@
 			"types": "./foundations/*.d.ts",
 			"import": "./foundations/*.js"
 		},
+		"./lib/*": {
+			"types": "./lib/*.d.ts",
+			"import": "./lib/*.js"
+		},
 		"./theme.css": {
 			"default": "./styles/theme.css"
 		},
 		"./package.json": "./package.json"
+	},
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.0.0"
 	},
 	"peerDependencies": {
 		"react": "^18.2.0 || ^19.0.0",

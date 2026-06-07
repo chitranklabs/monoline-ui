@@ -114,7 +114,7 @@ function CodeBlock({
 					</svg>
 				)}
 			</button>
-			<pre className={`language-${language}`}>
+			<pre className={`language-${language}`} tabIndex={0}>
 				<code
 					className={`language-${language}`}
 					dangerouslySetInnerHTML={{ __html: html }}

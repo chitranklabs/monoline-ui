@@ -1,50 +1,10 @@
-import type * as React from "react"
+import type { FooterColumn, FooterLink, FooterProps } from "./types"
+import { FooterStatus } from "./status"
+import { FooterSubscribeForm } from "./subscribe"
+import { cn } from "../../lib/utils"
 
-export interface FooterLink {
-	href: string
-	label: React.ReactNode
-	external?: boolean
-	rel?: string
-	target?: React.HTMLAttributeAnchorTarget
-}
-
-export interface FooterColumn {
-	title: React.ReactNode
-	links: FooterLink[]
-}
-
-export type FooterSize = "sm" | "md" | "lg"
-
-export interface FooterSubscribeFormProps extends Omit<
-	React.ComponentProps<"form">,
-	"children"
-> {
-	description?: React.ReactNode
-	placeholder?: string
-	inputName?: string
-	submitLabel?: string
-}
-
-export interface FooterStatusProps extends React.ComponentProps<"span"> {
-	children?: React.ReactNode
-}
-
-export interface FooterProps extends React.ComponentProps<"footer"> {
-	size?: FooterSize
-	brand?: React.ReactNode
-	description?: React.ReactNode
-	status?: React.ReactNode | false
-	localTime?: React.ReactNode | false
-	columns?: FooterColumn[]
-	/**
-	 * Compatibility alias for the previous simple footer API. Prefer `columns`
-	 * for new implementations.
-	 */
-	links?: FooterLink[]
-	subscribe?: React.ReactNode | false
-	credit?: React.ReactNode
-	meta?: React.ReactNode
-	attribution?: React.ReactNode
+function isExternalHref(link: FooterLink) {
+	return link.external ?? /^(https?:|mailto:|tel:)/.test(link.href)
 }
 
 const defaultColumns: FooterColumn[] = [
@@ -71,45 +31,6 @@ const defaultColumns: FooterColumn[] = [
 		],
 	},
 ]
-
-type ClassValue = string | false | null | undefined | ClassValue[]
-
-function cn(...inputs: ClassValue[]) {
-	const classes: string[] = []
-
-	for (const input of inputs) {
-		if (Array.isArray(input)) {
-			const value = cn(...input)
-
-			if (value) {
-				classes.push(value)
-			}
-		} else if (input) {
-			classes.push(input)
-		}
-	}
-
-	return classes.join(" ")
-}
-
-function FooterStatus({
-	children = "Open to work",
-	className,
-	...props
-}: FooterStatusProps) {
-	return (
-		<span
-			className={cn(
-				"inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-4 py-ml-2 font-mono text-(length:--ml-footer-status-text) font-semibold tracking-(--ml-footer-status-tracking) text-accent uppercase transition-[background-color,border-color] duration-(--duration-micro) ease-(--ease-out) sm:text-(length:--ml-footer-status-text-tablet)",
-				className
-			)}
-			{...props}
-		>
-			<span className="size-ml-1-5 shrink-0 rounded-full bg-accent" />
-			{children}
-		</span>
-	)
-}
 
 const footerSizeClasses = {
 	sm: {
@@ -156,57 +77,7 @@ const footerSizeClasses = {
 	},
 } as const
 
-function FooterSubscribeForm({
-	description = "One essay a month. No tracking, no nonsense.",
-	placeholder = "you@studio.com",
-	inputName = "email",
-	submitLabel = "Subscribe",
-	action = "#",
-	method = "post",
-	className,
-	...props
-}: FooterSubscribeFormProps) {
-	return (
-		<form
-			action={action}
-			method={method}
-			className={cn("flex min-w-0 flex-col gap-ml-3", className)}
-			{...props}
-		>
-			<p className="max-w-(--ml-footer-subscribe-copy-max) text-base leading-relaxed text-body">
-				{description}
-			</p>
-			<div className="flex h-(--ml-footer-subscribe-control-height) w-full max-w-(--ml-footer-subscribe-control-max) overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-(--duration-micro) ease-(--ease-out) focus-within:border-accent focus-within:shadow-(--focus-ring)">
-				<input
-					type="email"
-					name={inputName}
-					required
-					placeholder={placeholder}
-					aria-label="Email address"
-					className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent px-ml-3 text-sm text-primary outline-none transition-colors duration-(--duration-micro) ease-(--ease-out) focus:placeholder:text-muted-foreground/70"
-				/>
-				<button
-					type="submit"
-					aria-label={submitLabel}
-					className="group/submit inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-[background-color,box-shadow,transform] duration-(--duration-micro) ease-(--ease-out) hover:scale-(--ml-footer-submit-hover-scale) active:scale-(--ml-footer-submit-press-scale) focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
-				>
-					<span
-						aria-hidden="true"
-						className="transition-transform duration-(--duration-micro) ease-(--ease-out) group-hover/submit:translate-x-(--ml-footer-submit-arrow-hover-x)"
-					>
-						→
-					</span>
-				</button>
-			</div>
-		</form>
-	)
-}
-
-function isExternalHref(link: FooterLink) {
-	return link.external ?? /^(https?:|mailto:|tel:)/.test(link.href)
-}
-
-function FooterRoot({
+export function FooterRoot({
 	size = "md",
 	brand = "Chitrank",
 	description = "Technical Lead. Nine years bridging React, Node, and ML pipelines. Currently in Delhi, working on inference infra.",
@@ -355,10 +226,3 @@ function FooterRoot({
 		</footer>
 	)
 }
-
-const Footer = Object.assign(FooterRoot, {
-	Status: FooterStatus,
-	Subscribe: FooterSubscribeForm,
-})
-
-export { Footer }
