@@ -72,6 +72,11 @@
 	color: var(--text-secondary);
 	font-size: 13.5px;
 	font-weight: 500;
+	transition: color var(--duration-micro) var(--ease-out);
+}
+
+.site-footer__group a:hover {
+	color: var(--text);
 }
 
 .site-footer__bottom {

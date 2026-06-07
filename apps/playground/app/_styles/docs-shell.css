@@ -39,6 +39,17 @@
 	color: var(--text-secondary);
 	font-size: var(--type-ui-label-size);
 	line-height: var(--type-ui-label-leading);
+	transition:
+		background-color var(--duration-micro) var(--ease-out),
+		border-color var(--duration-micro) var(--ease-out),
+		box-shadow var(--duration-micro) var(--ease-out),
+		color var(--duration-micro) var(--ease-out);
+}
+
+.docs-sidebar__item:hover {
+	border-color: var(--border);
+	background: var(--surface);
+	color: var(--text);
 }
 
 .docs-sidebar__item[aria-current="page"] {

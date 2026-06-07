@@ -527,14 +527,14 @@
 	--ml-footer-subscribe-control-max: 20rem;
 	--ml-footer-subscribe-control-height: 44px;
 	--ml-footer-submit-hover-scale: 0.98;
-	--ml-footer-submit-arrow-hover-x: 1px;
+	--ml-footer-submit-press-scale: 0.96;
+	--ml-footer-submit-arrow-hover-x: 2px;
 	--ml-footer-meta-copy-max: 38rem;
 	--ml-footer-link-min-height-sm: 28px;
 	--ml-footer-link-min-height-md: 32px;
 	--ml-footer-link-min-height-lg: 36px;
 	--ml-footer-link-hover-x: 2px;
 	--ml-footer-link-arrow-hover-x: 3px;
-	--ml-footer-status-dot-hover-scale: 1.28;
 }
 
 /* =============================================================================
