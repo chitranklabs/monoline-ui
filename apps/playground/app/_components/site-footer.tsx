@@ -60,7 +60,7 @@ export function SiteFooter() {
 						<nav key={group.title} className="site-footer__group">
 							<h2>{group.title}</h2>
 							{group.links.map((link) => (
-								<a key={link} href="#">
+								<a key={link} href="#" className="ml-interaction-color">
 									{link}
 								</a>
 							))}

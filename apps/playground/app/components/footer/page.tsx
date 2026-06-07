@@ -62,40 +62,70 @@ export default function FooterPage() {
 				<div className="playground-controls__group">
 					<label>Render</label>
 					<div className="playground-segmented">
-						<button type="button" aria-pressed="true">
+						<button
+							type="button"
+							aria-pressed="true"
+							className="ml-interaction-surface"
+						>
 							Single
 						</button>
-						<button type="button">All sizes</button>
+						<button type="button" className="ml-interaction-surface">
+							All sizes
+						</button>
 					</div>
 				</div>
 				<div className="playground-controls__group">
 					<label>Size</label>
 					<div className="playground-segmented">
-						<button type="button">SM</button>
-						<button type="button" aria-pressed="true">
+						<button type="button" className="ml-interaction-surface">
+							SM
+						</button>
+						<button
+							type="button"
+							aria-pressed="true"
+							className="ml-interaction-surface"
+						>
 							MD
 						</button>
-						<button type="button">LG</button>
+						<button type="button" className="ml-interaction-surface">
+							LG
+						</button>
 					</div>
 				</div>
 				<div className="playground-controls__group">
 					<label>Viewport</label>
 					<div className="playground-segmented">
-						<button type="button">Mobile</button>
-						<button type="button">Tablet</button>
-						<button type="button" aria-pressed="true">
+						<button type="button" className="ml-interaction-surface">
+							Mobile
+						</button>
+						<button type="button" className="ml-interaction-surface">
+							Tablet
+						</button>
+						<button
+							type="button"
+							aria-pressed="true"
+							className="ml-interaction-surface"
+						>
 							Desktop
 						</button>
-						<button type="button">Wide</button>
+						<button type="button" className="ml-interaction-surface">
+							Wide
+						</button>
 					</div>
 				</div>
 				<div className="playground-controls__group">
 					<label>Theme</label>
 					<div className="playground-segmented">
-						<button type="button" aria-pressed="true">
+						<button
+							type="button"
+							aria-pressed="true"
+							className="ml-interaction-surface"
+						>
 							Light
 						</button>
-						<button type="button">Dark</button>
+						<button type="button" className="ml-interaction-surface">
+							Dark
+						</button>
 					</div>
 				</div>
 				<div className="playground-controls__group">
@@ -123,12 +153,22 @@ export default function FooterPage() {
 
 			<section className="playground-detail">
 				<div className="playground-detail__tabs">
-					<button type="button" aria-pressed="true">
+					<button
+						type="button"
+						aria-pressed="true"
+						className="ml-interaction-tab-underline"
+					>
 						Usage
 					</button>
-					<button type="button">Props</button>
-					<button type="button">Tokens</button>
-					<button type="button">Source</button>
+					<button type="button" className="ml-interaction-tab-underline">
+						Props
+					</button>
+					<button type="button" className="ml-interaction-tab-underline">
+						Tokens
+					</button>
+					<button type="button" className="ml-interaction-tab-underline">
+						Source
+					</button>
 				</div>
 				<div className="playground-detail__body">
 					<h3>Import</h3>

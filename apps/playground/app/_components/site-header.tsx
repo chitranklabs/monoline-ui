@@ -40,7 +40,7 @@ export function SiteHeader() {
 							key={item.href}
 							href={item.href}
 							aria-current={isActive(pathname, item.href) ? "page" : undefined}
-							className="site-nav__item"
+							className="site-nav__item ml-interaction-color"
 						>
 							{item.label}
 						</Link>
@@ -48,21 +48,27 @@ export function SiteHeader() {
 				</nav>
 
 				<div className="site-actions">
-					<label className="site-search">
+					<label className="site-search ml-interaction-focus">
 						<span aria-hidden="true">⌕</span>
 						<span className="sr-only">Search components</span>
 						<input placeholder="Search components" />
 						<kbd>⌘K</kbd>
 					</label>
-					<a className="site-action-link" href="https://github.com">
+					<a
+						className="site-action-link ml-interaction-color"
+						href="https://github.com"
+					>
 						GitHub
 					</a>
-					<a className="site-action-link" href="https://figma.com">
+					<a
+						className="site-action-link ml-interaction-color"
+						href="https://figma.com"
+					>
 						<span aria-hidden="true">∞</span>
 						<span>Figma</span>
 					</a>
 					<button
-						className="site-theme-button"
+						className="site-theme-button ml-interaction-control"
 						type="button"
 						aria-label="Theme"
 					>
@@ -71,7 +77,7 @@ export function SiteHeader() {
 				</div>
 
 				<button
-					className="site-menu-button"
+					className="site-menu-button ml-interaction-control"
 					type="button"
 					aria-label="Open menu"
 				>

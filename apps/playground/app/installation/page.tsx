@@ -97,6 +97,7 @@ export default function InstallationPage() {
 												key={tab}
 												type="button"
 												aria-pressed={tab === "pnpm"}
+												className="ml-interaction-tab"
 											>
 												{tab}
 											</button>
@@ -104,7 +105,9 @@ export default function InstallationPage() {
 									</div>
 									<div className="install-command__body">
 										<code>{step.code}</code>
-										<button type="button">Copy</button>
+										<button type="button" className="ml-interaction-control">
+											Copy
+										</button>
 									</div>
 								</div>
 							) : null}
@@ -113,7 +116,9 @@ export default function InstallationPage() {
 								<div className="install-code">
 									<div className="install-code__meta">
 										<span>{step.label}</span>
-										<button type="button">Copy</button>
+										<button type="button" className="ml-interaction-control">
+											Copy
+										</button>
 									</div>
 									<pre>{step.code}</pre>
 								</div>
@@ -128,10 +133,15 @@ export default function InstallationPage() {
 				<div>
 					<h3>You&apos;re ready.</h3>
 					<p>
-						Browse the <a href="/components/footer">component reference</a> for
-						the full API, or jump to{" "}
-						<a href="/foundations/colors">Foundations</a> to see the token
-						system.
+						Browse the{" "}
+						<a href="/components/footer" className="ml-interaction-color">
+							component reference
+						</a>{" "}
+						for the full API, or jump to{" "}
+						<a href="/foundations/colors" className="ml-interaction-color">
+							Foundations
+						</a>{" "}
+						to see the token system.
 					</p>
 				</div>
 			</div>

@@ -62,11 +62,6 @@
 	font-size: 14px;
 	font-weight: 650;
 	line-height: 1;
-	transition: color var(--duration-micro) var(--ease-out);
-}
-
-.site-nav__item:hover {
-	color: var(--text);
 }
 
 .site-nav__item[aria-current="page"] {
@@ -102,14 +97,6 @@
 	background: var(--surface);
 	padding-inline: 10px 6px;
 	color: var(--text-muted);
-	transition:
-		border-color var(--duration-micro) var(--ease-out),
-		box-shadow var(--duration-micro) var(--ease-out);
-}
-
-.site-search:focus-within {
-	border-color: var(--border-strong);
-	box-shadow: var(--focus-ring-layered);
 }
 
 .site-search input {
@@ -139,11 +126,6 @@
 	color: var(--text-secondary);
 	font-size: 12px;
 	font-weight: 700;
-	transition: color var(--duration-micro) var(--ease-out);
-}
-
-.site-action-link:hover {
-	color: var(--text);
 }
 
 .site-theme-button,
@@ -155,21 +137,6 @@
 	border-radius: var(--radius-md);
 	background: var(--surface);
 	color: var(--text);
-	transition:
-		background-color var(--duration-micro) var(--ease-out),
-		border-color var(--duration-micro) var(--ease-out),
-		box-shadow var(--duration-micro) var(--ease-out),
-		transform var(--duration-micro) var(--ease-out);
-}
-
-.site-theme-button:hover,
-.site-menu-button:hover {
-	border-color: var(--border-strong);
-}
-
-.site-theme-button:active,
-.site-menu-button:active {
-	transform: scale(0.96);
 }
 
 .site-theme-button {

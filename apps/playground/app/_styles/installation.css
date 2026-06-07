@@ -75,14 +75,6 @@
 	font-family: var(--font-mono);
 	font-size: 12px;
 	text-align: left;
-	transition:
-		background-color var(--duration-micro) var(--ease-out),
-		box-shadow var(--duration-micro) var(--ease-out),
-		color var(--duration-micro) var(--ease-out);
-}
-
-.install-command__tabs button:hover {
-	color: var(--text);
 }
 
 .install-command__tabs button:last-child {
@@ -126,23 +118,6 @@
 	padding: 8px 12px;
 	color: var(--text-muted);
 	font-size: 12px;
-	transition:
-		background-color var(--duration-micro) var(--ease-out),
-		border-color var(--duration-micro) var(--ease-out),
-		box-shadow var(--duration-micro) var(--ease-out),
-		color var(--duration-micro) var(--ease-out),
-		transform var(--duration-micro) var(--ease-out);
-}
-
-.install-command__body button:hover,
-.install-code__meta button:hover {
-	border-color: var(--border-strong);
-	color: var(--text);
-}
-
-.install-command__body button:active,
-.install-code__meta button:active {
-	transform: scale(0.96);
 }
 
 .install-code__meta {

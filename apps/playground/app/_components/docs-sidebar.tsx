@@ -29,7 +29,7 @@ export function DocsSidebar() {
 								aria-current={
 									isActivePath(pathname, item.href) ? "page" : undefined
 								}
-								className="docs-sidebar__item"
+								className="docs-sidebar__item ml-interaction-surface"
 							>
 								<span>{item.label}</span>
 							</Link>
@@ -50,7 +50,7 @@ export function DocsSidebar() {
 									aria-current={
 										isActivePath(pathname, item.href) ? "page" : undefined
 									}
-									className="docs-sidebar__item"
+									className="docs-sidebar__item ml-interaction-surface"
 								>
 									<span>{item.label}</span>
 									{"meta" in item && item.meta ? (

@@ -60,8 +60,15 @@ function PreviewCard() {
 			</div>
 			<div className="intro-preview__body">
 				<div className="intro-preview__actions">
-					<button type="button">Contact me</button>
-					<button type="button">Resume</button>
+					<button
+						type="button"
+						className="ml-interaction-control ml-interaction-control-primary"
+					>
+						Contact me
+					</button>
+					<button type="button" className="ml-interaction-control">
+						Resume
+					</button>
 					<span>• Live</span>
 				</div>
 				<article className="intro-preview__article">
@@ -104,11 +111,14 @@ export default function HomePage() {
 					<div className="intro-actions">
 						<Link
 							href="/installation"
-							className="intro-button intro-button--primary"
+							className="intro-button intro-button--primary ml-interaction-control ml-interaction-control-primary"
 						>
 							Get started <span aria-hidden="true">→</span>
 						</Link>
-						<Link href="/components/footer" className="intro-button">
+						<Link
+							href="/components/footer"
+							className="intro-button ml-interaction-control"
+						>
 							Browse components
 						</Link>
 						<code>$ npm i @chitrank2050/monoline-ui ⧉</code>
@@ -144,7 +154,9 @@ export default function HomePage() {
 						<p className="ml-eyebrow">Inside the box · 25 components</p>
 						<h2>Everything an editorial site needs.</h2>
 					</div>
-					<Link href="/components/footer">All components →</Link>
+					<Link href="/components/footer" className="ml-interaction-color">
+						All components →
+					</Link>
 				</div>
 				<div className="intro-components">
 					{components.map(([title, description]) => (

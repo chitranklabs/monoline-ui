@@ -1157,6 +1157,84 @@
 	transition: all var(--duration-long) var(--ease-out-expo);
 }
 
+@layer utilities {
+	.ml-interaction-color {
+		transition: color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-color:hover {
+		color: var(--text);
+	}
+
+	.ml-interaction-focus {
+		transition:
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-focus:focus-within {
+		border-color: var(--border-strong);
+		box-shadow: var(--focus-ring-layered);
+	}
+
+	.ml-interaction-surface {
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-surface:hover {
+		border-color: var(--border);
+		background: var(--surface);
+		color: var(--text);
+	}
+
+	.ml-interaction-control {
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out),
+			transform var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-control:hover {
+		border-color: var(--border-strong);
+		color: var(--text);
+	}
+
+	.ml-interaction-control:active {
+		transform: scale(var(--control-press-scale, 0.96));
+	}
+
+	.ml-interaction-control-primary:hover {
+		background: var(--btn-primary-hover);
+	}
+
+	.ml-interaction-tab {
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-tab:hover {
+		color: var(--text);
+	}
+
+	.ml-interaction-tab-underline {
+		transition:
+			border-color var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-interaction-tab-underline:hover {
+		color: var(--text);
+	}
+}
+
 /* =============================================================================
  * 11. REDUCED MOTION - respect user preference
  * ========================================================================== */
