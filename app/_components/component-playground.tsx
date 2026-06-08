@@ -12,6 +12,8 @@ import { createPortal } from "react-dom"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { SegmentedControl } from "@chitrank2050/monoline-ui/segmented-control"
+
 import { CodeBlock } from "./code-block"
 
 export { CodeBlock }
@@ -55,74 +57,6 @@ const defaultControls = {
 
 const previewFrameMinWidth = 240
 const previewFrameMinHeight = 96
-
-interface PlaygroundSegmentedOption<T> {
-	value: T
-	label: string
-}
-
-function PlaygroundSegmented<T extends string | number>({
-	options,
-	value,
-	onChange,
-}: {
-	options: PlaygroundSegmentedOption<T>[]
-	value: T | undefined
-	onChange: (value: T) => void
-}) {
-	const containerRef = useRef<HTMLDivElement>(null)
-	const [style, setStyle] = useState<React.CSSProperties>({
-		transform: "translateX(0)",
-		width: 0,
-		opacity: 0,
-	})
-
-	useEffect(() => {
-		const container = containerRef.current
-		if (!container) return
-
-		const updatePosition = () => {
-			const activeButton = container.querySelector(
-				'button[aria-pressed="true"]'
-			) as HTMLButtonElement | null
-			if (activeButton) {
-				setStyle({
-					transform: `translateX(${activeButton.offsetLeft}px)`,
-					width: activeButton.offsetWidth,
-					opacity: 1,
-				})
-			} else {
-				setStyle((prev) => ({ ...prev, opacity: 0 }))
-			}
-		}
-
-		updatePosition()
-		const handle = requestAnimationFrame(updatePosition)
-
-		window.addEventListener("resize", updatePosition)
-		return () => {
-			cancelAnimationFrame(handle)
-			window.removeEventListener("resize", updatePosition)
-		}
-	}, [value, options])
-
-	return (
-		<div className="playground-segmented" ref={containerRef}>
-			<div className="playground-segmented__indicator" style={style} />
-			{options.map((option) => (
-				<button
-					key={option.value}
-					type="button"
-					aria-pressed={value === option.value}
-					className="ml-interaction-surface"
-					onClick={() => onChange(option.value)}
-				>
-					{option.label}
-				</button>
-			))}
-		</div>
-	)
-}
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
@@ -429,7 +363,8 @@ function ComponentPlaygroundClient<T extends string = string>({
 					<>
 						<div className="playground-controls__group">
 							<label>Render</label>
-							<PlaygroundSegmented
+							<SegmentedControl
+								variant="default"
 								options={[
 									{ value: "single", label: "Single" },
 									{ value: "all", label: "All sizes" },
@@ -441,13 +376,16 @@ function ComponentPlaygroundClient<T extends string = string>({
 
 						<div className="playground-controls__group">
 							<label>Size</label>
-							<PlaygroundSegmented
+							<SegmentedControl
+								variant="default"
 								options={sizes.map((item) => ({
 									value: item,
 									label: formatSize(item),
 								}))}
-								value={size}
-								onChange={(val) => setControl({ render: "single", size: val })}
+								value={size ?? sizes[0] ?? ""}
+								onChange={(val) =>
+									setControl({ render: "single", size: val as T })
+								}
 							/>
 						</div>
 					</>
@@ -455,7 +393,8 @@ function ComponentPlaygroundClient<T extends string = string>({
 
 				<div className="playground-controls__group">
 					<label>Viewport</label>
-					<PlaygroundSegmented
+					<SegmentedControl
+						variant="default"
 						options={viewportOptions.map((option) => ({
 							value: option.key,
 							label: option.label,
@@ -467,7 +406,8 @@ function ComponentPlaygroundClient<T extends string = string>({
 
 				<div className="playground-controls__group">
 					<label>Theme</label>
-					<PlaygroundSegmented
+					<SegmentedControl
+						variant="default"
 						options={[
 							{ value: "light", label: "Light" },
 							{ value: "dark", label: "Dark" },
@@ -479,13 +419,14 @@ function ComponentPlaygroundClient<T extends string = string>({
 
 				<div className="playground-controls__group">
 					<label>Zoom</label>
-					<PlaygroundSegmented
+					<SegmentedControl
+						variant="default"
 						options={zoomOptions.map((option) => ({
-							value: option.value,
+							value: String(option.value),
 							label: option.label,
 						}))}
-						value={zoom}
-						onChange={(val) => setControl({ zoom: val })}
+						value={String(zoom)}
+						onChange={(val) => setControl({ zoom: Number(val) })}
 					/>
 				</div>
 			</section>

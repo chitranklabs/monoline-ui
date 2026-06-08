@@ -76,6 +76,10 @@
 			"types": "./components/section-head/index.d.ts",
 			"import": "./components/section-head/index.js"
 		},
+		"./segmented-control": {
+			"types": "./components/segmented-control/index.d.ts",
+			"import": "./components/segmented-control/index.js"
+		},
 		"./status": {
 			"types": "./components/status/index.d.ts",
 			"import": "./components/status/index.js"

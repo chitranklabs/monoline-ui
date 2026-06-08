@@ -29,6 +29,9 @@
 			"@chitrank2050/monoline-ui/section-head": [
 				"./src/components/section-head"
 			],
+			"@chitrank2050/monoline-ui/segmented-control": [
+				"./src/components/segmented-control"
+			],
 			"@chitrank2050/monoline-ui/status": ["./src/components/status"],
 			"@chitrank2050/monoline-ui/tag": ["./src/components/tag"],
 			"@chitrank2050/monoline-ui/testimonial": ["./src/components/testimonial"],
