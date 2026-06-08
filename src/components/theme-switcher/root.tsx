@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "../../lib/utils"
+import { Button } from "../button"
 import { Toggle } from "../toggle"
 import type { ThemeSwitcherProps, ThemeSwitcherSize } from "./types"
 
@@ -36,6 +37,7 @@ export function ThemeSwitcherRoot({
 					☼
 				</span>
 				<Toggle
+					className="ml-theme-switcher__toggle"
 					size={fullSizeToToggleSize[size]}
 					checked={isDark}
 					aria-label={ariaLabel}
@@ -51,8 +53,11 @@ export function ThemeSwitcherRoot({
 	}
 
 	return (
-		<button
+		<Button
 			type={type ?? "button"}
+			variant="secondary"
+			size={size}
+			icon
 			className={cn("ml-theme-switcher ml-theme-switcher--mini", className)}
 			data-theme-value={theme}
 			data-size={size}
@@ -63,6 +68,6 @@ export function ThemeSwitcherRoot({
 			<span className="ml-theme-switcher__icon" aria-hidden="true">
 				{isDark ? "☾" : "☼"}
 			</span>
-		</button>
+		</Button>
 	)
 }

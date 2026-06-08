@@ -162,6 +162,7 @@
 	/* Motion */
 	--ease-out-expo: var(--ease-out-expo);
 	--ease-spring: var(--ease-spring);
+	--ease-spring-soft: var(--ease-spring-soft);
 	--ease-out-back: var(--ease-out-back);
 	--duration-micro: var(--duration-micro);
 	--duration-short: var(--duration-short);

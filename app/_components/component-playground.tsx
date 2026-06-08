@@ -50,7 +50,7 @@ const defaultControls = {
 	render: "single" as RenderMode,
 	viewport: "desktop" as ViewportKey,
 	theme: "light" as ThemeMode,
-	zoom: 0.75,
+	zoom: 1,
 }
 
 const previewFrameMinWidth = 240

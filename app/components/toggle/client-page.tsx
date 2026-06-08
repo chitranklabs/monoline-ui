@@ -55,10 +55,6 @@ export default function TogglePageClient() {
 						<Toggle size={size} defaultChecked aria-label="Enable publishing" />
 						<span>Publishing</span>
 					</label>
-					<label className="inline-flex items-center gap-ml-3 text-body">
-						<Toggle size={size} aria-label="Enable drafts" />
-						<span>Drafts</span>
-					</label>
 					<label className="inline-flex items-center gap-ml-3 text-muted-foreground">
 						<Toggle size={size} disabled aria-label="Enable archive" />
 						<span>Archive</span>
