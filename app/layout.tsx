@@ -13,6 +13,7 @@ import { monolineFontClassName } from "./lib/fonts"
 import { siteUrl } from "./lib/seo"
 
 import { fetchIdentity } from "./lib/identity"
+import { Analytics } from "@vercel/analytics/next"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const identity = await fetchIdentity()
@@ -68,6 +69,8 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+	
 	const identity = await fetchIdentity()
 
 	const personJsonLd = {
@@ -89,12 +92,13 @@ export default async function RootLayout({
 			<body>
 				<JsonLd data={personJsonLd} />
 				<ThemeProvider>
-					<div className="min-h-screen bg-background">
+					<main className="min-h-screen bg-background">
 						<SiteHeader />
 						{children}
 						<SiteFooter />
-					</div>
+					</main>
 				</ThemeProvider>
+				{isProduction && <Analytics />}
 			</body>
 		</html>
 	)
