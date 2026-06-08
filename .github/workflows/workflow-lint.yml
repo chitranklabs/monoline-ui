@@ -1,0 +1,53 @@
+# =============================================================
+# Workflow Linting - Security Audit for GitHub Actions
+#
+# Uses zizmor to scan all workflows in .github/workflows/
+# for security misconfigurations, overly broad permissions,
+# and potential injection vulnerabilities.
+# =============================================================
+
+name: GitHub Actions Security Analysis with zizmor 🌈
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/**"
+  pull_request:
+    branches: ["main"]
+
+permissions: {}
+
+jobs:
+  zizmor:
+    name: Run zizmor 🌈
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Check if workflows changed 🔍
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        with:
+          filters: |
+            workflows:
+              - '.github/workflows/**'
+              - '.github/actions/**'
+
+      - name: Install zizmor 🌈
+        if: github.event_name == 'push' || steps.filter.outputs.workflows == 'true'
+        run: pipx install zizmor==1.24.1
+
+      - name: Run zizmor 🌈
+        if: github.event_name == 'push' || steps.filter.outputs.workflows == 'true'
+        run: zizmor --offline .
