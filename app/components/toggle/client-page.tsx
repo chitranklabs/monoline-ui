@@ -3,7 +3,7 @@
 import {
 	Toggle,
 	type ToggleSize,
-} from "@chitrank2050/monoline-ui/components/toggle"
+} from "@chitrank2050/monoline-ui/toggle"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -15,7 +15,7 @@ const usageCode = `<Toggle
   aria-label="Enable notifications"
 />`
 
-const sourceSnippet = `import { Toggle } from "@chitrank2050/monoline-ui/components/toggle"
+const sourceSnippet = `import { Toggle } from "@chitrank2050/monoline-ui/toggle"
 
 export function SettingsToggle() {
   return (
@@ -47,7 +47,7 @@ export default function TogglePageClient() {
 			description="Render a controlled or uncontrolled switch with role=switch semantics, spring thumb motion, and three sizes."
 			sizes={toggleSizes}
 			defaultSize="md"
-			importStatement='import { Toggle } from "@chitrank2050/monoline-ui/components/toggle"'
+			importStatement='import { Toggle } from "@chitrank2050/monoline-ui/toggle"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

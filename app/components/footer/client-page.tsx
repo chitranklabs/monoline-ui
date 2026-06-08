@@ -3,7 +3,7 @@
 import {
 	Footer,
 	type FooterSize,
-} from "@chitrank2050/monoline-ui/components/footer"
+} from "@chitrank2050/monoline-ui/footer"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -58,7 +58,7 @@ const tokenRows = [
 	["--ml-footer-link-hover-x", "External link hover offset"],
 ] as const
 
-const sourceSnippet = `import { Footer } from "@chitrank2050/monoline-ui/components/footer"
+const sourceSnippet = `import { Footer } from "@chitrank2050/monoline-ui/footer"
 
 export function SiteFooter() {
   return (
@@ -104,7 +104,7 @@ export default function FooterPageClient() {
 			description="Inspect the footer at real viewport widths, switch component size, render all sizes together, and zoom the canvas without losing the package's actual Tailwind/theme styling."
 			sizes={footerSizes}
 			defaultSize="md"
-			importStatement='import { Footer } from "@chitrank2050/monoline-ui/components/footer"'
+			importStatement='import { Footer } from "@chitrank2050/monoline-ui/footer"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

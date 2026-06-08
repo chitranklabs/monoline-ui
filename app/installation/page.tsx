@@ -78,7 +78,7 @@ const installSteps: InstallStep[] = [
 		description:
 			"Use component subpaths for feature code. The root package remains available as a convenience barrel.",
 		label: "src/app/page.tsx",
-		code: `import { Footer } from "@chitrank2050/monoline-ui/components/footer"
+		code: `import { Footer } from "@chitrank2050/monoline-ui/footer"
 
 export default function Page() {
   return (

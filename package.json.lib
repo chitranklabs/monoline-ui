@@ -44,6 +44,18 @@
 			"types": "./components/footer/index.d.ts",
 			"import": "./components/footer/index.js"
 		},
+		"./button": {
+			"types": "./components/button/index.d.ts",
+			"import": "./components/button/index.js"
+		},
+		"./toggle": {
+			"types": "./components/toggle/index.d.ts",
+			"import": "./components/toggle/index.js"
+		},
+		"./tag": {
+			"types": "./components/tag/index.d.ts",
+			"import": "./components/tag/index.js"
+		},
 		"./components/*": {
 			"types": "./components/*/index.d.ts",
 			"import": "./components/*/index.js"

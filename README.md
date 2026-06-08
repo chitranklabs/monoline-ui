@@ -90,7 +90,7 @@ In the consumer's root stylesheet (e.g., `app/globals.css`), import Tailwind and
 > Our composite components are Server Components by default. Interactivity is isolated to specific subcomponents, resulting in **0kb client-side hydration cost** for static layouts:
 
 ```tsx
-import { Footer } from "@chitrank2050/monoline-ui/components/footer"
+import { Footer } from "@chitrank2050/monoline-ui/footer"
 
 export default function MyFooter() {
 	return (

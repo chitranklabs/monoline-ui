@@ -1,6 +1,6 @@
 "use client"
 
-import { Tag, type TagSize } from "@chitrank2050/monoline-ui/components/tag"
+import { Tag, type TagSize } from "@chitrank2050/monoline-ui/tag"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -16,7 +16,7 @@ const usageCode = `<Tag active>
   <Tag.Count>12</Tag.Count>
 </Tag>`
 
-const sourceSnippet = `import { Tag } from "@chitrank2050/monoline-ui/components/tag"
+const sourceSnippet = `import { Tag } from "@chitrank2050/monoline-ui/tag"
 
 export function Filters() {
   return (
@@ -48,7 +48,7 @@ export default function TagPageClient() {
 			description="Render filter pills with active state, count metadata, and three token-backed sizes."
 			sizes={tagSizes}
 			defaultSize="md"
-			importStatement='import { Tag } from "@chitrank2050/monoline-ui/components/tag"'
+			importStatement='import { Tag } from "@chitrank2050/monoline-ui/tag"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

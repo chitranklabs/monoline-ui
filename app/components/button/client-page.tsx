@@ -3,7 +3,7 @@
 import {
 	Button,
 	type ButtonSize,
-} from "@chitrank2050/monoline-ui/components/button"
+} from "@chitrank2050/monoline-ui/button"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -21,7 +21,7 @@ const usageCode = `<Button variant="primary" size="md">
   <a href="/contact">Contact</a>
 </Button>`
 
-const sourceSnippet = `import { Button } from "@chitrank2050/monoline-ui/components/button"
+const sourceSnippet = `import { Button } from "@chitrank2050/monoline-ui/button"
 
 export function Actions() {
   return (
@@ -58,7 +58,7 @@ export default function ButtonPageClient() {
 			description="Render action buttons with token-backed variants, three sizes, optional icon-only shape, pill rounding, and asChild composition."
 			sizes={buttonSizes}
 			defaultSize="md"
-			importStatement='import { Button } from "@chitrank2050/monoline-ui/components/button"'
+			importStatement='import { Button } from "@chitrank2050/monoline-ui/button"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

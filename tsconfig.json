@@ -20,6 +20,10 @@
 		"paths": {
 			"@/*": ["./app/*"],
 			"@chitrank2050/monoline-ui": ["./src/index.ts"],
+			"@chitrank2050/monoline-ui/footer": ["./src/components/footer"],
+			"@chitrank2050/monoline-ui/button": ["./src/components/button"],
+			"@chitrank2050/monoline-ui/toggle": ["./src/components/toggle"],
+			"@chitrank2050/monoline-ui/tag": ["./src/components/tag"],
 			"@chitrank2050/monoline-ui/*": ["./src/*"]
 		},
 		"esModuleInterop": true,
