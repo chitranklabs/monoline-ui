@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 
 import Prism from "prismjs"
 import "prismjs/components/prism-css"
@@ -22,11 +22,14 @@ export function CodeBlock({
 	copyLabel = "Copy code",
 }: CodeBlockProps) {
 	const [copied, setCopied] = useState(false)
+	// Start with null so server renders nothing in dangerouslySetInnerHTML,
+	// then set highlighted HTML after hydration to avoid SSR/client mismatch.
+	const [html, setHtml] = useState<string | null>(null)
 
-	const html = useMemo(() => {
+	useEffect(() => {
 		const grammar = (Prism.languages[language] ||
 			Prism.languages.javascript) as Prism.Grammar
-		return Prism.highlight(code, grammar, language)
+		setHtml(Prism.highlight(code, grammar, language))
 	}, [code, language])
 
 	const handleCopy = async () => {
@@ -55,10 +58,14 @@ export function CodeBlock({
 				/>
 			)}
 			<pre className={`language-${language}`} tabIndex={0}>
-				<code
-					className={`language-${language}`}
-					dangerouslySetInnerHTML={{ __html: html }}
-				/>
+				{html !== null ? (
+					<code
+						className={`language-${language}`}
+						dangerouslySetInnerHTML={{ __html: html }}
+					/>
+				) : (
+					<code className={`language-${language}`}>{code}</code>
+				)}
 			</pre>
 		</div>
 	)
