@@ -9,7 +9,7 @@ import {
 	type ReactNode,
 } from "react"
 import { createPortal } from "react-dom"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import Prism from "prismjs"
 import "prismjs/components/prism-jsx"
 import "prismjs/components/prism-typescript"
@@ -347,6 +347,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 	gzippedSize,
 }: ComponentPlaygroundProps<T>) {
 	const pathname = usePathname()
+	const router = useRouter()
 	const searchParams = useSearchParams()
 
 	const effectiveDefaultSize =
@@ -379,29 +380,11 @@ function ComponentPlaygroundClient<T extends string = string>({
 		return matchedOption?.value ?? defaultControls.zoom
 	}
 
-	const [renderMode, setRenderMode] = useState<RenderMode>(() =>
-		parseRenderMode(searchParams.get("render"))
-	)
-	const [size, setSize] = useState<T | undefined>(() =>
-		parseSize(searchParams.get("size"))
-	)
-	const [viewport, setViewport] = useState<ViewportKey>(() =>
-		parseViewport(searchParams.get("viewport"))
-	)
-	const [theme, setTheme] = useState<ThemeMode>(() =>
-		parseTheme(searchParams.get("theme"))
-	)
-	const [zoom, setZoom] = useState<number>(() =>
-		parseZoom(searchParams.get("zoom"))
-	)
-
-	useEffect(() => {
-		setRenderMode(parseRenderMode(searchParams.get("render")))
-		setSize(parseSize(searchParams.get("size")))
-		setViewport(parseViewport(searchParams.get("viewport")))
-		setTheme(parseTheme(searchParams.get("theme")))
-		setZoom(parseZoom(searchParams.get("zoom")))
-	}, [searchParams])
+	const renderMode = parseRenderMode(searchParams.get("render"))
+	const size = parseSize(searchParams.get("size"))
+	const viewport = parseViewport(searchParams.get("viewport"))
+	const theme = parseTheme(searchParams.get("theme"))
+	const zoom = parseZoom(searchParams.get("zoom"))
 
 	const viewportOption = useMemo(
 		() =>
@@ -432,12 +415,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 			zoom: number
 		}>
 	) => {
-		if (updates.render !== undefined) setRenderMode(updates.render)
-		if (updates.size !== undefined) setSize(updates.size)
-		if (updates.viewport !== undefined) setViewport(updates.viewport)
-		if (updates.theme !== undefined) setTheme(updates.theme)
-		if (updates.zoom !== undefined) setZoom(updates.zoom)
-
 		const nextState = {
 			render: updates.render !== undefined ? updates.render : renderMode,
 			size: updates.size !== undefined ? updates.size : size,
@@ -445,7 +422,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 			theme: updates.theme !== undefined ? updates.theme : theme,
 			zoom: updates.zoom !== undefined ? updates.zoom : zoom,
 		}
-		const nextParams = new URLSearchParams(window.location.search)
+		const nextParams = new URLSearchParams(searchParams.toString())
 
 		const writeParam = <V extends string | number>(
 			key: string,
@@ -473,19 +450,10 @@ function ComponentPlaygroundClient<T extends string = string>({
 			Math.round(defaultControls.zoom * 100)
 		)
 
-		for (const [key, value] of searchParams.entries()) {
-			if (!["render", "size", "viewport", "theme", "zoom"].includes(key)) {
-				nextParams.set(key, value)
-			}
-		}
-
 		const queryString = nextParams.toString()
-		const newUrl = queryString ? `${pathname}?${queryString}` : pathname
-		window.history.replaceState(
-			{ ...window.history.state, as: newUrl, url: newUrl },
-			"",
-			newUrl
-		)
+		router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+			scroll: false,
+		})
 	}
 
 	return (
