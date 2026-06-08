@@ -1,4 +1,5 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://monoline-ui.vercel.app"
+const siteUrl =
+	process.env.NEXT_PUBLIC_SITE_URL || "https://monolineui.chitrankagnihotri.com"
 
 /** @type {import('next-sitemap').IConfig} */
 const config = {

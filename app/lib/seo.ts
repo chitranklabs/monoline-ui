@@ -1,4 +1,5 @@
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://monoline-ui.vercel.app"
+export const siteUrl =
+	process.env.NEXT_PUBLIC_SITE_URL ?? "https://monolineui.chitrankagnihotri.com"
 
 export const siteRoutes = [
 	"/",
@@ -8,4 +9,3 @@ export const siteRoutes = [
 	"/foundations/spacing-motion",
 	"/components/footer",
 ] as const
-

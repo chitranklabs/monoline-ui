@@ -69,7 +69,9 @@ export function SiteHeader() {
 								key={item.href}
 								href={item.href ?? "/"}
 								aria-current={
-									item.href && isActive(pathname, item.href) ? "page" : undefined
+									item.href && isActive(pathname, item.href)
+										? "page"
+										: undefined
 								}
 								className="site-nav__item ml-interaction-color"
 							>
@@ -149,7 +151,12 @@ function MobileMenu({
 	}
 
 	return (
-		<div className="site-menu-drawer" role="dialog" aria-modal="true" aria-label="Menu">
+		<div
+			className="site-menu-drawer"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Menu"
+		>
 			<div className="site-menu-drawer__bar">
 				<button
 					type="button"

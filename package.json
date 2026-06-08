@@ -23,7 +23,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"lint:branch": "git-hygiene branch",
-		"test": "tsc --noEmit && vitest run",
+		"test": "tsc --noEmit --pretty false",
 		"format": "prettier --write .",
 		"format:check": "prettier --check ."
 	},

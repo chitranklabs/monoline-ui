@@ -26,7 +26,10 @@ export function DocsPager() {
 	return (
 		<nav className="docs-pager" aria-label="Page navigation">
 			{previous?.href ? (
-				<Link href={previous.href} className="docs-pager__link docs-pager__link--prev">
+				<Link
+					href={previous.href}
+					className="docs-pager__link docs-pager__link--prev"
+				>
 					<span aria-hidden="true">←</span>
 					<span>{previous.label}</span>
 				</Link>
@@ -34,7 +37,10 @@ export function DocsPager() {
 				<span />
 			)}
 			{next?.href ? (
-				<Link href={next.href} className="docs-pager__link docs-pager__link--next">
+				<Link
+					href={next.href}
+					className="docs-pager__link docs-pager__link--next"
+				>
 					<span>{next.label}</span>
 					<span aria-hidden="true">→</span>
 				</Link>

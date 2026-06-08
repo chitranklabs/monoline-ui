@@ -122,7 +122,9 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 								onSelect={() => navigate(item.href)}
 							>
 								<span className="cmd-item__label">{item.label}</span>
-								<span className="cmd-item__arrow" aria-hidden="true">↵</span>
+								<span className="cmd-item__arrow" aria-hidden="true">
+									↵
+								</span>
 							</Command.Item>
 						))}
 					</Command.Group>
@@ -136,7 +138,9 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 								onSelect={() => navigate(item.href)}
 							>
 								<span className="cmd-item__label">{item.label}</span>
-								<span className="cmd-item__arrow" aria-hidden="true">↵</span>
+								<span className="cmd-item__arrow" aria-hidden="true">
+									↵
+								</span>
 							</Command.Item>
 						))}
 					</Command.Group>
@@ -160,7 +164,9 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 										<span className="cmd-item__meta">{item.meta}</span>
 									)}
 									{item.href !== "#" && (
-										<span className="cmd-item__arrow" aria-hidden="true">↵</span>
+										<span className="cmd-item__arrow" aria-hidden="true">
+											↵
+										</span>
 									)}
 								</Command.Item>
 							))}
@@ -170,9 +176,15 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 
 				{/* Keyboard hints */}
 				<div className="cmd-footer">
-					<span><kbd>↑↓</kbd> navigate</span>
-					<span><kbd>↵</kbd> open</span>
-					<span><kbd>esc</kbd> close</span>
+					<span>
+						<kbd>↑↓</kbd> navigate
+					</span>
+					<span>
+						<kbd>↵</kbd> open
+					</span>
+					<span>
+						<kbd>esc</kbd> close
+					</span>
 				</div>
 			</Command>
 		</div>,

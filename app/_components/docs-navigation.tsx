@@ -20,7 +20,11 @@ function isSectionActive(pathname: string, href?: string) {
 	return pathname.startsWith(section ? `/${section}` : href)
 }
 
-export function DocsNavigation({ variant }: { variant: DocsNavigationVariant }) {
+export function DocsNavigation({
+	variant,
+}: {
+	variant: DocsNavigationVariant
+}) {
 	const pathname = usePathname()
 
 	if (variant === "drawer") {
@@ -64,7 +68,10 @@ export function DocsNavigation({ variant }: { variant: DocsNavigationVariant }) 
 									{item.label}
 								</DrawerLink>
 							) : (
-								<span key={item.label} className="site-menu-drawer__item is-muted">
+								<span
+									key={item.label}
+									className="site-menu-drawer__item is-muted"
+								>
 									{item.label}
 								</span>
 							)

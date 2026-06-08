@@ -19,7 +19,9 @@ const THEME_TRANSITION_DURATION_MS = 250
 const themeInitScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}');var d=document.documentElement;if(t==='light'||t==='dark'){d.setAttribute('data-theme',t);return;}if(window.matchMedia('(prefers-color-scheme: dark)').matches){d.setAttribute('data-theme','dark');return;}d.setAttribute('data-theme','light');}catch(e){}})();`
 
 function readDocumentTheme(): Theme {
-	return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light"
+	return document.documentElement.getAttribute("data-theme") === "dark"
+		? "dark"
+		: "light"
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -55,7 +57,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 				strategy="beforeInteractive"
 				dangerouslySetInnerHTML={{ __html: themeInitScript }}
 			/>
-			<ThemeContext.Provider value={{ theme, toggleTheme, setTheme: handleSetTheme }}>
+			<ThemeContext.Provider
+				value={{ theme, toggleTheme, setTheme: handleSetTheme }}
+			>
 				{children}
 			</ThemeContext.Provider>
 		</>

@@ -32,7 +32,11 @@ export function InstallCommand() {
 
 	return (
 		<div className="install-command">
-			<div className="install-command__tabs" role="tablist" aria-label="Package manager">
+			<div
+				className="install-command__tabs"
+				role="tablist"
+				aria-label="Package manager"
+			>
 				{packageManagers.map((item) => (
 					<button
 						key={item}
@@ -56,7 +60,9 @@ export function InstallCommand() {
 					type="button"
 					className="ml-interaction-control"
 					onClick={handleCopy}
-					aria-label={copied ? "Copied install command" : "Copy install command"}
+					aria-label={
+						copied ? "Copied install command" : "Copy install command"
+					}
 				>
 					{copied ? "Copied" : "Copy"}
 				</button>
