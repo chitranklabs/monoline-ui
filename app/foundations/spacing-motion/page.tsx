@@ -1,3 +1,14 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+	title: "Spacing & Motion - monoline/ui design foundations",
+	description:
+		"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
+	alternates: {
+		canonical: "/foundations/spacing-motion",
+	},
+}
+
 const spacingRows = [
 	["space-1", "4px", 4, "tight inline gap"],
 	["space-2", "8px", 8, "icon ↔ label inside a button"],

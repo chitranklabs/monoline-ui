@@ -100,10 +100,12 @@
 .cmd-esc {
 	border: 1px solid var(--border);
 	border-radius: var(--radius-xs);
+	background: var(--surface);
 	padding: 0.1875rem 0.4375rem;
 	font-family: var(--font-mono);
 	font-size: 0.625rem;
 	font-weight: 700;
+	line-height: 1;
 	color: var(--text-muted);
 	cursor: pointer;
 	flex-shrink: 0;

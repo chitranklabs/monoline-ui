@@ -26,6 +26,7 @@ export function FooterSubscribeForm({
 					type="email"
 					name={inputName}
 					required
+					autoComplete="email"
 					placeholder={placeholder}
 					aria-label="Email address"
 					className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent px-ml-3 text-sm text-primary outline-none transition-colors duration-(--duration-micro) ease-out focus:placeholder:text-muted-foreground/70"

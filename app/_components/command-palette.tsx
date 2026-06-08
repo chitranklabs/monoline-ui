@@ -51,7 +51,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 		prevOpen.current = open
 	}, [open])
 
-	// Body scroll lock — always runs, never skips cleanup
+	// Body scroll lock - always runs, never skips cleanup
 	useEffect(() => {
 		if (!open) return
 		const prev = document.body.style.overflow
@@ -97,9 +97,14 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 						}}
 						autoFocus
 					/>
-					<kbd className="cmd-esc" onClick={onClose}>
+					<button
+						type="button"
+						className="cmd-esc ml-interaction-control"
+						onClick={onClose}
+						aria-label="Close command palette"
+					>
 						esc
-					</kbd>
+					</button>
 				</div>
 
 				{/* Results */}

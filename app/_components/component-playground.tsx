@@ -589,7 +589,7 @@ export function ComponentPlayground<T extends string = string>(
 						fontFamily: "var(--font-mono)",
 					}}
 				>
-					Loading playground...
+					Loading playground…
 				</div>
 			}
 		>

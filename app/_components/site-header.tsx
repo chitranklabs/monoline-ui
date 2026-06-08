@@ -166,7 +166,7 @@ function MobileMenu({
 					className="site-menu-drawer__search"
 					onClick={onSearch}
 				>
-					Search...
+					Search…
 				</button>
 			</div>
 
