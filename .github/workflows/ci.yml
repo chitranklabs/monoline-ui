@@ -125,12 +125,6 @@ jobs:
           (pnpm run lint > "$CI_DIR/lint.log" 2>&1 || echo "1" > "$CI_DIR/lint.fail") &
           (pnpm run format:check > "$CI_DIR/format.log" 2>&1 || echo "1" > "$CI_DIR/format.fail") &
 
-          # Dependency Vulnerability Scan — binary goes to RUNNER_TEMP, not workspace
-          OSV_BIN="$RUNNER_TEMP/osv-scanner"
-          curl -sSL https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o "$OSV_BIN"
-          chmod +x "$OSV_BIN"
-          ("$OSV_BIN" --lockfile=pnpm-lock.yaml > "$CI_DIR/osv.log" 2>&1 || echo "1" > "$CI_DIR/osv.fail") &
-
           wait
           echo "::endgroup::"
 
@@ -153,6 +147,11 @@ jobs:
           fi
 
           exit $EXIT_CODE
+
+      - name: Dependency Vulnerability Scan 🔍
+        uses: google/osv-scanner-action@9a498708959aeaef5ef730655706c5a1df1edbc2 # v2.3.8
+        with:
+          scan-args: --lockfile=pnpm-lock.yaml
 
   secret_scan:
     name: Secret Scan 🔑
