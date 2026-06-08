@@ -13,3 +13,4 @@ test-results
 *.tsbuildinfo
 public/robots.txt
 public/sitemap*.xml
+next-env.d.ts
