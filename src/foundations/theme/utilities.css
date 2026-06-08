@@ -69,6 +69,10 @@
 	transform: translate3d(var(--space-2), 0, 0) scale(0.96);
 }
 
+.group\/btn {
+	cursor: pointer;
+}
+
 .group\/btn:not(:disabled):not([aria-disabled="true"]):not(
 		[data-disabled="true"]
 	):not([data-loading="true"]):hover
@@ -191,8 +195,13 @@
 	background: var(--accent-soft);
 }
 
-.ml-toggle:hover:not(:disabled) {
+.ml-toggle[data-state="off"]:hover:not(:disabled) {
+	border-color: var(--border-strong);
+}
+
+.ml-toggle[data-state="on"]:hover:not(:disabled) {
 	border-color: var(--accent);
+	background: var(--accent-soft);
 }
 
 .ml-toggle:active:not(:disabled) {
