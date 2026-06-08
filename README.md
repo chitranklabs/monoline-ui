@@ -93,15 +93,15 @@ In the consumer's root stylesheet (e.g., `app/globals.css`), import Tailwind and
 import { Footer } from "@chitrank2050/monoline-ui/footer"
 
 export default function MyFooter() {
-	return (
-		<Footer size="md">
-			{/* Renders statically on the server */}
-			<Footer.Status>Available for contracts</Footer.Status>
+ return (
+  <Footer size="md">
+   {/* Renders statically on the server */}
+   <Footer.Status>Available for contracts</Footer.Status>
 
-			{/* Handles client actions natively */}
-			<Footer.Subscribe action={subscribeFormAction} />
-		</Footer>
-	)
+   {/* Handles client actions natively */}
+   <Footer.Subscribe action={subscribeFormAction} />
+  </Footer>
+ )
 }
 ```
 
@@ -114,8 +114,8 @@ Since `<Footer.Subscribe />` compiles on the server, you can pass standard async
 "use server"
 
 export async function subscribeFormAction(formData: FormData) {
-	const email = formData.get("email")
-	await db.newsletter.create({ data: { email } })
+ const email = formData.get("email")
+ await db.newsletter.create({ data: { email } })
 }
 ```
 
@@ -141,13 +141,13 @@ Override individual links dynamically inside the config array:
 import Link from "next/link"
 
 const columns = [
-	{
-		title: "Navigate",
-		links: [
-			{ label: "Blog", href: "/blog", as: Link }, // Prefetches automatically
-			{ label: "Twitter", href: "https://x.com", external: true }, // Standard anchor
-		],
-	},
+ {
+  title: "Navigate",
+  links: [
+   { label: "Blog", href: "/blog", as: Link }, // Prefetches automatically
+   { label: "Twitter", href: "https://x.com", external: true }, // Standard anchor
+  ],
+ },
 ]
 ```
 
@@ -159,7 +159,7 @@ If writing custom footer structures, render using `Footer.Link` with the Radix-p
 import Link from "next/link"
 
 ;<Footer.Link asChild>
-	<Link href="/about">About me</Link>
+ <Link href="/about">About me</Link>
 </Footer.Link>
 ```
 

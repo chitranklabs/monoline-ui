@@ -23,6 +23,12 @@ pre-commit:
       run: pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
+    # Markdown linting & formatting
+    lint-md:
+      glob: "**/*.md"
+      run: pnpm exec markdownlint --fix {staged_files} && pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+
     # GitHub Actions - Security linting
     lint-actions:
       glob: ".github/workflows/*.yml"
