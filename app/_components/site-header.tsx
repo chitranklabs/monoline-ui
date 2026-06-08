@@ -4,14 +4,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { CommandPalette } from "./command-palette"
+import { DocsNavigation } from "./docs-navigation"
 import { useTheme } from "./theme-provider"
-
-const navItems = [
-	{ href: "/", label: "Introduction" },
-	{ href: "/installation", label: "Installation" },
-	{ href: "/foundations/colors", label: "Foundations" },
-	{ href: "/components/footer", label: "Components" },
-]
+import { primaryNav } from "../lib/docs-nav"
 
 function isActive(pathname: string, href: string) {
 	if (href === "/") {
@@ -26,6 +21,7 @@ function isActive(pathname: string, href: string) {
 export function SiteHeader() {
 	const pathname = usePathname()
 	const [paletteOpen, setPaletteOpen] = useState(false)
+	const [menuOpen, setMenuOpen] = useState(false)
 	const { theme, toggleTheme } = useTheme()
 
 	// ⌘K global shortcut
@@ -40,6 +36,21 @@ export function SiteHeader() {
 		return () => window.removeEventListener("keydown", onKey)
 	}, [])
 
+	useEffect(() => {
+		setMenuOpen(false)
+	}, [pathname])
+
+	useEffect(() => {
+		const previousOverflow = document.body.style.overflow
+		if (menuOpen) {
+			document.body.style.overflow = "hidden"
+		}
+
+		return () => {
+			document.body.style.overflow = previousOverflow
+		}
+	}, [menuOpen])
+
 	return (
 		<>
 			<header className="site-header">
@@ -53,11 +64,13 @@ export function SiteHeader() {
 					</div>
 
 					<nav className="site-nav" aria-label="Primary navigation">
-						{navItems.map((item) => (
+						{primaryNav.map((item) => (
 							<Link
 								key={item.href}
-								href={item.href}
-								aria-current={isActive(pathname, item.href) ? "page" : undefined}
+								href={item.href ?? "/"}
+								aria-current={
+									item.href && isActive(pathname, item.href) ? "page" : undefined
+								}
 								className="site-nav__item ml-interaction-color"
 							>
 								{item.label}
@@ -95,7 +108,9 @@ export function SiteHeader() {
 					<button
 						className="site-menu-button ml-interaction-control"
 						type="button"
-						aria-label="Open menu"
+						aria-label={menuOpen ? "Close menu" : "Open menu"}
+						aria-expanded={menuOpen}
+						onClick={() => setMenuOpen((open) => !open)}
 					>
 						<span />
 						<span />
@@ -108,6 +123,56 @@ export function SiteHeader() {
 				open={paletteOpen}
 				onClose={() => setPaletteOpen(false)}
 			/>
+			<MobileMenu
+				open={menuOpen}
+				onClose={() => setMenuOpen(false)}
+				onSearch={() => {
+					setMenuOpen(false)
+					setPaletteOpen(true)
+				}}
+			/>
 		</>
+	)
+}
+
+function MobileMenu({
+	open,
+	onClose,
+	onSearch,
+}: {
+	open: boolean
+	onClose: () => void
+	onSearch: () => void
+}) {
+	if (!open) {
+		return null
+	}
+
+	return (
+		<div className="site-menu-drawer" role="dialog" aria-modal="true" aria-label="Menu">
+			<div className="site-menu-drawer__bar">
+				<button
+					type="button"
+					className="site-menu-drawer__close"
+					aria-label="Close menu"
+					onClick={onClose}
+				>
+					<span />
+					<span />
+				</button>
+				<span>Menu</span>
+				<button
+					type="button"
+					className="site-menu-drawer__search"
+					onClick={onSearch}
+				>
+					Search...
+				</button>
+			</div>
+
+			<div className="site-menu-drawer__body">
+				<DocsNavigation variant="drawer" />
+			</div>
+		</div>
 	)
 }

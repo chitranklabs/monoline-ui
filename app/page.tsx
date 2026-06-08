@@ -35,12 +35,12 @@ const rules = [
 	[
 		"01",
 		"Two themes, one source of truth",
-		'Toggle data-theme="light" on <html> and every component re-themes - no dark variants in component code.',
+		'Toggle data-theme="light" or data-theme="dark" on <html> and every component re-themes - no dark variants in component code.',
 	],
 	[
 		"02",
 		"CSS tokens, not Tailwind config",
-		"All colours, fonts, radii live in design-tokens.css. Swap one file to rebrand. Tailwind v4 reads them automatically.",
+		"All colours, fonts, radii, spacing, and motion live in theme.css. Swap one token layer to rebrand. Tailwind v4 reads them automatically.",
 	],
 	[
 		"03",

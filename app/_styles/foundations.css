@@ -12,6 +12,12 @@
 	padding: 1.25rem;
 }
 
+.docs-page__head code {
+	color: var(--text);
+	font-family: var(--font-mono);
+	font-size: 0.92em;
+}
+
 .theme-preview__panel h2 {
 	margin-top: 0.875rem;
 	font-family: var(--font-mono);
@@ -28,18 +34,24 @@
 }
 
 .theme-preview__panel--dark {
-	background: var(--code);
+	background: var(--background);
 }
 
-.theme-preview__panel--dark .ml-eyebrow,
-.theme-preview__panel--dark h2,
-.theme-preview__panel--dark p {
-	color: var(--foreground);
+.theme-preview__panel .ml-eyebrow {
+	color: var(--text-muted);
+}
+
+.theme-preview__panel h2 {
+	color: var(--text);
+}
+
+.theme-preview__panel p {
+	color: var(--text-secondary);
 }
 
 .theme-preview__panel--light {
 	border-left: 1px solid var(--border);
-	background: var(--surface);
+	background: var(--background);
 }
 
 .theme-preview__badge {

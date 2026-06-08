@@ -92,13 +92,16 @@ export default function ColorsPage() {
 				<h1>Two palettes, one variable name.</h1>
 				<p>
 					Every colour resolves through a CSS custom property. Switch data-theme
-					on {"<html>"} and the same variable takes a different value -
-					components don&apos;t know which mode they&apos;re in.
+					on <code>&lt;html&gt;</code> and the same variable takes a different
+					value - components don&apos;t know which mode they&apos;re in.
 				</p>
 			</header>
 
 			<section className="theme-preview">
-				<div className="theme-preview__panel theme-preview__panel--dark">
+				<div
+					className="theme-preview__panel theme-preview__panel--dark"
+					data-theme="dark"
+				>
 					<p className="ml-eyebrow">Dark preview</p>
 					<h2>The quick brown fox.</h2>
 					<p>
@@ -109,7 +112,10 @@ export default function ColorsPage() {
 						<span /> Accent
 					</span>
 				</div>
-				<div className="theme-preview__panel theme-preview__panel--light">
+				<div
+					className="theme-preview__panel theme-preview__panel--light"
+					data-theme="light"
+				>
 					<p className="ml-eyebrow">Light preview</p>
 					<h2>The quick brown fox.</h2>
 					<p>

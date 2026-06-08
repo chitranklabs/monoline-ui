@@ -9,6 +9,13 @@ export interface DocsNavGroup {
 	items: DocsNavItem[]
 }
 
+export const primaryNav: DocsNavItem[] = [
+	{ href: "/", label: "Introduction" },
+	{ href: "/installation", label: "Installation" },
+	{ href: "/foundations/colors", label: "Foundations" },
+	{ href: "/components/footer", label: "Components" },
+] as const
+
 export const foundationsNav: DocsNavItem[] = [
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
@@ -74,4 +81,13 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ label: "Progress" },
 		],
 	},
+] as const
+
+export const docsPagerNav: DocsNavItem[] = [
+	{ href: "/", label: "Introduction" },
+	{ href: "/installation", label: "Installation" },
+	{ href: "/foundations/colors", label: "Colors" },
+	{ href: "/foundations/typography", label: "Typography" },
+	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
+	{ href: "/components/footer", label: "Footer" },
 ] as const

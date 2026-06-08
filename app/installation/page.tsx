@@ -1,10 +1,14 @@
+import { CodeBlock } from "../_components/code-block"
+import { DocsPager } from "../_components/docs-pager"
+import { InstallCommand } from "../_components/install-command"
+
 interface InstallStep {
 	number: string
 	title: string
 	description: string
-	tabs?: string[]
 	label?: string
 	code?: string
+	language?: string
 }
 
 const installSteps: InstallStep[] = [
@@ -18,8 +22,6 @@ const installSteps: InstallStep[] = [
 		number: "02",
 		title: "Install the package",
 		description: "Pick your package manager:",
-		tabs: ["npm", "pnpm", "yarn", "bun"],
-		code: "$ pnpm add @chitrank2050/monoline-ui",
 	},
 	{
 		number: "03",
@@ -32,6 +34,7 @@ const installSteps: InstallStep[] = [
 @import "@chitrank2050/monoline-ui/theme.css";
 
 /* The package theme now owns colours, typography, spacing, and component tokens. */`,
+		language: "css",
 	},
 	{
 		number: "04",
@@ -46,6 +49,7 @@ const installSteps: InstallStep[] = [
     </html>
   )
 }`,
+		language: "tsx",
 	},
 	{
 		number: "05",
@@ -66,6 +70,7 @@ export default function Page() {
     />
   )
 }`,
+		language: "tsx",
 	},
 ] as const
 
@@ -89,38 +94,15 @@ export default function InstallationPage() {
 							<h2>{step.title}</h2>
 							<p>{step.description}</p>
 
-							{step.tabs ? (
-								<div className="install-command">
-									<div className="install-command__tabs">
-										{step.tabs.map((tab) => (
-											<button
-												key={tab}
-												type="button"
-												aria-pressed={tab === "pnpm"}
-												className="ml-interaction-tab"
-											>
-												{tab}
-											</button>
-										))}
-									</div>
-									<div className="install-command__body">
-										<code>{step.code}</code>
-										<button type="button" className="ml-interaction-control">
-											Copy
-										</button>
-									</div>
-								</div>
-							) : null}
+							{step.number === "02" ? <InstallCommand /> : null}
 
-							{step.label ? (
+							{step.label && step.code ? (
 								<div className="install-code">
-									<div className="install-code__meta">
-										<span>{step.label}</span>
-										<button type="button" className="ml-interaction-control">
-											Copy
-										</button>
-									</div>
-									<pre>{step.code}</pre>
+									<CodeBlock
+										code={step.code}
+										fileName={step.label}
+										language={step.language}
+									/>
 								</div>
 							) : null}
 						</div>
@@ -145,6 +127,7 @@ export default function InstallationPage() {
 					</p>
 				</div>
 			</div>
+			<DocsPager />
 		</main>
 	)
 }

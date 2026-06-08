@@ -49,9 +49,12 @@
 .install-code {
 	margin-top: 16px;
 	overflow: hidden;
+	background: var(--surface);
+}
+
+.install-command {
 	border: 1px solid var(--border);
 	border-radius: 0.75rem;
-	background: var(--surface);
 }
 
 .install-command__tabs {
@@ -89,8 +92,7 @@
 	font-weight: 600;
 }
 
-.install-command__body,
-.install-code__meta {
+.install-command__body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -102,7 +104,6 @@
 }
 
 .install-command__body code,
-.install-code pre,
 .playground-detail pre {
 	font-family: var(--font-mono);
 }
@@ -112,8 +113,7 @@
 	font-size: 0.8125rem;
 }
 
-.install-command__body button,
-.install-code__meta button {
+.install-command__body button {
 	border: 1px solid var(--border);
 	border-radius: 0.5rem;
 	background: var(--surface);
@@ -122,16 +122,6 @@
 	font-size: 0.75rem;
 }
 
-.install-code__meta {
-	border-bottom: 1px solid var(--border);
-	background: var(--surface-2);
-	padding: 0.625rem 0.875rem;
-	color: var(--text-muted);
-	font-family: var(--font-mono);
-	font-size: 0.6875rem;
-}
-
-.install-code pre,
 .playground-detail pre {
 	margin: 0;
 	overflow: auto;

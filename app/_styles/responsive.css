@@ -54,11 +54,7 @@
 	}
 
 	.docs-sidebar {
-		position: static;
-		height: auto;
-		border-right: 0;
-		border-bottom: 1px solid var(--border);
-		padding: 1.25rem;
+		display: none;
 	}
 
 	.color-grid,
@@ -88,36 +84,19 @@
 
 @media (min-width: 48rem) and (max-width: 63.9375rem) {
 	.site-header__inner {
-		grid-template-columns: minmax(10.625rem, 1fr) auto minmax(11.25rem, 1fr);
-		height: 3.625rem;
+		grid-template-columns: 1fr auto;
+		height: 3.5rem;
 		padding-inline: 1.25rem;
 	}
 
 	.site-version,
 	.site-nav,
 	.site-actions {
-		display: flex;
-	}
-
-	.site-nav {
-		gap: 1.5rem;
-	}
-
-	.site-nav__item {
-		font-size: 0.8125rem;
-	}
-
-	.site-actions {
-		gap: 0.75rem;
-	}
-
-	.site-search,
-	.site-theme-button {
 		display: none;
 	}
 
 	.site-menu-button {
-		display: none;
+		display: inline-flex;
 	}
 
 	.intro-page {
@@ -201,7 +180,7 @@
 	}
 
 	.docs-shell {
-		grid-template-columns: 13.75rem minmax(0, 1fr);
+		grid-template-columns: 1fr;
 	}
 
 	.docs-main {
@@ -209,12 +188,7 @@
 	}
 
 	.docs-sidebar {
-		position: sticky;
-		top: 3.625rem;
-		height: calc(100vh - 3.625rem);
-		border-right: 1px solid var(--border);
-		border-bottom: 0;
-		padding: 1.375rem 0.875rem 1.75rem 1.375rem;
+		display: none;
 	}
 
 	.color-grid,
@@ -413,6 +387,20 @@
 	}
 
 	.docs-sidebar {
+		display: none;
+	}
+
+	.docs-pager {
+		margin-top: 2.5rem;
+		padding-top: 1rem;
+	}
+
+	.docs-pager__link {
+		padding: 0.625rem 0.75rem;
+		font-size: 0.8125rem;
+	}
+
+	.site-menu-drawer__search {
 		display: none;
 	}
 

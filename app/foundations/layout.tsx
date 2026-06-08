@@ -1,14 +1,9 @@
-import { DocsSidebar } from "../_components/docs-sidebar"
+import { DocsShell } from "../_components/docs-shell"
 
 export default function FoundationsLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	return (
-		<div className="docs-shell">
-			<DocsSidebar />
-			<div className="docs-main">{children}</div>
-		</div>
-	)
+	return <DocsShell>{children}</DocsShell>
 }

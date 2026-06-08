@@ -10,9 +10,9 @@ import {
 } from "react"
 import { createPortal } from "react-dom"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import Prism from "prismjs"
-import "prismjs/components/prism-jsx"
-import "prismjs/components/prism-typescript"
+import { CodeBlock } from "./code-block"
+
+export { CodeBlock }
 
 type RenderMode = "single" | "all"
 type ThemeMode = "light" | "dark"
@@ -48,80 +48,6 @@ const defaultControls = {
 	viewport: "desktop" as ViewportKey,
 	theme: "light" as ThemeMode,
 	zoom: 0.75,
-}
-
-export function CodeBlock({
-	code,
-	language = "jsx",
-}: {
-	code: string
-	language?: string
-}) {
-	const [copied, setCopied] = useState(false)
-
-	const html = useMemo(() => {
-		const lang = (Prism.languages[language] ||
-			Prism.languages.javascript) as Prism.Grammar
-		return Prism.highlight(code, lang, language)
-	}, [code, language])
-
-	const handleCopy = async () => {
-		try {
-			await navigator.clipboard.writeText(code)
-			setCopied(true)
-			setTimeout(() => setCopied(false), 2000)
-		} catch (err) {
-			console.error("Failed to copy code: ", err)
-		}
-	}
-
-	return (
-		<div className="code-block-wrapper">
-			<button
-				type="button"
-				onClick={handleCopy}
-				className="code-block-copy-btn ml-interaction-control"
-				aria-label={copied ? "Copied" : "Copy code"}
-			>
-				{copied ? (
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						style={{
-							color: "var(--accent)",
-							animation: "scale-in var(--duration-short) var(--ease-out-expo)",
-						}}
-					>
-						<polyline points="20 6 9 17 4 12" />
-					</svg>
-				) : (
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					>
-						<rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-						<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-					</svg>
-				)}
-			</button>
-			<pre className={`language-${language}`} tabIndex={0}>
-				<code
-					className={`language-${language}`}
-					dangerouslySetInnerHTML={{ __html: html }}
-				/>
-			</pre>
-		</div>
-	)
 }
 
 interface PlaygroundSegmentedOption<T> {

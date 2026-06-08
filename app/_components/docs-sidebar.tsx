@@ -1,74 +1,53 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useEffect, useRef, useState } from "react"
 
-import { componentNavGroups, foundationsNav } from "../lib/docs-nav"
-
-function isActivePath(pathname: string, href?: string) {
-	if (!href || href.includes("#")) {
-		return false
-	}
-
-	return pathname === href
-}
+import { DocsNavigation } from "./docs-navigation"
 
 export function DocsSidebar() {
-	const pathname = usePathname()
+	const scrollRef = useRef<HTMLDivElement>(null)
+	const [scrollState, setScrollState] = useState({
+		canScrollUp: false,
+		canScrollDown: false,
+	})
+
+	useEffect(() => {
+		const node = scrollRef.current
+		if (!node) return
+
+		const updateScrollState = () => {
+			const maxScrollTop = node.scrollHeight - node.clientHeight
+			setScrollState({
+				canScrollUp: node.scrollTop > 2,
+				canScrollDown: maxScrollTop - node.scrollTop > 2,
+			})
+		}
+
+		updateScrollState()
+		const frame = requestAnimationFrame(updateScrollState)
+		node.addEventListener("scroll", updateScrollState, { passive: true })
+		window.addEventListener("resize", updateScrollState)
+
+		return () => {
+			cancelAnimationFrame(frame)
+			node.removeEventListener("scroll", updateScrollState)
+			window.removeEventListener("resize", updateScrollState)
+		}
+	}, [])
 
 	return (
-		<aside className="docs-sidebar">
-			<div className="docs-sidebar__group">
-				<p className="ml-eyebrow">Foundations</p>
-				<nav className="docs-sidebar__nav">
-					{foundationsNav.map((item) =>
-						item.href ? (
-							<Link
-								key={item.label}
-								href={item.href}
-								aria-current={
-									isActivePath(pathname, item.href) ? "page" : undefined
-								}
-								className="docs-sidebar__item ml-interaction-surface"
-							>
-								<span>{item.label}</span>
-							</Link>
-						) : null
-					)}
-				</nav>
+		<aside
+			className={[
+				"docs-sidebar",
+				scrollState.canScrollUp ? "docs-sidebar--fade-top" : "",
+				scrollState.canScrollDown ? "docs-sidebar--fade-bottom" : "",
+			]
+				.filter(Boolean)
+				.join(" ")}
+		>
+			<div className="docs-sidebar__scroll" ref={scrollRef}>
+				<DocsNavigation variant="sidebar" />
 			</div>
-
-			{componentNavGroups.map((group) => (
-				<div key={group.label} className="docs-sidebar__group">
-					<p className="ml-eyebrow">{group.label}</p>
-					<nav className="docs-sidebar__nav">
-						{group.items.map((item) =>
-							"href" in item && item.href ? (
-								<Link
-									key={item.label}
-									href={item.href}
-									aria-current={
-										isActivePath(pathname, item.href) ? "page" : undefined
-									}
-									className="docs-sidebar__item ml-interaction-surface"
-								>
-									<span>{item.label}</span>
-									{"meta" in item && item.meta ? (
-										<span className="docs-sidebar__meta">{item.meta}</span>
-									) : null}
-								</Link>
-							) : (
-								<span key={item.label} className="docs-sidebar__item">
-									<span>{item.label}</span>
-									{"meta" in item && item.meta ? (
-										<span className="docs-sidebar__meta">{item.meta}</span>
-									) : null}
-								</span>
-							)
-						)}
-					</nav>
-				</div>
-			))}
 		</aside>
 	)
 }
