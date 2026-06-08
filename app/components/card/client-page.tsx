@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Card,
-	type CardSize,
-} from "@chitrank2050/monoline-ui/components/card"
+import { Card, type CardSize } from "@chitrank2050/monoline-ui/components/card"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -66,19 +63,19 @@ export default function CardPageClient() {
 			sourceSnippet={sourceSnippet}
 			renderPreview={(size = "md") => (
 				<div className="grid gap-ml-5 p-ml-6 sm:grid-cols-2">
-					<Card size={size} variant="hover" className="max-w-[360px]">
+					<Card size={size} variant="hover" className="max-w-90">
 						<Card.Image className="h-ml-24 bg-[repeating-linear-gradient(135deg,var(--surface-2)_0_1px,transparent_1px_16px)]" />
 						<Card.Body>
 							<p className="ml-eyebrow">Engineering · 9 min</p>
 							<h3 className="m-0 text-lg leading-tight text-primary">
 								Designing a type-safe BFF with tRPC and Zod
 							</h3>
-							<p className="m-0 text-sm leading-relaxed text-secondary">
+							<p className="m-0 text-sm leading-relaxed text-body">
 								A compact card for posts, projects, and resources.
 							</p>
 						</Card.Body>
 						<Card.Footer>
-							<span className="text-sm text-secondary">Read case study</span>
+							<span className="text-sm text-body">Read case study</span>
 							<Card.Arrow />
 						</Card.Footer>
 					</Card>

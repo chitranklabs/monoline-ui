@@ -42,7 +42,7 @@ export function SectionHeadRoot({
 				{title}
 			</Heading>
 			{lede ? (
-				<p className="m-0 max-w-140 text-pretty text-base leading-[1.65] text-secondary">
+				<p className="m-0 max-w-140 text-pretty text-base leading-[1.65] text-body">
 					{lede}
 				</p>
 			) : null}

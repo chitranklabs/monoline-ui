@@ -42,7 +42,7 @@ export function TestimonialRoot({
 			</span>
 			<blockquote
 				className={cn(
-					"m-0 text-pretty text-secondary",
+					"m-0 text-pretty text-body",
 					quoteSizeClasses[size]
 				)}
 			>

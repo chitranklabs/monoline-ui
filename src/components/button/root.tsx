@@ -9,7 +9,7 @@ const buttonVariantClasses: Record<ButtonVariant, string> = {
 	secondary:
 		"border-border-strong bg-button text-primary hover:bg-button-hover",
 	ghost:
-		"border-transparent bg-transparent text-secondary hover:bg-surface-2 hover:text-primary",
+		"border-transparent bg-transparent text-body hover:bg-surface-2 hover:text-primary",
 	accent: "border-accent bg-accent-soft text-accent hover:bg-accent-soft/75",
 	danger:
 		"border-destructive bg-destructive/10 text-destructive hover:bg-destructive/15",
