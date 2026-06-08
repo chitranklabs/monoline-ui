@@ -109,6 +109,10 @@ export default function FooterPageClient() {
 			renderPreview={(size) => (
 				<Footer
 					size={size}
+					brand="Chitrank"
+					description="Technical Lead. Nine years bridging React, Node, and ML pipelines. Currently in Delhi, working on inference infra."
+					status={<Footer.Status>Open to work</Footer.Status>}
+					localTime="UTC+5:30 · 23:14 local"
 					columns={footerColumns}
 					meta="© 2026 · Built by Chitrank Agnihotri · v3.2.0"
 					attribution="Next 15 · Sanity · Tailwind 4"

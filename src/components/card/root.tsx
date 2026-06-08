@@ -5,10 +5,8 @@ import type { CardProps, CardSize, CardVariant } from "./types"
 
 const cardVariantClasses: Record<CardVariant, string> = {
 	default: "",
-	hover:
-		"cursor-pointer transition-[border-color,box-shadow,transform] duration-(--duration-short) ease-out-expo hover:-translate-y-ml-1 hover:border-border-strong hover:shadow-card",
-	interactive:
-		"cursor-pointer transition-colors duration-(--duration-micro) ease-out hover:bg-surface-2",
+	hover: "ml-card--hover cursor-pointer",
+	interactive: "ml-card--interactive cursor-pointer",
 }
 
 const cardSizeClasses: Record<CardSize, string> = {
@@ -30,7 +28,7 @@ export function CardRoot({
 		<Comp
 			data-card-size={size}
 			className={cn(
-				"group/card relative flex flex-col overflow-hidden border border-border bg-surface",
+				"group/card ml-card relative flex flex-col overflow-hidden border border-border bg-surface",
 				cardVariantClasses[variant],
 				cardSizeClasses[size],
 				className

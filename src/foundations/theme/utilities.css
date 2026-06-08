@@ -29,40 +29,118 @@
 	overflow: hidden;
 }
 
-/* Card-hover pattern - composable: parent has .group-hover-card, image
- * inside gets .group-hover-card-img, arrow gets .group-hover-card-arrow.
- * Lets you compose the lift+zoom+arrow-reveal without a wrapper component. */
-.group-hover-card {
-	transition:
-		border-color var(--duration-short),
-		transform var(--duration-short) var(--ease-out-expo),
-		box-shadow var(--duration-short);
+/* --- Package component interaction primitives --- */
+.ml-button-icon {
+	display: inline-grid;
+	flex: 0 0 auto;
+	inline-size: 1em;
+	block-size: 1em;
+	place-items: center;
+	overflow: visible;
+	line-height: 1;
+	transform: translateZ(0);
 }
-.group-hover-card:hover {
-	border-color: var(--border-strong);
-	transform: translateY(-0.25rem);
-	box-shadow: var(--shadow-lg);
-}
-.group-hover-card-img > * {
-	transition:
-		transform 600ms var(--ease-out-expo),
-		filter 600ms ease;
-}
-.group-hover-card:hover .group-hover-card-img > * {
-	transform: scale(1.06);
-	filter: grayscale(0);
-}
-.group-hover-card-arrow {
-	opacity: 0;
-	transform: translateX(-0.25rem);
-	transition:
-		opacity var(--duration-short),
-		transform var(--duration-short);
-	color: var(--accent);
-}
-.group-hover-card:hover .group-hover-card-arrow {
+
+.ml-button-icon__glyph {
+	display: inline-block;
 	opacity: 1;
-	transform: translateX(0);
+	transform: translate3d(0, 0, 0) scale(1);
+	transition:
+		opacity var(--duration-short) var(--ease-out-expo),
+		transform var(--duration-short) var(--ease-out-expo);
+	will-change: opacity, transform;
+}
+
+.ml-button-icon[data-reveal="true"] {
+	inline-size: 0;
+	opacity: 0;
+	overflow: clip;
+	transition:
+		inline-size var(--duration-short) var(--ease-out-expo),
+		opacity var(--duration-micro) var(--ease-out);
+}
+
+.ml-button-icon[data-reveal="true"] .ml-button-icon__glyph {
+	opacity: 0;
+	transform: translate3d(calc(var(--space-2) * -1), 0, 0) scale(0.96);
+}
+
+.ml-button-icon[data-reveal="true"][data-side="left"] .ml-button-icon__glyph {
+	transform: translate3d(var(--space-2), 0, 0) scale(0.96);
+}
+
+.group\/btn:not(:disabled):not([aria-disabled="true"]):not(
+		[data-disabled="true"]
+	):not([data-loading="true"]):hover
+	.ml-button-icon[data-reveal="true"] {
+	inline-size: 1em;
+	opacity: 1;
+}
+
+.group\/btn:not(:disabled):not([aria-disabled="true"]):not(
+		[data-disabled="true"]
+	):not([data-loading="true"]):hover
+	.ml-button-icon[data-reveal="true"]
+	.ml-button-icon__glyph {
+	opacity: 1;
+	transform: translate3d(0, 0, 0) scale(1);
+}
+
+.ml-card {
+	transform: translate3d(0, 0, 0);
+	transition:
+		background-color var(--duration-short) var(--ease-out-expo),
+		border-color var(--duration-short) var(--ease-out-expo),
+		box-shadow var(--duration-short) var(--ease-out-expo),
+		transform var(--duration-short) var(--ease-out-expo);
+	backface-visibility: hidden;
+}
+
+.ml-card--hover:hover {
+	border-color: var(--border-strong);
+	box-shadow: var(--shadow-card);
+	transform: translate3d(0, calc(var(--space-0-5) * -1), 0);
+}
+
+.ml-card--interactive:hover {
+	background: var(--surface-2);
+	transform: translate3d(0, -1px, 0);
+}
+
+.ml-card__image > * {
+	filter: grayscale(1);
+	transform: scale(1.01) translateZ(0);
+	transition:
+		filter var(--duration-short) var(--ease-out-expo),
+		transform var(--duration-short) var(--ease-out-expo);
+	will-change: filter, transform;
+}
+
+.ml-card--hover:hover .ml-card__image > * {
+	filter: grayscale(0);
+	transform: scale(1.035) translateZ(0);
+}
+
+.ml-card__footer {
+	transition:
+		border-color var(--duration-short) var(--ease-out-expo),
+		color var(--duration-short) var(--ease-out-expo);
+}
+
+.ml-card__arrow {
+	display: inline-block;
+	opacity: 0;
+	transform: translate3d(calc(var(--space-2) * -1), 0, 0);
+	transition:
+		opacity var(--duration-short) var(--ease-out-expo),
+		transform var(--duration-short) var(--ease-out-expo);
+	will-change: opacity, transform;
+}
+
+.ml-card--hover:hover .ml-card__arrow,
+.ml-card--interactive:hover .ml-card__arrow {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
 }
 
 /* --- Transitions & Composable Interaction States --- */
@@ -171,10 +249,11 @@
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
 	}
-	.group-hover-card:hover {
+	.ml-card--hover:hover,
+	.ml-card--interactive:hover {
 		transform: none;
 	}
-	.group-hover-card:hover .group-hover-card-img > * {
+	.ml-card--hover:hover .ml-card__image > * {
 		transform: none;
 	}
 }

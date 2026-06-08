@@ -1,12 +1,8 @@
 import type * as React from "react"
 
-export type ButtonVariant =
-	| "primary"
-	| "secondary"
-	| "ghost"
-	| "accent"
-	| "danger"
+export type ButtonVariant = "primary" | "secondary" | "ghost"
 export type ButtonSize = "sm" | "md" | "lg"
+export type ButtonIconSide = "left" | "right"
 
 export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 	variant?: ButtonVariant
@@ -17,4 +13,9 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 	asChild?: boolean
 }
 
-export type ButtonArrowProps = React.ComponentPropsWithoutRef<"span">
+export interface ButtonIconProps extends React.ComponentPropsWithoutRef<"span"> {
+	side?: ButtonIconSide
+	reveal?: boolean
+}
+
+export type ButtonArrowProps = Omit<ButtonIconProps, "children">

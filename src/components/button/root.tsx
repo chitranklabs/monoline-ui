@@ -7,12 +7,9 @@ const buttonVariantClasses: Record<ButtonVariant, string> = {
 	primary:
 		"border-primary bg-primary text-primary-foreground hover:bg-btn-primary-hover",
 	secondary:
-		"border-border-strong bg-button text-primary hover:bg-button-hover",
+		"border-border-strong bg-button text-primary hover:border-primary/35 hover:bg-button-hover",
 	ghost:
-		"border-transparent bg-transparent text-body hover:bg-surface-2 hover:text-primary",
-	accent: "border-accent bg-accent-soft text-accent hover:bg-accent-soft/75",
-	danger:
-		"border-destructive bg-destructive/10 text-destructive hover:bg-destructive/15",
+		"border-transparent bg-transparent text-body hover:bg-button-hover hover:text-primary",
 }
 
 const buttonSizeClasses: Record<ButtonSize, string> = {
@@ -42,6 +39,18 @@ export function ButtonRoot({
 }: ButtonProps) {
 	const Comp = asChild ? Slot : "button"
 	const isDisabled = disabled || loading
+	const content =
+		loading && !asChild ? (
+			<>
+				<span
+					aria-hidden="true"
+					className="size-ml-3 rounded-full border border-current border-t-transparent animate-spin"
+				/>
+				{children}
+			</>
+		) : (
+			children
+		)
 
 	return (
 		<Comp
@@ -49,9 +58,10 @@ export function ButtonRoot({
 			disabled={asChild ? undefined : isDisabled}
 			aria-busy={loading || undefined}
 			aria-disabled={asChild && isDisabled ? true : undefined}
+			data-disabled={isDisabled || undefined}
 			data-loading={loading || undefined}
 			className={cn(
-				"group/btn inline-flex select-none items-center justify-center whitespace-nowrap rounded-md border font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-(--duration-micro) ease-out active:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"group/btn inline-flex select-none items-center justify-center whitespace-nowrap rounded-md border font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-(--duration-micro) ease-out will-change-transform active:scale-[0.985] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 disabled:active:scale-100 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-45 aria-disabled:active:scale-100 data-[loading=true]:active:scale-100 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				buttonVariantClasses[variant],
 				buttonSizeClasses[size],
 				icon && "aspect-square",
@@ -61,13 +71,7 @@ export function ButtonRoot({
 			)}
 			{...props}
 		>
-			{loading && !asChild ? (
-				<span
-					aria-hidden="true"
-					className="size-ml-3 rounded-full border border-current border-t-transparent animate-spin"
-				/>
-			) : null}
-			{children}
+			{content}
 		</Comp>
 	)
 }

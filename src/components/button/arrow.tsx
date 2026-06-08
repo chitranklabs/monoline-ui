@@ -1,17 +1,30 @@
 import { cn } from "../../lib/utils"
-import type { ButtonArrowProps } from "./types"
+import type { ButtonArrowProps, ButtonIconProps } from "./types"
 
-export function ButtonArrow({ className, ...props }: ButtonArrowProps) {
+export function ButtonIcon({
+	children,
+	className,
+	side = "right",
+	reveal = false,
+	...props
+}: ButtonIconProps) {
 	return (
 		<span
 			aria-hidden="true"
-			className={cn(
-				"inline-block w-0 overflow-hidden whitespace-nowrap transition-[width,margin] duration-(--duration-micro) ease-out group-hover/btn:ml-ml-0-5 group-hover/btn:w-ml-3",
-				className
-			)}
+			data-side={side}
+			data-reveal={reveal}
+			className={cn("ml-button-icon", className)}
 			{...props}
 		>
-			→
+			<span className="ml-button-icon__glyph">{children}</span>
 		</span>
+	)
+}
+
+export function ButtonArrow(props: ButtonArrowProps) {
+	return (
+		<ButtonIcon side="right" {...props}>
+			→
+		</ButtonIcon>
 	)
 }

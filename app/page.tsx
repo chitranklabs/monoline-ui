@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { Button } from "@chitrank2050/monoline-ui/components/button"
+import { Card } from "@chitrank2050/monoline-ui/components/card"
+
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
 
@@ -46,7 +49,7 @@ const components = [
 	["Footer", "Brand block + link columns + meta bar"],
 	["Rail", "Sidebar tag list with counts"],
 	["Toc", "Table ofContents with scroll-spy"],
-	["Button", "5 variants × 4 sizes, icon, asChild"],
+	["Button", "3 variants, smooth icon slots, asChild"],
 	["Input", "Text/search with prefix icon + kbd"],
 	["Toggle", "On/off switch with spring thumb"],
 	["Tag", "Filter pill with active state"],
@@ -83,22 +86,25 @@ function PreviewCard() {
 			</div>
 			<div className="intro-preview__body">
 				<div className="intro-preview__actions">
-					<button
-						type="button"
-						className="ml-interaction-control ml-interaction-control-primary"
-					>
+					<Button size="sm">
 						Contact me
-					</button>
-					<button type="button" className="ml-interaction-control">
+						<Button.Arrow />
+					</Button>
+					<Button size="sm" variant="secondary">
 						Resume
-					</button>
+					</Button>
 					<span>• Live</span>
 				</div>
-				<article className="intro-preview__article">
-					<p>Engineering · 9 min</p>
-					<h2>Designing a type-safe BFF</h2>
-					<small>May 12, 2026 · ↗</small>
-				</article>
+				<Card variant="hover" size="sm" className="intro-preview__article">
+					<Card.Body>
+						<p>Engineering · 9 min</p>
+						<h2>Designing a type-safe BFF</h2>
+					</Card.Body>
+					<Card.Footer>
+						<small>May 12, 2026</small>
+						<Card.Arrow />
+					</Card.Footer>
+				</Card>
 				<CodeBlock
 					code={`<Card variant="hover">
   <CardBody>
@@ -134,18 +140,15 @@ export default function HomePage() {
 						the brand colour, ship.
 					</p>
 					<div className="intro-actions">
-						<Link
-							href="/installation"
-							className="intro-button intro-button--primary ml-interaction-control ml-interaction-control-primary"
-						>
-							Get started <span aria-hidden="true">→</span>
-						</Link>
-						<Link
-							href="/components/footer"
-							className="intro-button ml-interaction-control"
-						>
-							Browse components
-						</Link>
+						<Button asChild>
+							<Link href="/installation">
+								Get started
+								<Button.Arrow />
+							</Link>
+						</Button>
+						<Button asChild variant="secondary">
+							<Link href="/components/footer">Browse components</Link>
+						</Button>
 						<CliBadge />
 					</div>
 				</div>

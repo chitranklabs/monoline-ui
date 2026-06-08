@@ -1,5 +1,4 @@
 import { cn } from "../../lib/utils"
-import { FooterStatus } from "./status"
 import { FooterSubscribeForm } from "./subscribe"
 import type { FooterColumn, FooterLink, FooterProps } from "./types"
 
@@ -79,28 +78,23 @@ const footerSizeClasses = {
 
 export function FooterRoot({
 	size = "md",
-	brand = "Chitrank",
-	description = "Technical Lead. Nine years bridging React, Node, and ML pipelines. Currently in Delhi, working on inference infra.",
-	status = <FooterStatus />,
-	localTime = "UTC+5:30 · 23:14 local",
+	brand,
+	description,
+	status,
+	localTime,
 	columns,
 	links,
 	subscribe,
 	credit,
 	meta,
-	attribution = "Next 15 · Sanity · Tailwind 4",
+	attribution,
 	linkComponent,
 	className,
 	...props
 }: FooterProps) {
 	const sizeClasses = footerSizeClasses[size]
 	const currentYear = new Date().getFullYear()
-	const defaultMeta = (
-		<>
-			© {currentYear} · Built by Chitrank Agnihotri ·<br />
-			<span className="text-primary">v3.2.0</span>
-		</>
-	)
+	const defaultMeta = `© ${currentYear}`
 	const resolvedColumns =
 		columns ??
 		(links?.length
@@ -129,14 +123,16 @@ export function FooterRoot({
 			<div className={cn("mx-auto w-full", sizeClasses.container)}>
 				<div className={cn("grid grid-cols-1", sizeClasses.layout)}>
 					<div className={cn("flex flex-col", sizeClasses.intro)}>
-						<div
-							className={cn(
-								"font-script leading-none font-bold text-primary",
-								sizeClasses.brand
-							)}
-						>
-							{brand}
-						</div>
+						{brand ? (
+							<div
+								className={cn(
+									"font-script leading-none font-bold text-primary",
+									sizeClasses.brand
+								)}
+							>
+								{brand}
+							</div>
+						) : null}
 						{description ? (
 							<p className={cn("text-body", sizeClasses.description)}>
 								{description}
