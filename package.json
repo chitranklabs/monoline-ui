@@ -26,7 +26,8 @@
 		"test": "tsc --noEmit --pretty false",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"deps:update": "pnpm update --interactive --latest"
+		"deps:update": "pnpm update --interactive --latest",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@radix-ui/react-slot": "^1.2.5",

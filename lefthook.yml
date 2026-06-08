@@ -1,14 +1,32 @@
 pre-commit:
   parallel: true
   commands:
-    eslint:
-      glob: "*.{js,mjs,cjs,jsx,ts,tsx,mts,cts}"
-      run: pnpm exec eslint --fix {staged_files}
+    # Block commits that contain secrets/credentials
+    secrets:
+      run: gitleaks protect --staged --redact -v
+
+    # TS/TSX - ESLint + Prettier
+    lint-ts:
+      glob: "{src,tests, app}/**/*.{ts,tsx}"
+      run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
       stage_fixed: true
-    prettier:
-      glob: "*.{json,css,md,yml,yaml}"
+
+    # Prettier format only
+    format-styles:
+      glob: "**/*.{css,scss}"
       run: pnpm exec prettier --write {staged_files}
       stage_fixed: true
+
+    # JSON / YAML - Prettier format only
+    lint-json-yml:
+      glob: "**/*.{json,yml,yaml}"
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+
+    # GitHub Actions - Security linting
+    lint-actions:
+      glob: ".github/workflows/*.yml"
+      run: if command -v zizmor > /dev/null; then zizmor {staged_files}; else echo "zizmor not found, skipping actions lint. Install with 'brew install zizmor'"; fi
 
 commit-msg:
   commands:
@@ -18,7 +36,13 @@ commit-msg:
 pre-push:
   parallel: true
   commands:
-    # tests:
-    #   run: pnpm test
     branch-name:
       run: pnpm lint:branch
+
+    # Ensure types are correct
+    typecheck:
+      run: pnpm run typecheck
+
+    # Scan for dependency vulnerabilities
+    audit:
+      run: if command -v osv-scanner > /dev/null; then osv-scanner --lockfile pnpm-lock.yaml; else echo "osv-scanner not found, skipping audit. Install with 'brew install osv-scanner'"; fi
