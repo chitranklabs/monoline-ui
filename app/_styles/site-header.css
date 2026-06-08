@@ -108,8 +108,8 @@
 }
 
 .site-search:focus-visible {
-	border-color: var(--border-strong);
-	box-shadow: var(--focus-ring-layered);
+	border-color: color-mix(in oklch, var(--accent) 45%, var(--border));
+	box-shadow: var(--focus-ring);
 }
 
 .site-search__text {
