@@ -39,7 +39,7 @@ const footerSizeClasses = {
 		layout:
 			"gap-footer-layout-gap-sm lg:grid-cols-(--ml-footer-layout-cols-sm-desktop) lg:gap-footer-layout-gap-sm-desktop",
 		intro: "max-w-(--ml-footer-intro-max-sm) gap-footer-intro-gap-sm",
-		brand: "text-4xl sm:text-5xl lg:text-3xl",
+		brand: "text-3xl",
 		description:
 			"max-w-(--ml-footer-description-max-sm) text-sm leading-(--ml-footer-description-leading-sm)",
 		columns: "gap-x-footer-column-gap-x-sm gap-y-footer-column-gap-y-sm",
@@ -53,7 +53,7 @@ const footerSizeClasses = {
 		layout:
 			"gap-footer-layout-gap-md lg:grid-cols-(--ml-footer-layout-cols-md-desktop) lg:gap-footer-layout-gap-md-desktop",
 		intro: "max-w-(--ml-footer-intro-max-md) gap-footer-intro-gap-md",
-		brand: "text-5xl sm:text-6xl lg:text-4xl",
+		brand: "text-4xl",
 		description:
 			"max-w-(--ml-footer-description-max-md) text-base leading-(--ml-footer-description-leading-md)",
 		columns: "gap-x-footer-column-gap-x-md gap-y-footer-column-gap-y-md",
@@ -67,7 +67,7 @@ const footerSizeClasses = {
 		layout:
 			"gap-footer-layout-gap-lg lg:grid-cols-(--ml-footer-layout-cols-lg-desktop) lg:gap-footer-layout-gap-lg-desktop",
 		intro: "max-w-(--ml-footer-intro-max-lg) gap-footer-intro-gap-lg",
-		brand: "text-6xl sm:text-7xl lg:text-5xl",
+		brand: "text-5xl",
 		description:
 			"max-w-(--ml-footer-description-max-lg) text-lg leading-(--ml-footer-description-leading-lg)",
 		columns: "gap-x-footer-column-gap-x-lg gap-y-footer-column-gap-y-lg",

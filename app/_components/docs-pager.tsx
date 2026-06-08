@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { Button } from "@chitrank2050/monoline-ui/button"
+
 import { docsPagerNav } from "../lib/docs-nav"
 
 export function DocsPager() {
@@ -26,24 +28,22 @@ export function DocsPager() {
 	return (
 		<nav className="docs-pager" aria-label="Page navigation">
 			{previous?.href ? (
-				<Link
-					href={previous.href}
-					className="docs-pager__link docs-pager__link--prev"
-				>
-					<span aria-hidden="true">←</span>
-					<span>{previous.label}</span>
-				</Link>
+				<Button asChild variant="secondary" size="md">
+					<Link href={previous.href}>
+						<Button.Icon side="left">←</Button.Icon>
+						<span>{previous.label}</span>
+					</Link>
+				</Button>
 			) : (
 				<span />
 			)}
 			{next?.href ? (
-				<Link
-					href={next.href}
-					className="docs-pager__link docs-pager__link--next"
-				>
-					<span>{next.label}</span>
-					<span aria-hidden="true">→</span>
-				</Link>
+				<Button asChild variant="secondary" size="md" className="ml-auto">
+					<Link href={next.href}>
+						<span>{next.label}</span>
+						<Button.Icon>→</Button.Icon>
+					</Link>
+				</Button>
 			) : null}
 		</nav>
 	)

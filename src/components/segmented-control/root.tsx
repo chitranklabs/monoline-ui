@@ -10,6 +10,7 @@ export function SegmentedControlRoot<T extends string>({
 	value,
 	onChange,
 	variant = "default",
+	size = "md",
 	className,
 }: SegmentedControlProps<T>) {
 	const containerRef = React.useRef<HTMLDivElement>(null)
@@ -54,6 +55,7 @@ export function SegmentedControlRoot<T extends string>({
 			role="radiogroup"
 			className={cn(
 				"ml-segmented",
+				`ml-segmented--${size}`,
 				variant === "pill" && "ml-segmented--pill",
 				className
 			)}

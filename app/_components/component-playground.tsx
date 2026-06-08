@@ -203,17 +203,29 @@ function PreviewFrame({
 	)
 }
 
-export interface ComponentPlaygroundProps<T extends string = string> {
+export interface ComponentPlaygroundProps<
+	TSize extends string = string,
+	TVariant extends string = string,
+> {
 	title: string
 	description: ReactNode
 
-	// Sizes/variants (optional)
-	sizes?: T[]
-	defaultSize?: T
-	formatSize?: (size: T) => string
+	// Sizes (optional)
+	sizes?: TSize[]
+	defaultSize?: TSize
+	formatSize?: (size: TSize) => string
+
+	// Variants (optional)
+	variants?: TVariant[]
+	defaultVariant?: TVariant
+	formatVariant?: (variant: TVariant) => string
 
 	// Render preview callback
-	renderPreview: (size: T | undefined, theme: ThemeMode) => ReactNode
+	renderPreview: (
+		size: TSize | undefined,
+		theme: ThemeMode,
+		variant: TVariant | undefined
+	) => ReactNode
 	previewLayout?: PreviewLayout
 
 	// Documentation tabs
@@ -224,12 +236,18 @@ export interface ComponentPlaygroundProps<T extends string = string> {
 	sourceSnippet: string
 }
 
-function ComponentPlaygroundClient<T extends string = string>({
+function ComponentPlaygroundClient<
+	TSize extends string = string,
+	TVariant extends string = string,
+>({
 	title,
 	description,
 	sizes,
 	defaultSize,
 	formatSize = (s) => s.toUpperCase(),
+	variants,
+	defaultVariant,
+	formatVariant = (v) => v.charAt(0).toUpperCase() + v.slice(1),
 	renderPreview,
 	importStatement,
 	usageCode,
@@ -237,7 +255,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 	tokens,
 	sourceSnippet,
 	previewLayout = "fit",
-}: ComponentPlaygroundProps<T>) {
+}: ComponentPlaygroundProps<TSize, TVariant>) {
 	const pathname = usePathname()
 	const router = useRouter()
 	const searchParams = useSearchParams()
@@ -245,13 +263,26 @@ function ComponentPlaygroundClient<T extends string = string>({
 	const effectiveDefaultSize =
 		defaultSize ?? (sizes && sizes.length > 0 ? sizes[0] : undefined)
 
+	const effectiveDefaultVariant =
+		defaultVariant ??
+		(variants && variants.length > 0 ? variants[0] : undefined)
+
 	const parseRenderMode = (value: string | null): RenderMode => {
 		return value === "all" ? "all" : defaultControls.render
 	}
 
-	const parseSize = (value: string | null): T | undefined => {
+	const parseSize = (value: string | null): TSize | undefined => {
 		if (!sizes) return undefined
-		return sizes.includes(value as T) ? (value as T) : effectiveDefaultSize
+		return sizes.includes(value as TSize)
+			? (value as TSize)
+			: effectiveDefaultSize
+	}
+
+	const parseVariant = (value: string | null): TVariant | undefined => {
+		if (!variants) return undefined
+		return variants.includes(value as TVariant)
+			? (value as TVariant)
+			: effectiveDefaultVariant
 	}
 
 	const parseViewport = (value: string | null): ViewportKey => {
@@ -274,6 +305,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 
 	const renderMode = parseRenderMode(searchParams.get("render"))
 	const size = parseSize(searchParams.get("size"))
+	const variant = parseVariant(searchParams.get("variant"))
 	const viewport = parseViewport(searchParams.get("viewport"))
 	const theme = parseTheme(searchParams.get("theme"))
 	const zoom = parseZoom(searchParams.get("zoom"))
@@ -296,12 +328,13 @@ function ComponentPlaygroundClient<T extends string = string>({
 		return renderMode === "all" ? sizes : [size]
 	}, [sizes, renderMode, size])
 
-	const previewKey = `${renderMode}:${renderedSizes.join(",")}:${viewport}:${theme}`
+	const previewKey = `${renderMode}:${renderedSizes.join(",")}:${viewport}:${theme}:${variant ?? ""}`
 
 	const setControl = (
 		updates: Partial<{
 			render: RenderMode
-			size: T
+			size: TSize
+			variant: TVariant
 			viewport: ViewportKey
 			theme: ThemeMode
 			zoom: number
@@ -310,6 +343,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 		const nextState = {
 			render: updates.render !== undefined ? updates.render : renderMode,
 			size: updates.size !== undefined ? updates.size : size,
+			variant: updates.variant !== undefined ? updates.variant : variant,
 			viewport: updates.viewport !== undefined ? updates.viewport : viewport,
 			theme: updates.theme !== undefined ? updates.theme : theme,
 			zoom: updates.zoom !== undefined ? updates.zoom : zoom,
@@ -333,6 +367,11 @@ function ComponentPlaygroundClient<T extends string = string>({
 			writeParam("size", nextState.size, effectiveDefaultSize)
 		} else {
 			nextParams.delete("size")
+		}
+		if (variants) {
+			writeParam("variant", nextState.variant, effectiveDefaultVariant)
+		} else {
+			nextParams.delete("variant")
 		}
 		writeParam("viewport", nextState.viewport, defaultControls.viewport)
 		writeParam("theme", nextState.theme, defaultControls.theme)
@@ -384,11 +423,26 @@ function ComponentPlaygroundClient<T extends string = string>({
 								}))}
 								value={size ?? sizes[0] ?? ""}
 								onChange={(val) =>
-									setControl({ render: "single", size: val as T })
+									setControl({ render: "single", size: val as TSize })
 								}
 							/>
 						</div>
 					</>
+				)}
+
+				{variants && (
+					<div className="playground-controls__group">
+						<label>Variant</label>
+						<SegmentedControl
+							variant="default"
+							options={variants.map((item) => ({
+								value: item,
+								label: formatVariant(item),
+							}))}
+							value={variant ?? variants[0] ?? ""}
+							onChange={(val) => setControl({ variant: val as TVariant })}
+						/>
+					</div>
 				)}
 
 				<div className="playground-controls__group">
@@ -437,9 +491,10 @@ function ComponentPlaygroundClient<T extends string = string>({
 						{sizes
 							? renderMode === "all"
 								? "All sizes"
-								: formatSize(size as T)
+								: formatSize(size as TSize)
 							: "Default"}{" "}
-						· {zoomOption.label}
+						{variants && variant ? ` · ${formatVariant(variant)}` : ""} ·{" "}
+						{zoomOption.label}
 					</span>
 					<span>
 						{viewportOption.label} · {viewportOption.width}px · {theme}
@@ -460,7 +515,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 								data-layout={previewLayout}
 								data-size={s}
 							>
-								{renderPreview(s, theme)}
+								{renderPreview(s, theme, variant)}
 							</div>
 						))}
 					</PreviewFrame>
@@ -534,9 +589,10 @@ function ComponentPlaygroundClient<T extends string = string>({
 	)
 }
 
-export function ComponentPlayground<T extends string = string>(
-	props: ComponentPlaygroundProps<T>
-) {
+export function ComponentPlayground<
+	TSize extends string = string,
+	TVariant extends string = string,
+>(props: ComponentPlaygroundProps<TSize, TVariant>) {
 	return (
 		<Suspense
 			fallback={

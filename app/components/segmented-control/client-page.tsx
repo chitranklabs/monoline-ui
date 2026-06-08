@@ -4,15 +4,18 @@ import { useState } from "react"
 
 import {
 	SegmentedControl,
+	type SegmentedControlSize,
 	type SegmentedControlVariant,
 } from "@chitrank2050/monoline-ui/segmented-control"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const variants: SegmentedControlVariant[] = ["default", "pill"]
+const sizes: SegmentedControlSize[] = ["sm", "md", "lg"]
 
 const usageCode = `<SegmentedControl
   variant="pill"
+  size="md"
   value={activeType}
   onChange={setActiveType}
   options={[
@@ -29,6 +32,7 @@ export function ProjectFilter() {
   return (
     <SegmentedControl
       variant="pill"
+      size="md"
       value={type}
       onChange={setType}
       options={[
@@ -43,7 +47,8 @@ const propsRows = [
 	["options", "SegmentedControlOption<T>[]", "Array of selectable items"],
 	["value", "T", "Controlled selected value"],
 	["onChange", "(value: T) => void", "Selection change callback"],
-	["variant", '"default" | "pill"', "Visual style variant"],
+	["variant", '"default" | "pill"', "Visual style variant (default: default)"],
+	["size", '"sm" | "md" | "lg"', "Control size scale (default: md)"],
 	["className", "string", "Additional CSS classes"],
 ] as const
 
@@ -55,8 +60,10 @@ const tokenRows = [
 ] as const
 
 function SegmentedControlDemo({
+	size,
 	variant,
 }: {
+	size: SegmentedControlSize
 	variant: SegmentedControlVariant
 }) {
 	const [value, setValue] = useState(
@@ -75,13 +82,16 @@ function SegmentedControlDemo({
 		{ value: "wide", label: "Wide" },
 	]
 
+	const options = variant === "pill" ? pillOptions : defaultOptions
+
 	return (
-		<div className="flex flex-wrap items-center justify-center gap-ml-5 p-ml-8">
+		<div className="flex items-center justify-center p-ml-8 w-full">
 			<SegmentedControl
 				variant={variant}
+				size={size}
 				value={value}
 				onChange={setValue}
-				options={variant === "pill" ? pillOptions : defaultOptions}
+				options={options}
 			/>
 		</div>
 	)
@@ -89,19 +99,21 @@ function SegmentedControlDemo({
 
 export default function SegmentedControlPageClient() {
 	return (
-		<ComponentPlayground<SegmentedControlVariant>
+		<ComponentPlayground<SegmentedControlSize, SegmentedControlVariant>
 			title="SegmentedControl"
 			description="A single-select group with a sliding indicator. Use the pill variant for feature-level filters and the default variant for compact UI controls."
-			sizes={variants}
-			defaultSize="pill"
+			sizes={sizes}
+			defaultSize="md"
+			variants={variants}
+			defaultVariant="pill"
 			importStatement='import { SegmentedControl } from "@chitrank2050/monoline-ui/segmented-control"'
-			formatSize={(s) => s.charAt(0).toUpperCase() + s.slice(1)}
+			formatSize={(s) => s.toUpperCase()}
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
-			renderPreview={(variant = "pill") => (
-				<SegmentedControlDemo variant={variant} />
+			renderPreview={(size = "md", theme, variant = "pill") => (
+				<SegmentedControlDemo size={size} variant={variant} />
 			)}
 		/>
 	)

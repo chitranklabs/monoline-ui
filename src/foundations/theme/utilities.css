@@ -579,22 +579,29 @@
 /* ---------------------------------- */
 
 .ml-segmented {
+	--ml-segmented-padding: 0.125rem;
+	--ml-segmented-radius: 0.5rem;
+	--ml-segmented-item-radius: 0.375rem;
+	--ml-segmented-item-padding: 0.375rem 0.75rem;
+	--ml-segmented-font-size: 0.78125rem;
+	--ml-segmented-gap: 0.375rem;
+
 	position: relative;
 	display: inline-flex;
 	border: 1px solid var(--border);
-	border-radius: 0.5rem;
-	padding: 0.125rem;
+	border-radius: var(--ml-segmented-radius);
+	padding: var(--ml-segmented-padding);
 	background: var(--surface-2);
 	z-index: 1;
 }
 
 .ml-segmented__indicator {
 	position: absolute;
-	top: 0.125rem;
-	bottom: 0.125rem;
+	top: var(--ml-segmented-padding);
+	bottom: var(--ml-segmented-padding);
 	left: 0;
 	border: 1px solid var(--border);
-	border-radius: 0.375rem;
+	border-radius: var(--ml-segmented-item-radius);
 	background: var(--surface-3);
 	box-shadow: var(--shadow-sm);
 	transition:
@@ -609,12 +616,12 @@
 	position: relative;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.375rem;
-	border-radius: 0.375rem;
-	padding: 0.375rem 0.75rem;
+	gap: var(--ml-segmented-gap);
+	border-radius: var(--ml-segmented-item-radius);
+	padding: var(--ml-segmented-item-padding);
 	border: 1px solid transparent;
 	color: var(--text-muted);
-	font-size: 0.78125rem;
+	font-size: var(--ml-segmented-font-size);
 	font-weight: 550;
 	cursor: pointer;
 	white-space: nowrap;
@@ -641,27 +648,76 @@
 	opacity: 0.55;
 }
 
+/* Default Sizing Variants */
+.ml-segmented--sm {
+	--ml-segmented-padding: 0.125rem;
+	--ml-segmented-radius: 0.375rem;
+	--ml-segmented-item-radius: 0.25rem;
+	--ml-segmented-item-padding: 0.25rem 0.5rem;
+	--ml-segmented-font-size: 0.6875rem;
+	--ml-segmented-gap: 0.25rem;
+}
+
+.ml-segmented--md {
+	--ml-segmented-padding: 0.125rem;
+	--ml-segmented-radius: 0.5rem;
+	--ml-segmented-item-radius: 0.375rem;
+	--ml-segmented-item-padding: 0.375rem 0.75rem;
+	--ml-segmented-font-size: 0.78125rem;
+	--ml-segmented-gap: 0.375rem;
+}
+
+.ml-segmented--lg {
+	--ml-segmented-padding: 0.125rem;
+	--ml-segmented-radius: 0.625rem;
+	--ml-segmented-item-radius: 0.5rem;
+	--ml-segmented-item-padding: 0.5rem 1rem;
+	--ml-segmented-font-size: 0.875rem;
+	--ml-segmented-gap: 0.5rem;
+}
+
 /* Pill variant */
 .ml-segmented--pill {
-	padding: var(--ml-space-1);
-	border-radius: var(--radius-pill);
+	--ml-segmented-padding: var(--ml-space-1);
+	--ml-segmented-radius: var(--radius-pill);
+	--ml-segmented-item-radius: var(--radius-pill);
+	--ml-segmented-item-padding: var(--ml-space-2) var(--ml-space-5);
+	--ml-segmented-font-size: 0.6875rem;
+	--ml-segmented-gap: 0.375rem;
+
 	border-color: var(--border-strong);
 	background: var(--surface);
 }
 
+/* Pill Sizing Variants */
+.ml-segmented--pill.ml-segmented--sm {
+	--ml-segmented-padding: 0.1875rem;
+	--ml-segmented-item-padding: 0.375rem 0.75rem;
+	--ml-segmented-font-size: 0.625rem;
+	--ml-segmented-gap: 0.25rem;
+}
+
+.ml-segmented--pill.ml-segmented--md {
+	--ml-segmented-padding: var(--ml-space-1);
+	--ml-segmented-item-padding: var(--ml-space-2) var(--ml-space-5);
+	--ml-segmented-font-size: 0.6875rem;
+	--ml-segmented-gap: 0.375rem;
+}
+
+.ml-segmented--pill.ml-segmented--lg {
+	--ml-segmented-padding: var(--ml-space-1-5);
+	--ml-segmented-item-padding: var(--ml-space-3) var(--ml-space-6);
+	--ml-segmented-font-size: 0.75rem;
+	--ml-segmented-gap: 0.5rem;
+}
+
 .ml-segmented--pill .ml-segmented__indicator {
-	top: var(--ml-space-1);
-	bottom: var(--ml-space-1);
-	border-radius: var(--radius-pill);
 	border-color: transparent;
 	background: var(--primary);
 	box-shadow: none;
 }
 
 .ml-segmented--pill .ml-segmented__item {
-	border-radius: var(--radius-pill);
-	padding: var(--ml-space-2) var(--ml-space-5);
-	font-size: 0.6875rem;
 	font-weight: 650;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;

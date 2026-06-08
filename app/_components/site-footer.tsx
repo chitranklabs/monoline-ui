@@ -1,4 +1,8 @@
+import type * as React from "react"
+
 import Link from "next/link"
+
+import { Footer } from "@chitrank2050/monoline-ui/footer"
 
 const footerGroups = [
 	{
@@ -23,56 +27,38 @@ const footerGroups = [
 	},
 	{
 		title: "Community",
-		links: [
-			"GitHub ↗",
-			"Discord ↗",
-			"X / Twitter ↗",
-			"Discussions ↗",
-			"Roadmap ↗",
-		],
+		links: ["GitHub", "Discord", "X / Twitter", "Discussions", "Roadmap"],
 	},
 ]
 
+function SiteFooterLink(props: React.ComponentProps<typeof Link>) {
+	return <Link {...props} />
+}
+
 export function SiteFooter() {
 	return (
-		<footer className="site-footer">
-			<div className="site-footer__inner">
-				<div className="site-footer__top">
-					<div className="site-footer__brand">
-						<Link href="/" className="site-wordmark">
-							<span>monoline</span>
-							<span className="text-accent">/ui</span>
-						</Link>
-						<p>
-							A taste-aware component library for editorial dev portfolios.
-							Built on Tailwind v4 and CSS vars. MIT licensed.
-						</p>
-						<div className="site-footer__badges">
-							<span>
-								<i />
-								v0.2.0 · May 2026
-							</span>
-							<span>★ 1,247</span>
-						</div>
-					</div>
-
-					{footerGroups.map((group) => (
-						<nav key={group.title} className="site-footer__group">
-							<h2>{group.title}</h2>
-							{group.links.map((link) => (
-								<a key={link} href="#" className="ml-interaction-color">
-									{link}
-								</a>
-							))}
-						</nav>
-					))}
-				</div>
-
-				<div className="site-footer__bottom">
-					<p>© 2026 monoline/ui · MIT licence</p>
-					<p>A single horizontal stroke. Hence the name.</p>
-				</div>
-			</div>
-		</footer>
+		<Footer
+			size="md"
+			brand={
+				<Link href="/" className="font-mono font-extrabold tracking-[-0.045em]">
+					<span>monoline</span>
+					<span className="text-accent">/ui</span>
+				</Link>
+			}
+			description="A taste-aware component library for editorial dev portfolios. Built on Tailwind v4 and CSS vars. MIT licensed."
+			status={<Footer.Status>v0.2.0 · May 2026</Footer.Status>}
+			columns={footerGroups.map((group) => ({
+				title: group.title,
+				links: group.links.map((label) => ({
+					href: "#",
+					label,
+					external: label.includes("↗"),
+				})),
+			}))}
+			subscribe={false}
+			meta="© 2026 monoline/ui · MIT licence"
+			attribution="A single horizontal stroke. Hence the name."
+			linkComponent={SiteFooterLink}
+		/>
 	)
 }
