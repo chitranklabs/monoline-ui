@@ -93,7 +93,7 @@
 }
 
 .playground-canvas__viewport {
-	min-height: 28.5rem;
+	min-height: 0;
 	overflow: auto;
 	padding: 1.75rem;
 	background:
@@ -125,6 +125,15 @@
 
 .playground-canvas__preview > footer {
 	border-top: 0;
+}
+
+.playground-canvas__preview[data-layout="fit"] {
+	width: fit-content;
+	max-width: 100%;
+}
+
+.playground-canvas__preview[data-layout="viewport"] {
+	width: 100%;
 }
 
 .docs-section h3 {

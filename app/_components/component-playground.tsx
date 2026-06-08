@@ -18,6 +18,7 @@ export { CodeBlock }
 
 type RenderMode = "single" | "all"
 type ThemeMode = "light" | "dark"
+type PreviewLayout = "fit" | "viewport"
 type ViewportKey = "mobile" | "tablet" | "desktop" | "wide"
 
 interface ViewportOption {
@@ -51,6 +52,9 @@ const defaultControls = {
 	theme: "light" as ThemeMode,
 	zoom: 0.75,
 }
+
+const previewFrameMinWidth = 240
+const previewFrameMinHeight = 96
 
 interface PlaygroundSegmentedOption<T> {
 	value: T
@@ -124,6 +128,7 @@ function PlaygroundSegmented<T extends string | number>({
 interface PreviewFrameProps {
 	children: ReactNode
 	contentKey: string
+	layout: PreviewLayout
 	theme: ThemeMode
 	viewportWidth: number
 	zoom: number
@@ -132,13 +137,17 @@ interface PreviewFrameProps {
 function PreviewFrame({
 	children,
 	contentKey,
+	layout,
 	theme,
 	viewportWidth,
 	zoom,
 }: PreviewFrameProps) {
 	const iframeRef = useRef<HTMLIFrameElement>(null)
 	const [mountNode, setMountNode] = useState<HTMLElement | null>(null)
-	const [contentHeight, setContentHeight] = useState(456)
+	const [frameSize, setFrameSize] = useState({
+		width: viewportWidth,
+		height: previewFrameMinHeight,
+	})
 
 	useEffect(() => {
 		const iframe = iframeRef.current
@@ -191,14 +200,39 @@ function PreviewFrame({
 		const iframeDocument = iframeRef.current?.contentDocument
 		if (!iframeDocument) return
 
+		setFrameSize({
+			width: viewportWidth,
+			height: previewFrameMinHeight,
+		})
+
 		const updateHeight = () => {
 			const contentRect = mountNode.getBoundingClientRect()
+			const childWidths = Array.from(mountNode.children, (child) => {
+				const element = child as HTMLElement
+				return Math.max(
+					Math.ceil(element.getBoundingClientRect().width),
+					element.scrollWidth
+				)
+			})
+			const contentWidth =
+				childWidths.length > 0 ? Math.max(...childWidths) : contentRect.width
+			const nextWidth =
+				layout === "viewport"
+					? viewportWidth
+					: Math.min(
+							viewportWidth,
+							Math.max(previewFrameMinWidth, contentWidth)
+						)
 			const nextHeight = Math.max(
-				456,
+				previewFrameMinHeight,
 				Math.ceil(contentRect.height),
 				mountNode.scrollHeight
 			)
-			setContentHeight(nextHeight)
+			setFrameSize((current) =>
+				current.width === nextWidth && current.height === nextHeight
+					? current
+					: { width: nextWidth, height: nextHeight }
+			)
 		}
 		const observer = new ResizeObserver(updateHeight)
 		const frame = requestAnimationFrame(updateHeight)
@@ -210,14 +244,14 @@ function PreviewFrame({
 			cancelAnimationFrame(frame)
 			observer.disconnect()
 		}
-	}, [contentKey, mountNode, viewportWidth])
+	}, [contentKey, layout, mountNode, viewportWidth])
 
 	return (
 		<div
 			className="playground-canvas__stage"
 			style={{
-				width: viewportWidth * zoom,
-				height: contentHeight * zoom,
+				width: frameSize.width * zoom,
+				height: frameSize.height * zoom,
 			}}
 		>
 			<iframe
@@ -225,8 +259,8 @@ function PreviewFrame({
 				title="Component preview"
 				className="playground-canvas__frame"
 				style={{
-					width: viewportWidth,
-					height: contentHeight,
+					width: frameSize.width,
+					height: frameSize.height,
 					transform: `scale(${zoom})`,
 				}}
 			/>
@@ -246,6 +280,7 @@ export interface ComponentPlaygroundProps<T extends string = string> {
 
 	// Render preview callback
 	renderPreview: (size: T | undefined, theme: ThemeMode) => ReactNode
+	previewLayout?: PreviewLayout
 
 	// Documentation tabs
 	importStatement: string
@@ -267,6 +302,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 	props,
 	tokens,
 	sourceSnippet,
+	previewLayout = "fit",
 }: ComponentPlaygroundProps<T>) {
 	const pathname = usePathname()
 	const router = useRouter()
@@ -471,6 +507,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 				<div className="playground-canvas__viewport">
 					<PreviewFrame
 						contentKey={previewKey}
+						layout={previewLayout}
 						theme={theme}
 						viewportWidth={viewportOption.width}
 						zoom={zoom}
@@ -479,6 +516,7 @@ function ComponentPlaygroundClient<T extends string = string>({
 							<div
 								key={s ?? idx}
 								className="playground-canvas__preview"
+								data-layout={previewLayout}
 								data-size={s}
 							>
 								{renderPreview(s, theme)}

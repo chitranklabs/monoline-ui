@@ -106,6 +106,7 @@ export default function FooterPageClient() {
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
+			previewLayout="viewport"
 			renderPreview={(size) => (
 				<Footer
 					size={size}

@@ -48,21 +48,53 @@
 			"types": "./index.d.ts",
 			"import": "./index.js"
 		},
-		"./footer": {
-			"types": "./components/footer/index.d.ts",
-			"import": "./components/footer/index.js"
+		"./avatar": {
+			"types": "./components/avatar/index.d.ts",
+			"import": "./components/avatar/index.js"
 		},
 		"./button": {
 			"types": "./components/button/index.d.ts",
 			"import": "./components/button/index.js"
 		},
-		"./toggle": {
-			"types": "./components/toggle/index.d.ts",
-			"import": "./components/toggle/index.js"
+		"./card": {
+			"types": "./components/card/index.d.ts",
+			"import": "./components/card/index.js"
+		},
+		"./eyebrow": {
+			"types": "./components/eyebrow/index.d.ts",
+			"import": "./components/eyebrow/index.js"
+		},
+		"./footer": {
+			"types": "./components/footer/index.d.ts",
+			"import": "./components/footer/index.js"
+		},
+		"./metric": {
+			"types": "./components/metric/index.d.ts",
+			"import": "./components/metric/index.js"
+		},
+		"./section-head": {
+			"types": "./components/section-head/index.d.ts",
+			"import": "./components/section-head/index.js"
+		},
+		"./status": {
+			"types": "./components/status/index.d.ts",
+			"import": "./components/status/index.js"
 		},
 		"./tag": {
 			"types": "./components/tag/index.d.ts",
 			"import": "./components/tag/index.js"
+		},
+		"./testimonial": {
+			"types": "./components/testimonial/index.d.ts",
+			"import": "./components/testimonial/index.js"
+		},
+		"./theme-switcher": {
+			"types": "./components/theme-switcher/index.d.ts",
+			"import": "./components/theme-switcher/index.js"
+		},
+		"./toggle": {
+			"types": "./components/toggle/index.d.ts",
+			"import": "./components/toggle/index.js"
 		},
 		"./components/*": {
 			"types": "./components/*/index.d.ts",

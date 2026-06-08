@@ -1,0 +1,17 @@
+{
+	"count": 12,
+	"components": [
+		"avatar",
+		"button",
+		"card",
+		"eyebrow",
+		"footer",
+		"metric",
+		"section-head",
+		"status",
+		"tag",
+		"testimonial",
+		"theme-switcher",
+		"toggle"
+	]
+}

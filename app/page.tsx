@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import { Button } from "@chitrank2050/monoline-ui/components/button"
 import { Card } from "@chitrank2050/monoline-ui/components/card"
+import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
 }
 
 const stats = [
-	["25", "Components"],
+	[String(metadataJson.count), "Components"],
 	["2", "Themes"],
 	["12kb", "Gzipped"],
 	["MIT", "Licence"],
@@ -135,9 +136,9 @@ export default function HomePage() {
 						<span>with a point of view.</span>
 					</h1>
 					<p>
-						25 components for personal sites, portfolios, and developer docs.
-						Monochrome by default, one warm accent, two themes. Drop in, swap
-						the brand colour, ship.
+						{metadataJson.count} components for personal sites, portfolios, and
+						developer docs. Monochrome by default, one warm accent, two themes.
+						Drop in, swap the brand colour, ship.
 					</p>
 					<div className="intro-actions">
 						<Button asChild>
@@ -179,7 +180,9 @@ export default function HomePage() {
 			<section className="intro-section">
 				<div className="intro-section__head">
 					<div>
-						<p className="ml-eyebrow">Inside the box · 25 components</p>
+						<p className="ml-eyebrow">
+							Inside the box · {metadataJson.count} components
+						</p>
 						<h2>Everything an editorial site needs.</h2>
 					</div>
 					<Link href="/components/footer" className="ml-interaction-color">

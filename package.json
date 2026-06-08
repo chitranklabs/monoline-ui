@@ -18,7 +18,7 @@
 		"build": "next build",
 		"postbuild": "next-sitemap",
 		"start": "next start",
-		"build:lib": "node scripts/build-lib.mjs",
+		"build:lib": "node scripts/sync-exports.mjs && node scripts/build-lib.mjs",
 		"build:all": "pnpm build && pnpm build:lib",
 		"lint": "eslint . && pnpm run lint:md",
 		"lint:fix": "eslint . --fix && pnpm run lint:md --fix",

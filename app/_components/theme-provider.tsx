@@ -29,6 +29,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}, [])
 
 	const handleSetTheme = (newTheme: Theme) => {
+		document.documentElement.classList.add("theme-transitioning")
 		setTheme(newTheme)
 		document.documentElement.setAttribute("data-theme", newTheme)
 		try {
@@ -36,15 +37,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		} catch {
 			// Private browsing or locked storage should not block theme changes.
 		}
+		setTimeout(() => {
+			document.documentElement.classList.remove("theme-transitioning")
+		}, THEME_TRANSITION_DURATION_MS)
 	}
 
 	const toggleTheme = () => {
 		const nextTheme = theme === "light" ? "dark" : "light"
-		document.documentElement.classList.add("theme-transitioning")
 		handleSetTheme(nextTheme)
-		setTimeout(() => {
-			document.documentElement.classList.remove("theme-transitioning")
-		}, THEME_TRANSITION_DURATION_MS)
 	}
 
 	return (

@@ -142,7 +142,6 @@
 	font-weight: 700;
 }
 
-.site-theme-button,
 .site-menu-button {
 	display: inline-flex;
 	align-items: center;
@@ -151,12 +150,6 @@
 	border-radius: var(--radius-md);
 	background: var(--surface);
 	color: var(--text);
-}
-
-.site-theme-button {
-	width: 2rem;
-	height: 2rem;
-	font-size: 0.9375rem;
 }
 
 .site-menu-button {

@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { primaryNav } from "../lib/docs-nav"
 import { CommandPalette } from "./command-palette"
 import { DocsNavigation } from "./docs-navigation"
-import { useTheme } from "./theme-provider"
+import { ThemeControl } from "./theme-control"
 
 function isActive(pathname: string, href: string) {
 	if (href === "/") {
@@ -24,7 +24,6 @@ export function SiteHeader() {
 	const pathname = usePathname()
 	const [paletteOpen, setPaletteOpen] = useState(false)
 	const [menuOpen, setMenuOpen] = useState(false)
-	const { theme, toggleTheme } = useTheme()
 
 	// ⌘K global shortcut
 	useEffect(() => {
@@ -99,14 +98,7 @@ export function SiteHeader() {
 						>
 							GitHub
 						</a>
-						<button
-							className="site-theme-button ml-interaction-control"
-							type="button"
-							aria-label="Theme"
-							onClick={toggleTheme}
-						>
-							{theme === "light" ? "☼" : "☾"}
-						</button>
+						<ThemeControl mode="mini" size="sm" />
 					</div>
 
 					<button
