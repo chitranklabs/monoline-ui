@@ -1,30 +1,60 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended"],
-	"labels": ["dependencies"],
-	"reviewers": ["chitrank2050"],
-	"schedule": ["before 6am on monday"],
-	"prConcurrentLimit": 5,
+	"extends": [
+		"config:recommended",
+		":timezone(Asia/Kolkata)",
+		":dependencyDashboard",
+		":semanticCommits",
+		":separateMajorReleases",
+		"mergeConfidence:all-badges",
+		"helpers:pinGitHubActionDigests"
+	],
+	"labels": ["dependencies", "renovate"],
+	"assignees": ["chitrank2050"],
+	"gitAuthor": "Chitrank Agnihotri <chitrank2050@gmail.com>",
+	"baseBranchPatterns": ["main"],
+	"schedule": ["every weekend"],
+	"prBodyColumns": ["Package", "Change", "Age", "Confidence"],
 	"packageRules": [
 		{
+			"matchUpdateTypes": ["patch", "minor"],
 			"matchManagers": ["npm"],
-			"matchUpdateTypes": ["minor", "patch"],
-			"groupName": "npm minor and patch dependencies"
+			"groupName": "all non-major npm dependencies",
+			"automerge": true
 		},
 		{
+			"matchUpdateTypes": ["major"],
 			"matchManagers": ["npm"],
-			"matchDepTypes": ["dependencies"],
-			"groupName": "production dependencies"
-		},
-		{
-			"matchManagers": ["npm"],
-			"matchDepTypes": ["devDependencies"],
-			"groupName": "development dependencies"
+			"groupName": "all major npm dependencies"
 		},
 		{
 			"matchManagers": ["github-actions"],
-			"labels": ["ci", "dependencies"],
-			"groupName": "github actions"
+			"groupName": "github-actions dependencies",
+			"automerge": true,
+			"pinDigests": true
 		}
-	]
+	],
+	"lockFileMaintenance": {
+		"enabled": false
+	},
+	"vulnerabilityAlerts": {
+		"enabled": true,
+		"labels": ["security", "vulnerability"]
+	},
+	"osvVulnerabilityAlerts": true,
+	"dependencyDashboard": true,
+	"prConcurrentLimit": 5,
+	"prHourlyLimit": 2,
+	"platformAutomerge": true,
+	"branchPrefix": "renovate/",
+	"commitMessagePrefix": "chore: ",
+	"commitMessageTopic": "{{depName}}",
+	"commitMessageExtra": "to {{newVersion}}",
+	"commitMessageAction": "Update",
+	"ignoreDeps": [],
+	"ignorePaths": ["**/node_modules/**", "**/dist/**"],
+	"enabledManagers": ["npm", "github-actions"],
+	"npmrc": "auto-detect",
+	"updateNotScheduled": false,
+	"rangeStrategy": "bump"
 }
