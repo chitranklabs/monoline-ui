@@ -13,6 +13,7 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 	size?: ButtonSize
 	icon?: boolean
 	pill?: boolean
+	loading?: boolean
 	asChild?: boolean
 }
 

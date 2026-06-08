@@ -20,7 +20,7 @@ export function TagRoot({
 			aria-pressed={active}
 			data-active={active}
 			className={cn(
-				"inline-flex cursor-pointer select-none items-center rounded-pill border border-border-strong bg-transparent font-medium text-body transition-[background-color,border-color,color,box-shadow,transform] duration-(--duration-micro) ease-out hover:text-primary active:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"inline-flex cursor-pointer select-none items-center rounded-pill border border-border-strong bg-transparent font-medium text-body transition-[background-color,border-color,color,box-shadow] duration-(--duration-micro) ease-out hover:border-primary hover:bg-surface-2 hover:text-primary disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				tagSizeClasses[size],
 				className
 			)}

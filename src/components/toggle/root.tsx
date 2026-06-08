@@ -51,7 +51,7 @@ export function ToggleRoot({
 			data-state={state}
 			disabled={disabled}
 			className={cn(
-				"relative inline-flex shrink-0 cursor-pointer rounded-pill border border-border-strong bg-button p-ml-1 transition-[background-color,border-color,box-shadow] duration-(--duration-short) ease-out data-[state=on]:border-accent data-[state=on]:bg-accent-soft disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"relative inline-flex shrink-0 cursor-pointer rounded-pill border border-border-strong bg-button p-ml-1 transition-[background-color,border-color,box-shadow] duration-(--duration-medium) ease-out data-[state=on]:border-accent data-[state=on]:bg-accent-soft disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				toggleTrackSizeClasses[size],
 				className
 			)}
@@ -62,7 +62,7 @@ export function ToggleRoot({
 				aria-hidden="true"
 				data-state={state}
 				className={cn(
-					"block rounded-pill bg-primary transition-[background-color,transform] duration-(--duration-short) ease-spring data-[state=on]:bg-accent",
+					"block rounded-pill bg-primary transition-[background-color,transform] duration-(--duration-medium) ease-spring data-[state=on]:bg-accent",
 					toggleThumbSizeClasses[size]
 				)}
 			/>

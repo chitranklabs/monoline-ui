@@ -46,7 +46,7 @@ const tokenRows = [
 	["--surface", "Card background"],
 	["--border", "Default card outline"],
 	["--shadow-card", "Hover elevation"],
-	["--duration-short", "Card hover timing"],
+	["--duration-short", "Card lift, image zoom, and arrow reveal timing"],
 ] as const
 
 export default function CardPageClient() {

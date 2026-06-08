@@ -16,6 +16,7 @@ const usageCode = `<Button variant="primary" size="md">
 
 <Button variant="secondary" size="md">Resume</Button>
 <Button variant="accent" size="md" pill>Like</Button>
+<Button loading>Submit</Button>
 <Button asChild>
   <a href="/contact">Contact</a>
 </Button>`
@@ -29,6 +30,7 @@ export function Actions() {
       <Button variant="secondary">Resume</Button>
       <Button variant="ghost">Book a call</Button>
       <Button variant="accent" pill>Like</Button>
+      <Button loading>Submit</Button>
     </div>
   )
 }`
@@ -38,6 +40,7 @@ const propsRows = [
 	["size", "sm | md | lg", "Button scale"],
 	["icon", "boolean", "Square icon-only dimensions"],
 	["pill", "boolean", "Fully rounded button"],
+	["loading", "boolean", "Busy state with spinner and disabled behavior"],
 	["asChild", "boolean", "Render a child element through Radix Slot"],
 ] as const
 
@@ -77,6 +80,9 @@ export default function ButtonPageClient() {
 					</Button>
 					<Button variant="danger" size={size}>
 						Delete
+					</Button>
+					<Button size={size} loading>
+						Submit
 					</Button>
 					<Button variant="secondary" size={size} icon aria-label="Copy link">
 						↗

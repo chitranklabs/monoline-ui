@@ -34,8 +34,8 @@ const propsRows = [
 ] as const
 
 const tokenRows = [
-	["--duration-short", "Track/thumb transition duration"],
-	["--ease-spring", "Thumb movement easing"],
+	["--duration-medium", "Track and thumb transition duration"],
+	["--ease-spring", "Thumb movement easing with soft overshoot"],
 	["--accent / --accent-soft", "On-state palette"],
 	["--button", "Off-state track surface"],
 ] as const

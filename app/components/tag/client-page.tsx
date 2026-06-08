@@ -35,7 +35,7 @@ const propsRows = [
 ] as const
 
 const tokenRows = [
-	["--duration-micro", "Hover and active transition duration"],
+	["--duration-micro", "Color-only hover and selection transition duration"],
 	["--focus-ring", "Accessible focus shadow"],
 	["--primary / --primary-foreground", "Active tag palette"],
 	["--border-strong", "Inactive tag border"],
