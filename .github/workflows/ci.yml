@@ -110,31 +110,34 @@ jobs:
           HAS_DEPS: ${{ needs.changes.outputs.deps }}
         run: |
           echo "::group::Starting Parallel Checks"
-          mkdir -p .ci-status
+          # Use RUNNER_TEMP so nothing lands inside the git workspace
+          CI_DIR="$RUNNER_TEMP/.ci-status"
+          mkdir -p "$CI_DIR"
 
           if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
-            (pnpm run build:all > .ci-status/build.log 2>&1 || echo "1" > .ci-status/build.fail) &
+            (pnpm run build:all > "$CI_DIR/build.log" 2>&1 || echo "1" > "$CI_DIR/build.fail") &
           fi
 
           if [ "$HAS_SRC" == "true" ]; then
-            (pnpm run test > .ci-status/test.log 2>&1 || echo "1" > .ci-status/test.fail) &
+            (pnpm run test > "$CI_DIR/test.log" 2>&1 || echo "1" > "$CI_DIR/test.fail") &
           fi
 
-          (pnpm run lint > .ci-status/lint.log 2>&1 || echo "1" > .ci-status/lint.fail) &
-          (pnpm run format:check > .ci-status/format.log 2>&1 || echo "1" > .ci-status/format.fail) &
+          (pnpm run lint > "$CI_DIR/lint.log" 2>&1 || echo "1" > "$CI_DIR/lint.fail") &
+          (pnpm run format:check > "$CI_DIR/format.log" 2>&1 || echo "1" > "$CI_DIR/format.fail") &
 
-          # Dependency Vulnerability Scan
-          curl -L https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o osv-scanner
-          chmod +x osv-scanner
-          (./osv-scanner --lockfile=pnpm-lock.yaml > .ci-status/osv.log 2>&1 || echo "1" > .ci-status/osv.fail) &
+          # Dependency Vulnerability Scan — binary goes to RUNNER_TEMP, not workspace
+          OSV_BIN="$RUNNER_TEMP/osv-scanner"
+          curl -sSL https://github.com/google/osv-scanner/releases/download/v2.3.5/osv-scanner_linux_amd64 -o "$OSV_BIN"
+          chmod +x "$OSV_BIN"
+          ("$OSV_BIN" --lockfile=pnpm-lock.yaml > "$CI_DIR/osv.log" 2>&1 || echo "1" > "$CI_DIR/osv.fail") &
 
           wait
           echo "::endgroup::"
 
           EXIT_CODE=0
-          for log in .ci-status/*.log; do
+          for log in "$CI_DIR"/*.log; do
             job=$(basename "$log" .log)
-            if [ -f ".ci-status/$job.fail" ]; then
+            if [ -f "$CI_DIR/$job.fail" ]; then
               echo "::error::❌ $job failed"
               cat "$log"
               EXIT_CODE=1
