@@ -90,6 +90,12 @@ export default async function RootLayout({
 			suppressHydrationWarning
 		>
 			<body>
+				<script
+					id="monoline-theme-init"
+					dangerouslySetInnerHTML={{
+						__html: `(function(){try{var t=localStorage.getItem('ml-theme');var d=document.documentElement;if(t==='light'||t==='dark'){d.setAttribute('data-theme',t);return;}if(window.matchMedia('(prefers-color-scheme: dark)').matches){d.setAttribute('data-theme','dark');return;}d.setAttribute('data-theme','light');}catch(e){}})();`,
+					}}
+				/>
 				<JsonLd data={personJsonLd} />
 				<ThemeProvider>
 					<main className="min-h-screen bg-background">

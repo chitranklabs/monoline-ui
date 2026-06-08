@@ -2,8 +2,6 @@
 
 import React, { createContext, use, useEffect, useState } from "react"
 
-import Script from "next/script"
-
 type Theme = "light" | "dark"
 
 type ThemeContextType = {
@@ -16,8 +14,6 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 const THEME_STORAGE_KEY = "ml-theme"
 const THEME_TRANSITION_DURATION_MS = 250
-
-const themeInitScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}');var d=document.documentElement;if(t==='light'||t==='dark'){d.setAttribute('data-theme',t);return;}if(window.matchMedia('(prefers-color-scheme: dark)').matches){d.setAttribute('data-theme','dark');return;}d.setAttribute('data-theme','light');}catch(e){}})();`
 
 function readDocumentTheme(): Theme {
 	return document.documentElement.getAttribute("data-theme") === "dark"
@@ -52,18 +48,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}
 
 	return (
-		<>
-			<Script
-				id="monoline-theme-init"
-				strategy="beforeInteractive"
-				dangerouslySetInnerHTML={{ __html: themeInitScript }}
-			/>
-			<ThemeContext.Provider
-				value={{ theme, toggleTheme, setTheme: handleSetTheme }}
-			>
-				{children}
-			</ThemeContext.Provider>
-		</>
+		<ThemeContext.Provider
+			value={{ theme, toggleTheme, setTheme: handleSetTheme }}
+		>
+			{children}
+		</ThemeContext.Provider>
 	)
 }
 
