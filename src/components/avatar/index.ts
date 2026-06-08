@@ -1,5 +1,8 @@
+import { AvatarImage } from "./image"
 import { AvatarRoot } from "./root"
 
 export * from "./types"
 
-export const Avatar = AvatarRoot
+export const Avatar = Object.assign(AvatarRoot, {
+	Image: AvatarImage,
+})

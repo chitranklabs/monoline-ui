@@ -1,4 +1,5 @@
 import { cn } from "../../lib/utils"
+import { AvatarImage } from "./image"
 import type { AvatarProps, AvatarSize } from "./types"
 
 const avatarSizeClasses: Record<AvatarSize, string> = {
@@ -19,22 +20,13 @@ export function AvatarRoot({
 	return (
 		<span
 			className={cn(
-				"inline-grid shrink-0 place-items-center overflow-hidden rounded-full border border-border-strong bg-linear-to-br from-(--avatar-from) to-(--avatar-to) font-mono font-medium tracking-[0.04em] text-primary",
+				"relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full border border-border-strong bg-linear-to-br from-(--avatar-from) to-(--avatar-to) font-mono font-medium tracking-[0.04em] text-primary",
 				avatarSizeClasses[size],
 				className
 			)}
 			{...props}
 		>
-			{src ? (
-				<img
-					src={src}
-					alt={alt}
-					className="size-full object-cover"
-					loading="lazy"
-				/>
-			) : (
-				children
-			)}
+			{src ? <AvatarImage src={src} alt={alt} /> : children}
 		</span>
 	)
 }

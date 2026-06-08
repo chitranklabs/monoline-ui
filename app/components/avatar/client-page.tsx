@@ -11,13 +11,35 @@ const avatarSizes: AvatarSize[] = ["sm", "md", "lg", "xl"]
 
 const usageCode = `<Avatar size="md" src="/avatar.jpg" alt="Chitrank Agnihotri" />
 
+<Avatar size="lg">
+  <Avatar.Image asChild>
+    <Image
+      src="/avatar.jpg"
+      alt="Chitrank Agnihotri"
+      fill
+      sizes="56px"
+    />
+  </Avatar.Image>
+</Avatar>
+
 <Avatar size="lg">CA</Avatar>`
 
 const sourceSnippet = `import { Avatar } from "@chitrank2050/monoline-ui/components/avatar"
+import Image from "next/image"
 
 export function People() {
   return (
     <div className="flex items-center gap-3">
+      <Avatar size="lg">
+        <Avatar.Image asChild>
+          <Image
+            src="/avatar.jpg"
+            alt="Chitrank Agnihotri"
+            fill
+            sizes="56px"
+          />
+        </Avatar.Image>
+      </Avatar>
       <Avatar size="sm">CA</Avatar>
       <Avatar size="md">SC</Avatar>
       <Avatar size="lg">RM</Avatar>
@@ -29,6 +51,7 @@ const propsRows = [
 	["size", "sm | md | lg | xl", "Avatar scale"],
 	["src", "string?", "Optional image URL"],
 	["alt", "string?", "Image alt text when src is provided"],
+	["Avatar.Image", "compound slot", "Use asChild for next/image or another image primitive"],
 	["children", "ReactNode", "Fallback initials or custom content"],
 ] as const
 
