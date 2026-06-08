@@ -88,10 +88,7 @@ function PreviewCard() {
 			</div>
 			<div className="intro-preview__body">
 				<div className="intro-preview__actions">
-					<Button size="sm">
-						Contact me
-						<Button.Arrow />
-					</Button>
+					<Button size="sm">Contact me</Button>
 					<Button size="sm" variant="secondary">
 						Resume
 					</Button>

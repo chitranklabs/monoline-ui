@@ -4,12 +4,9 @@ import { cn } from "../../lib/utils"
 import type { ButtonProps, ButtonSize, ButtonVariant } from "./types"
 
 const buttonVariantClasses: Record<ButtonVariant, string> = {
-	primary:
-		"border-primary bg-primary text-primary-foreground hover:bg-btn-primary-hover",
-	secondary:
-		"border-border-strong bg-button text-primary hover:border-primary/35 hover:bg-button-hover",
-	ghost:
-		"border-transparent bg-transparent text-body hover:bg-button-hover hover:text-primary",
+	primary: "ml-btn--primary",
+	secondary: "ml-btn--secondary",
+	ghost: "ml-btn--ghost",
 }
 
 const buttonSizeClasses: Record<ButtonSize, string> = {
