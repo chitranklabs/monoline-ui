@@ -18,13 +18,13 @@ const buttonVariantClasses: Record<ButtonVariant, string> = {
 const buttonSizeClasses: Record<ButtonSize, string> = {
 	sm: "h-ml-8 gap-ml-1-5 px-ml-3 text-xs",
 	md: "h-ml-9 gap-ml-2 px-ml-4 text-sm",
-	lg: "h-ml-11 gap-ml-2 px-ml-5 text-base",
+	lg: "h-ml-10 gap-ml-2 px-ml-5 text-base",
 }
 
 const buttonIconSizeClasses: Record<ButtonSize, string> = {
 	sm: "w-ml-8 px-0",
 	md: "w-ml-9 px-0",
-	lg: "w-ml-11 px-0",
+	lg: "w-ml-10 px-0",
 }
 
 export function ButtonRoot({

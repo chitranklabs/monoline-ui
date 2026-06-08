@@ -45,10 +45,10 @@ export const componentNavGroups: DocsNavGroup[] = [
 	{
 		label: "Forms & inputs",
 		items: [
-			{ label: "Button" },
+			{ href: "/components/button", label: "Button" },
 			{ label: "Input" },
-			{ label: "Toggle" },
-			{ label: "Tag" },
+			{ href: "/components/toggle", label: "Toggle" },
+			{ href: "/components/tag", label: "Tag" },
 		],
 	},
 	{
@@ -89,5 +89,8 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
 	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
+	{ href: "/components/button", label: "Button" },
+	{ href: "/components/tag", label: "Tag" },
+	{ href: "/components/toggle", label: "Toggle" },
 	{ href: "/components/footer", label: "Footer" },
 ] as const

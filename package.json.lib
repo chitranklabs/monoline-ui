@@ -41,12 +41,12 @@
 			"import": "./index.js"
 		},
 		"./footer": {
-			"types": "./components/footer.d.ts",
-			"import": "./components/footer.js"
+			"types": "./components/footer/index.d.ts",
+			"import": "./components/footer/index.js"
 		},
 		"./components/*": {
-			"types": "./components/*.d.ts",
-			"import": "./components/*.js"
+			"types": "./components/*/index.d.ts",
+			"import": "./components/*/index.js"
 		},
 		"./foundations/*": {
 			"types": "./foundations/*.d.ts",

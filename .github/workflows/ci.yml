@@ -149,9 +149,16 @@ jobs:
           exit $EXIT_CODE
 
       - name: Dependency Vulnerability Scan 🔍
-        uses: google/osv-scanner-action@9a498708959aeaef5ef730655706c5a1df1edbc2 # v2.3.8
-        with:
-          scan-args: --lockfile=pnpm-lock.yaml
+        run: |
+          OSV_VERSION="2.3.8"
+          OSV_BIN="$RUNNER_TEMP/osv-scanner"
+          # -sSfL: fail fast on HTTP errors (no silent 504 HTML saves)
+          curl -sSfL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64" \
+            -o "$OSV_BIN"
+          # Verify SHA256 matches the published checksum for v2.3.8
+          echo "bc98e15319ed0d515e3f9235287ba53cdc5535d576d24fd573978ecfe9ab92dc  $OSV_BIN" | sha256sum -c -
+          chmod +x "$OSV_BIN"
+          "$OSV_BIN" --lockfile=pnpm-lock.yaml
 
   secret_scan:
     name: Secret Scan 🔑
