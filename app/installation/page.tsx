@@ -1,13 +1,12 @@
 import type { Metadata } from "next"
-
 import { CodeBlock } from "../_components/code-block"
 import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"
 
 export const metadata: Metadata = {
-	title: "Installation - monoline/ui component library",
+	title: "Installation — monoline/ui component library",
 	description:
-		"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme attribute in 5 minutes.",
+		"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
 	alternates: {
 		canonical: "/installation",
 	},

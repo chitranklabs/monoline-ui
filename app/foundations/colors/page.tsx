@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-	title: "Colors - monoline/ui design foundations",
+	title: "Colors — monoline/ui design foundations",
 	description:
 		"Learn how monoline/ui uses semantic CSS variables and design tokens for clean, responsive light/dark theme color switching.",
 	alternates: {

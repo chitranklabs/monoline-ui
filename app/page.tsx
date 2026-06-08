@@ -4,7 +4,7 @@ import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-	title: "monoline/ui - Opinionated, token-first React component library",
+	title: "monoline/ui — Opinionated, token-first React component library",
 	description:
 		"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
 	alternates: {

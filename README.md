@@ -1,8 +1,20 @@
 # Monoline UI
 
+[![Release](https://img.shields.io/npm/v/@chitrank2050/monoline-ui?color=black&style=flat-square)](https://www.npmjs.com/package/@chitrank2050/monoline-ui)
+[![License](https://img.shields.io/npm/l/@chitrank2050/monoline-ui?color=black&style=flat-square)](https://github.com/chitranklabs/monoline-ui/blob/main/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/chitranklabs/monoline-ui/ci.yml?branch=main&style=flat-square)](https://github.com/chitranklabs/monoline-ui/actions)
+
 Monoline UI is a monochrome-by-default, layout-focused React design library and Next.js documentation playground.
 
 It is designed to be extremely lightweight, performant, tree-shakeable, and fully compatible with **React 19**, **Next.js (App Router)**, and **Tailwind CSS v4**.
+
+---
+
+## Business Outcome & Rationale
+
+> [!TIP]
+> **Why Monoline UI?**
+> Developer sites, personal portfolios, and documentation playgrounds should not be bogged down by heavy, non-tree-shakeable UI packages or duplicate dark-theme class gymnastics. Monoline UI guarantees high-performance rendering (0kb client JS overhead for static sections) and unified, token-driven customization.
 
 ---
 
@@ -29,10 +41,23 @@ monoline-ui/
 
 ---
 
+## Technical Specification
+
+- **Runtime Target**: Node.js `>=22.0.0`
+- **Package Manager**: pnpm `>=10.0.0`
+- **Core Compiler**: TypeScript 6.0 (Targeting ES2022 / Bundler module resolution)
+- **Styling Pipeline**: PostCSS with `@tailwindcss/postcss` v4
+- **Dependencies**:
+  - `@radix-ui/react-slot`: Polymorphic render delegation (0kb client runtime impact when static)
+  - `clsx` & `tailwind-merge`: CSS class composition helper
+  - `next` and `react` (v19 peer dependencies)
+
+---
+
 ## Local Development Commands
 
 ```bash
-pnpm install                     # Install dependencies (clsx, tailwind-merge, radix-slot, next, etc.)
+pnpm install                     # Install dependencies
 pnpm dev                         # Launch the Next.js dev server with instant HMR
 pnpm build                       # Build the Next.js static site
 pnpm build:lib                   # Build the component library into /dist
@@ -43,7 +68,7 @@ pnpm format                      # Format code with Prettier
 
 ---
 
-## Consumer Setup & Integrations (2027/React 19 Ready)
+## Consumer Setup & Integrations (React 19 Ready)
 
 ### 1. Tailwind CSS v4 Configuration
 
@@ -61,7 +86,8 @@ In the consumer's root stylesheet (e.g., `app/globals.css`), import Tailwind and
 
 ### 2. Composable Dot-Notation & React Server Components (RSC)
 
-Our composite components are Server Components by default. Interactivity is isolated to specific subcomponents, resulting in **0kb client-side hydration cost** for static layouts:
+> [!IMPORTANT]
+> Our composite components are Server Components by default. Interactivity is isolated to specific subcomponents, resulting in **0kb client-side hydration cost** for static layouts:
 
 ```tsx
 import { Footer } from "@chitrank2050/monoline-ui/components/footer"
@@ -134,3 +160,9 @@ import Link from "next/link"
 	<Link href="/about">About me</Link>
 </Footer.Link>
 ```
+
+---
+
+<p align="center">
+  ❤️ Developed by <b><a href="https://www.chitrankagnihotri.com">Chitrank Agnihotri</a></b>
+</p>
