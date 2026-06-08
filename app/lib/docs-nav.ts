@@ -48,6 +48,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ href: "/components/button", label: "Button" },
 			{ label: "Input" },
 			{ href: "/components/toggle", label: "Toggle" },
+			{ href: "/components/segmented-control", label: "SegmentedControl" },
 			{ href: "/components/theme-switcher", label: "ThemeSwitcher" },
 			{ href: "/components/tag", label: "Tag" },
 		],
@@ -100,6 +101,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/tag", label: "Tag" },
 	{ href: "/components/testimonial", label: "Testimonial" },
 	{ href: "/components/toggle", label: "Toggle" },
+	{ href: "/components/segmented-control", label: "SegmentedControl" },
 	{ href: "/components/theme-switcher", label: "ThemeSwitcher" },
 	{ href: "/components/footer", label: "Footer" },
 ] as const

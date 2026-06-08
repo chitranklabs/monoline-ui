@@ -71,6 +71,7 @@
 
 .group\/btn {
 	cursor: pointer;
+	text-decoration: none; /* when rendered as <a> via asChild */
 }
 
 .group\/btn:not(:disabled):not([aria-disabled="true"]):not(
@@ -557,8 +558,8 @@
 	left: 0;
 	border: 1px solid var(--border);
 	border-radius: 0.375rem;
-	background: var(--surface);
-	box-shadow: var(--shadow-xs);
+	background: var(--surface-3);
+	box-shadow: var(--shadow-sm);
 	transition:
 		transform var(--duration-short) var(--ease-out-expo),
 		width var(--duration-short) var(--ease-out-expo),
@@ -609,7 +610,6 @@
 	border-radius: var(--radius-pill);
 	border-color: var(--border-strong);
 	background: var(--surface);
-	overflow: hidden;
 }
 
 .ml-segmented--pill .ml-segmented__indicator {

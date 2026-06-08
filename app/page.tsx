@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { Button } from "@chitrank2050/monoline-ui/components/button"
-import { Card } from "@chitrank2050/monoline-ui/components/card"
+import { Button } from "@chitrank2050/monoline-ui/button"
+import { Card } from "@chitrank2050/monoline-ui/card"
 import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 
 import { CliBadge } from "./_components/cli-badge"
@@ -53,6 +53,7 @@ const components = [
 	["Button", "3 variants, smooth icon slots, asChild"],
 	["Input", "Text/search with prefix icon + kbd"],
 	["Toggle", "On/off switch with spring thumb"],
+	["SegmentedControl", "Pill & default variants, sliding indicator"],
 	["Tag", "Filter pill with active state"],
 ]
 
@@ -94,7 +95,6 @@ function PreviewCard() {
 					<Button size="sm" variant="secondary">
 						Resume
 					</Button>
-					<span>• Live</span>
 				</div>
 				<Card variant="hover" size="sm" className="intro-preview__article">
 					<Card.Body>
