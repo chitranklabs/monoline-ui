@@ -1,0 +1,63 @@
+[changelog]
+header = """
+# Changelog\n
+All notable changes to monoline-ui.\n
+"""
+body = """
+{% if version %}
+
+---
+
+## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | striptags | trim | upper_first }}
+{% for commit in commits %}
+- {% if commit.scope %}**{{ commit.scope }}:** {% endif %}{{ commit.message | trim | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/chitranklabs/monoline-ui/commit/{{ commit.id }}))\
+{% set user = commit.remote.username | default(value=commit.author.name) %}\
+{% if user != "chitrank2050" and user != "chitranklabs" %} by {% if user is ending_with("[bot]") %}[{{ user }}](https://github.com/apps/{{ user | split(pat="[") | first }}){% else %}[@{{ user }}](https://github.com/{{ user }}){% endif %}{% endif %}\
+{% endfor %}
+{% endfor %}\
+"""
+trim = true
+footer = ""
+
+[git]
+conventional_commits = true
+filter_unconventional = false
+split_commits = false
+skip_merge = true
+commit_preprocessors = [
+  { pattern = '(?i)\\((?:fixes?|closes?|resolves?|#)\\s?#([0-9]+)\\)', replace = "([#${1}](https://github.com/chitranklabs/monoline-ui/issues/${1}))" },
+  { pattern = '\\s\\(#([0-9]+)\\)$', replace = "" },
+]
+commit_parsers = [
+  { message = "^docs: update changelog", skip = true },
+  { message = "^chore\\(release\\)", skip = true },
+  { message = "^chore\\(deps.*\\)", skip = true },
+  { message = "^chore: release", skip = true },
+  { message = "^chore: bump", skip = true },
+  { message = "Update CHANGELOG.md", skip = true },
+  { message = "^Merge", skip = true },
+
+  { message = "^feat", group = "Features" },
+  { message = "^fix", group = "Bug Fixes" },
+  { message = "^perf", group = "Performance" },
+  { message = "^refactor", group = "Refactoring" },
+  { message = "^doc", group = "Documentation" },
+  { message = "^test", group = "Testing" },
+  { message = "^ci|^build", group = "CI/CD & Infra" },
+  { message = "^chore|^style|^maintenance", group = "Maintenance" },
+  { message = "^renovate", group = "Dependency Updates" },
+  { message = "^revert", group = "Revert" },
+  { message = ".*", group = "Miscellaneous Tasks" },
+]
+protect_breaking_commits = true
+filter_commits = true
+tag_pattern = "v?[0-9].*"
+topo_order = false
+sort_commits = "oldest"
+
+[remote.github]
+owner = "chitranklabs"
+repo = "monoline-ui"
