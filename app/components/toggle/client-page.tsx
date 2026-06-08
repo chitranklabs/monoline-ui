@@ -1,6 +1,10 @@
 "use client"
 
-import { Toggle, type ToggleSize } from "@chitrank2050/monoline-ui/components/toggle"
+import {
+	Toggle,
+	type ToggleSize,
+} from "@chitrank2050/monoline-ui/components/toggle"
+
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const toggleSizes: ToggleSize[] = ["sm", "md", "lg"]
@@ -40,9 +44,6 @@ export default function TogglePageClient() {
 	return (
 		<ComponentPlayground<ToggleSize>
 			title="Toggle"
-			status="stable"
-			version="v0.2.0"
-			gzippedSize="0.9 kb"
 			description="Render a controlled or uncontrolled switch with role=switch semantics, spring thumb motion, and three sizes."
 			sizes={toggleSizes}
 			defaultSize="md"
@@ -70,4 +71,3 @@ export default function TogglePageClient() {
 		/>
 	)
 }
-

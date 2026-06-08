@@ -4,6 +4,7 @@ import {
 	Button,
 	type ButtonSize,
 } from "@chitrank2050/monoline-ui/components/button"
+
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const buttonSizes: ButtonSize[] = ["sm", "md", "lg"]
@@ -51,9 +52,6 @@ export default function ButtonPageClient() {
 	return (
 		<ComponentPlayground<ButtonSize>
 			title="Button"
-			status="stable"
-			version="v0.2.0"
-			gzippedSize="1.4 kb"
 			description="Render action buttons with token-backed variants, three sizes, optional icon-only shape, pill rounding, and asChild composition."
 			sizes={buttonSizes}
 			defaultSize="md"
@@ -88,4 +86,3 @@ export default function ButtonPageClient() {
 		/>
 	)
 }
-

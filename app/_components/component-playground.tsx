@@ -237,9 +237,6 @@ function PreviewFrame({
 
 export interface ComponentPlaygroundProps<T extends string = string> {
 	title: string
-	version?: string
-	status?: string
-	gzippedSize?: string
 	description: ReactNode
 
 	// Sizes/variants (optional)
@@ -270,9 +267,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 	props,
 	tokens,
 	sourceSnippet,
-	status,
-	version,
-	gzippedSize,
 }: ComponentPlaygroundProps<T>) {
 	const pathname = usePathname()
 	const router = useRouter()
@@ -390,22 +384,6 @@ function ComponentPlaygroundClient<T extends string = string>({
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
 					<h1>{title}</h1>
-					{status && (
-						<span className="playground-badge" data-state="stable">
-							<span className="playground-badge__dot" />
-							{status}
-						</span>
-					)}
-					{version && (
-						<span className="playground-badge" data-state="version">
-							{version}
-						</span>
-					)}
-					{gzippedSize && (
-						<span className="playground-badge" data-state="size">
-							{gzippedSize}
-						</span>
-					)}
 				</div>
 				<p>{description}</p>
 			</header>

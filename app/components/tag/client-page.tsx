@@ -1,6 +1,7 @@
 "use client"
 
 import { Tag, type TagSize } from "@chitrank2050/monoline-ui/components/tag"
+
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const tagSizes: TagSize[] = ["sm", "md", "lg"]
@@ -44,9 +45,6 @@ export default function TagPageClient() {
 	return (
 		<ComponentPlayground<TagSize>
 			title="Tag"
-			status="stable"
-			version="v0.2.0"
-			gzippedSize="0.8 kb"
 			description="Render filter pills with active state, count metadata, and three token-backed sizes."
 			sizes={tagSizes}
 			defaultSize="md"
@@ -76,4 +74,3 @@ export default function TagPageClient() {
 		/>
 	)
 }
-

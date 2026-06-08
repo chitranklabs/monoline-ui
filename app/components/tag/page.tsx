@@ -14,4 +14,3 @@ export const metadata: Metadata = {
 export default function TagPage() {
 	return <TagPageClient />
 }
-

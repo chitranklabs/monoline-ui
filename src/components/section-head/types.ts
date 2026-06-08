@@ -1,0 +1,15 @@
+import type * as React from "react"
+
+export type SectionHeadSize = "sm" | "md" | "lg" | "xl"
+export type SectionHeadLevel = 1 | 2 | 3
+
+export interface SectionHeadProps extends Omit<
+	React.ComponentPropsWithoutRef<"header">,
+	"title"
+> {
+	eyebrow?: React.ReactNode
+	title: React.ReactNode
+	lede?: React.ReactNode
+	level?: SectionHeadLevel
+	size?: SectionHeadSize
+}
