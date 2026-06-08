@@ -1,7 +1,9 @@
 import type * as React from "react"
+
 import { Slot } from "@radix-ui/react-slot"
-import type { FooterLinkProps } from "./types"
+
 import { cn } from "../../lib/utils"
+import type { FooterLinkProps } from "./types"
 
 export function FooterLink({ asChild, className, ...props }: FooterLinkProps) {
 	const Comp = asChild ? Slot : "a"

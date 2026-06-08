@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+
 import { useRouter } from "next/navigation"
+
 import { Command } from "cmdk"
-import { foundationsNav, componentNavGroups } from "../lib/docs-nav"
+
+import { componentNavGroups, foundationsNav } from "../lib/docs-nav"
 
 /* ── Search index ─────────────────────────────────────── */
 const TOP_PAGES = [

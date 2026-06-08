@@ -1,5 +1,5 @@
-import type { FooterSubscribeFormProps } from "./types"
 import { cn } from "../../lib/utils"
+import type { FooterSubscribeFormProps } from "./types"
 
 export function FooterSubscribeForm({
 	description = "One essay a month. No tracking, no nonsense.",

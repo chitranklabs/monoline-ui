@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+
 import { CodeBlock } from "../_components/code-block"
 import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"

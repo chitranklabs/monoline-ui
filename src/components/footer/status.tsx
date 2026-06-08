@@ -1,5 +1,5 @@
-import type { FooterStatusProps } from "./types"
 import { cn } from "../../lib/utils"
+import type { FooterStatusProps } from "./types"
 
 export function FooterStatus({
 	children = "Open to work",

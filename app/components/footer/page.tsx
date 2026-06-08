@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+
 import FooterPageClient from "./client-page"
 
 export const metadata: Metadata = {

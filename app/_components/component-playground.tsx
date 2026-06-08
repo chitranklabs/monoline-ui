@@ -1,15 +1,17 @@
 "use client"
 
 import {
+	type ReactNode,
 	Suspense,
 	useEffect,
 	useMemo,
 	useRef,
 	useState,
-	type ReactNode,
 } from "react"
 import { createPortal } from "react-dom"
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
 import { CodeBlock } from "./code-block"
 
 export { CodeBlock }

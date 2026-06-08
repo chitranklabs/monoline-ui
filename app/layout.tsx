@@ -1,19 +1,19 @@
 import type { Metadata } from "next"
 
-import "./globals.css"
-import { SiteFooter } from "./_components/site-footer"
-import { SiteHeader } from "./_components/site-header"
-import { ThemeProvider } from "./_components/theme-provider"
+import { Analytics } from "@vercel/analytics/next"
+
 import JsonLd, {
 	getPersonJsonLd,
 	getWebpageJsonLd,
 	getWebsiteJsonLd,
 } from "./_components/json-ld"
+import { SiteFooter } from "./_components/site-footer"
+import { SiteHeader } from "./_components/site-header"
+import { ThemeProvider } from "./_components/theme-provider"
+import "./globals.css"
 import { monolineFontClassName } from "./lib/fonts"
-import { siteUrl } from "./lib/seo"
-
 import { fetchIdentity } from "./lib/identity"
-import { Analytics } from "@vercel/analytics/next"
+import { siteUrl } from "./lib/seo"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const identity = await fetchIdentity()
@@ -70,7 +70,7 @@ export default async function RootLayout({
 	children: React.ReactNode
 }>) {
 	const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-	
+
 	const identity = await fetchIdentity()
 
 	const personJsonLd = {

@@ -4,6 +4,7 @@ import {
 	Footer,
 	type FooterSize,
 } from "@chitrank2050/monoline-ui/components/footer"
+
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const footerSizes: FooterSize[] = ["sm", "md", "lg"]

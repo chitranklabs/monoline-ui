@@ -2,5 +2,16 @@
 	"useTabs": true,
 	"singleQuote": false,
 	"semi": false,
-	"trailingComma": "es5"
+	"trailingComma": "es5",
+	"plugins": ["@trivago/prettier-plugin-sort-imports"],
+	"importOrder": [
+		"^react(.*)$",
+		"^next(.*)$",
+		"<THIRD_PARTY_MODULES>",
+		"^@chitrank2050/monoline-ui(.*)$",
+		"^@/(.*)$",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
 }

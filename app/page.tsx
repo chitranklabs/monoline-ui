@@ -1,7 +1,8 @@
+import type { Metadata } from "next"
+import Link from "next/link"
+
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
-import Link from "next/link"
-import type { Metadata } from "next"
 
 export const metadata: Metadata = {
 	title: "monoline/ui — Opinionated, token-first React component library",

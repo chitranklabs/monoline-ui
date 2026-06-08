@@ -1,7 +1,7 @@
+import { FooterLink } from "./link"
 import { FooterRoot } from "./root"
 import { FooterStatus } from "./status"
 import { FooterSubscribeForm } from "./subscribe"
-import { FooterLink } from "./link"
 
 export * from "./types"
 

@@ -1,7 +1,8 @@
 "use client"
 
-import Script from "next/script"
 import React, { createContext, use, useEffect, useState } from "react"
+
+import Script from "next/script"
 
 type Theme = "light" | "dark"
 

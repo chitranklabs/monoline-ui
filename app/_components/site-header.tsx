@@ -1,12 +1,14 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+
+import { primaryNav } from "../lib/docs-nav"
 import { CommandPalette } from "./command-palette"
 import { DocsNavigation } from "./docs-navigation"
 import { useTheme } from "./theme-provider"
-import { primaryNav } from "../lib/docs-nav"
 
 function isActive(pathname: string, href: string) {
 	if (href === "/") {

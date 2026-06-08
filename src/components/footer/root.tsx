@@ -1,7 +1,7 @@
-import type { FooterColumn, FooterLink, FooterProps } from "./types"
+import { cn } from "../../lib/utils"
 import { FooterStatus } from "./status"
 import { FooterSubscribeForm } from "./subscribe"
-import { cn } from "../../lib/utils"
+import type { FooterColumn, FooterLink, FooterProps } from "./types"
 
 function isExternalHref(link: FooterLink) {
 	return link.external ?? /^(https?:|mailto:|tel:)/.test(link.href)

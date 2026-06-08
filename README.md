@@ -129,6 +129,7 @@ Pass your routing component once to the parent `<Footer />` to override all link
 
 ```tsx
 import Link from "next/link"
+
 ;<Footer linkComponent={Link} columns={myColumns} />
 ```
 
@@ -156,6 +157,7 @@ If writing custom footer structures, render using `Footer.Link` with the Radix-p
 
 ```tsx
 import Link from "next/link"
+
 ;<Footer.Link asChild>
 	<Link href="/about">About me</Link>
 </Footer.Link>
