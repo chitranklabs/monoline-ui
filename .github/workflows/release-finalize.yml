@@ -1,0 +1,208 @@
+name: Release 2 - Finalize Tag 🏷️
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to finalize (e.g. v0.1.0)"
+        required: true
+
+permissions: read-all
+
+env:
+  NODE_VERSION: 24
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build:
+    name: Build & Prepare 🏗️
+    if: |
+      (github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'release')) ||
+      (github.event_name == 'workflow_dispatch' && github.actor == 'chitrank2050')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      tag_name: ${{ steps.vars.outputs.tag_name }}
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Extract Tag Name 🏷️
+        id: vars
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          RAW_INPUT="${INPUT_VERSION:-$BRANCH_NAME}"
+          TAG_NAME=$(echo "$RAW_INPUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+(-.*)?' | head -1)
+          if [[ ! "$TAG_NAME" =~ ^v ]]; then TAG_NAME="v$TAG_NAME"; fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Push Verified Tag 🏷️
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG_NAME: ${{ steps.vars.outputs.tag_name }}
+        run: |
+          git config user.name "chitrank-actions[bot]"
+          git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
+          git tag "$TAG_NAME" && git push origin "$TAG_NAME" || echo "Tag push failed, continuing..."
+
+      - name: Setup Publishing Environment 🛠️
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Install dependencies 📥
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Build Project 🏗️
+        run: pnpm run build:all
+
+      - name: Upload Build Artifacts 📦
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: build-output
+          path: |
+            dist/
+            package.json
+            jsr.json
+            CHANGELOG.md
+
+  publish-npm:
+    name: Publish to NPM 📦
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Download Build Artifacts 📥
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: build-output
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Setup Publishing Environment 🛠️
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Publish to NPM 📦
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          pnpm publish --access public --no-git-checks
+
+      - name: Generate release notes 📝
+        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --latest --strip all
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Create GitHub Release ✨
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG_NAME: ${{ needs.build.outputs.tag_name }}
+          RELEASE_NOTES: ${{ steps.git-cliff.outputs.content }}
+        run: |
+          PRERELEASE_FLAG=""
+          if [[ "$TAG_NAME" == *"-"* ]]; then PRERELEASE_FLAG="--prerelease"; fi
+          gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "$RELEASE_NOTES" $PRERELEASE_FLAG
+
+      - name: Attest Build Artifacts 📜
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: |
+            dist/**
+            CHANGELOG.md
+          push-to-registry: false
+
+  publish-jsr:
+    name: Publish to JSR 🦖
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout repository 📥
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Download Build Artifacts 📥
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: build-output
+
+      - name: Setup Publishing Environment 🛠️
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Install dependencies 🛠️
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Setup Deno 🦕
+        uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2.0.4
+        with:
+          deno-version: v2.x
+
+      - name: Sync JSR Version 🔄
+        run: |
+          VERSION=$(jq -r .version package.json)
+          jq ".version = \"$VERSION\"" jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+
+      - name: Publish to JSR 📦
+        run: npx jsr publish --allow-dirty

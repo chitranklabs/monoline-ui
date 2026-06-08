@@ -47,7 +47,7 @@ export function getWebpageJsonLd(identity: Identity, siteUrl: string) {
 		"@type": "WebPage",
 		"@id": `${siteUrl}/#webpage`,
 		url: siteUrl,
-		name: "monoline/ui — Component library for personal sites & developer docs",
+		name: "monoline/ui  Component library for personal sites & developer docs",
 		isPartOf: {
 			"@id": `${siteUrl}/#website`,
 		},

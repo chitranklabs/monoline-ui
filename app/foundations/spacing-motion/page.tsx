@@ -1,16 +1,16 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-	title: "Spacing & Motion — monoline/ui design foundations",
+	title: "Spacing & Motion  monoline/ui design foundations",
 	description:
 		"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
 	openGraph: {
-		title: "Spacing & Motion — monoline/ui design foundations",
+		title: "Spacing & Motion  monoline/ui design foundations",
 		description:
 			"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
 	},
 	twitter: {
-		title: "Spacing & Motion — monoline/ui design foundations",
+		title: "Spacing & Motion  monoline/ui design foundations",
 		description:
 			"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
 	},

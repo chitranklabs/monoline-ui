@@ -1,16 +1,16 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-	title: "Typography — monoline/ui design foundations",
+	title: "Typography  monoline/ui design foundations",
 	description:
 		"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
 	openGraph: {
-		title: "Typography — monoline/ui design foundations",
+		title: "Typography  monoline/ui design foundations",
 		description:
 			"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
 	},
 	twitter: {
-		title: "Typography — monoline/ui design foundations",
+		title: "Typography  monoline/ui design foundations",
 		description:
 			"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
 	},

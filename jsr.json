@@ -1,0 +1,19 @@
+{
+	"name": "@chitrank2050/monoline-ui",
+	"version": "0.1.0",
+	"description": "A React footer component and Tailwind CSS theme for Chitrank's portfolio interface.",
+	"exports": "./src/index.ts",
+	"publish": {
+		"exclude": [
+			".github",
+			".vscode",
+			"app",
+			"scripts",
+			"next.config.ts",
+			"next-sitemap.config.js",
+			"postcss.config.mjs",
+			"tsconfig.json",
+			"tsconfig.build.json"
+		]
+	}
+}

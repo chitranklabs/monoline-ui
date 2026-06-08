@@ -5,16 +5,16 @@ import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
 
 export const metadata: Metadata = {
-	title: "monoline/ui — Opinionated, token-first React component library",
+	title: "monoline/ui  Opinionated, token-first React component library",
 	description:
 		"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
 	openGraph: {
-		title: "monoline/ui — Opinionated, token-first React component library",
+		title: "monoline/ui  Opinionated, token-first React component library",
 		description:
 			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
 	},
 	twitter: {
-		title: "monoline/ui — Opinionated, token-first React component library",
+		title: "monoline/ui  Opinionated, token-first React component library",
 		description:
 			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
 	},

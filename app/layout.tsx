@@ -19,8 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	const identity = await fetchIdentity()
 	return {
 		metadataBase: new URL(siteUrl),
-		title:
-			"monoline/ui — Component library for personal sites & developer docs",
+		title: "monoline/ui  Component library for personal sites & developer docs",
 		description:
 			"A Next.js docs and playground site for the Monoline UI component library.",
 		authors: [{ name: identity.name, url: identity.websiteUrl }],
@@ -35,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 			type: "website",
 			url: siteUrl,
 			title:
-				"monoline/ui — Component library for personal sites & developer docs",
+				"monoline/ui  Component library for personal sites & developer docs",
 			description:
 				"A Next.js docs and playground site for the Monoline UI component library.",
 			siteName: "monoline/ui",
@@ -43,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		twitter: {
 			card: "summary_large_image",
 			title:
-				"monoline/ui — Component library for personal sites & developer docs",
+				"monoline/ui  Component library for personal sites & developer docs",
 			description:
 				"A Next.js docs and playground site for the Monoline UI component library.",
 		},
