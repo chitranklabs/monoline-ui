@@ -73,9 +73,7 @@ export function MetricRoot({
 				{label}
 			</div>
 			{description ? (
-				<p className="m-0 text-sm leading-relaxed text-body">
-					{description}
-				</p>
+				<p className="m-0 text-sm leading-relaxed text-body">{description}</p>
 			) : null}
 		</div>
 	)

@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Button,
-	type ButtonSize,
-} from "@chitrank2050/monoline-ui/button"
+import { Button, type ButtonSize } from "@chitrank2050/monoline-ui/button"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 

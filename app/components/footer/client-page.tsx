@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Footer,
-	type FooterSize,
-} from "@chitrank2050/monoline-ui/footer"
+import { Footer, type FooterSize } from "@chitrank2050/monoline-ui/footer"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 

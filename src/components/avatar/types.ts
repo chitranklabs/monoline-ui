@@ -12,7 +12,6 @@ export interface AvatarProps extends Omit<
 	children?: React.ReactNode
 }
 
-export interface AvatarImageProps
-	extends React.ComponentPropsWithoutRef<"img"> {
+export interface AvatarImageProps extends React.ComponentPropsWithoutRef<"img"> {
 	asChild?: boolean
 }

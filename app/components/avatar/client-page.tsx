@@ -51,7 +51,11 @@ const propsRows = [
 	["size", "sm | md | lg | xl", "Avatar scale"],
 	["src", "string?", "Optional image URL"],
 	["alt", "string?", "Image alt text when src is provided"],
-	["Avatar.Image", "compound slot", "Use asChild for next/image or another image primitive"],
+	[
+		"Avatar.Image",
+		"compound slot",
+		"Use asChild for next/image or another image primitive",
+	],
 	["children", "ReactNode", "Fallback initials or custom content"],
 ] as const
 

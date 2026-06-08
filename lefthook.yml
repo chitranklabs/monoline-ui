@@ -1,3 +1,5 @@
+glob_matcher: doublestar
+
 pre-commit:
   parallel: true
   commands:
@@ -7,7 +9,7 @@ pre-commit:
 
     # TS/TSX - ESLint + Prettier
     lint-ts:
-      glob: "{src,tests, app}/**/*.{ts,tsx}"
+      glob: "{src,tests,app}/**/*.{ts,tsx}"
       run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 

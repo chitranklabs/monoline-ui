@@ -13,5 +13,7 @@ export function AvatarImage({
 	const Comp = asChild ? Slot : "img"
 	const imageProps = asChild ? props : { loading, decoding, ...props }
 
-	return <Comp className={cn("size-full object-cover", className)} {...imageProps} />
+	return (
+		<Comp className={cn("size-full object-cover", className)} {...imageProps} />
+	)
 }

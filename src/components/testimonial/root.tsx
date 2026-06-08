@@ -41,10 +41,7 @@ export function TestimonialRoot({
 				“
 			</span>
 			<blockquote
-				className={cn(
-					"m-0 text-pretty text-body",
-					quoteSizeClasses[size]
-				)}
+				className={cn("m-0 text-pretty text-body", quoteSizeClasses[size])}
 			>
 				{quote}
 			</blockquote>

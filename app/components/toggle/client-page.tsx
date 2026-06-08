@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Toggle,
-	type ToggleSize,
-} from "@chitrank2050/monoline-ui/toggle"
+import { Toggle, type ToggleSize } from "@chitrank2050/monoline-ui/toggle"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
