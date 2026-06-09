@@ -13,6 +13,13 @@ const TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
 	xl: "text-6xl md:text-7xl leading-[0.95] tracking-[-0.04em]",
 }
 
+const SUB_TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
+	sm: "text-3xl",
+	md: "text-4xl",
+	lg: "text-5xl",
+	xl: "text-6xl",
+}
+
 const headingByLevel: Record<SectionHeadLevel, "h1" | "h2" | "h3"> = {
 	1: "h1",
 	2: "h2",
@@ -45,7 +52,7 @@ export function SectionHeadRoot({
 					<span
 						className={cn(
 							"block font-normal text-text-secondary mt-ml-2",
-							TITLE_SIZE_CLASSES_MAP[size]
+							SUB_TITLE_SIZE_CLASSES_MAP[size]
 						)}
 					>
 						{subtitle}

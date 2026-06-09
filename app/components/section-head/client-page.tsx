@@ -14,6 +14,7 @@ const usageCode = `<SectionHead
   level={2}
   eyebrow="About · 02"
   title="Architecting scalable systems."
+	subtitle="Let’s build the thing"
   lede="Interfaces for engineers who need speed without losing taste."
 />`
 
@@ -24,6 +25,7 @@ export function Intro() {
     <SectionHead
       eyebrow="Introduction"
       title="Opinionated where it counts."
+			subtitle="Let’s build the thing"
       lede="Token-first components for editorial developer portfolios."
     />
   )
@@ -62,6 +64,7 @@ export default function SectionHeadPageClient() {
 						level={size === "xl" ? 1 : 2}
 						eyebrow="About · 02"
 						title="Architecting scalable systems."
+						subtitle="Let’s build the thing"
 						lede="Interfaces for engineers who need speed without losing taste."
 					/>
 				</div>
