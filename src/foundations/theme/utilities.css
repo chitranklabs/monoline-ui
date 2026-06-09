@@ -676,6 +676,7 @@
 	font-size: var(--ml-testimonial-quote-text);
 	line-height: var(--leading-relaxed);
 	text-wrap: pretty;
+	margin-bottom: var(--ml-space-2);
 }
 
 .ml-testimonial[data-size="lg"] .ml-testimonial__quote {
@@ -687,7 +688,7 @@
 	display: flex;
 	align-items: center;
 	gap: var(--ml-space-3);
-	margin-block-start: var(--ml-space-2);
+	margin-block-start: auto;
 	border-block-start: var(--border-thin) solid var(--border);
 	padding-block-start: var(--ml-space-4);
 }
