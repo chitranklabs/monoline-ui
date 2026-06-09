@@ -1,5 +1,9 @@
+import { TestimonialGrid } from "../testimonial-grid"
 import { TestimonialRoot } from "./root"
 
 export * from "./types"
+export { TestimonialGrid } from "../testimonial-grid"
 
-export const Testimonial = TestimonialRoot
+export const Testimonial = Object.assign(TestimonialRoot, {
+	Grid: TestimonialGrid,
+})

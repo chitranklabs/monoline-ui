@@ -6,11 +6,11 @@ import type {
 	SectionHeadSize,
 } from "./types"
 
-const titleSizeClasses: Record<SectionHeadSize, string> = {
-	sm: "text-[28px]",
-	md: "text-[36px]",
-	lg: "text-[44px]",
-	xl: "text-[clamp(48px,9vw,96px)] leading-[0.95] tracking-[-0.04em]",
+const TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
+	sm: "text-3xl",
+	md: "text-4xl",
+	lg: "text-5xl",
+	xl: "text-6xl md:text-7xl leading-[0.95] tracking-[-0.04em]",
 }
 
 const headingByLevel: Record<SectionHeadLevel, "h1" | "h2" | "h3"> = {
@@ -24,6 +24,7 @@ export function SectionHeadRoot({
 	size = "lg",
 	eyebrow,
 	title,
+	subtitle,
 	lede,
 	level = 2,
 	...props
@@ -36,10 +37,20 @@ export function SectionHeadRoot({
 			<Heading
 				className={cn(
 					"m-0 text-balance font-mono font-bold leading-[1.05] tracking-[-0.03em] text-primary",
-					titleSizeClasses[size]
+					TITLE_SIZE_CLASSES_MAP[size]
 				)}
 			>
 				{title}
+				{subtitle ? (
+					<span
+						className={cn(
+							"block font-normal text-text-secondary mt-ml-2",
+							TITLE_SIZE_CLASSES_MAP[size]
+						)}
+					>
+						{subtitle}
+					</span>
+				) : null}
 			</Heading>
 			{lede ? (
 				<p className="m-0 max-w-140 text-pretty text-base leading-[1.65] text-body">

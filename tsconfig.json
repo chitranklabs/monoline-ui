@@ -37,6 +37,9 @@
 			"@chitrank2050/monoline-ui/status": ["./src/components/status"],
 			"@chitrank2050/monoline-ui/tag": ["./src/components/tag"],
 			"@chitrank2050/monoline-ui/testimonial": ["./src/components/testimonial"],
+			"@chitrank2050/monoline-ui/testimonial-grid": [
+				"./src/components/testimonial-grid"
+			],
 			"@chitrank2050/monoline-ui/theme-switcher": [
 				"./src/components/theme-switcher"
 			],

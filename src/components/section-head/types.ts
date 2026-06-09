@@ -9,6 +9,7 @@ export interface SectionHeadProps extends Omit<
 > {
 	eyebrow?: React.ReactNode
 	title: React.ReactNode
+	subtitle?: React.ReactNode
 	lede?: React.ReactNode
 	level?: SectionHeadLevel
 	size?: SectionHeadSize

@@ -100,6 +100,10 @@
 			"types": "./components/testimonial/index.d.ts",
 			"import": "./components/testimonial/index.js"
 		},
+		"./testimonial-grid": {
+			"types": "./components/testimonial-grid/index.d.ts",
+			"import": "./components/testimonial-grid/index.js"
+		},
 		"./theme-switcher": {
 			"types": "./components/theme-switcher/index.d.ts",
 			"import": "./components/theme-switcher/index.js"

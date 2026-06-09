@@ -239,6 +239,9 @@ export interface ComponentPlaygroundProps<
 	sizes?: TSize[]
 	defaultSize?: TSize
 	formatSize?: (size: TSize) => string
+	renderControlLabel?: string
+	sizeControlLabel?: string
+	allSizesLabel?: string
 
 	// Variants (optional)
 	variants?: TVariant[]
@@ -270,6 +273,9 @@ function ComponentPlaygroundClient<
 	sizes,
 	defaultSize,
 	formatSize = (s) => s.toUpperCase(),
+	renderControlLabel = "Render",
+	sizeControlLabel = "Size",
+	allSizesLabel = "All sizes",
 	variants,
 	defaultVariant,
 	formatVariant = (v) => v.charAt(0).toUpperCase() + v.slice(1),
@@ -426,12 +432,12 @@ function ComponentPlaygroundClient<
 				{sizes && (
 					<>
 						<div className="playground-controls__group">
-							<label>Render</label>
+							<label>{renderControlLabel}</label>
 							<SegmentedControl
 								variant="default"
 								options={[
 									{ value: "single", label: "Single" },
-									{ value: "all", label: "All sizes" },
+									{ value: "all", label: allSizesLabel },
 								]}
 								value={renderMode}
 								onChange={(val) => setControl({ render: val })}
@@ -439,7 +445,7 @@ function ComponentPlaygroundClient<
 						</div>
 
 						<div className="playground-controls__group">
-							<label>Size</label>
+							<label>{sizeControlLabel}</label>
 							<SegmentedControl
 								variant="default"
 								options={sizes.map((item) => ({
@@ -515,7 +521,7 @@ function ComponentPlaygroundClient<
 					<span>
 						{sizes
 							? renderMode === "all"
-								? "All sizes"
+								? allSizesLabel
 								: formatSize(size as TSize)
 							: "Default"}{" "}
 						{variants && variant ? ` · ${formatVariant(variant)}` : ""} ·{" "}

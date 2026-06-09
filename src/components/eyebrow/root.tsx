@@ -1,10 +1,10 @@
 import { cn } from "../../lib/utils"
 import type { EyebrowProps, EyebrowSize } from "./types"
 
-const eyebrowSizeClasses: Record<EyebrowSize, string> = {
-	xs: "text-[10px] tracking-[0.18em]",
-	sm: "text-[11px] tracking-[0.16em]",
-	md: "text-[13px] tracking-[0.14em]",
+const EYEBROW_SIZE_CLASSES_MAP: Record<EyebrowSize, string> = {
+	xs: "text-3xs tracking-[0.18em]",
+	sm: "text-2xs tracking-eyebrow",
+	md: "text-xs tracking-meta",
 }
 
 export function EyebrowRoot({
@@ -16,7 +16,7 @@ export function EyebrowRoot({
 		<span
 			className={cn(
 				"font-mono uppercase text-muted-foreground",
-				eyebrowSizeClasses[size],
+				EYEBROW_SIZE_CLASSES_MAP[size],
 				className
 			)}
 			{...props}
