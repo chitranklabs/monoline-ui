@@ -5,6 +5,7 @@ export interface SegmentedControlOption<T extends string> {
 	value: T
 	label: string
 	badge?: number
+	disabled?: boolean
 }
 
 export interface SegmentedControlProps<T extends string> {

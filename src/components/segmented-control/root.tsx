@@ -71,6 +71,7 @@ export function SegmentedControlRoot<T extends string>({
 					type="button"
 					role="radio"
 					aria-checked={value === option.value}
+					disabled={option.disabled}
 					onClick={() => onChange(option.value)}
 					className="ml-segmented__item"
 				>

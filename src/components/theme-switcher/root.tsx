@@ -19,6 +19,7 @@ export function ThemeSwitcherRoot({
 	onThemeChange,
 	lightLabel = "Switch to light theme",
 	darkLabel = "Switch to dark theme",
+	disabled,
 	type,
 	...props
 }: ThemeSwitcherProps) {
@@ -40,6 +41,7 @@ export function ThemeSwitcherRoot({
 					className="ml-theme-switcher__toggle"
 					size={fullSizeToToggleSize[size]}
 					checked={isDark}
+					disabled={disabled}
 					aria-label={ariaLabel}
 					onCheckedChange={(checked) =>
 						onThemeChange(checked ? "dark" : "light")
@@ -61,6 +63,7 @@ export function ThemeSwitcherRoot({
 			className={cn("ml-theme-switcher ml-theme-switcher--mini", className)}
 			data-theme-value={theme}
 			data-size={size}
+			disabled={disabled}
 			aria-label={ariaLabel}
 			onClick={() => onThemeChange(nextTheme)}
 			{...props}
