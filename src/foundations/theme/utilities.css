@@ -761,6 +761,18 @@
 	line-height: var(--leading-snug);
 }
 
+a.ml-testimonial__name {
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ml-space-1);
+	transition: color var(--duration-micro) var(--ease-out);
+}
+
+a.ml-testimonial__name:hover {
+	color: var(--accent);
+}
+
 .ml-testimonial__role {
 	color: var(--text-muted);
 	font-family: var(--font-mono);

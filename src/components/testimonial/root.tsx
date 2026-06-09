@@ -6,6 +6,7 @@ export function TestimonialRoot({
 	className,
 	quote,
 	author,
+	authorHref,
 	role,
 	initials,
 	avatarSrc,
@@ -33,7 +34,18 @@ export function TestimonialRoot({
 					{initials}
 				</Avatar>
 				<div className="ml-testimonial__author-copy">
-					<span className="ml-testimonial__name">{author}</span>
+					{authorHref ? (
+						<a
+							href={authorHref}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="ml-testimonial__name"
+						>
+							{author}
+						</a>
+					) : (
+						<span className="ml-testimonial__name">{author}</span>
+					)}
 					{role ? <span className="ml-testimonial__role">{role}</span> : null}
 				</div>
 			</figcaption>

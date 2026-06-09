@@ -9,6 +9,7 @@ export interface TestimonialProps extends Omit<
 > {
 	quote: React.ReactNode
 	author: React.ReactNode
+	authorHref?: string
 	role?: React.ReactNode
 	initials?: string
 	avatarSrc?: string
