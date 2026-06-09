@@ -14,10 +14,10 @@ const TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
 }
 
 const SUB_TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
-	sm: "text-3xl",
-	md: "text-4xl",
-	lg: "text-5xl",
-	xl: "text-6xl",
+	sm: "text-xl",
+	md: "text-2xl",
+	lg: "text-3xl",
+	xl: "text-4xl md:text-5xl",
 }
 
 const headingByLevel: Record<SectionHeadLevel, "h1" | "h2" | "h3"> = {
