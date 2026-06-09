@@ -8,6 +8,8 @@ import "prismjs/components/prism-jsx"
 import "prismjs/components/prism-tsx"
 import "prismjs/components/prism-typescript"
 
+import { Button } from "@chitrank2050/monoline-ui/button"
+
 interface CodeBlockProps {
 	code: string
 	language?: string
@@ -83,19 +85,18 @@ function CopyButton({
 	floating?: boolean
 }) {
 	return (
-		<button
+		<Button
 			type="button"
+			variant="secondary"
+			size="sm"
+			icon={floating}
 			onClick={onClick}
-			className={
-				floating
-					? "code-block-copy-btn ml-interaction-control"
-					: "code-block-header__copy ml-interaction-control"
-			}
+			className={floating ? "code-block-copy-btn" : "code-block-header__copy"}
 			aria-label={copied ? "Copied" : label}
 		>
-			{copied ? <CheckIcon /> : <CopyIcon />}
+			<Button.Icon>{copied ? <CheckIcon /> : <CopyIcon />}</Button.Icon>
 			<span>{copied ? "Copied" : "Copy"}</span>
-		</button>
+		</Button>
 	)
 }
 

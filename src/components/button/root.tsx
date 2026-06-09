@@ -35,14 +35,11 @@ export function ButtonRoot({
 	...props
 }: ButtonProps) {
 	const Comp = asChild ? Slot : "button"
-	const isDisabled = disabled || loading
+	const isUnavailable = disabled || loading
 	const content =
 		loading && !asChild ? (
 			<>
-				<span
-					aria-hidden="true"
-					className="size-ml-3 rounded-full border border-current border-t-transparent animate-spin"
-				/>
+				<span aria-hidden="true" className="ml-button-spinner size-ml-3" />
 				{children}
 			</>
 		) : (
@@ -52,13 +49,13 @@ export function ButtonRoot({
 	return (
 		<Comp
 			type={asChild ? undefined : (type ?? "button")}
-			disabled={asChild ? undefined : isDisabled}
+			disabled={asChild ? undefined : isUnavailable}
 			aria-busy={loading || undefined}
-			aria-disabled={asChild && isDisabled ? true : undefined}
-			data-disabled={isDisabled || undefined}
+			aria-disabled={isUnavailable ? true : undefined}
+			data-disabled={disabled || undefined}
 			data-loading={loading || undefined}
 			className={cn(
-				"group/btn inline-flex select-none items-center justify-center whitespace-nowrap rounded-md border font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-(--duration-micro) ease-out will-change-transform active:scale-[0.985] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 disabled:active:scale-100 aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-45 aria-disabled:active:scale-100 data-[loading=true]:active:scale-100 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"group/btn inline-flex select-none items-center justify-center whitespace-nowrap rounded-md border font-medium transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-out disabled:pointer-events-none disabled:cursor-not-allowed data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed data-[loading=true]:pointer-events-none data-[loading=true]:cursor-wait focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				buttonVariantClasses[variant],
 				buttonSizeClasses[size],
 				icon && "aspect-square",

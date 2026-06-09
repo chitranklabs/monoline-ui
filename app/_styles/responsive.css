@@ -40,13 +40,8 @@
 	}
 
 	.intro-rules,
-	.site-footer__top,
 	.docs-shell {
 		grid-template-columns: 1fr;
-	}
-
-	.site-footer__top {
-		gap: 2.125rem;
 	}
 
 	.docs-main {
@@ -75,10 +70,6 @@
 	.playground-canvas__frame {
 		transform: none;
 		width: 100%;
-	}
-
-	.site-footer__bottom {
-		flex-direction: column;
 	}
 }
 
@@ -159,24 +150,6 @@
 	.intro-rules article {
 		min-height: 11.875rem;
 		padding: 1.125rem;
-	}
-
-	.site-footer__inner {
-		width: calc(100% - 3rem);
-		padding-block: 2.75rem 1.75rem;
-	}
-
-	.site-footer__top {
-		grid-template-columns: minmax(13.75rem, 1.1fr) repeat(
-				3,
-				minmax(6.875rem, 1fr)
-			);
-		gap: 1.5rem;
-	}
-
-	.site-footer__brand p,
-	.site-footer__group a {
-		font-size: 0.8125rem;
 	}
 
 	.docs-shell {
@@ -324,20 +297,6 @@
 		margin-bottom: 5.25rem;
 	}
 
-	.site-footer__inner {
-		width: calc(100% - 2.5rem);
-		padding-block: 2.5rem 1.625rem;
-	}
-
-	.site-footer__brand p,
-	.site-footer__group a {
-		font-size: 0.875rem;
-	}
-
-	.site-footer__group {
-		gap: 0.75rem;
-	}
-
 	.install-hero h1,
 	.component-headline h1 {
 		font-size: var(--type-page-title-mobile-size);
@@ -387,11 +346,6 @@
 	.docs-pager {
 		margin-top: 2.5rem;
 		padding-top: 1rem;
-	}
-
-	.docs-pager__link {
-		padding: 0.625rem 0.75rem;
-		font-size: 0.8125rem;
 	}
 
 	.site-menu-drawer__search {

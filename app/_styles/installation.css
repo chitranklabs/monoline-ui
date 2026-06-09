@@ -58,38 +58,7 @@
 }
 
 .install-command__tabs {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	border-bottom: 1px solid var(--border);
-}
-
-.install-command__tabs button,
-.playground-segmented button,
-.playground-detail__tabs button {
-	border: 0;
-	background: transparent;
-	cursor: pointer;
-}
-
-.install-command__tabs button {
-	padding: 0.75rem 1rem;
-	border-right: 1px solid var(--border);
-	color: var(--text-muted);
-	font-family: var(--font-mono);
-	font-size: 0.75rem;
-	font-weight: 600;
-	text-align: left;
-	transition: color var(--duration-micro) var(--ease-out);
-}
-
-.install-command__tabs button:last-child {
-	border-right: 0;
-}
-
-.install-command__tabs button[aria-pressed="true"] {
-	box-shadow: inset 0 -2px 0 var(--accent);
-	color: var(--text);
-	font-weight: 600;
+	margin: 0.75rem 0.75rem 0;
 }
 
 .install-command__body {
@@ -113,13 +82,11 @@
 	font-size: 0.8125rem;
 }
 
-.install-command__body button {
-	border: 1px solid var(--border);
-	border-radius: 0.5rem;
-	background: var(--surface);
-	padding: 0.5rem 0.75rem;
-	color: var(--text-muted);
-	font-size: 0.75rem;
+.playground-segmented button,
+.playground-detail__tabs button {
+	border: 0;
+	background: transparent;
+	cursor: pointer;
 }
 
 .playground-detail pre {

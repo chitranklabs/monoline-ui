@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 
+import { Button } from "@chitrank2050/monoline-ui/button"
+
 export function CliBadge() {
 	const [copied, setCopied] = useState(false)
 
@@ -16,10 +18,12 @@ export function CliBadge() {
 	}
 
 	return (
-		<button
+		<Button
 			type="button"
+			variant="secondary"
+			size="md"
 			onClick={handleCopy}
-			className="cli-badge ml-interaction-control"
+			className="cli-badge"
 			aria-label={copied ? "Copied command" : "Copy installation command"}
 		>
 			<span className="cli-badge__prefix">$</span>
@@ -54,6 +58,6 @@ export function CliBadge() {
 					</svg>
 				)}
 			</span>
-		</button>
+		</Button>
 	)
 }

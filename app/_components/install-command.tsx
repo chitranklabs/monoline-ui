@@ -2,6 +2,9 @@
 
 import { useMemo, useState } from "react"
 
+import { Button } from "@chitrank2050/monoline-ui/button"
+import { SegmentedControl } from "@chitrank2050/monoline-ui/segmented-control"
+
 const installCommands = {
 	npm: "npm install @chitrank2050/monoline-ui",
 	pnpm: "pnpm add @chitrank2050/monoline-ui",
@@ -12,6 +15,10 @@ const installCommands = {
 type PackageManager = keyof typeof installCommands
 
 const packageManagers = Object.keys(installCommands) as PackageManager[]
+const packageManagerOptions = packageManagers.map((value) => ({
+	value,
+	label: value,
+}))
 
 export function InstallCommand() {
 	const [manager, setManager] = useState<PackageManager>("pnpm")
@@ -32,40 +39,29 @@ export function InstallCommand() {
 
 	return (
 		<div className="install-command">
-			<div
+			<SegmentedControl
 				className="install-command__tabs"
-				role="tablist"
-				aria-label="Package manager"
-			>
-				{packageManagers.map((item) => (
-					<button
-						key={item}
-						type="button"
-						role="tab"
-						aria-selected={item === manager}
-						aria-pressed={item === manager}
-						className="ml-interaction-tab"
-						onClick={() => {
-							setManager(item)
-							setCopied(false)
-						}}
-					>
-						{item}
-					</button>
-				))}
-			</div>
+				size="sm"
+				options={packageManagerOptions}
+				value={manager}
+				onChange={(value) => {
+					setManager(value)
+					setCopied(false)
+				}}
+			/>
 			<div className="install-command__body">
 				<code>{commandWithPrompt}</code>
-				<button
+				<Button
 					type="button"
-					className="ml-interaction-control"
+					variant="secondary"
+					size="sm"
 					onClick={handleCopy}
 					aria-label={
 						copied ? "Copied install command" : "Copy install command"
 					}
 				>
 					{copied ? "Copied" : "Copy"}
-				</button>
+				</Button>
 			</div>
 		</div>
 	)

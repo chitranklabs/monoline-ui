@@ -20,7 +20,10 @@ const usageCode = `<Button variant="primary" size="md">
   Book a call
   <Button.Arrow reveal />
 </Button>
-<Button loading>Submit</Button>
+<Button loading>Saving</Button>
+<Button variant="secondary" loading>Saving</Button>
+<Button variant="ghost" loading>Saving</Button>
+<Button disabled>Disabled</Button>
 <Button asChild>
   <a href="/contact">Contact</a>
 </Button>`
@@ -30,11 +33,11 @@ const sourceSnippet = `import { Button } from "@chitrank2050/monoline-ui/button"
 export function Actions() {
   return (
     <div className="flex flex-wrap gap-2">
-      <Button>Contact me<Button.Arrow /></Button>
+      <Button>Contact me</Button>
       <Button variant="secondary">Resume</Button>
       <Button variant="ghost">View projects<Button.Arrow /></Button>
       <Button variant="secondary">Book a call<Button.Arrow reveal /></Button>
-      <Button loading>Submit</Button>
+      <Button loading>Saving</Button>
     </div>
   )
 }`
@@ -74,28 +77,43 @@ export default function ButtonPageClient() {
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
 			renderPreview={(size = "md") => (
-				<div className="flex flex-wrap items-center gap-ml-3 p-ml-6">
-					<Button size={size}>
-						Contact me
-						<Button.Arrow />
-					</Button>
-					<Button variant="secondary" size={size}>
-						Resume
-					</Button>
-					<Button variant="ghost" size={size}>
-						View projects
-						<Button.Arrow />
-					</Button>
-					<Button variant="secondary" size={size}>
-						Book a call
-						<Button.Arrow reveal />
-					</Button>
-					<Button size={size} loading>
-						Submit
-					</Button>
-					<Button variant="secondary" size={size} icon aria-label="Copy link">
-						↗
-					</Button>
+				<div className="grid gap-ml-5 p-ml-6">
+					<div className="flex flex-wrap items-center gap-ml-3">
+						<Button size={size}>
+							Contact me
+							<Button.Arrow />
+						</Button>
+						<Button variant="secondary" size={size}>
+							Resume
+						</Button>
+						<Button variant="ghost" size={size}>
+							View projects
+							<Button.Arrow />
+						</Button>
+						<Button variant="secondary" size={size}>
+							Book a call
+							<Button.Arrow reveal />
+						</Button>
+						<Button variant="secondary" size={size} icon aria-label="Copy link">
+							↗
+						</Button>
+					</div>
+					<div className="flex flex-wrap items-center gap-ml-3">
+						<Button size={size} loading>
+							Saving
+						</Button>
+						<Button variant="secondary" size={size} loading>
+							Saving
+						</Button>
+						<Button variant="ghost" size={size} loading>
+							Saving
+						</Button>
+					</div>
+					<div className="flex flex-wrap items-center gap-ml-3">
+						<Button size={size} disabled>
+							Disabled
+						</Button>
+					</div>
 				</div>
 			)}
 		/>

@@ -1,4 +1,5 @@
-import { readdir, readFile, writeFile } from "node:fs/promises"
+import { execSync } from "node:child_process"
+import { readFile, readdir, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -24,8 +25,12 @@ async function run() {
 
 	for (const entry of dirEntries) {
 		if (entry.isDirectory()) {
-			const hasIndexTs = await fileExists(path.join(componentsDir, entry.name, "index.ts"))
-			const hasIndexTsx = await fileExists(path.join(componentsDir, entry.name, "index.tsx"))
+			const hasIndexTs = await fileExists(
+				path.join(componentsDir, entry.name, "index.ts")
+			)
+			const hasIndexTsx = await fileExists(
+				path.join(componentsDir, entry.name, "index.tsx")
+			)
 			if (hasIndexTs || hasIndexTsx) {
 				components.push(entry.name)
 			}
@@ -35,10 +40,16 @@ async function run() {
 
 	// 2. Scan foundations
 	const foundationsDir = path.join(srcDir, "foundations")
-	const foundationEntries = await readdir(foundationsDir, { withFileTypes: true })
+	const foundationEntries = await readdir(foundationsDir, {
+		withFileTypes: true,
+	})
 	const foundations = []
 	for (const entry of foundationEntries) {
-		if (entry.isFile() && (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) && !entry.name.endsWith(".d.ts")) {
+		if (
+			entry.isFile() &&
+			(entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) &&
+			!entry.name.endsWith(".d.ts")
+		) {
 			foundations.push(entry.name.replace(/\.tsx?$/, ""))
 		}
 	}
@@ -49,7 +60,11 @@ async function run() {
 	const libEntries = await readdir(libDir, { withFileTypes: true })
 	const libs = []
 	for (const entry of libEntries) {
-		if (entry.isFile() && (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) && !entry.name.endsWith(".d.ts")) {
+		if (
+			entry.isFile() &&
+			(entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) &&
+			!entry.name.endsWith(".d.ts")
+		) {
 			libs.push(entry.name.replace(/\.tsx?$/, ""))
 		}
 	}
@@ -84,34 +99,34 @@ async function run() {
 	// Keep static/general exports
 	const newExports = {
 		".": {
-			"types": "./index.d.ts",
-			"import": "./index.js"
-		}
+			types: "./index.d.ts",
+			import: "./index.js",
+		},
 	}
 
 	// Add dynamic component-level exports
 	for (const comp of components) {
 		newExports[`./${comp}`] = {
-			"types": `./components/${comp}/index.d.ts`,
-			"import": `./components/${comp}/index.js`
+			types: `./components/${comp}/index.d.ts`,
+			import: `./components/${comp}/index.js`,
 		}
 	}
 
 	// Add remaining wildcard and theme exports
 	newExports["./components/*"] = {
-		"types": "./components/*/index.d.ts",
-		"import": "./components/*/index.js"
+		types: "./components/*/index.d.ts",
+		import: "./components/*/index.js",
 	}
 	newExports["./foundations/*"] = {
-		"types": "./foundations/*.d.ts",
-		"import": "./foundations/*.js"
+		types: "./foundations/*.d.ts",
+		import: "./foundations/*.js",
 	}
 	newExports["./lib/*"] = {
-		"types": "./lib/*.d.ts",
-		"import": "./lib/*.js"
+		types: "./lib/*.d.ts",
+		import: "./lib/*.js",
 	}
 	newExports["./theme.css"] = {
-		"default": "./styles/theme.css"
+		default: "./styles/theme.css",
 	}
 	newExports["./package.json"] = "./package.json"
 
@@ -126,7 +141,7 @@ async function run() {
 
 	const newPaths = {
 		"@/*": ["./app/*"],
-		"@chitrank2050/monoline-ui": ["./src/index.ts"]
+		"@chitrank2050/monoline-ui": ["./src/index.ts"],
 	}
 
 	// Dynamic component paths
@@ -138,17 +153,41 @@ async function run() {
 	newPaths["@chitrank2050/monoline-ui/*"] = ["./src/*"]
 
 	tsconfig.compilerOptions.paths = newPaths
-	await writeFile(tsconfigPath, JSON.stringify(tsconfig, null, "\t") + "\n", "utf8")
+	await writeFile(
+		tsconfigPath,
+		JSON.stringify(tsconfig, null, "\t") + "\n",
+		"utf8"
+	)
 	console.log(`✓ Updated tsconfig.json paths`)
 
 	// 7. Output src/metadata.json
 	const metadata = {
 		count: components.length,
-		components: components
+		components: components,
 	}
 	const metadataPath = path.join(srcDir, "metadata.json")
-	await writeFile(metadataPath, JSON.stringify(metadata, null, "\t") + "\n", "utf8")
-	console.log(`✓ Generated src/metadata.json with component count: ${components.length}`)
+	await writeFile(
+		metadataPath,
+		JSON.stringify(metadata, null, "\t") + "\n",
+		"utf8"
+	)
+	console.log(
+		`✓ Generated src/metadata.json with component count: ${components.length}`
+	)
+
+	// 8. Format generated files
+	try {
+		execSync(
+			`npx prettier --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}"`,
+			{
+				cwd: projectRoot,
+				stdio: "pipe",
+			}
+		)
+		console.log(`✓ Formatted generated files with Prettier`)
+	} catch {
+		// Fallback silently if prettier fails
+	}
 }
 
 run().catch((err) => {
