@@ -23,9 +23,11 @@
 			"@chitrank2050/monoline-ui/avatar": ["./src/components/avatar"],
 			"@chitrank2050/monoline-ui/button": ["./src/components/button"],
 			"@chitrank2050/monoline-ui/card": ["./src/components/card"],
+			"@chitrank2050/monoline-ui/data-list": ["./src/components/data-list"],
 			"@chitrank2050/monoline-ui/eyebrow": ["./src/components/eyebrow"],
 			"@chitrank2050/monoline-ui/footer": ["./src/components/footer"],
 			"@chitrank2050/monoline-ui/metric": ["./src/components/metric"],
+			"@chitrank2050/monoline-ui/navbar": ["./src/components/navbar"],
 			"@chitrank2050/monoline-ui/section-head": [
 				"./src/components/section-head"
 			],

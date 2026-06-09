@@ -60,6 +60,10 @@
 			"types": "./components/card/index.d.ts",
 			"import": "./components/card/index.js"
 		},
+		"./data-list": {
+			"types": "./components/data-list/index.d.ts",
+			"import": "./components/data-list/index.js"
+		},
 		"./eyebrow": {
 			"types": "./components/eyebrow/index.d.ts",
 			"import": "./components/eyebrow/index.js"
@@ -71,6 +75,10 @@
 		"./metric": {
 			"types": "./components/metric/index.d.ts",
 			"import": "./components/metric/index.js"
+		},
+		"./navbar": {
+			"types": "./components/navbar/index.d.ts",
+			"import": "./components/navbar/index.js"
 		},
 		"./section-head": {
 			"types": "./components/section-head/index.d.ts",

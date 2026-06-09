@@ -99,12 +99,6 @@ function PreviewFrame({
 		iframeDocument.body.style.margin = "0"
 		iframeDocument.body.style.background = "var(--background)"
 
-		for (const node of document.querySelectorAll(
-			'link[rel="stylesheet"], style'
-		)) {
-			iframeDocument.head.appendChild(node.cloneNode(true))
-		}
-
 		// Inject transition stylesheet for smooth theme toggles
 		const styleNode = iframeDocument.createElement("style")
 		styleNode.textContent = `
@@ -120,6 +114,37 @@ function PreviewFrame({
 			iframeDocument.getElementById("playground-preview-root") as HTMLElement
 		)
 	}, [])
+
+	useEffect(() => {
+		const iframeDocument = iframeRef.current?.contentDocument
+		if (!iframeDocument) return
+
+		const syncStyles = () => {
+			const oldNodes = iframeDocument.head.querySelectorAll(
+				'link[data-copied="true"], style[data-copied="true"]'
+			)
+			for (const node of oldNodes) {
+				node.remove()
+			}
+
+			for (const node of document.querySelectorAll(
+				'link[rel="stylesheet"], style'
+			)) {
+				const clone = node.cloneNode(true) as HTMLElement
+				clone.setAttribute("data-copied", "true")
+				iframeDocument.head.appendChild(clone)
+			}
+		}
+
+		syncStyles()
+
+		const observer = new MutationObserver(syncStyles)
+		observer.observe(document.head, { childList: true, subtree: true })
+
+		return () => {
+			observer.disconnect()
+		}
+	}, [mountNode])
 
 	useEffect(() => {
 		const iframeDocument = iframeRef.current?.contentDocument

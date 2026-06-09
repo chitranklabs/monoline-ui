@@ -36,7 +36,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 	{
 		label: "Navigation",
 		items: [
-			{ label: "Navbar" },
+			{ href: "/components/navbar", label: "Navbar" },
 			{ href: "/components/footer", label: "Footer" },
 			{ label: "Rail" },
 			{ label: "Toc" },
@@ -59,7 +59,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ label: "Badge" },
 			{ href: "/components/avatar", label: "Avatar" },
 			{ href: "/components/status", label: "Status" },
-			{ label: "MetaRow" },
+			{ href: "/components/data-list", label: "DataList" },
 			{ href: "/components/eyebrow", label: "Eyebrow" },
 			{ href: "/components/metric", label: "Metric" },
 		],
@@ -94,8 +94,10 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/avatar", label: "Avatar" },
 	{ href: "/components/button", label: "Button" },
 	{ href: "/components/card", label: "Card" },
+	{ href: "/components/data-list", label: "DataList" },
 	{ href: "/components/eyebrow", label: "Eyebrow" },
 	{ href: "/components/metric", label: "Metric" },
+	{ href: "/components/navbar", label: "Navbar" },
 	{ href: "/components/section-head", label: "SectionHead" },
 	{ href: "/components/status", label: "Status" },
 	{ href: "/components/tag", label: "Tag" },

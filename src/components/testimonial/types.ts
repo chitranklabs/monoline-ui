@@ -1,6 +1,7 @@
 import type * as React from "react"
 
 export type TestimonialSize = "sm" | "md" | "lg"
+export type TestimonialVariant = "default" | "plain"
 
 export interface TestimonialProps extends Omit<
 	React.ComponentPropsWithoutRef<"figure">,
@@ -13,4 +14,5 @@ export interface TestimonialProps extends Omit<
 	avatarSrc?: string
 	avatarAlt?: string
 	size?: TestimonialSize
+	variant?: TestimonialVariant
 }
