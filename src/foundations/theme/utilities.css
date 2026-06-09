@@ -181,11 +181,11 @@
 .ml-navbar {
 	--ml-navbar-height: var(--ml-space-14);
 	--ml-navbar-container-max: var(--container-2xl);
-	--ml-navbar-x: var(--ml-space-4);
+	--ml-navbar-x: var(--ml-space-8);
 	--ml-navbar-gap: var(--ml-space-4);
-	--ml-navbar-brand-gap: var(--ml-space-2);
-	--ml-navbar-brand-mark-size: var(--ml-space-4);
-	--ml-navbar-brand-text: var(--text-sm);
+	--ml-navbar-brand-gap: var(--ml-space-1-5);
+	--ml-navbar-brand-mark-size: var(--ml-space-5);
+	--ml-navbar-brand-text: var(--text-base);
 	--ml-navbar-link-gap: var(--ml-space-5);
 	--ml-navbar-link-text: var(--text-sm);
 	--ml-navbar-action-gap: var(--ml-space-2);
@@ -204,34 +204,35 @@
 
 .ml-navbar--glass {
 	background: color-mix(in oklch, var(--background) 92%, transparent);
-	backdrop-filter: blur(var(--blur-md));
 	-webkit-backdrop-filter: blur(var(--blur-md));
+	backdrop-filter: blur(var(--blur-md));
 }
 
 .ml-navbar[data-size="sm"] {
 	--ml-navbar-height: var(--ml-space-12);
-	--ml-navbar-x: var(--ml-space-3);
-	--ml-navbar-brand-text: var(--text-xs);
+	--ml-navbar-x: var(--ml-space-6);
+	--ml-navbar-brand-mark-size: var(--ml-space-4);
+	--ml-navbar-brand-text: var(--text-sm);
 	--ml-navbar-link-gap: var(--ml-space-4);
 	--ml-navbar-link-text: var(--text-xs);
 }
 
 .ml-navbar[data-size="lg"] {
 	--ml-navbar-height: var(--ml-space-16);
-	--ml-navbar-x: var(--ml-space-6);
-	--ml-navbar-brand-mark-size: var(--ml-space-5);
-	--ml-navbar-brand-text: var(--text-base);
+	--ml-navbar-x: var(--ml-space-10);
+	--ml-navbar-brand-mark-size: var(--ml-space-6);
+	--ml-navbar-brand-text: var(--text-lg);
 	--ml-navbar-link-gap: var(--ml-space-6);
 	--ml-navbar-link-text: var(--text-base);
 }
 
 .ml-navbar__container {
-	display: flex;
+	display: grid;
 	min-height: var(--ml-navbar-height);
 	width: 100%;
 	max-width: var(--ml-navbar-container-max);
 	align-items: center;
-	justify-content: space-between;
+	grid-template-columns: auto minmax(0, 1fr) auto;
 	gap: var(--ml-navbar-gap);
 	margin-inline: auto;
 	padding-inline: var(--ml-navbar-x);
@@ -241,9 +242,10 @@
 	display: inline-flex;
 	min-width: 0;
 	flex: 0 0 auto;
+	grid-column: 1;
 	align-items: center;
 	gap: var(--ml-navbar-brand-gap);
-	color: var(--primary);
+	color: var(--text);
 	text-decoration: none;
 	transition:
 		color var(--duration-micro) var(--ease-out),
@@ -251,7 +253,7 @@
 }
 
 .ml-navbar__brand:hover {
-	color: var(--text);
+	color: var(--text-secondary);
 }
 
 .ml-navbar__brand:focus-visible {
@@ -266,22 +268,8 @@
 	flex: 0 0 auto;
 	place-items: center;
 	overflow: hidden;
-	border: var(--border-thin) solid var(--border-strong);
 	border-radius: var(--radius-pill);
-	background: var(--button-hover);
 	color: var(--text-muted);
-	transition:
-		transform var(--duration-short) var(--ease-spring),
-		background-color var(--duration-micro) var(--ease-out),
-		border-color var(--duration-micro) var(--ease-out),
-		color var(--duration-micro) var(--ease-out);
-}
-
-.ml-navbar__brand:hover .ml-navbar__brand-mark {
-	transform: scale(1.08) rotate(6deg);
-	background: var(--accent-soft);
-	color: var(--accent);
-	border-color: var(--accent);
 }
 
 .ml-navbar__brand-mark > span:empty {
@@ -297,7 +285,8 @@
 	overflow: hidden;
 	font-family: var(--font-script);
 	font-size: var(--ml-navbar-brand-text);
-	font-weight: 700;
+	font-weight: 800;
+	letter-spacing: 0;
 	line-height: 1;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -305,31 +294,22 @@
 }
 
 .ml-navbar__brand:hover .ml-navbar__brand-label {
-	color: var(--text);
+	color: var(--text-secondary);
 }
 
 .ml-navbar__nav {
 	display: inline-flex;
 	min-width: 0;
-	align-self: stretch;
+	grid-column: 2;
 	align-items: center;
 	justify-content: center;
 	gap: var(--ml-navbar-link-gap);
-	overflow-x: auto;
-	overscroll-behavior-x: contain;
-	scrollbar-width: none;
-}
-
-.ml-navbar__nav::-webkit-scrollbar {
-	display: none;
 }
 
 .ml-navbar__link {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
-	align-self: stretch;
-	padding-inline: var(--ml-space-0-5);
 	gap: var(--ml-space-1);
 	color: var(--text-secondary);
 	font-size: var(--ml-navbar-link-text);
@@ -398,6 +378,7 @@
 .ml-navbar__actions {
 	display: inline-flex;
 	flex: 0 0 auto;
+	grid-column: 3;
 	align-items: center;
 	justify-content: flex-end;
 	gap: var(--ml-navbar-action-gap);

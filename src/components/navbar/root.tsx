@@ -1,6 +1,7 @@
 import { cn } from "../../lib/utils"
 import { NavbarActions } from "./actions"
 import { NavbarBrand } from "./brand"
+import { NavbarNav } from "./nav"
 import type { NavbarLinkItem, NavbarProps } from "./types"
 
 function isExternalHref(link: NavbarLinkItem) {
@@ -43,7 +44,7 @@ export function NavbarRoot({
 							</NavbarBrand>
 						) : null}
 						{links?.length ? (
-							<nav aria-label={navLabel} className="ml-navbar__nav">
+							<NavbarNav label={navLabel}>
 								{links.map((link, index) => {
 									const external = isExternalHref(link)
 									const LinkComp = link.as ?? linkComponent ?? "a"
@@ -73,7 +74,7 @@ export function NavbarRoot({
 										</LinkComp>
 									)
 								})}
-							</nav>
+							</NavbarNav>
 						) : null}
 						{actions ? <NavbarActions>{actions}</NavbarActions> : null}
 					</>

@@ -174,8 +174,8 @@
 	display: flex;
 	flex-direction: column;
 	background: color-mix(in oklch, var(--background) 96%, transparent);
-	backdrop-filter: blur(var(--blur-md));
 	-webkit-backdrop-filter: blur(var(--blur-md));
+	backdrop-filter: blur(var(--blur-md));
 	animation: cmd-fade-in var(--duration-fast) var(--ease-out) both;
 }
 

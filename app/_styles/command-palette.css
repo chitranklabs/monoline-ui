@@ -9,8 +9,8 @@
 	justify-content: center;
 	padding-top: 7rem;
 	background: color-mix(in oklch, var(--background) 40%, transparent);
-	backdrop-filter: blur(6px);
 	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
 	animation: cmd-fade-in var(--duration-fast) var(--ease-out) both;
 }
 
@@ -31,8 +31,8 @@
 	border: 1px solid var(--border);
 	border-radius: var(--radius-xl);
 	background: color-mix(in oklch, var(--surface) 98%, transparent);
-	backdrop-filter: blur(24px);
 	-webkit-backdrop-filter: blur(24px);
+	backdrop-filter: blur(24px);
 	box-shadow:
 		0 0 0 1px color-mix(in oklch, var(--text) 5%, transparent),
 		0 8px 32px color-mix(in oklch, var(--background) 30%, transparent),

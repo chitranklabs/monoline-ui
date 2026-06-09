@@ -7,10 +7,7 @@ import { ComponentPlayground } from "../../_components/component-playground"
 
 const navbarSizes: NavbarSize[] = ["sm", "md", "lg"]
 
-const navbarLinks = [
-	{ href: "#work", label: "Introduction", active: true },
-	{ href: "#blog", label: "Blog" },
-]
+const navbarLinks = [{ href: "#blog", label: "Blog" }]
 
 const propsRows = [
 	["size", "sm | md | lg", "Navbar density and type scale"],
@@ -18,6 +15,7 @@ const propsRows = [
 	["links", "NavbarLinkItem[]", "Optional data-driven nav link list"],
 	["actions", "ReactNode", "Right-side action slot"],
 	["children", "ReactNode", "Override with compound composition"],
+	["Navbar.Nav", "compound slot", "Middle navigation region"],
 	["linkComponent", "ComponentType", "Next Link or router link adapter"],
 	["sticky", "boolean", "Apply sticky positioning top-0 (default: false)"],
 	[
@@ -43,7 +41,6 @@ export function SiteHeader() {
       brand="Chitrank"
       links={[
         { href: "/blog", label: "Blog" },
-        { href: "https://github.com", label: "GitHub" },
       ]}
       actions={<Button size="sm">Contact</Button>}
       sticky
@@ -55,7 +52,6 @@ export function SiteHeader() {
 const usageCode = `<Navbar
   brand="Chitrank"
   links={[
-    { href: "/work", label: "Work", active: true },
     { href: "/blog", label: "Blog" },
   ]}
   actions={<Button size="sm">Contact</Button>}
@@ -65,9 +61,9 @@ const usageCode = `<Navbar
 
 <Navbar sticky glass>
   <Navbar.Brand href="/" mark={<span />}>Chitrank</Navbar.Brand>
-  <nav className="ml-navbar__nav" aria-label="Primary navigation">
+  <Navbar.Nav>
     <Navbar.Link href="/blog">Blog</Navbar.Link>
-  </nav>
+  </Navbar.Nav>
   <Navbar.Actions>
     <Button size="sm">Contact</Button>
   </Navbar.Actions>
@@ -110,8 +106,8 @@ export default function NavbarPageClient() {
 							}
 						/>
 						<div className="p-ml-6 text-muted-foreground text-sm font-mono text-center">
-							Scroll content space (simulating page content behind a
-							sticky/glass header)
+							Page content space (simulating page content behind a sticky/glass
+							header)
 						</div>
 					</div>
 				)
