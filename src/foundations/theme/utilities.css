@@ -83,6 +83,54 @@
 	animation: spin var(--duration-long) linear infinite;
 }
 
+/* ---------------------------------- */
+/* Avatar                             */
+/* ---------------------------------- */
+
+.ml-avatar {
+	--ml-avatar-size: var(--ml-space-6);
+	--ml-avatar-text: var(--text-3xs);
+
+	inline-size: var(--ml-avatar-size);
+	block-size: var(--ml-avatar-size);
+	font-size: var(--ml-avatar-text);
+}
+
+.ml-avatar[data-size="inherit"] {
+	--ml-avatar-size: 100%;
+	--ml-avatar-text: var(--text-xs);
+}
+
+.ml-avatar[data-size="xs"] {
+	--ml-avatar-size: var(--ml-space-4);
+	--ml-avatar-text: var(--text-3xs);
+}
+
+.ml-avatar[data-size="sm"] {
+	--ml-avatar-size: var(--ml-space-5);
+	--ml-avatar-text: var(--text-3xs);
+}
+
+.ml-avatar[data-size="md"] {
+	--ml-avatar-size: var(--ml-space-6);
+	--ml-avatar-text: var(--text-2xs);
+}
+
+.ml-avatar[data-size="lg"] {
+	--ml-avatar-size: var(--ml-space-9);
+	--ml-avatar-text: var(--text-xs);
+}
+
+.ml-avatar[data-size="xl"] {
+	--ml-avatar-size: var(--ml-space-14);
+	--ml-avatar-text: var(--text-sm);
+}
+
+.ml-avatar[data-size="2xl"] {
+	--ml-avatar-size: var(--ml-space-20);
+	--ml-avatar-text: var(--text-xl);
+}
+
 /* Button variant colours - kept in plain CSS (not Tailwind @layer utilities)
    so they always win and always reference live CSS custom properties */
 .ml-btn--primary {
@@ -186,9 +234,9 @@
 	--ml-navbar-brand-gap: var(--ml-space-1-5);
 	--ml-navbar-brand-mark-size: var(--ml-space-5);
 	--ml-navbar-brand-text: var(--text-base);
-	--ml-navbar-link-gap: var(--ml-space-5);
+	--ml-navbar-link-gap: var(--ml-space-8);
 	--ml-navbar-link-text: var(--text-sm);
-	--ml-navbar-action-gap: var(--ml-space-2);
+	--ml-navbar-action-gap: var(--ml-space-3);
 
 	width: 100%;
 	border-block-end: var(--border-thin) solid var(--border);
@@ -213,7 +261,7 @@
 	--ml-navbar-x: var(--ml-space-6);
 	--ml-navbar-brand-mark-size: var(--ml-space-4);
 	--ml-navbar-brand-text: var(--text-sm);
-	--ml-navbar-link-gap: var(--ml-space-4);
+	--ml-navbar-link-gap: var(--ml-space-6);
 	--ml-navbar-link-text: var(--text-xs);
 }
 
@@ -222,7 +270,7 @@
 	--ml-navbar-x: var(--ml-space-10);
 	--ml-navbar-brand-mark-size: var(--ml-space-6);
 	--ml-navbar-brand-text: var(--text-lg);
-	--ml-navbar-link-gap: var(--ml-space-6);
+	--ml-navbar-link-gap: var(--ml-space-10);
 	--ml-navbar-link-text: var(--text-base);
 }
 
@@ -232,7 +280,7 @@
 	width: 100%;
 	max-width: var(--ml-navbar-container-max);
 	align-items: center;
-	grid-template-columns: auto minmax(0, 1fr) auto;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 	gap: var(--ml-navbar-gap);
 	margin-inline: auto;
 	padding-inline: var(--ml-navbar-x);
@@ -293,6 +341,18 @@
 	transition: color var(--duration-micro) var(--ease-out);
 }
 
+.ml-navbar__brand[data-text-style="monoline"] .ml-navbar__brand-label {
+	font-family: var(--font-mono);
+	font-weight: 800;
+	letter-spacing: -0.045em;
+}
+
+.ml-navbar__brand[data-text-style="cursive"] .ml-navbar__brand-label {
+	font-family: var(--font-script);
+	font-weight: 800;
+	letter-spacing: 0;
+}
+
 .ml-navbar__brand:hover .ml-navbar__brand-label {
 	color: var(--text-secondary);
 }
@@ -301,6 +361,7 @@
 	display: inline-flex;
 	min-width: 0;
 	grid-column: 2;
+	block-size: var(--ml-navbar-height);
 	align-items: center;
 	justify-content: center;
 	gap: var(--ml-navbar-link-gap);
@@ -309,11 +370,12 @@
 .ml-navbar__link {
 	position: relative;
 	display: inline-flex;
+	block-size: 100%;
 	align-items: center;
 	gap: var(--ml-space-1);
 	color: var(--text-secondary);
 	font-size: var(--ml-navbar-link-text);
-	font-weight: 550;
+	font-weight: 650;
 	line-height: 1;
 	text-decoration: none;
 	transition:

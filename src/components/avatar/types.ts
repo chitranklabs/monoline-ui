@@ -1,6 +1,6 @@
 import type * as React from "react"
 
-export type AvatarSize = "sm" | "md" | "lg" | "xl"
+export type AvatarSize = "inherit" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl"
 
 export interface AvatarProps extends Omit<
 	React.ComponentPropsWithoutRef<"span">,

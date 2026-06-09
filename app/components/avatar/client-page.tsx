@@ -7,7 +7,7 @@ import {
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
-const avatarSizes: AvatarSize[] = ["sm", "md", "lg", "xl"]
+const avatarSizes: AvatarSize[] = ["xs", "sm", "md", "lg", "xl", "2xl"]
 
 const usageCode = `<Avatar size="md" src="/avatar.jpg" alt="Chitrank Agnihotri" />
 
@@ -48,7 +48,7 @@ export function People() {
 }`
 
 const propsRows = [
-	["size", "sm | md | lg | xl", "Avatar scale"],
+	["size", "inherit | xs | sm | md | lg | xl | 2xl", "Avatar scale"],
 	["src", "string?", "Optional image URL"],
 	["alt", "string?", "Image alt text when src is provided"],
 	[
@@ -69,7 +69,7 @@ export default function AvatarPageClient() {
 	return (
 		<ComponentPlayground<AvatarSize>
 			title="Avatar"
-			description="Render a compact identity marker with image support, token-backed fallback colour, and four size options."
+			description="Render a compact identity marker with image support, token-backed fallback colour, six fixed sizes, and an inherit size for slotted usage."
 			sizes={avatarSizes}
 			defaultSize="md"
 			importStatement='import { Avatar } from "@chitrank2050/monoline-ui/components/avatar"'

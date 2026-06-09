@@ -1,6 +1,7 @@
 import type * as React from "react"
 
 export type NavbarSize = "sm" | "md" | "lg"
+export type NavbarBrandTextStyle = "monoline" | "cursive"
 
 type NavbarLinkComponentProps = React.ComponentPropsWithoutRef<"a"> & {
 	href: string
@@ -21,6 +22,7 @@ interface NavbarBaseProps extends Omit<
 	"children"
 > {
 	size?: NavbarSize
+	brandTextStyle?: NavbarBrandTextStyle
 	navLabel?: string
 	linkComponent?: React.ComponentType<NavbarLinkComponentProps>
 	sticky?: boolean
@@ -44,6 +46,7 @@ export type NavbarProps =
 export interface NavbarBrandProps extends React.ComponentProps<"a"> {
 	asChild?: boolean
 	mark?: React.ReactNode
+	textStyle?: NavbarBrandTextStyle
 	children: React.ReactNode
 }
 

@@ -12,6 +12,7 @@ const navbarLinks = [{ href: "#blog", label: "Blog" }]
 const propsRows = [
 	["size", "sm | md | lg", "Navbar density and type scale"],
 	["brand", "ReactNode", "Left-side brand slot for data-driven usage"],
+	["brandTextStyle", "monoline | cursive", "Brand wordmark font style"],
 	["links", "NavbarLinkItem[]", "Optional data-driven nav link list"],
 	["actions", "ReactNode", "Right-side action slot"],
 	["children", "ReactNode", "Override with compound composition"],
@@ -39,6 +40,7 @@ export function SiteHeader() {
   return (
     <Navbar
       brand="Chitrank"
+      brandTextStyle="cursive"
       links={[
         { href: "/blog", label: "Blog" },
       ]}
@@ -60,7 +62,9 @@ const usageCode = `<Navbar
 />
 
 <Navbar sticky glass>
-  <Navbar.Brand href="/" mark={<span />}>Chitrank</Navbar.Brand>
+  <Navbar.Brand href="/" mark={<span />} textStyle="monoline">
+    monoline/ui
+  </Navbar.Brand>
   <Navbar.Nav>
     <Navbar.Link href="/blog">Blog</Navbar.Link>
   </Navbar.Nav>

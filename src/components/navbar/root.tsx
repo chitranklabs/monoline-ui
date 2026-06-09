@@ -14,6 +14,7 @@ export function NavbarRoot({
 	links,
 	actions,
 	children,
+	brandTextStyle = "cursive",
 	navLabel = "Primary navigation",
 	linkComponent,
 	sticky = false,
@@ -39,7 +40,7 @@ export function NavbarRoot({
 				) : (
 					<>
 						{brand ? (
-							<NavbarBrand href="/" mark={<span />}>
+							<NavbarBrand href="/" mark={<span />} textStyle={brandTextStyle}>
 								{brand}
 							</NavbarBrand>
 						) : null}

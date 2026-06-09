@@ -8,12 +8,17 @@ export function NavbarBrand({
 	className,
 	children,
 	mark,
+	textStyle = "cursive",
 	...props
 }: NavbarBrandProps) {
 	const Comp = asChild ? Slot : "a"
 
 	return (
-		<Comp className={cn("ml-navbar__brand", className)} {...props}>
+		<Comp
+			data-text-style={textStyle}
+			className={cn("ml-navbar__brand", className)}
+			{...props}
+		>
 			{mark ? (
 				<span className="ml-navbar__brand-mark" aria-hidden="true">
 					{mark}
