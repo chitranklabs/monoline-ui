@@ -4,9 +4,10 @@ export type SectionHeadSize = "sm" | "md" | "lg" | "xl"
 export type SectionHeadLevel = 1 | 2 | 3
 
 export interface SectionHeadProps extends Omit<
-	React.ComponentPropsWithoutRef<"header">,
+	React.ComponentPropsWithoutRef<"div">,
 	"title"
 > {
+	as?: "div" | "header"
 	eyebrow?: React.ReactNode
 	title: React.ReactNode
 	subtitle?: React.ReactNode

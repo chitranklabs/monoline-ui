@@ -32,10 +32,12 @@ export function Intro() {
 }`
 
 const propsRows = [
+	["as", '"div" | "header"', "Root HTML element (default: div)"],
 	["size", "sm | md | lg | xl", "Heading scale"],
 	["level", "1 | 2 | 3", "Semantic heading element"],
 	["eyebrow", "ReactNode?", "Optional section label"],
 	["title", "ReactNode", "Heading content"],
+	["subtitle", "ReactNode?", "Optional subtitle within heading"],
 	["lede", "ReactNode?", "Supporting paragraph"],
 ] as const
 

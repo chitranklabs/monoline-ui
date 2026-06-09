@@ -23,6 +23,7 @@ export function StatusRoot({
 	className,
 	variant = "accent",
 	size = "md",
+	animate = false,
 	children,
 	...props
 }: StatusProps) {
@@ -38,7 +39,11 @@ export function StatusRoot({
 		>
 			<span
 				data-slot="status-dot"
-				className={cn("shrink-0 rounded-full", statusDotSizeClasses[size])}
+				className={cn(
+					"shrink-0 rounded-full",
+					animate && "animate-pulse",
+					statusDotSizeClasses[size]
+				)}
 				aria-hidden="true"
 			/>
 			{children}

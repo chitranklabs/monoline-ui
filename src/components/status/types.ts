@@ -6,4 +6,5 @@ export type StatusSize = "sm" | "md" | "lg"
 export interface StatusProps extends React.ComponentPropsWithoutRef<"span"> {
 	variant?: StatusVariant
 	size?: StatusSize
+	animate?: boolean
 }

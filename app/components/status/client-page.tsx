@@ -22,6 +22,11 @@ export function Availability() {
 const propsRows = [
 	["size", "sm | md | lg", "Status pill scale"],
 	["variant", "accent | success | muted", "Visual state"],
+	[
+		"animate",
+		"boolean",
+		"Add pulse animation to the status dot (default: false)",
+	],
 	["children", "ReactNode", "Status label"],
 ] as const
 
