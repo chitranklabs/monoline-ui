@@ -21,7 +21,7 @@ export function SegmentedControlRoot<T extends string>({
 			opacity: 0,
 		})
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		const container = containerRef.current
 		if (!container) return
 

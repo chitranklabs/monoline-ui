@@ -85,7 +85,7 @@ function SegmentedControlDemo({
 	const options = variant === "pill" ? pillOptions : defaultOptions
 
 	return (
-		<div className="flex items-center justify-center p-ml-8">
+		<div className="inline-flex items-center justify-center p-ml-8">
 			<SegmentedControl
 				variant={variant}
 				size={size}
