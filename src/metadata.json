@@ -1,5 +1,5 @@
 {
-	"count": 16,
+	"count": 17,
 	"components": [
 		"avatar",
 		"button",
@@ -11,6 +11,7 @@
 		"navbar",
 		"section-head",
 		"segmented-control",
+		"select",
 		"status",
 		"tag",
 		"testimonial",

@@ -5,7 +5,7 @@ import TagPageClient from "./client-page"
 export const metadata: Metadata = {
 	title: "Tag Component - monoline/ui reference",
 	description:
-		"API reference for the monoline/ui Tag component, a token-backed filter pill with active state and count slot.",
+		"API reference for the monoline/ui Tag component, covering filter pills and quieter tech chips.",
 	alternates: {
 		canonical: "/components/tag",
 	},

@@ -88,6 +88,10 @@
 			"types": "./components/segmented-control/index.d.ts",
 			"import": "./components/segmented-control/index.js"
 		},
+		"./select": {
+			"types": "./components/select/index.d.ts",
+			"import": "./components/select/index.js"
+		},
 		"./status": {
 			"types": "./components/status/index.d.ts",
 			"import": "./components/status/index.js"

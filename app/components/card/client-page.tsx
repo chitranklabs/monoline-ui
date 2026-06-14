@@ -1,22 +1,34 @@
 "use client"
 
 import { Card, type CardSize } from "@chitrank2050/monoline-ui/components/card"
+import { Tag } from "@chitrank2050/monoline-ui/tag"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const cardSizes: CardSize[] = ["sm", "md", "lg"]
 
 const usageCode = `<Card variant="hover" size="md">
-  <Card.Image>
+  <Card.Image ratio="landscape">
     <img src="/cover.jpg" alt="" />
   </Card.Image>
   <Card.Body>
-    <p className="ml-eyebrow">Engineering · 9 min</p>
-    <h3>Designing a type-safe BFF</h3>
+    <Card.Header>
+      <Card.Meta>
+        <span>2023</span>
+        <span>Professional</span>
+      </Card.Meta>
+      <Card.Title>Mosaic Checkout</Card.Title>
+      <Card.Description>
+        A distributed checkout SDK for emerging-market PSPs.
+      </Card.Description>
+    </Card.Header>
   </Card.Body>
   <Card.Footer>
-    Read case study
-    <Card.Arrow />
+    <div className="flex flex-wrap gap-2">
+      <Tag variant="chip" size="sm">React Native</Tag>
+      <Tag variant="chip" size="sm">Node.js</Tag>
+    </div>
+    <Card.Action>View <Card.Arrow /></Card.Action>
   </Card.Footer>
 </Card>`
 
@@ -25,12 +37,26 @@ const sourceSnippet = `import { Card } from "@chitrank2050/monoline-ui/component
 export function ProjectCard() {
   return (
     <Card variant="hover">
+      <Card.Image ratio="landscape" placeholder />
       <Card.Body>
-        <p className="ml-eyebrow">Case study</p>
-        <h3>Inference dashboard</h3>
-        <p>Dense operational UI for model health.</p>
+        <Card.Header>
+          <Card.Meta>
+            <span>2024</span>
+            <span>Professional</span>
+          </Card.Meta>
+          <Card.Title>Lumen Insights</Card.Title>
+          <Card.Description>
+            A compact project card for selected work and blog indexes.
+          </Card.Description>
+        </Card.Header>
       </Card.Body>
-      <Card.Footer>Read more <Card.Arrow /></Card.Footer>
+      <Card.Footer>
+        <div className="flex flex-wrap gap-2">
+          <Tag variant="chip" size="sm">Next.js</Tag>
+          <Tag variant="chip" size="sm">Postgres</Tag>
+        </div>
+        <Card.Action>View <Card.Arrow /></Card.Action>
+      </Card.Footer>
     </Card>
   )
 }`
@@ -38,6 +64,16 @@ export function ProjectCard() {
 const propsRows = [
 	["variant", "default | hover | interactive", "Card interaction style"],
 	["size", "sm | md | lg", "Card radius and internal slot spacing"],
+	[
+		"Card.Image.ratio",
+		'"square" | "portrait" | "landscape" | "wide"',
+		"Reserved image area preset",
+	],
+	[
+		"Card.Image.placeholder",
+		"boolean",
+		"Renders the built-in media placeholder",
+	],
 	["asChild", "boolean", "Render child through Radix Slot"],
 	["children", "ReactNode", "Card slots and content"],
 ] as const
@@ -53,7 +89,7 @@ export default function CardPageClient() {
 	return (
 		<ComponentPlayground<CardSize>
 			title="Card"
-			description="Compose editorial cards from package slots for image, body, footer, and arrow affordances."
+			description="Compose quiet project and blog cards from image, body, footer, and arrow slots."
 			sizes={cardSizes}
 			defaultSize="md"
 			importStatement='import { Card } from "@chitrank2050/monoline-ui/components/card"'
@@ -64,19 +100,35 @@ export default function CardPageClient() {
 			renderPreview={(size = "md") => (
 				<div className="grid gap-ml-5 p-ml-6 sm:grid-cols-2">
 					<Card size={size} variant="hover" className="max-w-90">
-						<Card.Image className="h-ml-24 bg-[repeating-linear-gradient(135deg,var(--surface-2)_0_1px,transparent_1px_16px)]" />
+						<Card.Image ratio="landscape" placeholder />
 						<Card.Body>
-							<p className="ml-eyebrow">Engineering · 9 min</p>
-							<h3 className="m-0 text-lg leading-tight text-primary">
-								Designing a type-safe BFF with tRPC and Zod
-							</h3>
-							<p className="m-0 text-sm leading-relaxed text-body">
-								A compact card for posts, projects, and resources.
-							</p>
+							<Card.Header>
+								<Card.Meta>
+									<span>2023</span>
+									<span>Professional</span>
+								</Card.Meta>
+								<Card.Title>Mosaic Checkout</Card.Title>
+								<Card.Description>
+									A distributed checkout SDK built for emerging-market PSPs.
+								</Card.Description>
+							</Card.Header>
 						</Card.Body>
 						<Card.Footer>
-							<span className="text-sm text-body">Read case study</span>
-							<Card.Arrow />
+							<div className="flex flex-wrap gap-ml-2">
+								<Tag size="sm" variant="chip">
+									React Native
+								</Tag>
+								<Tag size="sm" variant="chip">
+									Node.js
+								</Tag>
+								<Tag size="sm" variant="chip">
+									gRPC
+								</Tag>
+							</div>
+							<Card.Action>
+								View
+								<Card.Arrow />
+							</Card.Action>
 						</Card.Footer>
 					</Card>
 				</div>

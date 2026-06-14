@@ -577,8 +577,9 @@
 
 .ml-card--hover:hover {
 	border-color: var(--border-strong);
+	background: var(--surface-2);
 	box-shadow: var(--shadow-card);
-	transform: translate3d(0, calc(var(--space-0-5) * -1), 0);
+	transform: translate3d(0, -1px, 0);
 }
 
 .ml-card--interactive:hover {
@@ -587,17 +588,32 @@
 }
 
 .ml-card__image > * {
-	filter: grayscale(1);
-	transform: scale(1.01) translateZ(0);
+	transform: scale(1.002) translateZ(0);
 	transition:
-		filter var(--duration-short) var(--ease-out-expo),
+		opacity var(--duration-short) var(--ease-out-expo),
 		transform var(--duration-short) var(--ease-out-expo);
-	will-change: filter, transform;
+	will-change: opacity, transform;
+}
+
+.ml-card__image > img,
+.ml-card__image > picture,
+.ml-card__image > video,
+.ml-card__image > canvas,
+.ml-card__image > svg {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.ml-card__image > img,
+.ml-card__image > picture > img,
+.ml-card__image > video {
+	object-fit: cover;
 }
 
 .ml-card--hover:hover .ml-card__image > * {
-	filter: grayscale(0);
-	transform: scale(1.035) translateZ(0);
+	opacity: 0.96;
+	transform: scale(1.02) translateZ(0);
 }
 
 .ml-card__footer {
@@ -608,8 +624,8 @@
 
 .ml-card__arrow {
 	display: inline-block;
-	opacity: 0;
-	transform: translate3d(calc(var(--space-2) * -1), 0, 0);
+	opacity: 0.72;
+	transform: translate3d(0, 0, 0);
 	transition:
 		opacity var(--duration-short) var(--ease-out-expo),
 		transform var(--duration-short) var(--ease-out-expo);
@@ -619,7 +635,7 @@
 .ml-card--hover:hover .ml-card__arrow,
 .ml-card--interactive:hover .ml-card__arrow {
 	opacity: 1;
-	transform: translate3d(0, 0, 0);
+	transform: translate3d(2px, 0, 0);
 }
 
 /* ---------------------------------- */

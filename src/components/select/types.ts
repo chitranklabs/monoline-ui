@@ -1,0 +1,51 @@
+import type * as React from "react"
+
+export type SelectSize = "sm" | "md" | "lg"
+
+export interface SelectOption<T extends string = string> {
+	value: T
+	label: string
+	description?: string
+	disabled?: boolean
+}
+
+export interface SelectRootProps<T extends string = string> extends Omit<
+	React.ComponentPropsWithoutRef<"div">,
+	"onChange"
+> {
+	value: T
+	onChange: (value: T) => void
+	options: SelectOption<T>[]
+	size?: SelectSize
+	label?: string
+	placeholder?: string
+	sheetLabel?: string
+	open?: boolean
+	defaultOpen?: boolean
+	onOpenChange?: (open: boolean) => void
+	children?: React.ReactNode
+}
+
+export interface SelectTriggerProps extends Omit<
+	React.ComponentPropsWithoutRef<"button">,
+	"children"
+> {
+	children?: React.ReactNode
+}
+
+export type SelectValueProps = React.ComponentPropsWithoutRef<"span">
+
+export type SelectLabelProps = React.ComponentPropsWithoutRef<"span">
+
+export interface SelectContentProps extends React.ComponentPropsWithoutRef<"div"> {
+	children?: React.ReactNode
+}
+
+export interface SelectItemProps extends Omit<
+	React.ComponentPropsWithoutRef<"button">,
+	"value" | "children"
+> {
+	value: string
+	description?: string
+	children: React.ReactNode
+}
