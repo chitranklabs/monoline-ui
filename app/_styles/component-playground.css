@@ -128,8 +128,10 @@
 }
 
 .playground-canvas__preview[data-layout="fit"] {
-	width: fit-content;
+	display: inline-block;
+	width: max-content;
 	max-width: 100%;
+	vertical-align: top;
 }
 
 .playground-canvas__preview[data-layout="viewport"] {

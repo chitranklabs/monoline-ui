@@ -3,7 +3,9 @@
 import {
 	type ReactNode,
 	Suspense,
+	startTransition,
 	useEffect,
+	useLayoutEffect,
 	useMemo,
 	useRef,
 	useState,
@@ -32,6 +34,18 @@ interface ViewportOption {
 interface ZoomOption {
 	label: string
 	value: number
+}
+
+interface PlaygroundControlState<
+	TSize extends string = string,
+	TVariant extends string = string,
+> {
+	render: RenderMode
+	size: TSize | undefined
+	variant: TVariant | undefined
+	viewport: ViewportKey
+	theme: ThemeMode
+	zoom: number
 }
 
 const viewportOptions: ViewportOption[] = [
@@ -83,7 +97,7 @@ function PreviewFrame({
 		height: previewFrameMinHeight,
 	})
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const iframe = iframeRef.current
 		if (!iframe) return
 
@@ -153,7 +167,15 @@ function PreviewFrame({
 		}
 	}, [theme])
 
-	useEffect(() => {
+	useLayoutEffect(() => {
+		if (!mountNode) return
+
+		mountNode.style.display = layout === "fit" ? "inline-block" : "block"
+		mountNode.style.width = layout === "fit" ? "max-content" : "100%"
+		mountNode.style.maxWidth = layout === "fit" ? "100%" : ""
+	}, [layout, mountNode])
+
+	useLayoutEffect(() => {
 		if (!mountNode) return
 
 		const iframeDocument = iframeRef.current?.contentDocument
@@ -334,12 +356,38 @@ function ComponentPlaygroundClient<
 		return matchedOption?.value ?? defaultControls.zoom
 	}
 
-	const renderMode = parseRenderMode(searchParams.get("render"))
-	const size = parseSize(searchParams.get("size"))
-	const variant = parseVariant(searchParams.get("variant"))
-	const viewport = parseViewport(searchParams.get("viewport"))
-	const theme = parseTheme(searchParams.get("theme"))
-	const zoom = parseZoom(searchParams.get("zoom"))
+	const urlState: PlaygroundControlState<TSize, TVariant> = {
+		render: parseRenderMode(searchParams.get("render")),
+		size: parseSize(searchParams.get("size")),
+		variant: parseVariant(searchParams.get("variant")),
+		viewport: parseViewport(searchParams.get("viewport")),
+		theme: parseTheme(searchParams.get("theme")),
+		zoom: parseZoom(searchParams.get("zoom")),
+	}
+	const [controlState, setControlState] =
+		useState<PlaygroundControlState<TSize, TVariant>>(urlState)
+
+	useEffect(() => {
+		setControlState((current) =>
+			current.render === urlState.render &&
+			current.size === urlState.size &&
+			current.variant === urlState.variant &&
+			current.viewport === urlState.viewport &&
+			current.theme === urlState.theme &&
+			current.zoom === urlState.zoom
+				? current
+				: urlState
+		)
+	}, [
+		urlState.render,
+		urlState.size,
+		urlState.variant,
+		urlState.viewport,
+		urlState.theme,
+		urlState.zoom,
+	])
+
+	const { render, size, variant, viewport, theme, zoom } = controlState
 
 	const viewportOption = useMemo(
 		() =>
@@ -356,10 +404,10 @@ function ComponentPlaygroundClient<
 
 	const renderedSizes = useMemo(() => {
 		if (!sizes) return [undefined]
-		return renderMode === "all" ? sizes : [size]
-	}, [sizes, renderMode, size])
+		return render === "all" ? sizes : [size]
+	}, [sizes, render, size])
 
-	const previewKey = `${renderMode}:${renderedSizes.join(",")}:${viewport}:${theme}:${variant ?? ""}`
+	const previewKey = `${render}:${renderedSizes.join(",")}:${viewport}:${theme}:${variant ?? ""}`
 
 	const setControl = (
 		updates: Partial<{
@@ -372,13 +420,15 @@ function ComponentPlaygroundClient<
 		}>
 	) => {
 		const nextState = {
-			render: updates.render !== undefined ? updates.render : renderMode,
+			render: updates.render !== undefined ? updates.render : render,
 			size: updates.size !== undefined ? updates.size : size,
 			variant: updates.variant !== undefined ? updates.variant : variant,
 			viewport: updates.viewport !== undefined ? updates.viewport : viewport,
 			theme: updates.theme !== undefined ? updates.theme : theme,
 			zoom: updates.zoom !== undefined ? updates.zoom : zoom,
 		}
+		setControlState(nextState)
+
 		const nextParams = new URLSearchParams(searchParams.toString())
 
 		const writeParam = <V extends string | number>(
@@ -413,8 +463,10 @@ function ComponentPlaygroundClient<
 		)
 
 		const queryString = nextParams.toString()
-		router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
-			scroll: false,
+		startTransition(() => {
+			router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+				scroll: false,
+			})
 		})
 	}
 
@@ -439,7 +491,7 @@ function ComponentPlaygroundClient<
 									{ value: "single", label: "Single" },
 									{ value: "all", label: allSizesLabel },
 								]}
-								value={renderMode}
+								value={render}
 								onChange={(val) => setControl({ render: val })}
 							/>
 						</div>
@@ -520,7 +572,7 @@ function ComponentPlaygroundClient<
 				<div className="playground-canvas__meta">
 					<span>
 						{sizes
-							? renderMode === "all"
+							? render === "all"
 								? allSizesLabel
 								: formatSize(size as TSize)
 							: "Default"}{" "}

@@ -1404,6 +1404,11 @@ a.ml-testimonial__name:hover {
 	color: var(--primary-foreground);
 }
 
+.ml-segmented--pill
+	.ml-segmented__item[aria-checked="true"]:hover:not(:disabled) {
+	color: var(--primary-foreground);
+}
+
 .ml-segmented--pill .ml-segmented__badge {
 	opacity: 0.6;
 }

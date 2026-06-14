@@ -79,6 +79,7 @@ export default function TestimonialPageClient() {
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
+			previewLayout="viewport"
 			renderPreview={(size = "md") => (
 				<div className="max-w-5xl p-ml-6">
 					<Testimonial.Grid>
