@@ -824,10 +824,10 @@
 .ml-card {
 	transform: translate3d(0, 0, 0);
 	transition:
-		background-color var(--duration-short) var(--ease-out-expo),
-		border-color var(--duration-short) var(--ease-out-expo),
-		box-shadow var(--duration-short) var(--ease-out-expo),
-		transform var(--duration-short) var(--ease-out-expo);
+		background-color var(--duration-micro) var(--ease-out),
+		border-color var(--duration-micro) var(--ease-out),
+		box-shadow var(--duration-micro) var(--ease-out),
+		transform var(--duration-short) var(--ease-out);
 	backface-visibility: hidden;
 }
 
@@ -835,12 +835,12 @@
 	border-color: var(--border-strong);
 	background: var(--surface-2);
 	box-shadow: var(--shadow-card);
-	transform: translate3d(0, -1px, 0);
+	transform: translate3d(0, -0.5px, 0);
 }
 
 .ml-card--interactive:hover {
 	background: var(--surface-2);
-	transform: translate3d(0, -1px, 0);
+	transform: translate3d(0, -0.5px, 0);
 }
 
 :root:not([data-theme="light"]) .ml-card--hover:hover,
@@ -862,10 +862,10 @@
 }
 
 .ml-card__image > * {
-	transform: scale(1.002) translateZ(0);
+	transform: scale(1) translateZ(0);
 	transition:
-		opacity var(--duration-short) var(--ease-out-expo),
-		transform var(--duration-short) var(--ease-out-expo);
+		opacity var(--duration-micro) var(--ease-out),
+		transform var(--duration-short) var(--ease-out);
 	will-change: opacity, transform;
 }
 
@@ -885,9 +885,9 @@
 	object-fit: cover;
 	filter: grayscale(1) brightness(0.92);
 	transition:
-		filter var(--duration-short) var(--ease-out-expo),
-		opacity var(--duration-short) var(--ease-out-expo),
-		transform var(--duration-short) var(--ease-out-expo);
+		filter var(--duration-short) var(--ease-out),
+		opacity var(--duration-micro) var(--ease-out),
+		transform var(--duration-short) var(--ease-out);
 }
 
 .ml-card__image::after {
@@ -905,9 +905,7 @@
 	);
 	opacity: 0.56;
 	pointer-events: none;
-	transition:
-		opacity var(--duration-short) var(--ease-out-expo),
-		block-size var(--duration-short) var(--ease-out-expo);
+	transition: opacity var(--duration-short) var(--ease-out);
 }
 
 .ml-card__image-caption {
@@ -915,8 +913,8 @@
 	opacity: 1;
 	transform: translate3d(0, 0, 0);
 	transition:
-		opacity var(--duration-short) var(--ease-out-expo),
-		transform var(--duration-short) var(--ease-out-expo);
+		opacity var(--duration-micro) var(--ease-out),
+		transform var(--duration-short) var(--ease-out);
 }
 
 .ml-card__image:has(.ml-card__image-caption)::after,
@@ -931,7 +929,7 @@
 
 .ml-card--hover:hover .ml-card__image > * {
 	opacity: 0.96;
-	transform: scale(1.02) translateZ(0);
+	transform: scale(1.01) translateZ(0);
 }
 
 .ml-card--hover:hover .ml-card__image > img,
@@ -941,18 +939,17 @@
 }
 
 .ml-card--hover:hover .ml-card__image::after {
-	opacity: 1;
-	block-size: 18%;
+	opacity: 0.84;
 }
 
 .ml-card--hover:hover .ml-card__image-caption {
-	transform: translate3d(0, -1px, 0);
+	transform: translate3d(0, -0.5px, 0);
 }
 
 .ml-card__footer {
 	transition:
-		border-color var(--duration-short) var(--ease-out-expo),
-		color var(--duration-short) var(--ease-out-expo);
+		border-color var(--duration-micro) var(--ease-out),
+		color var(--duration-micro) var(--ease-out);
 }
 
 .ml-card__arrow {
@@ -960,15 +957,15 @@
 	opacity: 0.72;
 	transform: translate3d(0, 0, 0);
 	transition:
-		opacity var(--duration-short) var(--ease-out-expo),
-		transform var(--duration-short) var(--ease-out-expo);
+		opacity var(--duration-micro) var(--ease-out),
+		transform var(--duration-short) var(--ease-out);
 	will-change: opacity, transform;
 }
 
 .ml-card--hover:hover .ml-card__arrow,
 .ml-card--interactive:hover .ml-card__arrow {
 	opacity: 1;
-	transform: translate3d(2px, 0, 0);
+	transform: translate3d(1px, 0, 0);
 }
 
 /* ---------------------------------- */
