@@ -17,10 +17,8 @@ const caretSizeClasses: Record<SelectSize, string> = {
 }
 
 const triggerVariantClasses: Record<SelectVariant, string> = {
-	default:
-		"rounded-md border border-border bg-surface text-body hover:border-border-strong hover:bg-surface-2",
-	ghost:
-		"rounded-md border border-transparent bg-transparent text-body hover:bg-surface-2 hover:text-primary",
+	default: "ml-control-surface--secondary rounded-md",
+	ghost: "ml-control-surface--ghost rounded-md",
 }
 
 export function SelectTrigger({

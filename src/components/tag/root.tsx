@@ -8,15 +8,14 @@ const tagSizeClasses: Record<TagSize, string> = {
 }
 
 const tagVariantClasses: Record<TagVariant, string> = {
-	filter:
-		"border-border-strong bg-surface font-medium text-body data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-	chip: "border-border-strong bg-surface text-body data-[active=true]:border-border-strong data-[active=true]:bg-surface-2 data-[active=true]:text-primary",
+	filter: "ml-control-surface--secondary font-medium",
+	chip: "ml-control-surface--secondary text-body",
 }
 
 const interactiveVariantClasses: Record<TagVariant, string> = {
 	filter:
-		"cursor-pointer hover:border-primary hover:bg-surface-2 hover:text-primary active:border-primary active:bg-surface-2 active:text-primary disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
-	chip: "cursor-pointer hover:border-border-strong hover:bg-surface-2 hover:text-primary active:border-border-strong active:bg-surface-2 active:text-primary disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+		"cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+	chip: "cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 }
 
 export function TagRoot({
