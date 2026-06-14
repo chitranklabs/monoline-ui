@@ -93,7 +93,11 @@ function PreviewCard() {
 						Resume
 					</Button>
 				</div>
-				<Card variant="hover" size="sm" className="intro-preview__article">
+				<Card
+					size="sm"
+					href="/components/card"
+					className="intro-preview__article"
+				>
 					<Card.Body>
 						<p>Engineering · 9 min</p>
 						<h2>Designing a type-safe BFF</h2>
@@ -104,7 +108,7 @@ function PreviewCard() {
 					</Card.Footer>
 				</Card>
 				<CodeBlock
-					code={`<Card variant="hover">
+					code={`<Card href="/blog/designing-a-type-safe-bff">
   <CardBody>
     <Eyebrow>Engineering</Eyebrow>
     <h3>Designing a type-safe BFF</h3>

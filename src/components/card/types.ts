@@ -1,14 +1,21 @@
 import type * as React from "react"
 
-export type CardVariant = "default" | "hover" | "interactive"
 export type CardSize = "sm" | "md" | "lg"
 export type CardImageRatio = "square" | "portrait" | "landscape" | "wide"
 export type CardDescriptionLines = 2 | 3 | 4
 
-export interface CardProps extends React.ComponentPropsWithoutRef<"div"> {
-	variant?: CardVariant
+export interface CardProps extends Omit<
+	React.ComponentPropsWithoutRef<"div">,
+	"onClick"
+> {
 	size?: CardSize
 	asChild?: boolean
+	href?: string
+	target?: React.HTMLAttributeAnchorTarget
+	rel?: string
+	download?: React.AnchorHTMLAttributes<HTMLAnchorElement>["download"]
+	referrerPolicy?: React.HTMLAttributeReferrerPolicy
+	onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLDivElement>
 }
 
 export type CardSlotProps = React.ComponentPropsWithoutRef<"div">
@@ -23,7 +30,7 @@ export interface CardDescriptionProps extends React.ComponentPropsWithoutRef<"p"
 export type CardTextProps = React.ComponentPropsWithoutRef<"p">
 export type CardActionProps = React.ComponentPropsWithoutRef<"span">
 export interface CardTagListProps extends React.ComponentPropsWithoutRef<"div"> {
-	maxVisible?: number
+	totalCount?: number
 	overflowFormatter?: (count: number) => React.ReactNode
 }
 

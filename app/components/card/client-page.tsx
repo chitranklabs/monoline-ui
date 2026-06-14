@@ -7,7 +7,7 @@ import { ComponentPlayground } from "../../_components/component-playground"
 
 const cardSizes: CardSize[] = ["sm", "md", "lg"]
 
-const usageCode = `<Card variant="hover" size="md">
+const usageCode = `<Card href="/blog/tunic-storefront" size="md">
   <Card.Image ratio="landscape" placeholder>
     <Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
   </Card.Image>
@@ -25,11 +25,10 @@ const usageCode = `<Card variant="hover" size="md">
     </Card.Header>
   </Card.Body>
   <Card.Footer>
-    <Card.TagList maxVisible={3}>
+    <Card.TagList totalCount={4}>
       <Tag variant="chip" size="sm">Next.js</Tag>
       <Tag variant="chip" size="sm">Sanity</Tag>
       <Tag variant="chip" size="sm">Vercel</Tag>
-      <Tag variant="chip" size="sm">Edge</Tag>
     </Card.TagList>
     <Card.Action>View <Card.Arrow /></Card.Action>
   </Card.Footer>
@@ -39,7 +38,7 @@ const sourceSnippet = `import { Card } from "@chitrank2050/monoline-ui/component
 
 export function ProjectCard() {
   return (
-    <Card variant="hover">
+    <Card href="/projects/tunic-storefront">
       <Card.Image ratio="landscape" placeholder>
         <Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
       </Card.Image>
@@ -57,11 +56,10 @@ export function ProjectCard() {
         </Card.Header>
       </Card.Body>
       <Card.Footer>
-        <Card.TagList maxVisible={3}>
+        <Card.TagList totalCount={4}>
           <Tag variant="chip" size="sm">Next.js</Tag>
           <Tag variant="chip" size="sm">Sanity</Tag>
           <Tag variant="chip" size="sm">Vercel</Tag>
-          <Tag variant="chip" size="sm">Edge</Tag>
         </Card.TagList>
         <Card.Action>View <Card.Arrow /></Card.Action>
       </Card.Footer>
@@ -70,8 +68,18 @@ export function ProjectCard() {
 }`
 
 const propsRows = [
-	["variant", "default | hover | interactive", "Card interaction style"],
 	["size", "sm | md | lg", "Card radius and internal slot spacing"],
+	[
+		"href",
+		"string",
+		"Render the card as a native anchor for internal or external links",
+	],
+	["target", '"_self" | "_blank" | ...', "Native anchor target"],
+	[
+		"rel",
+		"string",
+		"Native anchor rel. Defaults to noopener noreferrer for target=_blank",
+	],
 	[
 		"Card.Image.ratio",
 		'"square" | "portrait" | "landscape" | "wide"',
@@ -90,9 +98,9 @@ const propsRows = [
 	["Card.Eyebrow", "ReactNode", "Secondary mono line under the title"],
 	["Card.Description.lines", "2 | 3 | 4", "Built-in description clamping"],
 	[
-		"Card.TagList.maxVisible",
+		"Card.TagList.totalCount",
 		"number",
-		"Collapses extra tags into a smart +N marker",
+		"Computes a smart +N marker from rendered tags vs total count",
 	],
 	["asChild", "boolean", "Render child through Radix Slot"],
 	["children", "ReactNode", "Card slots and content"],
@@ -119,7 +127,7 @@ export default function CardPageClient() {
 			sourceSnippet={sourceSnippet}
 			renderPreview={(size = "md") => (
 				<div className="grid gap-ml-5 p-ml-6 sm:grid-cols-2">
-					<Card size={size} variant="hover" className="max-w-90">
+					<Card size={size} href="/blog/tunic-storefront" className="max-w-90">
 						<Card.Image ratio="landscape" placeholder>
 							<Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
 						</Card.Image>
@@ -141,7 +149,7 @@ export default function CardPageClient() {
 							</Card.Header>
 						</Card.Body>
 						<Card.Footer>
-							<Card.TagList maxVisible={3}>
+							<Card.TagList totalCount={4}>
 								<Tag size="sm" variant="chip">
 									Next.js
 								</Tag>
@@ -150,9 +158,6 @@ export default function CardPageClient() {
 								</Tag>
 								<Tag size="sm" variant="chip">
 									Vercel
-								</Tag>
-								<Tag size="sm" variant="chip">
-									Edge
 								</Tag>
 							</Card.TagList>
 							<Card.Action>

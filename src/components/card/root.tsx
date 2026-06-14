@@ -1,13 +1,7 @@
 import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "../../lib/utils"
-import type { CardProps, CardSize, CardVariant } from "./types"
-
-const cardVariantClasses: Record<CardVariant, string> = {
-	default: "",
-	hover: "ml-card--hover cursor-pointer",
-	interactive: "ml-card--interactive cursor-pointer",
-}
+import type { CardProps, CardSize } from "./types"
 
 const cardSizeClasses: Record<CardSize, string> = {
 	sm: "rounded-lg",
@@ -17,22 +11,52 @@ const cardSizeClasses: Record<CardSize, string> = {
 
 export function CardRoot({
 	className,
-	variant = "default",
 	size = "md",
 	asChild = false,
+	href,
+	download,
+	onClick,
+	referrerPolicy,
+	rel,
+	target,
 	...props
 }: CardProps) {
-	const Comp = asChild ? Slot : "div"
+	const isLink = Boolean(href)
+	const resolvedRel = target === "_blank" && !rel ? "noopener noreferrer" : rel
+	const cardClassName = cn(
+		"group/card ml-card relative flex flex-col overflow-hidden border border-border bg-surface",
+		isLink && "ml-card--hover cursor-pointer",
+		cardSizeClasses[size],
+		className
+	)
+
+	if (asChild) {
+		return <Slot data-card-size={size} className={cardClassName} {...props} />
+	}
+
+	if (isLink) {
+		return (
+			<a
+				data-card-size={size}
+				href={href}
+				target={target}
+				rel={resolvedRel}
+				download={download}
+				referrerPolicy={referrerPolicy}
+				onClick={
+					onClick as React.MouseEventHandler<HTMLAnchorElement> | undefined
+				}
+				className={cardClassName}
+				{...(props as React.ComponentPropsWithoutRef<"a">)}
+			/>
+		)
+	}
 
 	return (
-		<Comp
+		<div
 			data-card-size={size}
-			className={cn(
-				"group/card ml-card relative flex flex-col overflow-hidden border border-border bg-surface",
-				cardVariantClasses[variant],
-				cardSizeClasses[size],
-				className
-			)}
+			onClick={onClick as React.MouseEventHandler<HTMLDivElement> | undefined}
+			className={cardClassName}
 			{...props}
 		/>
 	)
