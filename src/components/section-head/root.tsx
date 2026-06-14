@@ -8,16 +8,16 @@ import type {
 
 const TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
 	sm: "text-3xl",
-	md: "text-4xl",
-	lg: "text-5xl",
-	xl: "text-6xl md:text-7xl leading-[0.95] tracking-[-0.04em]",
+	md: "text-[clamp(2.125rem,1.7rem+1vw,2.75rem)]",
+	lg: "text-[clamp(2.75rem,2rem+2vw,3.75rem)]",
+	xl: "text-[clamp(3.5rem,2.1rem+4vw,5.5rem)] leading-[0.95] tracking-[-0.04em]",
 }
 
 const SUB_TITLE_SIZE_CLASSES_MAP: Record<SectionHeadSize, string> = {
 	sm: "text-xl",
-	md: "text-2xl",
-	lg: "text-3xl",
-	xl: "text-4xl md:text-5xl",
+	md: "text-[clamp(1.375rem,1.2rem+0.6vw,1.75rem)]",
+	lg: "text-[clamp(1.625rem,1.35rem+0.9vw,2.125rem)]",
+	xl: "text-[clamp(2rem,1.5rem+1.8vw,3rem)]",
 }
 
 const headingByLevel: Record<SectionHeadLevel, "h1" | "h2" | "h3"> = {

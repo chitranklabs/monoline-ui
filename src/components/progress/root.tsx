@@ -102,7 +102,11 @@ export function ProgressRoot({
 					"ml-progress__indicator",
 					!determinate && "animate-progress-loop"
 				)}
-				style={determinate ? { width: `${percentage}%` } : undefined}
+				style={
+					determinate
+						? { transform: `scaleX(${(percentage ?? 0) / 100})` }
+						: undefined
+				}
 			/>
 		</div>
 	)

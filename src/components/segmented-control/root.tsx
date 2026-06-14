@@ -16,7 +16,7 @@ export function SegmentedControlRoot<T extends string>({
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const [indicatorStyle, setIndicatorStyle] =
 		React.useState<React.CSSProperties>({
-			transform: "translateX(0)",
+			left: 0,
 			width: 0,
 			opacity: 0,
 		})
@@ -31,8 +31,8 @@ export function SegmentedControlRoot<T extends string>({
 			) as HTMLButtonElement | null
 			if (activeBtn) {
 				setIndicatorStyle({
-					transform: `translateX(${activeBtn.offsetLeft}px)`,
-					width: activeBtn.offsetWidth,
+					left: `${activeBtn.offsetLeft}px`,
+					width: `${activeBtn.offsetWidth}px`,
 					opacity: 1,
 				})
 			} else {

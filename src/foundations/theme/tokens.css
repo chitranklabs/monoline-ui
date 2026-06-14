@@ -339,7 +339,7 @@
 	--tracking-heading: -0.025em;
 	--tracking-body: -0.005em;
 	--tracking-mono: 0.04em;
-	--tracking-eyebrow: 0.16em;
+	--tracking-eyebrow: 0.18em;
 	--tracking-meta: 0.14em;
 
 	/* ─── Typography roles ─── */
@@ -543,6 +543,6 @@
 	--ml-footer-link-min-height-sm: 1.75rem;
 	--ml-footer-link-min-height-md: 2rem;
 	--ml-footer-link-min-height-lg: 2.25rem;
-	--ml-footer-link-hover-x: 2px;
-	--ml-footer-link-arrow-hover-x: 3px;
+	--ml-footer-link-hover-x: 1px;
+	--ml-footer-link-arrow-hover-x: 2px;
 }

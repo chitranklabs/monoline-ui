@@ -8,10 +8,22 @@ export function DataListItem({
 	description,
 	trailing,
 	children,
+	onClick,
 	...props
 }: DataListItemProps) {
+	const isInteractive =
+		typeof onClick === "function" ||
+		props.role === "button" ||
+		props.role === "link" ||
+		props.tabIndex !== undefined
+
 	return (
-		<div className={cn("ml-data-list__item", className)} {...props}>
+		<div
+			data-interactive={isInteractive || undefined}
+			className={cn("ml-data-list__item", className)}
+			onClick={onClick}
+			{...props}
+		>
 			{children ?? (
 				<>
 					{label ? <span className="ml-data-list__label">{label}</span> : null}

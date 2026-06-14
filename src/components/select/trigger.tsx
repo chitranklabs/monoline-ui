@@ -39,7 +39,7 @@ export function SelectTrigger({
 			onClick={() => setOpen(!open)}
 			{...props}
 		>
-			<span className="flex min-w-0 items-center gap-(--ml-select-trigger-gap) leading-none">
+			<span className="ml-select__trigger-copy">
 				{children ?? (
 					<>
 						{label ? (

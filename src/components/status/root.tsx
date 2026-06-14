@@ -39,11 +39,8 @@ export function StatusRoot({
 		>
 			<span
 				data-slot="status-dot"
-				className={cn(
-					"shrink-0 rounded-full",
-					animate && "animate-pulse",
-					statusDotSizeClasses[size]
-				)}
+				data-animate={animate || undefined}
+				className={cn("shrink-0 rounded-full", statusDotSizeClasses[size])}
 				aria-hidden="true"
 			/>
 			{children}
