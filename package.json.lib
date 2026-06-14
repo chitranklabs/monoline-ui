@@ -34,15 +34,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"files": [
-		"**/*"
-	],
+	"files": ["**/*"],
 	"main": "./index.js",
 	"module": "./index.js",
 	"types": "./index.d.ts",
-	"sideEffects": [
-		"./styles/theme.css"
-	],
+	"sideEffects": ["./styles/theme.css"],
 	"exports": {
 		".": {
 			"types": "./index.d.ts",

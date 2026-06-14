@@ -157,11 +157,15 @@
 
 .props-table__row {
 	display: grid;
-	grid-template-columns: 8.75rem 10rem minmax(0, 1fr);
-	gap: 1rem;
+	grid-template-columns: minmax(11rem, 1.15fr) minmax(11rem, 1.1fr) minmax(
+			0,
+			1.75fr
+		);
+	gap: 1.25rem;
 	padding: 0.75rem 1rem;
 	border-top: 1px solid var(--border);
 	font-size: 0.78125rem;
+	align-items: start;
 }
 
 .props-table__row[data-odd="true"] {
@@ -171,6 +175,7 @@
 .props-table__row span:first-child,
 .props-table__row span:nth-child(2) {
 	font-family: var(--font-mono);
+	overflow-wrap: anywhere;
 }
 
 .props-table__row span:first-child {

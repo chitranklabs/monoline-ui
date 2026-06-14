@@ -13,7 +13,12 @@ import {
 
 import { useBreakpoint } from "../../foundations/use-breakpoint"
 import { cn } from "../../lib/utils"
-import type { SelectOption, SelectRootProps, SelectSize } from "./types"
+import type {
+	SelectOption,
+	SelectRootProps,
+	SelectSize,
+	SelectVariant,
+} from "./types"
 
 interface SelectContextValue {
 	isMobile: boolean
@@ -26,6 +31,7 @@ interface SelectContextValue {
 	setOpen: (nextOpen: boolean) => void
 	sheetLabel: string
 	size: SelectSize
+	variant: SelectVariant
 	value: string
 	onChange: (value: string) => void
 }
@@ -56,6 +62,7 @@ export function SelectRoot<T extends string>({
 	placeholder = "Select",
 	sheetLabel = "Choose an option",
 	size = "md",
+	variant = "default",
 	value,
 	...props
 }: SelectRootProps<T>) {
@@ -121,6 +128,7 @@ export function SelectRoot<T extends string>({
 			setOpen,
 			sheetLabel,
 			size,
+			variant,
 			value,
 			onChange: (nextValue) => onChange(nextValue as T),
 		}),
@@ -136,6 +144,7 @@ export function SelectRoot<T extends string>({
 			setOpen,
 			sheetLabel,
 			size,
+			variant,
 			value,
 		]
 	)

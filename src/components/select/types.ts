@@ -1,6 +1,7 @@
 import type * as React from "react"
 
 export type SelectSize = "sm" | "md" | "lg"
+export type SelectVariant = "default" | "ghost"
 
 export interface SelectOption<T extends string = string> {
 	value: T
@@ -17,6 +18,7 @@ export interface SelectRootProps<T extends string = string> extends Omit<
 	onChange: (value: T) => void
 	options: SelectOption<T>[]
 	size?: SelectSize
+	variant?: SelectVariant
 	label?: string
 	placeholder?: string
 	sheetLabel?: string

@@ -8,26 +8,29 @@ import { ComponentPlayground } from "../../_components/component-playground"
 const cardSizes: CardSize[] = ["sm", "md", "lg"]
 
 const usageCode = `<Card variant="hover" size="md">
-  <Card.Image ratio="landscape">
-    <img src="/cover.jpg" alt="" />
+  <Card.Image ratio="landscape" placeholder>
+    <Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
   </Card.Image>
   <Card.Body>
     <Card.Header>
       <Card.Meta>
-        <span>2023</span>
+        <span>2022</span>
         <span>Professional</span>
       </Card.Meta>
-      <Card.Title>Mosaic Checkout</Card.Title>
-      <Card.Description>
-        A distributed checkout SDK for emerging-market PSPs.
+      <Card.Title>Tunic Storefront</Card.Title>
+      <Card.Eyebrow>Tunic · Advisor → Founding Eng, 2022–23</Card.Eyebrow>
+      <Card.Description lines={3}>
+        A headless commerce framework for boutique brands. Replaces three SaaS tools with a single Next.js app.
       </Card.Description>
     </Card.Header>
   </Card.Body>
   <Card.Footer>
-    <div className="flex flex-wrap gap-2">
-      <Tag variant="chip" size="sm">React Native</Tag>
-      <Tag variant="chip" size="sm">Node.js</Tag>
-    </div>
+    <Card.TagList maxVisible={3}>
+      <Tag variant="chip" size="sm">Next.js</Tag>
+      <Tag variant="chip" size="sm">Sanity</Tag>
+      <Tag variant="chip" size="sm">Vercel</Tag>
+      <Tag variant="chip" size="sm">Edge</Tag>
+    </Card.TagList>
     <Card.Action>View <Card.Arrow /></Card.Action>
   </Card.Footer>
 </Card>`
@@ -37,24 +40,29 @@ const sourceSnippet = `import { Card } from "@chitrank2050/monoline-ui/component
 export function ProjectCard() {
   return (
     <Card variant="hover">
-      <Card.Image ratio="landscape" placeholder />
+      <Card.Image ratio="landscape" placeholder>
+        <Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
+      </Card.Image>
       <Card.Body>
         <Card.Header>
           <Card.Meta>
-            <span>2024</span>
+            <span>2022</span>
             <span>Professional</span>
           </Card.Meta>
-          <Card.Title>Lumen Insights</Card.Title>
-          <Card.Description>
-            A compact project card for selected work and blog indexes.
+          <Card.Title>Tunic Storefront</Card.Title>
+          <Card.Eyebrow>Tunic · Advisor → Founding Eng, 2022–23</Card.Eyebrow>
+          <Card.Description lines={3}>
+            A headless commerce framework for boutique brands. Replaces three SaaS tools with a single Next.js app.
           </Card.Description>
         </Card.Header>
       </Card.Body>
       <Card.Footer>
-        <div className="flex flex-wrap gap-2">
+        <Card.TagList maxVisible={3}>
           <Tag variant="chip" size="sm">Next.js</Tag>
-          <Tag variant="chip" size="sm">Postgres</Tag>
-        </div>
+          <Tag variant="chip" size="sm">Sanity</Tag>
+          <Tag variant="chip" size="sm">Vercel</Tag>
+          <Tag variant="chip" size="sm">Edge</Tag>
+        </Card.TagList>
         <Card.Action>View <Card.Arrow /></Card.Action>
       </Card.Footer>
     </Card>
@@ -73,6 +81,18 @@ const propsRows = [
 		"Card.Image.placeholder",
 		"boolean",
 		"Renders the built-in media placeholder",
+	],
+	[
+		"Card.ImageCaption",
+		"ReactNode",
+		"Bottom-aligned media label with built-in fade",
+	],
+	["Card.Eyebrow", "ReactNode", "Secondary mono line under the title"],
+	["Card.Description.lines", "2 | 3 | 4", "Built-in description clamping"],
+	[
+		"Card.TagList.maxVisible",
+		"number",
+		"Collapses extra tags into a smart +N marker",
 	],
 	["asChild", "boolean", "Render child through Radix Slot"],
 	["children", "ReactNode", "Card slots and content"],
@@ -100,31 +120,41 @@ export default function CardPageClient() {
 			renderPreview={(size = "md") => (
 				<div className="grid gap-ml-5 p-ml-6 sm:grid-cols-2">
 					<Card size={size} variant="hover" className="max-w-90">
-						<Card.Image ratio="landscape" placeholder />
+						<Card.Image ratio="landscape" placeholder>
+							<Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
+						</Card.Image>
 						<Card.Body>
 							<Card.Header>
 								<Card.Meta>
-									<span>2023</span>
+									<span>2022</span>
 									<span>Professional</span>
 								</Card.Meta>
-								<Card.Title>Mosaic Checkout</Card.Title>
-								<Card.Description>
-									A distributed checkout SDK built for emerging-market PSPs.
+								<Card.Title>Tunic Storefront</Card.Title>
+								<Card.Eyebrow>
+									Tunic · Advisor → Founding Eng, 2022–23
+								</Card.Eyebrow>
+								<Card.Description lines={3}>
+									A headless commerce framework for boutique brands. Replaces
+									three SaaS tools with a single Next.js app that the marketing
+									team can actually use.
 								</Card.Description>
 							</Card.Header>
 						</Card.Body>
 						<Card.Footer>
-							<div className="flex flex-wrap gap-ml-2">
+							<Card.TagList maxVisible={3}>
 								<Tag size="sm" variant="chip">
-									React Native
+									Next.js
 								</Tag>
 								<Tag size="sm" variant="chip">
-									Node.js
+									Sanity
 								</Tag>
 								<Tag size="sm" variant="chip">
-									gRPC
+									Vercel
 								</Tag>
-							</div>
+								<Tag size="sm" variant="chip">
+									Edge
+								</Tag>
+							</Card.TagList>
 							<Card.Action>
 								View
 								<Card.Arrow />

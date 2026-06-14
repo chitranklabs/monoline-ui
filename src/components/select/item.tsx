@@ -5,15 +5,15 @@ import { useSelectContext } from "./root"
 import type { SelectItemProps, SelectSize } from "./types"
 
 const itemSizeClasses: Record<SelectSize, string> = {
-	sm: "gap-ml-3 px-ml-3 py-ml-2 text-sm",
-	md: "gap-ml-4 px-ml-4 py-ml-3 text-base",
-	lg: "gap-ml-4 px-ml-5 py-ml-4 text-lg",
+	sm: "gap-ml-3 px-ml-3 py-[0.625rem] text-xs",
+	md: "gap-ml-4 px-ml-4 py-[0.8125rem] text-sm",
+	lg: "gap-ml-4 px-ml-5 py-[0.9375rem] text-base",
 }
 
 const itemDescriptionClasses: Record<SelectSize, string> = {
-	sm: "text-xs",
-	md: "text-sm",
-	lg: "text-base",
+	sm: "text-[0.7rem]",
+	md: "text-xs",
+	lg: "text-sm",
 }
 
 const checkSizeClasses: Record<SelectSize, string> = {
@@ -42,7 +42,7 @@ export function SelectItem({
 			disabled={disabled}
 			data-selected={selected}
 			className={cn(
-				"flex w-full items-start justify-between border-border text-left text-body transition-[background-color,color,opacity] duration-(--duration-micro) ease-out hover:bg-surface-2 hover:text-primary data-[selected=true]:bg-surface-2 data-[selected=true]:font-medium data-[selected=true]:text-primary disabled:pointer-events-none disabled:opacity-45",
+				"flex w-full items-start justify-between border-border text-left font-medium leading-snug text-body transition-[background-color,color,opacity] duration-(--duration-micro) ease-out hover:bg-surface-2 hover:text-primary data-[selected=true]:bg-surface-2 data-[selected=true]:text-primary disabled:pointer-events-none disabled:opacity-45",
 				itemSizeClasses[size],
 				className
 			)}
@@ -57,7 +57,12 @@ export function SelectItem({
 			<span className="flex min-w-0 flex-1 flex-col gap-ml-0-5">
 				<span>{children}</span>
 				{description ? (
-					<span className={cn("text-muted", itemDescriptionClasses[size])}>
+					<span
+						className={cn(
+							"font-normal leading-relaxed text-muted",
+							itemDescriptionClasses[size]
+						)}
+					>
 						{description}
 					</span>
 				) : null}

@@ -51,6 +51,13 @@
 	will-change: opacity, transform;
 }
 
+.ml-button-icon__glyph > svg,
+.ml-button-icon__glyph > img {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
 .ml-button-icon[data-reveal="true"] {
 	inline-size: 0;
 	opacity: 0;
@@ -587,6 +594,24 @@
 	transform: translate3d(0, -1px, 0);
 }
 
+:root:not([data-theme="light"]) .ml-card--hover:hover,
+[data-theme="dark"] .ml-card--hover:hover {
+	border-color: color-mix(in oklch, var(--text-body) 14%, var(--border-strong));
+	background: color-mix(in oklch, var(--surface-2) 84%, var(--text-body));
+	box-shadow:
+		0 18px 42px rgba(0, 0, 0, 0.28),
+		0 0 0 1px color-mix(in oklch, var(--text-body) 8%, transparent);
+}
+
+:root:not([data-theme="light"]) .ml-card--interactive:hover,
+[data-theme="dark"] .ml-card--interactive:hover {
+	border-color: color-mix(in oklch, var(--text-body) 12%, var(--border-strong));
+	background: color-mix(in oklch, var(--surface-2) 88%, var(--text-body));
+	box-shadow:
+		0 12px 30px rgba(0, 0, 0, 0.22),
+		0 0 0 1px color-mix(in oklch, var(--text-body) 7%, transparent);
+}
+
 .ml-card__image > * {
 	transform: scale(1.002) translateZ(0);
 	transition:
@@ -611,9 +636,57 @@
 	object-fit: cover;
 }
 
+.ml-card__image::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 0;
+	block-size: 15%;
+	background: linear-gradient(
+		180deg,
+		color-mix(in oklch, var(--surface) 0%, transparent) 0%,
+		color-mix(in oklch, var(--surface) 22%, transparent) 42%,
+		color-mix(in oklch, var(--surface) 68%, transparent) 78%,
+		color-mix(in oklch, var(--surface) 88%, transparent) 100%
+	);
+	opacity: 0.56;
+	pointer-events: none;
+	transition:
+		opacity var(--duration-short) var(--ease-out-expo),
+		block-size var(--duration-short) var(--ease-out-expo);
+}
+
+.ml-card__image-caption {
+	min-block-size: 16%;
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+	transition:
+		opacity var(--duration-short) var(--ease-out-expo),
+		transform var(--duration-short) var(--ease-out-expo);
+}
+
+.ml-card__image:has(.ml-card__image-caption)::after,
+.ml-card__image[data-placeholder="true"]::after {
+	opacity: 1;
+}
+
+.ml-card__image:has(.ml-card__image-caption) .ml-card__image-caption {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
 .ml-card--hover:hover .ml-card__image > * {
 	opacity: 0.96;
 	transform: scale(1.02) translateZ(0);
+}
+
+.ml-card--hover:hover .ml-card__image::after {
+	opacity: 1;
+	block-size: 18%;
+}
+
+.ml-card--hover:hover .ml-card__image-caption {
+	transform: translate3d(0, -1px, 0);
 }
 
 .ml-card__footer {

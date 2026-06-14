@@ -57,14 +57,14 @@ export function SelectContent({
 						<div className="flex justify-center pt-ml-3">
 							<div className="h-1 w-ml-10 rounded-full bg-border-strong/60" />
 						</div>
-						<div className="px-ml-5 pt-ml-4 pb-ml-2 text-xs tracking-[0.22em] text-muted uppercase">
+						<div className="px-ml-5 pt-ml-4 pb-ml-2 font-mono text-[0.68rem] tracking-[0.22em] text-muted uppercase">
 							{sheetLabel}
 						</div>
 						<div>{contentChildren}</div>
 					</div>
 					<button
 						type="button"
-						className="flex min-h-ml-11 w-full items-center justify-center rounded-[1.25rem] border border-border bg-surface text-sm font-medium text-primary shadow-[0_10px_30px_rgba(17,17,17,0.18)] transition-[background-color,border-color,color] duration-(--duration-micro) ease-out hover:bg-surface-2"
+						className="flex min-h-ml-11 w-full items-center justify-center rounded-[1.25rem] border border-border bg-surface px-ml-5 py-[0.875rem] text-sm font-medium text-primary shadow-[0_10px_30px_rgba(17,17,17,0.18)] transition-[background-color,border-color,color] duration-(--duration-micro) ease-out hover:bg-surface-2"
 						onClick={() => setOpen(false)}
 					>
 						Cancel

@@ -1,11 +1,22 @@
 import { cn } from "../../lib/utils"
-import type { CardTextProps } from "./types"
+import type { CardDescriptionLines, CardDescriptionProps } from "./types"
 
-export function CardDescription({ className, ...props }: CardTextProps) {
+const lineClampClasses: Record<CardDescriptionLines, string> = {
+	2: "line-clamp-2",
+	3: "line-clamp-3",
+	4: "line-clamp-4",
+}
+
+export function CardDescription({
+	className,
+	lines,
+	...props
+}: CardDescriptionProps) {
 	return (
 		<p
 			className={cn(
 				"m-0 text-sm leading-relaxed text-body [[data-card-size=lg]>&]:text-base",
+				lines ? lineClampClasses[lines] : undefined,
 				className
 			)}
 			{...props}

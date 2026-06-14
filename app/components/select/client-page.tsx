@@ -6,11 +6,13 @@ import {
 	Select,
 	type SelectOption,
 	type SelectSize,
+	type SelectVariant,
 } from "@chitrank2050/monoline-ui/components/select"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
 const sizes: SelectSize[] = ["sm", "md", "lg"]
+const variants: SelectVariant[] = ["default", "ghost"]
 
 const sortingOptions = [
 	{ value: "recent", label: "Most recent" },
@@ -71,6 +73,7 @@ const propsRows = [
 	["value", "T", "Controlled selected value"],
 	["onChange", "(value: T) => void", "Selection change callback"],
 	["size", '"sm" | "md" | "lg"', "Trigger scale"],
+	["variant", '"default" | "ghost"', "Trigger visual treatment"],
 	["sheetLabel", "string", "Mobile bottom-sheet heading"],
 ] as const
 
@@ -81,13 +84,20 @@ const tokenRows = [
 	["--duration-micro + --duration-short", "Trigger and menu motion timing"],
 ] as const
 
-function SelectDemo({ size }: { size: SelectSize }) {
+function SelectDemo({
+	size,
+	variant,
+}: {
+	size: SelectSize
+	variant: SelectVariant
+}) {
 	const [sort, setSort] = useState("recent")
 
 	return (
 		<div className="flex items-center justify-center p-ml-8">
 			<Select
 				size={size}
+				variant={variant}
 				value={sort}
 				onChange={setSort}
 				options={sortingOptions}
@@ -107,17 +117,21 @@ function SelectDemo({ size }: { size: SelectSize }) {
 
 export default function SelectPageClient() {
 	return (
-		<ComponentPlayground<SelectSize>
+		<ComponentPlayground<SelectSize, SelectVariant>
 			title="Select"
 			description="A single-choice dropdown for sort orders, filters, and compact view controls. It opens as a bottom sheet on mobile."
 			sizes={sizes}
 			defaultSize="md"
+			variants={variants}
+			defaultVariant="default"
 			importStatement='import { Select } from "@chitrank2050/monoline-ui/components/select"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
-			renderPreview={(size = "md") => <SelectDemo size={size} />}
+			renderPreview={(size = "md", _theme, variant = "default") => (
+				<SelectDemo size={size} variant={variant} />
+			)}
 		/>
 	)
 }
