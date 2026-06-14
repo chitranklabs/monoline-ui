@@ -82,7 +82,7 @@ export default function DataListPageClient() {
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
 			renderPreview={(size = "md") => (
-				<div className="w-full max-w-3xl p-ml-6">
+				<div className="max-w-3xl p-ml-6">
 					<DataList size={size} variant="numbered" items={items} />
 				</div>
 			)}

@@ -105,7 +105,7 @@ export default function TestimonialGridPageClient() {
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
 			renderPreview={(layout = "masonry") => (
-				<div className="w-full max-w-5xl p-ml-6">
+				<div className="max-w-5xl p-ml-6">
 					<TestimonialGrid variant={layout}>
 						{quotes.map((quote) => (
 							<Testimonial
