@@ -845,20 +845,20 @@
 
 :root:not([data-theme="light"]) .ml-card--hover:hover,
 [data-theme="dark"] .ml-card--hover:hover {
-	border-color: color-mix(in oklch, var(--text-body) 14%, var(--border-strong));
-	background: color-mix(in oklch, var(--surface-2) 84%, var(--text-body));
+	border-color: color-mix(in oklch, var(--text-body) 9%, var(--border-strong));
+	background: color-mix(in oklch, var(--surface-2) 92%, var(--text-body));
 	box-shadow:
-		0 18px 42px rgba(0, 0, 0, 0.28),
-		0 0 0 1px color-mix(in oklch, var(--text-body) 8%, transparent);
+		0 12px 28px rgba(0, 0, 0, 0.2),
+		0 0 0 1px color-mix(in oklch, var(--text-body) 5%, transparent);
 }
 
 :root:not([data-theme="light"]) .ml-card--interactive:hover,
 [data-theme="dark"] .ml-card--interactive:hover {
-	border-color: color-mix(in oklch, var(--text-body) 12%, var(--border-strong));
-	background: color-mix(in oklch, var(--surface-2) 88%, var(--text-body));
+	border-color: color-mix(in oklch, var(--text-body) 8%, var(--border-strong));
+	background: color-mix(in oklch, var(--surface-2) 94%, var(--text-body));
 	box-shadow:
-		0 12px 30px rgba(0, 0, 0, 0.22),
-		0 0 0 1px color-mix(in oklch, var(--text-body) 7%, transparent);
+		0 10px 24px rgba(0, 0, 0, 0.16),
+		0 0 0 1px color-mix(in oklch, var(--text-body) 4%, transparent);
 }
 
 .ml-card__image > * {
@@ -883,6 +883,11 @@
 .ml-card__image > picture > img,
 .ml-card__image > video {
 	object-fit: cover;
+	filter: grayscale(1) brightness(0.92);
+	transition:
+		filter var(--duration-short) var(--ease-out-expo),
+		opacity var(--duration-short) var(--ease-out-expo),
+		transform var(--duration-short) var(--ease-out-expo);
 }
 
 .ml-card__image::after {
@@ -927,6 +932,12 @@
 .ml-card--hover:hover .ml-card__image > * {
 	opacity: 0.96;
 	transform: scale(1.02) translateZ(0);
+}
+
+.ml-card--hover:hover .ml-card__image > img,
+.ml-card--hover:hover .ml-card__image > picture > img,
+.ml-card--hover:hover .ml-card__image > video {
+	filter: grayscale(0) brightness(1);
 }
 
 .ml-card--hover:hover .ml-card__image::after {

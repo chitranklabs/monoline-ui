@@ -32,31 +32,31 @@ export function SelectTrigger({
 			aria-haspopup="listbox"
 			aria-controls={listboxId}
 			className={cn(
-				"ml-select__trigger inline-flex min-w-[13rem] select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"ml-select__trigger inline-flex max-w-full select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				triggerVariantClasses[variant],
 				className
 			)}
 			onClick={() => setOpen(!open)}
 			{...props}
 		>
-			{children ?? (
-				<>
-					<span className="flex min-w-0 items-center gap-(--ml-select-trigger-gap) leading-none">
+			<span className="flex min-w-0 items-center gap-(--ml-select-trigger-gap) leading-none">
+				{children ?? (
+					<>
 						{label ? (
 							<span className="ml-select__label font-normal">{label}:</span>
 						) : null}
 						<span className="truncate font-medium text-primary">
 							{selectedOption?.label ?? placeholder}
 						</span>
-					</span>
-					<span
-						aria-hidden="true"
-						className={cn("ml-select__caret", open && "rotate-180")}
-					>
-						<ChevronDownIcon />
-					</span>
-				</>
-			)}
+					</>
+				)}
+			</span>
+			<span
+				aria-hidden="true"
+				className={cn("ml-select__caret", open && "rotate-180")}
+			>
+				<ChevronDownIcon />
+			</span>
 		</button>
 	)
 }

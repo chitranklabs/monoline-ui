@@ -94,7 +94,7 @@ function SelectDemo({
 	const [sort, setSort] = useState("recent")
 
 	return (
-		<div className="flex items-center justify-center p-ml-8">
+		<div className="flex min-h-[16rem] w-full items-start justify-start p-ml-8 md:p-ml-12">
 			<Select
 				size={size}
 				variant={variant}
@@ -129,6 +129,7 @@ export default function SelectPageClient() {
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
+			previewLayout="viewport"
 			renderPreview={(size = "md", _theme, variant = "default") => (
 				<SelectDemo size={size} variant={variant} />
 			)}
