@@ -82,7 +82,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 		items: [
 			{ label: "Toast", meta: "beta" },
 			{ label: "Skeleton" },
-			{ label: "Progress" },
+			{ href: "/components/progress", label: "Progress" },
 		],
 	},
 ] as const
@@ -100,6 +100,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/eyebrow", label: "Eyebrow" },
 	{ href: "/components/metric", label: "Metric" },
 	{ href: "/components/navbar", label: "Navbar" },
+	{ href: "/components/progress", label: "Progress" },
 	{ href: "/components/select", label: "Select" },
 	{ href: "/components/section-head", label: "SectionHead" },
 	{ href: "/components/status", label: "Status" },

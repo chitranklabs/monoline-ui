@@ -5,21 +5,21 @@ import { useSelectContext } from "./root"
 import type { SelectItemProps, SelectSize } from "./types"
 
 const itemSizeClasses: Record<SelectSize, string> = {
-	sm: "gap-ml-3 px-ml-3 py-[0.625rem] text-xs",
-	md: "gap-ml-4 px-ml-4 py-[0.8125rem] text-sm",
-	lg: "gap-ml-4 px-ml-5 py-[0.9375rem] text-base",
+	sm: "px-ml-3 py-ml-2.5 text-xs",
+	md: "px-ml-4 py-ml-3 text-sm",
+	lg: "px-ml-5 py-ml-3.5 text-base",
 }
 
 const itemDescriptionClasses: Record<SelectSize, string> = {
-	sm: "text-[0.7rem]",
+	sm: "text-[0.68rem]",
 	md: "text-xs",
 	lg: "text-sm",
 }
 
 const checkSizeClasses: Record<SelectSize, string> = {
-	sm: "text-sm",
-	md: "text-base",
-	lg: "text-lg",
+	sm: "size-ml-3.5",
+	md: "size-ml-4",
+	lg: "size-ml-4.5",
 }
 
 export function SelectItem({
@@ -31,7 +31,13 @@ export function SelectItem({
 	children,
 	...props
 }: SelectItemProps) {
-	const { onChange, setOpen, size, value: selectedValue } = useSelectContext()
+	const {
+		isMobile,
+		onChange,
+		setOpen,
+		size,
+		value: selectedValue,
+	} = useSelectContext()
 	const selected = selectedValue === value
 
 	return (
@@ -41,8 +47,9 @@ export function SelectItem({
 			aria-selected={selected}
 			disabled={disabled}
 			data-selected={selected}
+			data-mobile={isMobile || undefined}
 			className={cn(
-				"flex w-full items-start justify-between border-border text-left font-medium leading-snug text-body transition-[background-color,color,opacity] duration-(--duration-micro) ease-out hover:bg-surface-2 hover:text-primary data-[selected=true]:bg-surface-2 data-[selected=true]:text-primary disabled:pointer-events-none disabled:opacity-45",
+				"ml-select__item flex w-full items-start justify-between rounded-lg border text-left font-medium leading-snug transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-(--duration-micro) ease-out disabled:pointer-events-none disabled:opacity-45",
 				itemSizeClasses[size],
 				className
 			)}
@@ -55,7 +62,7 @@ export function SelectItem({
 			{...props}
 		>
 			<span className="flex min-w-0 flex-1 flex-col gap-ml-0-5">
-				<span>{children}</span>
+				<span className="truncate">{children}</span>
 				{description ? (
 					<span
 						className={cn(
@@ -70,13 +77,32 @@ export function SelectItem({
 			<span
 				aria-hidden="true"
 				className={cn(
-					"font-mono text-accent opacity-0 transition-opacity duration-(--duration-micro) ease-out",
+					"ml-select__check shrink-0 text-accent opacity-0 transition-opacity duration-(--duration-micro) ease-out",
 					checkSizeClasses[size],
 					selected && "opacity-100"
 				)}
 			>
-				✓
+				<CheckIcon />
 			</span>
 		</button>
+	)
+}
+
+function CheckIcon() {
+	return (
+		<svg
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className="size-full"
+		>
+			<path
+				d="M3.5 8.25L6.5 11.25L12.5 4.75"
+				stroke="currentColor"
+				strokeWidth="1.8"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
 	)
 }

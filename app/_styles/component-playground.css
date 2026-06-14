@@ -322,7 +322,7 @@ pre[class*="language-"] {
 	height: 0.875rem;
 }
 
-.code-block-copy-btn span {
+.code-block-copy-btn .code-block-copy-btn__label {
 	position: absolute;
 	width: 1px;
 	height: 1px;

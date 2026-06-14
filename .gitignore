@@ -14,3 +14,5 @@ test-results
 public/robots.txt
 public/sitemap*.xml
 next-env.d.ts
+.pnpm-store/
+.pnpm/

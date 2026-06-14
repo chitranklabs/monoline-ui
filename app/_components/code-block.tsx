@@ -95,7 +95,9 @@ function CopyButton({
 			aria-label={copied ? "Copied" : label}
 		>
 			<Button.Icon>{copied ? <CheckIcon /> : <CopyIcon />}</Button.Icon>
-			<span>{copied ? "Copied" : "Copy"}</span>
+			<span className={floating ? "code-block-copy-btn__label" : undefined}>
+				{copied ? "Copied" : "Copy"}
+			</span>
 		</Button>
 	)
 }

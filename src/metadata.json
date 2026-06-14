@@ -1,5 +1,5 @@
 {
-	"count": 17,
+	"count": 18,
 	"components": [
 		"avatar",
 		"button",
@@ -9,6 +9,7 @@
 		"footer",
 		"metric",
 		"navbar",
+		"progress",
 		"section-head",
 		"segmented-control",
 		"select",

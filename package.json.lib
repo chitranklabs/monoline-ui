@@ -34,11 +34,15 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"files": ["**/*"],
+	"files": [
+		"**/*"
+	],
 	"main": "./index.js",
 	"module": "./index.js",
 	"types": "./index.d.ts",
-	"sideEffects": ["./styles/theme.css"],
+	"sideEffects": [
+		"./styles/theme.css"
+	],
 	"exports": {
 		".": {
 			"types": "./index.d.ts",
@@ -75,6 +79,10 @@
 		"./navbar": {
 			"types": "./components/navbar/index.d.ts",
 			"import": "./components/navbar/index.js"
+		},
+		"./progress": {
+			"types": "./components/progress/index.d.ts",
+			"import": "./components/progress/index.js"
 		},
 		"./section-head": {
 			"types": "./components/section-head/index.d.ts",

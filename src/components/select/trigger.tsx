@@ -2,23 +2,11 @@
 
 import { cn } from "../../lib/utils"
 import { useSelectContext } from "./root"
-import type { SelectSize, SelectTriggerProps, SelectVariant } from "./types"
-
-const triggerSizeClasses: Record<SelectSize, string> = {
-	sm: "min-h-ml-8 gap-ml-2 px-ml-3 py-[0.4375rem] text-xs",
-	md: "min-h-ml-9 gap-ml-2 px-ml-4 py-[0.5625rem] text-sm",
-	lg: "min-h-ml-10 gap-ml-2 px-ml-5 py-[0.6875rem] text-base",
-}
-
-const caretSizeClasses: Record<SelectSize, string> = {
-	sm: "text-xs",
-	md: "text-sm",
-	lg: "text-base",
-}
+import type { SelectTriggerProps, SelectVariant } from "./types"
 
 const triggerVariantClasses: Record<SelectVariant, string> = {
-	default: "ml-control-surface--secondary rounded-md",
-	ghost: "ml-control-surface--ghost rounded-md",
+	default: "ml-control-surface--secondary",
+	ghost: "ml-control-surface--ghost",
 }
 
 export function SelectTrigger({
@@ -33,7 +21,6 @@ export function SelectTrigger({
 		open,
 		selectedOption,
 		setOpen,
-		size,
 		placeholder,
 		variant,
 	} = useSelectContext()
@@ -45,8 +32,7 @@ export function SelectTrigger({
 			aria-haspopup="listbox"
 			aria-controls={listboxId}
 			className={cn(
-				"inline-flex min-w-[13rem] select-none items-center justify-between whitespace-nowrap font-medium transition-[background-color,border-color,color,box-shadow] duration-(--duration-micro) ease-out focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
-				triggerSizeClasses[size],
+				"ml-select__trigger inline-flex min-w-[13rem] select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				triggerVariantClasses[variant],
 				className
 			)}
@@ -55,9 +41,9 @@ export function SelectTrigger({
 		>
 			{children ?? (
 				<>
-					<span className="flex min-w-0 items-baseline gap-ml-2 leading-none">
+					<span className="flex min-w-0 items-center gap-(--ml-select-trigger-gap) leading-none">
 						{label ? (
-							<span className="font-normal text-body opacity-55">{label}:</span>
+							<span className="ml-select__label font-normal">{label}:</span>
 						) : null}
 						<span className="truncate font-medium text-primary">
 							{selectedOption?.label ?? placeholder}
@@ -65,16 +51,31 @@ export function SelectTrigger({
 					</span>
 					<span
 						aria-hidden="true"
-						className={cn(
-							"font-mono text-muted transition-transform duration-(--duration-short) ease-out",
-							caretSizeClasses[size],
-							open && "rotate-180"
-						)}
+						className={cn("ml-select__caret", open && "rotate-180")}
 					>
-						⌄
+						<ChevronDownIcon />
 					</span>
 				</>
 			)}
 		</button>
+	)
+}
+
+function ChevronDownIcon() {
+	return (
+		<svg
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className="size-full"
+		>
+			<path
+				d="M4 6.5L8 10L12 6.5"
+				stroke="currentColor"
+				strokeWidth="1.6"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
 	)
 }

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@chitrank2050/monoline-ui/button"
+import { Progress } from "@chitrank2050/monoline-ui/components/progress"
 import { Navbar, type NavbarSize } from "@chitrank2050/monoline-ui/navbar"
 
 import { ComponentPlayground } from "../../_components/component-playground"
@@ -16,6 +17,7 @@ const propsRows = [
 	["links", "NavbarLinkItem[]", "Optional data-driven nav link list"],
 	["actions", "ReactNode", "Right-side action slot"],
 	["children", "ReactNode", "Override with compound composition"],
+	["Progress", "pairing pattern", "Place under Navbar for reading progress"],
 	["Navbar.Nav", "compound slot", "Middle navigation region"],
 	["linkComponent", "ComponentType", "Next Link or router link adapter"],
 	["sticky", "boolean", "Apply sticky positioning top-0 (default: false)"],
@@ -35,19 +37,23 @@ const tokenRows = [
 
 const sourceSnippet = `import { Navbar } from "@chitrank2050/monoline-ui/navbar"
 import { Button } from "@chitrank2050/monoline-ui/button"
+import { Progress } from "@chitrank2050/monoline-ui/progress"
 
 export function SiteHeader() {
   return (
-    <Navbar
-      brand="Chitrank"
-      brandTextStyle="cursive"
-      links={[
-        { href: "/blog", label: "Blog" },
-      ]}
-      actions={<Button size="sm">Contact</Button>}
-      sticky
-      glass
-    />
+    <>
+      <Navbar
+        brand="Chitrank"
+        brandTextStyle="cursive"
+        links={[
+          { href: "/blog", label: "Blog" },
+        ]}
+        actions={<Button size="sm">Contact</Button>}
+        sticky
+        glass
+      />
+      <Progress followScroll />
+    </>
   )
 }`
 
@@ -60,6 +66,7 @@ const usageCode = `<Navbar
   sticky
   glass
 />
+<Progress followScroll />
 
 <Navbar sticky glass>
   <Navbar.Brand href="/" mark={<span />} textStyle="monoline">
@@ -109,6 +116,7 @@ export default function NavbarPageClient() {
 								</Button>
 							}
 						/>
+						<Progress size={size} value={38} className="w-full" />
 						<div className="p-ml-6 text-muted-foreground text-sm font-mono text-center">
 							Page content space (simulating page content behind a sticky/glass
 							header)

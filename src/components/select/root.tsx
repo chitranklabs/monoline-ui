@@ -155,7 +155,7 @@ export function SelectRoot<T extends string>({
 				ref={rootRef}
 				data-open={open}
 				data-size={size}
-				className={cn("relative inline-flex", className)}
+				className={cn("ml-select relative inline-flex", className)}
 				{...props}
 			>
 				{children}

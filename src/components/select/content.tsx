@@ -1,7 +1,5 @@
 "use client"
 
-import { Fragment } from "react"
-
 import { cn } from "../../lib/utils"
 import { SelectItem } from "./item"
 import { useSelectContext } from "./root"
@@ -19,19 +17,15 @@ export function SelectContent({
 
 	const contentChildren =
 		children ??
-		options.map((option, index) => (
-			<Fragment key={option.value}>
-				{index > 0 ? (
-					<div aria-hidden="true" className="border-t border-border" />
-				) : null}
-				<SelectItem
-					value={option.value}
-					description={option.description}
-					disabled={option.disabled}
-				>
-					{option.label}
-				</SelectItem>
-			</Fragment>
+		options.map((option) => (
+			<SelectItem
+				key={option.value}
+				value={option.value}
+				description={option.description}
+				disabled={option.disabled}
+			>
+				{option.label}
+			</SelectItem>
 		))
 
 	if (isMobile) {
@@ -48,23 +42,22 @@ export function SelectContent({
 						id={listboxId}
 						role="listbox"
 						aria-activedescendant={value}
-						className={cn(
-							"overflow-hidden rounded-[1.75rem] border border-border bg-surface shadow-[0_24px_60px_rgba(17,17,17,0.24)]",
-							className
-						)}
+						className={cn("ml-select__sheet", className)}
 						{...props}
 					>
 						<div className="flex justify-center pt-ml-3">
-							<div className="h-1 w-ml-10 rounded-full bg-border-strong/60" />
+							<div className="h-1 w-ml-10 rounded-full bg-border-strong/65" />
 						</div>
 						<div className="px-ml-5 pt-ml-4 pb-ml-2 font-mono text-[0.68rem] tracking-[0.22em] text-muted uppercase">
 							{sheetLabel}
 						</div>
-						<div>{contentChildren}</div>
+						<div className="flex flex-col gap-ml-2 px-ml-3 pb-ml-3">
+							{contentChildren}
+						</div>
 					</div>
 					<button
 						type="button"
-						className="flex min-h-ml-11 w-full items-center justify-center rounded-[1.25rem] border border-border bg-surface px-ml-5 py-[0.875rem] text-sm font-medium text-primary shadow-[0_10px_30px_rgba(17,17,17,0.18)] transition-[background-color,border-color,color] duration-(--duration-micro) ease-out hover:bg-surface-2"
+						className="ml-select__sheet-cancel"
 						onClick={() => setOpen(false)}
 					>
 						Cancel
@@ -79,13 +72,10 @@ export function SelectContent({
 			id={listboxId}
 			role="listbox"
 			aria-activedescendant={value}
-			className={cn(
-				"absolute top-full left-0 z-40 mt-ml-2 min-w-full overflow-hidden rounded-[1.5rem] border border-border bg-surface shadow-[0_18px_50px_rgba(17,17,17,0.14)]",
-				className
-			)}
+			className={cn("ml-select__content", className)}
 			{...props}
 		>
-			<div>{contentChildren}</div>
+			<div className="flex flex-col gap-ml-1 p-ml-1.5">{contentChildren}</div>
 		</div>
 	)
 }
