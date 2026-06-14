@@ -823,6 +823,10 @@
 
 .ml-card {
 	transform: translate3d(0, 0, 0);
+	border-color: color-mix(in oklch, var(--border-strong) 68%, var(--border));
+	box-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.05),
+		0 10px 24px rgba(0, 0, 0, 0.03);
 	transition:
 		background-color var(--duration-micro) var(--ease-out),
 		border-color var(--duration-micro) var(--ease-out),
@@ -833,13 +837,15 @@
 
 .ml-card--hover:hover {
 	border-color: var(--border-strong);
-	background: var(--surface-2);
-	box-shadow: var(--shadow-card);
+	background: color-mix(in oklch, var(--surface-2) 94%, var(--background));
+	box-shadow:
+		0 8px 18px rgba(0, 0, 0, 0.06),
+		0 18px 38px rgba(0, 0, 0, 0.04);
 	transform: translate3d(0, -0.5px, 0);
 }
 
 .ml-card--interactive:hover {
-	background: var(--surface-2);
+	background: color-mix(in oklch, var(--surface-2) 94%, var(--background));
 	transform: translate3d(0, -0.5px, 0);
 }
 
@@ -848,7 +854,8 @@
 	border-color: color-mix(in oklch, var(--text-body) 9%, var(--border-strong));
 	background: color-mix(in oklch, var(--surface-2) 92%, var(--text-body));
 	box-shadow:
-		0 12px 28px rgba(0, 0, 0, 0.2),
+		0 8px 18px rgba(0, 0, 0, 0.14),
+		0 18px 34px rgba(0, 0, 0, 0.18),
 		0 0 0 1px color-mix(in oklch, var(--text-body) 5%, transparent);
 }
 
@@ -857,7 +864,8 @@
 	border-color: color-mix(in oklch, var(--text-body) 8%, var(--border-strong));
 	background: color-mix(in oklch, var(--surface-2) 94%, var(--text-body));
 	box-shadow:
-		0 10px 24px rgba(0, 0, 0, 0.16),
+		0 8px 16px rgba(0, 0, 0, 0.12),
+		0 16px 28px rgba(0, 0, 0, 0.14),
 		0 0 0 1px color-mix(in oklch, var(--text-body) 4%, transparent);
 }
 
@@ -947,9 +955,15 @@
 }
 
 .ml-card__footer {
+	background: linear-gradient(
+		180deg,
+		color-mix(in oklch, var(--surface) 0%, transparent) 0%,
+		color-mix(in oklch, var(--surface-2) 88%, var(--surface)) 100%
+	);
 	transition:
 		border-color var(--duration-micro) var(--ease-out),
-		color var(--duration-micro) var(--ease-out);
+		color var(--duration-micro) var(--ease-out),
+		background-color var(--duration-micro) var(--ease-out);
 }
 
 .ml-card__arrow {

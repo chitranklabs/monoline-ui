@@ -15,7 +15,7 @@ export function CardDescription({
 	return (
 		<p
 			className={cn(
-				"m-0 text-sm leading-relaxed text-body [[data-card-size=lg]>&]:text-base",
+				"m-0 text-sm leading-[1.58] text-secondary [[data-card-size=lg]>&]:text-base",
 				lines ? lineClampClasses[lines] : undefined,
 				className
 			)}

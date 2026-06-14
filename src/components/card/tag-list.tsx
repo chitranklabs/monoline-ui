@@ -23,7 +23,7 @@ export function CardTagList({
 			{items}
 			{overflowCount > 0 ? (
 				<span className="shrink-0 font-mono text-sm text-body opacity-65">
-					{overflowFormatter?.(overflowCount) ?? `+${overflowCount}`}
+					{overflowFormatter?.(overflowCount) ?? `+${overflowCount} more`}
 				</span>
 			) : null}
 		</div>
