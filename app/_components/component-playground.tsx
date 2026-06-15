@@ -4,6 +4,7 @@ import {
 	type ReactNode,
 	Suspense,
 	startTransition,
+	useCallback,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
@@ -71,6 +72,8 @@ const defaultControls = {
 
 const previewFrameMinWidth = 240
 const previewFrameMinHeight = 96
+const previewFrameDocument =
+	'<!doctype html><html><head><base target="_parent" /></head><body><div id="playground-preview-root"></div></body></html>'
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
@@ -97,45 +100,58 @@ function PreviewFrame({
 		height: previewFrameMinHeight,
 	})
 
-	useLayoutEffect(() => {
+	const initializeFrame = useCallback(() => {
 		const iframe = iframeRef.current
 		if (!iframe) return
 
 		const iframeDocument = iframe.contentDocument
-		if (!iframeDocument) return
+		if (
+			!iframeDocument?.documentElement ||
+			!iframeDocument.head ||
+			!iframeDocument.body
+		) {
+			return
+		}
 
-		iframeDocument.open()
-		iframeDocument.write(
-			'<!doctype html><html><head><base target="_parent" /></head><body><div id="playground-preview-root"></div></body></html>'
-		)
-		iframeDocument.close()
 		iframeDocument.documentElement.dataset.theme = theme
 		iframeDocument.body.style.margin = "0"
 		iframeDocument.body.style.background = "var(--background)"
 
 		// Theme changes should not override component-specific interaction timing.
-		const styleNode = iframeDocument.createElement("style")
-		styleNode.textContent = `
-			html,
-			body,
-			#playground-preview-root {
-				transition: background-color var(--duration-medium) var(--ease-out),
-				            color var(--duration-medium) var(--ease-out);
-			}
-		`
-		iframeDocument.head.appendChild(styleNode)
+		if (!iframeDocument.head.querySelector("[data-preview-theme-transition]")) {
+			const styleNode = iframeDocument.createElement("style")
+			styleNode.dataset.previewThemeTransition = "true"
+			styleNode.textContent = `
+				html,
+				body,
+				#playground-preview-root {
+					transition: background-color var(--duration-medium) var(--ease-out),
+					            color var(--duration-medium) var(--ease-out);
+				}
+			`
+			iframeDocument.head.appendChild(styleNode)
+		}
 
 		setMountNode(
 			iframeDocument.getElementById("playground-preview-root") as HTMLElement
 		)
-	}, [])
+	}, [theme])
+
+	useLayoutEffect(() => {
+		initializeFrame()
+	}, [initializeFrame])
 
 	useEffect(() => {
 		const iframeDocument = iframeRef.current?.contentDocument
 		if (!iframeDocument) return
 
 		const syncStyles = () => {
-			const oldNodes = iframeDocument.head.querySelectorAll(
+			const currentDocument = iframeRef.current?.contentDocument
+			if (!currentDocument?.head || currentDocument !== iframeDocument) {
+				return
+			}
+
+			const oldNodes = currentDocument.head.querySelectorAll(
 				'link[data-copied="true"], style[data-copied="true"]'
 			)
 			for (const node of oldNodes) {
@@ -147,7 +163,7 @@ function PreviewFrame({
 			)) {
 				const clone = node.cloneNode(true) as HTMLElement
 				clone.setAttribute("data-copied", "true")
-				iframeDocument.head.appendChild(clone)
+				currentDocument.head.appendChild(clone)
 			}
 		}
 
@@ -163,7 +179,7 @@ function PreviewFrame({
 
 	useEffect(() => {
 		const iframeDocument = iframeRef.current?.contentDocument
-		if (iframeDocument) {
+		if (iframeDocument?.documentElement) {
 			iframeDocument.documentElement.dataset.theme = theme
 		}
 	}, [theme])
@@ -240,6 +256,8 @@ function PreviewFrame({
 				ref={iframeRef}
 				title="Component preview"
 				className="playground-canvas__frame"
+				srcDoc={previewFrameDocument}
+				onLoad={initializeFrame}
 				style={{
 					width: frameSize.width,
 					height: frameSize.height,

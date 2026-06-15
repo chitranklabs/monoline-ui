@@ -36,7 +36,24 @@ export function CodeBlock({
 
 	const handleCopy = async () => {
 		try {
-			await navigator.clipboard.writeText(code)
+			if (navigator.clipboard?.writeText && window.isSecureContext) {
+				await navigator.clipboard.writeText(code)
+			} else {
+				const textarea = document.createElement("textarea")
+				textarea.value = code
+				textarea.setAttribute("readonly", "")
+				textarea.style.position = "fixed"
+				textarea.style.opacity = "0"
+				document.body.appendChild(textarea)
+				textarea.select()
+
+				const copied = document.execCommand("copy")
+				textarea.remove()
+
+				if (!copied) {
+					throw new Error("Copy command was not accepted")
+				}
+			}
 			setCopied(true)
 			setTimeout(() => setCopied(false), 2000)
 		} catch (error) {

@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 import {
 	Tag,
 	type TagSize,
@@ -56,6 +58,52 @@ const tokenRows = [
 	["--border-strong", "Inactive tag border"],
 ] as const
 
+function TagDemo({ size, variant }: { size: TagSize; variant: TagVariant }) {
+	const [activeTag, setActiveTag] = useState<"professional" | "personal">(
+		"professional"
+	)
+
+	if (variant === "chip") {
+		return (
+			<div className="flex flex-wrap items-center gap-ml-2 p-ml-6">
+				{["Next.js", "tRPC", "Postgres", "+3 more"].map((label) => (
+					<Tag
+						key={label}
+						size={size === "lg" ? "md" : "sm"}
+						variant="chip"
+						interactive={false}
+					>
+						{label}
+					</Tag>
+				))}
+			</div>
+		)
+	}
+
+	return (
+		<div className="flex flex-wrap items-center gap-ml-2 p-ml-6">
+			<Tag
+				size={size}
+				variant="filter"
+				active={activeTag === "professional"}
+				onClick={() => setActiveTag("professional")}
+			>
+				Professional
+				<Tag.Count>3</Tag.Count>
+			</Tag>
+			<Tag
+				size={size}
+				variant="filter"
+				active={activeTag === "personal"}
+				onClick={() => setActiveTag("personal")}
+			>
+				Personal
+				<Tag.Count>3</Tag.Count>
+			</Tag>
+		</div>
+	)
+}
+
 export default function TagPageClient() {
 	return (
 		<ComponentPlayground<TagSize, TagVariant>
@@ -70,51 +118,9 @@ export default function TagPageClient() {
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
-			renderPreview={(size = "md", _theme, variant = "filter") =>
-				variant === "filter" ? (
-					<div className="flex flex-wrap items-center gap-ml-2 p-ml-6">
-						<Tag size={size} variant="filter" active>
-							Professional
-							<Tag.Count>3</Tag.Count>
-						</Tag>
-						<Tag size={size} variant="filter">
-							Personal
-							<Tag.Count>3</Tag.Count>
-						</Tag>
-					</div>
-				) : (
-					<div className="flex flex-wrap items-center gap-ml-2 p-ml-6">
-						<Tag
-							size={size === "lg" ? "md" : "sm"}
-							variant="chip"
-							interactive={false}
-						>
-							Next.js
-						</Tag>
-						<Tag
-							size={size === "lg" ? "md" : "sm"}
-							variant="chip"
-							interactive={false}
-						>
-							tRPC
-						</Tag>
-						<Tag
-							size={size === "lg" ? "md" : "sm"}
-							variant="chip"
-							interactive={false}
-						>
-							Postgres
-						</Tag>
-						<Tag
-							size={size === "lg" ? "md" : "sm"}
-							variant="chip"
-							interactive={false}
-						>
-							+3
-						</Tag>
-					</div>
-				)
-			}
+			renderPreview={(size = "md", _theme, variant = "filter") => (
+				<TagDemo size={size} variant={variant} />
+			)}
 		/>
 	)
 }
