@@ -427,12 +427,15 @@
 
 .ml-select__sheet-stack {
 	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
 	gap: var(--ml-space-2);
+	max-block-size: calc(100dvh - var(--ml-space-6));
 }
 
 .ml-select__sheet {
 	display: flex;
 	flex-direction: column;
+	min-block-size: 0;
 	max-block-size: min(78dvh, 36rem);
 	overflow: hidden;
 	border: var(--border-thin) solid var(--border-strong);

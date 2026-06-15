@@ -113,13 +113,14 @@ function PreviewFrame({
 		iframeDocument.body.style.margin = "0"
 		iframeDocument.body.style.background = "var(--background)"
 
-		// Inject transition stylesheet for smooth theme toggles
+		// Theme changes should not override component-specific interaction timing.
 		const styleNode = iframeDocument.createElement("style")
 		styleNode.textContent = `
-			* {
+			html,
+			body,
+			#playground-preview-root {
 				transition: background-color var(--duration-medium) var(--ease-out),
-				            color var(--duration-medium) var(--ease-out),
-				            border-color var(--duration-medium) var(--ease-out);
+				            color var(--duration-medium) var(--ease-out);
 			}
 		`
 		iframeDocument.head.appendChild(styleNode)
