@@ -30,30 +30,27 @@ export function SelectContent({
 
 	if (isMobile) {
 		return (
-			<div className="fixed inset-0 z-50 sm:hidden">
+			<div className="ml-select__mobile-layer fixed inset-0 z-50 sm:hidden">
 				<button
 					type="button"
 					aria-label="Close select"
-					className="absolute inset-0 bg-black/30"
+					className="ml-select__backdrop absolute inset-0"
 					onClick={() => setOpen(false)}
 				/>
-				<div className="absolute inset-x-ml-4 bottom-ml-4 space-y-ml-3">
+				<div className="ml-select__sheet-stack absolute inset-x-ml-3 bottom-ml-3">
 					<div
 						id={listboxId}
 						role="listbox"
 						aria-activedescendant={value}
+						data-state="open"
 						className={cn("ml-select__sheet", className)}
 						{...props}
 					>
-						<div className="flex justify-center pt-ml-3">
-							<div className="h-1 w-ml-10 rounded-full bg-border-strong/65" />
+						<div className="ml-select__sheet-handle-wrap">
+							<div className="ml-select__sheet-handle" />
 						</div>
-						<div className="px-ml-5 pt-ml-4 pb-ml-2 font-mono text-[0.68rem] tracking-[0.22em] text-muted uppercase">
-							{sheetLabel}
-						</div>
-						<div className="flex flex-col gap-ml-2 px-ml-3 pb-ml-3">
-							{contentChildren}
-						</div>
+						<div className="ml-select__sheet-label">{sheetLabel}</div>
+						<div className="ml-select__list">{contentChildren}</div>
 					</div>
 					<button
 						type="button"
@@ -72,10 +69,11 @@ export function SelectContent({
 			id={listboxId}
 			role="listbox"
 			aria-activedescendant={value}
+			data-state="open"
 			className={cn("ml-select__content", className)}
 			{...props}
 		>
-			<div className="flex flex-col gap-ml-1 p-ml-1.5">{contentChildren}</div>
+			<div className="ml-select__list">{contentChildren}</div>
 		</div>
 	)
 }

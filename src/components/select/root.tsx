@@ -11,7 +11,10 @@ import {
 	useState,
 } from "react"
 
-import { useBreakpoint } from "../../foundations/use-breakpoint"
+import {
+	type MonolineBreakpoint,
+	monolineBreakpoints,
+} from "../../foundations/breakpoints"
 import { cn } from "../../lib/utils"
 import type {
 	SelectOption,
@@ -67,9 +70,9 @@ export function SelectRoot<T extends string>({
 	...props
 }: SelectRootProps<T>) {
 	const [internalOpen, setInternalOpen] = useState(defaultOpen)
+	const [breakpoint, setBreakpoint] = useState<MonolineBreakpoint>("desktop")
 	const rootRef = useRef<HTMLDivElement>(null)
 	const listboxId = useId()
-	const breakpoint = useBreakpoint()
 	const isMobile = breakpoint === "mobile"
 	const open = openProp ?? internalOpen
 
@@ -87,6 +90,32 @@ export function SelectRoot<T extends string>({
 		() => options.find((option) => option.value === value),
 		[options, value]
 	)
+
+	useEffect(() => {
+		const targetWindow = rootRef.current?.ownerDocument.defaultView
+		if (!targetWindow) return
+
+		const updateBreakpoint = () => {
+			const width = targetWindow.innerWidth
+
+			if (width >= monolineBreakpoints.wide) {
+				setBreakpoint("wide")
+			} else if (width >= monolineBreakpoints.desktop) {
+				setBreakpoint("desktop")
+			} else if (width >= monolineBreakpoints.tabletMin) {
+				setBreakpoint("tablet")
+			} else {
+				setBreakpoint("mobile")
+			}
+		}
+
+		updateBreakpoint()
+		targetWindow.addEventListener("resize", updateBreakpoint)
+
+		return () => {
+			targetWindow.removeEventListener("resize", updateBreakpoint)
+		}
+	}, [])
 
 	useEffect(() => {
 		if (!open) return

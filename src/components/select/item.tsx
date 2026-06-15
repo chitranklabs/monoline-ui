@@ -5,9 +5,9 @@ import { useSelectContext } from "./root"
 import type { SelectItemProps, SelectSize } from "./types"
 
 const itemSizeClasses: Record<SelectSize, string> = {
-	sm: "px-ml-3 py-ml-2.5 text-xs",
-	md: "px-ml-4 py-ml-3 text-sm",
-	lg: "px-ml-5 py-ml-3.5 text-base",
+	sm: "min-h-ml-8 px-ml-2 text-xs",
+	md: "min-h-ml-9 px-ml-3 text-sm",
+	lg: "min-h-ml-10 px-ml-4 text-base",
 }
 
 const itemDescriptionClasses: Record<SelectSize, string> = {
@@ -49,7 +49,7 @@ export function SelectItem({
 			data-selected={selected}
 			data-mobile={isMobile || undefined}
 			className={cn(
-				"ml-select__item flex w-full items-start justify-between rounded-lg border text-left font-medium leading-snug transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-(--duration-micro) ease-out disabled:pointer-events-none disabled:opacity-45",
+				"ml-select__item flex w-full items-center justify-between rounded-md text-left font-medium leading-snug disabled:pointer-events-none disabled:opacity-45",
 				itemSizeClasses[size],
 				className
 			)}
@@ -66,7 +66,7 @@ export function SelectItem({
 				{description ? (
 					<span
 						className={cn(
-							"font-normal leading-relaxed text-muted",
+							"font-normal leading-relaxed text-text-muted",
 							itemDescriptionClasses[size]
 						)}
 					>

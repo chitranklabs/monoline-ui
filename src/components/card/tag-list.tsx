@@ -17,12 +17,15 @@ export function CardTagList({
 
 	return (
 		<div
-			className={cn("flex flex-wrap items-center gap-ml-2", className)}
+			className={cn(
+				"ml-card__tag-list flex min-w-0 flex-wrap items-center gap-ml-2",
+				className
+			)}
 			{...props}
 		>
 			{items}
 			{overflowCount > 0 ? (
-				<span className="shrink-0 font-mono text-sm text-body opacity-65">
+				<span className="ml-card__tag-overflow shrink-0 font-mono text-xs text-text-muted">
 					{overflowFormatter?.(overflowCount) ?? `+${overflowCount} more`}
 				</span>
 			) : null}
