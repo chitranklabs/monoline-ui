@@ -38,21 +38,18 @@
 	place-items: center;
 	overflow: visible;
 	line-height: 1;
-	transform: translateZ(0);
 	transition:
 		opacity var(--duration-micro) var(--ease-out),
-		transform var(--duration-short) var(--ease-out-expo);
-	will-change: opacity, transform;
+		transform var(--duration-fast) var(--ease-out);
 }
 
 .ml-button-icon__glyph {
 	display: inline-block;
 	opacity: 1;
-	transform: translate3d(0, 0, 0) scale(1);
+	transform: translate3d(0, 0, 0);
 	transition:
-		opacity var(--duration-short) var(--ease-out-expo),
-		transform var(--duration-short) var(--ease-out-expo);
-	will-change: opacity, transform;
+		opacity var(--duration-micro) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
 }
 
 .ml-button-icon__glyph > svg,
@@ -64,18 +61,17 @@
 
 .ml-button-icon[data-reveal="true"] {
 	opacity: 0;
-	margin-inline: calc(var(--space-2) * -1);
 	pointer-events: none;
-	transform: translate3d(calc(var(--space-2) * -1), 0, 0) scale(0.92);
+	transform: translate3d(calc(var(--space-0-5) * -1), 0, 0);
 }
 
 .ml-button-icon[data-reveal="true"] .ml-button-icon__glyph {
 	opacity: 0;
-	transform: translate3d(calc(var(--space-1) * -1), 0, 0) scale(0.96);
+	transform: translate3d(calc(var(--space-0-5) * -1), 0, 0);
 }
 
 .ml-button-icon[data-reveal="true"][data-side="left"] .ml-button-icon__glyph {
-	transform: translate3d(var(--space-1), 0, 0) scale(0.96);
+	transform: translate3d(var(--space-0-5), 0, 0);
 }
 
 .group\/btn {
@@ -89,7 +85,7 @@
 	border: var(--border-thin) solid currentcolor;
 	border-block-start-color: transparent;
 	border-radius: var(--radius-pill);
-	animation: spin var(--duration-long) linear infinite;
+	animation: spin 650ms linear infinite;
 }
 
 /* ---------------------------------- */
@@ -318,6 +314,7 @@
 	--ml-select-trigger-gap: var(--ml-space-2);
 	--ml-select-trigger-text: var(--text-sm);
 	--ml-select-caret-size: var(--ml-space-4);
+	--ml-select-check-size: var(--ml-space-4);
 	--ml-select-content-radius: var(--radius-lg);
 	--ml-select-sheet-radius: var(--radius-2xl);
 	--ml-select-content-shadow: var(--shadow-lg);
@@ -330,6 +327,7 @@
 	--ml-select-trigger-gap: var(--ml-space-1-5);
 	--ml-select-trigger-text: var(--text-xs);
 	--ml-select-caret-size: var(--ml-space-3);
+	--ml-select-check-size: var(--ml-space-3);
 }
 
 .ml-select[data-size="lg"] {
@@ -337,6 +335,7 @@
 	--ml-select-trigger-padding-x: var(--ml-space-5);
 	--ml-select-trigger-text: var(--text-base);
 	--ml-select-caret-size: var(--ml-space-4);
+	--ml-select-check-size: var(--ml-space-5);
 }
 
 .ml-select__trigger {
@@ -407,7 +406,7 @@
 	color: var(--popover-foreground);
 	box-shadow: var(--ml-select-content-shadow);
 	transform-origin: top left;
-	animation: ml-select-content-enter 140ms cubic-bezier(0.16, 1, 0.3, 1);
+	animation: ml-select-content-enter var(--duration-fast) var(--ease-out-expo);
 }
 
 .ml-select__list {
@@ -423,7 +422,7 @@
 
 .ml-select__backdrop {
 	background: rgba(0, 0, 0, 0.42);
-	animation: ml-select-backdrop-enter 160ms var(--ease-out);
+	animation: ml-select-backdrop-enter var(--duration-fast) var(--ease-out);
 }
 
 .ml-select__sheet-stack {
@@ -441,7 +440,7 @@
 	background: var(--popover);
 	color: var(--popover-foreground);
 	box-shadow: var(--ml-select-sheet-shadow);
-	animation: ml-select-sheet-enter 180ms cubic-bezier(0.16, 1, 0.3, 1);
+	animation: ml-select-sheet-enter var(--duration-short) var(--ease-out-expo);
 }
 
 .ml-select__sheet-handle-wrap {
@@ -501,7 +500,7 @@
 }
 
 .ml-select__sheet-cancel:active {
-	transform: scale(0.985);
+	opacity: 0.86;
 }
 
 .ml-select__item {
@@ -563,29 +562,31 @@
 
 .ml-select__check {
 	margin-block-start: 0;
+	inline-size: var(--ml-select-check-size);
+	block-size: var(--ml-select-check-size);
 }
 
 @keyframes ml-select-content-enter {
 	from {
 		opacity: 0;
-		transform: translate3d(0, -4px, 0) scale(0.98);
+		transform: translate3d(0, -2px, 0);
 	}
 
 	to {
 		opacity: 1;
-		transform: translate3d(0, 0, 0) scale(1);
+		transform: translate3d(0, 0, 0);
 	}
 }
 
 @keyframes ml-select-sheet-enter {
 	from {
 		opacity: 0;
-		transform: translate3d(0, 16px, 0) scale(0.99);
+		transform: translate3d(0, 8px, 0);
 	}
 
 	to {
 		opacity: 1;
-		transform: translate3d(0, 0, 0) scale(1);
+		transform: translate3d(0, 0, 0);
 	}
 }
 
@@ -803,15 +804,13 @@
 
 .ml-navbar__link-arrow {
 	color: var(--text-muted);
-	transition: transform var(--duration-short) var(--ease-out-expo);
+	transition:
+		color var(--duration-micro) var(--ease-out),
+		opacity var(--duration-micro) var(--ease-out);
 }
 
 .ml-navbar__link:hover .ml-navbar__link-arrow {
-	transform: translate3d(
-		var(--ml-space-0-5),
-		calc(var(--ml-space-0-5) * -1),
-		0
-	);
+	color: var(--primary);
 }
 
 .ml-navbar__actions {
@@ -849,7 +848,6 @@
 	transform: scaleX(0.33);
 	transform-origin: left center;
 	transition: transform var(--duration-short) var(--ease-out-expo);
-	will-change: transform;
 }
 
 /* ---------------------------------- */
@@ -897,8 +895,7 @@
 	transition:
 		background-color var(--duration-micro) var(--ease-out),
 		border-color var(--duration-micro) var(--ease-out),
-		box-shadow var(--duration-micro) var(--ease-out),
-		transform var(--duration-micro) var(--ease-out);
+		box-shadow var(--duration-micro) var(--ease-out);
 }
 
 .ml-data-list__item[data-interactive="true"] {
@@ -909,7 +906,6 @@
 .ml-data-list__item[data-interactive="true"]:hover {
 	background: var(--surface-2);
 	border-color: color-mix(in oklch, var(--border-strong) 80%, var(--border));
-	transform: translate3d(0, -1px, 0);
 }
 
 .ml-data-list__item[data-interactive="true"]:focus-visible {
@@ -980,8 +976,7 @@
 	):not([data-loading="true"]):hover
 	.ml-button-icon[data-reveal="true"] {
 	opacity: 1;
-	margin-inline: 0;
-	transform: translate3d(0, 0, 0) scale(1);
+	transform: translate3d(0, 0, 0);
 }
 
 .group\/btn:not(:disabled):not([aria-disabled="true"]):not(
@@ -990,11 +985,10 @@
 	.ml-button-icon[data-reveal="true"]
 	.ml-button-icon__glyph {
 	opacity: 1;
-	transform: translate3d(0, 0, 0) scale(1);
+	transform: translate3d(0, 0, 0);
 }
 
 .ml-card {
-	transform: translate3d(0, 0, 0);
 	border-color: var(--border);
 	background: var(--surface);
 	color: var(--text-body);
@@ -1010,13 +1004,13 @@
 .ml-card--hover:hover {
 	border-color: var(--border-strong);
 	background: var(--surface);
-	box-shadow: var(--shadow-lg);
+	box-shadow: var(--shadow-md);
 }
 
 .ml-card--interactive:hover {
 	border-color: var(--border-strong);
 	background: var(--surface);
-	box-shadow: var(--shadow-lg);
+	box-shadow: var(--shadow-md);
 }
 
 :root:not([data-theme="light"]) .ml-card--hover:hover,
@@ -1034,11 +1028,7 @@
 }
 
 .ml-card__image > * {
-	transform: scale(1) translateZ(0);
-	transition:
-		opacity var(--duration-micro) var(--ease-out),
-		transform var(--duration-short) var(--ease-out);
-	will-change: opacity, transform;
+	transition: opacity var(--duration-micro) var(--ease-out);
 }
 
 .ml-card__image > img,
@@ -1056,10 +1046,7 @@
 .ml-card__image > video {
 	object-fit: cover;
 	filter: grayscale(1) brightness(0.92);
-	transition:
-		filter var(--duration-short) var(--ease-out),
-		opacity var(--duration-micro) var(--ease-out),
-		transform var(--duration-short) cubic-bezier(0.22, 1, 0.36, 1);
+	transition: filter var(--duration-short) var(--ease-out);
 }
 
 .ml-card__image::after {
@@ -1082,10 +1069,7 @@
 .ml-card__image-caption {
 	min-block-size: 16%;
 	opacity: 1;
-	transform: translate3d(0, 0, 0);
-	transition:
-		opacity var(--duration-micro) var(--ease-out),
-		transform var(--duration-short) var(--ease-out);
+	transition: opacity var(--duration-micro) var(--ease-out);
 }
 
 .ml-card__image:has(.ml-card__image-caption)::after,
@@ -1095,12 +1079,10 @@
 
 .ml-card__image:has(.ml-card__image-caption) .ml-card__image-caption {
 	opacity: 1;
-	transform: translate3d(0, 0, 0);
 }
 
 .ml-card--hover:hover .ml-card__image > * {
 	opacity: 1;
-	transform: scale(1.01) translateZ(0);
 }
 
 .ml-card--hover:hover .ml-card__image > img,
@@ -1111,10 +1093,6 @@
 
 .ml-card--hover:hover .ml-card__image::after {
 	opacity: 0.82;
-}
-
-.ml-card--hover:hover .ml-card__image-caption {
-	transform: translate3d(0, -1px, 0);
 }
 
 .ml-card__footer {
@@ -1139,17 +1117,12 @@
 .ml-card__arrow {
 	display: inline-block;
 	opacity: 0.72;
-	transform: translate3d(0, 0, 0);
-	transition:
-		opacity var(--duration-micro) var(--ease-out),
-		transform var(--duration-short) var(--ease-out);
-	will-change: opacity, transform;
+	transition: opacity var(--duration-micro) var(--ease-out);
 }
 
 .ml-card--hover:hover .ml-card__arrow,
 .ml-card--interactive:hover .ml-card__arrow {
 	opacity: 1;
-	transform: translate3d(1px, 0, 0);
 }
 
 /* ---------------------------------- */
@@ -1346,8 +1319,8 @@ a.ml-testimonial__name:hover {
 	background: var(--primary);
 	cursor: pointer;
 	transition:
-		background-color var(--duration-medium) var(--ease-out),
-		border-color var(--duration-medium) var(--ease-out),
+		background-color var(--duration-short) var(--ease-out),
+		border-color var(--duration-short) var(--ease-out),
 		box-shadow var(--duration-micro) var(--ease-out);
 }
 
@@ -1398,9 +1371,8 @@ a.ml-testimonial__name:hover {
 	background: var(--primary-foreground);
 	transform: translate3d(0, 0, 0);
 	transition:
-		background-color var(--duration-medium) var(--ease-out),
-		transform var(--duration-short) cubic-bezier(0.25, 1, 0.5, 1.18);
-	will-change: transform;
+		background-color var(--duration-short) var(--ease-out),
+		transform var(--duration-short) var(--ease-out-expo);
 }
 
 :root:not([data-theme="light"]) .ml-toggle[data-state="off"],
@@ -1438,7 +1410,7 @@ a.ml-testimonial__name:hover {
 	transition:
 		color var(--duration-micro) var(--ease-out),
 		opacity var(--duration-micro) var(--ease-out),
-		transform var(--duration-short) var(--ease-out-expo);
+		transform var(--duration-short) var(--ease-out);
 }
 
 .ml-theme-switcher--mini {
@@ -1478,21 +1450,21 @@ a.ml-testimonial__name:hover {
 	border-color: var(--primary);
 	background: var(--primary);
 	transition:
-		background-color var(--duration-short) var(--ease-out-expo),
-		border-color var(--duration-short) var(--ease-out-expo),
+		background-color var(--duration-short) var(--ease-out),
+		border-color var(--duration-short) var(--ease-out),
 		box-shadow var(--duration-micro) var(--ease-out);
 }
 
 .ml-theme-switcher__toggle .ml-toggle__thumb {
 	background: var(--primary-foreground);
 	transition:
-		background-color var(--duration-short) var(--ease-out-expo),
+		background-color var(--duration-short) var(--ease-out),
 		transform var(--duration-short) var(--ease-out-expo);
 }
 
 .theme-transitioning .ml-theme-switcher__toggle .ml-toggle__thumb {
 	transition:
-		background-color var(--duration-short) var(--ease-out-expo),
+		background-color var(--duration-short) var(--ease-out),
 		transform var(--duration-short) var(--ease-out-expo);
 }
 
@@ -1501,10 +1473,10 @@ a.ml-testimonial__name:hover {
 .theme-transitioning *::before,
 .theme-transitioning *::after {
 	transition:
-		background-color 220ms ease,
-		border-color 220ms ease,
-		color 220ms ease,
-		box-shadow 220ms ease !important;
+		background-color var(--duration-short) var(--ease-out),
+		border-color var(--duration-short) var(--ease-out),
+		color var(--duration-short) var(--ease-out),
+		box-shadow var(--duration-short) var(--ease-out) !important;
 }
 
 :root:not([data-theme="light"]) .ml-theme-switcher__toggle,
@@ -1552,16 +1524,32 @@ a.ml-testimonial__name:hover {
 
 /* --- Transitions & Composable Interaction States --- */
 .transition-micro {
-	transition: all var(--duration-micro) var(--ease-out);
+	transition:
+		background-color var(--duration-micro) var(--ease-out),
+		border-color var(--duration-micro) var(--ease-out),
+		box-shadow var(--duration-micro) var(--ease-out),
+		color var(--duration-micro) var(--ease-out),
+		opacity var(--duration-micro) var(--ease-out),
+		transform var(--duration-micro) var(--ease-out);
 }
 .transition-short {
-	transition: all var(--duration-short) var(--ease-out-expo);
+	transition:
+		background-color var(--duration-short) var(--ease-out),
+		border-color var(--duration-short) var(--ease-out),
+		box-shadow var(--duration-short) var(--ease-out),
+		color var(--duration-short) var(--ease-out),
+		opacity var(--duration-short) var(--ease-out),
+		transform var(--duration-short) var(--ease-out-expo);
 }
 .transition-medium {
-	transition: all var(--duration-medium) var(--ease-out-expo);
+	transition:
+		opacity var(--duration-medium) var(--ease-out),
+		transform var(--duration-medium) var(--ease-out-expo);
 }
 .transition-long {
-	transition: all var(--duration-long) var(--ease-out-expo);
+	transition:
+		opacity var(--duration-long) var(--ease-out),
+		transform var(--duration-long) var(--ease-out-expo);
 }
 
 @layer utilities {
@@ -1603,8 +1591,7 @@ a.ml-testimonial__name:hover {
 			background-color var(--duration-micro) var(--ease-out),
 			border-color var(--duration-micro) var(--ease-out),
 			box-shadow var(--duration-micro) var(--ease-out),
-			color var(--duration-micro) var(--ease-out),
-			transform var(--duration-micro) var(--ease-out);
+			color var(--duration-micro) var(--ease-out);
 	}
 
 	.ml-interaction-control:hover {
@@ -1612,10 +1599,6 @@ a.ml-testimonial__name:hover {
 		background: var(--surface-2);
 		box-shadow: var(--shadow-sm);
 		color: var(--text);
-	}
-
-	.ml-interaction-control:active {
-		transform: scale(var(--control-press-scale, 0.96));
 	}
 
 	.ml-interaction-control-primary:hover {
@@ -1739,7 +1722,7 @@ a.ml-testimonial__name:hover {
 	border-radius: inherit;
 	border: 1px solid currentcolor;
 	opacity: 0;
-	animation: ml-status-sonar 1.9s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+	animation: ml-status-sonar 2.4s var(--ease-out) infinite;
 }
 
 .ml-status--accent {
@@ -1776,15 +1759,15 @@ a.ml-testimonial__name:hover {
 @keyframes ml-status-sonar {
 	0% {
 		transform: scale(1);
-		opacity: 0.72;
+		opacity: 0.5;
 	}
 
-	70% {
-		opacity: 0.12;
+	65% {
+		opacity: 0.08;
 	}
 
 	100% {
-		transform: scale(2.5);
+		transform: scale(1.85);
 		opacity: 0;
 	}
 }
@@ -1836,13 +1819,11 @@ a.ml-testimonial__name:hover {
 	border-radius: var(--ml-segmented-item-radius);
 	background: var(--surface-3);
 	box-shadow: var(--shadow-sm);
-	transition:
-		left var(--duration-short) var(--ease-out-expo),
-		width var(--duration-short) var(--ease-out-expo),
-		opacity var(--duration-micro) var(--ease-out);
+	opacity: 0;
+	transform-origin: left center;
+	transition: opacity var(--duration-micro) var(--ease-out);
 	pointer-events: none;
 	z-index: 0;
-	will-change: left, width;
 }
 
 .ml-segmented__item {

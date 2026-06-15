@@ -34,11 +34,11 @@ export function FooterSubscribeForm({
 				<button
 					type="submit"
 					aria-label={submitLabel}
-					className="group/submit inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-[background-color,box-shadow,transform] duration-(--duration-micro) ease-out active:scale-(--ml-footer-submit-press-scale) focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
+					className="group/submit inline-flex aspect-square h-full items-center justify-center rounded-sm bg-accent text-accent-foreground transition-[background-color,box-shadow,opacity] duration-(--duration-micro) ease-out active:opacity-90 focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
 				>
 					<span
 						aria-hidden="true"
-						className="transition-transform duration-(--duration-micro) ease-out group-hover/submit:translate-x-(--ml-footer-submit-arrow-hover-x)"
+						className="transition-opacity duration-(--duration-micro) ease-out group-hover/submit:opacity-80"
 					>
 						→
 					</span>

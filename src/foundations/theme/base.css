@@ -32,10 +32,10 @@
 	.theme-transitioning,
 	.theme-transitioning * {
 		transition:
-			background-color var(--duration-short) var(--ease-out-expo) !important,
-			color var(--duration-short) var(--ease-out-expo) !important,
-			border-color var(--duration-short) var(--ease-out-expo) !important,
-			box-shadow var(--duration-short) var(--ease-out-expo) !important;
+			background-color var(--duration-short) var(--ease-out) !important,
+			color var(--duration-short) var(--ease-out) !important,
+			border-color var(--duration-short) var(--ease-out) !important,
+			box-shadow var(--duration-short) var(--ease-out) !important;
 	}
 
 	::selection {

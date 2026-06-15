@@ -14,38 +14,66 @@ export function SegmentedControlRoot<T extends string>({
 	className,
 }: SegmentedControlProps<T>) {
 	const containerRef = React.useRef<HTMLDivElement>(null)
-	const [indicatorStyle, setIndicatorStyle] =
-		React.useState<React.CSSProperties>({
-			left: 0,
-			width: 0,
-			opacity: 0,
-		})
+	const indicatorRef = React.useRef<HTMLDivElement>(null)
+	const previousMetricsRef = React.useRef({ left: 0, width: 0 })
 
 	React.useLayoutEffect(() => {
 		const container = containerRef.current
-		if (!container) return
+		const indicator = indicatorRef.current
+		const targetWindow = container?.ownerDocument.defaultView
+		if (!container || !indicator || !targetWindow) return
 
-		const updatePosition = () => {
+		const updatePosition = (animate: boolean) => {
 			const activeBtn = container.querySelector(
 				'[role="radio"][aria-checked="true"]'
 			) as HTMLButtonElement | null
-			if (activeBtn) {
-				setIndicatorStyle({
-					left: `${activeBtn.offsetLeft}px`,
-					width: `${activeBtn.offsetWidth}px`,
-					opacity: 1,
-				})
-			} else {
-				setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
+			if (!activeBtn) {
+				indicator.style.opacity = "0"
+				return
 			}
+
+			const nextMetrics = {
+				left: activeBtn.offsetLeft,
+				width: activeBtn.offsetWidth,
+			}
+			const previousMetrics = previousMetricsRef.current
+
+			indicator.style.left = `${nextMetrics.left}px`
+			indicator.style.width = `${nextMetrics.width}px`
+			indicator.style.opacity = "1"
+			indicator.getAnimations().forEach((animation) => animation.cancel())
+
+			const shouldAnimate =
+				animate &&
+				previousMetrics.width > 0 &&
+				!targetWindow.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+			if (shouldAnimate) {
+				indicator.animate(
+					[
+						{
+							transform: `translate3d(${
+								previousMetrics.left - nextMetrics.left
+							}px, 0, 0) scaleX(${previousMetrics.width / nextMetrics.width})`,
+						},
+						{ transform: "translate3d(0, 0, 0) scaleX(1)" },
+					],
+					{
+						duration: 180,
+						easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+					}
+				)
+			}
+
+			previousMetricsRef.current = nextMetrics
 		}
 
-		updatePosition()
-		const raf = requestAnimationFrame(updatePosition)
-		window.addEventListener("resize", updatePosition)
+		updatePosition(true)
+		const resizeObserver = new ResizeObserver(() => updatePosition(false))
+		resizeObserver.observe(container)
+
 		return () => {
-			cancelAnimationFrame(raf)
-			window.removeEventListener("resize", updatePosition)
+			resizeObserver.disconnect()
 		}
 	}, [value, options])
 
@@ -61,9 +89,9 @@ export function SegmentedControlRoot<T extends string>({
 			)}
 		>
 			<div
+				ref={indicatorRef}
 				aria-hidden="true"
 				className="ml-segmented__indicator"
-				style={indicatorStyle}
 			/>
 			{options.map((option) => (
 				<button

@@ -52,7 +52,7 @@ const components = [
 	["Toc", "Table ofContents with scroll-spy"],
 	["Button", "3 variants, smooth icon slots, asChild"],
 	["Input", "Text/search with prefix icon + kbd"],
-	["Toggle", "On/off switch with spring thumb"],
+	["Toggle", "On/off switch with restrained thumb motion"],
 	["SegmentedControl", "Pill & default variants, sliding indicator"],
 	["Tag", "Filter pill with active state"],
 ]

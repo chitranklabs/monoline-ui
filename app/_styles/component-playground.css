@@ -49,9 +49,7 @@
 	border-radius: 0.375rem;
 	background: var(--surface);
 	box-shadow: var(--shadow-xs);
-	transition:
-		transform var(--duration-short) var(--ease-out-expo),
-		width var(--duration-short) var(--ease-out-expo);
+	transition: transform var(--duration-short) var(--ease-out-expo);
 	pointer-events: none;
 	z-index: 0;
 }

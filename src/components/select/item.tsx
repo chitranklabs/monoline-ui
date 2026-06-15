@@ -16,12 +16,6 @@ const itemDescriptionClasses: Record<SelectSize, string> = {
 	lg: "text-sm",
 }
 
-const checkSizeClasses: Record<SelectSize, string> = {
-	sm: "size-ml-3.5",
-	md: "size-ml-4",
-	lg: "size-ml-4.5",
-}
-
 export function SelectItem({
 	className,
 	description,
@@ -78,7 +72,6 @@ export function SelectItem({
 				aria-hidden="true"
 				className={cn(
 					"ml-select__check shrink-0 text-accent opacity-0 transition-opacity duration-(--duration-micro) ease-out",
-					checkSizeClasses[size],
 					selected && "opacity-100"
 				)}
 			>

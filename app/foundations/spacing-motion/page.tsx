@@ -3,16 +3,16 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
 	title: "Spacing & Motion  monoline/ui design foundations",
 	description:
-		"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
+		"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
 	openGraph: {
 		title: "Spacing & Motion  monoline/ui design foundations",
 		description:
-			"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
+			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
 	},
 	twitter: {
 		title: "Spacing & Motion  monoline/ui design foundations",
 		description:
-			"Understand spacing ladders, border radius tokens, and spring animation timings used for transitions in monoline/ui components.",
+			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
 	},
 	alternates: {
 		canonical: "/foundations/spacing-motion",
@@ -39,10 +39,10 @@ const radii = [
 ] as const
 
 const motion = [
-	["duration-micro", "120ms", "button bg, focus ring, tag hover"],
-	["duration-short", "250ms", "card lift, image zoom"],
-	["duration-medium", "450ms", "heart pop, toggle spring"],
-	["duration-long", "700ms", "page entry, scrubber"],
+	["duration-micro", "100ms", "button, focus, and tag feedback"],
+	["duration-short", "180ms", "indicators, toggles, and image color"],
+	["duration-medium", "240ms", "sheets and larger surfaces"],
+	["duration-long", "360ms", "deliberate entry motion"],
 ] as const
 
 export default function SpacingMotionPage() {

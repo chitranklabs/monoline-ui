@@ -29,7 +29,7 @@ export function TagRoot({
 	const isInteractive = interactive ?? variant === "filter"
 
 	const sharedClassName = cn(
-		"ml-tag inline-flex select-none items-center rounded-[var(--radius-pill)] border transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-(--duration-micro) ease-out active:scale-[0.985]",
+		"ml-tag inline-flex select-none items-center rounded-[var(--radius-pill)] border transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-out",
 		tagSizeClasses[size],
 		tagVariantClasses[variant],
 		isInteractive ? interactiveVariantClasses[variant] : "cursor-default",

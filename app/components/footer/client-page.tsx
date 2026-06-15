@@ -52,7 +52,7 @@ const tokenRows = [
 	["--ml-footer-x-sm/md/lg", "Horizontal container padding by size"],
 	["--ml-footer-layout-cols-*-desktop", "Desktop grid tracks"],
 	["--ml-footer-subscribe-control-height", "Inline subscribe input height"],
-	["--ml-footer-link-hover-x", "External link hover offset"],
+	["--duration-micro", "Link and subscribe-control feedback"],
 ] as const
 
 const sourceSnippet = `import { Footer } from "@chitrank2050/monoline-ui/footer"
