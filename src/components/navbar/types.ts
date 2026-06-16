@@ -1,6 +1,7 @@
 import type * as React from "react"
 
 export type NavbarSize = "sm" | "md" | "lg"
+export type NavbarLayout = "contained" | "extended"
 export type NavbarBrandTextStyle = "monoline" | "cursive"
 
 type NavbarLinkComponentProps = React.ComponentPropsWithoutRef<"a"> & {
@@ -22,6 +23,7 @@ interface NavbarBaseProps extends Omit<
 	"children"
 > {
 	size?: NavbarSize
+	layout?: NavbarLayout
 	brandTextStyle?: NavbarBrandTextStyle
 	navLabel?: string
 	linkComponent?: React.ComponentType<NavbarLinkComponentProps>

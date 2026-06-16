@@ -10,6 +10,7 @@ function isExternalHref(link: NavbarLinkItem) {
 
 export function NavbarRoot({
 	size = "md",
+	layout = "contained",
 	brand,
 	links,
 	actions,
@@ -26,6 +27,7 @@ export function NavbarRoot({
 		<header
 			data-slot="navbar"
 			data-size={size}
+			data-layout={layout}
 			className={cn(
 				"ml-navbar",
 				sticky && "ml-navbar--sticky",

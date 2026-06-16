@@ -4,14 +4,12 @@ import {
 	type ReactNode,
 	Suspense,
 	startTransition,
-	useCallback,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
 	useRef,
 	useState,
 } from "react"
-import { createPortal } from "react-dom"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
@@ -72,8 +70,6 @@ const defaultControls = {
 
 const previewFrameMinWidth = 240
 const previewFrameMinHeight = 96
-const previewFrameDocument =
-	'<!doctype html><html><head><base target="_parent" /></head><body><div id="playground-preview-root"></div></body></html>'
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
@@ -93,110 +89,24 @@ function PreviewFrame({
 	viewportWidth,
 	zoom,
 }: PreviewFrameProps) {
-	const iframeRef = useRef<HTMLIFrameElement>(null)
-	const [mountNode, setMountNode] = useState<HTMLElement | null>(null)
+	const previewRef = useRef<HTMLDivElement>(null)
 	const [frameSize, setFrameSize] = useState({
 		width: viewportWidth,
 		height: previewFrameMinHeight,
 	})
 
-	const initializeFrame = useCallback(() => {
-		const iframe = iframeRef.current
-		if (!iframe) return
-
-		const iframeDocument = iframe.contentDocument
-		if (
-			!iframeDocument?.documentElement ||
-			!iframeDocument.head ||
-			!iframeDocument.body
-		) {
-			return
-		}
-
-		iframeDocument.documentElement.dataset.theme = theme
-		iframeDocument.body.style.margin = "0"
-		iframeDocument.body.style.background = "var(--background)"
-
-		// Theme changes should not override component-specific interaction timing.
-		if (!iframeDocument.head.querySelector("[data-preview-theme-transition]")) {
-			const styleNode = iframeDocument.createElement("style")
-			styleNode.dataset.previewThemeTransition = "true"
-			styleNode.textContent = `
-				html,
-				body,
-				#playground-preview-root {
-					transition: background-color var(--duration-medium) var(--ease-out),
-					            color var(--duration-medium) var(--ease-out);
-				}
-			`
-			iframeDocument.head.appendChild(styleNode)
-		}
-
-		setMountNode(
-			iframeDocument.getElementById("playground-preview-root") as HTMLElement
-		)
-	}, [theme])
-
 	useLayoutEffect(() => {
-		initializeFrame()
-	}, [initializeFrame])
-
-	useEffect(() => {
-		const iframeDocument = iframeRef.current?.contentDocument
-		if (!iframeDocument) return
-
-		const syncStyles = () => {
-			const currentDocument = iframeRef.current?.contentDocument
-			if (!currentDocument?.head || currentDocument !== iframeDocument) {
-				return
-			}
-
-			const oldNodes = currentDocument.head.querySelectorAll(
-				'link[data-copied="true"], style[data-copied="true"]'
-			)
-			for (const node of oldNodes) {
-				node.remove()
-			}
-
-			for (const node of document.querySelectorAll(
-				'link[rel="stylesheet"], style'
-			)) {
-				const clone = node.cloneNode(true) as HTMLElement
-				clone.setAttribute("data-copied", "true")
-				currentDocument.head.appendChild(clone)
-			}
-		}
-
-		syncStyles()
-
-		const observer = new MutationObserver(syncStyles)
-		observer.observe(document.head, { childList: true, subtree: true })
-
-		return () => {
-			observer.disconnect()
-		}
-	}, [mountNode])
-
-	useEffect(() => {
-		const iframeDocument = iframeRef.current?.contentDocument
-		if (iframeDocument?.documentElement) {
-			iframeDocument.documentElement.dataset.theme = theme
-		}
-	}, [theme])
-
-	useLayoutEffect(() => {
+		const mountNode = previewRef.current
 		if (!mountNode) return
 
 		mountNode.style.display = layout === "fit" ? "inline-block" : "block"
 		mountNode.style.width = layout === "fit" ? "max-content" : "100%"
 		mountNode.style.maxWidth = layout === "fit" ? "100%" : ""
-	}, [layout, mountNode])
+	}, [layout])
 
 	useLayoutEffect(() => {
+		const mountNode = previewRef.current
 		if (!mountNode) return
-
-		const iframeDocument = iframeRef.current?.contentDocument
-		if (!iframeDocument) return
 
 		setFrameSize({
 			width: viewportWidth,
@@ -242,7 +152,7 @@ function PreviewFrame({
 			cancelAnimationFrame(frame)
 			observer.disconnect()
 		}
-	}, [contentKey, layout, mountNode, viewportWidth])
+	}, [contentKey, layout, viewportWidth])
 
 	return (
 		<div
@@ -252,19 +162,18 @@ function PreviewFrame({
 				height: frameSize.height * zoom,
 			}}
 		>
-			<iframe
-				ref={iframeRef}
-				title="Component preview"
+			<div
+				ref={previewRef}
+				data-theme={theme}
 				className="playground-canvas__frame"
-				srcDoc={previewFrameDocument}
-				onLoad={initializeFrame}
 				style={{
 					width: frameSize.width,
 					height: frameSize.height,
 					transform: `scale(${zoom})`,
 				}}
-			/>
-			{mountNode ? createPortal(children, mountNode) : null}
+			>
+				{children}
+			</div>
 		</div>
 	)
 }

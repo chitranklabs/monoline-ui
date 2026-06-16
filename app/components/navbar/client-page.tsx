@@ -2,7 +2,11 @@
 
 import { Button } from "@chitrank2050/monoline-ui/button"
 import { Progress } from "@chitrank2050/monoline-ui/components/progress"
-import { Navbar, type NavbarSize } from "@chitrank2050/monoline-ui/navbar"
+import {
+	Navbar,
+	type NavbarLayout,
+	type NavbarSize,
+} from "@chitrank2050/monoline-ui/navbar"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -12,6 +16,11 @@ const navbarLinks = [{ href: "#blog", label: "Blog" }]
 
 const propsRows = [
 	["size", "sm | md | lg", "Navbar density and type scale"],
+	[
+		"layout",
+		"contained | extended",
+		"Contained aligns with page content; extended fills app-shell headers",
+	],
 	["brand", "ReactNode", "Left-side brand slot for data-driven usage"],
 	["brandTextStyle", "monoline | cursive", "Brand wordmark font style"],
 	["links", "NavbarLinkItem[]", "Optional data-driven nav link list"],
@@ -30,6 +39,7 @@ const propsRows = [
 
 const tokenRows = [
 	["--ml-navbar-height", "Header minimum height per size"],
+	["--ml-navbar-container-max", "Contained header max width"],
 	["--ml-navbar-x", "Inline container padding"],
 	["--ml-navbar-link-gap", "Navigation item spacing"],
 	["--focus-ring", "Keyboard focus treatment"],
@@ -44,6 +54,7 @@ export function SiteHeader() {
     <>
       <Navbar
         brand="Chitrank"
+        layout="contained"
         brandTextStyle="cursive"
         links={[
           { href: "/blog", label: "Blog" },
@@ -59,6 +70,7 @@ export function SiteHeader() {
 
 const usageCode = `<Navbar
   brand="Chitrank"
+  layout="contained"
   links={[
     { href: "/blog", label: "Blog" },
   ]}
@@ -68,7 +80,7 @@ const usageCode = `<Navbar
 />
 <Progress followScroll />
 
-<Navbar sticky glass>
+<Navbar layout="extended" sticky glass>
   <Navbar.Brand href="/" mark={<span />} textStyle="monoline">
     monoline/ui
   </Navbar.Brand>
@@ -80,7 +92,7 @@ const usageCode = `<Navbar
   </Navbar.Actions>
 </Navbar>`
 
-const variants = ["default", "glass", "sticky", "glass-sticky"] as const
+const variants = ["contained", "extended", "glass", "extended-glass"] as const
 type NavbarVariant = (typeof variants)[number]
 
 export default function NavbarPageClient() {
@@ -91,7 +103,7 @@ export default function NavbarPageClient() {
 			sizes={navbarSizes}
 			defaultSize="md"
 			variants={variants as any}
-			defaultVariant="default"
+			defaultVariant="contained"
 			formatVariant={(v) => v.toUpperCase().replace("-", " + ")}
 			importStatement='import { Navbar } from "@chitrank2050/monoline-ui/navbar"'
 			usageCode={usageCode}
@@ -99,16 +111,19 @@ export default function NavbarPageClient() {
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
 			previewLayout="viewport"
-			renderPreview={(size = "md", theme, variant = "default") => {
-				const isSticky = variant === "sticky" || variant === "glass-sticky"
-				const isGlass = variant === "glass" || variant === "glass-sticky"
+			renderPreview={(size = "md", theme, variant = "contained") => {
+				const layout: NavbarLayout =
+					variant === "extended" || variant === "extended-glass"
+						? "extended"
+						: "contained"
+				const isGlass = variant === "glass" || variant === "extended-glass"
 				return (
 					<div className="w-full" style={{ minHeight: "120px" }}>
 						<Navbar
 							size={size}
+							layout={layout}
 							brand="Chitrank"
 							links={navbarLinks}
-							sticky={isSticky}
 							glass={isGlass}
 							actions={
 								<Button size="sm" variant="secondary">

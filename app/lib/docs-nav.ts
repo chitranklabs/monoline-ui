@@ -28,6 +28,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 		label: "Layout & structure",
 		items: [
 			{ href: "/components/card", label: "Card" },
+			{ href: "/components/media-frame", label: "MediaFrame" },
 			{ href: "/components/section-head", label: "SectionHead" },
 			{ label: "Container" },
 			{ label: "ActionRail" },
@@ -98,6 +99,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/card", label: "Card" },
 	{ href: "/components/data-list", label: "DataList" },
 	{ href: "/components/eyebrow", label: "Eyebrow" },
+	{ href: "/components/media-frame", label: "MediaFrame" },
 	{ href: "/components/metric", label: "Metric" },
 	{ href: "/components/navbar", label: "Navbar" },
 	{ href: "/components/progress", label: "Progress" },

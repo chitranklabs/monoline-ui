@@ -72,6 +72,10 @@
 			"types": "./components/footer/index.d.ts",
 			"import": "./components/footer/index.js"
 		},
+		"./media-frame": {
+			"types": "./components/media-frame/index.d.ts",
+			"import": "./components/media-frame/index.js"
+		},
 		"./metric": {
 			"types": "./components/metric/index.d.ts",
 			"import": "./components/metric/index.js"
