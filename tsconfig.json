@@ -30,6 +30,9 @@
 			"@chitrank2050/monoline-ui/metric": ["./src/components/metric"],
 			"@chitrank2050/monoline-ui/navbar": ["./src/components/navbar"],
 			"@chitrank2050/monoline-ui/progress": ["./src/components/progress"],
+			"@chitrank2050/monoline-ui/resources-panel": [
+				"./src/components/resources-panel"
+			],
 			"@chitrank2050/monoline-ui/section-head": [
 				"./src/components/section-head"
 			],

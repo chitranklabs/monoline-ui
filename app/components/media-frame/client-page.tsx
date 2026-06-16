@@ -32,7 +32,7 @@ export function ProjectCover() {
         fill
         sizes="(max-width: 768px) 100vw, 1200px"
       />
-      <MediaFrame.Caption>COVER · PRODUCT</MediaFrame.Caption>
+      <MediaFrame.Meta>COVER · PRODUCT</MediaFrame.Meta>
     </MediaFrame>
   )
 }`
@@ -46,7 +46,8 @@ const propsRows = [
 	["size", "sm | md | lg", "Frame radius and caption spacing"],
 	["placeholder", "boolean", "Render the built-in media placeholder"],
 	["asChild", "boolean", "Render a custom root element through Radix Slot"],
-	["MediaFrame.Caption", "ReactNode", "Bottom-aligned media label with fade"],
+	["MediaFrame.Caption", "ReactNode", "Bottom-aligned caption with fade"],
+	["MediaFrame.Meta", "ReactNode", "Bottom-aligned media metadata with fade"],
 	[
 		"children",
 		"ReactNode",
@@ -58,15 +59,14 @@ const tokenRows = [
 	["--surface", "Frame background"],
 	["--border", "Frame outline"],
 	["--shadow-xs", "Resting elevation"],
-	["--shadow-md", "Hover elevation"],
-	["--duration-medium", "Media filter and caption fade timing"],
+	["--duration-medium", "Caption and meta fade timing"],
 ] as const
 
 export default function MediaFramePageClient() {
 	return (
 		<ComponentPlayground<MediaFrameSize, MediaFrameRatio>
 			title="MediaFrame"
-			description="Reserve stable image, video, and custom media surfaces with monoline placeholder, caption, and grayscale hover behaviour."
+			description="Reserve stable image, video, and custom media surfaces with passive chrome, monoline placeholder, and optional caption or metadata fade."
 			sizes={mediaFrameSizes}
 			defaultSize="md"
 			variants={mediaFrameRatios}
@@ -85,7 +85,7 @@ export default function MediaFramePageClient() {
 						placeholder
 						className="w-full max-w-250"
 					>
-						<MediaFrame.Caption>COVER · PRODUCT</MediaFrame.Caption>
+						<MediaFrame.Meta>COVER · PRODUCT</MediaFrame.Meta>
 					</MediaFrame>
 				</div>
 			)}

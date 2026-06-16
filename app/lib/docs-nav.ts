@@ -73,9 +73,9 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ label: "Callout" },
 			{ label: "CodeBlock" },
 			{ label: "EditorialLine" },
+			{ href: "/components/resources-panel", label: "ResourcesPanel" },
 			{ href: "/components/testimonial", label: "Testimonial" },
 			{ href: "/components/testimonial-grid", label: "TestimonialGrid" },
-			{ label: "ResourcesPanel", meta: "beta" },
 		],
 	},
 	{
@@ -103,6 +103,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/metric", label: "Metric" },
 	{ href: "/components/navbar", label: "Navbar" },
 	{ href: "/components/progress", label: "Progress" },
+	{ href: "/components/resources-panel", label: "ResourcesPanel" },
 	{ href: "/components/select", label: "Select" },
 	{ href: "/components/section-head", label: "SectionHead" },
 	{ href: "/components/status", label: "Status" },
