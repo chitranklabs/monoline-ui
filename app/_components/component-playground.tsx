@@ -67,6 +67,7 @@ const defaultControls = {
 	theme: "light" as ThemeMode,
 	zoom: 1,
 }
+const defaultViewportOption = viewportOptions[2] as ViewportOption
 
 const previewFrameMinWidth = 240
 const previewFrameMinHeight = 96
@@ -240,6 +241,7 @@ function ComponentPlaygroundClient<
 	const pathname = usePathname()
 	const router = useRouter()
 	const searchParams = useSearchParams()
+	const hasViewportControl = previewLayout === "viewport"
 
 	const effectiveDefaultSize =
 		defaultSize ?? (sizes && sizes.length > 0 ? sizes[0] : undefined)
@@ -320,9 +322,12 @@ function ComponentPlaygroundClient<
 	const viewportOption = useMemo(
 		() =>
 			(viewportOptions.find((option) => option.key === viewport) ??
-				viewportOptions[2]) as ViewportOption,
+				defaultViewportOption) as ViewportOption,
 		[viewport]
 	)
+	const activeViewportOption = hasViewportControl
+		? viewportOption
+		: defaultViewportOption
 	const zoomOption = useMemo(
 		() =>
 			(zoomOptions.find((option) => option.value === zoom) ??
@@ -335,7 +340,7 @@ function ComponentPlaygroundClient<
 		return render === "all" ? sizes : [size]
 	}, [sizes, render, size])
 
-	const previewKey = `${render}:${renderedSizes.join(",")}:${viewport}:${theme}:${variant ?? ""}`
+	const previewKey = `${render}:${renderedSizes.join(",")}:${activeViewportOption.key}:${theme}:${variant ?? ""}`
 
 	const setControl = (
 		updates: Partial<{
@@ -382,7 +387,11 @@ function ComponentPlaygroundClient<
 		} else {
 			nextParams.delete("variant")
 		}
-		writeParam("viewport", nextState.viewport, defaultControls.viewport)
+		if (hasViewportControl) {
+			writeParam("viewport", nextState.viewport, defaultControls.viewport)
+		} else {
+			nextParams.delete("viewport")
+		}
 		writeParam("theme", nextState.theme, defaultControls.theme)
 		writeParam(
 			"zoom",
@@ -456,18 +465,20 @@ function ComponentPlaygroundClient<
 					</div>
 				)}
 
-				<div className="playground-controls__group">
-					<label>Viewport</label>
-					<SegmentedControl
-						variant="default"
-						options={viewportOptions.map((option) => ({
-							value: option.key,
-							label: option.label,
-						}))}
-						value={viewport}
-						onChange={(val) => setControl({ viewport: val })}
-					/>
-				</div>
+				{hasViewportControl && (
+					<div className="playground-controls__group">
+						<label>Viewport</label>
+						<SegmentedControl
+							variant="default"
+							options={viewportOptions.map((option) => ({
+								value: option.key,
+								label: option.label,
+							}))}
+							value={viewport}
+							onChange={(val) => setControl({ viewport: val })}
+						/>
+					</div>
+				)}
 
 				<div className="playground-controls__group">
 					<label>Theme</label>
@@ -508,7 +519,10 @@ function ComponentPlaygroundClient<
 						{zoomOption.label}
 					</span>
 					<span>
-						{viewportOption.label} · {viewportOption.width}px · {theme}
+						{hasViewportControl
+							? `${activeViewportOption.label} · ${activeViewportOption.width}px · `
+							: ""}
+						{theme}
 					</span>
 				</div>
 				<div className="playground-canvas__viewport">
@@ -516,7 +530,7 @@ function ComponentPlaygroundClient<
 						contentKey={previewKey}
 						layout={previewLayout}
 						theme={theme}
-						viewportWidth={viewportOption.width}
+						viewportWidth={activeViewportOption.width}
 						zoom={zoom}
 					>
 						{renderedSizes.map((s, idx) => (

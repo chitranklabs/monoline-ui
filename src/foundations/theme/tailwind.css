@@ -53,6 +53,15 @@
 	--color-body: var(--text-body);
 	--color-code-text: var(--code-text);
 	--color-btn-primary-hover: var(--btn-primary-hover);
+	--color-live: var(--color-live);
+	--color-live-soft: var(--color-live-soft);
+	--color-live-border: var(--color-live-border);
+	--color-callout-tip-text: var(--callout-tip-text);
+	--color-callout-tip-accent: var(--callout-tip-accent);
+	--color-callout-warn-text: var(--callout-warn-text);
+	--color-callout-warn-accent: var(--callout-warn-accent);
+	--color-callout-info-text: var(--callout-info-text);
+	--color-callout-info-accent: var(--callout-info-accent);
 
 	/* Fonts */
 	--font-sans: var(--font-sans);
@@ -92,21 +101,31 @@
 	--tracking-eyebrow: var(--tracking-eyebrow);
 
 	/* Spacing */
+	--breakpoint-mobile: 24.375rem;
+	--breakpoint-tablet: 48rem;
+	--breakpoint-desktop: 80rem;
+	--breakpoint-wide: 96rem;
+
 	--spacing-space-0: var(--space-0);
 	--spacing-space-px: var(--space-px);
 	--spacing-space-0-5: var(--space-0-5);
 	--spacing-space-1: var(--space-1);
+	--spacing-space-1-5: var(--space-1-5);
 	--spacing-space-2: var(--space-2);
 	--spacing-space-3: var(--space-3);
 	--spacing-space-4: var(--space-4);
 	--spacing-space-5: var(--space-5);
 	--spacing-space-6: var(--space-6);
+	--spacing-space-7: var(--space-7);
 	--spacing-space-8: var(--space-8);
+	--spacing-space-9: var(--space-9);
 	--spacing-space-10: var(--space-10);
 	--spacing-space-12: var(--space-12);
+	--spacing-space-14: var(--space-14);
 	--spacing-space-16: var(--space-16);
 	--spacing-space-20: var(--space-20);
 	--spacing-space-24: var(--space-24);
+	--spacing-space-28: var(--space-28);
 	--spacing-space-32: var(--space-32);
 
 	--spacing-ml-0: var(--ml-space-0);
@@ -127,6 +146,8 @@
 	--spacing-ml-14: var(--ml-space-14);
 	--spacing-ml-16: var(--ml-space-16);
 	--spacing-ml-20: var(--ml-space-20);
+	--spacing-ml-24: var(--ml-space-24);
+	--spacing-ml-28: var(--ml-space-28);
 
 	--spacing-footer-y-sm: var(--ml-footer-y-sm);
 	--spacing-footer-y-sm-tablet: var(--ml-footer-y-sm-tablet);
@@ -181,6 +202,12 @@
 	--radius-xl: var(--radius-xl);
 	--radius-2xl: var(--radius-2xl);
 	--radius-3xl: var(--radius-3xl);
+	--radius-pill: var(--radius-pill);
+
+	/* Border widths */
+	--border-width-thin: var(--border-thin);
+	--border-width-medium: var(--border-medium);
+	--border-width-thick: var(--border-thick);
 
 	/* Shadows */
 	--shadow-xs: var(--shadow-xs);
@@ -190,13 +217,147 @@
 	--shadow-xl: var(--shadow-xl);
 	--shadow-card: var(--shadow-lg);
 
+	/* Z-index */
+	--z-index-base: var(--z-base);
+	--z-index-elevated: var(--z-elevated);
+	--z-index-sticky: var(--z-sticky);
+	--z-index-dropdown: var(--z-dropdown);
+	--z-index-overlay: var(--z-overlay);
+	--z-index-modal: var(--z-modal);
+	--z-index-toast: var(--z-toast);
+	--z-index-tooltip: var(--z-tooltip);
+	--z-index-max: var(--z-max);
+
+	/* Containers */
+	--container-monoline-sm: var(--container-sm);
+	--container-monoline-md: var(--container-md);
+	--container-monoline-lg: var(--container-lg);
+	--container-monoline-xl: var(--container-xl);
+	--container-monoline-2xl: var(--container-2xl);
+	--container-container-sm: var(--container-sm);
+	--container-container-md: var(--container-md);
+	--container-container-lg: var(--container-lg);
+	--container-container-xl: var(--container-xl);
+	--container-container-2xl: var(--container-2xl);
+	--container-prose: var(--container-prose);
+
+	/* Blurs */
+	--blur-sm: var(--blur-sm);
+	--blur-md: var(--blur-md);
+	--blur-lg: var(--blur-lg);
+	--blur-xl: var(--blur-xl);
+
 	/* Motion */
+	--ease-linear: var(--ease-linear);
+	--ease-in: var(--ease-in);
+	--ease-out: var(--ease-out);
+	--ease-in-out: var(--ease-in-out);
 	--ease-out-expo: var(--ease-out-expo);
 	--ease-spring: var(--ease-spring);
 	--ease-spring-soft: var(--ease-spring-soft);
 	--ease-out-back: var(--ease-out-back);
+	--duration-instant: var(--duration-instant);
 	--duration-micro: var(--duration-micro);
+	--duration-fast: var(--duration-fast);
 	--duration-short: var(--duration-short);
 	--duration-medium: var(--duration-medium);
 	--duration-long: var(--duration-long);
+	--duration-xlong: var(--duration-xlong);
+
+	--animate-heart-pop: heart-pop var(--duration-medium) var(--ease-out-expo);
+	--animate-ring-ripple: ring-ripple var(--duration-long) var(--ease-out);
+	--animate-shimmer: shimmer 1.4s linear infinite;
+	--animate-progress-loop: progress-loop 1.4s var(--ease-in-out) infinite;
+	--animate-toast-in: toast-in 3.4s var(--ease-in-out);
+	--animate-fade-up: fade-up var(--duration-long) var(--ease-out-expo) both;
+	--animate-slide-in-left: slide-in-left var(--duration-short)
+		var(--ease-out-expo);
+	--animate-slide-in-right: slide-in-right var(--duration-short)
+		var(--ease-out-expo);
+	--animate-scale-in: scale-in var(--duration-fast) var(--ease-out-expo);
+	--animate-glow-pulse: glow-pulse 2.2s var(--ease-in-out) infinite;
+}
+
+@utility border-thin {
+	border-width: var(--border-thin);
+}
+
+@utility border-medium {
+	border-width: var(--border-medium);
+}
+
+@utility border-thick {
+	border-width: var(--border-thick);
+}
+
+@utility border-x-thin {
+	border-inline-width: var(--border-thin);
+}
+
+@utility border-x-medium {
+	border-inline-width: var(--border-medium);
+}
+
+@utility border-x-thick {
+	border-inline-width: var(--border-thick);
+}
+
+@utility border-y-thin {
+	border-block-width: var(--border-thin);
+}
+
+@utility border-y-medium {
+	border-block-width: var(--border-medium);
+}
+
+@utility border-y-thick {
+	border-block-width: var(--border-thick);
+}
+
+@utility border-t-thin {
+	border-block-start-width: var(--border-thin);
+}
+
+@utility border-t-medium {
+	border-block-start-width: var(--border-medium);
+}
+
+@utility border-t-thick {
+	border-block-start-width: var(--border-thick);
+}
+
+@utility border-r-thin {
+	border-inline-end-width: var(--border-thin);
+}
+
+@utility border-r-medium {
+	border-inline-end-width: var(--border-medium);
+}
+
+@utility border-r-thick {
+	border-inline-end-width: var(--border-thick);
+}
+
+@utility border-b-thin {
+	border-block-end-width: var(--border-thin);
+}
+
+@utility border-b-medium {
+	border-block-end-width: var(--border-medium);
+}
+
+@utility border-b-thick {
+	border-block-end-width: var(--border-thick);
+}
+
+@utility border-l-thin {
+	border-inline-start-width: var(--border-thin);
+}
+
+@utility border-l-medium {
+	border-inline-start-width: var(--border-medium);
+}
+
+@utility border-l-thick {
+	border-inline-start-width: var(--border-thick);
 }

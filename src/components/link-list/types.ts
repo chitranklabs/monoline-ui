@@ -25,8 +25,7 @@ export interface LinkListProps extends Omit<
 	"children" | "title"
 > {
 	size?: LinkListSize
-	title?: string
-	meta?: React.ReactNode
+	title?: React.ReactNode
 	action?: React.ReactNode
 	items?: LinkListItem[]
 	children?: React.ReactNode

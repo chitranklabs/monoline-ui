@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@chitrank2050/monoline-ui/button"
 import {
 	LinkList,
 	type LinkListSize,
@@ -47,8 +46,7 @@ const essays = [
 
 const propsRows = [
 	["size", "sm | md | lg", "List density and row type scale"],
-	["title", "string", "Exact header label"],
-	["meta", "ReactNode", "Secondary header metadata"],
+	["title", "ReactNode", "Exact header label"],
 	["action", "ReactNode", "Header action such as All essays"],
 	["items", "LinkListItem[]", "Dynamic link rows"],
 	["children", "ReactNode", "Compound composition override"],
@@ -71,7 +69,6 @@ export function FurtherReading({ essays }) {
   return (
     <LinkList
       title="Further reading"
-      meta={\`\${visibleEssays.length} essays on this project\`}
       action={essays.length > 4 ? <a href="/writing">All essays</a> : null}
       items={visibleEssays}
     />
@@ -80,12 +77,7 @@ export function FurtherReading({ essays }) {
 
 const usageCode = `<LinkList
   title="Further reading"
-  meta="4 essays on this project"
-  action={
-    <Button asChild variant="ghost" size="sm">
-      <a href="/writing">All essays</a>
-    </Button>
-  }
+  action={<a href="/writing">All essays</a>}
   items={[
     {
       label: "01",
@@ -110,17 +102,13 @@ export default function LinkListPageClient() {
 			props={propsRows}
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
+			previewLayout="viewport"
 			renderPreview={(size = "md") => (
 				<div className="w-full max-w-5xl p-ml-6">
 					<LinkList
 						size={size}
 						title="Further reading"
-						meta="4 essays on this project"
-						action={
-							<Button asChild variant="ghost" size="sm">
-								<a href="/writing">All essays</a>
-							</Button>
-						}
+						action={<a href="/writing">All essays</a>}
 						items={[...essays]}
 					/>
 				</div>

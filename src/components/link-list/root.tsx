@@ -6,7 +6,6 @@ export function LinkListRoot({
 	className,
 	size = "md",
 	title,
-	meta,
 	action,
 	items,
 	children,
@@ -20,11 +19,10 @@ export function LinkListRoot({
 			className={cn("ml-link-list", className)}
 			{...props}
 		>
-			{title || meta || action ? (
+			{title || action ? (
 				<header className="ml-link-list__header">
 					<span className="ml-link-list__heading">
 						{title ? <span>{title}</span> : null}
-						{meta ? <span>{meta}</span> : null}
 					</span>
 					{action ? (
 						<span className="ml-link-list__action">{action}</span>

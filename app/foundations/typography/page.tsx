@@ -58,13 +58,13 @@ const scaleRows = [
 	["H3", "22px / 600", "The quick brown fox.", "docs-scale__sample--h3"],
 	[
 		"Body",
-		"17.5px / 400",
+		"18px / 400",
 		"The quick brown fox jumps over the lazy dog.",
 		"docs-scale__sample--body",
 	],
 	[
 		"Small",
-		"13px / 400",
+		"14px / 400",
 		"The quick brown fox jumps over the lazy dog.",
 		"docs-scale__sample--small",
 	],

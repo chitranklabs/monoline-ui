@@ -17,7 +17,7 @@
 	}
 }
 .animate-heart-pop {
-	animation: heart-pop var(--duration-medium) var(--ease-out-expo);
+	animation: var(--animate-heart-pop);
 }
 
 /* Ring ripple (around like button) */
@@ -32,7 +32,7 @@
 	}
 }
 .animate-ring-ripple {
-	animation: ring-ripple var(--duration-long) var(--ease-out);
+	animation: var(--animate-ring-ripple);
 }
 
 /* Shimmer skeleton */
@@ -52,7 +52,7 @@
 		var(--surface-2) 100%
 	);
 	background-size: 12.5rem 100%;
-	animation: shimmer 1.4s linear infinite;
+	animation: var(--animate-shimmer);
 }
 
 /* Reading progress indeterminate sweep */
@@ -65,7 +65,7 @@
 	}
 }
 .animate-progress-loop {
-	animation: progress-loop 1.4s var(--ease-in-out) infinite;
+	animation: var(--animate-progress-loop);
 }
 
 /* Toast slide-in / out */
@@ -88,7 +88,7 @@
 	}
 }
 .animate-toast-in {
-	animation: toast-in 3.4s var(--ease-in-out);
+	animation: var(--animate-toast-in);
 }
 
 /* Fade-up entry - used by sections on first paint */
@@ -103,7 +103,7 @@
 	}
 }
 .animate-fade-up {
-	animation: fade-up var(--duration-long) var(--ease-out-expo) both;
+	animation: var(--animate-fade-up);
 }
 
 /* Slide-in from left / right - used by drawers, sidebar */
@@ -124,10 +124,10 @@
 	}
 }
 .animate-slide-in-left {
-	animation: slide-in-left var(--duration-short) var(--ease-out-expo);
+	animation: var(--animate-slide-in-left);
 }
 .animate-slide-in-right {
-	animation: slide-in-right var(--duration-short) var(--ease-out-expo);
+	animation: var(--animate-slide-in-right);
 }
 
 /* Scale-in (popovers, dropdowns) */
@@ -142,7 +142,7 @@
 	}
 }
 .animate-scale-in {
-	animation: scale-in var(--duration-fast) var(--ease-out-expo);
+	animation: var(--animate-scale-in);
 	transform-origin: top center;
 }
 
@@ -181,7 +181,7 @@
 	}
 }
 .animate-glow-pulse {
-	animation: glow-pulse 2.2s var(--ease-in-out) infinite;
+	animation: var(--animate-glow-pulse);
 }
 
 /* Entry animation - your existing @starting-style pattern, preserved */
