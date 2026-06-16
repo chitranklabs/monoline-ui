@@ -72,6 +72,10 @@
 			"types": "./components/footer/index.d.ts",
 			"import": "./components/footer/index.js"
 		},
+		"./link-list": {
+			"types": "./components/link-list/index.d.ts",
+			"import": "./components/link-list/index.js"
+		},
 		"./media-frame": {
 			"types": "./components/media-frame/index.d.ts",
 			"import": "./components/media-frame/index.js"
@@ -87,6 +91,10 @@
 		"./progress": {
 			"types": "./components/progress/index.d.ts",
 			"import": "./components/progress/index.js"
+		},
+		"./resources-panel": {
+			"types": "./components/resources-panel/index.d.ts",
+			"import": "./components/resources-panel/index.js"
 		},
 		"./section-head": {
 			"types": "./components/section-head/index.d.ts",

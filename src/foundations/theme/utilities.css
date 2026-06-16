@@ -997,6 +997,181 @@
 }
 
 /* ---------------------------------- */
+/* Link List                          */
+/* ---------------------------------- */
+
+.ml-link-list {
+	--ml-link-list-row-padding-y: var(--ml-space-4);
+	--ml-link-list-row-gap: var(--ml-space-5);
+	--ml-link-list-label-width: var(--ml-space-8);
+	--ml-link-list-date-width: var(--ml-space-24);
+	--ml-link-list-title-text: var(--text-base);
+	--ml-link-list-meta-text: var(--text-2xs);
+	--ml-link-list-tag-text: var(--text-xs);
+
+	display: grid;
+	inline-size: 100%;
+}
+
+.ml-link-list[data-size="sm"] {
+	--ml-link-list-row-padding-y: var(--ml-space-3);
+	--ml-link-list-row-gap: var(--ml-space-4);
+	--ml-link-list-label-width: var(--ml-space-7);
+	--ml-link-list-date-width: var(--ml-space-20);
+	--ml-link-list-title-text: var(--text-sm);
+	--ml-link-list-meta-text: var(--text-3xs);
+	--ml-link-list-tag-text: var(--text-2xs);
+}
+
+.ml-link-list[data-size="lg"] {
+	--ml-link-list-row-padding-y: var(--ml-space-5);
+	--ml-link-list-row-gap: var(--ml-space-6);
+	--ml-link-list-label-width: var(--ml-space-10);
+	--ml-link-list-date-width: var(--ml-space-28);
+	--ml-link-list-title-text: var(--text-lg);
+	--ml-link-list-meta-text: var(--text-xs);
+	--ml-link-list-tag-text: var(--text-sm);
+}
+
+.ml-link-list__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ml-space-4);
+	padding-block-end: var(--ml-space-3);
+	border-block-end: var(--border-thin) solid var(--border);
+}
+
+.ml-link-list__heading {
+	display: inline-flex;
+	min-width: 0;
+	align-items: center;
+	gap: var(--ml-space-2);
+	color: var(--text-muted);
+	font-family: var(--font-mono);
+	font-size: var(--ml-link-list-meta-text);
+	font-weight: 600;
+	line-height: 1;
+	letter-spacing: var(--tracking-eyebrow);
+	text-transform: uppercase;
+}
+
+.ml-link-list__action {
+	flex: 0 0 auto;
+}
+
+.ml-link-list__items {
+	display: grid;
+}
+
+.ml-link-list__item {
+	display: grid;
+	grid-template-columns:
+		var(--ml-link-list-label-width) var(--ml-link-list-date-width)
+		minmax(0, 1fr) auto auto;
+	gap: var(--ml-link-list-row-gap);
+	align-items: center;
+	min-width: 0;
+	padding-block: var(--ml-link-list-row-padding-y);
+	border-block-end: var(--border-thin) solid var(--border);
+	color: inherit;
+	text-decoration: none;
+	transition:
+		background-color var(--duration-micro) var(--ease-out),
+		border-color var(--duration-micro) var(--ease-out),
+		color var(--duration-micro) var(--ease-out);
+}
+
+a.ml-link-list__item {
+	cursor: pointer;
+}
+
+a.ml-link-list__item:hover {
+	border-color: color-mix(in oklch, var(--border-strong) 80%, var(--border));
+	background: var(--surface-2);
+}
+
+.ml-link-list__item:focus-visible {
+	outline: none;
+	box-shadow: var(--focus-ring);
+}
+
+.ml-link-list__label,
+.ml-link-list__date,
+.ml-link-list__mobile-meta,
+.ml-link-list__trailing {
+	color: var(--text-muted);
+	font-family: var(--font-mono);
+	font-size: var(--ml-link-list-meta-text);
+	line-height: 1;
+	letter-spacing: var(--tracking-meta);
+	text-transform: uppercase;
+}
+
+.ml-link-list__content {
+	display: grid;
+	min-width: 0;
+	gap: var(--ml-space-1);
+}
+
+.ml-link-list__title {
+	overflow: hidden;
+	color: var(--primary);
+	font-size: var(--ml-link-list-title-text);
+	font-weight: 650;
+	line-height: var(--leading-tight);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ml-link-list__mobile-meta {
+	display: none;
+}
+
+.ml-link-list__tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-inline-size: 0;
+	padding-block: var(--ml-space-0-5);
+	padding-inline: var(--ml-space-2);
+	border: var(--border-thin) solid var(--border-strong);
+	border-radius: var(--radius-pill);
+	color: var(--text-secondary);
+	font-size: var(--ml-link-list-tag-text);
+	font-weight: 600;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.ml-link-list__trailing {
+	white-space: nowrap;
+	transition:
+		color var(--duration-micro) var(--ease-out),
+		transform var(--duration-micro) var(--ease-out);
+}
+
+a.ml-link-list__item:hover .ml-link-list__trailing {
+	color: var(--accent);
+	transform: translate3d(var(--ml-space-0-5), 0, 0);
+}
+
+@media (max-width: 47.999rem) {
+	.ml-link-list__item {
+		grid-template-columns: var(--ml-link-list-label-width) minmax(0, 1fr) auto;
+	}
+
+	.ml-link-list__date,
+	.ml-link-list__tag {
+		display: none;
+	}
+
+	.ml-link-list__mobile-meta {
+		display: block;
+	}
+}
+
+/* ---------------------------------- */
 /* Resources Panel                    */
 /* ---------------------------------- */
 

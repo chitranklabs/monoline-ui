@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url"
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDir, "..")
 const distDir = path.join(projectRoot, "dist")
+const tscBin = path.join(projectRoot, "node_modules", ".bin", "tsc")
 
 function run(command, args) {
 	return new Promise((resolve, reject) => {
@@ -109,7 +110,7 @@ async function rewriteDistEsmSpecifiers(directory) {
 
 await rm(distDir, { recursive: true, force: true })
 // Run typescript build
-await run("pnpm", ["exec", "tsc", "-p", "tsconfig.build.json"])
+await run(tscBin, ["-p", "tsconfig.build.json"])
 await rewriteDistEsmSpecifiers(distDir)
 
 // Copy styles

@@ -177,8 +177,14 @@ async function run() {
 
 	// 8. Format generated files
 	try {
+		const prettierBin = path.join(
+			projectRoot,
+			"node_modules",
+			".bin",
+			"prettier"
+		)
 		execSync(
-			`npx prettier --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}"`,
+			`"${prettierBin}" --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}"`,
 			{
 				cwd: projectRoot,
 				stdio: "pipe",

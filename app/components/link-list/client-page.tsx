@@ -1,0 +1,130 @@
+"use client"
+
+import { Button } from "@chitrank2050/monoline-ui/button"
+import {
+	LinkList,
+	type LinkListSize,
+} from "@chitrank2050/monoline-ui/link-list"
+
+import { ComponentPlayground } from "../../_components/component-playground"
+
+const linkListSizes: LinkListSize[] = ["sm", "md", "lg"]
+
+const essays = [
+	{
+		label: "01",
+		date: "May 12, 2026",
+		title: "Designing a type-safe BFF with tRPC and Zod",
+		href: "/writing/type-safe-bff",
+		tag: "Engineering",
+		meta: "9m →",
+	},
+	{
+		label: "02",
+		date: "Apr 28, 2026",
+		title: "Streaming LLM responses without losing your mind",
+		href: "/writing/streaming-llm",
+		tag: "AI",
+		meta: "12m →",
+	},
+	{
+		label: "03",
+		date: "Apr 14, 2026",
+		title: "A pragmatic guide to React Server Components",
+		href: "/writing/react-server-components",
+		tag: "Frontend",
+		meta: "8m →",
+	},
+	{
+		label: "04",
+		date: "Feb 19, 2026",
+		title: "Postgres tricks I wish I knew at twenty-two",
+		href: "/writing/postgres-tricks",
+		tag: "Backend",
+		meta: "11m →",
+	},
+] as const
+
+const propsRows = [
+	["size", "sm | md | lg", "List density and row type scale"],
+	["title", "string", "Exact header label"],
+	["meta", "ReactNode", "Secondary header metadata"],
+	["action", "ReactNode", "Header action such as All essays"],
+	["items", "LinkListItem[]", "Dynamic link rows"],
+	["children", "ReactNode", "Compound composition override"],
+	["linkComponent", "ComponentType", "Next Link or router link adapter"],
+] as const
+
+const tokenRows = [
+	["--ml-link-list-row-padding-y", "Vertical row rhythm"],
+	["--ml-link-list-label-width", "Leading number column"],
+	["--ml-link-list-date-width", "Desktop date column"],
+	["--ml-link-list-title-text", "Title type scale"],
+	["--border", "Header and row separators"],
+] as const
+
+const sourceSnippet = `import { LinkList } from "@chitrank2050/monoline-ui/link-list"
+
+export function FurtherReading({ essays }) {
+  const visibleEssays = essays.slice(0, 4)
+
+  return (
+    <LinkList
+      title="Further reading"
+      meta={\`\${visibleEssays.length} essays on this project\`}
+      action={essays.length > 4 ? <a href="/writing">All essays</a> : null}
+      items={visibleEssays}
+    />
+  )
+}`
+
+const usageCode = `<LinkList
+  title="Further reading"
+  meta="4 essays on this project"
+  action={
+    <Button asChild variant="ghost" size="sm">
+      <a href="/writing">All essays</a>
+    </Button>
+  }
+  items={[
+    {
+      label: "01",
+      date: "May 12, 2026",
+      title: "Designing a type-safe BFF with tRPC and Zod",
+      href: "/writing/type-safe-bff",
+      tag: "Engineering",
+      meta: "9m →",
+    },
+  ]}
+/>`
+
+export default function LinkListPageClient() {
+	return (
+		<ComponentPlayground<LinkListSize>
+			title="LinkList"
+			description="Render compact editorial link rows for project-detail reading lists, changelogs, release notes, and archives."
+			sizes={linkListSizes}
+			defaultSize="md"
+			importStatement='import { LinkList } from "@chitrank2050/monoline-ui/link-list"'
+			usageCode={usageCode}
+			props={propsRows}
+			tokens={tokenRows}
+			sourceSnippet={sourceSnippet}
+			renderPreview={(size = "md") => (
+				<div className="w-full max-w-5xl p-ml-6">
+					<LinkList
+						size={size}
+						title="Further reading"
+						meta="4 essays on this project"
+						action={
+							<Button asChild variant="ghost" size="sm">
+								<a href="/writing">All essays</a>
+							</Button>
+						}
+						items={[...essays]}
+					/>
+				</div>
+			)}
+		/>
+	)
+}

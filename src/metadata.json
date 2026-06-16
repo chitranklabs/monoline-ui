@@ -1,5 +1,5 @@
 {
-	"count": 19,
+	"count": 21,
 	"components": [
 		"avatar",
 		"button",
@@ -7,10 +7,12 @@
 		"data-list",
 		"eyebrow",
 		"footer",
+		"link-list",
 		"media-frame",
 		"metric",
 		"navbar",
 		"progress",
+		"resources-panel",
 		"section-head",
 		"segmented-control",
 		"select",

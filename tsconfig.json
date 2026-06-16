@@ -26,6 +26,7 @@
 			"@chitrank2050/monoline-ui/data-list": ["./src/components/data-list"],
 			"@chitrank2050/monoline-ui/eyebrow": ["./src/components/eyebrow"],
 			"@chitrank2050/monoline-ui/footer": ["./src/components/footer"],
+			"@chitrank2050/monoline-ui/link-list": ["./src/components/link-list"],
 			"@chitrank2050/monoline-ui/media-frame": ["./src/components/media-frame"],
 			"@chitrank2050/monoline-ui/metric": ["./src/components/metric"],
 			"@chitrank2050/monoline-ui/navbar": ["./src/components/navbar"],
