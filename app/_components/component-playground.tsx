@@ -609,7 +609,7 @@ export function ComponentPlayground<
 			fallback={
 				<div
 					style={{
-						padding: "40px",
+						padding: "var(--ml-space-10)",
 						textAlign: "center",
 						color: "var(--text-muted)",
 						fontFamily: "var(--font-mono)",

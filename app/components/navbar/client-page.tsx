@@ -118,7 +118,7 @@ export default function NavbarPageClient() {
 						: "contained"
 				const isGlass = variant === "glass" || variant === "extended-glass"
 				return (
-					<div className="w-full" style={{ minHeight: "120px" }}>
+					<div className="min-h-ml-20 w-full">
 						<Navbar
 							size={size}
 							layout={layout}

@@ -37,10 +37,7 @@ export interface ResourcesPanelProps extends Omit<
 	"children" | "title"
 > {
 	size?: ResourcesPanelSize
-	title?: React.ReactNode
-	count?: React.ReactNode
-	showCount?: boolean
-	countSeparator?: React.ReactNode
+	title?: string
 	meta?: React.ReactNode
 	items: ResourcesPanelItem[]
 	footer?: React.ReactNode

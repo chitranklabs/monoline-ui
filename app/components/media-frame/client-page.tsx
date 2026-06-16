@@ -30,7 +30,7 @@ export function ProjectCover() {
         src="/project-cover.jpg"
         alt="Lumen Insights dashboard"
         fill
-        sizes="(max-width: 768px) 100vw, 1200px"
+        sizes="(max-width: 48rem) 100vw, 75rem"
       />
       <MediaFrame.Meta>COVER · PRODUCT</MediaFrame.Meta>
     </MediaFrame>

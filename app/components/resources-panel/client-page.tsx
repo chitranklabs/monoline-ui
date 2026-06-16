@@ -67,10 +67,7 @@ const items = [
 
 const propsRows = [
 	["size", "sm | md | lg", "Panel density and row scale"],
-	["title", "ReactNode", "Header title (defaults to Resources)"],
-	["count", "ReactNode", "Header count value (defaults to items.length)"],
-	["showCount", "boolean", "Show or hide the header count"],
-	["countSeparator", "ReactNode", "Separator between title and count"],
+	["title", "string", "Exact header label (defaults to Resources)"],
 	["meta", "ReactNode", "Right-aligned header metadata"],
 	["items", "ResourcesPanelItem[]", "Dynamic resource rows"],
 	["footer", "ReactNode | null", "Footer override; null hides the footer"],
@@ -90,20 +87,18 @@ const sourceSnippet = `import { ResourcesPanel } from "@chitrank2050/monoline-ui
 
 export function ProjectResources({ resources }) {
   return (
-    <ResourcesPanel
-      meta="v2.4.1 · MIT"
-      title="Resources"
-      count={resources.length}
-      items={resources}
-      footerLabel="8 total resources"
-    />
+	    <ResourcesPanel
+	      meta="v2.4.1 · MIT"
+	      title={\`Resources · \${resources.length}\`}
+	      items={resources}
+	      footerLabel="8 total resources"
+	    />
   )
 }`
 
 const usageCode = `<ResourcesPanel
   meta="v2.4.1 · MIT"
-  title="Resources"
-  count={8}
+  title="Resources · 8"
   items={[
     {
       kind: "live",
@@ -121,7 +116,7 @@ const usageCode = `<ResourcesPanel
   ]}
 />
 
-<ResourcesPanel items={resources} showCount={false} footer={null} />`
+<ResourcesPanel title="Links" items={resources} footer={null} />`
 
 export default function ResourcesPanelPageClient() {
 	return (
@@ -137,7 +132,12 @@ export default function ResourcesPanelPageClient() {
 			sourceSnippet={sourceSnippet}
 			renderPreview={(size = "md") => (
 				<div className="w-full max-w-sm p-ml-6">
-					<ResourcesPanel size={size} meta="v2.4.1 · MIT" items={[...items]} />
+					<ResourcesPanel
+						size={size}
+						title="Resources · 8"
+						meta="v2.4.1 · MIT"
+						items={[...items]}
+					/>
 				</div>
 			)}
 		/>

@@ -95,9 +95,6 @@ export function ResourcesPanelRoot({
 	className,
 	size = "md",
 	title,
-	count,
-	showCount = true,
-	countSeparator = "·",
 	meta,
 	items,
 	footer,
@@ -111,7 +108,6 @@ export function ResourcesPanelRoot({
 			? null
 			: (footer ?? footerLabel ?? getDefaultFooterLabel(items.length))
 	const resolvedTitle = title ?? "Resources"
-	const resolvedCount = count ?? items.length
 
 	return (
 		<aside
@@ -121,15 +117,7 @@ export function ResourcesPanelRoot({
 			{...props}
 		>
 			<header className="ml-resources-panel__header">
-				<span className="ml-resources-panel__title">
-					<span>{resolvedTitle}</span>
-					{showCount ? (
-						<>
-							<span aria-hidden="true">{countSeparator}</span>
-							<span>{resolvedCount}</span>
-						</>
-					) : null}
-				</span>
+				<span className="ml-resources-panel__title">{resolvedTitle}</span>
 				{meta ? <span className="ml-resources-panel__meta">{meta}</span> : null}
 			</header>
 			{children ?? (
