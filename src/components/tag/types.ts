@@ -8,6 +8,7 @@ interface TagBaseProps {
 	interactive?: boolean
 	size?: TagSize
 	variant?: TagVariant
+	asChild?: boolean
 }
 
 export type InteractiveTagProps = TagBaseProps &

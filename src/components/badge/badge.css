@@ -1,0 +1,27 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-badge--outline {
+		background: transparent;
+		color: var(--text-secondary);
+		border-color: var(--border-strong);
+	}
+
+	.ml-badge--solid {
+		background: var(--surface-primary);
+		color: var(--text-primary-foreground);
+		border-color: var(--surface-primary);
+	}
+
+	.ml-badge--muted {
+		background: var(--surface-2);
+		color: var(--text-muted);
+		border-color: transparent;
+	}
+
+	.ml-badge--accent {
+		background: var(--accent-soft);
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+}

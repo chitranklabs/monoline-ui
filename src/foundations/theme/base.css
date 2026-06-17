@@ -53,8 +53,8 @@
 	}
 	::-webkit-scrollbar-thumb {
 		background: var(--border-strong);
-		border-radius: var(--radius-pill);
-		border: 2px solid var(--background);
+		border-radius: 999px;
+		border: 0.125rem solid var(--background);
 	}
 	::-webkit-scrollbar-thumb:hover {
 		background: var(--muted-foreground);

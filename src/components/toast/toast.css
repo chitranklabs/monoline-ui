@@ -1,0 +1,22 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-toast {
+		border-color: var(--border-strong);
+		background: var(--button);
+		box-shadow: 0 12px 36px oklch(0 0 0 / 0.4);
+	}
+
+	.ml-toast-dot--accent {
+		background: var(--accent);
+		box-shadow: 0 0 0 4px var(--accent-soft);
+	}
+
+	.ml-toast-dot--success {
+		background: var(--callout-tip-accent, var(--accent));
+	}
+
+	.ml-toast-dot--warn {
+		background: oklch(0.7 0.16 80);
+	}
+}

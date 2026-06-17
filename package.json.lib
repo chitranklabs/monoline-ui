@@ -48,21 +48,41 @@
 			"types": "./index.d.ts",
 			"import": "./index.js"
 		},
+		"./action-rail": {
+			"types": "./components/action-rail/index.d.ts",
+			"import": "./components/action-rail/index.js"
+		},
 		"./avatar": {
 			"types": "./components/avatar/index.d.ts",
 			"import": "./components/avatar/index.js"
+		},
+		"./badge": {
+			"types": "./components/badge/index.d.ts",
+			"import": "./components/badge/index.js"
 		},
 		"./button": {
 			"types": "./components/button/index.d.ts",
 			"import": "./components/button/index.js"
 		},
+		"./callout": {
+			"types": "./components/callout/index.d.ts",
+			"import": "./components/callout/index.js"
+		},
 		"./card": {
 			"types": "./components/card/index.d.ts",
 			"import": "./components/card/index.js"
 		},
+		"./code-block": {
+			"types": "./components/code-block/index.d.ts",
+			"import": "./components/code-block/index.js"
+		},
 		"./data-list": {
 			"types": "./components/data-list/index.d.ts",
 			"import": "./components/data-list/index.js"
+		},
+		"./editorial-line": {
+			"types": "./components/editorial-line/index.d.ts",
+			"import": "./components/editorial-line/index.js"
 		},
 		"./eyebrow": {
 			"types": "./components/eyebrow/index.d.ts",
@@ -72,6 +92,10 @@
 			"types": "./components/footer/index.d.ts",
 			"import": "./components/footer/index.js"
 		},
+		"./input": {
+			"types": "./components/input/index.d.ts",
+			"import": "./components/input/index.js"
+		},
 		"./link-list": {
 			"types": "./components/link-list/index.d.ts",
 			"import": "./components/link-list/index.js"
@@ -79,6 +103,10 @@
 		"./media-frame": {
 			"types": "./components/media-frame/index.d.ts",
 			"import": "./components/media-frame/index.js"
+		},
+		"./meta-row": {
+			"types": "./components/meta-row/index.d.ts",
+			"import": "./components/meta-row/index.js"
 		},
 		"./metric": {
 			"types": "./components/metric/index.d.ts",
@@ -91,6 +119,14 @@
 		"./progress": {
 			"types": "./components/progress/index.d.ts",
 			"import": "./components/progress/index.js"
+		},
+		"./pull-quote": {
+			"types": "./components/pull-quote/index.d.ts",
+			"import": "./components/pull-quote/index.js"
+		},
+		"./rail": {
+			"types": "./components/rail/index.d.ts",
+			"import": "./components/rail/index.js"
 		},
 		"./resources-panel": {
 			"types": "./components/resources-panel/index.d.ts",
@@ -107,6 +143,10 @@
 		"./select": {
 			"types": "./components/select/index.d.ts",
 			"import": "./components/select/index.js"
+		},
+		"./skeleton": {
+			"types": "./components/skeleton/index.d.ts",
+			"import": "./components/skeleton/index.js"
 		},
 		"./status": {
 			"types": "./components/status/index.d.ts",
@@ -127,6 +167,14 @@
 		"./theme-switcher": {
 			"types": "./components/theme-switcher/index.d.ts",
 			"import": "./components/theme-switcher/index.js"
+		},
+		"./toast": {
+			"types": "./components/toast/index.d.ts",
+			"import": "./components/toast/index.js"
+		},
+		"./toc": {
+			"types": "./components/toc/index.d.ts",
+			"import": "./components/toc/index.js"
 		},
 		"./toggle": {
 			"types": "./components/toggle/index.d.ts",

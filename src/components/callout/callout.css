@@ -1,0 +1,20 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-callout {
+		background: var(--surface);
+		border-color: var(--border);
+	}
+
+	.ml-callout--note {
+		border-left-color: var(--text-muted);
+	}
+
+	.ml-callout--tip {
+		border-left-color: var(--callout-tip-accent, var(--accent));
+	}
+
+	.ml-callout--warn {
+		border-left-color: oklch(0.7 0.16 80);
+	}
+}

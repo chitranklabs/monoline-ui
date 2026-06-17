@@ -52,7 +52,7 @@ export function FooterRoot({
 			{...props}
 		>
 			<div className="ml-footer__container mx-auto w-full">
-				<div className="ml-footer__layout grid grid-cols-1">
+				<div className="ml-footer__layout grid">
 					<div className="ml-footer__intro flex flex-col">
 						{brand ? (
 							<div className="ml-footer__brand font-script leading-none font-bold text-primary">

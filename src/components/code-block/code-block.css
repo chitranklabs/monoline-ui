@@ -1,0 +1,17 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-code-block {
+		border-color: var(--border);
+	}
+
+	.ml-code-block__header {
+		border-color: var(--border);
+		background: var(--surface-3);
+	}
+
+	.ml-code-block__pre {
+		background: var(--surface-code, var(--surface-2));
+		color: var(--code-text, var(--text-primary));
+	}
+}

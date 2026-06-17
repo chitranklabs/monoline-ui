@@ -1,3 +1,5 @@
+import { Slot } from "@radix-ui/react-slot"
+
 import { cn } from "../../lib/utils"
 import type { TagProps, TagSize, TagVariant } from "./types"
 
@@ -24,6 +26,7 @@ export function TagRoot({
 	size = "md",
 	variant = "filter",
 	interactive,
+	asChild = false,
 	ref,
 	...props
 }: TagProps) {
@@ -37,10 +40,22 @@ export function TagRoot({
 		className
 	)
 
+	if (asChild) {
+		return (
+			<Slot
+				ref={ref as React.Ref<HTMLElement>}
+				data-active={active}
+				data-interactive={isInteractive ? "true" : "false"}
+				className={sharedClassName}
+				{...(props as React.ComponentProps<typeof Slot>)}
+			/>
+		)
+	}
+
 	if (!isInteractive) {
 		const { ...spanProps } = props as Omit<
 			Extract<TagProps, { interactive?: false }>,
-			"active" | "interactive" | "size" | "variant"
+			"active" | "interactive" | "size" | "variant" | "asChild"
 		>
 
 		return (
@@ -56,7 +71,7 @@ export function TagRoot({
 
 	const { type, ...buttonProps } = props as Omit<
 		Extract<TagProps, { interactive?: true }>,
-		"active" | "interactive" | "size" | "variant"
+		"active" | "interactive" | "size" | "variant" | "asChild"
 	>
 
 	return (

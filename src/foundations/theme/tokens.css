@@ -341,7 +341,7 @@
 	--tracking-mono: 0.04em;
 	--tracking-wide: 0.08em;
 	--tracking-meta: 0.14em;
-	--tracking-eyebrow: 0.18em;
+	--tracking-eyebrow: 0.16em;
 
 	/* ─── Typography roles ─── */
 	--type-docs-title-size: 2.625rem;
@@ -432,12 +432,12 @@
 
 	/* ─── Motion: durations ─── */
 	--duration-instant: 0ms;
-	--duration-micro: 100ms; /* immediate control feedback */
+	--duration-micro: 120ms; /* immediate control feedback */
 	--duration-fast: 140ms; /* menus and compact fades */
-	--duration-short: 180ms; /* state changes and indicators */
-	--duration-medium: 240ms; /* sheets and larger surfaces */
-	--duration-long: 360ms; /* deliberate entry motion */
-	--duration-xlong: 500ms; /* rare large-surface transitions */
+	--duration-short: 250ms; /* state changes and indicators */
+	--duration-medium: 450ms; /* sheets and larger surfaces */
+	--duration-long: 700ms; /* deliberate entry motion */
+	--duration-xlong: 1200ms; /* rare large-surface transitions */
 
 	/* ─── Motion: easings ─── */
 	--ease-linear: linear;
@@ -445,9 +445,9 @@
 	--ease-out: cubic-bezier(0, 0, 0.2, 1);
 	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-	--ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot */
 	--ease-spring-soft: cubic-bezier(0.16, 1, 0.3, 1);
-	--ease-out-back: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-out-back: cubic-bezier(0.18, 0.89, 0.32, 1.27); /* subtle back-ease */
 
 	/* ─── Blurs (for backdrop) ─── */
 	--blur-sm: 4px;

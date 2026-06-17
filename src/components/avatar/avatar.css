@@ -21,27 +21,27 @@
 	}
 
 	.ml-avatar[data-size="sm"] {
-		--ml-avatar-size: var(--ml-space-5);
+		--ml-avatar-size: var(--ml-space-7);
 		--ml-avatar-text: var(--text-3xs);
 	}
 
 	.ml-avatar[data-size="md"] {
-		--ml-avatar-size: var(--ml-space-6);
+		--ml-avatar-size: var(--ml-space-9);
 		--ml-avatar-text: var(--text-2xs);
 	}
 
 	.ml-avatar[data-size="lg"] {
-		--ml-avatar-size: var(--ml-space-9);
-		--ml-avatar-text: var(--text-xs);
-	}
-
-	.ml-avatar[data-size="xl"] {
 		--ml-avatar-size: var(--ml-space-14);
 		--ml-avatar-text: var(--text-sm);
 	}
 
-	.ml-avatar[data-size="2xl"] {
-		--ml-avatar-size: var(--ml-space-20);
+	.ml-avatar[data-size="xl"] {
+		--ml-avatar-size: 5.5rem;
 		--ml-avatar-text: var(--text-xl);
+	}
+
+	.ml-avatar[data-size="2xl"] {
+		--ml-avatar-size: var(--ml-space-28);
+		--ml-avatar-text: var(--text-2xl);
 	}
 }

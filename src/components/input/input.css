@@ -1,0 +1,26 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-input--default {
+		border-color: var(--border-strong);
+		background: var(--surface);
+		color: var(--text-primary);
+	}
+
+	.ml-input--default:focus-within {
+		border-color: var(--accent);
+		background: var(--surface-2);
+		box-shadow: 0 0 0 3px var(--accent-soft);
+	}
+
+	.ml-input--error {
+		border-color: oklch(0.55 0.18 25);
+		background: var(--surface);
+		color: var(--text-primary);
+	}
+
+	.ml-input--error:focus-within {
+		background: var(--surface-2);
+		box-shadow: 0 0 0 3px oklch(0.55 0.18 25 / 0.18);
+	}
+}
