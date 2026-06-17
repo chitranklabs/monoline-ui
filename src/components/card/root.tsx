@@ -47,7 +47,7 @@ export function CardRoot({
 					onClick as React.MouseEventHandler<HTMLAnchorElement> | undefined
 				}
 				className={cardClassName}
-				{...(props as React.ComponentPropsWithoutRef<"a">)}
+				{...(props as React.ComponentProps<"a">)}
 			/>
 		)
 	}

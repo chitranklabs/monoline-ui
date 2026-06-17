@@ -5,7 +5,7 @@ export type ThemeSwitcherMode = "mini" | "full"
 export type ThemeSwitcherSize = "sm" | "md" | "lg"
 
 export interface ThemeSwitcherProps extends Omit<
-	React.ComponentPropsWithoutRef<"button">,
+	React.ComponentProps<"button">,
 	"onChange"
 > {
 	theme: ThemeSwitcherTheme

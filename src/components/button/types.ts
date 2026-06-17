@@ -4,7 +4,7 @@ export type ButtonVariant = "primary" | "secondary" | "ghost"
 export type ButtonSize = "sm" | "md" | "lg"
 export type ButtonIconSide = "left" | "right"
 
-export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+export interface ButtonProps extends React.ComponentProps<"button"> {
 	variant?: ButtonVariant
 	size?: ButtonSize
 	icon?: boolean
@@ -13,7 +13,7 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 	asChild?: boolean
 }
 
-export interface ButtonIconProps extends React.ComponentPropsWithoutRef<"span"> {
+export interface ButtonIconProps extends React.ComponentProps<"span"> {
 	side?: ButtonIconSide
 	reveal?: boolean
 }

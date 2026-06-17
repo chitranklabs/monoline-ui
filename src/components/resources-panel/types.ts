@@ -13,7 +13,7 @@ export type ResourcesPanelKind =
 	| "paper"
 	| "external"
 
-type ResourcesPanelLinkComponentProps = React.ComponentPropsWithoutRef<"a"> & {
+type ResourcesPanelLinkComponentProps = React.ComponentProps<"a"> & {
 	href: string
 }
 
@@ -33,7 +33,7 @@ export interface ResourcesPanelItem {
 }
 
 export interface ResourcesPanelProps extends Omit<
-	React.ComponentPropsWithoutRef<"aside">,
+	React.ComponentProps<"aside">,
 	"children" | "title"
 > {
 	size?: ResourcesPanelSize

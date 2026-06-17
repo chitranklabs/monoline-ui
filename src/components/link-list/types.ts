@@ -2,7 +2,7 @@ import type * as React from "react"
 
 export type LinkListSize = "sm" | "md" | "lg"
 
-type LinkListLinkComponentProps = React.ComponentPropsWithoutRef<"a"> & {
+type LinkListLinkComponentProps = React.ComponentProps<"a"> & {
 	href: string
 }
 
@@ -21,7 +21,7 @@ export interface LinkListItem {
 }
 
 export interface LinkListProps extends Omit<
-	React.ComponentPropsWithoutRef<"section">,
+	React.ComponentProps<"section">,
 	"children" | "title"
 > {
 	size?: LinkListSize
@@ -33,7 +33,7 @@ export interface LinkListProps extends Omit<
 }
 
 export interface LinkListItemProps extends Omit<
-	React.ComponentPropsWithoutRef<"article">,
+	React.ComponentProps<"article">,
 	"title"
 > {
 	item: LinkListItem

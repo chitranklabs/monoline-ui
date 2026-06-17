@@ -3,7 +3,7 @@ import type * as React from "react"
 export type ProgressSize = "sm" | "md" | "lg"
 
 export interface ProgressProps extends Omit<
-	React.ComponentPropsWithoutRef<"div">,
+	React.ComponentProps<"div">,
 	"children"
 > {
 	value?: number | null

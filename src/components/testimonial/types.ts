@@ -4,7 +4,7 @@ export type TestimonialSize = "sm" | "md" | "lg"
 export type TestimonialVariant = "default" | "plain"
 
 export interface TestimonialProps extends Omit<
-	React.ComponentPropsWithoutRef<"figure">,
+	React.ComponentProps<"figure">,
 	"role"
 > {
 	quote: React.ReactNode

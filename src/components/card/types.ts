@@ -5,7 +5,7 @@ export type CardImageRatio = "square" | "portrait" | "landscape" | "wide"
 export type CardDescriptionLines = 2 | 3 | 4
 
 export interface CardProps extends Omit<
-	React.ComponentPropsWithoutRef<"div">,
+	React.ComponentProps<"div">,
 	"onClick"
 > {
 	size?: CardSize
@@ -18,22 +18,22 @@ export interface CardProps extends Omit<
 	onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLDivElement>
 }
 
-export type CardSlotProps = React.ComponentPropsWithoutRef<"div">
-export interface CardImageProps extends React.ComponentPropsWithoutRef<"div"> {
+export type CardSlotProps = React.ComponentProps<"div">
+export interface CardImageProps extends React.ComponentProps<"div"> {
 	ratio?: CardImageRatio
 	placeholder?: boolean
 }
-export type CardHeadingProps = React.ComponentPropsWithoutRef<"h3">
-export interface CardDescriptionProps extends React.ComponentPropsWithoutRef<"p"> {
+export type CardHeadingProps = React.ComponentProps<"h3">
+export interface CardDescriptionProps extends React.ComponentProps<"p"> {
 	lines?: CardDescriptionLines
 }
-export type CardTextProps = React.ComponentPropsWithoutRef<"p">
-export type CardActionProps = React.ComponentPropsWithoutRef<"span">
-export interface CardTagListProps extends React.ComponentPropsWithoutRef<"div"> {
+export type CardTextProps = React.ComponentProps<"p">
+export type CardActionProps = React.ComponentProps<"span">
+export interface CardTagListProps extends React.ComponentProps<"div"> {
 	totalCount?: number
 	overflowFormatter?: (count: number) => React.ReactNode
 }
 
-export interface CardArrowProps extends React.ComponentPropsWithoutRef<"span"> {
+export interface CardArrowProps extends React.ComponentProps<"span"> {
 	children?: React.ReactNode
 }

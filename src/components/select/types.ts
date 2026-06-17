@@ -11,7 +11,7 @@ export interface SelectOption<T extends string = string> {
 }
 
 export interface SelectRootProps<T extends string = string> extends Omit<
-	React.ComponentPropsWithoutRef<"div">,
+	React.ComponentProps<"div">,
 	"onChange"
 > {
 	value: T
@@ -29,22 +29,22 @@ export interface SelectRootProps<T extends string = string> extends Omit<
 }
 
 export interface SelectTriggerProps extends Omit<
-	React.ComponentPropsWithoutRef<"button">,
+	React.ComponentProps<"button">,
 	"children"
 > {
 	children?: React.ReactNode
 }
 
-export type SelectValueProps = React.ComponentPropsWithoutRef<"span">
+export type SelectValueProps = React.ComponentProps<"span">
 
-export type SelectLabelProps = React.ComponentPropsWithoutRef<"span">
+export type SelectLabelProps = React.ComponentProps<"span">
 
-export interface SelectContentProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface SelectContentProps extends React.ComponentProps<"div"> {
 	children?: React.ReactNode
 }
 
 export interface SelectItemProps extends Omit<
-	React.ComponentPropsWithoutRef<"button">,
+	React.ComponentProps<"button">,
 	"value" | "children"
 > {
 	value: string

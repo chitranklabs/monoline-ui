@@ -32,6 +32,7 @@ export function ButtonRoot({
 	asChild = false,
 	disabled,
 	type,
+	ref,
 	...props
 }: ButtonProps) {
 	const Comp = asChild ? Slot : "button"
@@ -48,6 +49,7 @@ export function ButtonRoot({
 
 	return (
 		<Comp
+			ref={ref}
 			type={asChild ? undefined : (type ?? "button")}
 			disabled={asChild ? undefined : isUnavailable}
 			aria-busy={loading || undefined}

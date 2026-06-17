@@ -11,15 +11,15 @@ interface TagBaseProps {
 }
 
 export type InteractiveTagProps = TagBaseProps &
-	React.ComponentPropsWithoutRef<"button"> & {
+	React.ComponentProps<"button"> & {
 		interactive?: true
 	}
 
 export type StaticTagProps = TagBaseProps &
-	React.ComponentPropsWithoutRef<"span"> & {
+	React.ComponentProps<"span"> & {
 		interactive?: false
 	}
 
 export type TagProps = InteractiveTagProps | StaticTagProps
 
-export type TagCountProps = React.ComponentPropsWithoutRef<"span">
+export type TagCountProps = React.ComponentProps<"span">

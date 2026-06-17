@@ -4,7 +4,7 @@ export type SectionHeadSize = "sm" | "md" | "lg" | "xl"
 export type SectionHeadLevel = 1 | 2 | 3
 
 export interface SectionHeadProps extends Omit<
-	React.ComponentPropsWithoutRef<"div">,
+	React.ComponentProps<"div">,
 	"title"
 > {
 	as?: "div" | "header"
