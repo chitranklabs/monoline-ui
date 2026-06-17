@@ -41,6 +41,7 @@ export function SelectContent({
 					<div
 						id={listboxId}
 						role="listbox"
+						tabIndex={0}
 						aria-activedescendant={value}
 						data-state="open"
 						className={cn("ml-select__sheet", className)}
@@ -68,6 +69,7 @@ export function SelectContent({
 		<div
 			id={listboxId}
 			role="listbox"
+			tabIndex={0}
 			aria-activedescendant={value}
 			data-state="open"
 			className={cn("ml-select__content", className)}

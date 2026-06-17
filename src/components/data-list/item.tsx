@@ -17,11 +17,27 @@ export function DataListItem({
 		props.role === "link" ||
 		props.tabIndex !== undefined
 
+	const handleKeyDown = onClick
+		? (e: React.KeyboardEvent<HTMLDivElement>) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault()
+					onClick(e as unknown as React.MouseEvent<HTMLDivElement>)
+				}
+			}
+		: undefined
+
+	const interactiveProps =
+		onClick && !props.role
+			? { role: "button" as const, tabIndex: 0, onKeyDown: handleKeyDown }
+			: {}
+
 	return (
+		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- keyboard support added via interactiveProps spread
 		<div
 			data-interactive={isInteractive || undefined}
 			className={cn("ml-data-list__item", className)}
 			onClick={onClick}
+			{...interactiveProps}
 			{...props}
 		>
 			{children ?? (

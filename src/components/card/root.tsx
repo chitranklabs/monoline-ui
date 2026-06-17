@@ -44,6 +44,7 @@ export function CardRoot({
 
 	if (isLink) {
 		return (
+			// eslint-disable-next-line jsx-a11y/anchor-has-content -- children forwarded via spread
 			<a
 				ref={ref as React.Ref<HTMLAnchorElement>}
 				data-card-size={size}
@@ -61,11 +62,32 @@ export function CardRoot({
 		)
 	}
 
-	return (
+	const handleKeyDown = onClick
+		? (e: React.KeyboardEvent<HTMLDivElement>) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault()
+					;(onClick as React.MouseEventHandler<HTMLDivElement>)(
+						e as unknown as React.MouseEvent<HTMLDivElement>
+					)
+				}
+			}
+		: undefined
+
+	return onClick ? (
 		<div
 			ref={ref as React.Ref<HTMLDivElement>}
 			data-card-size={size}
-			onClick={onClick as React.MouseEventHandler<HTMLDivElement> | undefined}
+			role="button"
+			tabIndex={0}
+			onClick={onClick as React.MouseEventHandler<HTMLDivElement>}
+			onKeyDown={handleKeyDown}
+			className={cardClassName}
+			{...props}
+		/>
+	) : (
+		<div
+			ref={ref as React.Ref<HTMLDivElement>}
+			data-card-size={size}
 			className={cardClassName}
 			{...props}
 		/>
