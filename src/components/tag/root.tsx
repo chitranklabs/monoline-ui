@@ -24,6 +24,7 @@ export function TagRoot({
 	size = "md",
 	variant = "filter",
 	interactive,
+	ref,
 	...props
 }: TagProps) {
 	const isInteractive = interactive ?? variant === "filter"
@@ -44,6 +45,7 @@ export function TagRoot({
 
 		return (
 			<span
+				ref={ref as React.Ref<HTMLSpanElement>}
 				data-active={active}
 				data-interactive="false"
 				className={sharedClassName}
@@ -59,6 +61,7 @@ export function TagRoot({
 
 	return (
 		<button
+			ref={ref as React.Ref<HTMLButtonElement>}
 			type={type ?? "button"}
 			aria-pressed={active}
 			data-active={active}

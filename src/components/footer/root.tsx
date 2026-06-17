@@ -1,35 +1,10 @@
 import { cn } from "../../lib/utils"
 import { FooterSubscribeForm } from "./subscribe"
-import type { FooterColumn, FooterLink, FooterProps } from "./types"
+import type { FooterLink, FooterProps } from "./types"
 
 function isExternalHref(link: FooterLink) {
 	return link.external ?? /^(https?:|mailto:|tel:)/.test(link.href)
 }
-
-const defaultColumns: FooterColumn[] = [
-	{
-		title: "Navigate",
-		links: [
-			{ href: "/project", label: "Projects" },
-			{ href: "/blog", label: "Blog" },
-			{ href: "/#about", label: "About" },
-			{ href: "/now", label: "Now" },
-		],
-	},
-	{
-		title: "Elsewhere",
-		links: [
-			{
-				href: "https://www.linkedin.com",
-				label: "LinkedIn",
-				external: true,
-			},
-			{ href: "https://github.com", label: "GitHub", external: true },
-			{ href: "https://x.com", label: "X / Twitter", external: true },
-			{ href: "mailto:hello@example.com", label: "Email", external: true },
-		],
-	},
-]
 
 const footerSizeClasses = {
 	sm: {
@@ -105,7 +80,7 @@ export function FooterRoot({
 						links,
 					},
 				]
-			: defaultColumns)
+			: [])
 	const subscribeNode =
 		subscribe === undefined ? <FooterSubscribeForm /> : subscribe
 	const resolvedMeta = meta ?? credit ?? defaultMeta

@@ -15,4 +15,5 @@ export interface SegmentedControlProps<T extends string> {
 	variant?: SegmentedControlVariant
 	size?: SegmentedControlSize
 	className?: string
+	ref?: React.Ref<HTMLDivElement>
 }

@@ -12,6 +12,7 @@ export function SegmentedControlRoot<T extends string>({
 	variant = "default",
 	size = "md",
 	className,
+	ref,
 }: SegmentedControlProps<T>) {
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const indicatorRef = React.useRef<HTMLDivElement>(null)
@@ -79,7 +80,11 @@ export function SegmentedControlRoot<T extends string>({
 
 	return (
 		<div
-			ref={containerRef}
+			ref={(node) => {
+				containerRef.current = node
+				if (typeof ref === "function") ref(node)
+				else if (ref) ref.current = node
+			}}
 			role="radiogroup"
 			className={cn(
 				"ml-segmented",
