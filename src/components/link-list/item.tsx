@@ -34,6 +34,7 @@ export function LinkListItem({
 	className,
 	item,
 	linkComponent,
+	ref,
 	...props
 }: LinkListItemProps) {
 	const external = isExternalHref(item.href, item.external)
@@ -47,7 +48,6 @@ export function LinkListItem({
 				target={item.target ?? (external ? "_blank" : undefined)}
 				rel={item.rel ?? (external ? "noopener noreferrer" : undefined)}
 				className={cn("ml-link-list__item", className)}
-				{...props}
 			>
 				{content}
 			</LinkComp>
@@ -56,6 +56,7 @@ export function LinkListItem({
 
 	return (
 		<article
+			ref={ref}
 			className={cn("ml-link-list__item", className)}
 			data-disabled="true"
 			{...props}
