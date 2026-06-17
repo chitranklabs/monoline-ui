@@ -1,0 +1,157 @@
+@layer components {
+	.ml-card {
+		--ml-card-lift: calc(var(--ml-space-1) * -0.5);
+		--ml-card-arrow-offset: calc(var(--ml-space-1) * -0.5);
+		--ml-card-content-rest-opacity: 0.82;
+		--ml-card-content-hover-opacity: 1;
+
+		border-color: var(--border);
+		background: var(--surface);
+		color: var(--text-body);
+		box-shadow: var(--shadow-xs);
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			border-color var(--duration-micro) var(--ease-out),
+			box-shadow var(--duration-short) var(--ease-out),
+			transform var(--duration-medium) var(--ease-out);
+		backface-visibility: hidden;
+		isolation: isolate;
+		transform: translate3d(0, 0, 0);
+	}
+
+	.ml-card--hover:hover {
+		border-color: var(--border-strong);
+		background: var(--surface);
+		box-shadow: var(--shadow-md);
+		transform: translate3d(0, var(--ml-card-lift), 0);
+	}
+
+	.ml-card--interactive:hover {
+		border-color: var(--border-strong);
+		background: var(--surface);
+		box-shadow: var(--shadow-md);
+		transform: translate3d(0, var(--ml-card-lift), 0);
+	}
+
+	:root:not([data-theme="light"]) .ml-card--hover:hover,
+	[data-theme="dark"] .ml-card--hover:hover {
+		border-color: var(--border-strong);
+		background: var(--surface);
+		box-shadow: var(--shadow-md);
+	}
+
+	:root:not([data-theme="light"]) .ml-card--interactive:hover,
+	[data-theme="dark"] .ml-card--interactive:hover {
+		border-color: var(--border-strong);
+		background: var(--surface);
+		box-shadow: var(--shadow-md);
+	}
+
+	.ml-card__image > * {
+		transition: opacity var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-card__image > img,
+	.ml-card__image > picture,
+	.ml-card__image > video,
+	.ml-card__image > canvas,
+	.ml-card__image > svg {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+	}
+
+	.ml-card__image > img,
+	.ml-card__image > picture > img,
+	.ml-card__image > video {
+		object-fit: cover;
+		object-position: center;
+		filter: grayscale(1) brightness(0.92);
+		transition: filter var(--duration-medium) var(--ease-out);
+	}
+
+	.ml-card__image::after {
+		content: "";
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		block-size: 28%;
+		background: linear-gradient(
+			180deg,
+			transparent 0%,
+			color-mix(in oklch, var(--surface) 36%, transparent) 48%,
+			color-mix(in oklch, var(--surface) 86%, transparent) 100%
+		);
+		opacity: 0.72;
+		pointer-events: none;
+		transition: opacity var(--duration-medium) var(--ease-out);
+	}
+
+	.ml-card__image-caption {
+		min-block-size: 16%;
+		opacity: var(--ml-card-content-rest-opacity);
+		transition: opacity var(--duration-medium) var(--ease-out);
+	}
+
+	.ml-card__image:has(.ml-card__image-caption)::after,
+	.ml-card__image[data-placeholder="true"]::after {
+		opacity: 1;
+	}
+
+	.ml-card__image:has(.ml-card__image-caption) .ml-card__image-caption {
+		opacity: var(--ml-card-content-rest-opacity);
+	}
+
+	.ml-card--hover:hover .ml-card__image > * {
+		opacity: 1;
+	}
+
+	.ml-card--hover:hover .ml-card__image > img,
+	.ml-card--hover:hover .ml-card__image > picture > img,
+	.ml-card--hover:hover .ml-card__image > video {
+		filter: grayscale(0) brightness(1);
+	}
+
+	.ml-card--hover:hover .ml-card__image::after {
+		opacity: 0.82;
+	}
+
+	.ml-card--hover:hover .ml-card__image-caption {
+		opacity: var(--ml-card-content-hover-opacity);
+	}
+
+	.ml-card__footer {
+		background: var(--surface);
+		transition:
+			border-color var(--duration-micro) var(--ease-out),
+			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-card__body {
+		background: var(--surface);
+		transition: color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-card__tag-list {
+		flex: 1 1 auto;
+	}
+
+	.ml-card__tag-overflow {
+		white-space: nowrap;
+	}
+
+	.ml-card__arrow {
+		display: inline-block;
+		opacity: 0.72;
+		transform: translate3d(var(--ml-card-arrow-offset), 0, 0);
+		transition:
+			opacity var(--duration-micro) var(--ease-out),
+			transform var(--duration-medium) var(--ease-out);
+	}
+
+	.ml-card--hover:hover .ml-card__arrow,
+	.ml-card--interactive:hover .ml-card__arrow {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}

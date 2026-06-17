@@ -1,3 +1,4 @@
+import "./progress.css"
 import { ProgressRoot } from "./root"
 
 export * from "./types"

@@ -1,3 +1,4 @@
+import "./data-list.css"
 import { DataListItem } from "./item"
 import { DataListRoot } from "./root"
 

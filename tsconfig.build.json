@@ -3,6 +3,8 @@
 	"compilerOptions": {
 		"noEmit": false,
 		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
 		"emitDeclarationOnly": false,
 		"incremental": false,
 		"outDir": "dist",

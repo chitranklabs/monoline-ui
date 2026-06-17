@@ -1,0 +1,164 @@
+@layer components {
+	.ml-testimonial {
+		--ml-testimonial-gap: var(--ml-space-4);
+		--ml-testimonial-padding: var(--ml-space-5);
+		--ml-testimonial-quote-text: var(--text-md);
+		--ml-testimonial-name-text: var(--text-sm);
+		--ml-testimonial-role-text: var(--text-2xs);
+		--ml-testimonial-mark-text: var(--text-5xl);
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--ml-testimonial-gap);
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-2xl);
+		background: var(--surface);
+		padding: var(--ml-testimonial-padding);
+		color: var(--text-body);
+	}
+
+	.ml-testimonial[data-size="sm"] {
+		--ml-testimonial-gap: var(--ml-space-3);
+		--ml-testimonial-padding: var(--ml-space-4);
+		--ml-testimonial-quote-text: var(--text-sm);
+		--ml-testimonial-name-text: var(--text-xs);
+		--ml-testimonial-role-text: var(--text-3xs);
+		--ml-testimonial-mark-text: var(--text-4xl);
+	}
+
+	.ml-testimonial[data-size="lg"] {
+		--ml-testimonial-gap: var(--ml-space-5);
+		--ml-testimonial-padding: var(--ml-space-7);
+		--ml-testimonial-quote-text: var(--text-lg);
+		--ml-testimonial-name-text: var(--text-base);
+		--ml-testimonial-role-text: var(--text-xs);
+		--ml-testimonial-mark-text: var(--text-6xl);
+	}
+
+	.ml-testimonial-grid {
+		--ml-testimonial-grid-gap: var(--ml-space-4);
+
+		width: 100%;
+	}
+
+	.ml-testimonial-grid[data-variant="grid"] {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--ml-testimonial-grid-gap);
+		align-items: stretch;
+	}
+
+	.ml-testimonial-grid[data-variant="grid"][data-align="start"] {
+		align-items: start;
+	}
+
+	.ml-testimonial-grid[data-variant="masonry"] {
+		column-count: 1;
+		column-gap: var(--ml-testimonial-grid-gap);
+	}
+
+	.ml-testimonial-grid[data-variant="masonry"] > * {
+		break-inside: avoid;
+		margin-block-end: var(--ml-testimonial-grid-gap);
+	}
+
+	@media (min-width: 48rem) {
+		.ml-testimonial-grid {
+			--ml-testimonial-grid-gap: var(--ml-space-5);
+		}
+
+		.ml-testimonial-grid[data-variant="grid"] {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.ml-testimonial-grid[data-variant="masonry"] {
+			column-count: 2;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.ml-testimonial-grid {
+			--ml-testimonial-grid-gap: var(--ml-space-6);
+		}
+
+		.ml-testimonial-grid[data-variant="grid"] {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.ml-testimonial-grid[data-variant="masonry"] {
+			column-count: 3;
+		}
+	}
+
+	.ml-testimonial__mark {
+		color: var(--accent);
+		font-family: var(--font-mono);
+		font-size: var(--ml-testimonial-mark-text);
+		line-height: 0.5;
+		opacity: 0.7;
+	}
+
+	.ml-testimonial__quote {
+		margin: 0;
+		color: var(--text-body);
+		font-size: var(--ml-testimonial-quote-text);
+		line-height: var(--leading-relaxed);
+		text-wrap: pretty;
+		margin-bottom: var(--ml-space-2);
+	}
+
+	.ml-testimonial[data-size="lg"] .ml-testimonial__quote {
+		font-family: var(--font-headline);
+		font-weight: 500;
+	}
+
+	.ml-testimonial__author {
+		display: flex;
+		align-items: center;
+		gap: var(--ml-space-3);
+		margin-block-start: auto;
+		border-block-start: var(--border-thin) solid var(--border);
+		padding-block-start: var(--ml-space-4);
+	}
+
+	.ml-testimonial__author-copy {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+	}
+
+	.ml-testimonial__name {
+		color: var(--primary);
+		font-size: var(--ml-testimonial-name-text);
+		font-weight: 600;
+		line-height: var(--leading-snug);
+	}
+
+	a.ml-testimonial__name {
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: var(--ml-space-1);
+		transition: color var(--duration-micro) var(--ease-out);
+	}
+
+	a.ml-testimonial__name:hover {
+		color: var(--accent);
+	}
+
+	.ml-testimonial__role {
+		color: var(--text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--ml-testimonial-role-text);
+		line-height: var(--leading-normal);
+	}
+
+	.ml-testimonial[data-variant="plain"] .ml-testimonial__quote {
+		font-family: var(--font-sans);
+		font-weight: 500;
+	}
+
+	.ml-testimonial[data-variant="plain"] .ml-testimonial__author {
+		margin-block-start: auto;
+	}
+}

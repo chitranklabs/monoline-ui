@@ -1,0 +1,45 @@
+@layer components {
+	.ml-avatar {
+		--ml-avatar-size: var(--ml-space-6);
+		--ml-avatar-text: var(--text-3xs);
+
+		inline-size: var(--ml-avatar-size);
+		block-size: var(--ml-avatar-size);
+		font-size: var(--ml-avatar-text);
+	}
+
+	.ml-avatar[data-size="inherit"] {
+		--ml-avatar-size: 100%;
+		--ml-avatar-text: var(--text-xs);
+	}
+
+	.ml-avatar[data-size="xs"] {
+		--ml-avatar-size: var(--ml-space-4);
+		--ml-avatar-text: var(--text-3xs);
+	}
+
+	.ml-avatar[data-size="sm"] {
+		--ml-avatar-size: var(--ml-space-5);
+		--ml-avatar-text: var(--text-3xs);
+	}
+
+	.ml-avatar[data-size="md"] {
+		--ml-avatar-size: var(--ml-space-6);
+		--ml-avatar-text: var(--text-2xs);
+	}
+
+	.ml-avatar[data-size="lg"] {
+		--ml-avatar-size: var(--ml-space-9);
+		--ml-avatar-text: var(--text-xs);
+	}
+
+	.ml-avatar[data-size="xl"] {
+		--ml-avatar-size: var(--ml-space-14);
+		--ml-avatar-text: var(--text-sm);
+	}
+
+	.ml-avatar[data-size="2xl"] {
+		--ml-avatar-size: var(--ml-space-20);
+		--ml-avatar-text: var(--text-xl);
+	}
+}

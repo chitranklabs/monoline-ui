@@ -113,7 +113,7 @@ await rm(distDir, { recursive: true, force: true })
 await run(tscBin, ["-p", "tsconfig.build.json"])
 await rewriteDistEsmSpecifiers(distDir)
 
-// Copy styles
+// Copy foundation styles
 await mkdir(path.join(distDir, "styles"), { recursive: true })
 await cp(
 	path.join(projectRoot, "src/foundations/theme.css"),
@@ -124,6 +124,20 @@ await cp(
 	path.join(distDir, "styles/theme"),
 	{ recursive: true }
 )
+
+// Copy per-component CSS files
+const componentsDir = path.join(projectRoot, "src/components")
+const componentEntries = await readdir(componentsDir, { withFileTypes: true })
+for (const entry of componentEntries) {
+	if (!entry.isDirectory()) continue
+	const componentDir = path.join(componentsDir, entry.name)
+	const cssFiles = (await readdir(componentDir)).filter((f) => f.endsWith(".css"))
+	for (const cssFile of cssFiles) {
+		const destDir = path.join(distDir, "components", entry.name)
+		await mkdir(destDir, { recursive: true })
+		await cp(path.join(componentDir, cssFile), path.join(destDir, cssFile))
+	}
+}
 
 // Copy template package.json and README.md
 await cp(

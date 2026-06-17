@@ -1,0 +1,168 @@
+@layer components {
+	/* --- Package component interaction primitives --- */
+	.ml-button-icon {
+		display: inline-grid;
+		flex: 0 0 auto;
+		inline-size: 1em;
+		block-size: 1em;
+		place-items: center;
+		overflow: visible;
+		line-height: 1;
+		transition:
+			opacity var(--duration-micro) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
+	}
+
+	.ml-button-icon__glyph {
+		display: inline-block;
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+		transition:
+			opacity var(--duration-micro) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
+	}
+
+	.ml-button-icon__glyph > svg,
+	.ml-button-icon__glyph > img {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+	}
+
+	.ml-button-icon[data-reveal="true"] {
+		opacity: 0;
+		pointer-events: none;
+		transform: translate3d(calc(var(--space-0-5) * -1), 0, 0);
+	}
+
+	.ml-button-icon[data-reveal="true"] .ml-button-icon__glyph {
+		opacity: 0;
+		transform: translate3d(calc(var(--space-0-5) * -1), 0, 0);
+	}
+
+	.ml-button-icon[data-reveal="true"][data-side="left"] .ml-button-icon__glyph {
+		transform: translate3d(var(--space-0-5), 0, 0);
+	}
+
+	.group\/btn {
+		cursor: pointer;
+		text-decoration: none; /* when rendered as <a> via asChild */
+	}
+
+	.ml-button-spinner {
+		display: inline-block;
+		flex: 0 0 auto;
+		border: var(--border-thin) solid currentcolor;
+		border-block-start-color: transparent;
+		border-radius: var(--radius-pill);
+		animation: spin 650ms linear infinite;
+	}
+
+	/* Button variant colours - kept in plain CSS (not Tailwind @layer utilities)
+   so they always win and always reference live CSS custom properties */
+	.ml-btn--primary {
+		border-color: var(--primary);
+		background: var(--primary);
+		color: var(--primary-foreground);
+	}
+	.ml-btn--primary:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):hover {
+		background: var(--btn-primary-hover);
+	}
+	.ml-btn--primary:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):active {
+		border-color: color-mix(
+			in oklch,
+			var(--btn-primary-hover) 88%,
+			var(--primary-foreground)
+		);
+		background: color-mix(
+			in oklch,
+			var(--btn-primary-hover) 88%,
+			var(--primary-foreground)
+		);
+	}
+	.ml-btn--primary[data-loading="true"] {
+		border-color: color-mix(in oklch, var(--primary) 92%, var(--background));
+		background: color-mix(in oklch, var(--primary) 92%, var(--background));
+		color: color-mix(in oklch, var(--primary-foreground) 88%, var(--primary));
+	}
+
+	.ml-btn--secondary {
+		border-color: var(--border-strong);
+		background: var(--button);
+		color: var(--primary);
+	}
+	.ml-btn--secondary:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):hover {
+		border-color: color-mix(in oklch, var(--primary) 35%, transparent);
+		background: var(--button-hover);
+	}
+	.ml-btn--secondary:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):active {
+		border-color: color-mix(in oklch, var(--primary) 48%, transparent);
+		background: color-mix(in oklch, var(--button-hover) 82%, var(--primary));
+	}
+	.ml-btn--secondary[data-loading="true"] {
+		border-color: color-mix(in oklch, var(--border-strong) 85%, var(--primary));
+		background: color-mix(in oklch, var(--button) 86%, var(--button-hover));
+		color: color-mix(in oklch, var(--primary) 76%, var(--text-muted));
+	}
+
+	.ml-btn--ghost {
+		border-color: transparent;
+		background: transparent;
+		color: var(--text-body);
+	}
+	.ml-btn--ghost:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):hover {
+		background: var(--button-hover);
+		color: var(--primary);
+	}
+	.ml-btn--ghost:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):active {
+		background: color-mix(in oklch, var(--button-hover) 82%, var(--primary));
+		color: var(--primary);
+	}
+	.ml-btn--ghost[data-loading="true"] {
+		border-color: transparent;
+		background: color-mix(in oklch, var(--button-hover) 42%, transparent);
+		color: color-mix(in oklch, var(--text-body) 72%, var(--text-muted));
+	}
+
+	.ml-btn--primary[data-disabled="true"],
+	.ml-btn--secondary[data-disabled="true"],
+	.ml-btn--ghost[data-disabled="true"] {
+		border-color: var(--border);
+		background: color-mix(in oklch, var(--button) 55%, transparent);
+		color: var(--text-muted);
+		opacity: 0.58;
+	}
+
+	.ml-btn--ghost[data-disabled="true"] {
+		background: transparent;
+	}
+
+	.group\/btn:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):hover
+		.ml-button-icon[data-reveal="true"] {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+
+	.group\/btn:not(:disabled):not([aria-disabled="true"]):not(
+			[data-disabled="true"]
+		):not([data-loading="true"]):hover
+		.ml-button-icon[data-reveal="true"]
+		.ml-button-icon__glyph {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}

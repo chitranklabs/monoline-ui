@@ -1,0 +1,25 @@
+@layer components {
+	.ml-progress {
+		position: relative;
+		inline-size: 100%;
+		overflow: hidden;
+		background: color-mix(in oklch, var(--border) 78%, transparent);
+	}
+
+	.ml-progress[data-size="sm"],
+	.ml-progress[data-size="md"],
+	.ml-progress[data-size="lg"] {
+		border-radius: var(--radius-pill);
+	}
+
+	.ml-progress__indicator {
+		display: block;
+		block-size: 100%;
+		inline-size: 100%;
+		border-radius: inherit;
+		background: var(--accent);
+		transform: scaleX(0.33);
+		transform-origin: left center;
+		transition: transform var(--duration-short) var(--ease-out-expo);
+	}
+}

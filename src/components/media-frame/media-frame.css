@@ -1,0 +1,84 @@
+@layer components {
+	.ml-media-frame {
+		--ml-media-frame-caption-x: var(--ml-space-4);
+		--ml-media-frame-caption-bottom: var(--ml-space-4);
+		--ml-media-frame-caption-text: var(--text-2xs);
+
+		background: var(--surface);
+		box-shadow: var(--shadow-xs);
+		isolation: isolate;
+		transform: translate3d(0, 0, 0);
+		transition: none;
+	}
+
+	.ml-media-frame[data-size="sm"] {
+		--ml-media-frame-caption-x: var(--ml-space-3);
+		--ml-media-frame-caption-bottom: var(--ml-space-3);
+		--ml-media-frame-caption-text: var(--text-3xs);
+	}
+
+	.ml-media-frame[data-size="lg"] {
+		--ml-media-frame-caption-x: var(--ml-space-5);
+		--ml-media-frame-caption-bottom: var(--ml-space-5);
+		--ml-media-frame-caption-text: var(--text-xs);
+	}
+
+	.ml-media-frame > img,
+	.ml-media-frame > picture,
+	.ml-media-frame > video,
+	.ml-media-frame > canvas,
+	.ml-media-frame > svg {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+	}
+
+	.ml-media-frame > img,
+	.ml-media-frame > picture > img,
+	.ml-media-frame > video {
+		object-fit: cover;
+		object-position: center;
+		transition: none;
+	}
+
+	.ml-media-frame::after {
+		content: "";
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		block-size: 32%;
+		background: linear-gradient(
+			180deg,
+			transparent 0%,
+			color-mix(in oklch, var(--surface) 34%, transparent) 48%,
+			color-mix(in oklch, var(--surface) 86%, transparent) 100%
+		);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--duration-medium) var(--ease-out);
+	}
+
+	.ml-media-frame:has(.ml-media-frame__caption)::after,
+	.ml-media-frame:has(.ml-media-frame__meta)::after {
+		opacity: 1;
+	}
+
+	.ml-media-frame__caption,
+	.ml-media-frame__meta {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		z-index: var(--z-elevated);
+		display: flex;
+		align-items: flex-end;
+		padding-inline: var(--ml-media-frame-caption-x);
+		padding-block-end: var(--ml-media-frame-caption-bottom);
+		color: var(--text-body);
+		font-family: var(--font-mono);
+		font-size: var(--ml-media-frame-caption-text);
+		letter-spacing: var(--tracking-eyebrow);
+		line-height: 1;
+		text-transform: uppercase;
+		opacity: 0.84;
+	}
+}
