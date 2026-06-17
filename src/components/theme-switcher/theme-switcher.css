@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-theme-switcher {
 		display: inline-flex;

@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-navbar {
 		--ml-navbar-height: var(--ml-space-14);
@@ -139,7 +141,7 @@
 	.ml-navbar__brand[data-text-style="monoline"] .ml-navbar__brand-label {
 		font-family: var(--font-mono);
 		font-weight: 800;
-		letter-spacing: -0.045em;
+		letter-spacing: var(--tracking-display);
 	}
 
 	.ml-navbar__brand[data-text-style="cursive"] .ml-navbar__brand-label {

@@ -1,0 +1,13 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.eyebrow,
+	.ml-eyebrow {
+		font-family: var(--font-mono);
+		font-size: var(--text-2xs);
+		letter-spacing: var(--tracking-eyebrow);
+		text-transform: uppercase;
+		color: var(--text-muted);
+		display: inline-block;
+	}
+}

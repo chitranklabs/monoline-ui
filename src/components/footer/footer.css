@@ -1,0 +1,201 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-footer {
+		width: 100%;
+		border-block-start: var(--border-thin, 1px) solid
+			var(--border, currentColor);
+		background-color: var(--background, canvas);
+		color: var(--text-body, currentColor);
+
+		/* Default to md size variable mappings */
+		--ml-footer-y: var(--ml-footer-y-md);
+		--ml-footer-y-tablet: var(--ml-footer-y-md-tablet);
+		--ml-footer-y-desktop: var(--ml-footer-y-md-desktop);
+
+		--ml-footer-x: var(--ml-footer-x-md);
+		--ml-footer-x-tablet: var(--ml-footer-x-md-tablet);
+		--ml-footer-x-desktop: var(--ml-footer-x-md-desktop);
+
+		--ml-footer-container-max: 80rem; /* max-w-7xl */
+		--ml-footer-layout-cols-desktop: var(
+			--ml-footer-layout-cols-md-desktop,
+			minmax(0, 1fr) minmax(0, 1fr)
+		);
+		--ml-footer-layout-gap: var(--ml-footer-layout-gap-md);
+		--ml-footer-layout-gap-desktop: var(--ml-footer-layout-gap-md-desktop);
+
+		--ml-footer-intro-max: var(--ml-footer-intro-max-md);
+		--ml-footer-intro-gap: var(--ml-footer-intro-gap-md);
+
+		--ml-footer-brand-text: var(--text-4xl);
+		--ml-footer-description-max: var(--ml-footer-description-max-md);
+		--ml-footer-description-text: var(--text-base);
+		--ml-footer-description-leading: var(
+			--ml-footer-description-leading-md,
+			1.5
+		);
+
+		--ml-footer-column-gap-x: var(--ml-footer-column-gap-x-md);
+		--ml-footer-column-gap-y: var(--ml-footer-column-gap-y-md);
+
+		--ml-footer-link-min-height: var(--ml-footer-link-min-height-md);
+		--ml-footer-link-text: var(--text-base);
+
+		--ml-footer-meta-mt: var(--ml-footer-meta-mt-md);
+		--ml-footer-meta-pt: var(--ml-footer-meta-pt-md);
+		--ml-footer-meta-text: var(--ml-footer-meta-text-md);
+
+		padding-block: var(--ml-footer-y);
+	}
+
+	@media (min-width: 48rem) {
+		.ml-footer {
+			padding-block: var(--ml-footer-y-tablet);
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.ml-footer {
+			padding-block: var(--ml-footer-y-desktop);
+		}
+	}
+
+	.ml-footer[data-size="sm"] {
+		--ml-footer-y: var(--ml-footer-y-sm);
+		--ml-footer-y-tablet: var(--ml-footer-y-sm-tablet);
+		--ml-footer-y-desktop: var(--ml-footer-y-sm-desktop);
+
+		--ml-footer-x: var(--ml-footer-x-sm);
+		--ml-footer-x-tablet: var(--ml-footer-x-sm-tablet);
+		--ml-footer-x-desktop: var(--ml-footer-x-sm-desktop);
+
+		--ml-footer-container-max: 64rem; /* max-w-5xl */
+		--ml-footer-layout-cols-desktop: var(
+			--ml-footer-layout-cols-sm-desktop,
+			minmax(0, 1fr) minmax(0, 1fr)
+		);
+		--ml-footer-layout-gap: var(--ml-footer-layout-gap-sm);
+		--ml-footer-layout-gap-desktop: var(--ml-footer-layout-gap-sm-desktop);
+
+		--ml-footer-intro-max: var(--ml-footer-intro-max-sm);
+		--ml-footer-intro-gap: var(--ml-footer-intro-gap-sm);
+
+		--ml-footer-brand-text: var(--text-3xl);
+		--ml-footer-description-max: var(--ml-footer-description-max-sm);
+		--ml-footer-description-text: var(--text-sm);
+		--ml-footer-description-leading: var(
+			--ml-footer-description-leading-sm,
+			1.5
+		);
+
+		--ml-footer-column-gap-x: var(--ml-footer-column-gap-x-sm);
+		--ml-footer-column-gap-y: var(--ml-footer-column-gap-y-sm);
+
+		--ml-footer-link-min-height: var(--ml-footer-link-min-height-sm);
+		--ml-footer-link-text: var(--text-sm);
+
+		--ml-footer-meta-mt: var(--ml-footer-meta-mt-sm);
+		--ml-footer-meta-pt: var(--ml-footer-meta-pt-sm);
+		--ml-footer-meta-text: var(--ml-footer-meta-text-sm);
+	}
+
+	.ml-footer[data-size="lg"] {
+		--ml-footer-y: var(--ml-footer-y-lg);
+		--ml-footer-y-tablet: var(--ml-footer-y-lg-tablet);
+		--ml-footer-y-desktop: var(--ml-footer-y-lg-desktop);
+
+		--ml-footer-x: var(--ml-footer-x-lg);
+		--ml-footer-x-tablet: var(--ml-footer-x-lg-tablet);
+		--ml-footer-x-desktop: var(--ml-footer-x-lg-desktop);
+
+		--ml-footer-container-max: var(--ml-footer-container-max-lg);
+		--ml-footer-layout-cols-desktop: var(
+			--ml-footer-layout-cols-lg-desktop,
+			minmax(0, 1fr) minmax(0, 1fr)
+		);
+		--ml-footer-layout-gap: var(--ml-footer-layout-gap-lg);
+		--ml-footer-layout-gap-desktop: var(--ml-footer-layout-gap-lg-desktop);
+
+		--ml-footer-intro-max: var(--ml-footer-intro-max-lg);
+		--ml-footer-intro-gap: var(--ml-footer-intro-gap-lg);
+
+		--ml-footer-brand-text: var(--text-5xl);
+		--ml-footer-description-max: var(--ml-footer-description-max-lg);
+		--ml-footer-description-text: var(--text-lg);
+		--ml-footer-description-leading: var(
+			--ml-footer-description-leading-lg,
+			1.5
+		);
+
+		--ml-footer-column-gap-x: var(--ml-footer-column-gap-x-lg);
+		--ml-footer-column-gap-y: var(--ml-footer-column-gap-y-lg);
+
+		--ml-footer-link-min-height: var(--ml-footer-link-min-height-lg);
+		--ml-footer-link-text: var(--text-lg);
+
+		--ml-footer-meta-mt: var(--ml-footer-meta-mt-lg);
+		--ml-footer-meta-pt: var(--ml-footer-meta-pt-lg);
+		--ml-footer-meta-text: var(--ml-footer-meta-text-lg);
+	}
+
+	.ml-footer__container {
+		inline-size: 100%;
+		max-inline-size: var(--ml-footer-container-max);
+		padding-inline: var(--ml-footer-x);
+	}
+
+	@media (min-width: 48rem) {
+		.ml-footer__container {
+			padding-inline: var(--ml-footer-x-tablet);
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.ml-footer__container {
+			padding-inline: var(--ml-footer-x-desktop);
+		}
+	}
+
+	.ml-footer__layout {
+		gap: var(--ml-footer-layout-gap);
+	}
+
+	@media (min-width: 80rem) {
+		.ml-footer__layout {
+			grid-template-columns: var(--ml-footer-layout-cols-desktop);
+			gap: var(--ml-footer-layout-gap-desktop);
+		}
+	}
+
+	.ml-footer__intro {
+		max-inline-size: var(--ml-footer-intro-max);
+		gap: var(--ml-footer-intro-gap);
+	}
+
+	.ml-footer__brand {
+		font-size: var(--ml-footer-brand-text);
+	}
+
+	.ml-footer__description {
+		max-inline-size: var(--ml-footer-description-max);
+		font-size: var(--ml-footer-description-text);
+		line-height: var(--ml-footer-description-leading);
+	}
+
+	.ml-footer__columns {
+		column-gap: var(--ml-footer-column-gap-x);
+		row-gap: var(--ml-footer-column-gap-y);
+	}
+
+	.ml-footer__link {
+		min-block-size: var(--ml-footer-link-min-height);
+		font-size: var(--ml-footer-link-text);
+	}
+
+	.ml-footer__meta {
+		margin-block-start: var(--ml-footer-meta-mt);
+		padding-block-start: var(--ml-footer-meta-pt);
+		font-size: var(--ml-footer-meta-text);
+	}
+}

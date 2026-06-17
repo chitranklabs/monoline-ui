@@ -4,19 +4,41 @@ export type CardSize = "sm" | "md" | "lg"
 export type CardImageRatio = "square" | "portrait" | "landscape" | "wide"
 export type CardDescriptionLines = 2 | 3 | 4
 
-export interface CardProps extends Omit<
-	React.ComponentProps<"div">,
-	"onClick"
-> {
+interface CardBaseProps {
 	size?: CardSize
-	asChild?: boolean
-	href?: string
-	target?: React.HTMLAttributeAnchorTarget
-	rel?: string
-	download?: React.AnchorHTMLAttributes<HTMLAnchorElement>["download"]
-	referrerPolicy?: React.HTMLAttributeReferrerPolicy
-	onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLDivElement>
 }
+
+export type CardProps =
+	| (CardBaseProps & {
+			asChild?: false
+			href: string
+			target?: React.HTMLAttributeAnchorTarget
+			rel?: string
+			download?: React.AnchorHTMLAttributes<HTMLAnchorElement>["download"]
+			referrerPolicy?: React.HTMLAttributeReferrerPolicy
+			onClick?: React.MouseEventHandler<HTMLAnchorElement>
+			ref?: React.Ref<HTMLAnchorElement>
+	  } & Omit<React.ComponentPropsWithRef<"a">, "size" | "onClick" | "ref">)
+	| (CardBaseProps & {
+			asChild: true
+			href?: never
+			target?: never
+			rel?: never
+			download?: never
+			referrerPolicy?: never
+			onClick?: never
+			ref?: React.Ref<HTMLElement>
+	  } & Omit<React.ComponentPropsWithRef<"div">, "size" | "onClick" | "ref">)
+	| (CardBaseProps & {
+			asChild?: false
+			href?: never
+			target?: never
+			rel?: never
+			download?: never
+			referrerPolicy?: never
+			onClick?: React.MouseEventHandler<HTMLDivElement>
+			ref?: React.Ref<HTMLDivElement>
+	  } & Omit<React.ComponentPropsWithRef<"div">, "size" | "onClick" | "ref">)
 
 export type CardSlotProps = React.ComponentProps<"div">
 export interface CardImageProps extends React.ComponentProps<"div"> {

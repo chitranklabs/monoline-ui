@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-segmented {
 		--ml-segmented-padding: var(--ml-space-0-5);
@@ -148,7 +150,7 @@
 
 	.ml-segmented--pill .ml-segmented__item {
 		font-weight: 650;
-		letter-spacing: 0.08em;
+		letter-spacing: var(--tracking-wide);
 		text-transform: uppercase;
 		color: var(--text-body);
 		opacity: 0.72;

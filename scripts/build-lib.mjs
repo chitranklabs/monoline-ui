@@ -16,7 +16,7 @@ const projectRoot = path.resolve(scriptDir, "..")
 const distDir = path.join(projectRoot, "dist")
 const tscBin = path.join(projectRoot, "node_modules", ".bin", "tsc")
 
-function run(command, args) {
+function run(command, args = []) {
 	return new Promise((resolve, reject) => {
 		const child = spawn(command, args, {
 			cwd: projectRoot,
@@ -108,10 +108,10 @@ async function rewriteDistEsmSpecifiers(directory) {
 	)
 }
 
-await rm(distDir, { recursive: true, force: true })
-// Run typescript build
-await run(tscBin, ["-p", "tsconfig.build.json"])
-await rewriteDistEsmSpecifiers(distDir)
+const tsupBin = path.join(projectRoot, "node_modules", ".bin", "tsup")
+
+// Run tsup build
+await run(tsupBin)
 
 // Copy foundation styles
 await mkdir(path.join(distDir, "styles"), { recursive: true })

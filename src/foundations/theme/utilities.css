@@ -5,17 +5,6 @@
  * print stylesheet rules, and reduced motion configurations.
  * ========================================================================== */
 
-/* --- Custom Utility Classes --- */
-.eyebrow,
-.ml-eyebrow {
-	font-family: var(--font-mono);
-	font-size: var(--text-2xs);
-	letter-spacing: 0.18em;
-	text-transform: uppercase;
-	color: var(--text-muted);
-	display: inline-block;
-}
-
 .img-placeholder {
 	background-color: var(--placeholder-bg);
 	background-image: repeating-linear-gradient(
@@ -97,13 +86,6 @@
 .ml-control-surface--ghost[data-disabled="true"] {
 	border-color: transparent;
 	background: transparent;
-}
-
-.ml-tag[data-interactive="false"] {
-	border-color: var(--border-strong);
-	background: transparent;
-	color: var(--text-body);
-	box-shadow: none;
 }
 
 /* --- Transitions & Composable Interaction States --- */

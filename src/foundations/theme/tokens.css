@@ -339,8 +339,9 @@
 	--tracking-heading: -0.025em;
 	--tracking-body: -0.005em;
 	--tracking-mono: 0.04em;
-	--tracking-eyebrow: 0.18em;
+	--tracking-wide: 0.08em;
 	--tracking-meta: 0.14em;
+	--tracking-eyebrow: 0.18em;
 
 	/* ─── Typography roles ─── */
 	--type-docs-title-size: 2.625rem;
@@ -525,7 +526,7 @@
 	--ml-footer-meta-text-sm: var(--text-2xs);
 	--ml-footer-meta-text-md: var(--text-xs);
 	--ml-footer-meta-text-lg: var(--text-sm);
-	--ml-footer-local-time-tracking: 0.08em;
+	--ml-footer-local-time-tracking: var(--tracking-wide);
 	--ml-footer-description-leading-sm: 1.7;
 	--ml-footer-description-leading-md: var(--leading-loose);
 	--ml-footer-description-leading-lg: 1.8;

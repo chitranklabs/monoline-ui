@@ -6,51 +6,6 @@ function isExternalHref(link: FooterLink) {
 	return link.external ?? /^(https?:|mailto:|tel:)/.test(link.href)
 }
 
-const footerSizeClasses = {
-	sm: {
-		root: "py-footer-y-sm sm:py-footer-y-sm-tablet lg:py-footer-y-sm-desktop",
-		container:
-			"max-w-5xl px-footer-x-sm sm:px-footer-x-sm-tablet lg:px-footer-x-sm-desktop",
-		layout:
-			"gap-footer-layout-gap-sm lg:grid-cols-(--ml-footer-layout-cols-sm-desktop) lg:gap-footer-layout-gap-sm-desktop",
-		intro: "max-w-(--ml-footer-intro-max-sm) gap-footer-intro-gap-sm",
-		brand: "text-3xl",
-		description:
-			"max-w-(--ml-footer-description-max-sm) text-sm leading-(--ml-footer-description-leading-sm)",
-		columns: "gap-x-footer-column-gap-x-sm gap-y-footer-column-gap-y-sm",
-		link: "min-h-(--ml-footer-link-min-height-sm) text-sm",
-		meta: "mt-footer-meta-mt-sm pt-footer-meta-pt-sm text-(length:--ml-footer-meta-text-sm)",
-	},
-	md: {
-		root: "py-footer-y-md sm:py-footer-y-md-tablet lg:py-footer-y-md-desktop",
-		container:
-			"max-w-7xl px-footer-x-md sm:px-footer-x-md-tablet lg:px-footer-x-md-desktop",
-		layout:
-			"gap-footer-layout-gap-md lg:grid-cols-(--ml-footer-layout-cols-md-desktop) lg:gap-footer-layout-gap-md-desktop",
-		intro: "max-w-(--ml-footer-intro-max-md) gap-footer-intro-gap-md",
-		brand: "text-4xl",
-		description:
-			"max-w-(--ml-footer-description-max-md) text-base leading-(--ml-footer-description-leading-md)",
-		columns: "gap-x-footer-column-gap-x-md gap-y-footer-column-gap-y-md",
-		link: "min-h-(--ml-footer-link-min-height-md) text-base",
-		meta: "mt-footer-meta-mt-md pt-footer-meta-pt-md text-(length:--ml-footer-meta-text-md)",
-	},
-	lg: {
-		root: "py-footer-y-lg sm:py-footer-y-lg-tablet lg:py-footer-y-lg-desktop",
-		container:
-			"max-w-(--ml-footer-container-max-lg) px-footer-x-lg sm:px-footer-x-lg-tablet lg:px-footer-x-lg-desktop",
-		layout:
-			"gap-footer-layout-gap-lg lg:grid-cols-(--ml-footer-layout-cols-lg-desktop) lg:gap-footer-layout-gap-lg-desktop",
-		intro: "max-w-(--ml-footer-intro-max-lg) gap-footer-intro-gap-lg",
-		brand: "text-5xl",
-		description:
-			"max-w-(--ml-footer-description-max-lg) text-lg leading-(--ml-footer-description-leading-lg)",
-		columns: "gap-x-footer-column-gap-x-lg gap-y-footer-column-gap-y-lg",
-		link: "min-h-(--ml-footer-link-min-height-lg) text-lg",
-		meta: "mt-footer-meta-mt-lg pt-footer-meta-pt-lg text-(length:--ml-footer-meta-text-lg)",
-	},
-} as const
-
 export function FooterRoot({
 	size = "md",
 	brand,
@@ -68,7 +23,6 @@ export function FooterRoot({
 	ref,
 	...props
 }: FooterProps) {
-	const sizeClasses = footerSizeClasses[size]
 	const currentYear = new Date().getFullYear()
 	const defaultMeta = `© ${currentYear}`
 	const resolvedColumns =
@@ -90,30 +44,23 @@ export function FooterRoot({
 		<footer
 			ref={ref}
 			data-slot="footer"
+			data-size={size}
 			className={cn(
-				"border-border bg-background w-full border-t text-body",
-				sizeClasses.root,
+				"ml-footer border-border bg-background w-full border-t text-body",
 				className
 			)}
 			{...props}
 		>
-			<div className={cn("mx-auto w-full", sizeClasses.container)}>
-				<div className={cn("grid grid-cols-1", sizeClasses.layout)}>
-					<div className={cn("flex flex-col", sizeClasses.intro)}>
+			<div className="ml-footer__container mx-auto w-full">
+				<div className="ml-footer__layout grid grid-cols-1">
+					<div className="ml-footer__intro flex flex-col">
 						{brand ? (
-							<div
-								className={cn(
-									"font-script leading-none font-bold text-primary",
-									sizeClasses.brand
-								)}
-							>
+							<div className="ml-footer__brand font-script leading-none font-bold text-primary">
 								{brand}
 							</div>
 						) : null}
 						{description ? (
-							<p className={cn("text-body", sizeClasses.description)}>
-								{description}
-							</p>
+							<p className="ml-footer__description text-body">{description}</p>
 						) : null}
 						{status || localTime ? (
 							<div className="flex flex-wrap items-center gap-x-ml-5 gap-y-ml-3">
@@ -129,8 +76,7 @@ export function FooterRoot({
 
 					<div
 						className={cn(
-							"grid min-w-0",
-							sizeClasses.columns,
+							"ml-footer__columns grid min-w-0",
 							columnCount <= 1 && "grid-cols-1",
 							columnCount === 2 && "grid-cols-2",
 							columnCount >= 3 && "grid-cols-2 md:grid-cols-3"
@@ -158,10 +104,7 @@ export function FooterRoot({
 												link.rel ??
 												(external ? "noopener noreferrer" : undefined)
 											}
-											className={cn(
-												"group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,box-shadow] duration-(--duration-micro) ease-out hover:text-primary focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
-												sizeClasses.link
-											)}
+											className="ml-footer__link group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,box-shadow] duration-(--duration-micro) ease-out hover:text-primary focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
 										>
 											<span>{link.label}</span>
 											{external ? (
@@ -186,12 +129,7 @@ export function FooterRoot({
 					</div>
 				</div>
 
-				<div
-					className={cn(
-						"text-muted-foreground border-border flex flex-col gap-ml-3 border-t font-mono leading-relaxed md:flex-row md:items-start md:justify-between",
-						sizeClasses.meta
-					)}
-				>
+				<div className="ml-footer__meta text-muted-foreground border-border flex flex-col gap-ml-3 border-t font-mono leading-relaxed md:flex-row md:items-start md:justify-between">
 					{resolvedMeta ? (
 						<p className="max-w-(--ml-footer-meta-copy-max)">{resolvedMeta}</p>
 					) : null}

@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-card {
 		--ml-card-lift: calc(var(--ml-space-1) * -0.5);

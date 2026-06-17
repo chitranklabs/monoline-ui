@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-resources-panel {
 		--ml-resources-panel-padding-x: var(--ml-space-4);

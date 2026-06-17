@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-select {
 		--ml-select-trigger-height: var(--ml-space-9);
@@ -112,7 +114,7 @@
 	}
 
 	.ml-select__backdrop {
-		background: rgba(0, 0, 0, 0.42);
+		background: color-mix(in oklch, var(--background) 42%, transparent);
 		animation: ml-select-backdrop-enter var(--duration-fast) var(--ease-out);
 	}
 

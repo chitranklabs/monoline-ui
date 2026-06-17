@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	/* --- Package component interaction primitives --- */
 	.ml-button-icon {
@@ -59,81 +61,129 @@
 	}
 
 	/* Button variant colours - kept in plain CSS (not Tailwind @layer utilities)
-   so they always win and always reference live CSS custom properties */
+	   so they always win and always reference live CSS custom properties */
 	.ml-btn--primary {
-		border-color: var(--primary);
-		background: var(--primary);
-		color: var(--primary-foreground);
+		border-color: var(--primary, currentColor);
+		background: var(--primary, currentColor);
+		color: var(--primary-foreground, canvas);
 	}
 	.ml-btn--primary:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):hover {
-		background: var(--btn-primary-hover);
+		background: var(--btn-primary-hover, currentColor);
 	}
 	.ml-btn--primary:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):active {
 		border-color: color-mix(
 			in oklch,
-			var(--btn-primary-hover) 88%,
-			var(--primary-foreground)
+			var(--btn-primary-hover, currentColor) 88%,
+			var(--primary-foreground, canvas)
 		);
 		background: color-mix(
 			in oklch,
-			var(--btn-primary-hover) 88%,
-			var(--primary-foreground)
+			var(--btn-primary-hover, currentColor) 88%,
+			var(--primary-foreground, canvas)
 		);
 	}
 	.ml-btn--primary[data-loading="true"] {
-		border-color: color-mix(in oklch, var(--primary) 92%, var(--background));
-		background: color-mix(in oklch, var(--primary) 92%, var(--background));
-		color: color-mix(in oklch, var(--primary-foreground) 88%, var(--primary));
+		border-color: color-mix(
+			in oklch,
+			var(--primary, currentColor) 92%,
+			var(--background, canvas)
+		);
+		background: color-mix(
+			in oklch,
+			var(--primary, currentColor) 92%,
+			var(--background, canvas)
+		);
+		color: color-mix(
+			in oklch,
+			var(--primary-foreground, canvas) 88%,
+			var(--primary, currentColor)
+		);
 	}
 
 	.ml-btn--secondary {
-		border-color: var(--border-strong);
-		background: var(--button);
-		color: var(--primary);
+		border-color: var(--border-strong, currentColor);
+		background: var(--button, rgba(0, 0, 0, 0.05));
+		color: var(--primary, currentColor);
 	}
 	.ml-btn--secondary:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):hover {
-		border-color: color-mix(in oklch, var(--primary) 35%, transparent);
-		background: var(--button-hover);
+		border-color: color-mix(
+			in oklch,
+			var(--primary, currentColor) 35%,
+			transparent
+		);
+		background: var(--button-hover, rgba(0, 0, 0, 0.08));
 	}
 	.ml-btn--secondary:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):active {
-		border-color: color-mix(in oklch, var(--primary) 48%, transparent);
-		background: color-mix(in oklch, var(--button-hover) 82%, var(--primary));
+		border-color: color-mix(
+			in oklch,
+			var(--primary, currentColor) 48%,
+			transparent
+		);
+		background: color-mix(
+			in oklch,
+			var(--button-hover, rgba(0, 0, 0, 0.08)) 82%,
+			var(--primary, currentColor)
+		);
 	}
 	.ml-btn--secondary[data-loading="true"] {
-		border-color: color-mix(in oklch, var(--border-strong) 85%, var(--primary));
-		background: color-mix(in oklch, var(--button) 86%, var(--button-hover));
-		color: color-mix(in oklch, var(--primary) 76%, var(--text-muted));
+		border-color: color-mix(
+			in oklch,
+			var(--border-strong, currentColor) 85%,
+			var(--primary, currentColor)
+		);
+		background: color-mix(
+			in oklch,
+			var(--button, rgba(0, 0, 0, 0.05)) 86%,
+			var(--button-hover, rgba(0, 0, 0, 0.08))
+		);
+		color: color-mix(
+			in oklch,
+			var(--primary, currentColor) 76%,
+			var(--text-muted, currentColor)
+		);
 	}
 
 	.ml-btn--ghost {
 		border-color: transparent;
 		background: transparent;
-		color: var(--text-body);
+		color: var(--text-body, currentColor);
 	}
 	.ml-btn--ghost:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):hover {
-		background: var(--button-hover);
-		color: var(--primary);
+		background: var(--button-hover, rgba(0, 0, 0, 0.08));
+		color: var(--primary, currentColor);
 	}
 	.ml-btn--ghost:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):active {
-		background: color-mix(in oklch, var(--button-hover) 82%, var(--primary));
-		color: var(--primary);
+		background: color-mix(
+			in oklch,
+			var(--button-hover, rgba(0, 0, 0, 0.08)) 82%,
+			var(--primary, currentColor)
+		);
+		color: var(--primary, currentColor);
 	}
 	.ml-btn--ghost[data-loading="true"] {
 		border-color: transparent;
-		background: color-mix(in oklch, var(--button-hover) 42%, transparent);
-		color: color-mix(in oklch, var(--text-body) 72%, var(--text-muted));
+		background: color-mix(
+			in oklch,
+			var(--button-hover, rgba(0, 0, 0, 0.08)) 42%,
+			transparent
+		);
+		color: color-mix(
+			in oklch,
+			var(--text-body, currentColor) 72%,
+			var(--text-muted, currentColor)
+		);
 	}
 
 	.ml-btn--primary[data-disabled="true"],

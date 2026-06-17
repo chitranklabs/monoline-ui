@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-data-list {
 		--ml-data-list-item-padding-y: var(--ml-space-4);
@@ -88,7 +90,7 @@
 		color: var(--primary);
 		font-size: var(--ml-data-list-title-text);
 		font-weight: 700;
-		line-height: 1.1;
+		line-height: var(--leading-tight);
 		letter-spacing: var(--tracking-heading);
 	}
 

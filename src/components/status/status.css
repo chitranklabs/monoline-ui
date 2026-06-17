@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-status {
 		letter-spacing: var(--tracking-eyebrow);
@@ -12,7 +14,7 @@
 		position: absolute;
 		inset: 0;
 		border-radius: inherit;
-		border: 1px solid currentcolor;
+		border: var(--border-thin) solid currentcolor;
 		opacity: 0;
 		animation: ml-status-sonar 2.4s var(--ease-out) infinite;
 	}

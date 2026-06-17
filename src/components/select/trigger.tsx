@@ -22,11 +22,13 @@ export function SelectTrigger({
 		selectedOption,
 		setOpen,
 		placeholder,
+		triggerRef,
 		variant,
 	} = useSelectContext()
 
 	return (
 		<button
+			ref={triggerRef}
 			type={type ?? "button"}
 			aria-expanded={open}
 			aria-haspopup="listbox"
@@ -37,6 +39,12 @@ export function SelectTrigger({
 				className
 			)}
 			onClick={() => setOpen(!open)}
+			onKeyDown={(e) => {
+				if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+					e.preventDefault()
+					setOpen(true)
+				}
+			}}
 			{...props}
 		>
 			<span className="ml-select__trigger-copy">

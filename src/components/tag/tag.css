@@ -1,0 +1,10 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-tag[data-interactive="false"] {
+		border-color: var(--border-strong);
+		background: transparent;
+		color: var(--text-body);
+		box-shadow: none;
+	}
+}

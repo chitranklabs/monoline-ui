@@ -9,87 +9,102 @@ const cardSizeClasses: Record<CardSize, string> = {
 	lg: "rounded-2xl",
 }
 
-export function CardRoot({
-	className,
-	size = "md",
-	asChild = false,
-	href,
-	download,
-	onClick,
-	referrerPolicy,
-	rel,
-	target,
-	ref,
-	...props
-}: CardProps) {
-	const isLink = Boolean(href)
-	const resolvedRel = target === "_blank" && !rel ? "noopener noreferrer" : rel
+export function CardRoot(props: CardProps) {
+	const { className, size = "md", href } = props
 	const cardClassName = cn(
 		"group/card ml-card relative flex flex-col overflow-hidden border border-border bg-surface",
-		isLink && "ml-card--hover cursor-pointer",
+		href && "ml-card--hover cursor-pointer",
 		cardSizeClasses[size],
 		className
 	)
 
-	if (asChild) {
+	if (props.asChild) {
+		const {
+			className: _className,
+			size: _size,
+			asChild: _asChild,
+			ref,
+			...slotProps
+		} = props
 		return (
 			<Slot
 				ref={ref}
 				data-card-size={size}
 				className={cardClassName}
-				{...props}
+				{...slotProps}
 			/>
 		)
 	}
 
-	if (isLink) {
+	if (props.href !== undefined) {
+		const {
+			className: _className,
+			size: _size,
+			asChild: _asChild,
+			href: propsHref,
+			target,
+			rel,
+			download,
+			referrerPolicy,
+			onClick,
+			ref,
+			...anchorProps
+		} = props
+		const resolvedRel =
+			target === "_blank" && !rel ? "noopener noreferrer" : rel
+
 		return (
 			// eslint-disable-next-line jsx-a11y/anchor-has-content -- children forwarded via spread
 			<a
-				ref={ref as React.Ref<HTMLAnchorElement>}
+				ref={ref}
 				data-card-size={size}
-				href={href}
+				href={propsHref}
 				target={target}
 				rel={resolvedRel}
 				download={download}
 				referrerPolicy={referrerPolicy}
-				onClick={
-					onClick as React.MouseEventHandler<HTMLAnchorElement> | undefined
-				}
+				onClick={onClick}
 				className={cardClassName}
-				{...(props as React.ComponentProps<"a">)}
+				{...anchorProps}
 			/>
 		)
 	}
+
+	const {
+		className: _className,
+		size: _size,
+		asChild: _asChild,
+		onClick,
+		ref,
+		...divProps
+	} = props
 
 	const handleKeyDown = onClick
 		? (e: React.KeyboardEvent<HTMLDivElement>) => {
 				if (e.key === "Enter" || e.key === " ") {
 					e.preventDefault()
-					;(onClick as React.MouseEventHandler<HTMLDivElement>)(
-						e as unknown as React.MouseEvent<HTMLDivElement>
-					)
+					onClick(e as unknown as React.MouseEvent<HTMLDivElement>)
 				}
 			}
 		: undefined
 
 	return onClick ? (
 		<div
-			ref={ref as React.Ref<HTMLDivElement>}
+			ref={ref}
 			data-card-size={size}
 			role="button"
 			tabIndex={0}
-			onClick={onClick as React.MouseEventHandler<HTMLDivElement>}
+			onClick={onClick}
 			onKeyDown={handleKeyDown}
 			className={cardClassName}
-			{...props}
+			{...divProps}
 		/>
 	) : (
 		<div
-			ref={ref as React.Ref<HTMLDivElement>}
+			ref={ref}
 			data-card-size={size}
 			className={cardClassName}
-			{...props}
+			{...divProps}
 		/>
 	)
 }

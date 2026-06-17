@@ -77,8 +77,64 @@ export function SegmentedControlRoot<T extends string>({
 			resizeObserver.disconnect()
 		}
 	}, [value, options])
+	const activeIndex = options.findIndex((opt) => opt.value === value)
+	const firstEnabledIndex = options.findIndex((opt) => !opt.disabled)
+	const defaultTabIndexIndex =
+		activeIndex >= 0
+			? activeIndex
+			: firstEnabledIndex >= 0
+				? firstEnabledIndex
+				: 0
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (
+			e.key !== "ArrowRight" &&
+			e.key !== "ArrowLeft" &&
+			e.key !== "ArrowDown" &&
+			e.key !== "ArrowUp"
+		) {
+			return
+		}
+
+		e.preventDefault()
+
+		const container = containerRef.current
+		if (!container) return
+
+		const buttons = Array.from(
+			container.querySelectorAll('[role="radio"]:not(:disabled)')
+		) as HTMLButtonElement[]
+
+		if (buttons.length <= 1) return
+
+		const activeElement = container.ownerDocument
+			.activeElement as HTMLButtonElement | null
+		if (!activeElement) return
+
+		const currentIndex = buttons.indexOf(activeElement)
+		if (currentIndex === -1) return
+
+		let nextIndex = currentIndex
+		if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+			nextIndex = (currentIndex + 1) % buttons.length
+		} else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+			nextIndex = (currentIndex - 1 + buttons.length) % buttons.length
+		}
+
+		const nextButton = buttons[nextIndex]
+		if (nextButton) {
+			nextButton.focus()
+			const optionVal = options.find(
+				(opt) => opt.value === nextButton.getAttribute("data-value")
+			)
+			if (optionVal) {
+				onChange(optionVal.value)
+			}
+		}
+	}
 
 	return (
+		// eslint-disable-next-line jsx-a11y/interactive-supports-focus -- roving tabindex on child radio buttons
 		<div
 			ref={(node) => {
 				containerRef.current = node
@@ -86,6 +142,7 @@ export function SegmentedControlRoot<T extends string>({
 				else if (ref) ref.current = node
 			}}
 			role="radiogroup"
+			onKeyDown={handleKeyDown}
 			className={cn(
 				"ml-segmented",
 				`ml-segmented--${size}`,
@@ -98,12 +155,14 @@ export function SegmentedControlRoot<T extends string>({
 				aria-hidden="true"
 				className="ml-segmented__indicator"
 			/>
-			{options.map((option) => (
+			{options.map((option, idx) => (
 				<button
 					key={option.value}
 					type="button"
 					role="radio"
 					aria-checked={value === option.value}
+					tabIndex={idx === defaultTabIndexIndex ? 0 : -1}
+					data-value={option.value}
 					disabled={option.disabled}
 					onClick={() => onChange(option.value)}
 					className="ml-segmented__item"

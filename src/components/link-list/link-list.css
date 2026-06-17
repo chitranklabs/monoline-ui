@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 @layer components {
 	.ml-link-list {
 		--ml-link-list-row-padding-y: var(--ml-space-4);

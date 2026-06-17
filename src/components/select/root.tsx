@@ -21,6 +21,7 @@ import type {
 } from "./types"
 
 interface SelectContextValue {
+	activeIndex: number
 	isMobile: boolean
 	label?: string
 	listboxId: string
@@ -28,9 +29,11 @@ interface SelectContextValue {
 	options: SelectOption[]
 	placeholder: string
 	selectedOption?: SelectOption
+	setActiveIndex: (index: number) => void
 	setOpen: (nextOpen: boolean) => void
 	sheetLabel: string
 	size: SelectSize
+	triggerRef: React.RefObject<HTMLButtonElement | null>
 	variant: SelectVariant
 	value: string
 	onChange: (value: string) => void
@@ -68,20 +71,30 @@ export function SelectRoot<T extends string>({
 	...props
 }: SelectRootProps<T>) {
 	const [internalOpen, setInternalOpen] = useState(defaultOpen)
+	const [activeIndex, setActiveIndex] = useState(-1)
 	const breakpoint = useBreakpoint("desktop")
 	const rootRef = useRef<HTMLDivElement>(null)
+	const triggerRef = useRef<HTMLButtonElement>(null)
 	const listboxId = useId()
 	const isMobile = breakpoint === "mobile"
 	const open = openProp ?? internalOpen
 
 	const setOpen = useCallback(
 		(nextOpen: boolean) => {
+			if (nextOpen) {
+				const idx = (options as SelectOption[]).findIndex(
+					(o) => o.value === value
+				)
+				setActiveIndex(idx >= 0 ? idx : 0)
+			} else {
+				triggerRef.current?.focus()
+			}
 			if (openProp === undefined) {
 				setInternalOpen(nextOpen)
 			}
 			onOpenChange?.(nextOpen)
 		},
-		[onOpenChange, openProp]
+		[onOpenChange, openProp, options, value]
 	)
 
 	const selectedOption = useMemo(
@@ -119,6 +132,7 @@ export function SelectRoot<T extends string>({
 
 	const contextValue = useMemo<SelectContextValue>(
 		() => ({
+			activeIndex,
 			isMobile,
 			label,
 			listboxId,
@@ -126,14 +140,17 @@ export function SelectRoot<T extends string>({
 			options: options as SelectOption[],
 			placeholder,
 			selectedOption: selectedOption as SelectOption | undefined,
+			setActiveIndex,
 			setOpen,
 			sheetLabel,
 			size,
+			triggerRef,
 			variant,
 			value,
 			onChange: (nextValue) => onChange(nextValue as T),
 		}),
 		[
+			activeIndex,
 			isMobile,
 			label,
 			listboxId,
