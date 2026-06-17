@@ -10,10 +10,12 @@ export function LinkListRoot({
 	items,
 	children,
 	linkComponent,
+	ref,
 	...props
 }: LinkListProps) {
 	return (
 		<section
+			ref={ref}
 			data-slot="link-list"
 			data-size={size}
 			className={cn("ml-link-list", className)}

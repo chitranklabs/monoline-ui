@@ -10,10 +10,12 @@ const EYEBROW_SIZE_CLASSES_MAP: Record<EyebrowSize, string> = {
 export function EyebrowRoot({
 	className,
 	size = "sm",
+	ref,
 	...props
 }: EyebrowProps) {
 	return (
 		<span
+			ref={ref}
 			className={cn(
 				"font-mono uppercase text-muted-foreground",
 				EYEBROW_SIZE_CLASSES_MAP[size],

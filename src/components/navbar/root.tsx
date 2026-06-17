@@ -21,10 +21,12 @@ export function NavbarRoot({
 	sticky = false,
 	glass = false,
 	className,
+	ref,
 	...props
 }: NavbarProps) {
 	return (
 		<header
+			ref={ref}
 			data-slot="navbar"
 			data-size={size}
 			data-layout={layout}

@@ -13,6 +13,7 @@ export function ToggleRoot({
 	onCheckedChange,
 	onClick,
 	disabled,
+	ref,
 	...props
 }: ToggleProps) {
 	const [internalChecked, setInternalChecked] = React.useState(defaultChecked)
@@ -33,6 +34,7 @@ export function ToggleRoot({
 
 	return (
 		<button
+			ref={ref}
 			type="button"
 			role="switch"
 			aria-checked={currentChecked}

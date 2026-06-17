@@ -5,10 +5,12 @@ export function TestimonialGrid({
 	align = "stretch",
 	className,
 	variant = "masonry",
+	ref,
 	...props
 }: TestimonialGridProps) {
 	return (
 		<div
+			ref={ref}
 			data-align={align}
 			data-slot="testimonial-grid"
 			data-variant={variant}

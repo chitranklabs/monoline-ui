@@ -8,10 +8,12 @@ export function DataListRoot({
 	variant = "default",
 	items,
 	children,
+	ref,
 	...props
 }: DataListProps) {
 	return (
 		<div
+			ref={ref}
 			data-slot="data-list"
 			data-size={size}
 			data-variant={variant}

@@ -47,6 +47,7 @@ export function ProgressRoot({
 	max = 100,
 	size = "md",
 	followScroll = false,
+	ref,
 	...props
 }: ProgressProps) {
 	const [scrollValue, setScrollValue] = useState(0)
@@ -88,6 +89,7 @@ export function ProgressRoot({
 
 	return (
 		<div
+			ref={ref}
 			role="progressbar"
 			aria-valuemin={0}
 			aria-valuemax={100}

@@ -67,7 +67,7 @@ function ProgressDemo({ size }: { size: ProgressSize }) {
 					href="#"
 					className="inline-flex items-center gap-ml-2 text-sm text-body no-underline opacity-72 transition-[color,opacity] duration-(--duration-micro) ease-out hover:text-primary hover:opacity-100"
 				>
-					<span aria-hidden="true">—</span>
+					<span aria-hidden="true"> - </span>
 					<span>Back to journal</span>
 				</a>
 			</div>

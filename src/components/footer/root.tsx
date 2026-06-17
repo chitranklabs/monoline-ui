@@ -90,6 +90,7 @@ export function FooterRoot({
 	attribution,
 	linkComponent,
 	className,
+	ref,
 	...props
 }: FooterProps) {
 	const sizeClasses = footerSizeClasses[size]
@@ -112,6 +113,7 @@ export function FooterRoot({
 
 	return (
 		<footer
+			ref={ref}
 			data-slot="footer"
 			className={cn(
 				"border-border bg-background w-full border-t text-body",

@@ -38,10 +38,12 @@ export function MetricRoot({
 	description,
 	trend,
 	size = "md",
+	ref,
 	...props
 }: MetricProps) {
 	return (
 		<div
+			ref={ref}
 			className={cn(
 				"flex flex-col border border-border bg-surface",
 				METRIC_SIZE_CLASSES_MAP[size],

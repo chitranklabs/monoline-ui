@@ -21,6 +21,7 @@ export function ThemeSwitcherRoot({
 	darkLabel = "Switch to dark theme",
 	disabled,
 	type,
+	ref,
 	...props
 }: ThemeSwitcherProps) {
 	const isDark = theme === "dark"
@@ -30,6 +31,7 @@ export function ThemeSwitcherRoot({
 	if (mode === "full") {
 		return (
 			<div
+				ref={ref as React.Ref<HTMLDivElement>}
 				className={cn("ml-theme-switcher ml-theme-switcher--full", className)}
 				data-theme-value={theme}
 				data-size={size}

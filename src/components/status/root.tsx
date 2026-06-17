@@ -25,10 +25,12 @@ export function StatusRoot({
 	size = "md",
 	animate = false,
 	children,
+	ref,
 	...props
 }: StatusProps) {
 	return (
 		<span
+			ref={ref}
 			className={cn(
 				"ml-status inline-flex items-center rounded-full border font-mono font-medium uppercase",
 				statusVariantClasses[variant],

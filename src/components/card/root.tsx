@@ -19,6 +19,7 @@ export function CardRoot({
 	referrerPolicy,
 	rel,
 	target,
+	ref,
 	...props
 }: CardProps) {
 	const isLink = Boolean(href)
@@ -31,12 +32,20 @@ export function CardRoot({
 	)
 
 	if (asChild) {
-		return <Slot data-card-size={size} className={cardClassName} {...props} />
+		return (
+			<Slot
+				ref={ref}
+				data-card-size={size}
+				className={cardClassName}
+				{...props}
+			/>
+		)
 	}
 
 	if (isLink) {
 		return (
 			<a
+				ref={ref as React.Ref<HTMLAnchorElement>}
 				data-card-size={size}
 				href={href}
 				target={target}
@@ -54,6 +63,7 @@ export function CardRoot({
 
 	return (
 		<div
+			ref={ref as React.Ref<HTMLDivElement>}
 			data-card-size={size}
 			onClick={onClick as React.MouseEventHandler<HTMLDivElement> | undefined}
 			className={cardClassName}

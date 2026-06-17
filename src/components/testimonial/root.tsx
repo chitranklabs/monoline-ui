@@ -13,10 +13,12 @@ export function TestimonialRoot({
 	avatarAlt,
 	size = "md",
 	variant = "default",
+	ref,
 	...props
 }: TestimonialProps) {
 	return (
 		<figure
+			ref={ref}
 			data-slot="testimonial"
 			data-size={size}
 			data-variant={variant}

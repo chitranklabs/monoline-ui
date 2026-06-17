@@ -101,6 +101,7 @@ export function ResourcesPanelRoot({
 	footerLabel,
 	children,
 	linkComponent,
+	ref,
 	...props
 }: ResourcesPanelProps) {
 	const resolvedFooter =
@@ -111,6 +112,7 @@ export function ResourcesPanelRoot({
 
 	return (
 		<aside
+			ref={ref}
 			data-slot="resources-panel"
 			data-size={size}
 			className={cn("ml-resources-panel", className)}

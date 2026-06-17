@@ -23,12 +23,14 @@ export function MediaFrameRoot({
 	placeholder = false,
 	ratio = "wide",
 	size = "md",
+	ref,
 	...props
 }: MediaFrameProps) {
 	const Comp = asChild ? Slot : "div"
 
 	return (
 		<Comp
+			ref={ref}
 			data-placeholder={placeholder || undefined}
 			data-ratio={ratio}
 			data-size={size}

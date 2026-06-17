@@ -35,13 +35,18 @@ export function SectionHeadRoot({
 	lede,
 	level = 2,
 	as = "div",
+	ref,
 	...props
 }: SectionHeadProps) {
 	const Heading = headingByLevel[level]
 	const Comp = as
 
 	return (
-		<Comp className={cn("flex flex-col gap-ml-4", className)} {...props}>
+		<Comp
+			ref={ref}
+			className={cn("flex flex-col gap-ml-4", className)}
+			{...props}
+		>
 			{eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
 			<Heading
 				className={cn(
