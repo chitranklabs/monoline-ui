@@ -9,6 +9,7 @@ import { SelectValue } from "./value"
 export * from "./types"
 
 export const Select = Object.assign(SelectRoot, {
+	displayName: "Select",
 	Trigger: SelectTrigger,
 	Label: SelectLabel,
 	Value: SelectValue,

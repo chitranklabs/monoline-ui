@@ -6,6 +6,7 @@ import { MediaFrameRoot } from "./root"
 export * from "./types"
 
 export const MediaFrame = Object.assign(MediaFrameRoot, {
+	displayName: "MediaFrame",
 	Caption: MediaFrameCaption,
 	Meta: MediaFrameMeta,
 })

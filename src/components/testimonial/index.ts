@@ -6,5 +6,6 @@ export * from "./types"
 export { TestimonialGrid } from "../testimonial-grid"
 
 export const Testimonial = Object.assign(TestimonialRoot, {
+	displayName: "Testimonial",
 	Grid: TestimonialGrid,
 })

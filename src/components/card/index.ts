@@ -16,6 +16,7 @@ import { CardTitle } from "./title"
 export * from "./types"
 
 export const Card = Object.assign(CardRoot, {
+	displayName: "Card",
 	Action: CardAction,
 	Image: CardImage,
 	ImageCaption: CardImageCaption,

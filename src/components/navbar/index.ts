@@ -8,6 +8,7 @@ import { NavbarRoot } from "./root"
 export * from "./types"
 
 export const Navbar = Object.assign(NavbarRoot, {
+	displayName: "Navbar",
 	Actions: NavbarActions,
 	Brand: NavbarBrand,
 	Link: NavbarLink,

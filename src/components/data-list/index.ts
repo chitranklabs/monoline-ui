@@ -5,5 +5,6 @@ import { DataListRoot } from "./root"
 export * from "./types"
 
 export const DataList = Object.assign(DataListRoot, {
+	displayName: "DataList",
 	Item: DataListItem,
 })
