@@ -133,10 +133,7 @@ export function ResourcesPanelRoot({
 								: `${item.href ?? item.kind ?? "resource"}-${index}`
 						const content = (
 							<>
-								<span
-									className="ml-resources-panel__icon"
-									data-primary={item.primary || undefined}
-								>
+								<span className="ml-resources-panel__icon">
 									{item.icon ?? <ResourceIcon kind={item.kind} />}
 								</span>
 								<span className="ml-resources-panel__content">

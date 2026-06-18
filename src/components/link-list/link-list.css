@@ -147,8 +147,9 @@
 		overflow: hidden;
 		color: var(--primary);
 		font-size: var(--ml-link-list-title-text);
-		font-weight: 650;
-		line-height: var(--leading-tight);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: -0.01em;
 		text-overflow: ellipsis;
 		transition: color var(--duration-micro) var(--ease-out);
 		white-space: nowrap;
