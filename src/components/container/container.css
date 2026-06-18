@@ -1,0 +1,41 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-container {
+		--ml-container-max: 80rem;
+		--ml-container-x: var(--space-6);
+		--ml-container-x-tablet: var(--space-10);
+		--ml-container-x-desktop: var(--space-12);
+
+		width: 100%;
+		max-width: var(--ml-container-max);
+		margin-inline: auto;
+		padding-inline: var(--ml-container-x);
+	}
+
+	@media (min-width: 48rem) {
+		.ml-container {
+			padding-inline: var(--ml-container-x-tablet);
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.ml-container {
+			padding-inline: var(--ml-container-x-desktop);
+		}
+	}
+
+	.ml-container[data-size="sm"] {
+		--ml-container-max: 64rem;
+		--ml-container-x: var(--space-5);
+		--ml-container-x-tablet: var(--space-8);
+		--ml-container-x-desktop: var(--space-8);
+	}
+
+	.ml-container[data-size="lg"] {
+		--ml-container-max: 90rem;
+		--ml-container-x: var(--space-8);
+		--ml-container-x-tablet: var(--space-12);
+		--ml-container-x-desktop: var(--space-16);
+	}
+}

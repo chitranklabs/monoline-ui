@@ -27,6 +27,7 @@
 			"@chitrank2050/monoline-ui/callout": ["./src/components/callout"],
 			"@chitrank2050/monoline-ui/card": ["./src/components/card"],
 			"@chitrank2050/monoline-ui/code-block": ["./src/components/code-block"],
+			"@chitrank2050/monoline-ui/container": ["./src/components/container"],
 			"@chitrank2050/monoline-ui/data-list": ["./src/components/data-list"],
 			"@chitrank2050/monoline-ui/editorial-line": [
 				"./src/components/editorial-line"

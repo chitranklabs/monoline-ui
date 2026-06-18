@@ -76,6 +76,10 @@
 			"types": "./components/code-block/index.d.ts",
 			"import": "./components/code-block/index.js"
 		},
+		"./container": {
+			"types": "./components/container/index.d.ts",
+			"import": "./components/container/index.js"
+		},
 		"./data-list": {
 			"types": "./components/data-list/index.d.ts",
 			"import": "./components/data-list/index.js"
