@@ -89,8 +89,8 @@
 		display: block;
 		color: var(--primary);
 		font-size: var(--ml-data-list-title-text);
-		font-weight: 700;
-		line-height: var(--leading-tight);
+		font-weight: var(--ml-data-list-title-weight, 700);
+		line-height: var(--ml-data-list-title-lh, var(--leading-tight));
 		letter-spacing: var(--tracking-heading);
 	}
 
@@ -108,6 +108,15 @@
 		line-height: 1;
 		letter-spacing: var(--tracking-meta);
 		text-transform: uppercase;
+	}
+
+	.ml-data-list[data-prose="true"] {
+		--ml-data-list-title-weight: 400;
+		--ml-data-list-title-lh: var(--leading-relaxed);
+	}
+
+	.ml-data-list[data-prose="true"] .ml-data-list__title {
+		color: var(--text-secondary);
 	}
 
 	.ml-data-list[data-variant="numbered"] .ml-data-list__item {

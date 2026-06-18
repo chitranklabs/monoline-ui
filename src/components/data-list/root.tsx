@@ -6,6 +6,7 @@ export function DataListRoot({
 	className,
 	size = "md",
 	variant = "default",
+	prose = false,
 	items,
 	children,
 	ref,
@@ -17,6 +18,7 @@ export function DataListRoot({
 			data-slot="data-list"
 			data-size={size}
 			data-variant={variant}
+			data-prose={prose || undefined}
 			className={cn("ml-data-list", className)}
 			{...props}
 		>

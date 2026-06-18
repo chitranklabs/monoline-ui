@@ -13,6 +13,7 @@ export interface DataListItemData {
 export interface DataListProps extends React.ComponentProps<"div"> {
 	size?: DataListSize
 	variant?: DataListVariant
+	prose?: boolean
 	items?: DataListItemData[]
 }
 

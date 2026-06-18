@@ -56,6 +56,7 @@ export function ButtonRoot({
 			aria-disabled={isUnavailable ? true : undefined}
 			data-disabled={disabled || undefined}
 			data-loading={loading || undefined}
+			data-size={size}
 			className={cn(
 				"group/btn inline-flex select-none items-center justify-center whitespace-nowrap rounded-md border font-medium transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-out disabled:pointer-events-none disabled:cursor-not-allowed data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed data-[loading=true]:pointer-events-none data-[loading=true]:cursor-wait focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				buttonVariantClasses[variant],
