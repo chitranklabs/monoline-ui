@@ -1,5 +1,5 @@
 "use client"
-
+/* eslint-disable jsx-a11y/aria-role */
 import {
 	Testimonial,
 	type TestimonialSize,
@@ -11,7 +11,7 @@ const testimonialSizes: TestimonialSize[] = ["sm", "md", "lg"]
 
 const usageCode = `<Testimonial
   size="md"
-  variant="plain"
+  variant="default"
   quote="The system feels considered without getting in the way."
   author="Sam Carter"
   role="Staff Engineer"
@@ -29,14 +29,14 @@ export function Quote() {
   return (
     <Testimonial.Grid>
       <Testimonial
-        variant="plain"
+        variant="default"
         quote="Dense, editorial, and still easy to ship."
         author="Riya Mehta"
         role="Founder"
         initials="RM"
       />
       <Testimonial
-        variant="plain"
+        variant="default"
         quote="The layout handles longer quotes without stretching every card in the row."
         author="Sam Carter"
         role="Staff Engineer"
@@ -85,7 +85,7 @@ export default function TestimonialPageClient() {
 					<Testimonial.Grid>
 						<Testimonial
 							size={size}
-							variant="plain"
+							variant="default"
 							quote="The system feels considered without getting in the way. It gives the portfolio enough structure to scale while preserving the writing."
 							author="Sam Carter"
 							role="Staff Engineer"
@@ -93,7 +93,7 @@ export default function TestimonialPageClient() {
 						/>
 						<Testimonial
 							size={size}
-							variant="plain"
+							variant="default"
 							quote="Compact, practical, and easy to compose."
 							author="Riya Mehta"
 							role="Founder"
@@ -101,7 +101,7 @@ export default function TestimonialPageClient() {
 						/>
 						<Testimonial
 							size={size}
-							variant="plain"
+							variant="default"
 							quote="The masonry treatment is the right call here. Quotes keep their natural rhythm, so the section feels editorial instead of artificially equalized."
 							author="Priya Sharma"
 							role="Design Partner"
@@ -109,7 +109,7 @@ export default function TestimonialPageClient() {
 						/>
 						<Testimonial
 							size={size}
-							variant="plain"
+							variant="default"
 							quote="Looks like a system, not a template."
 							author="Marcus Webb"
 							role="Engineer"
@@ -117,7 +117,7 @@ export default function TestimonialPageClient() {
 						/>
 						<Testimonial
 							size={size}
-							variant="plain"
+							variant="default"
 							quote="The component API stayed small, but the layout covers the real case: mixed quote lengths across breakpoints."
 							author="Elena Ortiz"
 							role="Director"

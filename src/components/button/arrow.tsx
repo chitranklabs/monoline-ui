@@ -21,9 +21,9 @@ export function ButtonIcon({
 	)
 }
 
-export function ButtonArrow(props: ButtonArrowProps) {
+export function ButtonArrow({ reveal = true, ...props }: ButtonArrowProps) {
 	return (
-		<ButtonIcon side="right" {...props}>
+		<ButtonIcon side="right" reveal={reveal} {...props}>
 			→
 		</ButtonIcon>
 	)
