@@ -5,7 +5,7 @@ import { useSelectContext } from "./root"
 import type { SelectTriggerProps, SelectVariant } from "./types"
 
 const triggerVariantClasses: Record<SelectVariant, string> = {
-	default: "ml-control-surface--secondary",
+	default: "ml-control-surface--secondary focus-visible:shadow-(--focus-ring)",
 	ghost: "ml-control-surface--ghost",
 }
 
@@ -34,7 +34,7 @@ export function SelectTrigger({
 			aria-haspopup="listbox"
 			aria-controls={listboxId}
 			className={cn(
-				"ml-select__trigger inline-flex max-w-full select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"ml-select__trigger inline-flex max-w-full select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none",
 				triggerVariantClasses[variant],
 				className
 			)}
