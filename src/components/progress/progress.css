@@ -24,4 +24,8 @@
 		transform-origin: left center;
 		transition: transform var(--duration-short) var(--ease-out-expo);
 	}
+
+	.ml-progress[data-follow-scroll] .ml-progress__indicator {
+		transition: none;
+	}
 }

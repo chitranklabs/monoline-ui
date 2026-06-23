@@ -20,6 +20,7 @@ export function NavbarRoot({
 	linkComponent,
 	sticky = false,
 	glass = false,
+	progress,
 	className,
 	ref,
 	...props
@@ -85,6 +86,7 @@ export function NavbarRoot({
 					</>
 				)}
 			</div>
+			{progress}
 		</header>
 	)
 }

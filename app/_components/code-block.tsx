@@ -76,6 +76,7 @@ export function CodeBlock({
 					floating
 				/>
 			)}
+			{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
 			<pre className={`language-${language}`} tabIndex={0}>
 				{html !== null ? (
 					<code

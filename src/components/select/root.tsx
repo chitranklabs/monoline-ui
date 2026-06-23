@@ -87,14 +87,16 @@ export function SelectRoot<T extends string>({
 				)
 				setActiveIndex(idx >= 0 ? idx : 0)
 			} else {
-				triggerRef.current?.focus()
+				if (open) {
+					triggerRef.current?.focus()
+				}
 			}
 			if (openProp === undefined) {
 				setInternalOpen(nextOpen)
 			}
 			onOpenChange?.(nextOpen)
 		},
-		[onOpenChange, openProp, options, value]
+		[onOpenChange, open, openProp, options, value]
 	)
 
 	const selectedOption = useMemo(

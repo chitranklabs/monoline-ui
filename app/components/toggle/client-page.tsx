@@ -1,5 +1,6 @@
 "use client"
 
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Toggle, type ToggleSize } from "@chitrank2050/monoline-ui/toggle"
 
 import { ComponentPlayground } from "../../_components/component-playground"

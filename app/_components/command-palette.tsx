@@ -74,6 +74,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 	if (!isBrowser || !open) return null
 
 	return createPortal(
+		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
 		<div
 			className="cmd-backdrop"
 			onMouseDown={(e) => {
@@ -98,6 +99,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 						onKeyDown={(e) => {
 							if (e.key === "Escape") onClose()
 						}}
+						/* eslint-disable-next-line jsx-a11y/no-autofocus */
 						autoFocus
 					/>
 					<button

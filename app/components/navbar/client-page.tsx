@@ -26,7 +26,11 @@ const propsRows = [
 	["links", "NavbarLinkItem[]", "Optional data-driven nav link list"],
 	["actions", "ReactNode", "Right-side action slot"],
 	["children", "ReactNode", "Override with compound composition"],
-	["Progress", "pairing pattern", "Place under Navbar for reading progress"],
+	[
+		"progress",
+		"ReactNode",
+		"Direct progress bar or layout slot anchored under the sticky header (moves in sync on elastic scroll)",
+	],
 	["Navbar.Nav", "compound slot", "Middle navigation region"],
 	["linkComponent", "ComponentType", "Next Link or router link adapter"],
 	["sticky", "boolean", "Apply sticky positioning top-0 (default: false)"],
@@ -51,20 +55,24 @@ import { Progress } from "@chitrank2050/monoline-ui/progress"
 
 export function SiteHeader() {
   return (
-    <>
-      <Navbar
-        brand="Chitrank"
-        layout="contained"
-        brandTextStyle="cursive"
-        links={[
-          { href: "/blog", label: "Blog" },
-        ]}
-        actions={<Button size="sm">Contact</Button>}
-        sticky
-        glass
-      />
-      <Progress followScroll />
-    </>
+    <Navbar
+      brand="Chitrank"
+      layout="contained"
+      brandTextStyle="cursive"
+      links={[
+        { href: "/blog", label: "Blog" },
+      ]}
+      actions={<Button size="sm">Contact</Button>}
+      sticky
+      glass
+      progress={
+        <Progress
+          followScroll
+          size="sm"
+          className="absolute bottom-0 left-0 right-0 z-50 rounded-none bg-transparent"
+        />
+      }
+    />
   )
 }`
 
@@ -77,10 +85,16 @@ const usageCode = `<Navbar
   actions={<Button size="sm">Contact</Button>}
   sticky
   glass
+  progress={
+    <Progress
+      followScroll
+      size="sm"
+      className="absolute bottom-0 left-0 right-0 z-50 rounded-none bg-transparent"
+    />
+  }
 />
-<Progress followScroll />
 
-<Navbar layout="extended" sticky glass>
+<Navbar layout="extended" sticky glass progress={<Progress followScroll size="sm" className="absolute bottom-0 left-0 right-0 z-50 rounded-none bg-transparent" />}>
   <Navbar.Brand href="/" mark={<span />} textStyle="monoline">
     monoline/ui
   </Navbar.Brand>
@@ -130,8 +144,14 @@ export default function NavbarPageClient() {
 									Contact
 								</Button>
 							}
+							progress={
+								<Progress
+									size={size}
+									value={38}
+									className="absolute bottom-0 left-0 right-0 rounded-none bg-transparent"
+								/>
+							}
 						/>
-						<Progress size={size} value={38} className="w-full" />
 						<div className="p-ml-6 text-muted-foreground text-sm font-mono text-center">
 							Page content space (simulating page content behind a sticky/glass
 							header)

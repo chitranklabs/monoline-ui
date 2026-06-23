@@ -64,7 +64,7 @@ function ProgressDemo({ size }: { size: ProgressSize }) {
 			<Progress size={size} value={34} className="w-full" />
 			<div className="border-b border-border px-ml-8 py-ml-6">
 				<a
-					href="#"
+					href="/blog"
 					className="inline-flex items-center gap-ml-2 text-sm text-body no-underline opacity-72 transition-[color,opacity] duration-(--duration-micro) ease-out hover:text-primary hover:opacity-100"
 				>
 					<span aria-hidden="true"> - </span>

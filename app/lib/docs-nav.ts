@@ -41,6 +41,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ href: "/components/footer", label: "Footer" },
 			{ href: "/components/rail", label: "Rail" },
 			{ href: "/components/toc", label: "Toc" },
+			{ href: "/components/command-search", label: "CommandSearch" },
 		],
 	},
 	{
@@ -102,9 +103,9 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/data-list", label: "DataList" },
 	{ href: "/components/eyebrow", label: "Eyebrow" },
 	{ href: "/components/link-list", label: "LinkList" },
-	{ href: "/components/media-frame", label: "MediaFrame" },
 	{ href: "/components/metric", label: "Metric" },
 	{ href: "/components/navbar", label: "Navbar" },
+	{ href: "/components/command-search", label: "CommandSearch" },
 	{ href: "/components/progress", label: "Progress" },
 	{ href: "/components/resources-panel", label: "ResourcesPanel" },
 	{ href: "/components/select", label: "Select" },

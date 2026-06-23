@@ -76,6 +76,10 @@
 			"types": "./components/code-block/index.d.ts",
 			"import": "./components/code-block/index.js"
 		},
+		"./command-search": {
+			"types": "./components/command-search/index.d.ts",
+			"import": "./components/command-search/index.js"
+		},
 		"./container": {
 			"types": "./components/container/index.d.ts",
 			"import": "./components/container/index.js"
