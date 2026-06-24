@@ -9,6 +9,7 @@ const mediaFrameRatioClasses: Record<MediaFrameRatio, string> = {
 	landscape: "aspect-[4/3]",
 	wide: "aspect-[16/9]",
 	cinematic: "aspect-[21/9]",
+	auto: "aspect-auto",
 }
 
 const mediaFrameSizeClasses: Record<MediaFrameSize, string> = {
