@@ -119,9 +119,12 @@
 
 	/* ── Results list ── */
 	.ml-command-search__list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
 		max-height: 22rem;
 		overflow-y: auto;
-		padding: var(--ml-space-1, 0.25rem);
+		padding: var(--ml-space-2, 0.5rem);
 	}
 
 	.ml-command-search__list::-webkit-scrollbar {
