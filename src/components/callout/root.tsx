@@ -8,8 +8,8 @@ const calloutVariantClasses: Record<CalloutVariant, string> = {
 }
 
 const labelVariantClasses: Record<CalloutVariant, string> = {
-	note: "text-(--text-muted)",
-	tip: "text-(--callout-tip-accent)",
+	note: "text-text-muted",
+	tip: "text-callout-tip-accent",
 	warn: "text-[oklch(0.7_0.16_80)]",
 }
 
@@ -39,7 +39,7 @@ export function CalloutRoot({
 			>
 				{label ?? variant}
 			</div>
-			<div className="text-sm leading-[1.6] text-(--text-secondary)">
+			<div className="text-sm leading-[1.6] text-text-secondary">
 				{children}
 			</div>
 		</aside>

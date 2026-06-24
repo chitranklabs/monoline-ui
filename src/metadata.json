@@ -1,7 +1,8 @@
 {
-	"count": 35,
+	"count": 36,
 	"components": [
 		"action-rail",
+		"author-footer",
 		"avatar",
 		"badge",
 		"button",

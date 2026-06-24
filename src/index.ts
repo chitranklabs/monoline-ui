@@ -2,6 +2,7 @@
 // Do not edit directly.
 
 export * from "./components/action-rail"
+export * from "./components/author-footer"
 export * from "./components/avatar"
 export * from "./components/badge"
 export * from "./components/button"

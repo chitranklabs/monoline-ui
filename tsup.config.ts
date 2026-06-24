@@ -46,6 +46,9 @@ export default defineConfig({
 	minify: true,
 	sourcemap: true,
 	clean: true,
+	banner: {
+		js: '"use client";',
+	},
 	splitting: true,
 	treeshake: true,
 	external: [

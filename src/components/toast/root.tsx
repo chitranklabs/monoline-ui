@@ -32,15 +32,13 @@ export function ToastRoot({
 					dotVariantClasses[variant]
 				)}
 			/>
-			<span className="flex-1 text-[13px] text-(--text-primary)">
-				{children}
-			</span>
+			<span className="flex-1 text-[13px] text-text">{children}</span>
 			{onDismiss && (
 				<button
 					type="button"
 					onClick={onDismiss}
 					aria-label="Dismiss"
-					className="cursor-pointer border-none bg-transparent font-mono text-xs text-(--text-muted) hover:text-(--text-primary)"
+					className="cursor-pointer border-none bg-transparent font-mono text-xs text-text-muted hover:text-text"
 				>
 					✕
 				</button>
