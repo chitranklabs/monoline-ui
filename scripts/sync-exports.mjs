@@ -21,7 +21,7 @@ async function fileExists(filePath) {
 }
 
 function generatedContentMatches(filePath, current, generated) {
-	if (filePath.endsWith(".json")) {
+	if (filePath.endsWith(".json") || filePath.endsWith(".json.lib")) {
 		try {
 			return (
 				JSON.stringify(JSON.parse(current)) ===
@@ -315,7 +315,7 @@ async function run() {
 			"prettier"
 		)
 		execSync(
-			`"${prettierBin}" --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}"`,
+			`"${prettierBin}" --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}" "${pkgLibPath}" "${jsrPath}"`,
 			{
 				cwd: projectRoot,
 				stdio: "pipe",

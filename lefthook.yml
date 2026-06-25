@@ -3,6 +3,12 @@ glob_matcher: doublestar
 pre-commit:
   parallel: true
   commands:
+    # Auto-sync exports when component source files change
+    sync-exports:
+      glob: "src/{components,foundations,lib}/**/*.{ts,tsx,css}"
+      run: pnpm run sync-exports && git add tsconfig.json jsr.json package.json.lib src/index.ts src/metadata.json src/foundations/theme.css
+      stage_fixed: true
+
     # Block commits that contain secrets/credentials
     secrets:
       run: gitleaks protect --staged --redact -v
