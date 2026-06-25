@@ -17,14 +17,18 @@ import { siteUrl } from "./lib/seo"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const identity = await fetchIdentity()
+	const author = identity
+		? { name: identity.name, url: identity.websiteUrl }
+		: { name: "monoline/ui", url: siteUrl }
+
 	return {
 		metadataBase: new URL(siteUrl),
 		title: "monoline/ui  Component library for personal sites & developer docs",
 		description:
 			"A Next.js docs and playground site for the Monoline UI component library.",
-		authors: [{ name: identity.name, url: identity.websiteUrl }],
-		creator: identity.name,
-		publisher: identity.name,
+		authors: [author],
+		creator: author.name,
+		publisher: author.name,
 		appleWebApp: {
 			capable: true,
 			title: "monoline/ui",
@@ -75,10 +79,10 @@ export default async function RootLayout({
 	const personJsonLd = {
 		"@context": "https://schema.org",
 		"@graph": [
-			getPersonJsonLd(identity),
+			identity ? getPersonJsonLd(identity) : null,
 			getWebsiteJsonLd(identity, siteUrl),
 			getWebpageJsonLd(identity, siteUrl),
-		],
+		].filter(Boolean),
 	}
 
 	return (
@@ -97,11 +101,11 @@ export default async function RootLayout({
 				/>
 				<JsonLd data={personJsonLd} />
 				<ThemeProvider>
-					<main className="min-h-screen bg-background">
+					<div className="min-h-screen bg-background">
 						<SiteHeader />
 						{children}
 						<SiteFooter />
-					</main>
+					</div>
 				</ThemeProvider>
 				{isProduction && <Analytics />}
 			</body>

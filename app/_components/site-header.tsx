@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -26,6 +26,12 @@ export function SiteHeader() {
 	const pathname = usePathname()
 	const [paletteOpen, setPaletteOpen] = useState(false)
 	const [menuOpen, setMenuOpen] = useState(false)
+	const menuButtonRef = useRef<HTMLButtonElement>(null)
+
+	const closeMenu = useCallback(() => {
+		setMenuOpen(false)
+		menuButtonRef.current?.focus()
+	}, [])
 
 	useEffect(() => {
 		function onKey(e: KeyboardEvent) {
@@ -41,6 +47,20 @@ export function SiteHeader() {
 	useEffect(() => {
 		setMenuOpen(false)
 	}, [pathname])
+
+	useEffect(() => {
+		if (!menuOpen) return
+
+		const onKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				event.preventDefault()
+				closeMenu()
+			}
+		}
+
+		window.addEventListener("keydown", onKeyDown)
+		return () => window.removeEventListener("keydown", onKeyDown)
+	}, [menuOpen, closeMenu])
 
 	useEffect(() => {
 		const previousOverflow = document.body.style.overflow
@@ -101,6 +121,19 @@ export function SiteHeader() {
 					</a>
 					<ThemeControl mode="mini" size="sm" />
 				</Navbar.Actions>
+
+				<button
+					ref={menuButtonRef}
+					type="button"
+					className="site-menu-button"
+					aria-label="Open menu"
+					aria-controls="site-menu-drawer"
+					aria-expanded={menuOpen}
+					onClick={() => setMenuOpen(true)}
+				>
+					<span />
+					<span />
+				</button>
 			</Navbar>
 
 			<CommandPalette
@@ -109,7 +142,7 @@ export function SiteHeader() {
 			/>
 			<MobileMenu
 				open={menuOpen}
-				onClose={() => setMenuOpen(false)}
+				onClose={closeMenu}
 				onSearch={() => {
 					setMenuOpen(false)
 					setPaletteOpen(true)
@@ -134,6 +167,7 @@ function MobileMenu({
 
 	return (
 		<div
+			id="site-menu-drawer"
 			className="site-menu-drawer"
 			role="dialog"
 			aria-modal="true"

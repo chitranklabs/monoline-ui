@@ -30,20 +30,25 @@ export function getPersonJsonLd(identity: Identity) {
 	}
 }
 
-export function getWebsiteJsonLd(identity: Identity, siteUrl: string) {
-	return {
+export function getWebsiteJsonLd(identity: Identity | null, siteUrl: string) {
+	const jsonLd: Record<string, unknown> = {
 		"@type": "WebSite",
 		"@id": `${siteUrl}/#website`,
 		url: siteUrl,
 		name: "monoline/ui",
-		publisher: {
-			"@id": `${identity.websiteUrl}/#person`,
-		},
 	}
+
+	if (identity) {
+		jsonLd.publisher = {
+			"@id": `${identity.websiteUrl}/#person`,
+		}
+	}
+
+	return jsonLd
 }
 
-export function getWebpageJsonLd(identity: Identity, siteUrl: string) {
-	return {
+export function getWebpageJsonLd(identity: Identity | null, siteUrl: string) {
+	const jsonLd: Record<string, unknown> = {
 		"@type": "WebPage",
 		"@id": `${siteUrl}/#webpage`,
 		url: siteUrl,
@@ -51,10 +56,15 @@ export function getWebpageJsonLd(identity: Identity, siteUrl: string) {
 		isPartOf: {
 			"@id": `${siteUrl}/#website`,
 		},
-		about: {
-			"@id": `${identity.websiteUrl}/#person`,
-		},
 	}
+
+	if (identity) {
+		jsonLd.about = {
+			"@id": `${identity.websiteUrl}/#person`,
+		}
+	}
+
+	return jsonLd
 }
 
 export default function JsonLd<T>({ data }: Props<T>) {

@@ -42,12 +42,15 @@
 	--color-surface: var(--surface);
 	--color-surface-2: var(--surface-2);
 	--color-surface-3: var(--surface-3);
+	--color-surface-primary: var(--surface-primary);
 	--color-button: var(--button);
 	--color-button-hover: var(--button-hover);
 	--color-code: var(--code);
 	--color-accent-soft: var(--accent-soft);
 	--color-border-strong: var(--border-strong);
 	--color-text: var(--text);
+	--color-text-primary: var(--text-primary);
+	--color-text-primary-foreground: var(--text-primary-foreground);
 	--color-text-secondary: var(--text-secondary);
 	--color-text-muted: var(--text-muted);
 	--color-body: var(--text-body);
@@ -97,6 +100,7 @@
 	--tracking-display: var(--tracking-display);
 	--tracking-heading: var(--tracking-heading);
 	--tracking-body: var(--tracking-body);
+	--tracking-normal: var(--tracking-normal);
 	--tracking-meta: var(--tracking-meta);
 	--tracking-eyebrow: var(--tracking-eyebrow);
 
@@ -148,6 +152,7 @@
 	--spacing-ml-20: var(--ml-space-20);
 	--spacing-ml-24: var(--ml-space-24);
 	--spacing-ml-28: var(--ml-space-28);
+	--spacing-ml-32: var(--ml-space-32);
 
 	--spacing-footer-y-sm: var(--ml-footer-y-sm);
 	--spacing-footer-y-sm-tablet: var(--ml-footer-y-sm-tablet);
