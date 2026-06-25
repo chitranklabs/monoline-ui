@@ -7,7 +7,7 @@ import { ComponentPlayground } from "../../_components/component-playground"
 const usageCode = `<CodeBlock
   filename="example.js"
   language="javascript"
-  code="const msg = 'Hello World';\nconsole.log(msg);"
+  code="const message = 'Hello World';\nmessage.toUpperCase();"
 />`
 
 const sourceSnippet = `import { CodeBlock } from "@chitrank2050/monoline-ui/code-block"

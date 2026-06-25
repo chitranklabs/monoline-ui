@@ -46,10 +46,10 @@ export function SearchTrigger() {
         <CommandSearch.Input />
         <CommandSearch.List>
           <CommandSearch.Group heading="Links">
-            <CommandSearch.Item value="home" onSelect={() => console.log("home")}>
+            <CommandSearch.Item value="home" onSelect={() => navigate("/home")}>
               Home
             </CommandSearch.Item>
-            <CommandSearch.Item value="about" onSelect={() => console.log("about")}>
+            <CommandSearch.Item value="about" onSelect={() => navigate("/about")}>
               About
             </CommandSearch.Item>
           </CommandSearch.Group>

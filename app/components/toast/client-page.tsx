@@ -13,8 +13,12 @@ const usageCode = `<Toast variant="accent">Document uploaded successfully.</Toas
 const sourceSnippet = `import { Toast } from "@chitrank2050/monoline-ui/toast"
 
 export function StatusToast() {
+  const dismissToast = () => {
+    // Close the toast in your app state.
+  }
+
   return (
-    <Toast variant="success" onDismiss={() => console.log('dismiss')}>
+    <Toast variant="success" onDismiss={dismissToast}>
       Feature activated!
     </Toast>
   )
