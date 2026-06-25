@@ -102,6 +102,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
+      - name: Format generated files 🧹
+        run: npx prettier --write package.json package.json.lib jsr.json CHANGELOG.md
+
       - name: Generate PR Body 📝
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
         id: git-cliff-pr
