@@ -29,25 +29,17 @@ export function SelectContent({
 	const searchBuffer = useRef("")
 	const searchTimeout = useRef<ReturnType<typeof setTimeout>>(undefined)
 
-	const findNextEnabled = useCallback(
+	const findEnabled = useCallback(
 		(from: number, direction: 1 | -1) => {
-			let idx = from
 			for (let i = 0; i < options.length; i++) {
-				idx = (idx + direction + options.length) % options.length
+				const idx =
+					(from + direction * (i + 1) + options.length) % options.length
 				if (!options[idx]?.disabled) return idx
 			}
 			return from
 		},
 		[options]
 	)
-
-	const firstEnabled = () => options.findIndex((o) => !o.disabled)
-	const lastEnabled = () => {
-		for (let i = options.length - 1; i >= 0; i--) {
-			if (!options[i]?.disabled) return i
-		}
-		return -1
-	}
 
 	const activeOption =
 		activeIndex >= 0 && activeIndex < options.length
@@ -66,37 +58,23 @@ export function SelectContent({
 
 		const handleMobileTab = (e: KeyboardEvent) => {
 			if (e.key !== "Tab") return
-
-			const listbox = listboxRef.current
-			if (!listbox) return
-
-			const cancelBtn = listbox
-				.closest(".ml-select__sheet-stack")
+			const cancelBtn = listboxRef.current
+				?.closest(".ml-select__sheet-stack")
 				?.querySelector(".ml-select__sheet-cancel") as HTMLElement | null
-			if (!cancelBtn) return
+			if (!cancelBtn || !listboxRef.current) return
 
-			const focusables = [listbox, cancelBtn]
-			const first = focusables[0]
-			const last = focusables[1]
-			if (!first || !last) return
-
-			if (e.shiftKey) {
-				if (document.activeElement === first) {
-					e.preventDefault()
-					last.focus()
-				}
-			} else {
-				if (document.activeElement === last) {
-					e.preventDefault()
-					first.focus()
-				}
+			const active = document.activeElement
+			if (e.shiftKey && active === listboxRef.current) {
+				e.preventDefault()
+				cancelBtn.focus()
+			} else if (!e.shiftKey && active === cancelBtn) {
+				e.preventDefault()
+				listboxRef.current.focus()
 			}
 		}
 
 		document.addEventListener("keydown", handleMobileTab)
-		return () => {
-			document.removeEventListener("keydown", handleMobileTab)
-		}
+		return () => document.removeEventListener("keydown", handleMobileTab)
 	}, [open, isMobile])
 
 	const handleKeyDown = useCallback(
@@ -108,27 +86,41 @@ export function SelectContent({
 				case "ArrowDown": {
 					e.preventDefault()
 					const next =
-						activeIndex < 0 ? firstEnabled() : findNextEnabled(activeIndex, 1)
+						activeIndex < 0
+							? options.findIndex((o) => !o.disabled)
+							: findEnabled(activeIndex, 1)
 					if (next >= 0) setActiveIndex(next)
 					break
 				}
 				case "ArrowUp": {
 					e.preventDefault()
-					const prev =
-						activeIndex < 0 ? lastEnabled() : findNextEnabled(activeIndex, -1)
-					if (prev >= 0) setActiveIndex(prev)
+					if (activeIndex < 0) {
+						for (let i = options.length - 1; i >= 0; i--) {
+							if (!options[i]?.disabled) {
+								setActiveIndex(i)
+								break
+							}
+						}
+					} else {
+						const prev = findEnabled(activeIndex, -1)
+						if (prev >= 0) setActiveIndex(prev)
+					}
 					break
 				}
 				case "Home": {
 					e.preventDefault()
-					const first = firstEnabled()
+					const first = options.findIndex((o) => !o.disabled)
 					if (first >= 0) setActiveIndex(first)
 					break
 				}
 				case "End": {
 					e.preventDefault()
-					const last = lastEnabled()
-					if (last >= 0) setActiveIndex(last)
+					for (let i = options.length - 1; i >= 0; i--) {
+						if (!options[i]?.disabled) {
+							setActiveIndex(i)
+							break
+						}
+					}
 					break
 				}
 				case "Enter":
@@ -142,9 +134,7 @@ export function SelectContent({
 					break
 				}
 				case "Tab": {
-					if (!isMobile) {
-						setOpen(false)
-					}
+					if (!isMobile) setOpen(false)
 					break
 				}
 				default: {
@@ -168,9 +158,7 @@ export function SelectContent({
 		},
 		[
 			activeIndex,
-			findNextEnabled,
-			firstEnabled,
-			lastEnabled,
+			findEnabled,
 			onChange,
 			options,
 			setActiveIndex,

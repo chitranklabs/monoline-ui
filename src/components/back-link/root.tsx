@@ -7,7 +7,7 @@ export function BackLinkRoot({
 	className,
 	ref,
 	...props
-}: BackLinkProps): React.ReactElement {
+}: BackLinkProps) {
 	return (
 		<Comp ref={ref} className={cn("ml-back-link group", className)} {...props}>
 			<span className="ml-back-link__line" aria-hidden="true" />

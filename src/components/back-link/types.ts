@@ -1,5 +1,5 @@
-import type * as React from "react"
+import type { ComponentProps, ElementType } from "react"
 
-export interface BackLinkProps extends React.ComponentProps<"a"> {
-	as?: React.ElementType
+export interface BackLinkProps extends ComponentProps<"a"> {
+	as?: ElementType
 }
