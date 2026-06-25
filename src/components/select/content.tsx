@@ -13,7 +13,7 @@ export function SelectContent({
 	onKeyDown,
 	ref,
 	...props
-}: SelectContentProps) {
+}: SelectContentProps): React.ReactElement | null {
 	const {
 		activeIndex,
 		isMobile,

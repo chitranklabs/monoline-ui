@@ -6,7 +6,7 @@ export function CardArrow({
 	className,
 	ref,
 	...props
-}: CardArrowProps) {
+}: CardArrowProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

@@ -42,7 +42,7 @@ export default function TogglePageClient() {
 	return (
 		<ComponentPlayground<ToggleSize>
 			title="Toggle"
-			description="Render a controlled or uncontrolled switch with role=switch semantics, restrained thumb motion, and three sizes."
+			description="Render controlled or uncontrolled switches with role=switch semantics and token-backed motion."
 			sizes={toggleSizes}
 			defaultSize="md"
 			importStatement='import { Toggle } from "@chitrank2050/monoline-ui/toggle"'

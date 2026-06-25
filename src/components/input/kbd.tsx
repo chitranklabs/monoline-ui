@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { InputKbdProps } from "./types"
 
-export function InputKbd({ className, ref, ...props }: InputKbdProps) {
+export function InputKbd({
+	className,
+	ref,
+	...props
+}: InputKbdProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

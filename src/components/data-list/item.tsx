@@ -1,7 +1,7 @@
 import { cn } from "../../lib/utils"
 import type { DataListItemProps } from "./types"
 
-export function DataListItem(props: DataListItemProps) {
+export function DataListItem(props: DataListItemProps): React.ReactElement {
 	const { label, title, description, trailing, children } = props
 	const content = children ?? (
 		<>

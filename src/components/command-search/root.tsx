@@ -48,7 +48,7 @@ export function CommandSearchRoot({
 	ref,
 	children,
 	showFooter = false,
-}: CommandSearchProps) {
+}: CommandSearchProps): React.ReactElement | null {
 	const [rawSearch, setRawSearchState] = useState("")
 	const [search, setSearch] = useState("")
 	const [isBrowser, setIsBrowser] = useState(false)

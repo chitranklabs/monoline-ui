@@ -11,7 +11,7 @@ export function CommandSearchEmpty({
 	children,
 	ref,
 	...props
-}: CommandSearchEmptyProps) {
+}: CommandSearchEmptyProps): React.ReactElement | null {
 	const { search, minChars } = useCommandSearch()
 
 	if (search.length < minChars && minChars > 0) return null

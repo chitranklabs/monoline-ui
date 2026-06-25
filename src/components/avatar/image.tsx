@@ -10,7 +10,7 @@ export function AvatarImage({
 	decoding = "async",
 	ref,
 	...props
-}: AvatarImageProps) {
+}: AvatarImageProps): React.ReactElement {
 	const Comp = asChild ? Slot : "img"
 	const imageProps = asChild ? props : { loading, decoding, ...props }
 

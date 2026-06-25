@@ -79,7 +79,7 @@ export default function ProgressPageClient() {
 	return (
 		<ComponentPlayground<ProgressSize>
 			title="Progress"
-			description="A thin accent progress line for reading position, uploads, and ambient page state. Pair it directly under Navbar for article and journal layouts."
+			description="Show determinate, indeterminate, or scroll-following progress bars for articles and workflows."
 			sizes={progressSizes}
 			defaultSize="md"
 			importStatement='import { Progress } from "@chitrank2050/monoline-ui/progress"'

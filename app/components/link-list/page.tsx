@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import LinkListPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "LinkList Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "LinkList - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui LinkList component.",
+		"Render compact resource and reading-list rows with dates, descriptions, and external-link handling.",
 	path: "/components/link-list",
 })
 

@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { CardTextProps } from "./types"
 
-export function CardEyebrow({ className, ref, ...props }: CardTextProps) {
+export function CardEyebrow({
+	className,
+	ref,
+	...props
+}: CardTextProps): React.ReactElement {
 	return (
 		<p
 			ref={ref}

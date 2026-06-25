@@ -10,7 +10,7 @@ export function FooterLink({
 	className,
 	ref,
 	...props
-}: FooterLinkProps) {
+}: FooterLinkProps): React.ReactElement {
 	const Comp = asChild ? Slot : "a"
 	return (
 		<Comp

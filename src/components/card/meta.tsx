@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { CardSlotProps } from "./types"
 
-export function CardMeta({ className, ref, ...props }: CardSlotProps) {
+export function CardMeta({
+	className,
+	ref,
+	...props
+}: CardSlotProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

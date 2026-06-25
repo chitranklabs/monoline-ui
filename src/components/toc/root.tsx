@@ -16,7 +16,7 @@ export function TocRoot({
 	defaultOpen = false,
 	ref,
 	...props
-}: TocProps) {
+}: TocProps): React.ReactElement {
 	const [observedActive, setObservedActive] = useState<string | null>(null)
 	const [open, setOpen] = useState(defaultOpen)
 	const active = controlledActive ?? observedActive ?? items[0]?.id

@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { CardHeadingProps } from "./types"
 
-export function CardTitle({ className, ref, ...props }: CardHeadingProps) {
+export function CardTitle({
+	className,
+	ref,
+	...props
+}: CardHeadingProps): React.ReactElement {
 	return (
 		// eslint-disable-next-line jsx-a11y/heading-has-content -- children forwarded via spread
 		<h3

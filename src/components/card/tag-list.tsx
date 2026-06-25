@@ -10,7 +10,7 @@ export function CardTagList({
 	overflowFormatter,
 	ref,
 	...props
-}: CardTagListProps) {
+}: CardTagListProps): React.ReactElement {
 	const items = React.Children.toArray(children)
 	const visibleCount = items.length
 	const overflowCount =

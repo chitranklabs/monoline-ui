@@ -15,7 +15,7 @@ export function EditorialLineRoot({
 	hover = true,
 	ref,
 	...props
-}: EditorialLineProps) {
+}: EditorialLineProps): React.ReactElement {
 	const sharedClassName = cn(
 		"ml-editorial-line grid items-center border-b border-border no-underline",
 		"grid-cols-[40px_110px_1fr_auto] sm:gap-6 sm:py-5",

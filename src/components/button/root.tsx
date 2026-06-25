@@ -34,7 +34,7 @@ export function ButtonRoot({
 	type,
 	ref,
 	...props
-}: ButtonProps) {
+}: ButtonProps): React.ReactElement {
 	const Comp = asChild ? Slot : "button"
 	const isUnavailable = disabled || loading
 	const content =

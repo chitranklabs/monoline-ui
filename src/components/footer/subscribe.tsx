@@ -11,7 +11,7 @@ export function FooterSubscribeForm({
 	className,
 	ref,
 	...props
-}: FooterSubscribeFormProps) {
+}: FooterSubscribeFormProps): React.ReactElement {
 	return (
 		<form
 			ref={ref}

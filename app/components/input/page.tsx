@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import InputPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Input Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Input - monoline/ui component",
 	description:
-		"API reference and variants for the monoline/ui Input component, including sizes, error state, prefix and suffix decorations.",
+		"Render text fields with prefix and suffix slots, validation state, and consistent control sizing.",
 	path: "/components/input",
 })
 

@@ -7,7 +7,7 @@ import { ComponentPlayground } from "../../_components/component-playground"
 const usageCode = `<CodeBlock
   filename="example.js"
   language="javascript"
-  code="const message = 'Hello World';\nmessage.toUpperCase();"
+  code="const label = 'Copied code';\nlabel.toUpperCase();"
 />`
 
 const sourceSnippet = `import { CodeBlock } from "@chitrank2050/monoline-ui/code-block"
@@ -36,7 +36,7 @@ export default function CodeBlockPageClient() {
 	return (
 		<ComponentPlayground
 			title="CodeBlock"
-			description="Renders syntax blocks with a customized header filename and built-in copy clipboard utility."
+			description="Show preformatted code with an optional filename, language metadata, and copy action."
 			importStatement='import { CodeBlock } from "@chitrank2050/monoline-ui/code-block"'
 			usageCode={usageCode}
 			props={propsRows}

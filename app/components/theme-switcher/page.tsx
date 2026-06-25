@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import ThemeSwitcherPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "ThemeSwitcher Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "ThemeSwitcher - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui ThemeSwitcher component, including mini and full modes.",
+		"Render controlled light and dark theme controls in mini or full mode.",
 	path: "/components/theme-switcher",
 })
 

@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import StatusPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Status Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Status - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Status component.",
+		"Show compact state labels with a stable dot, tone, and optional pulse animation.",
 	path: "/components/status",
 })
 

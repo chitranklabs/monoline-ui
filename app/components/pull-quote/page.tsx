@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import PullQuotePageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "PullQuote Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "PullQuote - monoline/ui component",
 	description:
-		"API reference and variants for the monoline/ui PullQuote component, featuring custom attributions.",
+		"Highlight long-form quotes with optional attribution and an accent border.",
 	path: "/components/pull-quote",
 })
 

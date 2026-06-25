@@ -37,7 +37,7 @@ export default function BadgePageClient() {
 	return (
 		<ComponentPlayground<BadgeSize>
 			title="Badge"
-			description="Compact indicators used for counts, status labels, or category tags."
+			description="Label counts, statuses, and categories with compact size and variant controls."
 			sizes={badgeSizes}
 			defaultSize="sm"
 			importStatement='import { Badge } from "@chitrank2050/monoline-ui/badge"'

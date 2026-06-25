@@ -6,7 +6,7 @@ export function NavbarNav({
 	className,
 	ref,
 	...props
-}: NavbarNavProps) {
+}: NavbarNavProps): React.ReactElement {
 	return (
 		<nav
 			ref={ref}

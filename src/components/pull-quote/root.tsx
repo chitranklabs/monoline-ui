@@ -7,7 +7,7 @@ export function PullQuoteRoot({
 	children,
 	ref,
 	...props
-}: PullQuoteProps) {
+}: PullQuoteProps): React.ReactElement {
 	return (
 		<figure
 			ref={ref}

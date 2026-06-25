@@ -5,7 +5,7 @@ export function MediaFrameCaption({
 	className,
 	ref,
 	...props
-}: MediaFrameCaptionProps) {
+}: MediaFrameCaptionProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

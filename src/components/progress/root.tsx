@@ -49,7 +49,7 @@ export function ProgressRoot({
 	followScroll = false,
 	ref,
 	...props
-}: ProgressProps) {
+}: ProgressProps): React.ReactElement {
 	const [scrollValue, setScrollValue] = useState(0)
 
 	useEffect(() => {

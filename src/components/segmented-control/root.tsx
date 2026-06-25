@@ -16,7 +16,7 @@ export function SegmentedControlRoot<T extends string>({
 	ref,
 	role,
 	...props
-}: SegmentedControlProps<T>) {
+}: SegmentedControlProps<T>): React.ReactElement {
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const composedContainerRef = React.useMemo(
 		() => composeRefs(containerRef, ref),

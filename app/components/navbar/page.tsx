@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import NavbarPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Navbar Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Navbar - monoline/ui component",
 	description:
-		"API reference and preview controls for the responsive monoline/ui Navbar component.",
+		"Build responsive headers with brand, nav links, actions, sticky or glass styles, and a progress slot.",
 	path: "/components/navbar",
 })
 

@@ -11,7 +11,7 @@ export function CommandSearchList({
 	children,
 	ref,
 	...props
-}: CommandSearchListProps) {
+}: CommandSearchListProps): React.ReactElement {
 	const { search, minChars } = useCommandSearch()
 
 	const belowThreshold = search.length < minChars && minChars > 0

@@ -28,7 +28,7 @@ export default function PullQuotePageClient() {
 	return (
 		<ComponentPlayground
 			title="PullQuote"
-			description="Display styled pullquotes inside long-form articles or copy structures."
+			description="Highlight long-form quotes with optional attribution and an accent border."
 			importStatement='import { PullQuote } from "@chitrank2050/monoline-ui/pull-quote"'
 			usageCode={usageCode}
 			props={propsRows}

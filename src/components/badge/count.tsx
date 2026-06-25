@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { BadgeCountProps } from "./types"
 
-export function BadgeCount({ className, ref, ...props }: BadgeCountProps) {
+export function BadgeCount({
+	className,
+	ref,
+	...props
+}: BadgeCountProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

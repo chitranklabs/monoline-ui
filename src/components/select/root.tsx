@@ -69,7 +69,7 @@ export function SelectRoot<T extends string>({
 	value,
 	ref,
 	...props
-}: SelectRootProps<T>) {
+}: SelectRootProps<T>): React.ReactElement {
 	const [internalOpen, setInternalOpen] = useState(defaultOpen)
 	const [activeIndex, setActiveIndex] = useState(-1)
 	const breakpoint = useBreakpoint("desktop")

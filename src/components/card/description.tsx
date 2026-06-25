@@ -12,7 +12,7 @@ export function CardDescription({
 	lines,
 	ref,
 	...props
-}: CardDescriptionProps) {
+}: CardDescriptionProps): React.ReactElement {
 	return (
 		<p
 			ref={ref}

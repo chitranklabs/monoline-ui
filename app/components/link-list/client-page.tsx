@@ -94,7 +94,7 @@ export default function LinkListPageClient() {
 	return (
 		<ComponentPlayground<LinkListSize>
 			title="LinkList"
-			description="Render compact editorial link rows for project-detail reading lists, changelogs, release notes, and archives."
+			description="Render compact resource and reading-list rows with dates, descriptions, and external-link handling."
 			sizes={linkListSizes}
 			defaultSize="md"
 			importStatement='import { LinkList } from "@chitrank2050/monoline-ui/link-list"'

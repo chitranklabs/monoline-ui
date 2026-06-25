@@ -15,7 +15,7 @@ export function ToggleRoot({
 	disabled,
 	ref,
 	...props
-}: ToggleProps) {
+}: ToggleProps): React.ReactElement {
 	const [internalChecked, setInternalChecked] = React.useState(defaultChecked)
 	const isControlled = checked !== undefined
 	const currentChecked = isControlled ? checked : internalChecked

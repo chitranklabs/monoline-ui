@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { MetaRowSepProps } from "./types"
 
-export function MetaRowSep({ className, ref, ...props }: MetaRowSepProps) {
+export function MetaRowSep({
+	className,
+	ref,
+	...props
+}: MetaRowSepProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

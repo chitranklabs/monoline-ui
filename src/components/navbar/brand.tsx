@@ -11,7 +11,7 @@ export function NavbarBrand({
 	ref,
 	textStyle = "cursive",
 	...props
-}: NavbarBrandProps) {
+}: NavbarBrandProps): React.ReactElement {
 	const Comp = asChild ? Slot : "a"
 
 	return (

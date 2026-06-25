@@ -14,7 +14,7 @@ export function CommandSearchItem({
 	children,
 	ref,
 	...props
-}: CommandSearchItemProps) {
+}: CommandSearchItemProps): React.ReactElement {
 	const { close } = useCommandSearch()
 
 	return (

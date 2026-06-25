@@ -14,7 +14,7 @@ export function Container({
 	children,
 	ref,
 	...props
-}: ContainerProps) {
+}: ContainerProps): React.ReactElement {
 	return (
 		<Tag
 			ref={ref}

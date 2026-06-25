@@ -25,7 +25,7 @@ export function SelectItem({
 	children,
 	ref,
 	...props
-}: SelectItemProps) {
+}: SelectItemProps): React.ReactElement {
 	const {
 		isMobile,
 		onChange,

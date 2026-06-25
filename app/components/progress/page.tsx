@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import ProgressPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Progress Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Progress - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Progress component.",
+		"Show determinate, indeterminate, or scroll-following progress bars for articles and workflows.",
 	path: "/components/progress",
 })
 

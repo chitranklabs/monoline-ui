@@ -35,7 +35,7 @@ export default function ToastPageClient() {
 	return (
 		<ComponentPlayground<ToastVariant>
 			title="Toast"
-			description="Action feedback banners notifying the user of asynchronous updates or status changes."
+			description="Show status feedback banners with tone, message, and optional dismiss action."
 			sizes={toastVariants}
 			defaultSize="accent"
 			importStatement='import { Toast } from "@chitrank2050/monoline-ui/toast"'

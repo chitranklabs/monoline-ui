@@ -23,7 +23,7 @@ export function BadgeRoot({
 	asChild = false,
 	ref,
 	...props
-}: BadgeProps) {
+}: BadgeProps): React.ReactElement {
 	const Comp = asChild ? Slot : "span"
 	return (
 		<Comp

@@ -11,7 +11,7 @@ export function NavbarLink({
 	children,
 	ref,
 	...props
-}: NavbarLinkProps) {
+}: NavbarLinkProps): React.ReactElement {
 	const Comp = asChild ? Slot : "a"
 
 	if (asChild) {

@@ -11,7 +11,7 @@ export function CommandSearchGroup({
 	children,
 	ref,
 	...props
-}: CommandSearchGroupProps) {
+}: CommandSearchGroupProps): React.ReactElement {
 	return (
 		<Command.Group
 			ref={ref}

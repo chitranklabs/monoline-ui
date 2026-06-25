@@ -14,7 +14,7 @@ export function CardImage({
 	ratio = "landscape",
 	ref,
 	...props
-}: CardImageProps) {
+}: CardImageProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

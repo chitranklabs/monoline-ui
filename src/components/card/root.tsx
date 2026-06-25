@@ -23,7 +23,7 @@ function isCardButtonProps(props: CardProps): props is CardButtonProps {
 	)
 }
 
-export function CardRoot(props: CardProps) {
+export function CardRoot(props: CardProps): React.ReactElement {
 	const { className, size = "md", href } = props
 	const isButtonCard = isCardButtonProps(props)
 	const cardClassName = cn(

@@ -66,7 +66,7 @@ export default function MediaFramePageClient() {
 	return (
 		<ComponentPlayground<MediaFrameSize, MediaFrameRatio>
 			title="MediaFrame"
-			description="Reserve stable image, video, and custom media surfaces with passive chrome, monoline placeholder, and optional caption or metadata fade."
+			description="Reserve stable media surfaces for images, video, placeholders, captions, and metadata."
 			sizes={mediaFrameSizes}
 			defaultSize="md"
 			variants={mediaFrameRatios}

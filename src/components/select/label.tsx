@@ -4,7 +4,11 @@ import { cn } from "../../lib/utils"
 import { useSelectContext } from "./root"
 import type { SelectLabelProps } from "./types"
 
-export function SelectLabel({ className, ref, ...props }: SelectLabelProps) {
+export function SelectLabel({
+	className,
+	ref,
+	...props
+}: SelectLabelProps): React.ReactElement {
 	const { label } = useSelectContext()
 
 	return (

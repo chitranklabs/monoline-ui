@@ -23,7 +23,7 @@ export function ThemeSwitcherRoot({
 	type,
 	ref,
 	...props
-}: ThemeSwitcherProps) {
+}: ThemeSwitcherProps): React.ReactElement {
 	const isDark = theme === "dark"
 	const nextTheme = isDark ? "light" : "dark"
 	const ariaLabel = isDark ? lightLabel : darkLabel

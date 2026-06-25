@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import TestimonialPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Testimonial Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Testimonial - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Testimonial component.",
+		"Render quotes with author metadata, avatar fallback, size, and surface variants.",
 	path: "/components/testimonial",
 })
 

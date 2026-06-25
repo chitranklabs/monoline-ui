@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import CodeBlockPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "CodeBlock Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "CodeBlock - monoline/ui component",
 	description:
-		"API reference and variants for the monoline/ui CodeBlock component, featuring custom labels and clipboard copy utilities.",
+		"Show preformatted code with an optional filename, language metadata, and copy action.",
 	path: "/components/code-block",
 })
 

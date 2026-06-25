@@ -17,7 +17,7 @@ export function SelectTrigger({
 	ref,
 	type,
 	...props
-}: SelectTriggerProps) {
+}: SelectTriggerProps): React.ReactElement {
 	const {
 		label,
 		listboxId,

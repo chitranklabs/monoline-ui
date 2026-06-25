@@ -14,7 +14,7 @@ export function ToastRoot({
 	onDismiss,
 	ref,
 	...props
-}: ToastProps) {
+}: ToastProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

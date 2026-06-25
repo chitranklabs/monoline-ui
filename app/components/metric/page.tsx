@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import MetricPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Metric Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Metric - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Metric component.",
+		"Show key numbers with labels, descriptions, and optional trend state.",
 	path: "/components/metric",
 })
 

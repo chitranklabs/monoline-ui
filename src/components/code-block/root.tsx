@@ -13,7 +13,7 @@ export function CodeBlockRoot({
 	className,
 	ref,
 	...props
-}: CodeBlockProps) {
+}: CodeBlockProps): React.ReactElement {
 	const [copied, setCopied] = useState(false)
 
 	function copy() {

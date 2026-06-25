@@ -21,7 +21,7 @@ export function InputRoot({
 	suffix,
 	ref,
 	...props
-}: InputProps) {
+}: InputProps): React.ReactElement {
 	return (
 		<label
 			className={cn(

@@ -11,7 +11,7 @@ export function DataListRoot({
 	children,
 	ref,
 	...props
-}: DataListProps) {
+}: DataListProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

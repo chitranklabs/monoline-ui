@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { RailCountProps } from "./types"
 
-export function RailCount({ className, ref, ...props }: RailCountProps) {
+export function RailCount({
+	className,
+	ref,
+	...props
+}: RailCountProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

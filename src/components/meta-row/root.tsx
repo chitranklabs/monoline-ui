@@ -6,7 +6,7 @@ export function MetaRowRoot({
 	strong = false,
 	ref,
 	...props
-}: MetaRowProps) {
+}: MetaRowProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

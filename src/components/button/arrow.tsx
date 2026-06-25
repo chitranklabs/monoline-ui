@@ -8,7 +8,7 @@ export function ButtonIcon({
 	reveal = false,
 	ref,
 	...props
-}: ButtonIconProps) {
+}: ButtonIconProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}
@@ -23,7 +23,10 @@ export function ButtonIcon({
 	)
 }
 
-export function ButtonArrow({ reveal = true, ...props }: ButtonArrowProps) {
+export function ButtonArrow({
+	reveal = true,
+	...props
+}: ButtonArrowProps): React.ReactElement {
 	return (
 		<ButtonIcon side="right" reveal={reveal} {...props}>
 			→

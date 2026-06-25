@@ -1,9 +1,11 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 
-export const metadata = createPageMetadata({
-	title: "Colors  monoline/ui design foundations",
+export const metadata: Metadata = createPageMetadata({
+	title: "Colors - monoline/ui foundations",
 	description:
-		"Learn how monoline/ui uses semantic CSS variables and design tokens for clean, responsive light/dark theme color switching.",
+		"Review the semantic color tokens that power monoline/ui light and dark themes.",
 	path: "/foundations/colors",
 })
 
@@ -11,7 +13,7 @@ const colorGroups = [
 	{
 		title: "Surfaces",
 		blurb:
-			"Backgrounds - page → card → nested. Order them from least to most prominent.",
+			"Backgrounds move from page to card to nested surfaces. Use the least prominent token that works.",
 		badge: "6 tokens",
 		tokens: [
 			["bg", "oklch(0.145 0 0)", "oklch(0.98 0.005 80)", "#101010", "#f7f5ee"],
@@ -37,7 +39,7 @@ const colorGroups = [
 	{
 		title: "Text",
 		blurb:
-			"Three text levels - primary for headings, secondary for body, muted for meta.",
+			"Use primary for headings, secondary for body copy, and muted for metadata.",
 		badge: "5 tokens",
 		tokens: [
 			["primary", "oklch(0.985 0 0)", "oklch(0.18 0 0)", "#ffffff", "#1f1f1f"],
@@ -50,7 +52,7 @@ const colorGroups = [
 	{
 		title: "Borders",
 		blurb:
-			"Hairline + visible. Use border for cards; border-strong for buttons and inputs.",
+			"Use border for quiet containers and border-strong for visible controls.",
 		badge: "2 tokens",
 		tokens: [
 			[
@@ -72,7 +74,7 @@ const colorGroups = [
 	{
 		title: "Brand",
 		blurb:
-			'One accent - warm terracotta. Earns its colour on hover, active filters, and "Live" states.',
+			"Use the accent for active filters, live states, and high-signal hover feedback.",
 		badge: "2 tokens",
 		tokens: [
 			[
@@ -100,9 +102,9 @@ export default function ColorsPage() {
 				<p className="ml-eyebrow">Foundations · Colors</p>
 				<h1>Two palettes, one variable name.</h1>
 				<p>
-					Every colour resolves through a CSS custom property. Switch data-theme
-					on <code>&lt;html&gt;</code> and the same variable takes a different
-					value - components don&apos;t know which mode they&apos;re in.
+					Every color resolves through a CSS custom property. Change
+					<code> data-theme</code> on <code>&lt;html&gt;</code> and components
+					keep the same token names in both modes.
 				</p>
 			</header>
 
@@ -112,7 +114,7 @@ export default function ColorsPage() {
 					data-theme="dark"
 				>
 					<p className="ml-eyebrow">Dark preview</p>
-					<h2>The quick brown fox.</h2>
+					<h2>Dark mode sample</h2>
 					<p>
 						Body copy reads cleanly on this surface. The accent dot reads as
 						intentional, not noise.
@@ -126,7 +128,7 @@ export default function ColorsPage() {
 					data-theme="light"
 				>
 					<p className="ml-eyebrow">Light preview</p>
-					<h2>The quick brown fox.</h2>
+					<h2>Light mode sample</h2>
 					<p>
 						Body copy reads cleanly on this surface. The accent dot reads as
 						intentional, not noise.

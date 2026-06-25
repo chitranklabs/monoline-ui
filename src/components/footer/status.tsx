@@ -6,7 +6,7 @@ export function FooterStatus({
 	className,
 	ref,
 	...props
-}: FooterStatusProps) {
+}: FooterStatusProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

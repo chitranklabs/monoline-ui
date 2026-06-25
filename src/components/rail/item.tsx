@@ -7,7 +7,7 @@ export function RailItem({
 	children,
 	ref,
 	...props
-}: RailItemProps) {
+}: RailItemProps): React.ReactElement {
 	return (
 		<li
 			ref={ref}

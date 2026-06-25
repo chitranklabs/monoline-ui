@@ -42,7 +42,7 @@ export function CommandSearchInput({
 	autoFocus = true,
 	spellCheck = false,
 	...props
-}: CommandSearchInputProps) {
+}: CommandSearchInputProps): React.ReactElement {
 	const { rawSearch, setRawSearch, placeholder, close } = useCommandSearch()
 
 	return (

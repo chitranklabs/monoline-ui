@@ -5,7 +5,7 @@ export function MediaFrameMeta({
 	className,
 	ref,
 	...props
-}: MediaFrameMetaProps) {
+}: MediaFrameMetaProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

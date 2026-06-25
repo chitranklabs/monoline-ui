@@ -71,7 +71,7 @@ export default function TestimonialPageClient() {
 	return (
 		<ComponentPlayground<TestimonialSize>
 			title="Testimonial"
-			description="Render editorial social proof with quote, author metadata, and built-in avatar fallback."
+			description="Render quotes with author metadata, avatar fallback, size, and surface variants."
 			sizes={testimonialSizes}
 			defaultSize="md"
 			importStatement='import { Testimonial } from "@chitrank2050/monoline-ui/testimonial"'

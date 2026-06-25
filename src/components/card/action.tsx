@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { CardActionProps } from "./types"
 
-export function CardAction({ className, ref, ...props }: CardActionProps) {
+export function CardAction({
+	className,
+	ref,
+	...props
+}: CardActionProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

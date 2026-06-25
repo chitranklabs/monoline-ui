@@ -24,7 +24,7 @@ export function NavbarRoot({
 	className,
 	ref,
 	...props
-}: NavbarProps) {
+}: NavbarProps): React.ReactElement {
 	return (
 		<header
 			ref={ref}

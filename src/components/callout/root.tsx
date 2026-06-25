@@ -20,7 +20,7 @@ export function CalloutRoot({
 	children,
 	ref,
 	...props
-}: CalloutProps) {
+}: CalloutProps): React.ReactElement {
 	return (
 		<aside
 			ref={ref}

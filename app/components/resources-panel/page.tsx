@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import ResourcesPanelPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "ResourcesPanel Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "ResourcesPanel - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui ResourcesPanel component.",
+		"List project resources such as live links, source, docs, files, and videos in a compact sidebar.",
 	path: "/components/resources-panel",
 })
 

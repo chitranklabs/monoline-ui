@@ -10,7 +10,7 @@ export function CommandSearchFooter({
 	children,
 	ref,
 	...props
-}: CommandSearchFooterProps) {
+}: CommandSearchFooterProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

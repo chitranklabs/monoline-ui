@@ -113,7 +113,7 @@ export default function NavbarPageClient() {
 	return (
 		<ComponentPlayground<NavbarSize, NavbarVariant>
 			title="Navbar"
-			description="Render a token-backed site header with brand, navigation links, and an action slot. Use data props for simple headers or compound slots for custom app composition."
+			description="Build responsive headers with brand, nav links, actions, sticky or glass styles, and a progress slot."
 			sizes={navbarSizes}
 			defaultSize="md"
 			variants={variants as any}

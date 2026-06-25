@@ -103,7 +103,7 @@ export function ResourcesPanelRoot({
 	linkComponent,
 	ref,
 	...props
-}: ResourcesPanelProps) {
+}: ResourcesPanelProps): React.ReactElement {
 	const resolvedFooter =
 		footer === null
 			? null

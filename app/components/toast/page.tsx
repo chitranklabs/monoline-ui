@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import ToastPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Toast Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Toast - monoline/ui component",
 	description:
-		"API reference and variants for the monoline/ui Toast component, including warning, success, and accent styles.",
+		"Show status feedback banners with tone, message, and optional dismiss action.",
 	path: "/components/toast",
 })
 

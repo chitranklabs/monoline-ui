@@ -5,7 +5,7 @@ export function NavbarActions({
 	className,
 	ref,
 	...props
-}: NavbarActionsProps) {
+}: NavbarActionsProps): React.ReactElement {
 	return (
 		<div ref={ref} className={cn("ml-navbar__actions", className)} {...props} />
 	)

@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import CardPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Card Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Card - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Card component.",
+		"Compose linked, static, or button-backed editorial cards from image, body, footer, tag, and action slots.",
 	path: "/components/card",
 })
 

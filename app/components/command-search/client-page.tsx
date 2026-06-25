@@ -205,7 +205,7 @@ export default function CommandSearchPageClient() {
 	return (
 		<ComponentPlayground<any, any>
 			title="CommandSearch"
-			description="A fully featured modal command palette, featuring fuzzy client-side filtering, grouping, keyboard navigation controls, and hotkey trigger shortcuts."
+			description="Build a modal command palette with grouped results, filtering, keyboard navigation, and optional shortcut."
 			sizes={[]}
 			defaultSize="md"
 			variants={[]}

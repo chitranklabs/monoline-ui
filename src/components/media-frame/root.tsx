@@ -26,7 +26,7 @@ export function MediaFrameRoot({
 	size = "md",
 	ref,
 	...props
-}: MediaFrameProps) {
+}: MediaFrameProps): React.ReactElement {
 	const Comp = asChild ? Slot : "div"
 
 	return (

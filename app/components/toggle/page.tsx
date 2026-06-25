@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import TogglePageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "Toggle Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Toggle - monoline/ui component",
 	description:
-		"API reference for the monoline/ui Toggle component, a controlled or uncontrolled switch with token-backed motion.",
+		"Render controlled or uncontrolled switches with role=switch semantics and token-backed motion.",
 	path: "/components/toggle",
 })
 

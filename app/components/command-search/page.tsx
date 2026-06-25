@@ -1,10 +1,12 @@
+import type { Metadata } from "next"
+
 import { createPageMetadata } from "../../lib/metadata"
 import CommandSearchPageClient from "./client-page"
 
-export const metadata = createPageMetadata({
-	title: "CommandSearch Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "CommandSearch - monoline/ui component",
 	description:
-		"API reference and interactive preview for the modal command palette and search component.",
+		"Build a modal command palette with grouped results, filtering, keyboard navigation, and optional shortcut.",
 	path: "/components/command-search",
 })
 

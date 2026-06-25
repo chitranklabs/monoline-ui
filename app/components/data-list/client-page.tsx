@@ -73,7 +73,7 @@ export default function DataListPageClient() {
 	return (
 		<ComponentPlayground<DataListSize>
 			title="DataList"
-			description="Render token-backed rows for stats, timelines, metadata, and compact structured content without baking in a page layout."
+			description="Render structured rows for stats, timelines, metadata, and compact content."
 			sizes={dataListSizes}
 			defaultSize="md"
 			importStatement='import { DataList } from "@chitrank2050/monoline-ui/data-list"'

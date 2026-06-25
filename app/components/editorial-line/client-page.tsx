@@ -62,7 +62,7 @@ export default function EditorialLinePageClient() {
 	return (
 		<ComponentPlayground
 			title="EditorialLine"
-			description="EditorialLine renders publication/article list items in a structured row with auto-padded indexing, date metadata, tag indicators, and action triggers."
+			description="Render publication rows with index, date, title, summary, tag, and action metadata."
 			importStatement='import { EditorialLine } from "@chitrank2050/monoline-ui/editorial-line"'
 			usageCode={usageCode}
 			props={propsRows}
