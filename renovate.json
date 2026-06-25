@@ -13,7 +13,7 @@
 	"assignees": ["chitrank2050"],
 	"gitAuthor": "Chitrank Agnihotri <chitrank2050@gmail.com>",
 	"baseBranchPatterns": ["main"],
-	"schedule": ["every weekend"],
+	"schedule": ["on the first day of the month"],
 	"prBodyColumns": ["Package", "Change", "Age", "Confidence"],
 	"packageRules": [
 		{
@@ -39,7 +39,8 @@
 	},
 	"vulnerabilityAlerts": {
 		"enabled": true,
-		"labels": ["security", "vulnerability"]
+		"labels": ["security", "vulnerability"],
+		"schedule": ["at any time"]
 	},
 	"osvVulnerabilityAlerts": true,
 	"dependencyDashboard": true,
