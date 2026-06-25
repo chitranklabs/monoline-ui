@@ -52,13 +52,13 @@
 			"types": "./components/action-rail/index.d.ts",
 			"import": "./components/action-rail/index.js"
 		},
-		"./author-footer": {
-			"types": "./components/author-footer/index.d.ts",
-			"import": "./components/author-footer/index.js"
-		},
 		"./avatar": {
 			"types": "./components/avatar/index.d.ts",
 			"import": "./components/avatar/index.js"
+		},
+		"./back-link": {
+			"types": "./components/back-link/index.d.ts",
+			"import": "./components/back-link/index.js"
 		},
 		"./badge": {
 			"types": "./components/badge/index.d.ts",

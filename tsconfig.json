@@ -21,10 +21,8 @@
 			"@/*": ["./app/*"],
 			"@chitrank2050/monoline-ui": ["./src/index.ts"],
 			"@chitrank2050/monoline-ui/action-rail": ["./src/components/action-rail"],
-			"@chitrank2050/monoline-ui/author-footer": [
-				"./src/components/author-footer"
-			],
 			"@chitrank2050/monoline-ui/avatar": ["./src/components/avatar"],
+			"@chitrank2050/monoline-ui/back-link": ["./src/components/back-link"],
 			"@chitrank2050/monoline-ui/badge": ["./src/components/badge"],
 			"@chitrank2050/monoline-ui/button": ["./src/components/button"],
 			"@chitrank2050/monoline-ui/callout": ["./src/components/callout"],
