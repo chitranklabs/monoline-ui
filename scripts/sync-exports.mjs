@@ -315,7 +315,14 @@ async function run() {
 			"prettier"
 		)
 		execSync(
-			`"${prettierBin}" --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}" "${pkgLibPath}" "${jsrPath}"`,
+			`"${prettierBin}" --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}" "${jsrPath}"`,
+			{
+				cwd: projectRoot,
+				stdio: "pipe",
+			}
+		)
+		execSync(
+			`"${prettierBin}" --write --parser json "${pkgLibPath}"`,
 			{
 				cwd: projectRoot,
 				stdio: "pipe",

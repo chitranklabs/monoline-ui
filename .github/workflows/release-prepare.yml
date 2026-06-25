@@ -110,7 +110,9 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Format generated files 🧹
-        run: pnpm exec prettier --write package.json package.json.lib jsr.json CHANGELOG.md
+        run: |
+          pnpm exec prettier --write package.json jsr.json CHANGELOG.md
+          pnpm exec prettier --write --parser json package.json.lib
 
       - name: Generate PR Body 📝
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
