@@ -1,25 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import TestimonialPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "Testimonial Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Testimonial - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Testimonial component.",
-	openGraph: {
-		title: "Testimonial Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Testimonial component.",
-	},
-	twitter: {
-		title: "Testimonial Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Testimonial component.",
-	},
-	alternates: {
-		canonical: "/components/testimonial",
-	},
-}
+		"Render quotes with author metadata, avatar fallback, size, and surface variants.",
+	path: "/components/testimonial",
+})
 
 export default function TestimonialPage() {
 	return <TestimonialPageClient />

@@ -27,7 +27,7 @@ export function StatusRoot({
 	children,
 	ref,
 	...props
-}: StatusProps) {
+}: StatusProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

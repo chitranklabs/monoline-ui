@@ -20,12 +20,62 @@ export interface Identity {
 	}
 }
 
-export async function fetchIdentity(): Promise<Identity> {
-	const res = await fetch("https://chitrankagnihotri.com/identity.json", {
-		next: { revalidate: 86400 }, // Cache in Next.js for 24h
-	})
-	if (!res.ok) {
-		throw new Error("Failed to fetch personal identity")
+const identityUrl = "https://chitrankagnihotri.com/identity.json"
+const identityRevalidateSeconds = 86400
+const identityFetchTimeoutMs = 3000
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null
+}
+
+function isStringArray(value: unknown): value is string[] {
+	return Array.isArray(value) && value.every((item) => typeof item === "string")
+}
+
+function isIdentity(value: unknown): value is Identity {
+	if (!isRecord(value)) return false
+
+	const company = value.company
+	const socials = value.socials
+
+	return (
+		typeof value.name === "string" &&
+		isStringArray(value.alternateNames) &&
+		typeof value.title === "string" &&
+		typeof value.description === "string" &&
+		isStringArray(value.keywords) &&
+		typeof value.websiteUrl === "string" &&
+		typeof value.portraitUrl === "string" &&
+		typeof value.jobTitle === "string" &&
+		isRecord(company) &&
+		typeof company.name === "string" &&
+		typeof company.url === "string" &&
+		typeof value.education === "string" &&
+		typeof value.nationality === "string" &&
+		isStringArray(value.knowsAbout) &&
+		isRecord(socials) &&
+		typeof socials.linkedin === "string" &&
+		typeof socials.github === "string"
+	)
+}
+
+export async function fetchIdentity(): Promise<Identity | null> {
+	const controller = new AbortController()
+	const timeoutId = setTimeout(() => controller.abort(), identityFetchTimeoutMs)
+
+	try {
+		const res = await fetch(identityUrl, {
+			next: { revalidate: identityRevalidateSeconds },
+			signal: controller.signal,
+		})
+
+		if (!res.ok) return null
+
+		const identity = await res.json()
+		return isIdentity(identity) ? identity : null
+	} catch {
+		return null
+	} finally {
+		clearTimeout(timeoutId)
 	}
-	return res.json()
 }

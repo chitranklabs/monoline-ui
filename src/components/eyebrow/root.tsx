@@ -12,7 +12,7 @@ export function EyebrowRoot({
 	size = "sm",
 	ref,
 	...props
-}: EyebrowProps) {
+}: EyebrowProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}

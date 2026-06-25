@@ -14,4 +14,10 @@
 		background: var(--surface-code, var(--surface-2));
 		color: var(--code-text, var(--text-primary));
 	}
+
+	.ml-code-block pre {
+		border: 0 !important;
+		border-radius: 0 !important;
+		margin: 0 !important;
+	}
 }

@@ -10,6 +10,36 @@ body {
 }
 
 @layer base {
+	.skip-link {
+		position: fixed;
+		z-index: 1000;
+		inset-block-start: var(--ml-space-3);
+		inset-inline-start: var(--ml-space-3);
+		padding: var(--ml-space-2) var(--ml-space-3);
+		border: var(--border-thin) solid var(--border-strong);
+		border-radius: var(--radius-md);
+		background: var(--surface);
+		color: var(--text);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		text-decoration: none;
+		box-shadow: var(--shadow-md);
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(calc(var(--ml-space-3) * -1));
+		transition:
+			opacity var(--duration-micro) var(--ease-out),
+			transform var(--duration-micro) var(--ease-out);
+	}
+
+	.skip-link:focus-visible {
+		opacity: 1;
+		pointer-events: auto;
+		outline: none;
+		box-shadow: var(--focus-ring), var(--shadow-md);
+		transform: translateY(0);
+	}
+
 	:where(a) {
 		color: inherit;
 		text-decoration: none;

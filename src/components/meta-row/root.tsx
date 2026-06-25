@@ -6,13 +6,13 @@ export function MetaRowRoot({
 	strong = false,
 	ref,
 	...props
-}: MetaRowProps) {
+}: MetaRowProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}
 			className={cn(
 				"inline-flex items-center gap-2 font-mono text-xs",
-				strong ? "text-(--text-secondary)" : "text-(--text-muted)",
+				strong ? "text-text-secondary" : "text-text-muted",
 				className
 			)}
 			{...props}

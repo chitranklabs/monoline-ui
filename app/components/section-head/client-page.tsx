@@ -51,7 +51,7 @@ export default function SectionHeadPageClient() {
 	return (
 		<ComponentPlayground<SectionHeadSize>
 			title="SectionHead"
-			description="Render semantic section introductions with eyebrow, title, lede, and size-driven heading rhythm."
+			description="Create section intros with eyebrow, title, subtitle, and size-based heading rhythm."
 			sizes={sectionHeadSizes}
 			defaultSize="lg"
 			importStatement='import { SectionHead } from "@chitrank2050/monoline-ui/components/section-head"'

@@ -1,13 +1,16 @@
 {
-	"count": 33,
+	"count": 36,
 	"components": [
 		"action-rail",
 		"avatar",
+		"back-link",
 		"badge",
 		"button",
 		"callout",
 		"card",
 		"code-block",
+		"command-search",
+		"container",
 		"data-list",
 		"editorial-line",
 		"eyebrow",

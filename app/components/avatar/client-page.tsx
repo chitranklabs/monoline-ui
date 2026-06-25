@@ -69,7 +69,7 @@ export default function AvatarPageClient() {
 	return (
 		<ComponentPlayground<AvatarSize>
 			title="Avatar"
-			description="Render a compact identity marker with image support, token-backed fallback colour, six fixed sizes, and an inherit size for slotted usage."
+			description="Render identity images or initials with fixed size tokens, fallback color, and slotted image support."
 			sizes={avatarSizes}
 			defaultSize="md"
 			importStatement='import { Avatar } from "@chitrank2050/monoline-ui/components/avatar"'

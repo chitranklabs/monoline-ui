@@ -40,7 +40,7 @@ export function MetricRoot({
 	size = "md",
 	ref,
 	...props
-}: MetricProps) {
+}: MetricProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

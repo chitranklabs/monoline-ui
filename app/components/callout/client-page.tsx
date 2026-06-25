@@ -40,7 +40,7 @@ export default function CalloutPageClient() {
 	return (
 		<ComponentPlayground<CalloutVariant>
 			title="Callout"
-			description="Aside blocks used to call attention to warnings, tips, or informational notes."
+			description="Mark notes, tips, and warnings with clear labels and token-backed accents."
 			sizes={calloutVariants}
 			defaultSize="note"
 			importStatement='import { Callout } from "@chitrank2050/monoline-ui/callout"'

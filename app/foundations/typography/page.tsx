@@ -1,23 +1,13 @@
 import type { Metadata } from "next"
 
-export const metadata: Metadata = {
-	title: "Typography  monoline/ui design foundations",
+import { createPageMetadata } from "../../lib/metadata"
+
+export const metadata: Metadata = createPageMetadata({
+	title: "Typography - monoline/ui foundations",
 	description:
-		"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
-	openGraph: {
-		title: "Typography  monoline/ui design foundations",
-		description:
-			"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
-	},
-	twitter: {
-		title: "Typography  monoline/ui design foundations",
-		description:
-			"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
-	},
-	alternates: {
-		canonical: "/foundations/typography",
-	},
-}
+		"Review the font roles, type scale, weights, and leading used by monoline/ui.",
+	path: "/foundations/typography",
+})
 
 const families = [
 	[
@@ -50,22 +40,22 @@ const scaleRows = [
 	[
 		"Display",
 		"64px / 700",
-		"The quick brown fox.",
+		"Design systems need rhythm.",
 		"docs-scale__sample--display",
 	],
-	["H1", "44px / 700", "The quick brown fox.", "docs-scale__sample--h1"],
-	["H2", "30px / 700", "The quick brown fox.", "docs-scale__sample--h2"],
-	["H3", "22px / 600", "The quick brown fox.", "docs-scale__sample--h3"],
+	["H1", "44px / 700", "Build clear interfaces.", "docs-scale__sample--h1"],
+	["H2", "30px / 700", "Document the pattern.", "docs-scale__sample--h2"],
+	["H3", "22px / 600", "Name the decision.", "docs-scale__sample--h3"],
 	[
 		"Body",
 		"18px / 400",
-		"The quick brown fox jumps over the lazy dog.",
+		"Body copy should explain the tradeoff without slowing the reader down.",
 		"docs-scale__sample--body",
 	],
 	[
 		"Small",
 		"14px / 400",
-		"The quick brown fox jumps over the lazy dog.",
+		"Small text supports controls, captions, and compact notes.",
 		"docs-scale__sample--small",
 	],
 	["Meta", "11px / 400", "MAY 12, 2026 · 9 MIN", "docs-scale__sample--meta"],
@@ -74,14 +64,14 @@ const scaleRows = [
 
 export default function TypographyPage() {
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Typography</p>
 				<h1>Three families. One job each.</h1>
 				<p>
 					Inter handles UI and body. IBM Plex Mono handles headlines, eyebrows,
-					and code. Caveat handles the personal signature. No fourth family -
-					and almost no font-weight gymnastics.
+					and code. Caveat handles the personal signature. Keep the roles clear
+					and avoid adding extra families.
 				</p>
 			</header>
 
@@ -107,9 +97,7 @@ export default function TypographyPage() {
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Scale</h2>
-					<p>
-						Scoped roles - no free-for-all sizing. Pick a role, not a number.
-					</p>
+					<p>Use role-based sizes for headings, body, metadata, and labels.</p>
 				</div>
 				<div className="docs-scale">
 					{scaleRows.map(([role, spec, sample, className]) => (

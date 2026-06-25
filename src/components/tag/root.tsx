@@ -29,7 +29,7 @@ export function TagRoot({
 	asChild = false,
 	ref,
 	...props
-}: TagProps) {
+}: TagProps): React.ReactElement {
 	const isInteractive = interactive ?? variant === "filter"
 
 	const sharedClassName = cn(

@@ -1,7 +1,11 @@
 import { cn } from "../../lib/utils"
 import type { RailProps } from "./types"
 
-export function RailRoot({ className, ref, ...props }: RailProps) {
+export function RailRoot({
+	className,
+	ref,
+	...props
+}: RailProps): React.ReactElement {
 	return (
 		<ul
 			ref={ref}

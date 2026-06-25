@@ -36,7 +36,17 @@ export type CardProps =
 			rel?: never
 			download?: never
 			referrerPolicy?: never
-			onClick?: React.MouseEventHandler<HTMLDivElement>
+			onClick: React.MouseEventHandler<HTMLButtonElement>
+			ref?: React.Ref<HTMLButtonElement>
+	  } & Omit<React.ComponentPropsWithRef<"button">, "size" | "onClick" | "ref">)
+	| (CardBaseProps & {
+			asChild?: false
+			href?: never
+			target?: never
+			rel?: never
+			download?: never
+			referrerPolicy?: never
+			onClick?: never
 			ref?: React.Ref<HTMLDivElement>
 	  } & Omit<React.ComponentPropsWithRef<"div">, "size" | "onClick" | "ref">)
 

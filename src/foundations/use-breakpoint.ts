@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useRef, useState } from "react"
 
 import { type MonolineBreakpoint, monolineBreakpoints } from "./breakpoints"

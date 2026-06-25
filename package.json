@@ -18,7 +18,9 @@
 		"build": "next build",
 		"postbuild": "next-sitemap",
 		"start": "next start",
-		"build:lib": "node scripts/sync-exports.mjs && node scripts/build-lib.mjs",
+		"sync-exports": "node scripts/sync-exports.mjs",
+		"sync-exports:check": "node scripts/sync-exports.mjs --check",
+		"build:lib": "pnpm run sync-exports:check && node scripts/build-lib.mjs",
 		"build:all": "pnpm build && pnpm build:lib",
 		"lint": "eslint . && pnpm run lint:md",
 		"lint:fix": "eslint . --fix && pnpm run lint:md --fix",
@@ -71,7 +73,7 @@
 	},
 	"packageManager": "pnpm@11.6.0",
 	"engines": {
-		"node": ">=24.17.0"
+		"node": ">=22.14.0"
 	},
 	"git-hygiene": {
 		"types": [

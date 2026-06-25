@@ -1,4 +1,3 @@
-import "./badge.css"
 import { BadgeCount } from "./count"
 import { BadgeRoot } from "./root"
 

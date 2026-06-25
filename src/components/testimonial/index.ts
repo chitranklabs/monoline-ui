@@ -1,6 +1,5 @@
 import { TestimonialGrid } from "../testimonial-grid"
 import { TestimonialRoot } from "./root"
-import "./testimonial.css"
 
 export * from "./types"
 export { TestimonialGrid } from "../testimonial-grid"

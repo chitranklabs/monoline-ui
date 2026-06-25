@@ -1,5 +1,4 @@
 import { ToggleRoot } from "./root"
-import "./toggle.css"
 
 export * from "./types"
 

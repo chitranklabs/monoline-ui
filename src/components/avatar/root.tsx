@@ -10,7 +10,7 @@ export function AvatarRoot({
 	children,
 	ref,
 	...props
-}: AvatarProps) {
+}: AvatarProps): React.ReactElement {
 	return (
 		<span
 			ref={ref}
