@@ -20,10 +20,11 @@ export function NavbarRoot({
 	linkComponent,
 	sticky = false,
 	glass = false,
+	progress,
 	className,
 	ref,
 	...props
-}: NavbarProps) {
+}: NavbarProps): React.ReactElement {
 	return (
 		<header
 			ref={ref}
@@ -85,6 +86,7 @@ export function NavbarRoot({
 					</>
 				)}
 			</div>
+			{progress}
 		</header>
 	)
 }

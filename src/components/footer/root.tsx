@@ -22,7 +22,7 @@ export function FooterRoot({
 	className,
 	ref,
 	...props
-}: FooterProps) {
+}: FooterProps): React.ReactElement {
 	const currentYear = new Date().getFullYear()
 	const defaultMeta = `© ${currentYear}`
 	const resolvedColumns =

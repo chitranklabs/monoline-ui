@@ -86,7 +86,7 @@ const usageCode = `<Footer
       { label: "Blog", href: "/blog" },
     ]},
     { title: "Elsewhere", links: [
-      { label: "LinkedIn", href: "...", external: true },
+      { label: "GitHub", href: "https://github.com/chitranklabs", external: true },
     ]},
   ]}
   subscribe={<Footer.Subscribe />}
@@ -98,7 +98,7 @@ export default function FooterPageClient() {
 	return (
 		<ComponentPlayground<FooterSize>
 			title="Footer"
-			description="Inspect the footer at real viewport widths, switch component size, render all sizes together, and zoom the canvas without losing the package's actual Tailwind/theme styling."
+			description="Build responsive site footers with brand copy, link columns, subscribe actions, and meta rows."
 			sizes={footerSizes}
 			defaultSize="md"
 			importStatement='import { Footer } from "@chitrank2050/monoline-ui/footer"'

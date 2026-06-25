@@ -68,7 +68,7 @@ export default function ButtonPageClient() {
 	return (
 		<ComponentPlayground<ButtonSize>
 			title="Button"
-			description="Render action buttons with token-backed variants, three sizes, optional icon-only shape, pill rounding, and asChild composition."
+			description="Render primary actions, secondary actions, icon buttons, loading states, and asChild links."
 			sizes={buttonSizes}
 			defaultSize="md"
 			importStatement='import { Button } from "@chitrank2050/monoline-ui/button"'

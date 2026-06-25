@@ -1,4 +1,3 @@
-import "./callout.css"
 import { CalloutRoot } from "./root"
 
 export * from "./types"

@@ -6,10 +6,12 @@ export function ButtonIcon({
 	className,
 	side = "right",
 	reveal = false,
+	ref,
 	...props
-}: ButtonIconProps) {
+}: ButtonIconProps): React.ReactElement {
 	return (
 		<span
+			ref={ref}
 			aria-hidden="true"
 			data-side={side}
 			data-reveal={reveal}
@@ -21,9 +23,12 @@ export function ButtonIcon({
 	)
 }
 
-export function ButtonArrow(props: ButtonArrowProps) {
+export function ButtonArrow({
+	reveal = true,
+	...props
+}: ButtonArrowProps): React.ReactElement {
 	return (
-		<ButtonIcon side="right" {...props}>
+		<ButtonIcon side="right" reveal={reveal} {...props}>
 			→
 		</ButtonIcon>
 	)

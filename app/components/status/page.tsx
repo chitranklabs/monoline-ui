@@ -1,25 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import StatusPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "Status Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Status - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui Status component.",
-	openGraph: {
-		title: "Status Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Status component.",
-	},
-	twitter: {
-		title: "Status Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Status component.",
-	},
-	alternates: {
-		canonical: "/components/status",
-	},
-}
+		"Show compact state labels with a stable dot, tone, and optional pulse animation.",
+	path: "/components/status",
+})
 
 export default function StatusPage() {
 	return <StatusPageClient />

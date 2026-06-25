@@ -1,15 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import TocPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "Toc Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Toc - monoline/ui component",
 	description:
-		"API reference and variants for the monoline/ui Toc component, tracking dynamic headings scroll intersection.",
-	alternates: {
-		canonical: "/components/toc",
-	},
-}
+		"Render document outline links with active-section tracking and optional collapsible mode.",
+	path: "/components/toc",
+})
 
 export default function TocPage() {
 	return <TocPageClient />

@@ -119,7 +119,7 @@ export default function SelectPageClient() {
 	return (
 		<ComponentPlayground<SelectSize, SelectVariant>
 			title="Select"
-			description="A single-choice dropdown for sort orders, filters, and compact view controls. It opens as a bottom sheet on mobile."
+			description="Render single-choice dropdowns for sorting, filtering, and view controls with mobile sheet behavior."
 			sizes={sizes}
 			defaultSize="md"
 			variants={variants}

@@ -16,3 +16,5 @@ public/sitemap*.xml
 next-env.d.ts
 .pnpm-store/
 .pnpm/
+./claude
+*.tgz

@@ -12,7 +12,7 @@ export function LinkListRoot({
 	linkComponent,
 	ref,
 	...props
-}: LinkListProps) {
+}: LinkListProps): React.ReactElement {
 	return (
 		<section
 			ref={ref}

@@ -13,7 +13,7 @@ export function CodeBlockRoot({
 	className,
 	ref,
 	...props
-}: CodeBlockProps) {
+}: CodeBlockProps): React.ReactElement {
 	const [copied, setCopied] = useState(false)
 
 	function copy() {
@@ -27,26 +27,40 @@ export function CodeBlockRoot({
 		<figure
 			ref={ref}
 			className={cn(
-				"ml-code-block overflow-hidden rounded-md border",
+				"ml-code-block relative group overflow-hidden rounded-md border",
 				className
 			)}
 			{...props}
 		>
-			{filename && (
+			{filename ? (
 				<header className="ml-code-block__header flex items-center justify-between border-b px-4 py-2">
-					<span className="font-mono text-[11px] text-(--text-muted)">
+					<span className="font-mono text-[11px] text-text-muted">
 						{filename}
 					</span>
 					{code && (
 						<button
 							type="button"
 							onClick={copy}
-							className="cursor-pointer border-none bg-transparent font-mono text-[10px] text-(--text-muted) transition-colors duration-(--duration-micro) hover:text-(--text-primary)"
+							className="cursor-pointer border-none bg-transparent font-mono text-[10px] text-text-muted transition-colors duration-(--duration-micro) hover:text-text"
 						>
 							{copied ? "✓ Copied" : "Copy"}
 						</button>
 					)}
 				</header>
+			) : (
+				code && (
+					<button
+						type="button"
+						onClick={copy}
+						className={cn(
+							"absolute top-3 right-3 z-10 cursor-pointer rounded border border-border bg-card px-2 py-1 font-mono text-[10px] text-text-muted opacity-0 transition-[border-color,box-shadow,color,opacity] duration-(--duration-fast) hover:border-border-strong hover:text-text focus-visible:opacity-100 focus-visible:outline-none focus-visible:shadow-(--focus-ring) group-hover:opacity-100",
+							copied &&
+								"opacity-100 border-accent/30 text-accent hover:text-accent"
+						)}
+					>
+						{copied ? "✓ Copied" : "Copy"}
+					</button>
+				)
 			)}
 			{children ?? (
 				<pre

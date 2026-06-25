@@ -1,9 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+
+import { Navbar } from "@chitrank2050/monoline-ui/navbar"
 
 import { primaryNav } from "../lib/docs-nav"
 import { CommandPalette } from "./command-palette"
@@ -24,8 +26,13 @@ export function SiteHeader() {
 	const pathname = usePathname()
 	const [paletteOpen, setPaletteOpen] = useState(false)
 	const [menuOpen, setMenuOpen] = useState(false)
+	const menuButtonRef = useRef<HTMLButtonElement>(null)
 
-	// ⌘K global shortcut
+	const closeMenu = useCallback(() => {
+		setMenuOpen(false)
+		menuButtonRef.current?.focus()
+	}, [])
+
 	useEffect(() => {
 		function onKey(e: KeyboardEvent) {
 			if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -42,6 +49,20 @@ export function SiteHeader() {
 	}, [pathname])
 
 	useEffect(() => {
+		if (!menuOpen) return
+
+		const onKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				event.preventDefault()
+				closeMenu()
+			}
+		}
+
+		window.addEventListener("keydown", onKeyDown)
+		return () => window.removeEventListener("keydown", onKeyDown)
+	}, [menuOpen, closeMenu])
+
+	useEffect(() => {
 		const previousOverflow = document.body.style.overflow
 		if (menuOpen) {
 			document.body.style.overflow = "hidden"
@@ -54,66 +75,66 @@ export function SiteHeader() {
 
 	return (
 		<>
-			<header className="site-header">
-				<div className="site-header__inner">
-					<div className="flex min-w-0 items-center gap-4">
-						<Link href="/" className="site-wordmark" aria-label="monoline ui">
-							<span>monoline</span>
-							<span className="text-accent">/ui</span>
-						</Link>
-						<span className="site-version">v0.2.0</span>
-					</div>
-
-					<nav className="site-nav" aria-label="Primary navigation">
-						{primaryNav.map((item) => (
-							<Link
-								key={item.href}
-								href={item.href ?? "/"}
-								aria-current={
-									item.href && isActive(pathname, item.href)
-										? "page"
-										: undefined
-								}
-								className="site-nav__item ml-interaction-color"
-							>
-								{item.label}
-							</Link>
-						))}
-					</nav>
-
-					<div className="site-actions">
-						<button
-							type="button"
-							className="site-search"
-							onClick={() => setPaletteOpen(true)}
-							aria-label="Search components (⌘K)"
-						>
-							<span aria-hidden="true">⌕</span>
-							<span className="site-search__text">Search components</span>
-							<kbd>⌘K</kbd>
-						</button>
-						<a
-							className="site-action-link ml-interaction-color"
-							href="https://github.com"
-						>
-							GitHub
-						</a>
-						<ThemeControl mode="mini" size="sm" />
-					</div>
-
-					<button
-						className="site-menu-button ml-interaction-control"
-						type="button"
-						aria-label={menuOpen ? "Close menu" : "Open menu"}
-						aria-expanded={menuOpen}
-						onClick={() => setMenuOpen((open) => !open)}
+			<Navbar layout="extended" sticky glass>
+				<div className="flex min-w-0 items-center gap-4">
+					<Link
+						href="/"
+						className="ml-navbar__brand"
+						data-text-style="monoline"
 					>
-						<span />
-						<span />
-						<span />
-					</button>
+						<span className="ml-navbar__brand-label">
+							monoline
+							<span className="text-accent">/ui</span>
+						</span>
+					</Link>
+					<span className="site-version">v0.2.0</span>
 				</div>
-			</header>
+
+				<Navbar.Nav>
+					{primaryNav.map((item) => (
+						<Navbar.Link
+							key={item.href}
+							asChild
+							active={item.href ? isActive(pathname, item.href) : false}
+						>
+							<Link href={item.href ?? "/"}>{item.label}</Link>
+						</Navbar.Link>
+					))}
+				</Navbar.Nav>
+
+				<Navbar.Actions>
+					<button
+						type="button"
+						className="site-search"
+						onClick={() => setPaletteOpen(true)}
+						aria-label="Search components (⌘K)"
+					>
+						<span aria-hidden="true">⌕</span>
+						<span className="site-search__text">Search components</span>
+						<kbd>⌘K</kbd>
+					</button>
+					<a
+						className="site-action-link ml-interaction-color"
+						href="https://github.com"
+					>
+						GitHub
+					</a>
+					<ThemeControl mode="mini" size="sm" />
+				</Navbar.Actions>
+
+				<button
+					ref={menuButtonRef}
+					type="button"
+					className="site-menu-button"
+					aria-label="Open menu"
+					aria-controls="site-menu-drawer"
+					aria-expanded={menuOpen}
+					onClick={() => setMenuOpen(true)}
+				>
+					<span />
+					<span />
+				</button>
+			</Navbar>
 
 			<CommandPalette
 				open={paletteOpen}
@@ -121,7 +142,7 @@ export function SiteHeader() {
 			/>
 			<MobileMenu
 				open={menuOpen}
-				onClose={() => setMenuOpen(false)}
+				onClose={closeMenu}
 				onSearch={() => {
 					setMenuOpen(false)
 					setPaletteOpen(true)
@@ -146,6 +167,7 @@ function MobileMenu({
 
 	return (
 		<div
+			id="site-menu-drawer"
 			className="site-menu-drawer"
 			role="dialog"
 			aria-modal="true"

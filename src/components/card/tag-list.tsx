@@ -8,8 +8,9 @@ export function CardTagList({
 	className,
 	totalCount,
 	overflowFormatter,
+	ref,
 	...props
-}: CardTagListProps) {
+}: CardTagListProps): React.ReactElement {
 	const items = React.Children.toArray(children)
 	const visibleCount = items.length
 	const overflowCount =
@@ -17,6 +18,7 @@ export function CardTagList({
 
 	return (
 		<div
+			ref={ref}
 			className={cn(
 				"ml-card__tag-list flex min-w-0 flex-wrap items-center gap-ml-2",
 				className

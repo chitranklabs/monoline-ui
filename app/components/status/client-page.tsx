@@ -40,7 +40,7 @@ export default function StatusPageClient() {
 	return (
 		<ComponentPlayground<StatusSize>
 			title="Status"
-			description="Render compact availability and state pills with stable dot, border, and label sizing."
+			description="Show compact state labels with a stable dot, tone, and optional pulse animation."
 			sizes={statusSizes}
 			defaultSize="md"
 			importStatement='import { Status } from "@chitrank2050/monoline-ui/components/status"'

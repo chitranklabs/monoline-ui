@@ -15,7 +15,7 @@ export function TestimonialRoot({
 	variant = "default",
 	ref,
 	...props
-}: TestimonialProps) {
+}: TestimonialProps): React.ReactElement {
 	return (
 		<figure
 			ref={ref}

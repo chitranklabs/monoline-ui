@@ -13,8 +13,12 @@ const usageCode = `<Toast variant="accent">Document uploaded successfully.</Toas
 const sourceSnippet = `import { Toast } from "@chitrank2050/monoline-ui/toast"
 
 export function StatusToast() {
+  const dismissToast = () => {
+    // Close the toast in your app state.
+  }
+
   return (
-    <Toast variant="success" onDismiss={() => console.log('dismiss')}>
+    <Toast variant="success" onDismiss={dismissToast}>
       Feature activated!
     </Toast>
   )
@@ -31,7 +35,7 @@ export default function ToastPageClient() {
 	return (
 		<ComponentPlayground<ToastVariant>
 			title="Toast"
-			description="Action feedback banners notifying the user of asynchronous updates or status changes."
+			description="Show status feedback banners with tone, message, and optional dismiss action."
 			sizes={toastVariants}
 			defaultSize="accent"
 			importStatement='import { Toast } from "@chitrank2050/monoline-ui/toast"'

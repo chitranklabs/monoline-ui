@@ -43,7 +43,7 @@ monoline-ui/
 
 ## Technical Specification
 
-- **Runtime Target**: Node.js `>=22.0.0`
+- **Runtime Target**: Node.js `>=22.14.0`
 - **Package Manager**: pnpm `>=10.0.0`
 - **Core Compiler**: TypeScript 6.0 (Targeting ES2022 / Bundler module resolution)
 - **Styling Pipeline**: PostCSS with `@tailwindcss/postcss` v4

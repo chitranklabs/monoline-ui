@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 
 import { useRouter } from "next/navigation"
@@ -41,6 +41,9 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 	// Track whether we're mounted on the client
 	const [isBrowser, setIsBrowser] = useState(false)
 	const prevOpen = useRef(false)
+	const panelRef = useRef<HTMLDivElement>(null)
+	const previousFocusRef = useRef<Element | null>(null)
+	const titleId = useId()
 
 	useEffect(() => {
 		setIsBrowser(true)
@@ -64,6 +67,61 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 		}
 	}, [open])
 
+	useEffect(() => {
+		if (!open) return
+
+		previousFocusRef.current = document.activeElement
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				event.preventDefault()
+				onClose()
+				return
+			}
+
+			if (event.key !== "Tab") return
+
+			const panel = panelRef.current
+			if (!panel) return
+
+			const focusable = Array.from(
+				panel.querySelectorAll<HTMLElement>(
+					'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+				)
+			).filter((node) => !node.hasAttribute("aria-hidden"))
+
+			if (focusable.length === 0) {
+				event.preventDefault()
+				panel.focus()
+				return
+			}
+
+			const first = focusable[0]
+			const last = focusable[focusable.length - 1]
+
+			if (event.shiftKey && document.activeElement === first) {
+				event.preventDefault()
+				last?.focus()
+			} else if (!event.shiftKey && document.activeElement === last) {
+				event.preventDefault()
+				first?.focus()
+			}
+		}
+
+		document.addEventListener("keydown", handleKeyDown)
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown)
+
+			const previousFocus = previousFocusRef.current
+			if (
+				previousFocus instanceof HTMLElement &&
+				document.contains(previousFocus)
+			) {
+				previousFocus.focus()
+			}
+		}
+	}, [open, onClose])
+
 	function navigate(href: string) {
 		if (href === "#") return
 		router.push(href)
@@ -74,6 +132,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 	if (!isBrowser || !open) return null
 
 	return createPortal(
+		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
 		<div
 			className="cmd-backdrop"
 			onMouseDown={(e) => {
@@ -81,10 +140,19 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 			}}
 		>
 			<Command
+				ref={panelRef}
 				className="cmd-panel"
 				label="Command palette"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby={titleId}
+				tabIndex={-1}
 				shouldFilter={true}
 			>
+				<h2 id={titleId} className="sr-only">
+					Command palette
+				</h2>
+
 				{/* Search row */}
 				<div className="cmd-search-row">
 					<span className="cmd-search-icon" aria-hidden="true">
@@ -98,6 +166,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 						onKeyDown={(e) => {
 							if (e.key === "Escape") onClose()
 						}}
+						/* eslint-disable-next-line jsx-a11y/no-autofocus */
 						autoFocus
 					/>
 					<button

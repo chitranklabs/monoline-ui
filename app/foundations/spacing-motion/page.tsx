@@ -1,23 +1,13 @@
 import type { Metadata } from "next"
 
-export const metadata: Metadata = {
-	title: "Spacing & Motion  monoline/ui design foundations",
+import { createPageMetadata } from "../../lib/metadata"
+
+export const metadata: Metadata = createPageMetadata({
+	title: "Spacing & Motion - monoline/ui foundations",
 	description:
-		"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	openGraph: {
-		title: "Spacing & Motion  monoline/ui design foundations",
-		description:
-			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	},
-	twitter: {
-		title: "Spacing & Motion  monoline/ui design foundations",
-		description:
-			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	},
-	alternates: {
-		canonical: "/foundations/spacing-motion",
-	},
-}
+		"Review the spacing, radius, and motion tokens used across monoline/ui components.",
+	path: "/foundations/spacing-motion",
+})
 
 const spacingRows = [
 	["space-1", "4px", 4, "tight inline gap"],
@@ -51,14 +41,14 @@ const motion = [
 
 export default function SpacingMotionPage() {
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Spacing</p>
 				<h1>One scale. No orphan values.</h1>
 				<p>
 					Spacing follows a named rem scale shared by CSS tokens, component
-					aliases, and Tailwind utilities. Intermediate values exist only when
-					they are first-class tokens.
+					aliases, and Tailwind utilities. Add new distances only when they earn
+					a named token.
 				</p>
 			</header>
 
@@ -84,7 +74,7 @@ export default function SpacingMotionPage() {
 				<div className="docs-subhead">
 					<h2>Border radius</h2>
 					<p>
-						Match the radius to the element - buttons stay smaller, cards go
+						Match the radius to the element: buttons stay smaller, cards go
 						larger, status pills are fully rounded.
 					</p>
 				</div>
@@ -105,7 +95,7 @@ export default function SpacingMotionPage() {
 				<div className="docs-subhead">
 					<h2>Motion</h2>
 					<p>
-						Four durations, two easings. Use named tokens - never pick raw ms in
+						Four durations, two easings. Use named tokens instead of raw ms in
 						components.
 					</p>
 				</div>

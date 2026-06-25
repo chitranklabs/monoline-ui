@@ -2,7 +2,6 @@ import { SelectContent } from "./content"
 import { SelectItem } from "./item"
 import { SelectLabel } from "./label"
 import { SelectRoot } from "./root"
-import "./select.css"
 import { SelectTrigger } from "./trigger"
 import { SelectValue } from "./value"
 

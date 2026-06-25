@@ -10,7 +10,7 @@ const usageCode = `<Input placeholder="Search projects..." />
 <Input size="sm" placeholder="Small input" />
 <Input size="lg" placeholder="Large input" />
 <Input variant="error" placeholder="Invalid value" />
-<Input prefix="🔍" placeholder="Search..." />
+<Input prefix="🔍" placeholder="Search docs..." />
 <Input suffix="USD" placeholder="0.00" />`
 
 const sourceSnippet = `import { Input } from "@chitrank2050/monoline-ui/input"
@@ -45,7 +45,7 @@ export default function InputPageClient() {
 	return (
 		<ComponentPlayground<InputSize>
 			title="Input"
-			description="Text fields with prefix/suffix slot elements, validation states, and three sizes."
+			description="Render text fields with prefix and suffix slots, validation state, and consistent control sizing."
 			sizes={inputSizes}
 			defaultSize="md"
 			importStatement='import { Input } from "@chitrank2050/monoline-ui/input"'

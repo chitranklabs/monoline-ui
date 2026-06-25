@@ -122,6 +122,14 @@ jobs:
             (pnpm run test > "$CI_DIR/test.log" 2>&1 || echo "1" > "$CI_DIR/test.fail") &
           fi
 
+          if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
+            (pnpm run typecheck > "$CI_DIR/typecheck.log" 2>&1 || echo "1" > "$CI_DIR/typecheck.fail") &
+          fi
+
+          if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
+            (pnpm run sync-exports:check > "$CI_DIR/sync-exports.log" 2>&1 || echo "1" > "$CI_DIR/sync-exports.fail") &
+          fi
+
           (pnpm run lint > "$CI_DIR/lint.log" 2>&1 || echo "1" > "$CI_DIR/lint.fail") &
           (pnpm run format:check > "$CI_DIR/format.log" 2>&1 || echo "1" > "$CI_DIR/format.fail") &
 

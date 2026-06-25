@@ -34,6 +34,7 @@
 
 	.ml-data-list__item {
 		display: grid;
+		width: 100%;
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--ml-data-list-item-gap);
 		align-items: start;
@@ -43,6 +44,15 @@
 			background-color var(--duration-micro) var(--ease-out),
 			border-color var(--duration-micro) var(--ease-out),
 			box-shadow var(--duration-micro) var(--ease-out);
+	}
+
+	button.ml-data-list__item {
+		appearance: none;
+		padding-inline: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		text-align: inherit;
 	}
 
 	.ml-data-list__item[data-interactive="true"] {
@@ -89,8 +99,8 @@
 		display: block;
 		color: var(--primary);
 		font-size: var(--ml-data-list-title-text);
-		font-weight: 700;
-		line-height: var(--leading-tight);
+		font-weight: var(--ml-data-list-title-weight, 700);
+		line-height: var(--ml-data-list-title-lh, var(--leading-tight));
 		letter-spacing: var(--tracking-heading);
 	}
 
@@ -108,6 +118,15 @@
 		line-height: 1;
 		letter-spacing: var(--tracking-meta);
 		text-transform: uppercase;
+	}
+
+	.ml-data-list[data-prose="true"] {
+		--ml-data-list-title-weight: 400;
+		--ml-data-list-title-lh: var(--leading-relaxed);
+	}
+
+	.ml-data-list[data-prose="true"] .ml-data-list__title {
+		color: var(--text-secondary);
 	}
 
 	.ml-data-list[data-variant="numbered"] .ml-data-list__item {

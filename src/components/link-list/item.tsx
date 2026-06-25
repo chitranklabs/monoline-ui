@@ -36,7 +36,7 @@ export function LinkListItem({
 	linkComponent,
 	ref,
 	...props
-}: LinkListItemProps) {
+}: LinkListItemProps): React.ReactElement {
 	const external = isExternalHref(item.href, item.external)
 	const LinkComp = item.as ?? linkComponent ?? "a"
 	const content = <LinkListItemContent item={item} />

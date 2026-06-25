@@ -101,7 +101,7 @@ export default function SegmentedControlPageClient() {
 	return (
 		<ComponentPlayground<SegmentedControlSize, SegmentedControlVariant>
 			title="SegmentedControl"
-			description="A single-select group with a sliding indicator. Use the pill variant for feature-level filters and the default variant for compact UI controls."
+			description="Render single-select controls with roving keyboard focus and default or pill variants."
 			sizes={sizes}
 			defaultSize="md"
 			variants={variants}

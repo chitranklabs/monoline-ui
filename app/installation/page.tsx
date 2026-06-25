@@ -3,25 +3,14 @@ import type { Metadata } from "next"
 import { CodeBlock } from "../_components/code-block"
 import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"
+import { createPageMetadata } from "../lib/metadata"
 
-export const metadata: Metadata = {
-	title: "Installation  monoline/ui component library",
+export const metadata: Metadata = createPageMetadata({
+	title: "Installation - monoline/ui",
 	description:
-		"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
-	openGraph: {
-		title: "Installation  monoline/ui component library",
-		description:
-			"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
-	},
-	twitter: {
-		title: "Installation  monoline/ui component library",
-		description:
-			"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
-	},
-	alternates: {
-		canonical: "/installation",
-	},
-}
+		"Install monoline/ui, import the Tailwind v4 theme, set the root theme attribute, and use component subpath imports.",
+	path: "/installation",
+})
 
 interface InstallStep {
 	number: string
@@ -37,7 +26,7 @@ const installSteps: InstallStep[] = [
 		number: "01",
 		title: "Prerequisites",
 		description:
-			"Next.js 14+ (App Router) or React 18+, Tailwind v4, TypeScript optional but recommended. monoline/ui has zero runtime dependencies beyond React and Tailwind.",
+			"Use React 19 or a current Next.js App Router project with Tailwind CSS v4. TypeScript is optional but recommended.",
 	},
 	{
 		number: "02",
@@ -48,7 +37,7 @@ const installSteps: InstallStep[] = [
 		number: "03",
 		title: "Add the design tokens",
 		description:
-			"Import the package theme once from globals.css. This defines every CSS variable the components consume.",
+			"Import the package theme once from your root stylesheet. It defines the CSS variables every component reads.",
 		label: "src/app/globals.css",
 		code: `@import "tailwindcss";
 @source "./node_modules/@chitrank2050/monoline-ui/dist/**/*.{js,mjs}";
@@ -61,7 +50,7 @@ const installSteps: InstallStep[] = [
 		number: "04",
 		title: "Set the theme on <html>",
 		description:
-			'data-theme controls light vs dark. Use "light" or "dark" on the root html element.',
+			'Set data-theme="light" or data-theme="dark" on the root html element.',
 		label: "src/app/layout.tsx",
 		code: `export default function RootLayout({ children }) {
   return (
@@ -76,7 +65,7 @@ const installSteps: InstallStep[] = [
 		number: "05",
 		title: "Import a component",
 		description:
-			"Use component subpaths for feature code. The root package remains available as a convenience barrel.",
+			"Prefer component subpaths in feature code so bundlers can keep imports narrow.",
 		label: "src/app/page.tsx",
 		code: `import { Footer } from "@chitrank2050/monoline-ui/footer"
 
@@ -97,13 +86,13 @@ export default function Page() {
 
 export default function InstallationPage() {
 	return (
-		<main className="install-page">
+		<main id="main-content" tabIndex={-1} className="install-page">
 			<header className="install-hero">
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
 				<h1>Installation</h1>
 				<p>
-					monoline/ui is distributed as a single npm package. Install, paste the
-					theme import, you&apos;re done.
+					Install the package, import the theme once, then use component
+					subpaths in your app code.
 				</p>
 			</header>
 
@@ -140,7 +129,7 @@ export default function InstallationPage() {
 						<a href="/components/footer" className="ml-interaction-color">
 							component reference
 						</a>{" "}
-						for the full API, or jump to{" "}
+						for props and examples, or jump to{" "}
 						<a href="/foundations/colors" className="ml-interaction-color">
 							Foundations
 						</a>{" "}

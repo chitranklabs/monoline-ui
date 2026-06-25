@@ -3,7 +3,7 @@
 @layer components {
 	.ml-navbar {
 		--ml-navbar-height: var(--ml-space-14);
-		--ml-navbar-container-max: var(--ml-footer-container-max-lg);
+		--ml-navbar-container-max: 80rem;
 		--ml-navbar-x: var(--ml-footer-x-md);
 		--ml-navbar-x-tablet: var(--ml-footer-x-md-tablet);
 		--ml-navbar-x-desktop: var(--ml-footer-x-md-desktop);
@@ -34,6 +34,7 @@
 	}
 
 	.ml-navbar[data-size="sm"] {
+		--ml-navbar-container-max: 64rem;
 		--ml-navbar-height: var(--ml-space-12);
 		--ml-navbar-x: var(--ml-footer-x-sm);
 		--ml-navbar-x-tablet: var(--ml-footer-x-sm-tablet);
@@ -45,6 +46,7 @@
 	}
 
 	.ml-navbar[data-size="lg"] {
+		--ml-navbar-container-max: 90rem;
 		--ml-navbar-height: var(--ml-space-16);
 		--ml-navbar-x: var(--ml-footer-x-lg);
 		--ml-navbar-x-tablet: var(--ml-footer-x-lg-tablet);
