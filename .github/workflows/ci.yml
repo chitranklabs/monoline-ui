@@ -12,13 +12,6 @@ on:
       - "lefthook.yml"
   pull_request:
     branches: [main]
-    paths-ignore:
-      - "docs/**"
-      - "**.md"
-      - ".vscode/**"
-      - ".editorconfig"
-      - "cliff.toml"
-      - "lefthook.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
