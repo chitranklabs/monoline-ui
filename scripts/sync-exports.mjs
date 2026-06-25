@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, "..")
 const srcDir = path.join(projectRoot, "src")
 const componentsDir = path.join(srcDir, "components")
+const checkMode = process.argv.includes("--check")
+const mismatches = []
 
 async function fileExists(filePath) {
 	try {
@@ -16,6 +18,40 @@ async function fileExists(filePath) {
 	} catch {
 		return false
 	}
+}
+
+function generatedContentMatches(filePath, current, generated) {
+	if (filePath.endsWith(".json")) {
+		try {
+			return (
+				JSON.stringify(JSON.parse(current)) ===
+				JSON.stringify(JSON.parse(generated))
+			)
+		} catch {
+			return false
+		}
+	}
+
+	return current === generated
+}
+
+async function writeGenerated(filePath, content, label) {
+	if (checkMode) {
+		let current
+		try {
+			current = await readFile(filePath, "utf8")
+		} catch {
+			mismatches.push(path.relative(projectRoot, filePath))
+			return
+		}
+		if (!generatedContentMatches(filePath, current, content)) {
+			mismatches.push(path.relative(projectRoot, filePath))
+		}
+		return
+	}
+
+	await writeFile(filePath, content, "utf8")
+	console.log(label)
 }
 
 async function run() {
@@ -37,6 +73,30 @@ async function run() {
 		}
 	}
 	components.sort()
+
+	// 1b. Clean up CSS imports in component index.ts files for JSR compatibility,
+	// and collect which components have CSS files.
+	const componentsWithCss = []
+	for (const comp of components) {
+		const cssPath = path.join(componentsDir, comp, `${comp}.css`)
+		if (await fileExists(cssPath)) {
+			componentsWithCss.push(comp)
+		}
+
+		const indexTsPath = path.join(componentsDir, comp, "index.ts")
+		if (await fileExists(indexTsPath)) {
+			let content = await readFile(indexTsPath, "utf8")
+			const cssImportRegex = new RegExp(
+				`import\\s+["']\\./${comp}\\.css["'];?\\r?\\n?`,
+				"g"
+			)
+			if (cssImportRegex.test(content)) {
+				content = content.replace(cssImportRegex, "")
+				await writeFile(indexTsPath, content, "utf8")
+				console.log(`✓ Removed CSS import from ${comp}/index.ts`)
+			}
+		}
+	}
 
 	// 2. Scan foundations
 	const foundationsDir = path.join(srcDir, "foundations")
@@ -88,8 +148,11 @@ async function run() {
 	indexContentLines.push("")
 
 	const indexTsPath = path.join(srcDir, "index.ts")
-	await writeFile(indexTsPath, indexContentLines.join("\n"), "utf8")
-	console.log(`✓ Generated index.ts with ${components.length} components`)
+	await writeGenerated(
+		indexTsPath,
+		indexContentLines.join("\n"),
+		`✓ Generated index.ts with ${components.length} components`
+	)
 
 	// 5. Update package.json.lib
 	const pkgLibPath = path.join(projectRoot, "package.json.lib")
@@ -131,8 +194,32 @@ async function run() {
 	newExports["./package.json"] = "./package.json"
 
 	pkgLib.exports = newExports
-	await writeFile(pkgLibPath, JSON.stringify(pkgLib, null, "\t") + "\n", "utf8")
-	console.log(`✓ Updated package.json.lib exports`)
+	await writeGenerated(
+		pkgLibPath,
+		JSON.stringify(pkgLib, null, "\t") + "\n",
+		"✓ Updated package.json.lib exports"
+	)
+
+	// 5b. Update jsr.json exports
+	const jsrPath = path.join(projectRoot, "jsr.json")
+	try {
+		const jsrRaw = await readFile(jsrPath, "utf8")
+		const jsr = JSON.parse(jsrRaw)
+		const jsrExports = {
+			".": "./src/index.ts",
+		}
+		for (const comp of components) {
+			jsrExports[`./${comp}`] = `./src/components/${comp}/index.ts`
+		}
+		jsr.exports = jsrExports
+		await writeGenerated(
+			jsrPath,
+			JSON.stringify(jsr, null, "\t") + "\n",
+			"✓ Updated jsr.json exports"
+		)
+	} catch (err) {
+		console.warn("Could not sync jsr.json:", err.message)
+	}
 
 	// 6. Update tsconfig.json paths
 	const tsconfigPath = path.join(projectRoot, "tsconfig.json")
@@ -153,12 +240,11 @@ async function run() {
 	newPaths["@chitrank2050/monoline-ui/*"] = ["./src/*"]
 
 	tsconfig.compilerOptions.paths = newPaths
-	await writeFile(
+	await writeGenerated(
 		tsconfigPath,
 		JSON.stringify(tsconfig, null, "\t") + "\n",
-		"utf8"
+		"✓ Updated tsconfig.json paths"
 	)
-	console.log(`✓ Updated tsconfig.json paths`)
 
 	// 7. Output src/metadata.json
 	const metadata = {
@@ -166,14 +252,59 @@ async function run() {
 		components: components,
 	}
 	const metadataPath = path.join(srcDir, "metadata.json")
-	await writeFile(
+	await writeGenerated(
 		metadataPath,
 		JSON.stringify(metadata, null, "\t") + "\n",
-		"utf8"
-	)
-	console.log(
 		`✓ Generated src/metadata.json with component count: ${components.length}`
 	)
+
+	// 7b. Update src/foundations/theme.css component style imports
+	const themeCssPath = path.join(srcDir, "foundations", "theme.css")
+	try {
+		let themeCss = await readFile(themeCssPath, "utf8")
+		const cssImports = componentsWithCss
+			.map((comp) => `@import "../components/${comp}/${comp}.css";`)
+			.join("\n")
+
+		const startToken = "/* @components-start */"
+		const endToken = "/* @components-end */"
+		const startIndex = themeCss.indexOf(startToken)
+		const endIndex = themeCss.indexOf(endToken)
+
+		if (startIndex !== -1 && endIndex !== -1) {
+			themeCss =
+				themeCss.slice(0, startIndex + startToken.length) +
+				"\n" +
+				cssImports +
+				"\n" +
+				themeCss.slice(endIndex)
+
+			await writeGenerated(
+				themeCssPath,
+				themeCss,
+				`✓ Updated theme.css with ${componentsWithCss.length} component style imports`
+			)
+		} else {
+			console.warn("Could not find components placeholder in theme.css")
+		}
+	} catch (err) {
+		console.warn("Could not sync theme.css component imports:", err.message)
+	}
+
+	if (checkMode) {
+		if (mismatches.length > 0) {
+			console.error("Generated export files are out of sync:")
+			for (const file of mismatches) {
+				console.error(`- ${file}`)
+			}
+			console.error("Run `pnpm run sync-exports` and commit the updates.")
+			process.exit(1)
+		}
+		console.log(
+			`✓ Generated export files are in sync with ${components.length} components`
+		)
+		return
+	}
 
 	// 8. Format generated files
 	try {

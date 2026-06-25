@@ -2,19 +2,19 @@
 
 import { cn } from "../../lib/utils"
 import { useSelectContext } from "./root"
-import type { SelectItemProps, SelectSize } from "./types"
+import type { SelectItemProps } from "./types"
 
-const itemSizeClasses: Record<SelectSize, string> = {
+const SIZE_CLASSES = {
 	sm: "min-h-ml-8 px-ml-2 text-xs",
 	md: "min-h-ml-9 px-ml-3 text-sm",
 	lg: "min-h-ml-10 px-ml-4 text-base",
-}
+} as const
 
-const itemDescriptionClasses: Record<SelectSize, string> = {
+const DESC_CLASSES = {
 	sm: "text-[0.68rem]",
 	md: "text-xs",
 	lg: "text-sm",
-}
+} as const
 
 export function SelectItem({
 	className,
@@ -23,8 +23,9 @@ export function SelectItem({
 	value,
 	disabled,
 	children,
+	ref,
 	...props
-}: SelectItemProps) {
+}: SelectItemProps): React.ReactElement {
 	const {
 		isMobile,
 		onChange,
@@ -36,6 +37,7 @@ export function SelectItem({
 
 	return (
 		<button
+			ref={ref}
 			type="button"
 			role="option"
 			aria-selected={selected}
@@ -44,7 +46,7 @@ export function SelectItem({
 			data-mobile={isMobile || undefined}
 			className={cn(
 				"ml-select__item flex w-full items-center justify-between rounded-md text-left font-medium leading-snug disabled:pointer-events-none disabled:opacity-45",
-				itemSizeClasses[size],
+				SIZE_CLASSES[size],
 				className
 			)}
 			onClick={(event) => {
@@ -61,7 +63,7 @@ export function SelectItem({
 					<span
 						className={cn(
 							"font-normal leading-relaxed text-text-muted",
-							itemDescriptionClasses[size]
+							DESC_CLASSES[size]
 						)}
 					>
 						{description}

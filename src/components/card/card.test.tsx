@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react"
-import { describe, expect, it } from "vitest"
+import userEvent from "@testing-library/user-event"
+import { describe, expect, it, vi } from "vitest"
 
 import { Card } from "./index"
 
@@ -43,5 +44,22 @@ describe("Card", () => {
 			</Card>
 		)
 		expect(ref.current).toHaveAttribute("data-card-size", "lg")
+	})
+
+	it("renders clickable cards as native buttons", async () => {
+		const user = userEvent.setup()
+		const onClick = vi.fn()
+		render(
+			<Card onClick={onClick}>
+				<Card.Body>Clickable card</Card.Body>
+			</Card>
+		)
+
+		const button = screen.getByRole("button", { name: "Clickable card" })
+		expect(button.tagName).toBe("BUTTON")
+		expect(button).toHaveAttribute("type", "button")
+
+		await user.click(button)
+		expect(onClick).toHaveBeenCalledTimes(1)
 	})
 })

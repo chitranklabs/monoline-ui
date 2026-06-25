@@ -1,9 +1,18 @@
 import { cn } from "../../lib/utils"
 import type { MetaRowSepProps } from "./types"
 
-export function MetaRowSep({ className, ...props }: MetaRowSepProps) {
+export function MetaRowSep({
+	className,
+	ref,
+	...props
+}: MetaRowSepProps): React.ReactElement {
 	return (
-		<span aria-hidden className={cn("opacity-50", className)} {...props}>
+		<span
+			ref={ref}
+			aria-hidden
+			className={cn("opacity-50", className)}
+			{...props}
+		>
 			·
 		</span>
 	)

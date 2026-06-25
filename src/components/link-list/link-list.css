@@ -2,10 +2,10 @@
 
 @layer components {
 	.ml-link-list {
-		--ml-link-list-row-padding-y: var(--ml-space-4);
-		--ml-link-list-row-gap: var(--ml-space-5);
-		--ml-link-list-label-width: var(--ml-space-8);
-		--ml-link-list-date-width: var(--ml-space-24);
+		--ml-link-list-row-padding-y: var(--ml-space-5);
+		--ml-link-list-row-gap: var(--ml-space-6);
+		--ml-link-list-label-width: var(--ml-space-10);
+		--ml-link-list-date-width: var(--ml-space-28);
 		--ml-link-list-title-text: var(--text-base);
 		--ml-link-list-meta-text: var(--text-2xs);
 		--ml-link-list-tag-text: var(--text-xs);
@@ -16,20 +16,20 @@
 	}
 
 	.ml-link-list[data-size="sm"] {
-		--ml-link-list-row-padding-y: var(--ml-space-3);
-		--ml-link-list-row-gap: var(--ml-space-4);
-		--ml-link-list-label-width: var(--ml-space-7);
-		--ml-link-list-date-width: var(--ml-space-20);
+		--ml-link-list-row-padding-y: var(--ml-space-4);
+		--ml-link-list-row-gap: var(--ml-space-5);
+		--ml-link-list-label-width: var(--ml-space-8);
+		--ml-link-list-date-width: var(--ml-space-24);
 		--ml-link-list-title-text: var(--text-sm);
 		--ml-link-list-meta-text: var(--text-3xs);
 		--ml-link-list-tag-text: var(--text-2xs);
 	}
 
 	.ml-link-list[data-size="lg"] {
-		--ml-link-list-row-padding-y: var(--ml-space-5);
-		--ml-link-list-row-gap: var(--ml-space-6);
-		--ml-link-list-label-width: var(--ml-space-10);
-		--ml-link-list-date-width: var(--ml-space-28);
+		--ml-link-list-row-padding-y: var(--ml-space-6);
+		--ml-link-list-row-gap: var(--ml-space-7);
+		--ml-link-list-label-width: var(--ml-space-12);
+		--ml-link-list-date-width: var(--ml-space-32);
 		--ml-link-list-title-text: var(--text-lg);
 		--ml-link-list-meta-text: var(--text-xs);
 		--ml-link-list-tag-text: var(--text-sm);
@@ -99,6 +99,7 @@
 		align-items: center;
 		min-width: 0;
 		padding-block: var(--ml-link-list-row-padding-y);
+		padding-inline: var(--ml-space-3);
 		border-block-end: var(--border-thin) solid var(--border);
 		color: inherit;
 		text-decoration: none;
@@ -146,8 +147,9 @@
 		overflow: hidden;
 		color: var(--primary);
 		font-size: var(--ml-link-list-title-text);
-		font-weight: 650;
-		line-height: var(--leading-tight);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+		letter-spacing: -0.01em;
 		text-overflow: ellipsis;
 		transition: color var(--duration-micro) var(--ease-out);
 		white-space: nowrap;

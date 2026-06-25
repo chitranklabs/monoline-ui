@@ -1,12 +1,16 @@
 import type * as React from "react"
 
+export type FooterLinkComponentProps = React.ComponentProps<"a"> & {
+	href: string
+}
+
 export interface FooterLink {
 	href: string
 	label: React.ReactNode
 	external?: boolean
 	rel?: string
 	target?: React.HTMLAttributeAnchorTarget
-	as?: React.ComponentType<any>
+	as?: React.ComponentType<FooterLinkComponentProps>
 }
 
 export interface FooterColumn {
@@ -46,5 +50,5 @@ export interface FooterProps extends React.ComponentProps<"footer"> {
 	credit?: React.ReactNode
 	meta?: React.ReactNode
 	attribution?: React.ReactNode
-	linkComponent?: React.ComponentType<any>
+	linkComponent?: React.ComponentType<FooterLinkComponentProps>
 }

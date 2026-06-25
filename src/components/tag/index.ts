@@ -1,6 +1,5 @@
 import { TagCount } from "./count"
 import { TagRoot } from "./root"
-import "./tag.css"
 
 export * from "./types"
 

@@ -13,15 +13,26 @@ export interface DataListItemData {
 export interface DataListProps extends React.ComponentProps<"div"> {
 	size?: DataListSize
 	variant?: DataListVariant
+	prose?: boolean
 	items?: DataListItemData[]
 }
 
-export interface DataListItemProps extends Omit<
-	React.ComponentProps<"div">,
-	"title"
-> {
+interface DataListItemBaseProps {
 	label?: React.ReactNode
 	title?: React.ReactNode
 	description?: React.ReactNode
 	trailing?: React.ReactNode
 }
+
+export type DataListItemProps =
+	| (DataListItemBaseProps & {
+			onClick: React.MouseEventHandler<HTMLButtonElement>
+			ref?: React.Ref<HTMLButtonElement>
+	  } & Omit<
+				React.ComponentPropsWithRef<"button">,
+				"title" | "onClick" | "ref"
+			>)
+	| (DataListItemBaseProps & {
+			onClick?: never
+			ref?: React.Ref<HTMLDivElement>
+	  } & Omit<React.ComponentPropsWithRef<"div">, "title" | "onClick" | "ref">)

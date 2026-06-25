@@ -108,7 +108,7 @@ export default function TagPageClient() {
 	return (
 		<ComponentPlayground<TagSize, TagVariant>
 			title="Tag"
-			description="Render either filter pills for collection switching or quieter chips for dense card metadata."
+			description="Render filter buttons or quiet chips for categories, stacks, and metadata."
 			sizes={tagSizes}
 			defaultSize="md"
 			variants={tagVariants}

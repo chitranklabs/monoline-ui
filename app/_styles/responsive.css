@@ -8,7 +8,9 @@
 
 	.site-version,
 	.site-nav,
-	.site-actions {
+	.site-actions,
+	.ml-navbar__nav,
+	.ml-navbar__actions {
 		display: none;
 	}
 
@@ -82,7 +84,9 @@
 
 	.site-version,
 	.site-nav,
-	.site-actions {
+	.site-actions,
+	.ml-navbar__nav,
+	.ml-navbar__actions {
 		display: none;
 	}
 

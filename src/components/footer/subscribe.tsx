@@ -9,10 +9,12 @@ export function FooterSubscribeForm({
 	action = "#",
 	method = "post",
 	className,
+	ref,
 	...props
-}: FooterSubscribeFormProps) {
+}: FooterSubscribeFormProps): React.ReactElement {
 	return (
 		<form
+			ref={ref}
 			action={action}
 			method={method}
 			className={cn("flex min-w-0 flex-col gap-ml-3", className)}

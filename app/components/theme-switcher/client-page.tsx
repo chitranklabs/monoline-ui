@@ -66,7 +66,7 @@ export default function ThemeSwitcherPageClient() {
 	return (
 		<ComponentPlayground<ThemeSwitcherSize>
 			title="ThemeSwitcher"
-			description="Render a controlled theme switcher in compact mini mode or full sun/toggle/moon mode. The component owns visuals and motion; apps only provide theme state."
+			description="Render controlled light and dark theme controls in mini or full mode."
 			sizes={themeSwitcherSizes}
 			defaultSize="md"
 			importStatement='import { ThemeSwitcher } from "@chitrank2050/monoline-ui/theme-switcher"'

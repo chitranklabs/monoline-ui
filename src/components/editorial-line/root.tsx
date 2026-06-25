@@ -15,30 +15,30 @@ export function EditorialLineRoot({
 	hover = true,
 	ref,
 	...props
-}: EditorialLineProps) {
+}: EditorialLineProps): React.ReactElement {
 	const sharedClassName = cn(
-		"ml-editorial-line grid items-center border-b border-(--border) no-underline",
+		"ml-editorial-line grid items-center border-b border-border no-underline",
 		"grid-cols-[40px_110px_1fr_auto] sm:gap-6 sm:py-5",
 		tag && "md:grid-cols-[40px_110px_1fr_auto_auto]",
 		"max-sm:grid-cols-[28px_1fr_auto] max-sm:gap-3 max-sm:py-4",
 		hover &&
-			"cursor-pointer transition-colors duration-(--duration-micro) hover:bg-(--surface-2)",
+			"cursor-pointer transition-colors duration-(--duration-micro) hover:bg-surface-2",
 		className
 	)
 
 	const content = (
 		<>
-			<span className="font-mono text-sm text-(--text-muted)">
+			<span className="font-mono text-sm text-text-muted">
 				{String(n).padStart(2, "0")}
 			</span>
-			<time className="font-mono text-[11px] uppercase tracking-[0.1em] text-(--text-muted) max-sm:hidden">
+			<time className="font-mono text-[11px] uppercase tracking-widest text-text-muted max-sm:hidden">
 				{date}
 			</time>
 			<span className="flex min-w-0 flex-col">
-				<span className="text-base font-medium leading-[1.3] tracking-[-0.01em] text-(--text-primary) sm:text-[17px]">
+				<span className="text-base font-medium leading-[1.3] tracking-[-0.01em] text-text sm:text-[17px]">
 					{title}
 				</span>
-				<span className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-(--text-muted) sm:hidden">
+				<span className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-text-muted sm:hidden">
 					{date}
 					{tag && <> · {tag}</>}
 				</span>
@@ -48,7 +48,7 @@ export function EditorialLineRoot({
 					<Badge size="xs">{tag}</Badge>
 				</span>
 			)}
-			<span className="whitespace-nowrap font-mono text-[11px] text-(--text-muted)">
+			<span className="whitespace-nowrap font-mono text-[11px] text-text-muted">
 				{readTime ? `${readTime}m →` : "→"}
 			</span>
 		</>

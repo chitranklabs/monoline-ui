@@ -7,5 +7,7 @@ export const siteRoutes = [
 	"/foundations/colors",
 	"/foundations/typography",
 	"/foundations/spacing-motion",
+	"/components/back-link",
+	"/components/container",
 	"/components/footer",
 ] as const

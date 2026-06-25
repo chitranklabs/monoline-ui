@@ -1,4 +1,3 @@
-import "./input.css"
 import { InputKbd } from "./kbd"
 import { InputRoot } from "./root"
 

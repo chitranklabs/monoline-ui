@@ -93,7 +93,7 @@ export default function TestimonialGridPageClient() {
 	return (
 		<ComponentPlayground<TestimonialGridVariant>
 			title="TestimonialGrid"
-			description="Render testimonial walls as a normal aligned grid or masonry flow: 1 column on mobile, 2 on tablet, and 3 on desktop without JavaScript measurement."
+			description="Arrange testimonial cards in aligned grid or masonry layouts without JavaScript measurement."
 			sizes={gridLayouts}
 			defaultSize="masonry"
 			sizeControlLabel="Layout"

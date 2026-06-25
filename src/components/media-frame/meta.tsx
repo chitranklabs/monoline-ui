@@ -1,6 +1,16 @@
 import { cn } from "../../lib/utils"
 import type { MediaFrameMetaProps } from "./types"
 
-export function MediaFrameMeta({ className, ...props }: MediaFrameMetaProps) {
-	return <div className={cn("ml-media-frame__meta", className)} {...props} />
+export function MediaFrameMeta({
+	className,
+	ref,
+	...props
+}: MediaFrameMetaProps): React.ReactElement {
+	return (
+		<div
+			ref={ref}
+			className={cn("ml-media-frame__meta", className)}
+			{...props}
+		/>
+	)
 }

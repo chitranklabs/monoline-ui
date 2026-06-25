@@ -268,3 +268,14 @@
 .font-headline {
 	font-family: var(--font-headline);
 }
+
+/* --- Eyebrow utility (standalone class, no component import needed) --- */
+.eyebrow,
+.ml-eyebrow {
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	letter-spacing: var(--tracking-eyebrow);
+	text-transform: uppercase;
+	color: var(--text-muted);
+	display: inline-block;
+}

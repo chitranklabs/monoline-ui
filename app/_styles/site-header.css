@@ -144,12 +144,28 @@
 
 .site-menu-button {
 	display: inline-flex;
+	grid-column: 3;
 	align-items: center;
 	justify-content: center;
+	justify-self: end;
 	border: 1px solid var(--border);
 	border-radius: var(--radius-md);
 	background: var(--surface);
 	color: var(--text);
+	cursor: pointer;
+	outline: none;
+	transition:
+		border-color var(--duration-fast) var(--ease-out),
+		box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.site-menu-button:hover {
+	border-color: var(--border-strong);
+}
+
+.site-menu-button:focus-visible {
+	border-color: var(--border-strong);
+	box-shadow: var(--focus-ring);
 }
 
 .site-menu-button {

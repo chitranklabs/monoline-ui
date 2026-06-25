@@ -1,20 +1,23 @@
 "use client"
 
-import { cn } from "../../lib/utils"
+import { cn, composeRefs } from "../../lib/utils"
 import { useSelectContext } from "./root"
 import type { SelectTriggerProps, SelectVariant } from "./types"
 
 const triggerVariantClasses: Record<SelectVariant, string> = {
-	default: "ml-control-surface--secondary",
+	default: "ml-control-surface--secondary focus-visible:shadow-(--focus-ring)",
 	ghost: "ml-control-surface--ghost",
 }
 
 export function SelectTrigger({
 	className,
 	children,
+	onClick,
+	onKeyDown,
+	ref,
 	type,
 	...props
-}: SelectTriggerProps) {
+}: SelectTriggerProps): React.ReactElement {
 	const {
 		label,
 		listboxId,
@@ -28,18 +31,24 @@ export function SelectTrigger({
 
 	return (
 		<button
-			ref={triggerRef}
+			ref={composeRefs(triggerRef, ref)}
 			type={type ?? "button"}
 			aria-expanded={open}
 			aria-haspopup="listbox"
 			aria-controls={listboxId}
 			className={cn(
-				"ml-select__trigger inline-flex max-w-full select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"ml-select__trigger inline-flex max-w-full select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none",
 				triggerVariantClasses[variant],
 				className
 			)}
-			onClick={() => setOpen(!open)}
+			onClick={(event) => {
+				onClick?.(event)
+				if (event.defaultPrevented) return
+				setOpen(!open)
+			}}
 			onKeyDown={(e) => {
+				onKeyDown?.(e)
+				if (e.defaultPrevented) return
 				if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
 					e.preventDefault()
 					setOpen(true)

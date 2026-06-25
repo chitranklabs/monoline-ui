@@ -1,4 +1,3 @@
-import "./code-block.css"
 import { CodeBlockRoot } from "./root"
 
 export * from "./types"

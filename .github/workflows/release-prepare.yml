@@ -90,6 +90,8 @@ jobs:
           CLEAN_VERSION: ${{ steps.vars.outputs.clean_version }}
         run: |
           jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
+          jq ".version = \"$CLEAN_VERSION\"" package.json.lib > package.json.lib.tmp && mv package.json.lib.tmp package.json.lib
+          jq ".version = \"$CLEAN_VERSION\"" jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
 
       - name: Update CHANGELOG.md 📝
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
@@ -135,3 +137,5 @@ jobs:
           add-paths: |
             CHANGELOG.md
             package.json
+            package.json.lib
+            jsr.json

@@ -21,6 +21,13 @@
 		transform: translate3d(0, 0, 0);
 	}
 
+	button.ml-card {
+		inline-size: 100%;
+		padding: 0;
+		text-align: inherit;
+		font: inherit;
+	}
+
 	.ml-card--hover:hover {
 		border-color: var(--border-strong);
 		background: var(--surface);

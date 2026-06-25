@@ -22,11 +22,16 @@
 			"@chitrank2050/monoline-ui": ["./src/index.ts"],
 			"@chitrank2050/monoline-ui/action-rail": ["./src/components/action-rail"],
 			"@chitrank2050/monoline-ui/avatar": ["./src/components/avatar"],
+			"@chitrank2050/monoline-ui/back-link": ["./src/components/back-link"],
 			"@chitrank2050/monoline-ui/badge": ["./src/components/badge"],
 			"@chitrank2050/monoline-ui/button": ["./src/components/button"],
 			"@chitrank2050/monoline-ui/callout": ["./src/components/callout"],
 			"@chitrank2050/monoline-ui/card": ["./src/components/card"],
 			"@chitrank2050/monoline-ui/code-block": ["./src/components/code-block"],
+			"@chitrank2050/monoline-ui/command-search": [
+				"./src/components/command-search"
+			],
+			"@chitrank2050/monoline-ui/container": ["./src/components/container"],
 			"@chitrank2050/monoline-ui/data-list": ["./src/components/data-list"],
 			"@chitrank2050/monoline-ui/editorial-line": [
 				"./src/components/editorial-line"

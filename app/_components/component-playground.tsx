@@ -1,5 +1,6 @@
 "use client"
 
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import {
 	type ReactNode,
 	Suspense,
@@ -408,7 +409,7 @@ function ComponentPlaygroundClient<
 	}
 
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head docs-page__head--component">
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
@@ -550,7 +551,7 @@ function ComponentPlaygroundClient<
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Usage</h2>
-					<p>How to import and use the component in your project.</p>
+					<p>Install path and a minimal example you can paste into an app.</p>
 				</div>
 				<h3>Import</h3>
 				<CodeBlock code={importStatement} language="typescript" />
@@ -563,7 +564,9 @@ function ComponentPlaygroundClient<
 				<section className="docs-section">
 					<div className="docs-subhead">
 						<h2>API Reference</h2>
-						<p>Properties and callbacks supported by this component.</p>
+						<p>
+							Props, compound slots, and callbacks exposed by this component.
+						</p>
 					</div>
 					<div className="props-table">
 						{props.map(([name, type, desc], index) => (
@@ -585,7 +588,10 @@ function ComponentPlaygroundClient<
 				<section className="docs-section">
 					<div className="docs-subhead">
 						<h2>Design Tokens</h2>
-						<p>CSS custom properties available for styling customizations.</p>
+						<p>
+							Theme variables this component reads for color, spacing, and
+							motion.
+						</p>
 					</div>
 					<div className="props-table">
 						{tokens.map(([name, desc], index) => (
@@ -606,7 +612,10 @@ function ComponentPlaygroundClient<
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Implementation</h2>
-					<p>The raw source code pattern for reference or manual copy.</p>
+					<p>
+						Complete source pattern, including state and compound composition
+						when needed.
+					</p>
 				</div>
 				<CodeBlock code={sourceSnippet} language="jsx" />
 			</section>

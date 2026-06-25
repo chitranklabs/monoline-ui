@@ -40,7 +40,7 @@ export default function RailPageClient() {
 	return (
 		<ComponentPlayground
 			title="Rail"
-			description="Vertical list structures commonly used in sidebars for tabbed sub-navigation."
+			description="Render vertical navigation lists for sidebars, filters, and secondary sections."
 			importStatement='import { Rail } from "@chitrank2050/monoline-ui/rail"'
 			usageCode={usageCode}
 			props={propsRows}

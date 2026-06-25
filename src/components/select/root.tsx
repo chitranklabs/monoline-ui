@@ -12,7 +12,7 @@ import {
 } from "react"
 
 import { useBreakpoint } from "../../foundations/use-breakpoint"
-import { cn } from "../../lib/utils"
+import { cn, composeRefs } from "../../lib/utils"
 import type {
 	SelectOption,
 	SelectRootProps,
@@ -69,7 +69,7 @@ export function SelectRoot<T extends string>({
 	value,
 	ref,
 	...props
-}: SelectRootProps<T>) {
+}: SelectRootProps<T>): React.ReactElement {
 	const [internalOpen, setInternalOpen] = useState(defaultOpen)
 	const [activeIndex, setActiveIndex] = useState(-1)
 	const breakpoint = useBreakpoint("desktop")
@@ -79,6 +79,16 @@ export function SelectRoot<T extends string>({
 	const isMobile = breakpoint === "mobile"
 	const open = openProp ?? internalOpen
 
+	const onChangeRef = useRef(onChange)
+	onChangeRef.current = onChange
+	const onOpenChangeRef = useRef(onOpenChange)
+	onOpenChangeRef.current = onOpenChange
+
+	const stableOnChange = useCallback(
+		(nextValue: string) => onChangeRef.current(nextValue as T),
+		[]
+	)
+
 	const setOpen = useCallback(
 		(nextOpen: boolean) => {
 			if (nextOpen) {
@@ -86,15 +96,15 @@ export function SelectRoot<T extends string>({
 					(o) => o.value === value
 				)
 				setActiveIndex(idx >= 0 ? idx : 0)
-			} else {
+			} else if (open) {
 				triggerRef.current?.focus()
 			}
 			if (openProp === undefined) {
 				setInternalOpen(nextOpen)
 			}
-			onOpenChange?.(nextOpen)
+			onOpenChangeRef.current?.(nextOpen)
 		},
-		[onOpenChange, openProp, options, value]
+		[open, openProp, options, value]
 	)
 
 	const selectedOption = useMemo(
@@ -126,9 +136,14 @@ export function SelectRoot<T extends string>({
 		}
 	}, [open, setOpen])
 
+	const prevBreakpointRef = useRef(breakpoint)
 	useEffect(() => {
-		setOpen(false)
-	}, [breakpoint, setOpen])
+		if (prevBreakpointRef.current !== breakpoint) {
+			setInternalOpen(false)
+			onOpenChangeRef.current?.(false)
+			prevBreakpointRef.current = breakpoint
+		}
+	}, [breakpoint])
 
 	const contextValue = useMemo<SelectContextValue>(
 		() => ({
@@ -147,14 +162,13 @@ export function SelectRoot<T extends string>({
 			triggerRef,
 			variant,
 			value,
-			onChange: (nextValue) => onChange(nextValue as T),
+			onChange: stableOnChange,
 		}),
 		[
 			activeIndex,
 			isMobile,
 			label,
 			listboxId,
-			onChange,
 			open,
 			options,
 			placeholder,
@@ -162,6 +176,7 @@ export function SelectRoot<T extends string>({
 			setOpen,
 			sheetLabel,
 			size,
+			stableOnChange,
 			variant,
 			value,
 		]
@@ -170,11 +185,7 @@ export function SelectRoot<T extends string>({
 	return (
 		<SelectContext.Provider value={contextValue}>
 			<div
-				ref={(node) => {
-					rootRef.current = node
-					if (typeof ref === "function") ref(node)
-					else if (ref) ref.current = node
-				}}
+				ref={composeRefs(rootRef, ref)}
 				data-open={open}
 				data-size={size}
 				className={cn("ml-select relative inline-flex", className)}

@@ -45,7 +45,7 @@ export default function MetaRowPageClient() {
 	return (
 		<ComponentPlayground
 			title="MetaRow"
-			description="MetaRow is a small inline monospace container designed to render list or card metadata (dates, authors, reading estimates) divided by dot separators."
+			description="Render small inline metadata groups with mono text and separators."
 			importStatement='import { MetaRow } from "@chitrank2050/monoline-ui/meta-row"'
 			usageCode={usageCode}
 			props={propsRows}

@@ -6,6 +6,7 @@ export type MediaFrameRatio =
 	| "landscape"
 	| "wide"
 	| "cinematic"
+	| "auto"
 export type MediaFrameSize = "sm" | "md" | "lg"
 
 export interface MediaFrameProps extends React.ComponentProps<"div"> {

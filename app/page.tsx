@@ -7,71 +7,60 @@ import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
+import { createPageMetadata } from "./lib/metadata"
 
-export const metadata: Metadata = {
-	title: "monoline/ui  Opinionated, token-first React component library",
+export const metadata: Metadata = createPageMetadata({
+	title: "monoline/ui - Token-first React component library",
 	description:
-		"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	openGraph: {
-		title: "monoline/ui  Opinionated, token-first React component library",
-		description:
-			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	},
-	twitter: {
-		title: "monoline/ui  Opinionated, token-first React component library",
-		description:
-			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	},
-	alternates: {
-		canonical: "/",
-	},
-}
+		"Responsive React components for personal sites, portfolios, and documentation built on Tailwind CSS v4 design tokens.",
+	path: "/",
+})
 
 const stats = [
 	[String(metadataJson.count), "Components"],
 	["2", "Themes"],
 	["12kb", "Gzipped"],
-	["MIT", "Licence"],
+	["MIT", "License"],
 ]
 
 const builtFor = [
 	["Personal portfolios", "Editorial layout, long-form posts"],
 	["Developer docs", "Code blocks, callouts, TOC"],
-	["Indie product sites", "Hero + features + footer"],
+	["Product sites", "Hero, feature, and footer sections"],
 	["Internal tools", "Cards, tables, status chips"],
 ]
 
 const components = [
-	["Card", "Container with hover + interactive variants"],
-	["SectionHead", "Eyebrow + title + lede block"],
+	["Card", "Linked, static, or button-backed content cards"],
+	["SectionHead", "Eyebrow, title, and lede block"],
 	["Container", "Max-width content wrapper"],
-	["ActionRail", "Icon button column"],
-	["Navbar", "Top chrome with active underline"],
-	["Footer", "Brand block + link columns + meta bar"],
-	["Rail", "Sidebar tag list with counts"],
-	["Toc", "Table ofContents with scroll-spy"],
-	["Button", "3 variants, smooth icon slots, asChild"],
-	["Input", "Text/search with prefix icon + kbd"],
-	["Toggle", "On/off switch with restrained thumb motion"],
-	["SegmentedControl", "Pill & default variants, sliding indicator"],
-	["Tag", "Filter pill with active state"],
+	["ActionRail", "Compact action groups"],
+	["Navbar", "Responsive site header"],
+	["Footer", "Brand, links, subscribe, and meta rows"],
+	["Rail", "Vertical secondary navigation"],
+	["Toc", "Table of contents with active tracking"],
+	["Button", "Actions, links, icons, and loading state"],
+	["Input", "Text fields with prefix and suffix slots"],
+	["Toggle", "Accessible switch control"],
+	["SegmentedControl", "Single-select control groups"],
+	["Tag", "Filter pills and metadata chips"],
 ]
 
 const rules = [
 	[
 		"01",
 		"Two themes, one source of truth",
-		'Toggle data-theme="light" or data-theme="dark" on <html> and every component re-themes - no dark variants in component code.',
+		'Set data-theme="light" or data-theme="dark" on <html>. Components read the same tokens in both modes.',
 	],
 	[
 		"02",
 		"CSS tokens, not Tailwind config",
-		"All colours, fonts, radii, spacing, and motion live in theme.css. Swap one token layer to rebrand. Tailwind v4 reads them automatically.",
+		"Colors, fonts, radii, spacing, and motion live in theme.css. Swap the token layer to rebrand.",
 	],
 	[
 		"03",
 		"No icon set baked in",
-		"Bring your own lucide, react-icons, svgs. The library exposes slots, not opinions.",
+		"Bring lucide, react-icons, SVGs, or your own glyphs. Components expose slots instead of icon opinions.",
 	],
 ]
 
@@ -122,7 +111,7 @@ function PreviewCard() {
 
 export default function HomePage() {
 	return (
-		<main className="intro-page">
+		<main id="main-content" tabIndex={-1} className="intro-page">
 			<section className="intro-hero">
 				<div className="intro-hero__copy">
 					<div className="intro-pills">
@@ -139,7 +128,7 @@ export default function HomePage() {
 					<p>
 						{metadataJson.count} components for personal sites, portfolios, and
 						developer docs. Monochrome by default, one warm accent, two themes.
-						Drop in, swap the brand colour, ship.
+						Drop in the package, change the brand color, and ship.
 					</p>
 					<div className="intro-actions">
 						<Button asChild>
@@ -184,7 +173,7 @@ export default function HomePage() {
 						<p className="ml-eyebrow">
 							Inside the box · {metadataJson.count} components
 						</p>
-						<h2>Everything an editorial site needs.</h2>
+						<h2>Components for editorial products.</h2>
 					</div>
 					<Link href="/components/footer" className="ml-interaction-color">
 						All components →
@@ -202,7 +191,7 @@ export default function HomePage() {
 
 			<section className="intro-section intro-section--rules">
 				<p className="ml-eyebrow">Three rules · why this exists</p>
-				<h2>Opinionated where it counts, configurable where you'd want it.</h2>
+				<h2>Opinionated defaults, practical escape hatches.</h2>
 				<div className="intro-rules">
 					{rules.map(([number, title, description]) => (
 						<article key={number}>

@@ -29,6 +29,7 @@ interface NavbarBaseProps extends Omit<
 	linkComponent?: React.ComponentType<NavbarLinkComponentProps>
 	sticky?: boolean
 	glass?: boolean
+	progress?: React.ReactNode
 }
 
 export type NavbarProps =

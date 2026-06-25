@@ -51,7 +51,7 @@ export default function TocPageClient() {
 	return (
 		<ComponentPlayground
 			title="Toc"
-			description="Table of Contents component showing document outline links with IntersectionObserver tracking."
+			description="Render document outline links with active-section tracking and optional collapsible mode."
 			importStatement='import { Toc } from "@chitrank2050/monoline-ui/toc"'
 			usageCode={usageCode}
 			props={propsRows}

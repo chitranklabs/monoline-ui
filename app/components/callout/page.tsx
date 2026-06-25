@@ -1,15 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import CalloutPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "Callout Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Callout - monoline/ui component",
 	description:
-		"API reference and variants for the monoline/ui Callout component, including note, tip, and warning types.",
-	alternates: {
-		canonical: "/components/callout",
-	},
-}
+		"Mark notes, tips, and warnings with clear labels and token-backed accents.",
+	path: "/components/callout",
+})
 
 export default function CalloutPage() {
 	return <CalloutPageClient />

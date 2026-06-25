@@ -37,7 +37,7 @@ export function SectionHeadRoot({
 	as = "div",
 	ref,
 	...props
-}: SectionHeadProps) {
+}: SectionHeadProps): React.ReactElement {
 	const Heading = headingByLevel[level]
 	const Comp = as
 
