@@ -321,13 +321,10 @@ async function run() {
 				stdio: "pipe",
 			}
 		)
-		execSync(
-			`"${prettierBin}" --write --parser json "${pkgLibPath}"`,
-			{
-				cwd: projectRoot,
-				stdio: "pipe",
-			}
-		)
+		execSync(`"${prettierBin}" --write --parser json "${pkgLibPath}"`, {
+			cwd: projectRoot,
+			stdio: "pipe",
+		})
 		console.log(`✓ Formatted generated files with Prettier`)
 	} catch {
 		// Fallback silently if prettier fails

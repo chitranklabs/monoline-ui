@@ -13,9 +13,11 @@ pre-commit:
     secrets:
       run: gitleaks protect --staged --redact -v
 
-    # TS/TSX - ESLint + Prettier
+    # JS/TS/MJS - ESLint + Prettier
     lint-ts:
-      glob: "{src,tests,app}/**/*.{ts,tsx}"
+      glob:
+        - "{src,tests,app,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
+        - "*.{ts,tsx,js,jsx,mjs,cjs}"
       run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 
