@@ -122,6 +122,8 @@ jobs:
       contents: write
       id-token: write
       attestations: write
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout repository 📥
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -147,10 +149,14 @@ jobs:
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
 
       - name: Publish to NPM 📦
-        run: npm publish ./dist --access public --provenance
+        if: env.NPM_TOKEN != ''
+        run: |
+          pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          pnpm publish ./dist --access public --no-git-checks --provenance
 
       - name: Generate release notes 📝
         uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
@@ -219,4 +225,4 @@ jobs:
           jq ".version = \"$VERSION\"" jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
 
       - name: Publish to JSR 📦
-        run: npx jsr publish --allow-dirty
+        run: npx jsr publish --allow-dirty --allow-slow-types
