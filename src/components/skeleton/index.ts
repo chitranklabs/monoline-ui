@@ -1,5 +1,4 @@
 import { SkeletonRoot } from "./root"
-import "./skeleton.css"
 
 export * from "./types"
 

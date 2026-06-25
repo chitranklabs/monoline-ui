@@ -74,6 +74,30 @@ async function run() {
 	}
 	components.sort()
 
+	// 1b. Clean up CSS imports in component index.ts files for JSR compatibility,
+	// and collect which components have CSS files.
+	const componentsWithCss = []
+	for (const comp of components) {
+		const cssPath = path.join(componentsDir, comp, `${comp}.css`)
+		if (await fileExists(cssPath)) {
+			componentsWithCss.push(comp)
+		}
+
+		const indexTsPath = path.join(componentsDir, comp, "index.ts")
+		if (await fileExists(indexTsPath)) {
+			let content = await readFile(indexTsPath, "utf8")
+			const cssImportRegex = new RegExp(
+				`import\\s+["']\\./${comp}\\.css["'];?\\r?\\n?`,
+				"g"
+			)
+			if (cssImportRegex.test(content)) {
+				content = content.replace(cssImportRegex, "")
+				await writeFile(indexTsPath, content, "utf8")
+				console.log(`✓ Removed CSS import from ${comp}/index.ts`)
+			}
+		}
+	}
+
 	// 2. Scan foundations
 	const foundationsDir = path.join(srcDir, "foundations")
 	const foundationEntries = await readdir(foundationsDir, {
@@ -176,6 +200,27 @@ async function run() {
 		"✓ Updated package.json.lib exports"
 	)
 
+	// 5b. Update jsr.json exports
+	const jsrPath = path.join(projectRoot, "jsr.json")
+	try {
+		const jsrRaw = await readFile(jsrPath, "utf8")
+		const jsr = JSON.parse(jsrRaw)
+		const jsrExports = {
+			".": "./src/index.ts",
+		}
+		for (const comp of components) {
+			jsrExports[`./${comp}`] = `./src/components/${comp}/index.ts`
+		}
+		jsr.exports = jsrExports
+		await writeGenerated(
+			jsrPath,
+			JSON.stringify(jsr, null, "\t") + "\n",
+			"✓ Updated jsr.json exports"
+		)
+	} catch (err) {
+		console.warn("Could not sync jsr.json:", err.message)
+	}
+
 	// 6. Update tsconfig.json paths
 	const tsconfigPath = path.join(projectRoot, "tsconfig.json")
 	const tsconfigRaw = await readFile(tsconfigPath, "utf8")
@@ -212,6 +257,39 @@ async function run() {
 		JSON.stringify(metadata, null, "\t") + "\n",
 		`✓ Generated src/metadata.json with component count: ${components.length}`
 	)
+
+	// 7b. Update src/foundations/theme.css component style imports
+	const themeCssPath = path.join(srcDir, "foundations", "theme.css")
+	try {
+		let themeCss = await readFile(themeCssPath, "utf8")
+		const cssImports = componentsWithCss
+			.map((comp) => `@import "../components/${comp}/${comp}.css";`)
+			.join("\n")
+
+		const startToken = "/* @components-start */"
+		const endToken = "/* @components-end */"
+		const startIndex = themeCss.indexOf(startToken)
+		const endIndex = themeCss.indexOf(endToken)
+
+		if (startIndex !== -1 && endIndex !== -1) {
+			themeCss =
+				themeCss.slice(0, startIndex + startToken.length) +
+				"\n" +
+				cssImports +
+				"\n" +
+				themeCss.slice(endIndex)
+
+			await writeGenerated(
+				themeCssPath,
+				themeCss,
+				`✓ Updated theme.css with ${componentsWithCss.length} component style imports`
+			)
+		} else {
+			console.warn("Could not find components placeholder in theme.css")
+		}
+	} catch (err) {
+		console.warn("Could not sync theme.css component imports:", err.message)
+	}
 
 	if (checkMode) {
 		if (mismatches.length > 0) {

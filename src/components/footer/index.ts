@@ -1,4 +1,3 @@
-import "./footer.css"
 import { FooterLink } from "./link"
 import { FooterRoot } from "./root"
 import { FooterStatus } from "./status"

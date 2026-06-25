@@ -1,5 +1,4 @@
 import { ToastRoot } from "./root"
-import "./toast.css"
 
 export * from "./types"
 

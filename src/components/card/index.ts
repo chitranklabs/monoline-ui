@@ -1,7 +1,6 @@
 import { CardAction } from "./action"
 import { CardArrow } from "./arrow"
 import { CardBody } from "./body"
-import "./card.css"
 import { CardDescription } from "./description"
 import { CardEyebrow } from "./eyebrow"
 import { CardFooter } from "./footer"

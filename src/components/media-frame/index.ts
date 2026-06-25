@@ -1,5 +1,4 @@
 import { MediaFrameCaption } from "./caption"
-import "./media-frame.css"
 import { MediaFrameMeta } from "./meta"
 import { MediaFrameRoot } from "./root"
 

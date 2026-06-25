@@ -1,4 +1,3 @@
-import "./avatar.css"
 import { AvatarImage } from "./image"
 import { AvatarRoot } from "./root"
 

@@ -1,4 +1,3 @@
-import "./back-link.css"
 import { BackLinkRoot } from "./root"
 
 export * from "./types"

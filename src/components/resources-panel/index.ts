@@ -1,4 +1,3 @@
-import "./resources-panel.css"
 import { ResourcesPanelRoot } from "./root"
 
 export * from "./types"

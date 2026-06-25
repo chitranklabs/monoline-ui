@@ -1,4 +1,3 @@
-import "./command-search.css"
 import { CommandSearchEmpty } from "./empty"
 import { CommandSearchFooter } from "./footer"
 import { CommandSearchGroup } from "./group"
