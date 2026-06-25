@@ -8,6 +8,7 @@ export function NavbarBrand({
 	className,
 	children,
 	mark,
+	ref,
 	textStyle = "cursive",
 	...props
 }: NavbarBrandProps) {
@@ -15,6 +16,7 @@ export function NavbarBrand({
 
 	return (
 		<Comp
+			ref={ref}
 			data-text-style={textStyle}
 			className={cn("ml-navbar__brand", className)}
 			{...props}

@@ -9,6 +9,7 @@ export function DataListItem({
 	trailing,
 	children,
 	onClick,
+	ref,
 	...props
 }: DataListItemProps) {
 	const isInteractive =
@@ -34,6 +35,7 @@ export function DataListItem({
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- keyboard support added via interactiveProps spread
 		<div
+			ref={ref}
 			data-interactive={isInteractive || undefined}
 			className={cn("ml-data-list__item", className)}
 			onClick={onClick}

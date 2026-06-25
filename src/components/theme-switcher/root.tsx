@@ -58,6 +58,7 @@ export function ThemeSwitcherRoot({
 
 	return (
 		<Button
+			ref={ref}
 			type={type ?? "button"}
 			variant="secondary"
 			size={size}

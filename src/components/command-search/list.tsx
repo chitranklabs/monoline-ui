@@ -2,14 +2,14 @@
 
 import { Command } from "cmdk"
 
-import { cn } from "@chitrank2050/monoline-ui/lib/utils"
-
+import { cn } from "../../lib/utils"
 import { useCommandSearch } from "./root"
 import type { CommandSearchListProps } from "./types"
 
 export function CommandSearchList({
 	className,
 	children,
+	ref,
 	...props
 }: CommandSearchListProps) {
 	const { search, minChars } = useCommandSearch()
@@ -18,6 +18,7 @@ export function CommandSearchList({
 
 	return (
 		<Command.List
+			ref={ref}
 			className={cn("ml-command-search__list", className)}
 			{...props}
 		>

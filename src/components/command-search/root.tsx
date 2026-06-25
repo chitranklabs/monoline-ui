@@ -13,8 +13,7 @@ import { createPortal } from "react-dom"
 
 import { Command } from "cmdk"
 
-import { cn } from "@chitrank2050/monoline-ui/lib/utils"
-
+import { cn } from "../../lib/utils"
 import { CommandSearchFooter } from "./footer"
 import type { CommandSearchContextValue, CommandSearchProps } from "./types"
 
@@ -46,6 +45,7 @@ export function CommandSearchRoot({
 	filter = defaultFilter,
 	shouldFilter = true,
 	className,
+	ref,
 	children,
 	showFooter = false,
 }: CommandSearchProps) {
@@ -132,6 +132,7 @@ export function CommandSearchRoot({
 				}}
 			>
 				<Command
+					ref={ref}
 					label={placeholder}
 					shouldFilter={shouldFilter}
 					filter={cmdkFilter}

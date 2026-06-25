@@ -2,8 +2,7 @@
 
 import { Command } from "cmdk"
 
-import { cn } from "@chitrank2050/monoline-ui/lib/utils"
-
+import { cn } from "../../lib/utils"
 import { useCommandSearch } from "./root"
 import type { CommandSearchItemProps } from "./types"
 
@@ -13,12 +12,14 @@ export function CommandSearchItem({
 	disabled = false,
 	className,
 	children,
+	ref,
 	...props
 }: CommandSearchItemProps) {
 	const { close } = useCommandSearch()
 
 	return (
 		<Command.Item
+			ref={ref}
 			value={value}
 			disabled={disabled}
 			onSelect={() => {

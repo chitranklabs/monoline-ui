@@ -4,10 +4,12 @@ import type { FooterStatusProps } from "./types"
 export function FooterStatus({
 	children = "Open to work",
 	className,
+	ref,
 	...props
 }: FooterStatusProps) {
 	return (
 		<span
+			ref={ref}
 			className={cn(
 				"inline-flex items-center gap-ml-2 rounded-full border border-accent bg-accent-soft px-ml-3 py-ml-1 font-mono text-(length:--ml-footer-status-text) font-semibold tracking-(--ml-footer-status-tracking) text-accent uppercase transition-[background-color,border-color] duration-(--duration-micro) ease-out sm:text-(length:--ml-footer-status-text-tablet)",
 				className

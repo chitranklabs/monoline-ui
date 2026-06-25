@@ -6,10 +6,12 @@ export function ButtonIcon({
 	className,
 	side = "right",
 	reveal = false,
+	ref,
 	...props
 }: ButtonIconProps) {
 	return (
 		<span
+			ref={ref}
 			aria-hidden="true"
 			data-side={side}
 			data-reveal={reveal}

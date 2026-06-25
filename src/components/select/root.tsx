@@ -12,7 +12,7 @@ import {
 } from "react"
 
 import { useBreakpoint } from "../../foundations/use-breakpoint"
-import { cn } from "../../lib/utils"
+import { cn, composeRefs } from "../../lib/utils"
 import type {
 	SelectOption,
 	SelectRootProps,
@@ -74,6 +74,7 @@ export function SelectRoot<T extends string>({
 	const [activeIndex, setActiveIndex] = useState(-1)
 	const breakpoint = useBreakpoint("desktop")
 	const rootRef = useRef<HTMLDivElement>(null)
+	const composedRootRef = useMemo(() => composeRefs(rootRef, ref), [ref])
 	const triggerRef = useRef<HTMLButtonElement>(null)
 	const listboxId = useId()
 	const isMobile = breakpoint === "mobile"
@@ -172,11 +173,7 @@ export function SelectRoot<T extends string>({
 	return (
 		<SelectContext.Provider value={contextValue}>
 			<div
-				ref={(node) => {
-					rootRef.current = node
-					if (typeof ref === "function") ref(node)
-					else if (ref) ref.current = node
-				}}
+				ref={composedRootRef}
 				data-open={open}
 				data-size={size}
 				className={cn("ml-select relative inline-flex", className)}

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react"
 
-import { cn } from "../../lib/utils"
+import { cn, composeRefs } from "../../lib/utils"
 import { SelectItem } from "./item"
 import { useSelectContext } from "./root"
 import type { SelectContentProps } from "./types"
@@ -10,6 +10,8 @@ import type { SelectContentProps } from "./types"
 export function SelectContent({
 	children,
 	className,
+	onKeyDown,
+	ref,
 	...props
 }: SelectContentProps) {
 	const {
@@ -98,7 +100,10 @@ export function SelectContent({
 	}, [open, isMobile])
 
 	const handleKeyDown = useCallback(
-		(e: React.KeyboardEvent) => {
+		(e: React.KeyboardEvent<HTMLDivElement>) => {
+			onKeyDown?.(e)
+			if (e.defaultPrevented) return
+
 			switch (e.key) {
 				case "ArrowDown": {
 					e.preventDefault()
@@ -171,6 +176,7 @@ export function SelectContent({
 			setActiveIndex,
 			setOpen,
 			isMobile,
+			onKeyDown,
 		]
 	)
 
@@ -203,7 +209,7 @@ export function SelectContent({
 				/>
 				<div className="ml-select__sheet-stack absolute inset-x-ml-3 bottom-ml-3">
 					<div
-						ref={listboxRef}
+						ref={composeRefs(listboxRef, ref)}
 						id={listboxId}
 						role="listbox"
 						tabIndex={0}
@@ -233,7 +239,7 @@ export function SelectContent({
 
 	return (
 		<div
-			ref={listboxRef}
+			ref={composeRefs(listboxRef, ref)}
 			id={listboxId}
 			role="listbox"
 			tabIndex={0}

@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "../../lib/utils"
+import { cn, composeRefs } from "../../lib/utils"
 import { useSelectContext } from "./root"
 import type { SelectTriggerProps, SelectVariant } from "./types"
 
@@ -12,6 +12,9 @@ const triggerVariantClasses: Record<SelectVariant, string> = {
 export function SelectTrigger({
 	className,
 	children,
+	onClick,
+	onKeyDown,
+	ref,
 	type,
 	...props
 }: SelectTriggerProps) {
@@ -28,7 +31,7 @@ export function SelectTrigger({
 
 	return (
 		<button
-			ref={triggerRef}
+			ref={composeRefs(triggerRef, ref)}
 			type={type ?? "button"}
 			aria-expanded={open}
 			aria-haspopup="listbox"
@@ -38,8 +41,14 @@ export function SelectTrigger({
 				triggerVariantClasses[variant],
 				className
 			)}
-			onClick={() => setOpen(!open)}
+			onClick={(event) => {
+				onClick?.(event)
+				if (event.defaultPrevented) return
+				setOpen(!open)
+			}}
 			onKeyDown={(e) => {
+				onKeyDown?.(e)
+				if (e.defaultPrevented) return
 				if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
 					e.preventDefault()
 					setOpen(true)

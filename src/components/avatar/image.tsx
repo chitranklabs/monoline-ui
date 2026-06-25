@@ -8,12 +8,17 @@ export function AvatarImage({
 	className,
 	loading = "lazy",
 	decoding = "async",
+	ref,
 	...props
 }: AvatarImageProps) {
 	const Comp = asChild ? Slot : "img"
 	const imageProps = asChild ? props : { loading, decoding, ...props }
 
 	return (
-		<Comp className={cn("size-full object-cover", className)} {...imageProps} />
+		<Comp
+			ref={ref}
+			className={cn("size-full object-cover", className)}
+			{...imageProps}
+		/>
 	)
 }

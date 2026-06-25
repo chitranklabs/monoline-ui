@@ -9,6 +9,7 @@ export function NavbarLink({
 	external,
 	className,
 	children,
+	ref,
 	...props
 }: NavbarLinkProps) {
 	const Comp = asChild ? Slot : "a"
@@ -16,6 +17,7 @@ export function NavbarLink({
 	if (asChild) {
 		return (
 			<Comp
+				ref={ref}
 				aria-current={active ? "page" : undefined}
 				data-active={active || undefined}
 				className={cn("ml-navbar__link", className)}
@@ -28,6 +30,7 @@ export function NavbarLink({
 
 	return (
 		<Comp
+			ref={ref}
 			aria-current={active ? "page" : undefined}
 			data-active={active || undefined}
 			className={cn("ml-navbar__link", className)}

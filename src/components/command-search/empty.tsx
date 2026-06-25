@@ -2,14 +2,14 @@
 
 import { Command } from "cmdk"
 
-import { cn } from "@chitrank2050/monoline-ui/lib/utils"
-
+import { cn } from "../../lib/utils"
 import { useCommandSearch } from "./root"
 import type { CommandSearchEmptyProps } from "./types"
 
 export function CommandSearchEmpty({
 	className,
 	children,
+	ref,
 	...props
 }: CommandSearchEmptyProps) {
 	const { search, minChars } = useCommandSearch()
@@ -18,6 +18,7 @@ export function CommandSearchEmpty({
 
 	return (
 		<Command.Empty
+			ref={ref}
 			className={cn("ml-command-search__empty", className)}
 			{...props}
 		>

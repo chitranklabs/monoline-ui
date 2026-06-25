@@ -23,6 +23,7 @@ export function SelectItem({
 	value,
 	disabled,
 	children,
+	ref,
 	...props
 }: SelectItemProps) {
 	const {
@@ -36,6 +37,7 @@ export function SelectItem({
 
 	return (
 		<button
+			ref={ref}
 			type="button"
 			role="option"
 			aria-selected={selected}

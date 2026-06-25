@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { cn } from "../../lib/utils"
+import { cn, composeRefs } from "../../lib/utils"
 import type { SegmentedControlProps } from "./types"
 
 export function SegmentedControlRoot<T extends string>({
@@ -12,9 +12,16 @@ export function SegmentedControlRoot<T extends string>({
 	variant = "default",
 	size = "md",
 	className,
+	onKeyDown,
 	ref,
+	role,
+	...props
 }: SegmentedControlProps<T>) {
 	const containerRef = React.useRef<HTMLDivElement>(null)
+	const composedContainerRef = React.useMemo(
+		() => composeRefs(containerRef, ref),
+		[ref]
+	)
 	const indicatorRef = React.useRef<HTMLDivElement>(null)
 	const previousMetricsRef = React.useRef({ left: 0, width: 0 })
 
@@ -87,6 +94,9 @@ export function SegmentedControlRoot<T extends string>({
 				: 0
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		onKeyDown?.(e)
+		if (e.defaultPrevented) return
+
 		if (
 			e.key !== "ArrowRight" &&
 			e.key !== "ArrowLeft" &&
@@ -134,14 +144,9 @@ export function SegmentedControlRoot<T extends string>({
 	}
 
 	return (
-		// eslint-disable-next-line jsx-a11y/interactive-supports-focus -- roving tabindex on child radio buttons
 		<div
-			ref={(node) => {
-				containerRef.current = node
-				if (typeof ref === "function") ref(node)
-				else if (ref) ref.current = node
-			}}
-			role="radiogroup"
+			ref={composedContainerRef}
+			role={role ?? "radiogroup"}
 			onKeyDown={handleKeyDown}
 			className={cn(
 				"ml-segmented",
@@ -149,6 +154,7 @@ export function SegmentedControlRoot<T extends string>({
 				variant === "pill" && "ml-segmented--pill",
 				className
 			)}
+			{...props}
 		>
 			<div
 				ref={indicatorRef}

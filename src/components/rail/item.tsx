@@ -5,10 +5,12 @@ export function RailItem({
 	className,
 	active = false,
 	children,
+	ref,
 	...props
 }: RailItemProps) {
 	return (
 		<li
+			ref={ref}
 			data-active={active}
 			className={cn(
 				"flex cursor-pointer items-center gap-2.5 py-2 text-[13px] text-text-secondary transition-colors duration-(--duration-micro)",

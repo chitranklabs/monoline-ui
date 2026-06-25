@@ -2,8 +2,7 @@
 
 import { Command } from "cmdk"
 
-import { cn } from "@chitrank2050/monoline-ui/lib/utils"
-
+import { cn } from "../../lib/utils"
 import { useCommandSearch } from "./root"
 import type { CommandSearchInputProps } from "./types"
 
@@ -35,7 +34,14 @@ function SearchIcon() {
 
 export function CommandSearchInput({
 	className,
+	inputClassName,
+	ref,
 	size,
+	autoComplete = "off",
+	autoCorrect = "off",
+	autoFocus = true,
+	spellCheck = false,
+	...props
 }: CommandSearchInputProps) {
 	const { rawSearch, setRawSearch, placeholder, close } = useCommandSearch()
 
@@ -45,18 +51,21 @@ export function CommandSearchInput({
 				<SearchIcon />
 			</span>
 			<Command.Input
+				ref={ref}
 				className={cn(
 					"ml-command-search__input",
-					size === "lg" && "ml-command-search__input--lg"
+					size === "lg" && "ml-command-search__input--lg",
+					inputClassName
 				)}
 				placeholder={placeholder}
 				value={rawSearch}
 				onValueChange={setRawSearch}
-				autoComplete="off"
-				autoCorrect="off"
-				spellCheck={false}
+				autoComplete={autoComplete}
+				autoCorrect={autoCorrect}
+				spellCheck={spellCheck}
 				/* eslint-disable-next-line jsx-a11y/no-autofocus */
-				autoFocus
+				autoFocus={autoFocus}
+				{...props}
 			/>
 			<button
 				type="button"

@@ -1,5 +1,7 @@
 import type * as React from "react"
 
+import type { Command } from "cmdk"
+
 export interface CommandSearchProps {
 	open: boolean
 	onOpenChange: (open: boolean) => void
@@ -11,33 +13,36 @@ export interface CommandSearchProps {
 	filter?: (query: string, itemValue: string) => boolean
 	shouldFilter?: boolean
 	className?: string
+	ref?: React.Ref<HTMLDivElement>
 	children?: React.ReactNode
 	showFooter?: boolean
 }
 
-export interface CommandSearchInputProps {
+export interface CommandSearchInputProps extends Omit<
+	React.ComponentProps<typeof Command.Input>,
+	"children" | "className" | "onValueChange" | "placeholder" | "size" | "value"
+> {
 	className?: string
+	inputClassName?: string
 	size?: "sm" | "md" | "lg"
 }
 
-export type CommandSearchListProps = React.ComponentProps<"div">
+export type CommandSearchListProps = React.ComponentProps<typeof Command.List>
 
 export interface CommandSearchItemProps extends Omit<
-	React.ComponentPropsWithoutRef<"div">,
-	"onSelect"
+	React.ComponentProps<typeof Command.Item>,
+	"disabled" | "onSelect" | "value"
 > {
 	value: string
 	onSelect?: () => void
 	disabled?: boolean
 }
 
-export type CommandSearchEmptyProps = React.ComponentProps<"div">
+export type CommandSearchEmptyProps = React.ComponentProps<typeof Command.Empty>
 
-export interface CommandSearchGroupProps extends React.ComponentProps<"div"> {
-	heading?: string
-}
+export type CommandSearchGroupProps = React.ComponentProps<typeof Command.Group>
 
-export interface CommandSearchFooterProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface CommandSearchFooterProps extends React.ComponentProps<"div"> {
 	children?: React.ReactNode
 }
 
