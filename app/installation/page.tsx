@@ -1,27 +1,14 @@
-import type { Metadata } from "next"
-
 import { CodeBlock } from "../_components/code-block"
 import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"
+import { createPageMetadata } from "../lib/metadata"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Installation  monoline/ui component library",
 	description:
 		"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
-	openGraph: {
-		title: "Installation  monoline/ui component library",
-		description:
-			"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
-	},
-	twitter: {
-		title: "Installation  monoline/ui component library",
-		description:
-			"Get started with monoline/ui. Set up the Tailwind v4 design tokens, package theme import, and root theme provider in 5 minutes.",
-	},
-	alternates: {
-		canonical: "/installation",
-	},
-}
+	path: "/installation",
+})
 
 interface InstallStep {
 	number: string
@@ -97,7 +84,7 @@ export default function Page() {
 
 export default function InstallationPage() {
 	return (
-		<main className="install-page">
+		<main id="main-content" tabIndex={-1} className="install-page">
 			<header className="install-hero">
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
 				<h1>Installation</h1>

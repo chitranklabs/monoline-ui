@@ -2,8 +2,8 @@
 	"count": 36,
 	"components": [
 		"action-rail",
-		"author-footer",
 		"avatar",
+		"back-link",
 		"badge",
 		"button",
 		"callout",

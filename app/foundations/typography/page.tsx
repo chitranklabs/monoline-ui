@@ -1,23 +1,11 @@
-import type { Metadata } from "next"
+import { createPageMetadata } from "../../lib/metadata"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Typography  monoline/ui design foundations",
 	description:
 		"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
-	openGraph: {
-		title: "Typography  monoline/ui design foundations",
-		description:
-			"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
-	},
-	twitter: {
-		title: "Typography  monoline/ui design foundations",
-		description:
-			"Browse typefaces, text weights, sizes, and leading configurations defined by monoline/ui for high readability text.",
-	},
-	alternates: {
-		canonical: "/foundations/typography",
-	},
-}
+	path: "/foundations/typography",
+})
 
 const families = [
 	[
@@ -74,7 +62,7 @@ const scaleRows = [
 
 export default function TypographyPage() {
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Typography</p>
 				<h1>Three families. One job each.</h1>

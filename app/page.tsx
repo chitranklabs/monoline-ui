@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 
 import { Button } from "@chitrank2050/monoline-ui/button"
@@ -7,25 +6,14 @@ import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
+import { createPageMetadata } from "./lib/metadata"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "monoline/ui  Opinionated, token-first React component library",
 	description:
 		"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	openGraph: {
-		title: "monoline/ui  Opinionated, token-first React component library",
-		description:
-			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	},
-	twitter: {
-		title: "monoline/ui  Opinionated, token-first React component library",
-		description:
-			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	},
-	alternates: {
-		canonical: "/",
-	},
-}
+	path: "/",
+})
 
 const stats = [
 	[String(metadataJson.count), "Components"],
@@ -122,7 +110,7 @@ function PreviewCard() {
 
 export default function HomePage() {
 	return (
-		<main className="intro-page">
+		<main id="main-content" tabIndex={-1} className="intro-page">
 			<section className="intro-hero">
 				<div className="intro-hero__copy">
 					<div className="intro-pills">

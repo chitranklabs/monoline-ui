@@ -1,25 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import MetricPageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Metric Component  monoline/ui reference",
 	description:
 		"API reference and preview controls for the monoline/ui Metric component.",
-	openGraph: {
-		title: "Metric Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Metric component.",
-	},
-	twitter: {
-		title: "Metric Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Metric component.",
-	},
-	alternates: {
-		canonical: "/components/metric",
-	},
-}
+	path: "/components/metric",
+})
 
 export default function MetricPage() {
 	return <MetricPageClient />

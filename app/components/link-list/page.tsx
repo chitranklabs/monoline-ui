@@ -1,25 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import LinkListPageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "LinkList Component - monoline/ui reference",
 	description:
 		"API reference and preview controls for the monoline/ui LinkList component.",
-	openGraph: {
-		title: "LinkList Component - monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui LinkList component.",
-	},
-	twitter: {
-		title: "LinkList Component - monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui LinkList component.",
-	},
-	alternates: {
-		canonical: "/components/link-list",
-	},
-}
+	path: "/components/link-list",
+})
 
 export default function LinkListPage() {
 	return <LinkListPageClient />

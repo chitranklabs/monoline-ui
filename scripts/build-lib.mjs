@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process"
-import { cp, mkdir, readdir } from "node:fs/promises"
+import { cp, mkdir, readFile, readdir, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -31,6 +31,15 @@ const tsupBin = path.join(projectRoot, "node_modules", ".bin", "tsup")
 
 // Run tsup build
 await run(tsupBin)
+
+const clientEntryFiles = ["foundations/use-breakpoint.js"]
+for (const relativePath of clientEntryFiles) {
+	const filePath = path.join(distDir, relativePath)
+	const output = await readFile(filePath, "utf8")
+	if (!output.startsWith('"use client";')) {
+		await writeFile(filePath, `"use client";\n${output}`, "utf8")
+	}
+}
 
 // Copy foundation styles
 await mkdir(path.join(distDir, "styles"), { recursive: true })

@@ -1,15 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import ButtonPageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Button Component - monoline/ui reference",
 	description:
 		"API reference and variants for the monoline/ui Button component, including sizes, icon buttons, pill buttons, and asChild composition.",
-	alternates: {
-		canonical: "/components/button",
-	},
-}
+	path: "/components/button",
+})
 
 export default function ButtonPage() {
 	return <ButtonPageClient />

@@ -67,11 +67,26 @@ export function getWebpageJsonLd(identity: Identity | null, siteUrl: string) {
 	return jsonLd
 }
 
+function serializeJsonLd<T>(data: T) {
+	return JSON.stringify(data).replace(/[<\u2028\u2029]/g, (char) => {
+		switch (char) {
+			case "<":
+				return "\\u003c"
+			case "\u2028":
+				return "\\u2028"
+			case "\u2029":
+				return "\\u2029"
+			default:
+				return char
+		}
+	})
+}
+
 export default function JsonLd<T>({ data }: Props<T>) {
 	return (
 		<script
 			type="application/ld+json"
-			dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+			dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }}
 		/>
 	)
 }

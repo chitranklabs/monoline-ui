@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/next"
 
 import JsonLd, {
 	getPersonJsonLd,
-	getWebpageJsonLd,
 	getWebsiteJsonLd,
 } from "./_components/json-ld"
 import { SiteFooter } from "./_components/site-footer"
@@ -81,7 +80,6 @@ export default async function RootLayout({
 		"@graph": [
 			identity ? getPersonJsonLd(identity) : null,
 			getWebsiteJsonLd(identity, siteUrl),
-			getWebpageJsonLd(identity, siteUrl),
 		].filter(Boolean),
 	}
 
@@ -102,6 +100,9 @@ export default async function RootLayout({
 				<JsonLd data={personJsonLd} />
 				<ThemeProvider>
 					<div className="min-h-screen bg-background">
+						<a className="skip-link" href="#main-content">
+							Skip to content
+						</a>
 						<SiteHeader />
 						{children}
 						<SiteFooter />

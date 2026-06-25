@@ -1,15 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import EditorialLinePageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "EditorialLine Component - monoline/ui reference",
 	description:
 		"API reference and layout styles for the monoline/ui EditorialLine component, ideal for rendering elegant publication article lists or blog rows.",
-	alternates: {
-		canonical: "/components/editorial-line",
-	},
-}
+	path: "/components/editorial-line",
+})
 
 export default function EditorialLinePage() {
 	return <EditorialLinePageClient />

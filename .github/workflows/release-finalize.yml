@@ -95,6 +95,12 @@ jobs:
       - name: Install dependencies 📥
         run: pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Typecheck ✅
+        run: pnpm run typecheck
+
+      - name: Verify Generated Exports ✅
+        run: pnpm run sync-exports:check
+
       - name: Build Project 🏗️
         run: pnpm run build:all
 

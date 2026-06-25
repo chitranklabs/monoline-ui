@@ -1,63 +1,76 @@
 import { cn } from "../../lib/utils"
 import type { DataListItemProps } from "./types"
 
-export function DataListItem({
-	className,
-	label,
-	title,
-	description,
-	trailing,
-	children,
-	onClick,
-	ref,
-	...props
-}: DataListItemProps) {
+export function DataListItem(props: DataListItemProps) {
+	const { label, title, description, trailing, children } = props
+	const content = children ?? (
+		<>
+			{label ? <span className="ml-data-list__label">{label}</span> : null}
+			<div className="ml-data-list__content">
+				{title ? <span className="ml-data-list__title">{title}</span> : null}
+				{description ? (
+					<p className="ml-data-list__description">{description}</p>
+				) : null}
+			</div>
+			{trailing ? (
+				<span className="ml-data-list__trailing">{trailing}</span>
+			) : null}
+		</>
+	)
+
+	if (typeof props.onClick === "function") {
+		const {
+			className,
+			label: _label,
+			title: _title,
+			description: _description,
+			trailing: _trailing,
+			children: _children,
+			onClick,
+			ref,
+			type = "button",
+			...buttonProps
+		} = props
+
+		return (
+			<button
+				ref={ref}
+				type={type}
+				data-interactive="true"
+				className={cn("ml-data-list__item", className)}
+				onClick={onClick}
+				{...buttonProps}
+			>
+				{content}
+			</button>
+		)
+	}
+
+	const {
+		className,
+		label: _label,
+		title: _title,
+		description: _description,
+		trailing: _trailing,
+		children: _children,
+		onClick: _onClick,
+		ref,
+		...divProps
+	} = props
+
 	const isInteractive =
-		typeof onClick === "function" ||
-		props.role === "button" ||
-		props.role === "link" ||
-		props.tabIndex !== undefined
-
-	const handleKeyDown = onClick
-		? (e: React.KeyboardEvent<HTMLDivElement>) => {
-				if (e.key === "Enter" || e.key === " ") {
-					e.preventDefault()
-					onClick(e as unknown as React.MouseEvent<HTMLDivElement>)
-				}
-			}
-		: undefined
-
-	const interactiveProps =
-		onClick && !props.role
-			? { role: "button" as const, tabIndex: 0, onKeyDown: handleKeyDown }
-			: {}
+		divProps.role === "button" ||
+		divProps.role === "link" ||
+		divProps.tabIndex !== undefined
 
 	return (
-		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- keyboard support added via interactiveProps spread
 		<div
 			ref={ref}
 			data-interactive={isInteractive || undefined}
 			className={cn("ml-data-list__item", className)}
-			onClick={onClick}
-			{...interactiveProps}
-			{...props}
+			{...divProps}
 		>
-			{children ?? (
-				<>
-					{label ? <span className="ml-data-list__label">{label}</span> : null}
-					<div className="ml-data-list__content">
-						{title ? (
-							<span className="ml-data-list__title">{title}</span>
-						) : null}
-						{description ? (
-							<p className="ml-data-list__description">{description}</p>
-						) : null}
-					</div>
-					{trailing ? (
-						<span className="ml-data-list__trailing">{trailing}</span>
-					) : null}
-				</>
-			)}
+			{content}
 		</div>
 	)
 }

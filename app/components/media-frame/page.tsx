@@ -1,25 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import MediaFramePageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "MediaFrame Component  monoline/ui reference",
 	description:
 		"API reference and preview controls for the monoline/ui MediaFrame component.",
-	openGraph: {
-		title: "MediaFrame Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui MediaFrame component.",
-	},
-	twitter: {
-		title: "MediaFrame Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui MediaFrame component.",
-	},
-	alternates: {
-		canonical: "/components/media-frame",
-	},
-}
+	path: "/components/media-frame",
+})
 
 export default function MediaFramePage() {
 	return <MediaFramePageClient />

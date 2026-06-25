@@ -1,25 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import SectionHeadPageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "SectionHead Component  monoline/ui reference",
 	description:
 		"API reference and preview controls for the monoline/ui SectionHead component.",
-	openGraph: {
-		title: "SectionHead Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui SectionHead component.",
-	},
-	twitter: {
-		title: "SectionHead Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui SectionHead component.",
-	},
-	alternates: {
-		canonical: "/components/section-head",
-	},
-}
+	path: "/components/section-head",
+})
 
 export default function SectionHeadPage() {
 	return <SectionHeadPageClient />

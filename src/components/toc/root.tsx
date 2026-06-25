@@ -89,7 +89,7 @@ export function TocRoot({
 				<button
 					type="button"
 					onClick={() => setOpen(!open)}
-					className="flex w-full items-center justify-between cursor-pointer focus:outline-none"
+					className="flex w-full cursor-pointer items-center justify-between rounded-sm focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
 				>
 					{typeof displayHeading === "string" ? (
 						<Eyebrow className="m-0">{displayHeading}</Eyebrow>
@@ -105,10 +105,8 @@ export function TocRoot({
 				</button>
 				<div
 					className={cn(
-						"grid transition-all duration-200 ease-out",
-						open
-							? "grid-rows-[1fr] opacity-100 mt-3"
-							: "grid-rows-[0fr] opacity-0 mt-0"
+						"mt-3 grid transition-[grid-template-rows,opacity] duration-200 ease-out",
+						open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
 					)}
 				>
 					<div className="overflow-hidden">

@@ -1,23 +1,11 @@
-import type { Metadata } from "next"
+import { createPageMetadata } from "../../lib/metadata"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Colors  monoline/ui design foundations",
 	description:
 		"Learn how monoline/ui uses semantic CSS variables and design tokens for clean, responsive light/dark theme color switching.",
-	openGraph: {
-		title: "Colors  monoline/ui design foundations",
-		description:
-			"Learn how monoline/ui uses semantic CSS variables and design tokens for clean, responsive light/dark theme color switching.",
-	},
-	twitter: {
-		title: "Colors  monoline/ui design foundations",
-		description:
-			"Learn how monoline/ui uses semantic CSS variables and design tokens for clean, responsive light/dark theme color switching.",
-	},
-	alternates: {
-		canonical: "/foundations/colors",
-	},
-}
+	path: "/foundations/colors",
+})
 
 const colorGroups = [
 	{
@@ -107,7 +95,7 @@ const colorGroups = [
 
 export default function ColorsPage() {
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Colors</p>
 				<h1>Two palettes, one variable name.</h1>

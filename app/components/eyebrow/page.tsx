@@ -1,25 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import EyebrowPageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Eyebrow Component  monoline/ui reference",
 	description:
 		"API reference and preview controls for the monoline/ui Eyebrow component.",
-	openGraph: {
-		title: "Eyebrow Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Eyebrow component.",
-	},
-	twitter: {
-		title: "Eyebrow Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Eyebrow component.",
-	},
-	alternates: {
-		canonical: "/components/eyebrow",
-	},
-}
+	path: "/components/eyebrow",
+})
 
 export default function EyebrowPage() {
 	return <EyebrowPageClient />

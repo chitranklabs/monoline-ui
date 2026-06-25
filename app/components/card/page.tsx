@@ -1,25 +1,12 @@
-import type { Metadata } from "next"
-
+import { createPageMetadata } from "../../lib/metadata"
 import CardPageClient from "./client-page"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Card Component  monoline/ui reference",
 	description:
 		"API reference and preview controls for the monoline/ui Card component.",
-	openGraph: {
-		title: "Card Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Card component.",
-	},
-	twitter: {
-		title: "Card Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui Card component.",
-	},
-	alternates: {
-		canonical: "/components/card",
-	},
-}
+	path: "/components/card",
+})
 
 export default function CardPage() {
 	return <CardPageClient />

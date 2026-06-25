@@ -409,7 +409,7 @@ function ComponentPlaygroundClient<
 	}
 
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head docs-page__head--component">
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">

@@ -53,7 +53,7 @@ export function CodeBlockRoot({
 						type="button"
 						onClick={copy}
 						className={cn(
-							"absolute top-3 right-3 z-10 cursor-pointer rounded border border-border bg-card px-2 py-1 font-mono text-[10px] text-text-muted opacity-0 transition-all duration-(--duration-fast) hover:border-border-strong hover:text-text group-hover:opacity-100",
+							"absolute top-3 right-3 z-10 cursor-pointer rounded border border-border bg-card px-2 py-1 font-mono text-[10px] text-text-muted opacity-0 transition-[border-color,box-shadow,color,opacity] duration-(--duration-fast) hover:border-border-strong hover:text-text focus-visible:opacity-100 focus-visible:outline-none focus-visible:shadow-(--focus-ring) group-hover:opacity-100",
 							copied &&
 								"opacity-100 border-accent/30 text-accent hover:text-accent"
 						)}

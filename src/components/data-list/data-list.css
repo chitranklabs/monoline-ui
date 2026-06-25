@@ -34,6 +34,7 @@
 
 	.ml-data-list__item {
 		display: grid;
+		width: 100%;
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--ml-data-list-item-gap);
 		align-items: start;
@@ -43,6 +44,15 @@
 			background-color var(--duration-micro) var(--ease-out),
 			border-color var(--duration-micro) var(--ease-out),
 			box-shadow var(--duration-micro) var(--ease-out);
+	}
+
+	button.ml-data-list__item {
+		appearance: none;
+		padding-inline: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		text-align: inherit;
 	}
 
 	.ml-data-list__item[data-interactive="true"] {

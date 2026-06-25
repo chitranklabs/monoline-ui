@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, "..")
 const srcDir = path.join(projectRoot, "src")
 const componentsDir = path.join(srcDir, "components")
+const checkMode = process.argv.includes("--check")
+const mismatches = []
 
 async function fileExists(filePath) {
 	try {
@@ -16,6 +18,40 @@ async function fileExists(filePath) {
 	} catch {
 		return false
 	}
+}
+
+function generatedContentMatches(filePath, current, generated) {
+	if (filePath.endsWith(".json")) {
+		try {
+			return (
+				JSON.stringify(JSON.parse(current)) ===
+				JSON.stringify(JSON.parse(generated))
+			)
+		} catch {
+			return false
+		}
+	}
+
+	return current === generated
+}
+
+async function writeGenerated(filePath, content, label) {
+	if (checkMode) {
+		let current
+		try {
+			current = await readFile(filePath, "utf8")
+		} catch {
+			mismatches.push(path.relative(projectRoot, filePath))
+			return
+		}
+		if (!generatedContentMatches(filePath, current, content)) {
+			mismatches.push(path.relative(projectRoot, filePath))
+		}
+		return
+	}
+
+	await writeFile(filePath, content, "utf8")
+	console.log(label)
 }
 
 async function run() {
@@ -88,8 +124,11 @@ async function run() {
 	indexContentLines.push("")
 
 	const indexTsPath = path.join(srcDir, "index.ts")
-	await writeFile(indexTsPath, indexContentLines.join("\n"), "utf8")
-	console.log(`✓ Generated index.ts with ${components.length} components`)
+	await writeGenerated(
+		indexTsPath,
+		indexContentLines.join("\n"),
+		`✓ Generated index.ts with ${components.length} components`
+	)
 
 	// 5. Update package.json.lib
 	const pkgLibPath = path.join(projectRoot, "package.json.lib")
@@ -131,8 +170,11 @@ async function run() {
 	newExports["./package.json"] = "./package.json"
 
 	pkgLib.exports = newExports
-	await writeFile(pkgLibPath, JSON.stringify(pkgLib, null, "\t") + "\n", "utf8")
-	console.log(`✓ Updated package.json.lib exports`)
+	await writeGenerated(
+		pkgLibPath,
+		JSON.stringify(pkgLib, null, "\t") + "\n",
+		"✓ Updated package.json.lib exports"
+	)
 
 	// 6. Update tsconfig.json paths
 	const tsconfigPath = path.join(projectRoot, "tsconfig.json")
@@ -153,12 +195,11 @@ async function run() {
 	newPaths["@chitrank2050/monoline-ui/*"] = ["./src/*"]
 
 	tsconfig.compilerOptions.paths = newPaths
-	await writeFile(
+	await writeGenerated(
 		tsconfigPath,
 		JSON.stringify(tsconfig, null, "\t") + "\n",
-		"utf8"
+		"✓ Updated tsconfig.json paths"
 	)
-	console.log(`✓ Updated tsconfig.json paths`)
 
 	// 7. Output src/metadata.json
 	const metadata = {
@@ -166,14 +207,26 @@ async function run() {
 		components: components,
 	}
 	const metadataPath = path.join(srcDir, "metadata.json")
-	await writeFile(
+	await writeGenerated(
 		metadataPath,
 		JSON.stringify(metadata, null, "\t") + "\n",
-		"utf8"
-	)
-	console.log(
 		`✓ Generated src/metadata.json with component count: ${components.length}`
 	)
+
+	if (checkMode) {
+		if (mismatches.length > 0) {
+			console.error("Generated export files are out of sync:")
+			for (const file of mismatches) {
+				console.error(`- ${file}`)
+			}
+			console.error("Run `pnpm run sync-exports` and commit the updates.")
+			process.exit(1)
+		}
+		console.log(
+			`✓ Generated export files are in sync with ${components.length} components`
+		)
+		return
+	}
 
 	// 8. Format generated files
 	try {

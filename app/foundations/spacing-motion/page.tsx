@@ -1,23 +1,11 @@
-import type { Metadata } from "next"
+import { createPageMetadata } from "../../lib/metadata"
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
 	title: "Spacing & Motion  monoline/ui design foundations",
 	description:
 		"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	openGraph: {
-		title: "Spacing & Motion  monoline/ui design foundations",
-		description:
-			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	},
-	twitter: {
-		title: "Spacing & Motion  monoline/ui design foundations",
-		description:
-			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	},
-	alternates: {
-		canonical: "/foundations/spacing-motion",
-	},
-}
+	path: "/foundations/spacing-motion",
+})
 
 const spacingRows = [
 	["space-1", "4px", 4, "tight inline gap"],
@@ -51,7 +39,7 @@ const motion = [
 
 export default function SpacingMotionPage() {
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Spacing</p>
 				<h1>One scale. No orphan values.</h1>
