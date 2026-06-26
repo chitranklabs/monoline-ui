@@ -4,7 +4,7 @@ All notable changes to monoline-ui.
 
 ---
 
-## [0.1.1] - 2026-06-26
+## [0.1.0] - 2026-06-25
 
 ### Bug Fixes
 
@@ -165,9 +165,6 @@ All notable changes to monoline-ui.
 - **ci:** Format generated release files in prepare workflow ([9465df0](https://github.com/chitranklabs/monoline-ui/commit/9465df0e6d891ece3558d2ef929c82c9567e5cea))
 - Configure pnpm environment & use pnpm for deps installation & formatting in release workflow ([7ead416](https://github.com/chitranklabs/monoline-ui/commit/7ead416c22e46c2b836b55cbc65cfcb441450035))
 - Enforce explicit json formatting for package.json.lib & apply consistent linting across app ([8ea4954](https://github.com/chitranklabs/monoline-ui/commit/8ea4954cf0243127707a141d286d7a4d519fdfcc))
-- Remove paths-ignore from pull request workflow triggers ([49e98b0](https://github.com/chitranklabs/monoline-ui/commit/49e98b02472aa240c49ff06775a725803e0bbfb7))
-- Update npm registry configuration and JSR publish flags in release-finalize workflow ([8aa7a68](https://github.com/chitranklabs/monoline-ui/commit/8aa7a68e88bd6a5d340e4a13e21ad376cb292fac))
-- Update Deno version to v2.x and switch to native deno publish command ([013cb8d](https://github.com/chitranklabs/monoline-ui/commit/013cb8da208de4364338c157984749c782ca5644))
 
 ### Performance
 
@@ -231,8 +228,6 @@ All notable changes to monoline-ui.
 - Consolidate page metadata management with a shared helper utility ([9f80e8f](https://github.com/chitranklabs/monoline-ui/commit/9f80e8f1288cfc284cc72e36ccccb56033a8c803))
 - Optimize select keyboard navigation & state management while updating back-link comp type ([a64db5d](https://github.com/chitranklabs/monoline-ui/commit/a64db5d1464f879ac01ce405e017ddfaaafed30b))
 - Centralize component CSS imports into theme.css and update package exports ([2de29d6](https://github.com/chitranklabs/monoline-ui/commit/2de29d68aa61408882fac37587d3dfe77baa76d5))
-- Expand linting scope in lefthook and clean up prettier execution in sync-exports ([e1d6ba3](https://github.com/chitranklabs/monoline-ui/commit/e1d6ba3b13fe7c69fef4e0654f1fd792b83d6559))
-- Add JSDoc modules and improve TypeScript component type definitions across the library ([868950c](https://github.com/chitranklabs/monoline-ui/commit/868950cb9f5116ff731decd1a348b844028148c2))
 
 ### Testing
 
