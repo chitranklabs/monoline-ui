@@ -1,6 +1,8 @@
 import type * as React from "react"
 
-export type RailProps = React.ComponentProps<"ul">
+export interface RailProps extends Omit<React.ComponentProps<"div">, "title"> {
+	title?: React.ReactNode
+}
 
 export interface RailItemProps extends React.ComponentProps<"li"> {
 	active?: boolean

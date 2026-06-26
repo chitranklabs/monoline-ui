@@ -370,7 +370,9 @@
 	--space-1: 0.25rem;
 	--space-1-5: 0.375rem;
 	--space-2: 0.5rem;
+	--space-2-5: 0.625rem;
 	--space-3: 0.75rem;
+	--space-3-5: 0.875rem;
 	--space-4: 1rem;
 	--space-5: 1.25rem;
 	--space-6: 1.5rem;
@@ -378,6 +380,7 @@
 	--space-8: 2rem;
 	--space-9: 2.25rem;
 	--space-10: 2.5rem;
+	--space-11: 2.75rem;
 	--space-12: 3rem;
 	--space-14: 3.5rem;
 	--space-16: 4rem;
@@ -466,7 +469,9 @@
 	--ml-space-1: var(--space-1);
 	--ml-space-1-5: var(--space-1-5);
 	--ml-space-2: var(--space-2);
+	--ml-space-2-5: var(--space-2-5);
 	--ml-space-3: var(--space-3);
+	--ml-space-3-5: var(--space-3-5);
 	--ml-space-4: var(--space-4);
 	--ml-space-5: var(--space-5);
 	--ml-space-6: var(--space-6);
@@ -474,6 +479,7 @@
 	--ml-space-8: var(--space-8);
 	--ml-space-9: var(--space-9);
 	--ml-space-10: var(--space-10);
+	--ml-space-11: var(--space-11);
 	--ml-space-12: var(--space-12);
 	--ml-space-14: var(--space-14);
 	--ml-space-16: var(--space-16);

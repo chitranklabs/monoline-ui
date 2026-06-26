@@ -3,10 +3,10 @@ import type { Metadata } from "next"
 import { createPageMetadata } from "../../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Spacing & Motion - monoline/ui foundations",
+	title: "Spacing - monoline/ui foundations",
 	description:
-		"Review the spacing scale and motion tokens used across monoline/ui components.",
-	path: "/foundations/spacing-motion",
+		"Review the spacing scale tokens used across monoline/ui components.",
+	path: "/foundations/spacing",
 })
 
 const spacingRows = [
@@ -24,14 +24,7 @@ const spacingRows = [
 	["space-16", "64px", 64, "section ↔ section on desktop"],
 ] as const
 
-const motion = [
-	["duration-micro", "100ms", "button, focus, and tag feedback"],
-	["duration-short", "180ms", "indicators, toggles, and image color"],
-	["duration-medium", "240ms", "sheets and larger surfaces"],
-	["duration-long", "360ms", "deliberate entry motion"],
-] as const
-
-export default function SpacingMotionPage() {
+export default function SpacingPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
@@ -58,27 +51,6 @@ export default function SpacingMotionPage() {
 							</div>
 							<span className="spacing-table__use">{use}</span>
 						</div>
-					))}
-				</div>
-			</section>
-
-			<section className="docs-section" id="motion">
-				<div className="docs-subhead">
-					<h2>Motion</h2>
-					<p>
-						Four durations, two easings. Use named tokens instead of raw ms in
-						components.
-					</p>
-				</div>
-				<div className="motion-grid">
-					{motion.map(([token, value, use]) => (
-						<article key={token} className="motion-card">
-							<div className="motion-card__head">
-								<h3>--{token}</h3>
-								<span>{value}</span>
-							</div>
-							<p>{use}</p>
-						</article>
 					))}
 				</div>
 			</section>

@@ -54,7 +54,7 @@ export default function SkeletonPageClient() {
 							<Skeleton variant="rect" className="h-ml-12 w-ml-28" />
 						)}
 						{variant === "pill" && (
-							<Skeleton variant="pill" className="h-ml-6 w-ml-40" />
+							<Skeleton variant="pill" className="h-ml-6 w-ml-32" />
 						)}
 						{variant === "circle" && (
 							<Skeleton variant="circle" className="size-ml-16" />
