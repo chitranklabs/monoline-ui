@@ -1,3 +1,7 @@
+/**
+ * @module toggle
+ * Description for toggle component.
+ */
 import { ToggleRoot } from "./root"
 
 export * from "./types"
