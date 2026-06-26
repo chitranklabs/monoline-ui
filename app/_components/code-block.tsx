@@ -32,6 +32,8 @@ export function CodeBlock({
 	return (
 		<LibCodeBlock filename={fileName} code={code} language={language}>
 			<pre
+				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+				tabIndex={0}
 				className={`ml-code-block__pre m-0 overflow-auto p-4 font-mono text-[12.5px] leading-[1.7] language-${language}`}
 			>
 				{html !== null ? (
