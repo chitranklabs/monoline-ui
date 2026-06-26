@@ -1,6 +1,6 @@
 import type * as React from "react"
 
-export interface RailProps extends React.ComponentProps<"div"> {
+export interface RailProps extends Omit<React.ComponentProps<"div">, "title"> {
 	title?: React.ReactNode
 }
 
