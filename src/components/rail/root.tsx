@@ -3,14 +3,19 @@ import type { RailProps } from "./types"
 
 export function RailRoot({
 	className,
+	title,
+	children,
 	ref,
 	...props
 }: RailProps): React.ReactElement {
 	return (
-		<ul
-			ref={ref}
-			className={cn("m-0 flex list-none flex-col gap-0.5 p-0", className)}
-			{...props}
-		/>
+		<div ref={ref} className={cn("ml-rail", className)} {...props}>
+			{title ? (
+				<header className="ml-rail__header">
+					<span className="ml-rail__title">{title}</span>
+				</header>
+			) : null}
+			<ul className="ml-rail__list">{children}</ul>
+		</div>
 	)
 }

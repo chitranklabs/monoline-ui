@@ -7,10 +7,6 @@ export function RailCount({
 	...props
 }: RailCountProps): React.ReactElement {
 	return (
-		<span
-			ref={ref}
-			className={cn("font-mono text-[11px] text-text-muted", className)}
-			{...props}
-		/>
+		<span ref={ref} className={cn("ml-rail__count", className)} {...props} />
 	)
 }

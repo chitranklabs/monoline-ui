@@ -3,13 +3,21 @@ glob_matcher: doublestar
 pre-commit:
   parallel: true
   commands:
+    # Auto-sync exports when component source files change
+    sync-exports:
+      glob: "src/{components,foundations,lib}/**/*.{ts,tsx,css}"
+      run: pnpm run sync-exports && git add tsconfig.json jsr.json package.json.lib src/index.ts src/metadata.json src/foundations/theme.css
+      stage_fixed: true
+
     # Block commits that contain secrets/credentials
     secrets:
       run: gitleaks protect --staged --redact -v
 
-    # TS/TSX - ESLint + Prettier
+    # JS/TS/MJS - ESLint + Prettier
     lint-ts:
-      glob: "{src,tests,app}/**/*.{ts,tsx}"
+      glob:
+        - "{src,tests,app,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
+        - "*.{ts,tsx,js,jsx,mjs,cjs}"
       run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
       stage_fixed: true
 

@@ -1,3 +1,7 @@
+/**
+ * @module Card
+ * Description for Card component.
+ */
 import { CardAction } from "./action"
 import { CardArrow } from "./arrow"
 import { CardBody } from "./body"
@@ -14,7 +18,21 @@ import { CardTitle } from "./title"
 
 export * from "./types"
 
-export const Card = Object.assign(CardRoot, {
+export const Card: typeof CardRoot & {
+	displayName: string
+	Action: typeof CardAction
+	Image: typeof CardImage
+	ImageCaption: typeof CardImageCaption
+	Body: typeof CardBody
+	Header: typeof CardHeader
+	Meta: typeof CardMeta
+	Title: typeof CardTitle
+	Eyebrow: typeof CardEyebrow
+	Description: typeof CardDescription
+	Footer: typeof CardFooter
+	TagList: typeof CardTagList
+	Arrow: typeof CardArrow
+} = Object.assign(CardRoot, {
 	displayName: "Card",
 	Action: CardAction,
 	Image: CardImage,
