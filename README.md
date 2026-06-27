@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assets/logo_stroke.png" alt="monoline-ui logo" width="200" height="auto" />
+  <img src="./assets/logo_stroke.png" alt="monoline-ui logo" width="200" height="auto" style="background: #000; padding: 24px; border-radius: 32px;" />
   <br/>
   <br/>
   <br/>
