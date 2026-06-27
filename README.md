@@ -1,4 +1,8 @@
 <div align="center">
+  <img src="./assets/logo.png" alt="monoline-ui logo" width="200" height="auto" />
+  <br/>
+  <br/>
+  <br/>
   <h1>monoline-ui</h1>
 
   <p>A monochrome-first, layout-focused React component library.<br/>
@@ -6,13 +10,34 @@
 
   <p>
     <a href="https://www.npmjs.com/package/@chitrank2050/monoline-ui">
-      <img src="https://img.shields.io/npm/v/@chitrank2050/monoline-ui?color=black&style=flat-square" alt="npm version" />
+    <img src="https://img.shields.io/npm/v/@chitrank2050/monoline-ui" alt="npm" />
     </a>
+    <a href="https://jsr.io/@chitrank2050/monoline-ui">
+    <img src="https://jsr.io/badges/@chitrank2050/monoline-ui" alt="JSR" />
+    </a>
+  </p>
+
+  <p>
     <a href="https://github.com/chitranklabs/monoline-ui/actions/workflows/ci.yml">
       <img src="https://img.shields.io/github/actions/workflow/status/chitranklabs/monoline-ui/ci.yml?branch=main&style=flat-square" alt="CI Status" />
     </a>
+    <a href="https://bestpractices.coreinfrastructure.org/projects/1">
+      <img src="https://bestpractices.coreinfrastructure.org/projects/1/badge" alt="OpenSSF Best Practices" />
+    </a>
+    <a href="https://github.com/chitranklabs/monoline-ui/actions/workflows/scorecard.yml">
+      <img src="https://github.com/chitranklabs/monoline-ui/actions/workflows/scorecard.yml/badge.svg" alt="Scorecard Status" />
+    </a>
+    <a href="https://scorecard.dev/viewer/?uri=github.com/chitranklabs/monoline-ui">
+      <img src="https://api.scorecard.dev/projects/github.com/chitranklabs/monoline-ui/badge" alt="OpenSSF Scorecard" />
+    </a>
+    <a href="https://github.com/gitleaks/gitleaks">
+      <img src="https://img.shields.io/badge/Security-Gitleaks-brightgreen?logo=gitleaks" alt="Security: Gitleaks" />
+    </a>
+    <a href="https://github.com/chitranklabs/monoline-ui/attestations">
+      <img src="https://img.shields.io/badge/SLSA-Level_3-blue?logo=slsa" alt="SLSA Level 3" />
+    </a>
     <a href="./LICENSE">
-      <img src="https://img.shields.io/npm/l/@chitrank2050/monoline-ui?color=black&style=flat-square" alt="License" />
+      <img src="https://img.shields.io/github/license/chitranklabs/monoline-ui" alt="License" />
     </a>
   </p>
 

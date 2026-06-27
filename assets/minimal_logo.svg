@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <!-- Dark background -->
+  <rect width="800" height="800" fill="#09090b" rx="180" />
+  
+  <!-- Subtle layout/alignment lines to emphasize the "layout-focused" nature of the library -->
+  <line x1="200" y1="300" x2="600" y2="300" stroke="#27272a" stroke-width="3" stroke-dasharray="12,12" />
+  <line x1="200" y1="500" x2="600" y2="500" stroke="#27272a" stroke-width="3" stroke-dasharray="12,12" />
+  <line x1="300" y1="200" x2="300" y2="600" stroke="#27272a" stroke-width="3" stroke-dasharray="12,12" />
+  <line x1="500" y1="200" x2="500" y2="600" stroke="#27272a" stroke-width="3" stroke-dasharray="12,12" />
+  
+  <!-- The single bold horizontal stroke -->
+  <line x1="200" y1="400" x2="600" y2="400" stroke="#ffffff" stroke-width="56" stroke-linecap="square" />
+</svg>
