@@ -12,8 +12,7 @@ export interface DocsNavGroup {
 export const primaryNav: DocsNavItem[] = [
 	{ href: "/", label: "Introduction" },
 	{ href: "/installation", label: "Installation" },
-	{ href: "/foundations/colors", label: "Foundations" },
-	{ href: "/components/footer", label: "Components" },
+	{ href: "/foundations/colors", label: "Documentation" },
 ] as const
 
 export const foundationsNav: DocsNavItem[] = [

@@ -71,7 +71,7 @@ export function DocsNavigation({
 							) : (
 								<span
 									key={item.label}
-									className="site-menu-drawer__item is-muted"
+									className="flex items-center justify-between text-(--text-muted) opacity-55 text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1]"
 								>
 									{item.label}
 								</span>
@@ -171,9 +171,9 @@ function DrawerSection({
 	children: ReactNode
 }) {
 	return (
-		<section className="site-menu-drawer__section">
-			<p>{label}</p>
-			<div>{children}</div>
+		<section className="mb-8">
+			<p className="mb-[0.875rem] text-(--text-muted) font-semibold">{label}</p>
+			<div className="grid gap-3">{children}</div>
 		</section>
 	)
 }
@@ -190,7 +190,7 @@ function DrawerLink({
 	return (
 		<Link
 			href={href ?? "/"}
-			className="site-menu-drawer__item"
+			className="flex items-center justify-between text-(--text) no-underline text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1] aria-[current=page]:text-(--accent)"
 			aria-current={active ? "page" : undefined}
 		>
 			{children}

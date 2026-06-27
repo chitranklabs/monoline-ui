@@ -26,9 +26,9 @@ export function CliBadge() {
 			className="font-mono text-xs"
 			aria-label={copied ? "Copied command" : "Copy installation command"}
 		>
-			<span className="font-bold text-(--accent)">$</span>
+			<span className="font-bold text-accent">$</span>
 			<span className="[user-select:all]">npm i @chitrank2050/monoline-ui</span>
-			<span className="flex size-[0.875rem] items-center justify-center text-(--text-muted) transition-colors duration-[var(--duration-short)] ease-[var(--ease-out-expo)]">
+			<span className="flex size-3.5 items-center justify-center text-text-muted transition-colors duration-(--duration-short) ease-out-expo">
 				{copied ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ export function CliBadge() {
 						strokeWidth="2.5"
 						strokeLinecap="round"
 						strokeLinejoin="round"
-						className="animate-scale-in size-full text-(--accent)"
+						className="animate-scale-in size-full text-accent"
 					>
 						<polyline points="20 6 9 17 4 12" />
 					</svg>

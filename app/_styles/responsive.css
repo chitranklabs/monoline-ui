@@ -1,14 +1,5 @@
 /* Keep these media query values aligned with monolineBreakpoints in the package. */
 @media (max-width: 63.9375rem) {
-	.site-header__inner {
-		grid-template-columns: 1fr auto;
-		height: 3.5rem;
-		padding-inline: 1.25rem;
-	}
-
-	.site-version,
-	.site-nav,
-	.site-actions,
 	.ml-navbar__nav,
 	.ml-navbar__actions {
 		display: none;
@@ -71,15 +62,6 @@
 }
 
 @media (min-width: 48rem) and (max-width: 63.9375rem) {
-	.site-header__inner {
-		grid-template-columns: 1fr auto;
-		height: 3.5rem;
-		padding-inline: 1.25rem;
-	}
-
-	.site-version,
-	.site-nav,
-	.site-actions,
 	.ml-navbar__nav,
 	.ml-navbar__actions {
 		display: none;
@@ -175,10 +157,6 @@
 }
 
 @media (max-width: 32.5rem) {
-	.site-wordmark {
-		font-size: 0.9375rem;
-	}
-
 	.intro-page {
 		padding-top: 2.375rem;
 	}
@@ -331,10 +309,6 @@
 	.docs-pager {
 		margin-top: 2.5rem;
 		padding-top: 1rem;
-	}
-
-	.site-menu-drawer__search {
-		display: none;
 	}
 
 	.props-table__row {
