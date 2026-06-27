@@ -42,7 +42,7 @@ export default function RadiusPage() {
 					{radii.map(([token, px, use]) => (
 						<article key={token} className="radius-card">
 							<div style={{ borderRadius: `var(--${token})` }} />
-							<h3>--{token}</h3>
+							<h3 className="pt-3">--{token}</h3>
 							<p>
 								{px} · {use}
 							</p>

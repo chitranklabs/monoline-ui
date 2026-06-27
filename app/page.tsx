@@ -136,7 +136,7 @@ export default function HomePage() {
 				<div className="intro-hero__copy">
 					<div className="intro-pills flex flex-wrap gap-ml-2-5 mb-ml-6">
 						<Status variant="accent" size="md" animate>
-							Public beta · v{pkgJson.version}
+							v{pkgJson.version}
 						</Status>
 					</div>
 					<h1 className="max-w-140 text-text font-mono text-[clamp(2.6875rem,5.3vw,3.875rem)] font-extrabold tracking-[-0.073em] leading-[0.915]">

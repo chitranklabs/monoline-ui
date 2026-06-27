@@ -55,7 +55,7 @@ export function SiteFooter() {
 				})),
 			}))}
 			subscribe={false}
-			meta="© 2026 monoline/ui · MIT license"
+			meta={`© ${new Date().getFullYear()} monoline/ui · MIT license`}
 			attribution="A single horizontal stroke. Hence the name."
 			linkComponent={SiteFooterLink}
 		/>

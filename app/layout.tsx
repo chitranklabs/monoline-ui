@@ -6,6 +6,7 @@ import JsonLd, {
 	getPersonJsonLd,
 	getWebsiteJsonLd,
 } from "./_components/json-ld"
+import { ScrollToTop } from "./_components/scroll-to-top"
 import { SiteFooter } from "./_components/site-footer"
 import { SiteHeader } from "./_components/site-header"
 import { ThemeProvider } from "./_components/theme-provider"
@@ -99,6 +100,7 @@ export default async function RootLayout({
 				/>
 				<JsonLd data={personJsonLd} />
 				<ThemeProvider>
+					<ScrollToTop />
 					<div className="min-h-screen bg-background">
 						<a className="skip-link" href="#main-content">
 							Skip to content
