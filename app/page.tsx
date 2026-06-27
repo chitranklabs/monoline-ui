@@ -1,12 +1,14 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { Badge } from "@chitrank2050/monoline-ui/badge"
 import { Button } from "@chitrank2050/monoline-ui/button"
 import { Card } from "@chitrank2050/monoline-ui/card"
+import { Container } from "@chitrank2050/monoline-ui/container"
 import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 import { SectionHead } from "@chitrank2050/monoline-ui/section-head"
+import { Status } from "@chitrank2050/monoline-ui/status"
 
+import pkgJson from "../package.json"
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
 import { createPageMetadata } from "./lib/metadata"
@@ -45,7 +47,6 @@ const components = [
 	["Input", "Text fields with prefix and suffix slots"],
 	["Toggle", "Accessible switch control"],
 	["SegmentedControl", "Single-select control groups"],
-	["Tag", "Filter pills and metadata chips"],
 ]
 
 const rules = [
@@ -69,10 +70,10 @@ const rules = [
 function PreviewCard() {
 	return (
 		<div
-			className="intro-preview overflow-hidden border border-(--border) rounded-[var(--radius-xl)] bg-(--surface) shadow-md mt-ml-10 ml-ml-1-5"
+			className="intro-preview overflow-hidden border border-border rounded-xl bg-surface shadow-md mt-ml-10 ml-ml-1-5"
 			aria-label="Component preview"
 		>
-			<div className="flex h-[2.125rem] items-center justify-between border-b border-(--border) bg-(--surface-2) px-ml-4 font-mono text-2xs font-bold text-(--text-muted)">
+			<div className="flex h-8.5 items-center justify-between border-b border-border bg-surface-2 px-ml-4 font-mono text-2xs font-bold text-text-muted">
 				<div className="flex gap-ml-2">
 					<span
 						className="size-ml-2 rounded-full"
@@ -125,25 +126,25 @@ function PreviewCard() {
 
 export default function HomePage() {
 	return (
-		<main
+		<Container
+			as="main"
 			id="main-content"
 			tabIndex={-1}
-			className="intro-page mx-auto w-[min(70rem,_calc(100%_-_3rem))] pt-ml-24"
+			className="intro-page pt-ml-24"
 		>
 			<section className="intro-hero grid grid-cols-[minmax(0,1fr)_25.5rem] items-start gap-ml-12">
 				<div className="intro-hero__copy">
 					<div className="intro-pills flex flex-wrap gap-ml-2-5 mb-ml-6">
-						<Badge variant="accent">• Now in public beta</Badge>
-						<Badge variant="outline">v0.2.0</Badge>
+						<Status variant="accent" size="md" animate>
+							Public beta · v{pkgJson.version}
+						</Status>
 					</div>
-					<h1 className="max-w-[35rem] text-(--text) font-mono text-[clamp(2.6875rem,5.3vw,3.875rem)] font-extrabold tracking-[-0.073em] leading-[0.915]">
+					<h1 className="max-w-140 text-text font-mono text-[clamp(2.6875rem,5.3vw,3.875rem)] font-extrabold tracking-[-0.073em] leading-[0.915]">
 						A component library
 						<br />
-						<span className="text-(--text-secondary)">
-							with a point of view.
-						</span>
+						<span className="text-text-secondary">with a point of view.</span>
 					</h1>
-					<p className="max-w-[29.375rem] mt-ml-4 text-(--text-secondary) text-base font-medium leading-normal">
+					<p className="max-w-117.5 mt-ml-4 text-text-secondary text-base font-medium leading-normal">
 						{metadataJson.count} components for personal sites, portfolios, and
 						developer docs. Monochrome by default, one warm accent, two themes.
 						Drop in the package, change the brand color, and ship.
@@ -165,30 +166,30 @@ export default function HomePage() {
 			</section>
 
 			<section
-				className="intro-stats grid grid-cols-4 gap-ml-6 mt-ml-11 border-y border-(--border) py-ml-5 min-h-[9.375rem] items-center"
+				className="intro-stats grid grid-cols-4 gap-ml-6 mt-ml-11 border-y border-border py-ml-5 min-h-37.5 items-center"
 				aria-label="Project stats"
 			>
 				{stats.map(([value, label]) => (
 					<div key={label}>
-						<strong className="block font-mono text-xl font-bold leading-none tracking-heading text-(--text)">
+						<strong className="block font-mono text-xl font-bold leading-none tracking-heading text-text">
 							{value}
 						</strong>
-						<span className="mt-ml-1-5 block font-mono text-3xs font-bold uppercase tracking-eyebrow text-(--text-muted)">
+						<span className="mt-ml-1-5 block font-mono text-3xs font-bold uppercase tracking-eyebrow text-text-muted">
 							{label}
 						</span>
 					</div>
 				))}
 			</section>
 
-			<section className="intro-band mt-ml-20 border-b border-(--border) pb-ml-8">
+			<section className="intro-band mt-ml-20 border-b border-border pb-ml-8">
 				<p className="ml-eyebrow">Built for</p>
 				<div className="intro-band__grid grid grid-cols-4 gap-ml-8 mt-ml-4">
 					{builtFor.map(([title, description]) => (
 						<div key={title}>
-							<h2 className="text-(--text) text-sm font-bold tracking-body">
+							<h2 className="text-text text-sm font-bold tracking-body">
 								{title}
 							</h2>
-							<p className="mt-ml-1-5 text-(--text-muted) text-xs font-medium leading-normal">
+							<p className="mt-ml-1-5 text-text-muted text-xs font-medium leading-normal">
 								{description}
 							</p>
 						</div>
@@ -206,19 +207,23 @@ export default function HomePage() {
 					/>
 					<Link
 						href="/components/footer"
-						className="intro-section__link shrink-0 text-(--accent) text-xs font-semibold"
+						className="intro-section__link group inline-flex items-center gap-ml-2 shrink-0 text-xs font-medium no-underline transition-colors duration-(--duration-short) ease-out text-accent"
 					>
-						All components →
+						All components
+						<span
+							aria-hidden="true"
+							className="inline-block h-px w-5 bg-current transition-[width] duration-(--duration-short) ease-out group-hover:w-7"
+						/>
 					</Link>
 				</div>
 				<div className="intro-components grid grid-cols-4 gap-ml-2 mt-ml-6">
 					{components.map(([title, description]) => (
 						<Card key={title} size="sm">
 							<Card.Body>
-								<h3 className="m-0 text-sm font-bold tracking-body text-(--text)">
+								<h3 className="m-0 text-sm font-bold tracking-body text-text">
 									{title}
 								</h3>
-								<p className="m-0 mt-ml-1-5 text-xs font-medium leading-normal text-(--text-muted)">
+								<p className="m-0 mt-ml-1-5 text-xs font-medium leading-normal text-text-muted">
 									{description}
 								</p>
 							</Card.Body>
@@ -238,13 +243,13 @@ export default function HomePage() {
 					{rules.map(([number, title, description]) => (
 						<Card key={number} size="md">
 							<Card.Body>
-								<span className="mb-ml-2-5 block font-mono text-2xs font-bold text-(--accent)">
+								<span className="mb-ml-2-5 block font-mono text-2xs font-bold text-accent">
 									{number}
 								</span>
-								<h3 className="m-0 mb-ml-2 text-base font-semibold tracking-body text-(--text)">
+								<h3 className="m-0 mb-ml-2 text-base font-semibold tracking-body text-text">
 									{title}
 								</h3>
-								<p className="m-0 text-xs font-medium leading-normal text-(--text-muted)">
+								<p className="m-0 text-xs font-medium leading-normal text-text-muted">
 									{description}
 								</p>
 							</Card.Body>
@@ -252,6 +257,6 @@ export default function HomePage() {
 					))}
 				</div>
 			</section>
-		</main>
+		</Container>
 	)
 }

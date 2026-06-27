@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { Container } from "@chitrank2050/monoline-ui/container"
+
 import { CodeBlock } from "../_components/code-block"
 import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"
@@ -86,10 +88,11 @@ export default function Page() {
 
 export default function InstallationPage() {
 	return (
-		<main
+		<Container
+			as="main"
 			id="main-content"
 			tabIndex={-1}
-			className="install-page mx-auto w-[min(100%-3rem,_50rem)] pt-ml-14 pb-ml-20"
+			className="install-page pt-ml-14 pb-ml-20"
 		>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
@@ -162,6 +165,6 @@ export default function InstallationPage() {
 			</div>
 
 			<DocsPager />
-		</main>
+		</Container>
 	)
 }

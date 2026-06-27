@@ -19,12 +19,7 @@
 	}
 
 	.intro-page {
-		width: min(100% - 2.5rem, 47.5rem);
 		padding-top: 2.75rem;
-	}
-
-	.install-page {
-		width: min(100% - 3.25rem, 48.875rem);
 	}
 
 	.intro-hero {
@@ -95,7 +90,6 @@
 	}
 
 	.intro-page {
-		width: min(100% - 3rem, 49.125rem);
 		padding-top: 3.5rem;
 	}
 
@@ -186,12 +180,10 @@
 	}
 
 	.intro-page {
-		width: calc(100% - 2.5rem);
 		padding-top: 2.375rem;
 	}
 
 	.install-page {
-		width: calc(100% - 1.75rem);
 		padding-top: 2.375rem;
 		padding-bottom: 4rem;
 	}
