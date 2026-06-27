@@ -47,7 +47,7 @@ export default function MetricPageClient() {
 	return (
 		<ComponentPlayground<MetricSize>
 			title="Metric"
-			description="Render compact stats with monoline typography, optional trend state, and token-backed spacing."
+			description="Show key numbers with labels, descriptions, and optional trend state."
 			sizes={metricSizes}
 			defaultSize="md"
 			importStatement='import { Metric } from "@chitrank2050/monoline-ui/components/metric"'

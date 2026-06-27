@@ -12,15 +12,15 @@ export interface DocsNavGroup {
 export const primaryNav: DocsNavItem[] = [
 	{ href: "/", label: "Introduction" },
 	{ href: "/installation", label: "Installation" },
-	{ href: "/foundations/colors", label: "Foundations" },
-	{ href: "/components/footer", label: "Components" },
+	{ href: "/foundations/colors", label: "Documentation" },
 ] as const
 
 export const foundationsNav: DocsNavItem[] = [
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
-	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
-	{ href: "/foundations/spacing-motion#motion", label: "Motion" },
+	{ href: "/foundations/spacing", label: "Spacing" },
+	{ href: "/foundations/radius", label: "Radius" },
+	{ href: "/foundations/motion", label: "Motion" },
 ] as const
 
 export const componentNavGroups: DocsNavGroup[] = [
@@ -30,7 +30,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ href: "/components/card", label: "Card" },
 			{ href: "/components/media-frame", label: "MediaFrame" },
 			{ href: "/components/section-head", label: "SectionHead" },
-			{ label: "Container" },
+			{ href: "/components/container", label: "Container" },
 			{ href: "/components/action-rail", label: "ActionRail" },
 		],
 	},
@@ -39,8 +39,10 @@ export const componentNavGroups: DocsNavGroup[] = [
 		items: [
 			{ href: "/components/navbar", label: "Navbar" },
 			{ href: "/components/footer", label: "Footer" },
+			{ href: "/components/back-link", label: "BackLink" },
 			{ href: "/components/rail", label: "Rail" },
 			{ href: "/components/toc", label: "Toc" },
+			{ href: "/components/command-search", label: "CommandSearch" },
 		],
 	},
 	{
@@ -95,16 +97,19 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/installation", label: "Installation" },
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
-	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
+	{ href: "/foundations/spacing", label: "Spacing" },
+	{ href: "/foundations/radius", label: "Radius" },
+	{ href: "/foundations/motion", label: "Motion" },
 	{ href: "/components/avatar", label: "Avatar" },
 	{ href: "/components/button", label: "Button" },
 	{ href: "/components/card", label: "Card" },
+	{ href: "/components/container", label: "Container" },
 	{ href: "/components/data-list", label: "DataList" },
 	{ href: "/components/eyebrow", label: "Eyebrow" },
 	{ href: "/components/link-list", label: "LinkList" },
-	{ href: "/components/media-frame", label: "MediaFrame" },
 	{ href: "/components/metric", label: "Metric" },
 	{ href: "/components/navbar", label: "Navbar" },
+	{ href: "/components/command-search", label: "CommandSearch" },
 	{ href: "/components/progress", label: "Progress" },
 	{ href: "/components/resources-panel", label: "ResourcesPanel" },
 	{ href: "/components/select", label: "Select" },
@@ -118,6 +123,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/components/theme-switcher", label: "ThemeSwitcher" },
 	{ href: "/components/footer", label: "Footer" },
 	{ href: "/components/action-rail", label: "ActionRail" },
+	{ href: "/components/back-link", label: "BackLink" },
 	{ href: "/components/badge", label: "Badge" },
 	{ href: "/components/callout", label: "Callout" },
 	{ href: "/components/code-block", label: "CodeBlock" },

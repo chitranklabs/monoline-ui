@@ -1,5 +1,8 @@
+/**
+ * @module testimonial-grid
+ * Description for testimonial-grid component.
+ */
 import { TestimonialGrid } from "./root"
-import "./testimonial-grid.css"
 
 export * from "./types"
 

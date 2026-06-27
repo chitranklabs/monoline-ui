@@ -10,4 +10,6 @@ export interface TocProps extends React.ComponentProps<"nav"> {
 	activeId?: string
 	heading?: React.ReactNode
 	scrollOffset?: number
+	collapsible?: boolean
+	defaultOpen?: boolean
 }

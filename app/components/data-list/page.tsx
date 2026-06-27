@@ -1,25 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import DataListPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "DataList Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "DataList - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui DataList component.",
-	openGraph: {
-		title: "DataList Component - monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui DataList component.",
-	},
-	twitter: {
-		title: "DataList Component - monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui DataList component.",
-	},
-	alternates: {
-		canonical: "/components/data-list",
-	},
-}
+		"Render structured rows for stats, timelines, metadata, and compact content.",
+	path: "/components/data-list",
+})
 
 export default function DataListPage() {
 	return <DataListPageClient />

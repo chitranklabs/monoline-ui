@@ -1,15 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import SegmentedControlPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "SegmentedControl Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "SegmentedControl - monoline/ui component",
 	description:
-		"API reference for the monoline/ui SegmentedControl component - single-select group with a sliding indicator, available in default and pill variants.",
-	alternates: {
-		canonical: "/components/segmented-control",
-	},
-}
+		"Render single-select controls with roving keyboard focus and default or pill variants.",
+	path: "/components/segmented-control",
+})
 
 export default function SegmentedControlPage() {
 	return <SegmentedControlPageClient />

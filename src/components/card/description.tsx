@@ -10,10 +10,12 @@ const lineClampClasses: Record<CardDescriptionLines, string> = {
 export function CardDescription({
 	className,
 	lines,
+	ref,
 	...props
-}: CardDescriptionProps) {
+}: CardDescriptionProps): React.ReactElement {
 	return (
 		<p
+			ref={ref}
 			className={cn(
 				"m-0 text-sm leading-[1.58] text-text-secondary [[data-card-size=lg]>&]:text-base",
 				lines ? lineClampClasses[lines] : undefined,

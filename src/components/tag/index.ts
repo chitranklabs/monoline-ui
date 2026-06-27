@@ -1,10 +1,16 @@
+/**
+ * @module Tag
+ * Description for Tag component.
+ */
 import { TagCount } from "./count"
 import { TagRoot } from "./root"
-import "./tag.css"
 
 export * from "./types"
 
-export const Tag = Object.assign(TagRoot, {
+export const Tag: typeof TagRoot & {
+	displayName: string
+	Count: typeof TagCount
+} = Object.assign(TagRoot, {
 	displayName: "Tag",
 	Count: TagCount,
 })

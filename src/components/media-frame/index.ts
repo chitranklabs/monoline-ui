@@ -1,11 +1,18 @@
+/**
+ * @module MediaFrame
+ * Description for MediaFrame component.
+ */
 import { MediaFrameCaption } from "./caption"
-import "./media-frame.css"
 import { MediaFrameMeta } from "./meta"
 import { MediaFrameRoot } from "./root"
 
 export * from "./types"
 
-export const MediaFrame = Object.assign(MediaFrameRoot, {
+export const MediaFrame: typeof MediaFrameRoot & {
+	displayName: string
+	Caption: typeof MediaFrameCaption
+	Meta: typeof MediaFrameMeta
+} = Object.assign(MediaFrameRoot, {
 	displayName: "MediaFrame",
 	Caption: MediaFrameCaption,
 	Meta: MediaFrameMeta,

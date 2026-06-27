@@ -1,23 +1,13 @@
 import type { Metadata } from "next"
 
-export const metadata: Metadata = {
-	title: "Spacing & Motion  monoline/ui design foundations",
+import { createPageMetadata } from "../../lib/metadata"
+
+export const metadata: Metadata = createPageMetadata({
+	title: "Spacing & Motion - monoline/ui foundations",
 	description:
-		"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	openGraph: {
-		title: "Spacing & Motion  monoline/ui design foundations",
-		description:
-			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	},
-	twitter: {
-		title: "Spacing & Motion  monoline/ui design foundations",
-		description:
-			"Understand spacing ladders, border radius tokens, and restrained animation timings used for transitions in monoline/ui components.",
-	},
-	alternates: {
-		canonical: "/foundations/spacing-motion",
-	},
-}
+		"Review the spacing scale and motion tokens used across monoline/ui components.",
+	path: "/foundations/spacing-motion",
+})
 
 const spacingRows = [
 	["space-1", "4px", 4, "tight inline gap"],
@@ -34,14 +24,6 @@ const spacingRows = [
 	["space-16", "64px", 64, "section ↔ section on desktop"],
 ] as const
 
-const radii = [
-	["radius-xs", "4px", "kbd, code chip", 4],
-	["radius-sm", "6px", "button, input", 6],
-	["radius-md", "8px", "callout, toast", 8],
-	["radius-lg", "12px", "card", 12],
-	["radius-xl", "16px", "feature card", 16],
-] as const
-
 const motion = [
 	["duration-micro", "100ms", "button, focus, and tag feedback"],
 	["duration-short", "180ms", "indicators, toggles, and image color"],
@@ -51,14 +33,14 @@ const motion = [
 
 export default function SpacingMotionPage() {
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Spacing</p>
 				<h1>One scale. No orphan values.</h1>
 				<p>
 					Spacing follows a named rem scale shared by CSS tokens, component
-					aliases, and Tailwind utilities. Intermediate values exist only when
-					they are first-class tokens.
+					aliases, and Tailwind utilities. Add new distances only when they earn
+					a named token.
 				</p>
 			</header>
 
@@ -80,32 +62,11 @@ export default function SpacingMotionPage() {
 				</div>
 			</section>
 
-			<section className="docs-section">
-				<div className="docs-subhead">
-					<h2>Border radius</h2>
-					<p>
-						Match the radius to the element - buttons stay smaller, cards go
-						larger, status pills are fully rounded.
-					</p>
-				</div>
-				<div className="radius-grid">
-					{radii.map(([token, px, use]) => (
-						<article key={token} className="radius-card">
-							<div style={{ borderRadius: `var(--${token})` }} />
-							<h3>--{token}</h3>
-							<p>
-								{px} · {use}
-							</p>
-						</article>
-					))}
-				</div>
-			</section>
-
 			<section className="docs-section" id="motion">
 				<div className="docs-subhead">
 					<h2>Motion</h2>
 					<p>
-						Four durations, two easings. Use named tokens - never pick raw ms in
+						Four durations, two easings. Use named tokens instead of raw ms in
 						components.
 					</p>
 				</div>

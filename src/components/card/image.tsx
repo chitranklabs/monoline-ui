@@ -12,10 +12,12 @@ export function CardImage({
 	className,
 	placeholder = false,
 	ratio = "landscape",
+	ref,
 	...props
-}: CardImageProps) {
+}: CardImageProps): React.ReactElement {
 	return (
 		<div
+			ref={ref}
 			data-placeholder={placeholder || undefined}
 			data-ratio={ratio}
 			className={cn(

@@ -1,5 +1,6 @@
 "use client"
 
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import {
 	type ReactNode,
 	Suspense,
@@ -69,14 +70,12 @@ const defaultControls = {
 }
 const defaultViewportOption = viewportOptions[2] as ViewportOption
 
-const previewFrameMinWidth = 240
 const previewFrameMinHeight = 96
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
 	children: ReactNode
 	contentKey: string
-	layout: PreviewLayout
 	theme: ThemeMode
 	viewportWidth: number
 	zoom: number
@@ -85,82 +84,39 @@ interface PreviewFrameProps {
 function PreviewFrame({
 	children,
 	contentKey,
-	layout,
 	theme,
 	viewportWidth,
 	zoom,
 }: PreviewFrameProps) {
 	const previewRef = useRef<HTMLDivElement>(null)
-	const [frameSize, setFrameSize] = useState({
-		width: viewportWidth,
-		height: previewFrameMinHeight,
-	})
+	const [frameHeight, setFrameHeight] = useState(previewFrameMinHeight)
 
 	useLayoutEffect(() => {
 		const mountNode = previewRef.current
 		if (!mountNode) return
 
-		mountNode.style.display = layout === "fit" ? "inline-block" : "block"
-		mountNode.style.width = layout === "fit" ? "max-content" : "100%"
-		mountNode.style.maxWidth = layout === "fit" ? "100%" : ""
-	}, [layout])
-
-	useLayoutEffect(() => {
-		const mountNode = previewRef.current
-		if (!mountNode) return
-
-		setFrameSize({
-			width: viewportWidth,
-			height: previewFrameMinHeight,
-		})
-
-		const updateHeight = () => {
-			const contentRect = mountNode.getBoundingClientRect()
-			const childWidths = Array.from(mountNode.children, (child) => {
-				const element = child as HTMLElement
-				return Math.max(
-					Math.ceil(element.getBoundingClientRect().width),
-					element.scrollWidth
-				)
-			})
-			const contentWidth =
-				childWidths.length > 0 ? Math.max(...childWidths) : contentRect.width
-			const nextWidth =
-				layout === "viewport"
-					? viewportWidth
-					: Math.min(
-							viewportWidth,
-							Math.max(previewFrameMinWidth, contentWidth)
-						)
-			const nextHeight = Math.max(
-				previewFrameMinHeight,
-				Math.ceil(contentRect.height),
-				mountNode.scrollHeight
-			)
-			setFrameSize((current) =>
-				current.width === nextWidth && current.height === nextHeight
-					? current
-					: { width: nextWidth, height: nextHeight }
-			)
+		const measure = () => {
+			const next = Math.max(previewFrameMinHeight, mountNode.scrollHeight)
+			setFrameHeight((h) => (h === next ? h : next))
 		}
-		const observer = new ResizeObserver(updateHeight)
-		const frame = requestAnimationFrame(updateHeight)
 
+		const observer = new ResizeObserver(measure)
+		const raf = requestAnimationFrame(measure)
 		observer.observe(mountNode)
-		updateHeight()
+		measure()
 
 		return () => {
-			cancelAnimationFrame(frame)
+			cancelAnimationFrame(raf)
 			observer.disconnect()
 		}
-	}, [contentKey, layout, viewportWidth])
+	}, [contentKey, viewportWidth])
 
 	return (
 		<div
 			className="playground-canvas__stage"
 			style={{
-				width: frameSize.width * zoom,
-				height: frameSize.height * zoom,
+				width: viewportWidth * zoom,
+				height: frameHeight * zoom,
 			}}
 		>
 			<div
@@ -168,8 +124,8 @@ function PreviewFrame({
 				data-theme={theme}
 				className="playground-canvas__frame"
 				style={{
-					width: frameSize.width,
-					height: frameSize.height,
+					width: viewportWidth,
+					height: frameHeight,
 					transform: `scale(${zoom})`,
 				}}
 			>
@@ -408,7 +364,7 @@ function ComponentPlaygroundClient<
 	}
 
 	return (
-		<main className="docs-page">
+		<main id="main-content" tabIndex={-1} className="docs-page">
 			<header className="docs-page__head docs-page__head--component">
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
@@ -528,7 +484,6 @@ function ComponentPlaygroundClient<
 				<div className="playground-canvas__viewport">
 					<PreviewFrame
 						contentKey={previewKey}
-						layout={previewLayout}
 						theme={theme}
 						viewportWidth={activeViewportOption.width}
 						zoom={zoom}
@@ -550,7 +505,7 @@ function ComponentPlaygroundClient<
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Usage</h2>
-					<p>How to import and use the component in your project.</p>
+					<p>Install path and a minimal example you can paste into an app.</p>
 				</div>
 				<h3>Import</h3>
 				<CodeBlock code={importStatement} language="typescript" />
@@ -563,7 +518,9 @@ function ComponentPlaygroundClient<
 				<section className="docs-section">
 					<div className="docs-subhead">
 						<h2>API Reference</h2>
-						<p>Properties and callbacks supported by this component.</p>
+						<p>
+							Props, compound slots, and callbacks exposed by this component.
+						</p>
 					</div>
 					<div className="props-table">
 						{props.map(([name, type, desc], index) => (
@@ -585,7 +542,10 @@ function ComponentPlaygroundClient<
 				<section className="docs-section">
 					<div className="docs-subhead">
 						<h2>Design Tokens</h2>
-						<p>CSS custom properties available for styling customizations.</p>
+						<p>
+							Theme variables this component reads for color, spacing, and
+							motion.
+						</p>
 					</div>
 					<div className="props-table">
 						{tokens.map(([name, desc], index) => (
@@ -606,7 +566,10 @@ function ComponentPlaygroundClient<
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Implementation</h2>
-					<p>The raw source code pattern for reference or manual copy.</p>
+					<p>
+						Complete source pattern, including state and compound composition
+						when needed.
+					</p>
 				</div>
 				<CodeBlock code={sourceSnippet} language="jsx" />
 			</section>

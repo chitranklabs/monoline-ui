@@ -1,6 +1,6 @@
 import js from "@eslint/js"
-import globals from "globals"
 import jsxA11y from "eslint-plugin-jsx-a11y"
+import globals from "globals"
 import tseslint from "typescript-eslint"
 
 export default tseslint.config(

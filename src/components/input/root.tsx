@@ -21,7 +21,7 @@ export function InputRoot({
 	suffix,
 	ref,
 	...props
-}: InputProps) {
+}: InputProps): React.ReactElement {
 	return (
 		<label
 			className={cn(
@@ -32,19 +32,19 @@ export function InputRoot({
 			)}
 		>
 			{prefix && (
-				<span className="grid shrink-0 place-items-center text-(--text-muted)">
+				<span className="grid shrink-0 place-items-center text-text-muted">
 					{prefix}
 				</span>
 			)}
 			<input
 				ref={ref}
 				className={cn(
-					"min-w-0 flex-1 border-none bg-transparent font-sans text-inherit outline-none placeholder:text-(--text-muted)",
+					"min-w-0 flex-1 border-none bg-transparent font-sans text-inherit outline-none placeholder:text-text-muted",
 					className
 				)}
 				{...props}
 			/>
-			{suffix && <span className="shrink-0 text-(--text-muted)">{suffix}</span>}
+			{suffix && <span className="shrink-0 text-text-muted">{suffix}</span>}
 		</label>
 	)
 }

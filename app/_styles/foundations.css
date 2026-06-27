@@ -51,7 +51,7 @@
 
 .theme-preview__panel--light {
 	border-left: 1px solid var(--border);
-	background: var(--background);
+	background: oklch(1 0 0);
 }
 
 .theme-preview__badge {

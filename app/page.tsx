@@ -3,91 +3,95 @@ import Link from "next/link"
 
 import { Button } from "@chitrank2050/monoline-ui/button"
 import { Card } from "@chitrank2050/monoline-ui/card"
+import { Container } from "@chitrank2050/monoline-ui/container"
 import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
+import { SectionHead } from "@chitrank2050/monoline-ui/section-head"
+import { Status } from "@chitrank2050/monoline-ui/status"
 
+import pkgJson from "../package.json"
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
+import { createPageMetadata } from "./lib/metadata"
 
-export const metadata: Metadata = {
-	title: "monoline/ui  Opinionated, token-first React component library",
+export const metadata: Metadata = createPageMetadata({
+	title: "monoline/ui - Token-first React component library",
 	description:
-		"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	openGraph: {
-		title: "monoline/ui  Opinionated, token-first React component library",
-		description:
-			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	},
-	twitter: {
-		title: "monoline/ui  Opinionated, token-first React component library",
-		description:
-			"Opinionated, light/dark responsive component library for developer docs, personal portfolios, and blog sites using Tailwind CSS v4 design tokens.",
-	},
-	alternates: {
-		canonical: "/",
-	},
-}
+		"Responsive React components for personal sites, portfolios, and documentation built on Tailwind CSS v4 design tokens.",
+	path: "/",
+})
 
 const stats = [
 	[String(metadataJson.count), "Components"],
 	["2", "Themes"],
 	["12kb", "Gzipped"],
-	["MIT", "Licence"],
+	["MIT", "License"],
 ]
 
 const builtFor = [
 	["Personal portfolios", "Editorial layout, long-form posts"],
 	["Developer docs", "Code blocks, callouts, TOC"],
-	["Indie product sites", "Hero + features + footer"],
+	["Product sites", "Hero, feature, and footer sections"],
 	["Internal tools", "Cards, tables, status chips"],
 ]
 
 const components = [
-	["Card", "Container with hover + interactive variants"],
-	["SectionHead", "Eyebrow + title + lede block"],
+	["Card", "Linked, static, or button-backed content cards"],
+	["SectionHead", "Eyebrow, title, and lede block"],
 	["Container", "Max-width content wrapper"],
-	["ActionRail", "Icon button column"],
-	["Navbar", "Top chrome with active underline"],
-	["Footer", "Brand block + link columns + meta bar"],
-	["Rail", "Sidebar tag list with counts"],
-	["Toc", "Table ofContents with scroll-spy"],
-	["Button", "3 variants, smooth icon slots, asChild"],
-	["Input", "Text/search with prefix icon + kbd"],
-	["Toggle", "On/off switch with restrained thumb motion"],
-	["SegmentedControl", "Pill & default variants, sliding indicator"],
-	["Tag", "Filter pill with active state"],
+	["ActionRail", "Compact action groups"],
+	["Navbar", "Responsive site header"],
+	["Footer", "Brand, links, subscribe, and meta rows"],
+	["Rail", "Vertical secondary navigation"],
+	["Toc", "Table of contents with active tracking"],
+	["Button", "Actions, links, icons, and loading state"],
+	["Input", "Text fields with prefix and suffix slots"],
+	["Toggle", "Accessible switch control"],
+	["SegmentedControl", "Single-select control groups"],
 ]
 
 const rules = [
 	[
 		"01",
 		"Two themes, one source of truth",
-		'Toggle data-theme="light" or data-theme="dark" on <html> and every component re-themes - no dark variants in component code.',
+		'Set data-theme="light" or data-theme="dark" on <html>. Components read the same tokens in both modes.',
 	],
 	[
 		"02",
 		"CSS tokens, not Tailwind config",
-		"All colours, fonts, radii, spacing, and motion live in theme.css. Swap one token layer to rebrand. Tailwind v4 reads them automatically.",
+		"Colors, fonts, radii, spacing, and motion live in theme.css. Swap the token layer to rebrand.",
 	],
 	[
 		"03",
 		"No icon set baked in",
-		"Bring your own lucide, react-icons, svgs. The library exposes slots, not opinions.",
+		"Bring lucide, react-icons, SVGs, or your own glyphs. Components expose slots instead of icon opinions.",
 	],
 ]
 
 function PreviewCard() {
 	return (
-		<div className="intro-preview" aria-label="Component preview">
-			<div className="intro-preview__bar">
-				<div>
-					<span style={{ backgroundColor: "var(--mac-red)" }} />
-					<span style={{ backgroundColor: "var(--mac-amber)" }} />
-					<span style={{ backgroundColor: "var(--mac-green)" }} />
+		<div
+			className="intro-preview overflow-hidden border border-border rounded-xl bg-surface shadow-md mt-ml-10 ml-ml-1-5"
+			aria-label="Component preview"
+		>
+			<div className="flex h-8.5 items-center justify-between border-b border-border bg-surface-2 px-ml-4 font-mono text-2xs font-bold text-text-muted">
+				<div className="flex gap-ml-2">
+					<span
+						className="size-ml-2 rounded-full"
+						style={{ backgroundColor: "var(--mac-red)" }}
+					/>
+					<span
+						className="size-ml-2 rounded-full"
+						style={{ backgroundColor: "var(--mac-amber)" }}
+					/>
+					<span
+						className="size-ml-2 rounded-full"
+						style={{ backgroundColor: "var(--mac-green)" }}
+					/>
 				</div>
 				<p>card.tsx</p>
 			</div>
-			<div className="intro-preview__body">
-				<div className="intro-preview__actions">
+			<div className="grid gap-ml-3-5 p-ml-3-5">
+				<div className="flex items-center gap-ml-2">
 					<Button size="sm">Contact me</Button>
 					<Button size="sm" variant="secondary">
 						Resume
@@ -122,26 +126,30 @@ function PreviewCard() {
 
 export default function HomePage() {
 	return (
-		<main className="intro-page">
-			<section className="intro-hero">
+		<Container
+			as="main"
+			id="main-content"
+			tabIndex={-1}
+			className="intro-page pt-ml-24"
+		>
+			<section className="intro-hero grid grid-cols-[minmax(0,1fr)_25.5rem] items-start gap-ml-12">
 				<div className="intro-hero__copy">
-					<div className="intro-pills">
-						<span className="intro-pill intro-pill--accent">
-							• Now in public beta
-						</span>
-						<span className="intro-pill">v0.2.0</span>
+					<div className="intro-pills flex flex-wrap gap-ml-2-5 mb-ml-6">
+						<Status variant="accent" size="md" animate>
+							v{pkgJson.version}
+						</Status>
 					</div>
-					<h1>
+					<h1 className="max-w-140 text-text font-mono text-[clamp(2.6875rem,5.3vw,3.875rem)] font-extrabold tracking-[-0.073em] leading-[0.915]">
 						A component library
 						<br />
-						<span>with a point of view.</span>
+						<span className="text-text-secondary">with a point of view.</span>
 					</h1>
-					<p>
+					<p className="max-w-117.5 mt-ml-4 text-text-secondary text-base font-medium leading-normal">
 						{metadataJson.count} components for personal sites, portfolios, and
 						developer docs. Monochrome by default, one warm accent, two themes.
-						Drop in, swap the brand colour, ship.
+						Drop in the package, change the brand color, and ship.
 					</p>
-					<div className="intro-actions">
+					<div className="intro-actions flex flex-wrap items-center gap-x-ml-5 gap-y-ml-3 mt-ml-5">
 						<Button asChild>
 							<Link href="/installation">
 								Get started
@@ -157,62 +165,98 @@ export default function HomePage() {
 				<PreviewCard />
 			</section>
 
-			<section className="intro-stats" aria-label="Project stats">
+			<section
+				className="intro-stats grid grid-cols-4 gap-ml-6 mt-ml-11 border-y border-border py-ml-5 min-h-37.5 items-center"
+				aria-label="Project stats"
+			>
 				{stats.map(([value, label]) => (
 					<div key={label}>
-						<strong>{value}</strong>
-						<span>{label}</span>
+						<strong className="block font-mono text-xl font-bold leading-none tracking-heading text-text">
+							{value}
+						</strong>
+						<span className="mt-ml-1-5 block font-mono text-3xs font-bold uppercase tracking-eyebrow text-text-muted">
+							{label}
+						</span>
 					</div>
 				))}
 			</section>
 
-			<section className="intro-band">
+			<section className="intro-band mt-ml-20 border-b border-border pb-ml-8">
 				<p className="ml-eyebrow">Built for</p>
-				<div className="intro-band__grid">
+				<div className="intro-band__grid grid grid-cols-4 gap-ml-8 mt-ml-4">
 					{builtFor.map(([title, description]) => (
 						<div key={title}>
-							<h2>{title}</h2>
-							<p>{description}</p>
+							<h2 className="text-text text-sm font-bold tracking-body">
+								{title}
+							</h2>
+							<p className="mt-ml-1-5 text-text-muted text-xs font-medium leading-normal">
+								{description}
+							</p>
 						</div>
 					))}
 				</div>
 			</section>
 
-			<section className="intro-section">
-				<div className="intro-section__head">
-					<div>
-						<p className="ml-eyebrow">
-							Inside the box · {metadataJson.count} components
-						</p>
-						<h2>Everything an editorial site needs.</h2>
-					</div>
-					<Link href="/components/footer" className="ml-interaction-color">
-						All components →
+			<section className="intro-section mt-ml-20 pt-ml-8">
+				<div className="intro-section__head flex items-end justify-between gap-ml-6">
+					<SectionHead
+						eyebrow={`Inside the box · ${metadataJson.count} components`}
+						title="Components for editorial products."
+						size="sm"
+						level={2}
+					/>
+					<Link
+						href="/components/footer"
+						className="intro-section__link group inline-flex items-center gap-ml-2 shrink-0 text-xs font-medium no-underline transition-colors duration-(--duration-short) ease-out text-accent"
+					>
+						All components
+						<span
+							aria-hidden="true"
+							className="inline-block h-px w-5 bg-current transition-[width] duration-(--duration-short) ease-out group-hover:w-7"
+						/>
 					</Link>
 				</div>
-				<div className="intro-components">
+				<div className="intro-components grid grid-cols-4 gap-ml-2 mt-ml-6">
 					{components.map(([title, description]) => (
-						<article key={title}>
-							<h3>{title}</h3>
-							<p>{description}</p>
-						</article>
+						<Card key={title} size="sm">
+							<Card.Body>
+								<h3 className="m-0 text-sm font-bold tracking-body text-text">
+									{title}
+								</h3>
+								<p className="m-0 mt-ml-1-5 text-xs font-medium leading-normal text-text-muted">
+									{description}
+								</p>
+							</Card.Body>
+						</Card>
 					))}
 				</div>
 			</section>
 
-			<section className="intro-section intro-section--rules">
-				<p className="ml-eyebrow">Three rules · why this exists</p>
-				<h2>Opinionated where it counts, configurable where you'd want it.</h2>
-				<div className="intro-rules">
+			<section className="intro-section intro-section--rules mt-ml-20 pt-ml-8 mb-ml-20">
+				<SectionHead
+					eyebrow="Three rules · why this exists"
+					title="Opinionated defaults, practical escape hatches."
+					size="sm"
+					level={2}
+				/>
+				<div className="intro-rules grid grid-cols-3 gap-ml-6 mt-ml-8">
 					{rules.map(([number, title, description]) => (
-						<article key={number}>
-							<span>{number}</span>
-							<h3>{title}</h3>
-							<p>{description}</p>
-						</article>
+						<Card key={number} size="md">
+							<Card.Body>
+								<span className="mb-ml-2-5 block font-mono text-2xs font-bold text-accent">
+									{number}
+								</span>
+								<h3 className="m-0 mb-ml-2 text-base font-semibold tracking-body text-text">
+									{title}
+								</h3>
+								<p className="m-0 text-xs font-medium leading-normal text-text-muted">
+									{description}
+								</p>
+							</Card.Body>
+						</Card>
 					))}
 				</div>
 			</section>
-		</main>
+		</Container>
 	)
 }

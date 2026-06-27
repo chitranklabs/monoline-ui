@@ -1,15 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import TagPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "Tag Component - monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Tag - monoline/ui component",
 	description:
-		"API reference for the monoline/ui Tag component, covering filter pills and quieter tech chips.",
-	alternates: {
-		canonical: "/components/tag",
-	},
-}
+		"Render filter buttons or quiet chips for categories, stacks, and metadata.",
+	path: "/components/tag",
+})
 
 export default function TagPage() {
 	return <TagPageClient />

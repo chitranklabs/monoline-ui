@@ -34,15 +34,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"files": [
-		"**/*"
-	],
+	"files": ["**/*"],
 	"main": "./index.js",
 	"module": "./index.js",
 	"types": "./index.d.ts",
-	"sideEffects": [
-		"./styles/theme.css"
-	],
+	"sideEffects": ["./styles/theme.css"],
 	"exports": {
 		".": {
 			"types": "./index.d.ts",
@@ -55,6 +51,10 @@
 		"./avatar": {
 			"types": "./components/avatar/index.d.ts",
 			"import": "./components/avatar/index.js"
+		},
+		"./back-link": {
+			"types": "./components/back-link/index.d.ts",
+			"import": "./components/back-link/index.js"
 		},
 		"./badge": {
 			"types": "./components/badge/index.d.ts",
@@ -75,6 +75,14 @@
 		"./code-block": {
 			"types": "./components/code-block/index.d.ts",
 			"import": "./components/code-block/index.js"
+		},
+		"./command-search": {
+			"types": "./components/command-search/index.d.ts",
+			"import": "./components/command-search/index.js"
+		},
+		"./container": {
+			"types": "./components/container/index.d.ts",
+			"import": "./components/container/index.js"
 		},
 		"./data-list": {
 			"types": "./components/data-list/index.d.ts",
@@ -200,6 +208,7 @@
 	"dependencies": {
 		"@radix-ui/react-slot": "^1.2.5",
 		"clsx": "^2.1.1",
+		"cmdk": "^1.1.1",
 		"tailwind-merge": "^3.6.0"
 	},
 	"peerDependencies": {

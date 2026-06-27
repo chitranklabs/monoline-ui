@@ -31,7 +31,7 @@ export default function EyebrowPageClient() {
 	return (
 		<ComponentPlayground<EyebrowSize>
 			title="Eyebrow"
-			description="Render compact section labels with consistent mono spacing and uppercase rhythm."
+			description="Render compact section labels with mono text, uppercase rhythm, and predictable sizes."
 			sizes={eyebrowSizes}
 			defaultSize="sm"
 			importStatement='import { Eyebrow } from "@chitrank2050/monoline-ui/components/eyebrow"'

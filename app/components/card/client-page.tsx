@@ -74,7 +74,7 @@ const propsRows = [
 		"string",
 		"Render the card as a native anchor for internal or external links",
 	],
-	["target", '"_self" | "_blank" | ...', "Native anchor target"],
+	["target", '"_self" | "_blank" | "_parent" | "_top"', "Native anchor target"],
 	[
 		"rel",
 		"string",
@@ -117,7 +117,7 @@ export default function CardPageClient() {
 	return (
 		<ComponentPlayground<CardSize>
 			title="Card"
-			description="Compose quiet project and blog cards from image, body, footer, and arrow slots."
+			description="Compose linked, static, or button-backed editorial cards from image, body, footer, tag, and action slots."
 			sizes={cardSizes}
 			defaultSize="md"
 			importStatement='import { Card } from "@chitrank2050/monoline-ui/components/card"'

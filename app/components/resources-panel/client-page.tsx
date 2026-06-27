@@ -122,7 +122,7 @@ export default function ResourcesPanelPageClient() {
 	return (
 		<ComponentPlayground<ResourcesPanelSize>
 			title="ResourcesPanel"
-			description="Render a compact project-detail sidebar for live links, source code, docs, design files, videos, and other CMS-driven resources."
+			description="List project resources such as live links, source, docs, files, and videos in a compact sidebar."
 			sizes={resourcesPanelSizes}
 			defaultSize="md"
 			importStatement='import { ResourcesPanel } from "@chitrank2050/monoline-ui/resources-panel"'

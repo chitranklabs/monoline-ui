@@ -1,5 +1,8 @@
+/**
+ * @module segmented-control
+ * Description for segmented-control component.
+ */
 import { SegmentedControlRoot } from "./root"
-import "./segmented-control.css"
 
 export * from "./types"
 

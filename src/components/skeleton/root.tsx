@@ -12,7 +12,7 @@ export function SkeletonRoot({
 	variant = "rect",
 	ref,
 	...props
-}: SkeletonProps) {
+}: SkeletonProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

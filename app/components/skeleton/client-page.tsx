@@ -39,7 +39,7 @@ export default function SkeletonPageClient() {
 	return (
 		<ComponentPlayground<SkeletonVariant>
 			title="Skeleton"
-			description="Display a placeholder preview (shimmering state) while content is loading."
+			description="Reserve loading space with rectangle, pill, circle, and text placeholder variants."
 			sizes={skeletonVariants}
 			defaultSize="rect"
 			importStatement='import { Skeleton } from "@chitrank2050/monoline-ui/skeleton"'
@@ -54,7 +54,7 @@ export default function SkeletonPageClient() {
 							<Skeleton variant="rect" className="h-ml-12 w-ml-28" />
 						)}
 						{variant === "pill" && (
-							<Skeleton variant="pill" className="h-ml-6 w-ml-40" />
+							<Skeleton variant="pill" className="h-ml-6 w-ml-32" />
 						)}
 						{variant === "circle" && (
 							<Skeleton variant="circle" className="size-ml-16" />

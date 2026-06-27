@@ -1,14 +1,24 @@
+/**
+ * @module Select
+ * Description for Select component.
+ */
 import { SelectContent } from "./content"
 import { SelectItem } from "./item"
 import { SelectLabel } from "./label"
 import { SelectRoot } from "./root"
-import "./select.css"
 import { SelectTrigger } from "./trigger"
 import { SelectValue } from "./value"
 
 export * from "./types"
 
-export const Select = Object.assign(SelectRoot, {
+export const Select: typeof SelectRoot & {
+	displayName: string
+	Trigger: typeof SelectTrigger
+	Label: typeof SelectLabel
+	Value: typeof SelectValue
+	Content: typeof SelectContent
+	Item: typeof SelectItem
+} = Object.assign(SelectRoot, {
 	displayName: "Select",
 	Trigger: SelectTrigger,
 	Label: SelectLabel,

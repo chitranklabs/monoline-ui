@@ -1,25 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import TestimonialGridPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "TestimonialGrid Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "TestimonialGrid - monoline/ui component",
 	description:
-		"API reference and preview controls for the monoline/ui TestimonialGrid masonry layout component.",
-	openGraph: {
-		title: "TestimonialGrid Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui TestimonialGrid masonry layout component.",
-	},
-	twitter: {
-		title: "TestimonialGrid Component  monoline/ui reference",
-		description:
-			"API reference and preview controls for the monoline/ui TestimonialGrid masonry layout component.",
-	},
-	alternates: {
-		canonical: "/components/testimonial-grid",
-	},
-}
+		"Arrange testimonial cards in aligned grid or masonry layouts without JavaScript measurement.",
+	path: "/components/testimonial-grid",
+})
 
 export default function TestimonialGridPage() {
 	return <TestimonialGridPageClient />

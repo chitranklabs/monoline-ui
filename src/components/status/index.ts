@@ -1,5 +1,8 @@
+/**
+ * @module status
+ * Description for status component.
+ */
 import { StatusRoot } from "./root"
-import "./status.css"
 
 export * from "./types"
 

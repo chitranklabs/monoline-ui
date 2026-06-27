@@ -7,7 +7,7 @@ export function TestimonialGrid({
 	variant = "masonry",
 	ref,
 	...props
-}: TestimonialGridProps) {
+}: TestimonialGridProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

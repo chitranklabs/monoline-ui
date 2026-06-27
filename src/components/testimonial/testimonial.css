@@ -50,7 +50,6 @@
 		font-size: var(--ml-testimonial-quote-text);
 		line-height: var(--leading-relaxed);
 		text-wrap: pretty;
-		margin-bottom: var(--ml-space-2);
 	}
 
 	.ml-testimonial[data-size="lg"] .ml-testimonial__quote {

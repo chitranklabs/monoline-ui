@@ -6,7 +6,7 @@ export function ActionRailRoot({
 	orientation = "vertical",
 	ref,
 	...props
-}: ActionRailProps) {
+}: ActionRailProps): React.ReactElement {
 	return (
 		<div
 			ref={ref}

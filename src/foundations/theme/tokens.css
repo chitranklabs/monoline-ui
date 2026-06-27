@@ -73,12 +73,15 @@
 	--surface: oklch(0.18 0 0);
 	--surface-2: oklch(0.17 0 0);
 	--surface-3: oklch(0.16 0 0);
+	--surface-primary: var(--primary);
 	--button: oklch(0.22 0 0);
 	--button-hover: oklch(0.27 0 0);
 	--code: oklch(0.12 0 0);
 
 	/* Text ladder */
 	--text: oklch(0.985 0 0);
+	--text-primary: var(--text);
+	--text-primary-foreground: var(--primary-foreground);
 	--text-secondary: oklch(0.87 0 0);
 	--text-muted: oklch(0.62 0 0);
 	--text-body: oklch(0.91 0 0);
@@ -338,6 +341,7 @@
 	--tracking-display: -0.04em;
 	--tracking-heading: -0.025em;
 	--tracking-body: -0.005em;
+	--tracking-normal: 0;
 	--tracking-mono: 0.04em;
 	--tracking-wide: 0.08em;
 	--tracking-meta: 0.14em;
@@ -366,7 +370,9 @@
 	--space-1: 0.25rem;
 	--space-1-5: 0.375rem;
 	--space-2: 0.5rem;
+	--space-2-5: 0.625rem;
 	--space-3: 0.75rem;
+	--space-3-5: 0.875rem;
 	--space-4: 1rem;
 	--space-5: 1.25rem;
 	--space-6: 1.5rem;
@@ -374,6 +380,7 @@
 	--space-8: 2rem;
 	--space-9: 2.25rem;
 	--space-10: 2.5rem;
+	--space-11: 2.75rem;
 	--space-12: 3rem;
 	--space-14: 3.5rem;
 	--space-16: 4rem;
@@ -462,7 +469,9 @@
 	--ml-space-1: var(--space-1);
 	--ml-space-1-5: var(--space-1-5);
 	--ml-space-2: var(--space-2);
+	--ml-space-2-5: var(--space-2-5);
 	--ml-space-3: var(--space-3);
+	--ml-space-3-5: var(--space-3-5);
 	--ml-space-4: var(--space-4);
 	--ml-space-5: var(--space-5);
 	--ml-space-6: var(--space-6);
@@ -470,12 +479,14 @@
 	--ml-space-8: var(--space-8);
 	--ml-space-9: var(--space-9);
 	--ml-space-10: var(--space-10);
+	--ml-space-11: var(--space-11);
 	--ml-space-12: var(--space-12);
 	--ml-space-14: var(--space-14);
 	--ml-space-16: var(--space-16);
 	--ml-space-20: var(--space-20);
 	--ml-space-24: var(--space-24);
 	--ml-space-28: var(--space-28);
+	--ml-space-32: var(--space-32);
 
 	--ml-footer-y-sm: var(--space-16);
 	--ml-footer-y-sm-tablet: var(--space-20);

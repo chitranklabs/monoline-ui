@@ -33,7 +33,7 @@ export default function ActionRailPageClient() {
 	return (
 		<ComponentPlayground
 			title="ActionRail"
-			description="Action rails provide layouts for sidebars, action toolbars, or floating social links."
+			description="Group compact actions vertically or horizontally for toolbars, side rails, and social links."
 			importStatement='import { ActionRail } from "@chitrank2050/monoline-ui/action-rail"'
 			usageCode={usageCode}
 			props={propsRows}

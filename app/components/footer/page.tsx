@@ -1,25 +1,14 @@
 import type { Metadata } from "next"
 
+import { createPageMetadata } from "../../lib/metadata"
 import FooterPageClient from "./client-page"
 
-export const metadata: Metadata = {
-	title: "Footer Component  monoline/ui reference",
+export const metadata: Metadata = createPageMetadata({
+	title: "Footer - monoline/ui component",
 	description:
-		"API reference and layout configurations for the responsive monoline/ui Footer component, including newsletter forms.",
-	openGraph: {
-		title: "Footer Component  monoline/ui reference",
-		description:
-			"API reference and layout configurations for the responsive monoline/ui Footer component, including newsletter forms.",
-	},
-	twitter: {
-		title: "Footer Component  monoline/ui reference",
-		description:
-			"API reference and layout configurations for the responsive monoline/ui Footer component, including newsletter forms.",
-	},
-	alternates: {
-		canonical: "/components/footer",
-	},
-}
+		"Build responsive site footers with brand copy, link columns, subscribe actions, and meta rows.",
+	path: "/components/footer",
+})
 
 export default function FooterPage() {
 	return <FooterPageClient />

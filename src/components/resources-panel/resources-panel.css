@@ -130,10 +130,6 @@
 		box-shadow: inset var(--focus-ring);
 	}
 
-	.ml-resources-panel__item[data-primary="true"] {
-		background: color-mix(in oklch, var(--surface-2) 70%, transparent);
-	}
-
 	.ml-resources-panel__icon {
 		display: inline-grid;
 		inline-size: var(--ml-resources-panel-icon-size);
@@ -149,15 +145,10 @@
 			color var(--duration-micro) var(--ease-out);
 	}
 
-	.ml-resources-panel__icon[data-primary="true"] {
+	a.ml-resources-panel__item:hover .ml-resources-panel__icon {
 		border-color: color-mix(in oklch, var(--accent) 72%, var(--border));
 		background: color-mix(in oklch, var(--accent) 15%, transparent);
 		color: var(--accent);
-	}
-
-	a.ml-resources-panel__item:hover .ml-resources-panel__icon {
-		border-color: var(--border-strong);
-		color: var(--primary);
 	}
 
 	.ml-resources-panel__icon-svg {

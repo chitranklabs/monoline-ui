@@ -8,12 +8,13 @@ export interface SegmentedControlOption<T extends string> {
 	disabled?: boolean
 }
 
-export interface SegmentedControlProps<T extends string> {
+export interface SegmentedControlProps<T extends string> extends Omit<
+	React.ComponentProps<"div">,
+	"children" | "onChange"
+> {
 	options: SegmentedControlOption<T>[]
 	value: T
 	onChange: (value: T) => void
 	variant?: SegmentedControlVariant
 	size?: SegmentedControlSize
-	className?: string
-	ref?: React.Ref<HTMLDivElement>
 }

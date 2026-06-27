@@ -1,10 +1,16 @@
-import "./data-list.css"
+/**
+ * @module DataList
+ * Description for DataList component.
+ */
 import { DataListItem } from "./item"
 import { DataListRoot } from "./root"
 
 export * from "./types"
 
-export const DataList = Object.assign(DataListRoot, {
+export const DataList: typeof DataListRoot & {
+	displayName: string
+	Item: typeof DataListItem
+} = Object.assign(DataListRoot, {
 	displayName: "DataList",
 	Item: DataListItem,
 })
