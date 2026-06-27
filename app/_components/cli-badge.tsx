@@ -23,12 +23,12 @@ export function CliBadge() {
 			variant="secondary"
 			size="md"
 			onClick={handleCopy}
-			className="cli-badge"
+			className="font-mono text-xs"
 			aria-label={copied ? "Copied command" : "Copy installation command"}
 		>
-			<span className="cli-badge__prefix">$</span>
-			<span className="cli-badge__code">npm i @chitrank2050/monoline-ui</span>
-			<span className="cli-badge__icon">
+			<span className="font-bold text-(--accent)">$</span>
+			<span className="[user-select:all]">npm i @chitrank2050/monoline-ui</span>
+			<span className="flex size-[0.875rem] items-center justify-center text-(--text-muted) transition-colors duration-[var(--duration-short)] ease-[var(--ease-out-expo)]">
 				{copied ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ export function CliBadge() {
 						strokeWidth="2.5"
 						strokeLinecap="round"
 						strokeLinejoin="round"
-						className="cli-badge__svg cli-badge__svg--success"
+						className="animate-scale-in size-full text-(--accent)"
 					>
 						<polyline points="20 6 9 17 4 12" />
 					</svg>
@@ -51,7 +51,7 @@ export function CliBadge() {
 						strokeWidth="2"
 						strokeLinecap="round"
 						strokeLinejoin="round"
-						className="cli-badge__svg"
+						className="size-full"
 					>
 						<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
 						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />

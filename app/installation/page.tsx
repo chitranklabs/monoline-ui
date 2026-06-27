@@ -86,8 +86,12 @@ export default function Page() {
 
 export default function InstallationPage() {
 	return (
-		<main id="main-content" tabIndex={-1} className="install-page">
-			<header className="install-hero">
+		<main
+			id="main-content"
+			tabIndex={-1}
+			className="install-page mx-auto w-[min(100%-3rem,_50rem)] pt-ml-14 pb-ml-20"
+		>
+			<header className="docs-page__head">
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
 				<h1>Installation</h1>
 				<p>
@@ -96,18 +100,27 @@ export default function InstallationPage() {
 				</p>
 			</header>
 
-			<div className="install-steps">
+			<div className="flex flex-col gap-ml-8">
 				{installSteps.map((step) => (
-					<section key={step.number} className="install-step">
-						<div className="install-step__number">{step.number}</div>
-						<div className="install-step__body">
-							<h2>{step.title}</h2>
-							<p>{step.description}</p>
+					<section
+						key={step.number}
+						className="grid grid-cols-[1.25rem_minmax(0,1fr)] gap-ml-5"
+					>
+						<span className="pt-ml-1 font-mono text-2xs text-(--text-muted)">
+							{step.number}
+						</span>
+						<div className="min-w-0">
+							<h2 className="text-lg font-semibold tracking-body text-(--text)">
+								{step.title}
+							</h2>
+							<p className="mt-ml-2-5 max-w-170 text-base leading-normal text-(--text-secondary)">
+								{step.description}
+							</p>
 
 							{step.number === "02" ? <InstallCommand /> : null}
 
 							{step.label && step.code ? (
-								<div className="install-code">
+								<div className="mt-ml-4">
 									<CodeBlock
 										code={step.code}
 										fileName={step.label}
@@ -120,23 +133,34 @@ export default function InstallationPage() {
 				))}
 			</div>
 
-			<div className="install-ready">
-				<div className="install-ready__icon">✓</div>
+			<div
+				className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-ml-4 mt-ml-12 border border-(--accent) rounded-xl p-ml-5"
+				style={{
+					background:
+						"color-mix(in oklch, var(--accent-soft) 45%, var(--surface))",
+				}}
+			>
+				<div className="inline-flex items-center justify-center size-ml-7 rounded-full bg-(--accent) text-(--accent-foreground) text-sm">
+					✓
+				</div>
 				<div>
-					<h3>You&apos;re ready.</h3>
-					<p>
+					<h3 className="text-(--text) text-base font-semibold">
+						You&apos;re ready.
+					</h3>
+					<p className="mt-ml-1 text-(--text-secondary) text-sm">
 						Browse the{" "}
-						<a href="/components/footer" className="ml-interaction-color">
+						<a href="/components/footer" className="text-(--accent)">
 							component reference
 						</a>{" "}
 						for props and examples, or jump to{" "}
-						<a href="/foundations/colors" className="ml-interaction-color">
+						<a href="/foundations/colors" className="text-(--accent)">
 							Foundations
 						</a>{" "}
 						to see the token system.
 					</p>
 				</div>
 			</div>
+
 			<DocsPager />
 		</main>
 	)
