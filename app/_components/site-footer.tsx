@@ -38,7 +38,6 @@ function SiteFooterLink(props: React.ComponentProps<typeof Link>) {
 export function SiteFooter() {
 	return (
 		<Footer
-			size="md"
 			brand={
 				<Link href="/" className="font-mono font-extrabold tracking-[-0.045em]">
 					<span>monoline</span>
@@ -56,7 +55,7 @@ export function SiteFooter() {
 				})),
 			}))}
 			subscribe={false}
-			meta="© 2026 monoline/ui · MIT license"
+			meta={`© ${new Date().getFullYear()} monoline/ui · MIT license`}
 			attribution="A single horizontal stroke. Hence the name."
 			linkComponent={SiteFooterLink}
 		/>

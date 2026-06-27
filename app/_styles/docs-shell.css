@@ -142,7 +142,6 @@
 	line-height: var(--type-docs-title-leading);
 }
 
-.install-hero h1,
 .component-headline h1 {
 	margin-top: 0.625rem;
 	color: var(--text);
@@ -153,8 +152,7 @@
 	line-height: var(--type-hero-title-leading);
 }
 
-.docs-page__head p:last-child,
-.install-hero > p:last-child {
+.docs-page__head p:last-child {
 	max-width: 45rem;
 	margin-top: 0.75rem;
 	color: var(--text-secondary);
