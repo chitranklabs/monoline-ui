@@ -12,15 +12,15 @@ export interface DocsNavGroup {
 export const primaryNav: DocsNavItem[] = [
 	{ href: "/", label: "Introduction" },
 	{ href: "/installation", label: "Installation" },
-	{ href: "/foundations/colors", label: "Foundations" },
-	{ href: "/components/footer", label: "Components" },
+	{ href: "/foundations/colors", label: "Documentation" },
 ] as const
 
 export const foundationsNav: DocsNavItem[] = [
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
-	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
-	{ href: "/foundations/spacing-motion#motion", label: "Motion" },
+	{ href: "/foundations/spacing", label: "Spacing" },
+	{ href: "/foundations/radius", label: "Radius" },
+	{ href: "/foundations/motion", label: "Motion" },
 ] as const
 
 export const componentNavGroups: DocsNavGroup[] = [
@@ -97,7 +97,9 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/installation", label: "Installation" },
 	{ href: "/foundations/colors", label: "Colors" },
 	{ href: "/foundations/typography", label: "Typography" },
-	{ href: "/foundations/spacing-motion", label: "Spacing & radius" },
+	{ href: "/foundations/spacing", label: "Spacing" },
+	{ href: "/foundations/radius", label: "Radius" },
+	{ href: "/foundations/motion", label: "Motion" },
 	{ href: "/components/avatar", label: "Avatar" },
 	{ href: "/components/button", label: "Button" },
 	{ href: "/components/card", label: "Card" },

@@ -38,19 +38,22 @@ export function InstallCommand() {
 	}
 
 	return (
-		<div className="install-command">
-			<SegmentedControl
-				className="install-command__tabs"
-				size="sm"
-				options={packageManagerOptions}
-				value={manager}
-				onChange={(value) => {
-					setManager(value)
-					setCopied(false)
-				}}
-			/>
-			<div className="install-command__body">
-				<code>{commandWithPrompt}</code>
+		<div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
+			<div className="m-3 mb-0">
+				<SegmentedControl
+					size="sm"
+					options={packageManagerOptions}
+					value={manager}
+					onChange={(value) => {
+						setManager(value)
+						setCopied(false)
+					}}
+				/>
+			</div>
+			<div className="flex items-center justify-between gap-4 px-4 py-3.5">
+				<code className="font-mono text-[0.8125rem] text-text">
+					{commandWithPrompt}
+				</code>
 				<Button
 					type="button"
 					variant="secondary"

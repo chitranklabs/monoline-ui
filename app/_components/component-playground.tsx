@@ -70,14 +70,12 @@ const defaultControls = {
 }
 const defaultViewportOption = viewportOptions[2] as ViewportOption
 
-const previewFrameMinWidth = 240
 const previewFrameMinHeight = 96
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
 	children: ReactNode
 	contentKey: string
-	layout: PreviewLayout
 	theme: ThemeMode
 	viewportWidth: number
 	zoom: number
@@ -86,82 +84,39 @@ interface PreviewFrameProps {
 function PreviewFrame({
 	children,
 	contentKey,
-	layout,
 	theme,
 	viewportWidth,
 	zoom,
 }: PreviewFrameProps) {
 	const previewRef = useRef<HTMLDivElement>(null)
-	const [frameSize, setFrameSize] = useState({
-		width: viewportWidth,
-		height: previewFrameMinHeight,
-	})
+	const [frameHeight, setFrameHeight] = useState(previewFrameMinHeight)
 
 	useLayoutEffect(() => {
 		const mountNode = previewRef.current
 		if (!mountNode) return
 
-		mountNode.style.display = layout === "fit" ? "inline-block" : "block"
-		mountNode.style.width = layout === "fit" ? "max-content" : "100%"
-		mountNode.style.maxWidth = layout === "fit" ? "100%" : ""
-	}, [layout])
-
-	useLayoutEffect(() => {
-		const mountNode = previewRef.current
-		if (!mountNode) return
-
-		setFrameSize({
-			width: viewportWidth,
-			height: previewFrameMinHeight,
-		})
-
-		const updateHeight = () => {
-			const contentRect = mountNode.getBoundingClientRect()
-			const childWidths = Array.from(mountNode.children, (child) => {
-				const element = child as HTMLElement
-				return Math.max(
-					Math.ceil(element.getBoundingClientRect().width),
-					element.scrollWidth
-				)
-			})
-			const contentWidth =
-				childWidths.length > 0 ? Math.max(...childWidths) : contentRect.width
-			const nextWidth =
-				layout === "viewport"
-					? viewportWidth
-					: Math.min(
-							viewportWidth,
-							Math.max(previewFrameMinWidth, contentWidth)
-						)
-			const nextHeight = Math.max(
-				previewFrameMinHeight,
-				Math.ceil(contentRect.height),
-				mountNode.scrollHeight
-			)
-			setFrameSize((current) =>
-				current.width === nextWidth && current.height === nextHeight
-					? current
-					: { width: nextWidth, height: nextHeight }
-			)
+		const measure = () => {
+			const next = Math.max(previewFrameMinHeight, mountNode.scrollHeight)
+			setFrameHeight((h) => (h === next ? h : next))
 		}
-		const observer = new ResizeObserver(updateHeight)
-		const frame = requestAnimationFrame(updateHeight)
 
+		const observer = new ResizeObserver(measure)
+		const raf = requestAnimationFrame(measure)
 		observer.observe(mountNode)
-		updateHeight()
+		measure()
 
 		return () => {
-			cancelAnimationFrame(frame)
+			cancelAnimationFrame(raf)
 			observer.disconnect()
 		}
-	}, [contentKey, layout, viewportWidth])
+	}, [contentKey, viewportWidth])
 
 	return (
 		<div
 			className="playground-canvas__stage"
 			style={{
-				width: frameSize.width * zoom,
-				height: frameSize.height * zoom,
+				width: viewportWidth * zoom,
+				height: frameHeight * zoom,
 			}}
 		>
 			<div
@@ -169,8 +124,8 @@ function PreviewFrame({
 				data-theme={theme}
 				className="playground-canvas__frame"
 				style={{
-					width: frameSize.width,
-					height: frameSize.height,
+					width: viewportWidth,
+					height: frameHeight,
 					transform: `scale(${zoom})`,
 				}}
 			>
@@ -529,7 +484,6 @@ function ComponentPlaygroundClient<
 				<div className="playground-canvas__viewport">
 					<PreviewFrame
 						contentKey={previewKey}
-						layout={previewLayout}
 						theme={theme}
 						viewportWidth={activeViewportOption.width}
 						zoom={zoom}
