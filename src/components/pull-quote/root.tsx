@@ -22,7 +22,7 @@ export function PullQuoteRoot({
 			</blockquote>
 			{attribution && (
 				<figcaption className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-text-muted">
-					— {attribution}
+					- {attribution}
 				</figcaption>
 			)}
 		</figure>

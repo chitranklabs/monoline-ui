@@ -28,14 +28,14 @@
   <br/>
 </div>
 
-Monoline UI is a component library for developer sites, editorial interfaces, and documentation playgrounds where layout precision matters more than color variety. Every component ships monochrome by default — no dark-mode class gymnastics, no color-token sprawl.
+Monoline UI is a component library for developer sites, editorial interfaces, and documentation playgrounds where layout precision matters more than color variety. Every component ships monochrome by default - no dark-mode class gymnastics, no color-token sprawl.
 
 ---
 
 ## Why Monoline UI
 
 > [!TIP]
-> Most UI libraries are built around color themes. Monoline is built around **layout**. If you're building a portfolio, a docs site, or an editorial UI, you don't need 40 color scales — you need components that compose cleanly, render on the server, and ship zero client JavaScript unless you ask for it.
+> Most UI libraries are built around color themes. Monoline is built around **layout**. If you're building a portfolio, a docs site, or an editorial UI, you don't need 40 color scales - you need components that compose cleanly, render on the server, and ship zero client JavaScript unless you ask for it.
 
 ---
 
@@ -49,8 +49,8 @@ Monoline UI is a component library for developer sites, editorial interfaces, an
 | 🔗 **Link polymorphism**  | Three-level routing control: global, per-link, and `asChild`.           |
 | 🌲 **Tree-shakeable ESM** | Import only the components you use. No barrel-file bloat.               |
 | 🎛️ **Token-driven**       | Customize spacing, scale, and type via CSS custom properties.           |
-| 📦 **37+ components**     | From `Avatar` to `Toc` — layout primitives for real projects.           |
-| 🌊 **Tailwind CSS v4**    | First-class `@source` scanning — only used utilities ship.              |
+| 📦 **37+ components**     | From `Avatar` to `Toc` - layout primitives for real projects.           |
+| 🌊 **Tailwind CSS v4**    | First-class `@source` scanning - only used utilities ship.              |
 
 ---
 
@@ -106,8 +106,8 @@ export default function Page() {
 - **Target**: ES2022 / Bundler module resolution
 - **Peer dependencies**: `react ^19`, `next ^16`, `tailwindcss ^4`
 - **Runtime dependencies**:
-  - `@radix-ui/react-slot` — polymorphic render delegation (0kb when static)
-  - `clsx` + `tailwind-merge` — class composition
+  - `@radix-ui/react-slot` - polymorphic render delegation (0kb when static)
+  - `clsx` + `tailwind-merge` - class composition
 - **Performance invariant**: Static server-rendered layouts ship **0kb hydration overhead**
 
 ---
@@ -124,7 +124,7 @@ graph TD
     F["Tailwind v4 @source scan"] --> B
 ```
 
-**Flat single-package architecture** — no workspace sync, no symlink resolution overhead.
+**Flat single-package architecture** - no workspace sync, no symlink resolution overhead.
 
 ```text
 monoline-ui/
@@ -139,7 +139,7 @@ monoline-ui/
 ```
 
 > [!IMPORTANT]
-> `/app` and `/src` coexist in a single package. The playground and the library share the same `package.json` — no monorepo overhead.
+> `/app` and `/src` coexist in a single package. The playground and the library share the same `package.json` - no monorepo overhead.
 
 ---
 
@@ -152,7 +152,7 @@ In your root stylesheet, point Tailwind's compiler at the compiled Monoline outp
 ```css
 @import "tailwindcss";
 
-/* Scan compiled outputs — only used utilities ship */
+/* Scan compiled outputs - only used utilities ship */
 @source "node_modules/@chitrank2050/monoline-ui/dist/**/*.{js,mjs}";
 
 /* Design tokens and CSS custom properties */
@@ -164,7 +164,7 @@ In your root stylesheet, point Tailwind's compiler at the compiled Monoline outp
 ### 2. Composable Dot-Notation (RSC)
 
 > [!IMPORTANT]
-> Compound components are **Server Components by default**. Client interactivity is scoped to specific subcomponents — static layouts pay zero hydration cost.
+> Compound components are **Server Components by default**. Client interactivity is scoped to specific subcomponents - static layouts pay zero hydration cost.
 
 ```tsx
 import { Footer } from "@chitrank2050/monoline-ui/footer"
@@ -201,7 +201,7 @@ export async function subscribeFormAction(formData: FormData) {
 
 Monoline supports three levels of client-router control:
 
-**A. Global** — pass your router's `Link` once to override all internal links:
+**A. Global** - pass your router's `Link` once to override all internal links:
 
 ```tsx
 import Link from "next/link"
@@ -209,7 +209,7 @@ import Link from "next/link"
 ;<Footer linkComponent={Link} columns={myColumns} />
 ```
 
-**B. Per-link** — override individual links in the config array:
+**B. Per-link** - override individual links in the config array:
 
 ```tsx
 import Link from "next/link"
@@ -225,7 +225,7 @@ const columns = [
 ]
 ```
 
-**C. `asChild`** — composable override using the Radix slot pattern:
+**C. `asChild`** - composable override using the Radix slot pattern:
 
 ```tsx
 import Link from "next/link"
@@ -257,8 +257,8 @@ pnpm format            # Prettier
 
 Monoline uses a two-phase release pipeline powered by **[git-hygiene](https://github.com/chitranklabs/git-hygiene)**:
 
-1. **Prepare** — run the `Release 1 - Prepare PR` workflow. Bumps the version, updates `CHANGELOG.md`, opens a PR.
-2. **Finalize** — merge the PR. `Release 2 - Finalize Tag` tags the release, creates a GitHub Release, and publishes to npm.
+1. **Prepare** - run the `Release 1 - Prepare PR` workflow. Bumps the version, updates `CHANGELOG.md`, opens a PR.
+2. **Finalize** - merge the PR. `Release 2 - Finalize Tag` tags the release, creates a GitHub Release, and publishes to npm.
 
 ---
 

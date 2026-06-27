@@ -29,7 +29,7 @@ import { NewComponent } from "@chitrank2050/monoline-ui/new-component"
 
 - [ ] This component should be a Server Component by default
 - [ ] This component requires client interactivity (`"use client"`)
-- [ ] Unsure — happy to discuss
+- [ ] Unsure - happy to discuss
 
 ## Alternatives considered
 

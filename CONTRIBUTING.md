@@ -1,6 +1,6 @@
 # Contributing to monoline-ui
 
-Thank you for considering contributing to Monoline UI. Every improvement — whether it's a bug fix, a new component, or a documentation clarification — makes the library better for everyone.
+Thank you for considering contributing to Monoline UI. Every improvement - whether it's a bug fix, a new component, or a documentation clarification - makes the library better for everyone.
 
 ## Code of Conduct
 
@@ -44,11 +44,11 @@ By participating in this project, you agree to abide by our [Code of Conduct](./
 
 ### Repository Structure
 
-This is a flat single-package repository — no monorepo, no workspace sync:
+This is a flat single-package repository - no monorepo, no workspace sync:
 
-- `src/components/` — UI component source (what you'll work in most)
-- `src/foundations/` — CSS token layer and design foundations
-- `app/` — Next.js playground for manual testing
+- `src/components/` - UI component source (what you'll work in most)
+- `src/foundations/` - CSS token layer and design foundations
+- `app/` - Next.js playground for manual testing
 
 ### Branch Naming
 
@@ -89,7 +89,7 @@ pnpm format      # Prettier
 ## Adding a New Component
 
 1. Create `src/components/<name>/` with an `index.ts` and component file(s).
-2. Follow the RSC-first pattern — server component by default, `"use client"` only for interactive subcomponents.
+2. Follow the RSC-first pattern - server component by default, `"use client"` only for interactive subcomponents.
 3. Export from the component's `index.ts` using the dot-notation pattern (`Component.Sub`).
 4. Run `pnpm run sync-exports` to update the root `exports` map.
 5. Add a usage example in `app/` so it's visible in the playground.
@@ -98,16 +98,16 @@ pnpm format      # Prettier
 ## Pull Request Process
 
 1. **Open an issue first** for any non-trivial change so we can align on the design.
-2. **Keep PRs focused** — one component or one fix per PR.
-3. **CI must pass** — branch name, PR title, commit history, lint, types, and tests are all validated automatically.
+2. **Keep PRs focused** - one component or one fix per PR.
+3. **CI must pass** - branch name, PR title, commit history, lint, types, and tests are all validated automatically.
 4. A maintainer will review once CI is green.
 
 ## Release Process
 
 Releases are fully automated:
 
-1. **Prepare** — run the `Release 1 - Prepare PR` workflow. It bumps the version and updates `CHANGELOG.md`.
-2. **Finalize** — merge the PR. `Release 2 - Finalize Tag` publishes to npm automatically.
+1. **Prepare** - run the `Release 1 - Prepare PR` workflow. It bumps the version and updates `CHANGELOG.md`.
+2. **Finalize** - merge the PR. `Release 2 - Finalize Tag` publishes to npm automatically.
 
 ## Need Help?
 

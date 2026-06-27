@@ -49,7 +49,7 @@ const propsRows = [
 	[
 		"active",
 		"boolean (Rail.Item)",
-		"Marks the item as the active selection — bold label + accent dot",
+		"Marks the item as the active selection - bold label + accent dot",
 	],
 	[
 		"children",

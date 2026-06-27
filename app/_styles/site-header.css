@@ -1,4 +1,4 @@
-/* Mobile menu full-screen overlay — animation + glass bg (can't be Tailwind) */
+/* Mobile menu full-screen overlay - animation + glass bg (can't be Tailwind) */
 .site-menu-drawer {
 	position: fixed;
 	inset: 0;
@@ -11,7 +11,7 @@
 	animation: cmd-fade-in var(--duration-fast) var(--ease-out) both;
 }
 
-/* Gradient scroll-fade indicators — pseudo-elements can't be Tailwind */
+/* Gradient scroll-fade indicators - pseudo-elements can't be Tailwind */
 .site-menu-drawer__body::before,
 .site-menu-drawer__body::after {
 	position: fixed;
