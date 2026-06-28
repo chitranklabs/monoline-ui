@@ -1,0 +1,72 @@
+# =============================================================
+# Automated PR Labeler
+#
+# Automatically labels Pull Requests based on the files changed.
+# This helps with project organization and changelog generation.
+# =============================================================
+
+name: Labeler 🏷️
+
+on:
+  # zizmor: ignore[dangerous-triggers]
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    name: Apply Labels 🏷️
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository 📥
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: ./.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+
+      - name: Sync Label Colors and Descriptions 🎨
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          # Define labels as "name:color:description"
+          labels=(
+            "area/docs:8FD6E8:Documentation files, guides, and markdown files"
+            "area/ci:F9D0C4:CI/CD workflows and actions configuration"
+            "area/design:C2F2D0:Design system components, styles, and core library code"
+            "area/playground:F9E8B3:Playground app pages, routing, and next.js docs setup"
+            "area/deps:D2D2D2:Dependency upgrades and lockfile updates"
+            "area/security:FFB3B3:Security policies and scanner configurations"
+            "area/maintenance:D0E1FD:Build scripts, workspace config, and project maintenance"
+          )
+
+          for item in "${labels[@]}"; do
+            # Parse the item
+            IFS=":" read -r name color description <<< "$item"
+
+            echo "Syncing label '$name' (Color: #$color)..."
+            # Try to create the label; if it fails (already exists), update it
+            gh label create "$name" --color "$color" --description "$description" 2>/dev/null || \
+            gh label edit "$name" --color "$color" --description "$description"
+          done
+
+      - uses: actions/labeler@f27b608878404679385c85cfa523b85ccb86e213 # v6.1.0
+        with:
+          repo-token: "${{ steps.generate_token.outputs.token }}"
+          sync-labels: true
+          configuration-path: .github/labeler.yml

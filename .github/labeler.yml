@@ -1,0 +1,60 @@
+# Labeler Configuration (v5 Syntax)
+# -------------------------------------------------------------
+# Keys represent the label names in GitHub.
+# Values represent the file patterns to match.
+
+"area/docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**"
+          - "*.md"
+
+"area/ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
+          - ".github/actions/**"
+          - "lefthook.yml"
+
+"area/design":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**"
+
+"area/playground":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/**"
+
+"area/deps":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "package.json"
+          - "pnpm-lock.yaml"
+          - "pnpm-workspace.yaml"
+
+"area/security":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "SECURITY.md"
+          - ".gitleaks.toml"
+          - ".github/workflows/scorecard.yml"
+          - ".github/workflows/workflow-lint.yml"
+
+"area/maintenance":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "scripts/**"
+              - ".editorconfig"
+              - ".gitignore"
+              - ".prettierrc.json"
+              - ".markdownlint.json"
+              - "tsconfig.json"
+              - "tsconfig.build.json"
+              - "tsup.config.ts"
+              - "eslint.config.mjs"
+              - "postcss.config.mjs"
+              - "cliff.toml"
+      - head-branch:
+          - "^maintenance/.*"
