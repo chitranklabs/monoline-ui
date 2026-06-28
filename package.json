@@ -66,6 +66,7 @@
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
 		"babel-plugin-react-compiler": "^1.0.0",
+		"esbuild": "^0.28.1",
 		"eslint": "^10.5.0",
 		"eslint-plugin-jsx-a11y": "^6.10.2",
 		"globals": "^17.6.0",

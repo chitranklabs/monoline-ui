@@ -250,12 +250,23 @@ async function run() {
 		"✓ Updated tsconfig.json paths"
 	)
 
-	// 7. Output src/metadata.json
+	const metadataPath = path.join(srcDir, "metadata.json")
+	let existingSize = "12kb"
+	try {
+		const raw = await readFile(metadataPath, "utf8")
+		const parsed = JSON.parse(raw)
+		if (parsed.size) {
+			existingSize = parsed.size
+		}
+	} catch {
+		// Ignore if metadata.json does not exist yet
+	}
+
 	const metadata = {
 		count: components.length,
 		components: components,
+		size: existingSize,
 	}
-	const metadataPath = path.join(srcDir, "metadata.json")
 	await writeGenerated(
 		metadataPath,
 		JSON.stringify(metadata, null, "\t") + "\n",

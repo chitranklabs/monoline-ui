@@ -23,7 +23,7 @@ export const metadata: Metadata = createPageMetadata({
 const stats = [
 	[String(metadataJson.count), "Components"],
 	["2", "Themes"],
-	["12kb", "Gzipped"],
+	[metadataJson.size, "Gzipped"],
 	["MIT", "License"],
 ]
 
