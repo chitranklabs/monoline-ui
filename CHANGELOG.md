@@ -4,7 +4,7 @@ All notable changes to monoline-ui.
 
 ---
 
-## [0.1.0] - 2026-06-25
+## [0.2.0] - 2026-06-28
 
 ### Bug Fixes
 
@@ -29,6 +29,8 @@ All notable changes to monoline-ui.
 
 - **package:** Document scalable package imports ([cf54c9d](https://github.com/chitranklabs/monoline-ui/commit/cf54c9de6fca4b0373ed8a84761f10613a6feaf4))
 - **playground:** Align installation examples with package API ([7a705c2](https://github.com/chitranklabs/monoline-ui/commit/7a705c27b703431e05c71d3b92672fe0f2cd3b9a))
+- Update project logo in README and add source file ([e6f62dd](https://github.com/chitranklabs/monoline-ui/commit/e6f62dd5db8181c3683dd907334cd81858d9c2c1))
+- Remove redundant line break in README.md ([d854041](https://github.com/chitranklabs/monoline-ui/commit/d8540411f2878a3288ec687082dfbf9b7509572d))
 
 ### Features
 
@@ -109,6 +111,10 @@ All notable changes to monoline-ui.
 - Replace AuthorFooter component with new BackLink component ([12f67df](https://github.com/chitranklabs/monoline-ui/commit/12f67df630929e148113121c1512ac550396ce9b))
 - Add container and back-link components and update documentation pages for the UI library ([1c641f6](https://github.com/chitranklabs/monoline-ui/commit/1c641f6eda1d0ab3d220872a5bc3503d5ff4d04b))
 - Add automatic export sync to pre-commit hook and update sync script to support .json.lib files ([12b77e3](https://github.com/chitranklabs/monoline-ui/commit/12b77e3f196a417caeb7237b0bebaece68dde19a))
+- Split spacing, radius, and motion into separate foundation pages ([9d1539d](https://github.com/chitranklabs/monoline-ui/commit/9d1539d73f6768c414b0d6686e4317f0ad4f8486))
+- Add ScrollToTop component, update footer dynamic year, and refine UI elements ([bc21f9b](https://github.com/chitranklabs/monoline-ui/commit/bc21f9b9a042c70ec72cb145a20f055268a7315e))
+- Add project assets and configure OpenSSF Scorecard security workflow ([09b97f1](https://github.com/chitranklabs/monoline-ui/commit/09b97f19da4cfd29b66533aa9d51c1cc9d3cef38))
+- Add banner image assets in png and jpg formats ([6afd396](https://github.com/chitranklabs/monoline-ui/commit/6afd396a1bd9f070e1d3859a0126ecd747983f3b))
 
 ### Maintenance
 
@@ -165,6 +171,26 @@ All notable changes to monoline-ui.
 - **ci:** Format generated release files in prepare workflow ([9465df0](https://github.com/chitranklabs/monoline-ui/commit/9465df0e6d891ece3558d2ef929c82c9567e5cea))
 - Configure pnpm environment & use pnpm for deps installation & formatting in release workflow ([7ead416](https://github.com/chitranklabs/monoline-ui/commit/7ead416c22e46c2b836b55cbc65cfcb441450035))
 - Enforce explicit json formatting for package.json.lib & apply consistent linting across app ([8ea4954](https://github.com/chitranklabs/monoline-ui/commit/8ea4954cf0243127707a141d286d7a4d519fdfcc))
+- Remove paths-ignore from pull request workflow triggers ([49e98b0](https://github.com/chitranklabs/monoline-ui/commit/49e98b02472aa240c49ff06775a725803e0bbfb7))
+- Update npm registry configuration and JSR publish flags in release-finalize workflow ([8aa7a68](https://github.com/chitranklabs/monoline-ui/commit/8aa7a68e88bd6a5d340e4a13e21ad376cb292fac))
+- Update Deno version to v2.x and switch to native deno publish command ([013cb8d](https://github.com/chitranklabs/monoline-ui/commit/013cb8da208de4364338c157984749c782ca5644))
+- Update pnpm to 11.8.0 [SECURITY] (#31) ([04d51d7](https://github.com/chitranklabs/monoline-ui/commit/04d51d7797402c9165ec0400e6e546965391580b)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update all major npm dependencies to v24.17.0 (#26) ([22f1de2](https://github.com/chitranklabs/monoline-ui/commit/22f1de255b6f0f2a206328ec186534ead72e1d8d)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update github-actions dependencies to v7.0.0 (#25) ([9c709bc](https://github.com/chitranklabs/monoline-ui/commit/9c709bc310cfaaaa1c0eff629f3c99d75555f848)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update github-actions dependencies to v6.0.9 (#23) ([b91ee84](https://github.com/chitranklabs/monoline-ui/commit/b91ee84922e551e70661c7808dee03c0f430990d)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update all non-major npm dependencies (#24) ([62cfa88](https://github.com/chitranklabs/monoline-ui/commit/62cfa886cc5e3f1398678921ed7d4289e4520022)) by [renovate[bot]](https://github.com/apps/renovate)
+- Wip ([b17dc64](https://github.com/chitranklabs/monoline-ui/commit/b17dc644a70306b6dbe51c639bd0e26b360c4d1c))
+- Initialize project repository with contribution guidelines, templates, and documentation ([57a54b7](https://github.com/chitranklabs/monoline-ui/commit/57a54b7e2c24fda8585ff594acf576946eda55e9))
+- Replace em dashes with hyphens in documentation and source files ([9db7ccf](https://github.com/chitranklabs/monoline-ui/commit/9db7ccf82f0119ceb7cf0483ba02d4542595792f))
+- Add MIT license file ([50f59c4](https://github.com/chitranklabs/monoline-ui/commit/50f59c47c85d5da01defe132559f67682bd849a9))
+- Add background and padding to monoline-ui logo in README ([0fa5db0](https://github.com/chitranklabs/monoline-ui/commit/0fa5db0caa713341d2a18d81db935370b8091311))
+- Add project maintenance scripts, improve navigation structure ([3f12589](https://github.com/chitranklabs/monoline-ui/commit/3f1258909ab56c43f65a785cd11d76c09748f9fa))
+
+### Miscellaneous Tasks
+
+- Revert "chore(release): bump version to v0.1.1 (#29)" (#30)
+
+This reverts commit 479cd40493509409c03672cd0d4b30ac45c7759c. ([c5c8ff2](https://github.com/chitranklabs/monoline-ui/commit/c5c8ff2707db9b683af8174e5bd6ba4cbf3316ea))
 
 ### Performance
 
@@ -228,6 +254,13 @@ All notable changes to monoline-ui.
 - Consolidate page metadata management with a shared helper utility ([9f80e8f](https://github.com/chitranklabs/monoline-ui/commit/9f80e8f1288cfc284cc72e36ccccb56033a8c803))
 - Optimize select keyboard navigation & state management while updating back-link comp type ([a64db5d](https://github.com/chitranklabs/monoline-ui/commit/a64db5d1464f879ac01ce405e017ddfaaafed30b))
 - Centralize component CSS imports into theme.css and update package exports ([2de29d6](https://github.com/chitranklabs/monoline-ui/commit/2de29d68aa61408882fac37587d3dfe77baa76d5))
+- Expand linting scope in lefthook and clean up prettier execution in sync-exports ([e1d6ba3](https://github.com/chitranklabs/monoline-ui/commit/e1d6ba3b13fe7c69fef4e0654f1fd792b83d6559))
+- Add JSDoc modules and improve TypeScript component type definitions across the library ([868950c](https://github.com/chitranklabs/monoline-ui/commit/868950cb9f5116ff731decd1a348b844028148c2))
+- Modernize Rail component with dedicated CSS and add focus support to code blocks ([a90795e](https://github.com/chitranklabs/monoline-ui/commit/a90795e345ad1593d6945954979842737ab90205))
+- Omit title from RailProps component properties to avoid HTML attribute conflicts ([e967d97](https://github.com/chitranklabs/monoline-ui/commit/e967d975bd0b5c04a821fbd20a4b055bd9367823))
+- Migrate installation page styles to Tailwind and consolidate into docs-shell.css ([7bc3795](https://github.com/chitranklabs/monoline-ui/commit/7bc379525624b972c3e0cb2c6aad9c638d443cff))
+- Migrate layout to Container component and update design tokens across documentation pages ([7d75265](https://github.com/chitranklabs/monoline-ui/commit/7d75265f2ef84af54a37513fe4503da854f3c533))
+- Migrate site header and drawer styles to Tailwind CSS utility classes ([2bd388e](https://github.com/chitranklabs/monoline-ui/commit/2bd388e591c4009757261038168a82f7ba3b2a13))
 
 ### Testing
 
