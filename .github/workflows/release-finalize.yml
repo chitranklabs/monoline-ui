@@ -226,4 +226,4 @@ jobs:
           jq ".version = \"$VERSION\"" jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
 
       - name: Publish to JSR 📦
-        run: deno publish --allow-dirty --allow-slow-types
+        run: deno publish --allow-dirty --allow-slow-types --no-provenance
