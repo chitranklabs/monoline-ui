@@ -2,13 +2,13 @@ import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
 	trailingSlash: false,
-	transpilePackages: ["@chitrank2050/monoline-ui"],
+	transpilePackages: [],
 	reactCompiler: true,
 	poweredByHeader: false,
 	compress: true,
 	experimental: {
+		webpackMemoryOptimizations: true,
 		optimizePackageImports: [
-			"@chitrank2050/monoline-ui",
 			"@radix-ui/react-slot",
 			"cmdk",
 			"prismjs",

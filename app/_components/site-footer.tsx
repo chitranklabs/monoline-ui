@@ -4,30 +4,50 @@ import Link from "next/link"
 
 import { Footer } from "@chitrank2050/monoline-ui/footer"
 
+import { getLatestRelease } from "../lib/releases"
+
 const footerGroups = [
 	{
 		title: "Docs",
 		links: [
-			"Introduction",
-			"Installation",
-			"Theming",
-			"Migration",
-			"Changelog",
+			{
+				title: "Installation",
+				href: "/installation",
+			},
+			{
+				title: "Changelog",
+				href: "https://github.com/chitranklabs/monoline-ui/blob/main/CHANGELOG.md",
+				external: true,
+			},
 		],
 	},
 	{
 		title: "Resources",
 		links: [
-			"Components",
-			"Foundations",
-			"Figma library",
-			"Templates",
-			"Examples",
+			{
+				title: "Foundations",
+				href: "/foundations/color",
+			},
+			{
+				title: "Components",
+				href: "/components/card",
+			},
 		],
 	},
 	{
 		title: "Community",
-		links: ["GitHub", "Discord", "X / Twitter", "Discussions", "Roadmap"],
+		links: [
+			{
+				title: "GitHub",
+				href: "https://github.com/chitranklabs/monoline-ui",
+				external: true,
+			},
+			{
+				title: "Discussions",
+				href: "https://github.com/chitranklabs/monoline-ui/discussions",
+				external: true,
+			},
+		],
 	},
 ]
 
@@ -35,7 +55,9 @@ function SiteFooterLink(props: React.ComponentProps<typeof Link>) {
 	return <Link {...props} />
 }
 
-export function SiteFooter() {
+export async function SiteFooter() {
+	const release = await getLatestRelease()
+
 	return (
 		<Footer
 			brand={
@@ -45,13 +67,17 @@ export function SiteFooter() {
 				</Link>
 			}
 			description="A taste-aware component library for editorial dev portfolios. Built on Tailwind v4 and CSS vars. MIT licensed."
-			status={<Footer.Status>v0.2.0 · May 2026</Footer.Status>}
+			status={
+				<Footer.Status>
+					{release.version} · {release.date}
+				</Footer.Status>
+			}
 			columns={footerGroups.map((group) => ({
 				title: group.title,
-				links: group.links.map((label) => ({
-					href: "#",
-					label,
-					external: label.includes("↗"),
+				links: group.links.map((link) => ({
+					href: link.href,
+					label: link.title,
+					external: link.external,
 				})),
 			}))}
 			subscribe={false}

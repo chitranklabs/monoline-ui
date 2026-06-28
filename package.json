@@ -14,7 +14,7 @@
 		"url": "https://github.com/chitranklabs/monoline-ui"
 	},
 	"scripts": {
-		"dev": "next dev",
+		"dev": "NODE_OPTIONS='--max-old-space-size=4096' next dev",
 		"build": "next build",
 		"postbuild": "next-sitemap",
 		"start": "next start",
@@ -31,7 +31,11 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"deps:update": "pnpm update --interactive --latest",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"init": "./scripts/install.sh",
+		"nuke": "./scripts/obliviate.sh",
+		"clean-setup": "pnpm run nuke && pnpm run init",
+		"clean-build": "pnpm run nuke && pnpm run init && pnpm run build:all"
 	},
 	"dependencies": {
 		"@radix-ui/react-slot": "^1.3.0",
