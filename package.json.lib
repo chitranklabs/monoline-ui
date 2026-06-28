@@ -28,7 +28,19 @@
 		"button",
 		"toggle",
 		"tag",
-		"footer"
+		"footer",
+		"avatar",
+		"badge",
+		"callout",
+		"card",
+		"code-block",
+		"command-search",
+		"input",
+		"navbar",
+		"select",
+		"skeleton",
+		"toast",
+		"segmented-control"
 	],
 	"license": "MIT",
 	"publishConfig": {

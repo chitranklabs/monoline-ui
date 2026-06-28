@@ -230,7 +230,9 @@ Monoline supports three levels of client-router control:
 ```tsx
 import Link from "next/link"
 
-;<Footer linkComponent={Link} columns={myColumns} />
+export default function MyFooter() {
+	return <Footer linkComponent={Link} columns={myColumns} />
+}
 ```
 
 **B. Per-link** - override individual links in the config array:
