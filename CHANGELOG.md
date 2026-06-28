@@ -4,6 +4,19 @@ All notable changes to monoline-ui.
 
 ---
 
+## [0.2.1] - 2026-06-28
+
+### Features
+
+- Fetch dynamic release version for homepage ([43a3253](https://github.com/chitranklabs/monoline-ui/commit/43a3253fc08a03402508cd2fee02db18c62ebfa8))
+- Implement dynamic gzipped bundle size calculation and integrate into build pipeline and doc ([1843d75](https://github.com/chitranklabs/monoline-ui/commit/1843d757621f6e1e0e8c6cc956f916bca27fc253))
+
+### Maintenance
+
+- Package-lock ([63a23a1](https://github.com/chitranklabs/monoline-ui/commit/63a23a182681eadd35f6bad52760b4cb4b06f23d))
+
+---
+
 ## [0.2.0] - 2026-06-28
 
 ### Bug Fixes
@@ -115,6 +128,8 @@ All notable changes to monoline-ui.
 - Add ScrollToTop component, update footer dynamic year, and refine UI elements ([bc21f9b](https://github.com/chitranklabs/monoline-ui/commit/bc21f9b9a042c70ec72cb145a20f055268a7315e))
 - Add project assets and configure OpenSSF Scorecard security workflow ([09b97f1](https://github.com/chitranklabs/monoline-ui/commit/09b97f19da4cfd29b66533aa9d51c1cc9d3cef38))
 - Add banner image assets in png and jpg formats ([6afd396](https://github.com/chitranklabs/monoline-ui/commit/6afd396a1bd9f070e1d3859a0126ecd747983f3b))
+- Implement automated PR labeler workflow ([04dd3ee](https://github.com/chitranklabs/monoline-ui/commit/04dd3ee3e2e17bd722b147b8d7a030d29c185f49))
+- Add new components to library exports and update footer documentation example ([7ee5a0e](https://github.com/chitranklabs/monoline-ui/commit/7ee5a0e21c90d330d0eb927c424301af427002cc))
 
 ### Maintenance
 
@@ -185,6 +200,7 @@ All notable changes to monoline-ui.
 - Add MIT license file ([50f59c4](https://github.com/chitranklabs/monoline-ui/commit/50f59c47c85d5da01defe132559f67682bd849a9))
 - Add background and padding to monoline-ui logo in README ([0fa5db0](https://github.com/chitranklabs/monoline-ui/commit/0fa5db0caa713341d2a18d81db935370b8091311))
 - Add project maintenance scripts, improve navigation structure ([3f12589](https://github.com/chitranklabs/monoline-ui/commit/3f1258909ab56c43f65a785cd11d76c09748f9fa))
+- Disable provenance during JSR release publication ([c5825c5](https://github.com/chitranklabs/monoline-ui/commit/c5825c5b1953e2ae02c700bbbd566baee3745c41))
 
 ### Miscellaneous Tasks
 
