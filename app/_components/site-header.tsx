@@ -116,12 +116,6 @@ export function SiteHeader() {
 							⌘K
 						</kbd>
 					</button>
-					<a
-						className="inline-flex items-center gap-1.25 whitespace-nowrap text-text-secondary text-xs font-bold transition-colors duration-(--duration-micro) ease-out hover:text-text"
-						href="https://github.com"
-					>
-						GitHub
-					</a>
 					<ThemeControl mode="mini" size="sm" />
 				</Navbar.Actions>
 

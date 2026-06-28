@@ -8,10 +8,10 @@ import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 import { SectionHead } from "@chitrank2050/monoline-ui/section-head"
 import { Status } from "@chitrank2050/monoline-ui/status"
 
-import pkgJson from "../package.json"
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
 import { createPageMetadata } from "./lib/metadata"
+import { getLatestRelease } from "./lib/releases"
 
 export const metadata: Metadata = createPageMetadata({
 	title: "monoline/ui - Token-first React component library",
@@ -124,7 +124,9 @@ function PreviewCard() {
 	)
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+	const release = await getLatestRelease()
+
 	return (
 		<Container
 			as="main"
@@ -136,7 +138,7 @@ export default function HomePage() {
 				<div className="intro-hero__copy">
 					<div className="intro-pills flex flex-wrap gap-ml-2-5 mb-ml-6">
 						<Status variant="accent" size="md" animate>
-							v{pkgJson.version}
+							{release.version}
 						</Status>
 					</div>
 					<h1 className="max-w-140 text-text font-mono text-[clamp(2.6875rem,5.3vw,3.875rem)] font-extrabold tracking-[-0.073em] leading-[0.915]">

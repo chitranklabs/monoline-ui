@@ -69,7 +69,7 @@ export async function SiteFooter() {
 			description="A taste-aware component library for editorial dev portfolios. Built on Tailwind v4 and CSS vars. MIT licensed."
 			status={
 				<Footer.Status>
-					{release.version} · {release.date}
+					{release.version} · <span className="capitalize">{release.date}</span>
 				</Footer.Status>
 			}
 			columns={footerGroups.map((group) => ({
