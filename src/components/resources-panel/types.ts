@@ -6,6 +6,7 @@ export type ResourcesPanelKind =
 	| "live"
 	| "source"
 	| "npm"
+	| "jsr"
 	| "docs"
 	| "changelog"
 	| "figma"

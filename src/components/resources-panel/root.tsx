@@ -14,11 +14,12 @@ function getDefaultFooterLabel(count: number) {
 }
 
 function ResourceIcon({ kind = "external" }: { kind?: ResourcesPanelKind }) {
+	const viewBox = kind === "jsr" ? "0 0 24 24" : "0 0 16 16"
 	return (
 		<svg
 			aria-hidden="true"
 			className="ml-resources-panel__icon-svg"
-			viewBox="0 0 16 16"
+			viewBox={viewBox}
 		>
 			{kind === "live" ? (
 				<>
@@ -38,6 +39,9 @@ function ResourceIcon({ kind = "external" }: { kind?: ResourcesPanelKind }) {
 					<path d="M6 10V6h4v4" />
 					<path d="M8 10V6" />
 				</>
+			) : null}
+			{kind === "jsr" ? (
+				<path d="M3.692 5.538v3.693H0v7.384h7.385v1.847h12.923v-3.693H24V7.385h-7.385V5.538Zm1.846 1.847h1.847v7.384H1.846v-3.692h1.846v1.846h1.846zm3.693 0h5.538V9.23h-3.692v1.846h3.692v5.538H9.231V14.77h3.692v-1.846H9.231Zm7.384 1.846h5.539v3.692h-1.846v-1.846h-1.846v5.538h-1.847z" />
 			) : null}
 			{kind === "docs" ? (
 				<>
