@@ -1,6 +1,6 @@
 {
 	"name": "@chitrank2050/monoline-ui",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "A token-first, responsive React component library and Tailwind CSS v4 design system built from my portfolio's visual language.",
 	"type": "module",
 	"author": {
