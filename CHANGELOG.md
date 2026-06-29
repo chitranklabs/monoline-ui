@@ -6,6 +6,10 @@ All notable changes to monoline-ui.
 
 ## [0.2.1] - 2026-06-28
 
+### Bug Fixes
+
+- Suppress hydration warnings in subscribe component and inject @source ([6ab9496](https://github.com/chitranklabs/monoline-ui/commit/6ab9496a7aed8376e54ca884b07e84f25a6f4119))
+
 ### Features
 
 - Fetch dynamic release version for homepage ([43a3253](https://github.com/chitranklabs/monoline-ui/commit/43a3253fc08a03402508cd2fee02db18c62ebfa8))
