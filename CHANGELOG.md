@@ -4,6 +4,14 @@ All notable changes to monoline-ui.
 
 ---
 
+## [0.2.2] - 2026-06-29
+
+### Features
+
+- Add JSR package support to resources panel with icon and type definition ([8fd761d](https://github.com/chitranklabs/monoline-ui/commit/8fd761dc87a2d1a49266b140281ca5ec7c8138e9))
+
+---
+
 ## [0.2.1] - 2026-06-28
 
 ### Bug Fixes
