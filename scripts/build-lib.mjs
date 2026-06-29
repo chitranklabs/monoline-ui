@@ -62,6 +62,13 @@ await cp(
 	{ recursive: true }
 )
 
+// Inject @source so consumers' Tailwind scans our chunk files for class names.
+// Without this, utility classes used in JSX (h-ml-8, inline-flex, etc.) are
+// missing from the generated CSS because node_modules is excluded by default.
+const distThemePath = path.join(distDir, "styles/theme.css")
+const themeContent = await readFile(distThemePath, "utf8")
+await writeFile(distThemePath, themeContent + '\n@source "..";\n', "utf8")
+
 // Copy per-component CSS files
 const componentsDir = path.join(projectRoot, "src/components")
 const componentEntries = await readdir(componentsDir, { withFileTypes: true })

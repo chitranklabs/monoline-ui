@@ -23,7 +23,10 @@ export function FooterSubscribeForm({
 			<p className="max-w-(--ml-footer-subscribe-copy-max) text-base leading-relaxed text-body">
 				{description}
 			</p>
-			<div className="flex h-(--ml-footer-subscribe-control-height) w-full max-w-(--ml-footer-subscribe-control-max) overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-(--duration-micro) ease-out focus-within:border-accent focus-within:shadow-(--focus-ring)">
+			<div
+				suppressHydrationWarning
+				className="flex h-(--ml-footer-subscribe-control-height) w-full max-w-(--ml-footer-subscribe-control-max) overflow-hidden rounded-md border border-border-strong bg-card p-ml-1 transition-[border-color,box-shadow] duration-(--duration-micro) ease-out focus-within:border-accent focus-within:shadow-(--focus-ring)"
+			>
 				<input
 					type="email"
 					name={inputName}
@@ -31,6 +34,7 @@ export function FooterSubscribeForm({
 					autoComplete="email"
 					placeholder={placeholder}
 					aria-label="Email address"
+					suppressHydrationWarning
 					className="placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent px-ml-3 text-sm text-primary outline-none transition-colors duration-(--duration-micro) ease-out focus:placeholder:text-muted-foreground/70"
 				/>
 				<button
