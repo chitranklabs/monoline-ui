@@ -6,5 +6,5 @@ allowBuilds:
 overrides:
   postcss: ">=8.5.15"
   esbuild: ">=0.28.1"
-  js-yaml: ">=4.2.0"
+  js-yaml: ">=5.2.0"
   markdown-it: ">=14.2.0"
