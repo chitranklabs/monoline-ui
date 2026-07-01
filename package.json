@@ -1,6 +1,6 @@
 {
 	"name": "monoline",
-	"version": "0.1.0",
+	"version": "0.2.3",
 	"private": true,
 	"description": "Monoline UI design library and Next.js playground.",
 	"type": "module",
@@ -9,12 +9,16 @@
 		"email": "chitrank2050@gmail.com",
 		"url": "https://www.chitrankagnihotri.com"
 	},
+	"homepage": "https://monolineui.chitrankagnihotri.com/",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/chitranklabs/monoline-ui"
 	},
+	"bugs": {
+		"url": "https://github.com/chitranklabs/monoline-ui/issues"
+	},
 	"scripts": {
-		"dev": "next dev",
+		"dev": "NODE_OPTIONS='--max-old-space-size=4096' next dev",
 		"build": "next build",
 		"postbuild": "next-sitemap",
 		"start": "next start",
@@ -31,11 +35,15 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"deps:update": "pnpm update --interactive --latest",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"init": "./scripts/install.sh",
+		"nuke": "./scripts/obliviate.sh",
+		"clean-setup": "pnpm run nuke && pnpm run init",
+		"clean-build": "pnpm run nuke && pnpm run init && pnpm run build:all"
 	},
 	"dependencies": {
 		"@radix-ui/react-slot": "^1.3.0",
-		"@tailwindcss/postcss": "^4.3.1",
+		"@tailwindcss/postcss": "^4.3.2",
 		"@vercel/analytics": "^2.0.1",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",
@@ -44,7 +52,7 @@
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
 		"tailwind-merge": "^3.6.0",
-		"tailwindcss": "^4.3.1"
+		"tailwindcss": "^4.3.2"
 	},
 	"devDependencies": {
 		"@chitrank2050/git-hygiene": "^0.4.12",
@@ -58,22 +66,23 @@
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
 		"babel-plugin-react-compiler": "^1.0.0",
-		"eslint": "^10.5.0",
+		"esbuild": "^0.28.1",
+		"eslint": "^10.6.0",
 		"eslint-plugin-jsx-a11y": "^6.10.2",
-		"globals": "^17.6.0",
+		"globals": "^17.7.0",
 		"jsdom": "^29.1.1",
 		"lefthook": "^2.1.9",
 		"markdownlint-cli": "^0.49.0",
 		"next-sitemap": "^4.2.3",
-		"prettier": "^3.8.4",
+		"prettier": "^3.9.4",
 		"tsup": "^8.5.1",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.61.1",
+		"typescript-eslint": "^8.62.1",
 		"vitest": "^4.1.9"
 	},
-	"packageManager": "pnpm@11.8.0",
+	"packageManager": "pnpm@11.9.0",
 	"engines": {
-		"node": ">=22.14.0"
+		"node": ">=22.23.1"
 	},
 	"git-hygiene": {
 		"types": [

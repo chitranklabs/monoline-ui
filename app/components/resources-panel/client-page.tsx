@@ -31,6 +31,13 @@ const items = [
 		badge: "v2.4.1",
 	},
 	{
+		kind: "jsr",
+		label: "JSR package",
+		href: "https://jsr.io/@monoline/sdk",
+		host: "@monoline/sdk",
+		badge: "v2.4.1",
+	},
+	{
 		kind: "docs",
 		label: "Documentation",
 		href: "https://docs.monolineui.io",
