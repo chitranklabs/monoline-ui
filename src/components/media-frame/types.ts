@@ -1,12 +1,7 @@
 import type * as React from "react"
 
 export type MediaFrameRatio =
-	| "square"
-	| "portrait"
-	| "landscape"
-	| "wide"
-	| "cinematic"
-	| "auto"
+	"square" | "portrait" | "landscape" | "wide" | "cinematic" | "auto"
 export type MediaFrameSize = "sm" | "md" | "lg"
 
 export interface MediaFrameProps extends React.ComponentProps<"div"> {
