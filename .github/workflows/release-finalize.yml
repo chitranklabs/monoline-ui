@@ -178,7 +178,7 @@ jobs:
           gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "$RELEASE_NOTES" $PRERELEASE_FLAG
 
       - name: Attest Build Artifacts 📜
-        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
         with:
           subject-path: |
             dist/**
@@ -218,7 +218,7 @@ jobs:
       - name: Setup Deno 🦕
         uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2.0.4
         with:
-          deno-version: v2.x
+          deno-version: 2.9.0
 
       - name: Sync JSR Version 🔄
         run: |
