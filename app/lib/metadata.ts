@@ -2,6 +2,13 @@ import type { Metadata } from "next"
 
 import { siteUrl } from "./seo"
 
+export const socialImage = {
+	url: new URL("/monoline-ui-og.jpg", `${siteUrl}/`).toString(),
+	width: 1280,
+	height: 640,
+	alt: "Monoline UI monochrome React component library",
+} as const
+
 interface PageMetadataInput {
 	title: string
 	description: string
@@ -28,11 +35,13 @@ export function createPageMetadata({
 			siteName: "monoline/ui",
 			title,
 			description,
+			images: [socialImage],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title,
 			description,
+			images: [socialImage],
 		},
 		alternates: {
 			canonical: path,

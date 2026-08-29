@@ -2,10 +2,6 @@ import type { Metadata } from "next"
 
 import { Analytics } from "@vercel/analytics/next"
 
-import JsonLd, {
-	getPersonJsonLd,
-	getWebsiteJsonLd,
-} from "./_components/json-ld"
 import { ScrollToTop } from "./_components/scroll-to-top"
 import { SiteFooter } from "./_components/site-footer"
 import { SiteHeader } from "./_components/site-header"
@@ -13,6 +9,7 @@ import { ThemeProvider } from "./_components/theme-provider"
 import "./globals.css"
 import { monolineFontClassName } from "./lib/fonts"
 import { fetchIdentity } from "./lib/identity"
+import { socialImage } from "./lib/metadata"
 import { siteUrl } from "./lib/seo"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,9 +20,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	return {
 		metadataBase: new URL(siteUrl),
-		title: "monoline/ui  Component library for personal sites & developer docs",
+		title: "Monoline UI: React Component Library for Developer Sites",
 		description:
-			"A Next.js docs and playground site for the Monoline UI component library.",
+			"Build editorial portfolios, developer documentation, and product interfaces with 36 token-driven React 19 components, Tailwind CSS v4, and accessible APIs.",
 		authors: [author],
 		creator: author.name,
 		publisher: author.name,
@@ -37,18 +34,18 @@ export async function generateMetadata(): Promise<Metadata> {
 		openGraph: {
 			type: "website",
 			url: siteUrl,
-			title:
-				"monoline/ui  Component library for personal sites & developer docs",
+			title: "Monoline UI: React Component Library for Developer Sites",
 			description:
-				"A Next.js docs and playground site for the Monoline UI component library.",
+				"Build editorial portfolios, developer documentation, and product interfaces with 36 token-driven React 19 components, Tailwind CSS v4, and accessible APIs.",
 			siteName: "monoline/ui",
+			images: [socialImage],
 		},
 		twitter: {
 			card: "summary_large_image",
-			title:
-				"monoline/ui  Component library for personal sites & developer docs",
+			title: "Monoline UI: React Component Library for Developer Sites",
 			description:
-				"A Next.js docs and playground site for the Monoline UI component library.",
+				"Build editorial portfolios, developer documentation, and product interfaces with 36 token-driven React 19 components, Tailwind CSS v4, and accessible APIs.",
+			images: [socialImage],
 		},
 		alternates: {
 			canonical: "/",
@@ -67,22 +64,12 @@ export async function generateMetadata(): Promise<Metadata> {
 	}
 }
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
 	const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-
-	const identity = await fetchIdentity()
-
-	const personJsonLd = {
-		"@context": "https://schema.org",
-		"@graph": [
-			identity ? getPersonJsonLd(identity) : null,
-			getWebsiteJsonLd(identity, siteUrl),
-		].filter(Boolean),
-	}
 
 	return (
 		<html
@@ -98,7 +85,6 @@ export default async function RootLayout({
 						__html: `(function(){try{var t=localStorage.getItem('ml-theme');var d=document.documentElement;if(t==='light'||t==='dark'){d.setAttribute('data-theme',t);return;}if(window.matchMedia('(prefers-color-scheme: dark)').matches){d.setAttribute('data-theme','dark');return;}d.setAttribute('data-theme','light');}catch(e){}})();`,
 					}}
 				/>
-				<JsonLd data={personJsonLd} />
 				<ThemeProvider>
 					<ScrollToTop />
 					<div className="min-h-screen bg-background">

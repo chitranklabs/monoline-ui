@@ -49,7 +49,6 @@
 			"app",
 			"scripts",
 			"next.config.ts",
-			"next-sitemap.config.js",
 			"postcss.config.mjs",
 			"tsconfig.json",
 			"tsconfig.build.json"

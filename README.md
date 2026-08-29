@@ -104,8 +104,10 @@ export default function Page() {
 
 | Resource       | URL                                                                                                    |
 | :------------- | :----------------------------------------------------------------------------------------------------- |
+| **Docs**       | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                           |
 | **npm**        | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui) |
 | **Repository** | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                     |
+| **Case study** | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                 |
 | **Changelog**  | [CHANGELOG.md](./CHANGELOG.md)                                                                         |
 
 ---
@@ -311,5 +313,5 @@ Contributions are welcome. Please read the [Contributing Guide](./CONTRIBUTING.m
 ---
 
 <p align="center">
-  Developed with ❤️ by <b><a href="https://www.chitrankagnihotri.com">Chitrank Agnihotri</a></b>
+  Developed with ❤️ by <b><a href="https://chitrankagnihotri.com">Chitrank Agnihotri</a></b>
 </p>

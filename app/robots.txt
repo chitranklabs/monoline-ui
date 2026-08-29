@@ -1,0 +1,18 @@
+# ==================================================
+#  monoline/ui
+#  https://monolineui.chitrankagnihotri.com
+#
+#  Public docs and component playground.
+#
+#  -----
+#  Built by Chitrank Agnihotri
+#  Software Engineer
+#  https://chitrankagnihotri.com
+#  -----
+#
+# ==================================================
+
+User-agent: *
+Allow: /
+
+Sitemap: https://monolineui.chitrankagnihotri.com/sitemap.xml

@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import MetaRowPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "MetaRow - monoline/ui component",
+	title: "MetaRow React Component for Inline Metadata | monoline/ui",
 	description:
-		"Render small inline metadata groups with mono text and separators.",
+		"Learn how to use the monoline/ui MetaRow React component to render compact inline metadata groups with monospaced text, separators, and flexible content.",
 	path: "/components/meta-row",
 })
 

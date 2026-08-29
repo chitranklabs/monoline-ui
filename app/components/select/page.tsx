@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import SelectPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Select - monoline/ui component",
+	title: "Select React Dropdown Component for Forms | monoline/ui",
 	description:
-		"Render single-choice dropdowns for sorting, filtering, and view controls with mobile sheet behavior.",
+		"Learn how to use the monoline/ui Select React component for accessible single-choice dropdowns used in sorting, filtering, and responsive view controls.",
 	path: "/components/select",
 })
 

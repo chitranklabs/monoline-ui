@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { createPageMetadata } from "../../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Motion - monoline/ui foundations",
+	title: "Motion and Duration Design Tokens | monoline/ui Docs",
 	description:
-		"Review the motion and duration tokens used across monoline/ui components.",
+		"Explore the monoline/ui motion and duration tokens for React interfaces, including transition timing, reduced-motion behavior, and component feedback.",
 	path: "/foundations/motion",
 })
 

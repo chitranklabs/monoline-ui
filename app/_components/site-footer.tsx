@@ -26,11 +26,16 @@ const footerGroups = [
 		links: [
 			{
 				title: "Foundations",
-				href: "/foundations/color",
+				href: "/foundations/colors",
 			},
 			{
 				title: "Components",
 				href: "/components/card",
+			},
+			{
+				title: "Case study",
+				href: "https://chitrankagnihotri.com/project/monoline-ui",
+				external: true,
 			},
 		],
 	},

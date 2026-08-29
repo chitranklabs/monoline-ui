@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import CalloutPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Callout - monoline/ui component",
+	title: "Callout React Component for Notes and Warnings | monoline/ui",
 	description:
-		"Mark notes, tips, and warnings with clear labels and token-backed accents.",
+		"Learn how to use the monoline/ui Callout React component to present notes, tips, and warnings with clear labels, semantic structure, and token-backed accents.",
 	path: "/components/callout",
 })
 

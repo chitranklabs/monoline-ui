@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import NavbarPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Navbar - monoline/ui component",
+	title: "Navbar React Component for Responsive Headers | monoline/ui",
 	description:
-		"Build responsive headers with brand, nav links, actions, sticky or glass styles, and a progress slot.",
+		"Learn how to use the monoline/ui Navbar React component to build responsive headers with branding, links, actions, sticky or glass styles, and progress slots.",
 	path: "/components/navbar",
 })
 

@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import TestimonialPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Testimonial - monoline/ui component",
+	title: "Testimonial React Quote Component | monoline/ui Docs",
 	description:
-		"Render quotes with author metadata, avatar fallback, size, and surface variants.",
+		"Learn how to use the monoline/ui Testimonial React component to present quotes with author metadata, avatar fallbacks, responsive sizing, and surface variants.",
 	path: "/components/testimonial",
 })
 

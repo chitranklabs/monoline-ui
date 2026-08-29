@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import ResourcesPanelPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "ResourcesPanel - monoline/ui component",
+	title: "ResourcesPanel React Project Links | monoline/ui Docs",
 	description:
-		"List project resources such as live links, source, docs, files, and videos in a compact sidebar.",
+		"Learn how to use the monoline/ui ResourcesPanel React component to list live links, source code, documentation, files, and videos in a compact project sidebar.",
 	path: "/components/resources-panel",
 })
 

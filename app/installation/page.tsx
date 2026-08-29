@@ -8,9 +8,9 @@ import { InstallCommand } from "../_components/install-command"
 import { createPageMetadata } from "../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Installation - monoline/ui",
+	title: "Install monoline/ui for React and Tailwind CSS v4 | Docs",
 	description:
-		"Install monoline/ui, import the Tailwind v4 theme, set the root theme attribute, and use component subpath imports.",
+		"Install monoline/ui in a React project, import its Tailwind CSS v4 theme, configure the root theme attribute, and use efficient component subpath imports.",
 	path: "/installation",
 })
 

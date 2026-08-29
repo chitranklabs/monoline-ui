@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import BackLinkPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "BackLink - monoline/ui component",
+	title: "BackLink React Navigation Component | monoline/ui Docs",
 	description:
-		"Render a compact return link with a leading line, muted default state, and accent hover treatment.",
+		"Learn how to use the monoline/ui BackLink React component for clear return navigation with a leading line, muted default state, and accent hover treatment.",
 	path: "/components/back-link",
 })
 

@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import EditorialLinePageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "EditorialLine - monoline/ui component",
+	title: "EditorialLine React Publication Row | monoline/ui Docs",
 	description:
-		"Render publication rows with index, date, title, summary, tag, and action metadata.",
+		"Learn how to use the monoline/ui EditorialLine React component to render publication rows with an index, date, title, summary, tag, and action metadata.",
 	path: "/components/editorial-line",
 })
 

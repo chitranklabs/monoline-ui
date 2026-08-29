@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import SegmentedControlPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "SegmentedControl - monoline/ui component",
+	title: "SegmentedControl React Input Component | monoline/ui Docs",
 	description:
-		"Render single-select controls with roving keyboard focus and default or pill variants.",
+		"Learn how to use the monoline/ui SegmentedControl React component for accessible single-select input with roving keyboard focus and default or pill variants.",
 	path: "/components/segmented-control",
 })
 

@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { createPageMetadata } from "../../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Spacing - monoline/ui foundations",
+	title: "Spacing Scale Design Tokens | monoline/ui Documentation",
 	description:
-		"Review the spacing scale tokens used across monoline/ui components.",
+		"Explore the monoline/ui spacing design tokens for React interfaces, including the available scale, layout rhythm, and consistent component composition.",
 	path: "/foundations/spacing",
 })
 

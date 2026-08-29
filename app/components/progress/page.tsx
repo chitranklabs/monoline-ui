@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import ProgressPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Progress - monoline/ui component",
+	title: "Progress React Component for Loading States | monoline/ui",
 	description:
-		"Show determinate, indeterminate, or scroll-following progress bars for articles and workflows.",
+		"Learn how to use the monoline/ui Progress React component for determinate, indeterminate, and scroll-linked progress in articles and application workflows.",
 	path: "/components/progress",
 })
 

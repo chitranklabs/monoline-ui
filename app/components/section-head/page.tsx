@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import SectionHeadPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "SectionHead - monoline/ui component",
+	title: "SectionHead React Component for Page Intros | monoline/ui",
 	description:
-		"Create section intros with eyebrow, title, subtitle, and size-based heading rhythm.",
+		"Learn how to use the monoline/ui SectionHead React component to create section introductions with an eyebrow, title, subtitle, and responsive type rhythm.",
 	path: "/components/section-head",
 })
 

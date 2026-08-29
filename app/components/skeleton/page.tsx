@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import SkeletonPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Skeleton - monoline/ui component",
+	title: "Skeleton React Loading Placeholder | monoline/ui Docs",
 	description:
-		"Reserve loading space with rectangle, pill, circle, and text placeholder variants.",
+		"Learn how to use the monoline/ui Skeleton React component to reserve loading space with rectangle, pill, circle, and text placeholder variants for stable UI.",
 	path: "/components/skeleton",
 })
 

@@ -11,8 +11,6 @@ test-results
 .env
 .env.local
 *.tsbuildinfo
-public/robots.txt
-public/sitemap*.xml
 next-env.d.ts
 .pnpm-store/
 .pnpm/

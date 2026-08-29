@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import ThemeSwitcherPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "ThemeSwitcher - monoline/ui component",
+	title: "ThemeSwitcher React Theme Control | monoline/ui Docs",
 	description:
-		"Render controlled light and dark theme controls in mini or full mode.",
+		"Learn how to use the monoline/ui ThemeSwitcher React component to provide accessible controlled light and dark theme controls in compact or full layouts.",
 	path: "/components/theme-switcher",
 })
 

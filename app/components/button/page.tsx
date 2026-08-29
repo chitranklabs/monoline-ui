@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import ButtonPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Button - monoline/ui component",
+	title: "Button React Component with Loading States | monoline/ui",
 	description:
-		"Render primary actions, secondary actions, icon buttons, loading states, and asChild links.",
+		"Learn how to use the monoline/ui Button React component for primary, secondary, and icon actions with loading states, behavior, and polymorphic links.",
 	path: "/components/button",
 })
 

@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import CommandSearchPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "CommandSearch - monoline/ui component",
+	title: "CommandSearch React Command Palette | monoline/ui Docs",
 	description:
-		"Build a modal command palette with grouped results, filtering, keyboard navigation, and optional shortcut.",
+		"Learn how to use the monoline/ui CommandSearch React component to build a modal command palette with results, filtering, shortcuts, and keyboard navigation.",
 	path: "/components/command-search",
 })
 

@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import DataListPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "DataList - monoline/ui component",
+	title: "DataList React Component for Structured Rows | monoline/ui",
 	description:
-		"Render structured rows for stats, timelines, metadata, and compact content.",
+		"Learn how to use the monoline/ui DataList React component to render structured rows for statistics, timelines, metadata, and compact editorial content.",
 	path: "/components/data-list",
 })
 

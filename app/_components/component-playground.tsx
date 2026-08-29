@@ -70,7 +70,7 @@ const defaultControls = {
 }
 const defaultViewportOption = viewportOptions[2] as ViewportOption
 
-const previewFrameMinHeight = 96
+const previewFrameMinHeight = 320
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
@@ -171,12 +171,10 @@ export interface ComponentPlaygroundProps<
 	sourceSnippet: string
 }
 
-function ComponentPlaygroundClient<
+function InteractivePlayground<
 	TSize extends string = string,
 	TVariant extends string = string,
 >({
-	title,
-	description,
 	sizes,
 	defaultSize,
 	formatSize = (s) => s.toUpperCase(),
@@ -187,11 +185,6 @@ function ComponentPlaygroundClient<
 	defaultVariant,
 	formatVariant = (v) => v.charAt(0).toUpperCase() + v.slice(1),
 	renderPreview,
-	importStatement,
-	usageCode,
-	props,
-	tokens,
-	sourceSnippet,
 	previewLayout = "fit",
 }: ComponentPlaygroundProps<TSize, TVariant>) {
 	const pathname = usePathname()
@@ -364,15 +357,7 @@ function ComponentPlaygroundClient<
 	}
 
 	return (
-		<main id="main-content" tabIndex={-1} className="docs-page">
-			<header className="docs-page__head docs-page__head--component">
-				<p className="ml-eyebrow">Component</p>
-				<div className="component-headline">
-					<h1>{title}</h1>
-				</div>
-				<p>{description}</p>
-			</header>
-
+		<>
 			<section className="playground-controls">
 				{sizes && (
 					<>
@@ -501,6 +486,62 @@ function ComponentPlaygroundClient<
 					</PreviewFrame>
 				</div>
 			</section>
+		</>
+	)
+}
+
+export function ComponentPlayground<
+	TSize extends string = string,
+	TVariant extends string = string,
+>(props: ComponentPlaygroundProps<TSize, TVariant>) {
+	const {
+		title,
+		description,
+		importStatement,
+		usageCode,
+		props: propRows,
+		tokens,
+		sourceSnippet,
+	} = props
+
+	return (
+		<main id="main-content" tabIndex={-1} className="docs-page">
+			<header className="docs-page__head docs-page__head--component">
+				<p className="ml-eyebrow">Component</p>
+				<div className="component-headline">
+					<h1>{title}</h1>
+				</div>
+				<p>{description}</p>
+			</header>
+
+			<Suspense
+				fallback={
+					<>
+						<section className="playground-controls" aria-hidden="true" />
+						<section
+							className="playground-canvas"
+							aria-busy="true"
+							aria-label="Interactive component preview loading"
+						>
+							<div className="playground-canvas__meta" aria-hidden="true">
+								<span>Preview</span>
+								<span>Loading</span>
+							</div>
+							<div className="playground-canvas__viewport">
+								<div
+									aria-hidden="true"
+									style={{
+										width: "100%",
+										minHeight: `${previewFrameMinHeight}px`,
+									}}
+								/>
+							</div>
+						</section>
+					</>
+				}
+			>
+				<InteractivePlayground {...props} />
+			</Suspense>
 
 			<section className="docs-section">
 				<div className="docs-subhead">
@@ -514,7 +555,7 @@ function ComponentPlaygroundClient<
 				<CodeBlock code={usageCode} language="jsx" />
 			</section>
 
-			{props && props.length > 0 && (
+			{propRows && propRows.length > 0 && (
 				<section className="docs-section">
 					<div className="docs-subhead">
 						<h2>API Reference</h2>
@@ -523,7 +564,7 @@ function ComponentPlaygroundClient<
 						</p>
 					</div>
 					<div className="props-table">
-						{props.map(([name, type, desc], index) => (
+						{propRows.map(([name, type, desc], index) => (
 							<div
 								key={name}
 								className="props-table__row"
@@ -574,29 +615,5 @@ function ComponentPlaygroundClient<
 				<CodeBlock code={sourceSnippet} language="jsx" />
 			</section>
 		</main>
-	)
-}
-
-export function ComponentPlayground<
-	TSize extends string = string,
-	TVariant extends string = string,
->(props: ComponentPlaygroundProps<TSize, TVariant>) {
-	return (
-		<Suspense
-			fallback={
-				<div
-					style={{
-						padding: "var(--ml-space-10)",
-						textAlign: "center",
-						color: "var(--text-muted)",
-						fontFamily: "var(--font-mono)",
-					}}
-				>
-					Loading playground…
-				</div>
-			}
-		>
-			<ComponentPlaygroundClient {...props} />
-		</Suspense>
 	)
 }

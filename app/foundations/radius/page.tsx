@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { createPageMetadata } from "../../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Border Radius - monoline/ui foundations",
+	title: "Border Radius Design Tokens | monoline/ui Documentation",
 	description:
-		"Review the border radius tokens used across monoline/ui components.",
+		"Explore the monoline/ui border radius tokens for React interfaces, including the available scale, semantic usage guidance, and consistent component surfaces.",
 	path: "/foundations/radius",
 })
 

@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import LinkListPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "LinkList - monoline/ui component",
+	title: "LinkList React Component for Resource Lists | monoline/ui",
 	description:
-		"Render compact resource and reading-list rows with dates, descriptions, and external-link handling.",
+		"Learn how to use the monoline/ui LinkList React component to render resource and reading-list rows with dates, descriptions, and external-link handling.",
 	path: "/components/link-list",
 })
 

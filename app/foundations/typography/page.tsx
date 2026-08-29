@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { createPageMetadata } from "../../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Typography - monoline/ui foundations",
+	title: "Typography Design Tokens | monoline/ui Documentation",
 	description:
-		"Review the font roles, type scale, weights, and leading used by monoline/ui.",
+		"Explore the monoline/ui typography tokens for React interfaces, including font roles, type scales, weights, line heights, and editorial usage guidance.",
 	path: "/foundations/typography",
 })
 

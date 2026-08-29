@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import MediaFramePageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "MediaFrame - monoline/ui component",
+	title: "MediaFrame React Component for Stable Media | monoline/ui",
 	description:
-		"Reserve stable media surfaces for images, video, placeholders, captions, and metadata.",
+		"Learn how to use the monoline/ui MediaFrame React component to reserve stable, responsive surfaces for images, video, placeholders, captions, and metadata.",
 	path: "/components/media-frame",
 })
 

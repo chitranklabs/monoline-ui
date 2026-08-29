@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import ContainerPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Container - monoline/ui component",
+	title: "Container React Layout Component | monoline/ui Docs",
 	description:
-		"Constrain page content with responsive max widths, horizontal padding tokens, and semantic element overrides.",
+		"Learn how to use the monoline/ui Container React component to constrain page content with responsive widths, spacing tokens, and semantic element overrides.",
 	path: "/components/container",
 })
 

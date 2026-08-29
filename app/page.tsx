@@ -8,15 +8,23 @@ import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
 import { SectionHead } from "@chitrank2050/monoline-ui/section-head"
 import { Status } from "@chitrank2050/monoline-ui/status"
 
+import pkg from "../package.json"
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
+import JsonLd, {
+	getPersonJsonLd,
+	getSoftwareSourceCodeJsonLd,
+	getWebsiteJsonLd,
+} from "./_components/json-ld"
+import { fetchIdentity } from "./lib/identity"
 import { createPageMetadata } from "./lib/metadata"
 import { getLatestRelease } from "./lib/releases"
+import { siteUrl } from "./lib/seo"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "monoline/ui - Token-first React component library",
+	title: "React Component Library for Editorial UI | monoline/ui",
 	description:
-		"Responsive React components for personal sites, portfolios, and documentation built on Tailwind CSS v4 design tokens.",
+		"Build responsive React interfaces with monoline/ui, a token-first component library for portfolios, documentation, and editorial products using Tailwind CSS v4.",
 	path: "/",
 })
 
@@ -125,7 +133,18 @@ function PreviewCard() {
 }
 
 export default async function HomePage() {
-	const release = await getLatestRelease()
+	const [release, identity] = await Promise.all([
+		getLatestRelease(),
+		fetchIdentity(),
+	])
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@graph": [
+			identity ? getPersonJsonLd(identity) : null,
+			getWebsiteJsonLd(identity, siteUrl),
+			getSoftwareSourceCodeJsonLd(identity, siteUrl, pkg.version),
+		].filter(Boolean),
+	}
 
 	return (
 		<Container
@@ -134,6 +153,7 @@ export default async function HomePage() {
 			tabIndex={-1}
 			className="intro-page pt-ml-24"
 		>
+			<JsonLd data={jsonLd} />
 			<section className="intro-hero grid grid-cols-[minmax(0,1fr)_25.5rem] items-start gap-ml-12">
 				<div className="intro-hero__copy">
 					<div className="intro-pills flex flex-wrap gap-ml-2-5 mb-ml-6">

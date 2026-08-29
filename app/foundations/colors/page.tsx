@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { createPageMetadata } from "../../lib/metadata"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Colors - monoline/ui foundations",
+	title: "Color Design Tokens and UI Themes | monoline/ui Docs",
 	description:
-		"Review the semantic color tokens that power monoline/ui light and dark themes.",
+		"Explore the monoline/ui semantic color tokens for light and dark React interfaces, including surface, text, border, accent, status, and interactive state roles.",
 	path: "/foundations/colors",
 })
 

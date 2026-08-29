@@ -338,6 +338,7 @@
 
 	.playground-controls {
 		gap: 0.875rem;
+		min-height: 12rem;
 	}
 
 	.playground-controls__group:nth-child(3),

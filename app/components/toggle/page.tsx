@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import TogglePageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Toggle - monoline/ui component",
+	title: "Toggle React Switch Component with A11y | monoline/ui Docs",
 	description:
-		"Render controlled or uncontrolled switches with role=switch semantics and token-backed motion.",
+		"Learn how to use the monoline/ui Toggle React component for controlled or uncontrolled switches with semantics, state labels, and token-backed motion.",
 	path: "/components/toggle",
 })
 

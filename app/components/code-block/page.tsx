@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import CodeBlockPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "CodeBlock - monoline/ui component",
+	title: "CodeBlock React Component with Copy Action | monoline/ui",
 	description:
-		"Show preformatted code with an optional filename, language metadata, and copy action.",
+		"Learn how to use the monoline/ui CodeBlock React component to present preformatted code with filenames, language metadata, and a copy-to-clipboard action.",
 	path: "/components/code-block",
 })
 

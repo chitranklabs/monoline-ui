@@ -2,6 +2,15 @@ import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
 	trailingSlash: false,
+	async redirects() {
+		return [
+			{
+				source: "/foundations/spacing-motion",
+				destination: "/foundations/spacing",
+				permanent: true,
+			},
+		]
+	},
 	transpilePackages: [],
 	reactCompiler: true,
 	poweredByHeader: false,

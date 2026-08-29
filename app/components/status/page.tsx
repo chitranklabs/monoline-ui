@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import StatusPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Status - monoline/ui component",
+	title: "Status React Component for State Labels | monoline/ui",
 	description:
-		"Show compact state labels with a stable dot, tone, and optional pulse animation.",
+		"Learn how to use the monoline/ui Status React component to present compact state labels with a stable indicator dot, tone, and optional pulse animation.",
 	path: "/components/status",
 })
 

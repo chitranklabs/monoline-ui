@@ -36,6 +36,11 @@ export function getWebsiteJsonLd(identity: Identity | null, siteUrl: string) {
 		"@id": `${siteUrl}/#website`,
 		url: siteUrl,
 		name: "monoline/ui",
+		description:
+			"Documentation and interactive examples for the Monoline UI React component library.",
+		about: {
+			"@id": `${siteUrl}/#software-source-code`,
+		},
 	}
 
 	if (identity) {
@@ -47,21 +52,32 @@ export function getWebsiteJsonLd(identity: Identity | null, siteUrl: string) {
 	return jsonLd
 }
 
-export function getWebpageJsonLd(identity: Identity | null, siteUrl: string) {
+export function getSoftwareSourceCodeJsonLd(
+	identity: Identity | null,
+	siteUrl: string,
+	version: string
+) {
 	const jsonLd: Record<string, unknown> = {
-		"@type": "WebPage",
-		"@id": `${siteUrl}/#webpage`,
+		"@type": "SoftwareSourceCode",
+		"@id": `${siteUrl}/#software-source-code`,
+		name: "Monoline UI",
+		alternateName: "@chitrank2050/monoline-ui",
+		description:
+			"A monochrome-first React 19 component library for personal sites, portfolios, product interfaces, and developer documentation.",
 		url: siteUrl,
-		name: "monoline/ui  Component library for personal sites & developer docs",
-		isPartOf: {
-			"@id": `${siteUrl}/#website`,
-		},
+		codeRepository: "https://github.com/chitranklabs/monoline-ui",
+		programmingLanguage: ["TypeScript", "CSS"],
+		runtimePlatform: "React 19",
+		license: "https://github.com/chitranklabs/monoline-ui/blob/main/LICENSE",
+		version,
+		isAccessibleForFree: true,
 	}
 
 	if (identity) {
-		jsonLd.about = {
-			"@id": `${identity.websiteUrl}/#person`,
-		}
+		const person = { "@id": `${identity.websiteUrl}/#person` }
+		jsonLd.author = person
+		jsonLd.creator = person
+		jsonLd.maintainer = person
 	}
 
 	return jsonLd

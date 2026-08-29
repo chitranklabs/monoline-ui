@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import MetricPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Metric - monoline/ui component",
+	title: "Metric React Component for Key Statistics | monoline/ui",
 	description:
-		"Show key numbers with labels, descriptions, and optional trend state.",
+		"Learn how to use the monoline/ui Metric React component to present key numbers with clear labels, descriptions, optional trends, and token-based styling.",
 	path: "/components/metric",
 })
 

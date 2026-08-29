@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import EyebrowPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Eyebrow - monoline/ui component",
+	title: "Eyebrow React Component for Section Labels | monoline/ui",
 	description:
-		"Render compact section labels with mono text, uppercase rhythm, and predictable sizes.",
+		"Learn how to use the monoline/ui Eyebrow React component for compact section labels with monospaced text, uppercase rhythm, sizing, and design tokens.",
 	path: "/components/eyebrow",
 })
 
