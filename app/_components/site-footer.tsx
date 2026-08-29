@@ -16,6 +16,10 @@ const footerGroups = [
 			},
 			{
 				title: "Changelog",
+				href: "/changelog",
+			},
+			{
+				title: "CHANGELOG.md",
 				href: "https://github.com/chitranklabs/monoline-ui/blob/main/CHANGELOG.md",
 				external: true,
 			},

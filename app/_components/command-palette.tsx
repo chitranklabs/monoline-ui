@@ -13,6 +13,7 @@ import { componentNavGroups, foundationsNav } from "../lib/docs-nav"
 const TOP_PAGES = [
 	{ label: "Introduction", href: "/" },
 	{ label: "Installation", href: "/installation" },
+	{ label: "Changelog", href: "/changelog" },
 ]
 
 const FOUNDATIONS = foundationsNav.map((item) => ({

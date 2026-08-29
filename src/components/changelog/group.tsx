@@ -5,6 +5,7 @@ import type { ChangelogGroupProps } from "./types"
 export function ChangelogGroup({
 	groupName,
 	commits,
+	maxCommitsPerRelease,
 	githubOwner,
 	githubRepo,
 	showCommitHash,
@@ -14,11 +15,14 @@ export function ChangelogGroup({
 }: ChangelogGroupProps) {
 	if (commits.length === 0) return null
 
+	const visibleCommits = commits.slice(0, maxCommitsPerRelease)
+	const hiddenCount = commits.length - visibleCommits.length
+
 	return (
 		<div className={cn("ml-changelog-group", className)} {...props}>
 			<h4 className="ml-changelog-group-title">{groupName}</h4>
 			<ul className="ml-changelog-commits">
-				{commits.map((commit) => (
+				{visibleCommits.map((commit) => (
 					<ChangelogCommit
 						key={commit.id}
 						commit={commit}
@@ -29,6 +33,11 @@ export function ChangelogGroup({
 					/>
 				))}
 			</ul>
+			{hiddenCount > 0 && (
+				<p className="ml-changelog-more">
+					+{hiddenCount} more commit{hiddenCount !== 1 ? "s" : ""}
+				</p>
+			)}
 		</div>
 	)
 }

@@ -3,10 +3,12 @@ import { ChangelogRelease } from "./release"
 import type { ChangelogTimelineProps } from "./types"
 
 const DEFAULT_ALLOWED_GROUPS = ["Features", "Bug Fixes", "Performance"]
+const DEFAULT_MAX_COMMITS = 8
 
 export function ChangelogTimeline({
 	releases,
 	allowedGroups = DEFAULT_ALLOWED_GROUPS,
+	maxCommitsPerRelease = DEFAULT_MAX_COMMITS,
 	githubOwner,
 	githubRepo,
 	showCommitHash = true,
@@ -34,6 +36,7 @@ export function ChangelogTimeline({
 					key={release.version || `unreleased-${idx}`}
 					release={release}
 					allowedGroups={allowedGroups}
+					maxCommitsPerRelease={maxCommitsPerRelease}
 					githubOwner={githubOwner}
 					githubRepo={githubRepo}
 					showCommitHash={showCommitHash}

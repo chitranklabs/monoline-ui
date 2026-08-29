@@ -92,6 +92,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/installation", label: "Installation" },
 	...foundationsNav,
 	...componentNavGroups.flatMap((group) => group.items),
+	{ href: "/changelog", label: "Changelog" },
 ]
 
 export const primaryNav: DocsNavItem[] = [

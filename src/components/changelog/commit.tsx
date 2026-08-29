@@ -37,71 +37,66 @@ export function ChangelogCommit({
 			className={cn("ml-changelog-commit-item group/commit", className)}
 			{...props}
 		>
-			{/* Scope Badge */}
-			{commit.scope && (
-				<span className="ml-changelog-commit-scope">{commit.scope}</span>
-			)}
-
-			{/* Commit Message */}
-			<span className="ml-changelog-commit-message">
-				{message}
-
-				{/* Breaking Change badge */}
-				{isBreaking && (
-					<Badge
-						variant="solid"
-						className="ml-2 bg-destructive! border-destructive! text-destructive-foreground! font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5"
-					>
-						breaking
-					</Badge>
+			{/* Scope + message row */}
+			<div className="ml-changelog-commit-row">
+				{commit.scope && (
+					<span className="ml-changelog-commit-scope">{commit.scope}</span>
 				)}
-
-				{/* Metadata row inline or beside */}
-				<span className="ml-changelog-commit-meta">
-					{/* PR Link */}
-					{prNumber && prUrl && (
-						<a
-							href={prUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="ml-changelog-commit-link text-accent hover:underline font-medium"
+				<span className="ml-changelog-commit-message">
+					{message}
+					{isBreaking && (
+						<Badge
+							variant="solid"
+							className="ml-2 bg-destructive! border-destructive! text-destructive-foreground! font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5"
 						>
-							#{prNumber}
-						</a>
-					)}
-
-					{/* Short SHA */}
-					{showCommitHash && commitUrl && (
-						<a
-							href={commitUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="ml-changelog-commit-link"
-							title={commit.id}
-						>
-							{commit.id.slice(0, 7)}
-						</a>
-					)}
-
-					{/* Author details */}
-					{showAuthor && (authorUsername || authorName) && (
-						<span className="inline-flex items-center gap-1">
-							by{" "}
-							{authorUrl ? (
-								<a
-									href={authorUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="ml-changelog-commit-author"
-								>
-									@{authorUsername}
-								</a>
-							) : (
-								<span className="text-text-muted">{authorName}</span>
-							)}
-						</span>
+							breaking
+						</Badge>
 					)}
 				</span>
+			</div>
+
+			{/* Meta row — SHA, PR, author */}
+			<span className="ml-changelog-commit-meta">
+				{prNumber && prUrl && (
+					<a
+						href={prUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="ml-changelog-commit-link text-accent hover:underline font-medium"
+					>
+						#{prNumber}
+					</a>
+				)}
+
+				{showCommitHash && commitUrl && (
+					<a
+						href={commitUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="ml-changelog-commit-link"
+						title={commit.id}
+					>
+						{commit.id.slice(0, 7)}
+					</a>
+				)}
+
+				{showAuthor && (authorUsername || authorName) && (
+					<span className="inline-flex items-center gap-1">
+						by{" "}
+						{authorUrl ? (
+							<a
+								href={authorUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="ml-changelog-commit-author"
+							>
+								@{authorUsername}
+							</a>
+						) : (
+							<span className="text-text-muted">{authorName}</span>
+						)}
+					</span>
+				)}
 			</span>
 		</li>
 	)

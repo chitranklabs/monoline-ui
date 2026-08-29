@@ -21,6 +21,7 @@ const formatDate = (timestamp: number | null) => {
 export function ChangelogRelease({
 	release,
 	allowedGroups,
+	maxCommitsPerRelease,
 	githubOwner,
 	githubRepo,
 	showCommitHash,
@@ -52,6 +53,10 @@ export function ChangelogRelease({
 
 	const formattedDate = formatDate(release.timestamp)
 	const displayVersion = release.version || "Unreleased"
+	const releaseTagUrl =
+		githubOwner && githubRepo && release.version
+			? `https://github.com/${githubOwner}/${githubRepo}/releases/tag/${release.version}`
+			: undefined
 
 	return (
 		<div className={cn("ml-changelog-release", className)} {...props}>
@@ -60,7 +65,23 @@ export function ChangelogRelease({
 			</div>
 			<div className="ml-changelog-release-content">
 				<header className="ml-changelog-release-header">
-					<h3 className="ml-changelog-release-version">{displayVersion}</h3>
+					<h3
+						id={`release-${displayVersion.replace(/\./g, "-")}`}
+						className="ml-changelog-release-version"
+					>
+						{releaseTagUrl ? (
+							<a
+								href={releaseTagUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="ml-changelog-release-link"
+							>
+								{displayVersion}
+							</a>
+						) : (
+							displayVersion
+						)}
+					</h3>
 					<span className="ml-changelog-release-date">{formattedDate}</span>
 				</header>
 				{allowedGroups.map((groupName) => {
@@ -72,6 +93,7 @@ export function ChangelogRelease({
 							key={groupName}
 							groupName={groupName}
 							commits={groupCommits}
+							maxCommitsPerRelease={maxCommitsPerRelease}
 							githubOwner={githubOwner}
 							githubRepo={githubRepo}
 							showCommitHash={showCommitHash}

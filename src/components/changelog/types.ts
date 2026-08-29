@@ -40,6 +40,11 @@ export interface ChangelogTimelineProps extends React.ComponentProps<"div"> {
 	 */
 	allowedGroups?: string[]
 	/**
+	 * Maximum number of commits to show per group per release before collapsing.
+	 * @default 8
+	 */
+	maxCommitsPerRelease?: number
+	/**
 	 * GitHub repository owner (e.g. "chitranklabs"). Used to build links if remote metadata is partial.
 	 */
 	githubOwner?: string
@@ -62,6 +67,7 @@ export interface ChangelogTimelineProps extends React.ComponentProps<"div"> {
 export interface ChangelogReleaseProps extends React.ComponentProps<"div"> {
 	release: GitCliffRelease
 	allowedGroups: string[]
+	maxCommitsPerRelease: number
 	githubOwner?: string
 	githubRepo?: string
 	showCommitHash: boolean
@@ -71,6 +77,7 @@ export interface ChangelogReleaseProps extends React.ComponentProps<"div"> {
 export interface ChangelogGroupProps extends React.ComponentProps<"div"> {
 	groupName: string
 	commits: GitCliffCommit[]
+	maxCommitsPerRelease: number
 	githubOwner?: string
 	githubRepo?: string
 	showCommitHash: boolean

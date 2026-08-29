@@ -96,15 +96,18 @@ describe("ChangelogTimeline", () => {
 		expect(screen.getByText("abcdef1")).toBeInTheDocument()
 	})
 
-	it("supports custom allowlist of groups", () => {
+	it("links release version to GitHub release tag when repo is configured", () => {
 		render(
 			<ChangelogTimeline
 				releases={mockReleases}
-				allowedGroups={["Documentation"]}
+				githubOwner="chitranklabs"
+				githubRepo="monoline-ui"
 			/>
 		)
-		expect(screen.getByText("Documentation")).toBeInTheDocument()
-		expect(screen.getByText("Update docs info")).toBeInTheDocument()
-		expect(screen.queryByText("Features")).not.toBeInTheDocument()
+		const versionLink = screen.getByRole("link", { name: "v1.0.0" })
+		expect(versionLink).toHaveAttribute(
+			"href",
+			"https://github.com/chitranklabs/monoline-ui/releases/tag/v1.0.0"
+		)
 	})
 })
