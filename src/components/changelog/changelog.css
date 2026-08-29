@@ -1,0 +1,163 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-changelog {
+		position: relative;
+		font-family: var(--font-sans);
+		color: var(--text);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-8);
+	}
+
+	/* The Timeline Line down the side */
+	.ml-changelog::before {
+		content: "";
+		position: absolute;
+		left: var(--space-3);
+		top: var(--space-2);
+		bottom: var(--space-2);
+		width: 1px;
+		background: var(--border-strong);
+	}
+
+	/* Release Layout */
+	.ml-changelog-release {
+		display: grid;
+		grid-template-columns: var(--space-6) 1fr;
+		gap: var(--space-4);
+	}
+
+	.ml-changelog-release-node {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		padding-top: var(--space-1);
+	}
+
+	.ml-changelog-release-dot {
+		position: absolute;
+		width: 8px;
+		height: 8px;
+		border-radius: var(--radius-pill);
+		background: var(--background);
+		border: 1.5px solid var(--accent);
+		z-index: 1;
+		top: var(--space-1-5);
+	}
+
+	.ml-changelog-release-content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	/* Inline Header for Timeline */
+	.ml-changelog-release-header {
+		display: flex;
+		flex-direction: row;
+		align-items: baseline;
+		gap: var(--space-3);
+	}
+
+	.ml-changelog-release-version {
+		font-family: var(--font-mono);
+		font-size: var(--text-base);
+		font-weight: 700;
+		color: var(--text-primary);
+	}
+
+	.ml-changelog-release-date {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--text-muted);
+		font-weight: 400;
+	}
+
+	/* === COMMIT GROUPS & LISTS === */
+	.ml-changelog-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.ml-changelog-group-title {
+		font-family: var(--font-mono);
+		font-size: var(--text-2xs);
+		letter-spacing: var(--tracking-meta);
+		text-transform: uppercase;
+		color: var(--text-muted);
+		font-weight: 600;
+	}
+
+	.ml-changelog-commits {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1-5);
+	}
+
+	/* === COMMIT ITEM STYLING === */
+	.ml-changelog-commit-item {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-2);
+		line-height: var(--leading-tight);
+		font-size: var(--text-sm);
+	}
+
+	/* Monospace scopes for timeline layout */
+	.ml-changelog-commit-scope {
+		font-family: var(--font-mono);
+		font-weight: 600;
+		font-size: var(--text-3xs);
+		color: var(--text-primary);
+		background: var(--surface-2);
+		padding: var(--space-0-5) var(--space-1);
+		border-radius: var(--radius-xs);
+		border: 1px solid var(--border);
+		white-space: nowrap;
+	}
+
+	.ml-changelog-commit-message {
+		font-family: var(--font-mono);
+		color: var(--text-secondary);
+		flex: 1;
+	}
+
+	.ml-changelog-commit-meta {
+		display: inline-flex;
+		align-items: center;
+		text-decoration: none;
+		gap: var(--space-2);
+		font-size: var(--text-2xs);
+		color: var(--text-muted);
+		margin-left: var(--space-2);
+	}
+
+	.ml-changelog-commit-link {
+		font-family: var(--font-mono);
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: all var(--duration-fast) var(--ease-out-expo);
+	}
+
+	.ml-changelog-commit-link:hover {
+		color: var(--accent);
+	}
+
+	.ml-changelog-commit-author {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-1);
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color var(--duration-fast);
+	}
+
+	.ml-changelog-commit-author:hover {
+		color: var(--accent);
+	}
+}

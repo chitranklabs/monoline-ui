@@ -85,6 +85,10 @@
 			"types": "./components/card/index.d.ts",
 			"import": "./components/card/index.js"
 		},
+		"./changelog": {
+			"types": "./components/changelog/index.d.ts",
+			"import": "./components/changelog/index.js"
+		},
 		"./code-block": {
 			"types": "./components/code-block/index.d.ts",
 			"import": "./components/code-block/index.js"

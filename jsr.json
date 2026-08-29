@@ -12,6 +12,7 @@
 		"./button": "./src/components/button/index.ts",
 		"./callout": "./src/components/callout/index.ts",
 		"./card": "./src/components/card/index.ts",
+		"./changelog": "./src/components/changelog/index.ts",
 		"./code-block": "./src/components/code-block/index.ts",
 		"./command-search": "./src/components/command-search/index.ts",
 		"./container": "./src/components/container/index.ts",

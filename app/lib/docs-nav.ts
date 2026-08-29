@@ -61,6 +61,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 			{ href: "/components/eyebrow", label: "Eyebrow" },
 			{ href: "/components/metric", label: "Metric" },
 			{ href: "/components/meta-row", label: "MetaRow" },
+			{ href: "/components/changelog", label: "ChangelogTimeline" },
 		],
 	},
 	{

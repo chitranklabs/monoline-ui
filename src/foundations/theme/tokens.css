@@ -195,6 +195,8 @@
 	--code: oklch(0.96 0 0);
 
 	--text: oklch(0.18 0 0);
+	--text-primary: var(--text);
+	--text-primary-foreground: var(--primary-foreground);
 	--text-secondary: oklch(0.32 0 0);
 	--text-muted: oklch(0.5 0 0);
 	--text-body: oklch(0.22 0 0);
@@ -279,6 +281,8 @@
 		--button-hover: oklch(0.92 0 0);
 		--code: oklch(0.96 0 0);
 		--text: oklch(0.18 0 0);
+		--text-primary: var(--text);
+		--text-primary-foreground: var(--primary-foreground);
 		--text-secondary: oklch(0.32 0 0);
 		--text-muted: oklch(0.5 0 0);
 		--text-body: oklch(0.22 0 0);
