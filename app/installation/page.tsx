@@ -8,12 +8,13 @@ import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"
 import { createPageMetadata } from "../lib/metadata"
 
-const pageTitle = "Install monoline/ui for React and Tailwind CSS v4"
+const displayTitle = "Installation"
+const seoTitle = "Install monoline/ui for React and Tailwind CSS v4 | Docs"
 const pageDescription =
 	"Install monoline/ui in a React project, import its Tailwind CSS v4 theme, configure the root theme attribute, and use efficient component subpath imports."
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Install monoline/ui for React and Tailwind CSS v4 | Docs",
+	title: seoTitle,
 	description: pageDescription,
 	path: "/installation",
 })
@@ -99,7 +100,7 @@ export default function InstallationPage() {
 			className="install-page pt-ml-14 pb-ml-20"
 		>
 			<DocsArticleJsonLd
-				title={pageTitle}
+				title={displayTitle}
 				description={pageDescription}
 				path="/installation"
 				section="Installation"
@@ -107,10 +108,10 @@ export default function InstallationPage() {
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
-				<h1>{pageTitle}</h1>
+				<h1>{displayTitle}</h1>
 				<p>
-					Install the package, import the theme once, then use component
-					subpaths in your app code.
+					Add the package, import its theme once, and keep application imports
+					focused on the components you use.
 				</p>
 			</header>
 

@@ -423,6 +423,19 @@ function validatePage(html, pathname, expectedSchemaTypes = []) {
 		`${pathname} should have one main`
 	)
 	assert.equal(countElements(html, "h1"), 1, `${pathname} should have one h1`)
+	const heading = extractElementText(html, "h1")
+	assert.ok(heading, `${pathname} should have a non-empty h1`)
+	if (
+		pathname === "/installation" ||
+		pathname.startsWith("/components/") ||
+		pathname.startsWith("/foundations/")
+	) {
+		assert.doesNotMatch(
+			heading,
+			/React component|monoline\/ui|documentation|\|/i,
+			`${pathname} should keep search-title qualifiers out of the visible h1`
+		)
+	}
 
 	assert.equal(
 		countElements(html, "title"),

@@ -139,7 +139,7 @@ export default function ChangelogPageClient() {
 		<ComponentPlayground
 			slug="changelog"
 			title="ChangelogTimeline"
-			description="Render structured, categorized, and timezone-consistent conventional release timeline logs from automated git-cliff output."
+			description="Turn git-cliff JSON into a release timeline with categories, stable dates, and links back to GitHub."
 			importStatement='import { ChangelogTimeline } from "@chitrank2050/monoline-ui/changelog"'
 			usageCode={usageCode}
 			props={propsRows}

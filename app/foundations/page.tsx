@@ -9,12 +9,13 @@ import JsonLd, {
 import { foundationsNav } from "../lib/docs-nav"
 import { createPageMetadata } from "../lib/metadata"
 
-const pageTitle = "Tailwind CSS v4 Design Token Foundations | monoline/ui"
+const displayTitle = "Design-token foundations"
+const seoTitle = "Tailwind CSS v4 Design Token Foundations | monoline/ui"
 const pageDescription =
-	"Learn the Monoline UI Tailwind CSS v4 design-token system for color, typography, spacing, radius, and motion across accessible light and dark React interfaces."
+	"Monoline UI uses Tailwind CSS v4 tokens for color, typography, spacing, radius, and motion, with the same semantic roles across light and dark React interfaces."
 
 export const metadata: Metadata = createPageMetadata({
-	title: pageTitle,
+	title: seoTitle,
 	description: pageDescription,
 	path: "/foundations",
 })
@@ -38,7 +39,7 @@ export default function FoundationsPage() {
 		"@context": "https://schema.org",
 		"@graph": [
 			createCollectionPageJsonLd({
-				title: pageTitle,
+				title: displayTitle,
 				description: pageDescription,
 				path: "/foundations",
 				items: foundationItems,
@@ -55,7 +56,7 @@ export default function FoundationsPage() {
 			<JsonLd data={jsonLd} />
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Tailwind CSS v4 · CSS variables</p>
-				<h1>Design-token foundations</h1>
+				<h1>{displayTitle}</h1>
 				<p>
 					Start here if you want to understand how Monoline UI looks and feels,
 					or if you plan to adapt it to your own brand. These tokens control

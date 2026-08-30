@@ -32,11 +32,14 @@ commit_preprocessors = [
   { pattern = '\\s\\(#([0-9]+)\\)$', replace = "" },
 ]
 commit_parsers = [
-  { message = "^docs: update changelog", skip = true },
-  { message = "^chore\\(release\\)", skip = true },
-  { message = "^chore\\(deps.*\\)", skip = true },
-  { message = "^chore: release", skip = true },
-  { message = "^chore: bump", skip = true },
+  # Skip automated version bumps and release commits
+  { message = "(?i).*bump version.*", skip = true },
+  { message = "(?i)^release.*bump", skip = true },
+  { message = "(?i)^chore.*bump", skip = true },
+  { message = "(?i)^chore: release", skip = true },
+  { message = "(?i)^chore\\(release\\)", skip = true },
+  { message = "(?i)^chore\\(deps.*\\)", skip = true },
+  { message = "(?i).*update changelog.*", skip = true },
   { message = "Update CHANGELOG.md", skip = true },
   { message = "^Merge", skip = true },
 

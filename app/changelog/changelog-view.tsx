@@ -15,6 +15,7 @@ import { Badge } from "@chitrank2050/monoline-ui/badge"
 import { Button } from "@chitrank2050/monoline-ui/button"
 import {
 	ChangelogTimeline,
+	type GitCliffCommit,
 	type GitCliffRelease,
 } from "@chitrank2050/monoline-ui/changelog"
 import { Input } from "@chitrank2050/monoline-ui/input"
@@ -25,6 +26,19 @@ import { ChangelogToc } from "./toc"
 // Hoisted regular expressions to eliminate per-render regex compilation
 const HTML_COMMENT_REGEX = /<!--.*?-->/g
 const LEADING_NON_WORD_REGEX = /^[^\w]+/
+
+function isNoiseCommit(commit: GitCliffCommit): boolean {
+	const msg = commit.message.toLowerCase()
+	return (
+		msg.includes("bump version") ||
+		msg.startsWith("releasebump") ||
+		msg.startsWith("release: bump") ||
+		msg.startsWith("chore: bump") ||
+		msg.startsWith("chore(release)") ||
+		msg.startsWith("chore: update changelog") ||
+		msg.startsWith("docs: update changelog")
+	)
+}
 
 function cleanGroupName(rawGroup?: string | null): string {
 	if (!rawGroup) return "Miscellaneous Tasks"
@@ -50,22 +64,6 @@ function IconRss({ className = "size-3.5" }: { className?: string }) {
 			<path d="M4 11a9 9 0 0 1 9 9" />
 			<path d="M4 4a16 16 0 0 1 16 16" />
 			<circle cx="5" cy="19" r="1" fill="currentColor" />
-		</svg>
-	)
-}
-
-function IconCheck({ className = "size-3.5" }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<polyline points="20 6 9 17 4 12" />
 		</svg>
 	)
 }
@@ -240,15 +238,19 @@ export function ChangelogView({
 	const paramCategory = searchParams.get("category")
 	const paramQuery = searchParams.get("q") ?? searchParams.get("search") ?? ""
 
-	const matchedPreset = PRESET_GROUPS.find(
-		(p) => p.id.toLowerCase() === (paramCategory || "").toLowerCase()
-	)
+	// Parse initial multi-category selection from URL query parameters (e.g. ?category=features,bug-fixes)
+	const initialSelectedGroups = useMemo(() => {
+		if (!paramCategory) return []
+		const items = paramCategory.split(",").map((s) => s.trim().toLowerCase())
+		return PRESET_GROUPS.filter(
+			(p) => p.id !== "all" && items.includes(p.id.toLowerCase())
+		).map((p) => p.id)
+	}, [paramCategory])
 
-	const [activeGroup, setActiveGroup] = useState<string>(
-		matchedPreset ? matchedPreset.id : "all"
+	const [selectedGroups, setSelectedGroups] = useState<string[]>(
+		initialSelectedGroups
 	)
 	const [searchQuery, setSearchQuery] = useState<string>(paramQuery)
-	const [copiedRss, setCopiedRss] = useState(false)
 
 	// Defer search query during heavy re-filtering to keep typing at 60fps
 	const deferredQuery = useDeferredValue(searchQuery)
@@ -258,10 +260,10 @@ export function ChangelogView({
 
 	// Keep URL query params synchronized for SEO, bookmarking, and deep links
 	const updateQueryParams = useCallback(
-		(group: string, query: string) => {
+		(groups: string[], query: string) => {
 			const params = new URLSearchParams()
-			if (group !== "all") {
-				params.set("category", group.toLowerCase())
+			if (groups.length > 0) {
+				params.set("category", groups.map((g) => g.toLowerCase()).join(","))
 			}
 			if (query.trim()) {
 				params.set("q", query.trim())
@@ -276,9 +278,17 @@ export function ChangelogView({
 		[pathname, router]
 	)
 
-	const handleGroupChange = (newGroup: string) => {
-		setActiveGroup(newGroup)
-		updateQueryParams(newGroup, searchQuery)
+	const handleToggleGroup = (groupId: string) => {
+		if (groupId === "all") {
+			setSelectedGroups([])
+			updateQueryParams([], searchQuery)
+			return
+		}
+		const next = selectedGroups.includes(groupId)
+			? selectedGroups.filter((id) => id !== groupId)
+			: [...selectedGroups, groupId]
+		setSelectedGroups(next)
+		updateQueryParams(next, searchQuery)
 	}
 
 	const handleSearchChange = (newQuery: string) => {
@@ -287,10 +297,10 @@ export function ChangelogView({
 			clearTimeout(debounceTimerRef.current)
 		}
 		if (!newQuery.trim()) {
-			updateQueryParams(activeGroup, "")
+			updateQueryParams(selectedGroups, "")
 		} else {
 			debounceTimerRef.current = setTimeout(() => {
-				updateQueryParams(activeGroup, newQuery)
+				updateQueryParams(selectedGroups, newQuery)
 			}, 250)
 		}
 	}
@@ -304,32 +314,26 @@ export function ChangelogView({
 		}
 	}, [])
 
-	const handleCopyRss = async () => {
-		try {
-			await navigator.clipboard.writeText(feedUrl)
-			setCopiedRss(true)
-			setTimeout(() => setCopiedRss(false), 2000)
-		} catch {
-			// fallback
-		}
-	}
-
-	// Filter releases and commits using deferredQuery for optimal responsiveness
+	// Filter releases and commits using deferredQuery and multi-selected category groups
 	const filteredReleases = useMemo(() => {
 		const query = deferredQuery.trim().toLowerCase()
 
 		return initialReleases
 			.map((release) => {
 				const matchingCommits = release.commits.filter((commit) => {
-					// 1. Group filter
-					if (activeGroup === "breaking") {
-						if (!commit.breaking) return false
-					} else if (activeGroup !== "all") {
-						const clean = cleanGroupName(commit.group)
-						if (
-							clean.toLowerCase() !== activeGroup.toLowerCase() &&
-							!commit.group?.toLowerCase().includes(activeGroup.toLowerCase())
-						) {
+					// 0. Skip automated version bumps and noise commits
+					if (isNoiseCommit(commit)) return false
+
+					// 1. Multi-category filter: matches if ANY of the selected groups match (or all if none selected)
+					if (selectedGroups.length > 0) {
+						const clean = cleanGroupName(commit.group).toLowerCase()
+						const raw = (commit.group || "").toLowerCase()
+						const matchesAnyGroup = selectedGroups.some((group) => {
+							if (group === "breaking") return Boolean(commit.breaking)
+							const g = group.toLowerCase()
+							return clean === g || raw.includes(g)
+						})
+						if (!matchesAnyGroup) {
 							return false
 						}
 					}
@@ -363,7 +367,7 @@ export function ChangelogView({
 				}
 			})
 			.filter((release) => release.commits.length > 0)
-	}, [initialReleases, activeGroup, deferredQuery])
+	}, [initialReleases, selectedGroups, deferredQuery])
 
 	// Dynamic TOC items based on filtered releases
 	const tocItems = useMemo(() => {
@@ -381,6 +385,8 @@ export function ChangelogView({
 		const counts: Record<string, number> = { all: 0 }
 		for (const release of initialReleases) {
 			for (const commit of release.commits) {
+				if (isNoiseCommit(commit)) continue
+
 				counts.all = (counts.all || 0) + 1
 				if (commit.breaking) {
 					counts.breaking = (counts.breaking || 0) + 1
@@ -402,9 +408,9 @@ export function ChangelogView({
 	}, [initialReleases])
 
 	const resetFilters = () => {
-		setActiveGroup("all")
+		setSelectedGroups([])
 		setSearchQuery("")
-		updateQueryParams("all", "")
+		updateQueryParams([], "")
 	}
 
 	return (
@@ -412,15 +418,15 @@ export function ChangelogView({
 			{/* Top Utility Row */}
 			<div className="flex flex-wrap items-center justify-between gap-ml-4 border-b border-border pb-ml-4 text-xs font-mono">
 				<div className="flex items-center gap-ml-3">
-					<Button
-						variant="ghost"
-						size="sm"
-						onClick={handleCopyRss}
-						className="h-ml-7 gap-1.5 px-2 text-xs font-mono text-text-muted hover:text-text"
+					<a
+						href={feedUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="inline-flex items-center gap-1.5 text-xs font-mono text-accent hover:underline"
 					>
-						{copiedRss ? <IconCheck /> : <IconRss />}
-						<span>{copiedRss ? "Copied Feed URL!" : "Copy RSS Feed URL"}</span>
-					</Button>
+						<IconRss className="size-3.5" />
+						<span>RSS Feed</span>
+					</a>
 				</div>
 
 				<div className="flex items-center gap-ml-2">
@@ -436,7 +442,10 @@ export function ChangelogView({
 				{/* Category Tag Pills using Monoline Tag component */}
 				<div className="flex flex-wrap items-center gap-1.5">
 					{PRESET_GROUPS.map((preset) => {
-						const isActive = activeGroup === preset.id
+						const isActive =
+							preset.id === "all"
+								? selectedGroups.length === 0
+								: selectedGroups.includes(preset.id)
 						const Icon = preset.icon
 						const count = groupCounts[preset.id]
 						return (
@@ -446,18 +455,14 @@ export function ChangelogView({
 								selected={isActive}
 								prefix={<Icon className="size-3" />}
 								suffix={count ? String(count) : undefined}
-								onClick={() =>
-									handleGroupChange(
-										isActive && preset.id !== "all" ? "all" : preset.id
-									)
-								}
+								onClick={() => handleToggleGroup(preset.id)}
 								onDismiss={
 									isActive && preset.id !== "all"
-										? () => handleGroupChange("all")
+										? () => handleToggleGroup(preset.id)
 										: undefined
 								}
 								dismissAriaLabel={`Remove ${preset.label} filter`}
-								className="font-mono text-3xs uppercase tracking-wider transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]"
+								className="transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]"
 							>
 								{preset.label}
 							</Tag>

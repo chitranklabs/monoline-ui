@@ -583,7 +583,7 @@ export function ComponentPlayground<
 		"@context": "https://schema.org",
 		"@graph": [
 			createTechArticleJsonLd({
-				title: `${title} React component`,
+				title: `${title} component reference`,
 				description: descriptionText,
 				path: componentPath,
 			}),
@@ -601,7 +601,7 @@ export function ComponentPlayground<
 			<header className="docs-page__head docs-page__head--component">
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
-					<h1>{title} React component</h1>
+					<h1>{title}</h1>
 				</div>
 				<p>{description}</p>
 			</header>

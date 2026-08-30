@@ -9,12 +9,13 @@ import JsonLd, {
 import { componentNavGroups } from "../lib/docs-nav"
 import { createPageMetadata } from "../lib/metadata"
 
-const pageTitle = "React Component Catalog for Editorial UI | monoline/ui"
+const displayTitle = "Component catalog"
+const seoTitle = "React Component Catalog for Editorial UI | monoline/ui"
 const pageDescription =
 	"Browse 37 React components for developer portfolios, documentation, and editorial interfaces, with live previews, typed APIs, tokens, and source examples."
 
 export const metadata: Metadata = createPageMetadata({
-	title: pageTitle,
+	title: seoTitle,
 	description: pageDescription,
 	path: "/components",
 })
@@ -30,7 +31,7 @@ export default function ComponentsPage() {
 		"@context": "https://schema.org",
 		"@graph": [
 			createCollectionPageJsonLd({
-				title: pageTitle,
+				title: displayTitle,
 				description: pageDescription,
 				path: "/components",
 				items: componentItems,
@@ -47,7 +48,7 @@ export default function ComponentsPage() {
 			<JsonLd data={jsonLd} />
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">37 typed primitives</p>
-				<h1>React component catalog</h1>
+				<h1>{displayTitle}</h1>
 				<p>
 					Browse the components by what they help you build. Each page has a
 					live preview, install command, API details, accessibility notes, and

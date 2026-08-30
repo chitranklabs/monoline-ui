@@ -351,7 +351,7 @@ export const componentGuidance = {
 	tag: {
 		runtime: "server",
 		whenToUse:
-			"Tag works as a an interactive filter for one independent criterion.",
+			"Use Tag for one filter or a compact, non-interactive category label.",
 		whenToAvoid:
 			"The tag navigates, belongs to a mutually exclusive group, or changes a persistent setting.",
 		accessibility:

@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../lib/metadata"
 
-const pageTitle = "Border radius design tokens for React components"
+const displayTitle = "Radius"
 const pageDescription =
-	"Explore the monoline/ui border radius tokens for React interfaces, including the available scale, semantic usage guidance, and consistent component surfaces."
+	"Monoline UI defines border-radius tokens for React interfaces, with clear roles for controls, cards, callouts, status pills, and nested component surfaces."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Border Radius Design Tokens | monoline/ui Documentation",
@@ -25,7 +25,7 @@ export default function RadiusPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
 			<DocsArticleJsonLd
-				title={pageTitle}
+				title={displayTitle}
 				description={pageDescription}
 				path="/foundations/radius"
 				section="Foundations"
@@ -33,21 +33,17 @@ export default function RadiusPage() {
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Radius</p>
-				<h1>{pageTitle}</h1>
+				<h1>{displayTitle}</h1>
 				<p>
-					Five named radii from sharp to friendly. Buttons stay smaller, cards
-					go larger, status pills are fully rounded with{" "}
-					<code>--radius-pill</code>.
+					Five tokens cover controls, cards, and fully rounded status pills.
+					Choose by role instead of assigning one radius to every surface.
 				</p>
 			</header>
 
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Border radius</h2>
-					<p>
-						Match the radius to the element: buttons stay smaller, cards go
-						larger, status pills are fully rounded.
-					</p>
+					<p>Compare the scale and the element each token is meant to shape.</p>
 				</div>
 				<div className="radius-grid">
 					{radii.map(([token, px, use]) => (

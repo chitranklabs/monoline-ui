@@ -193,7 +193,7 @@ export default function TagPageClient() {
 	return (
 		<ComponentPlayground<TagSize, string>
 			title="Tag"
-			description="Interactive filter tags with dashed default borders, hover solid transitions, prefix/suffix hierarchy, and dismiss cross buttons."
+			description="Build filter tags with pressed state, optional counts, prefix and suffix slots, and a dismiss action."
 			sizes={tagSizes}
 			defaultSize="md"
 			importStatement='import { Tag } from "@chitrank2050/monoline-ui/tag"'

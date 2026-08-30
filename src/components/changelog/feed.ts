@@ -29,6 +29,19 @@ export interface GenerateRssOptions {
 	language?: string
 }
 
+const isNoiseCommit = (msg: string): boolean => {
+	const lower = msg.toLowerCase()
+	return (
+		lower.includes("bump version") ||
+		lower.startsWith("releasebump") ||
+		lower.startsWith("release: bump") ||
+		lower.startsWith("chore: bump") ||
+		lower.startsWith("chore(release)") ||
+		lower.startsWith("chore: update changelog") ||
+		lower.startsWith("docs: update changelog")
+	)
+}
+
 function escapeXml(unsafe: string): string {
 	return unsafe
 		.replace(/&/g, "&amp;")
@@ -64,11 +77,13 @@ export function generateChangelogRss({
 				? new Date(release.timestamp * 1000).toUTCString()
 				: new Date().toUTCString()
 
-			const commitLines = (release.commits ?? []).map((c) => {
-				const scope = c.scope ? `[${escapeXml(c.scope)}] ` : ""
-				const sha = c.id ? ` (${c.id.slice(0, 7)})` : ""
-				return `<li>${scope}${escapeXml(c.message)}${sha}</li>`
-			})
+			const commitLines = (release.commits ?? [])
+				.filter((c) => !isNoiseCommit(c.message))
+				.map((c) => {
+					const scope = c.scope ? `[${escapeXml(c.scope)}] ` : ""
+					const sha = c.id ? ` (${c.id.slice(0, 7)})` : ""
+					return `<li>${scope}${escapeXml(c.message)}${sha}</li>`
+				})
 
 			const commitHtml =
 				commitLines.length > 0

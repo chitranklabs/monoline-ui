@@ -65,8 +65,8 @@ export default function ChangelogPage() {
 				<p className="ml-eyebrow">monoline/ui</p>
 				<h1>Monoline UI release changelog</h1>
 				<p>
-					Every feature, fix, and improvement shipped to the component library,
-					generated from conventional commits.
+					Release notes generated from conventional commits, with links back to
+					the work behind each version.
 				</p>
 			</header>
 

@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../lib/metadata"
 
-const pageTitle = "Motion design tokens for accessible React interfaces"
+const displayTitle = "Motion"
 const pageDescription =
-	"Explore the monoline/ui motion and duration tokens for React interfaces, including transition timing, reduced-motion behavior, and component feedback."
+	"Monoline UI provides motion and duration tokens for React interfaces, with short feedback timings, shared easing curves, and automatic reduced-motion behavior."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Motion and Duration Design Tokens | monoline/ui Docs",
@@ -24,7 +24,7 @@ export default function MotionPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
 			<DocsArticleJsonLd
-				title={pageTitle}
+				title={displayTitle}
 				description={pageDescription}
 				path="/foundations/motion"
 				section="Foundations"
@@ -32,10 +32,10 @@ export default function MotionPage() {
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Motion</p>
-				<h1>{pageTitle}</h1>
+				<h1>{displayTitle}</h1>
 				<p>
-					Use named tokens instead of raw ms values in components. Reduced
-					motion is handled automatically.
+					Shared timings keep feedback quick and consistent. The theme removes
+					nonessential movement when the user prefers reduced motion.
 				</p>
 			</header>
 
@@ -43,8 +43,7 @@ export default function MotionPage() {
 				<div className="docs-subhead">
 					<h2>Duration</h2>
 					<p>
-						Four durations, two easings. Use named tokens instead of raw ms in
-						components.
+						Choose the shortest duration that still makes a state change clear.
 					</p>
 				</div>
 				<div className="motion-grid">

@@ -198,7 +198,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 				href: "/components/changelog",
 				label: "ChangelogTimeline",
 				description:
-					"Render structured, categorized, and timezone-consistent conventional release timeline logs from automated git-cliff output.",
+					"Turn git-cliff JSON into a categorized release timeline with stable dates and GitHub links.",
 			},
 		],
 	},
@@ -295,8 +295,8 @@ export const docsPagerNav: DocsNavItem[] = [
 ]
 
 export const primaryNav: DocsNavItem[] = [
-	{ href: "/", label: "Home" },
 	{ href: "/installation", label: "Installation" },
 	{ href: "/foundations", label: "Foundations" },
 	{ href: "/components", label: "Components" },
+	{ href: "/changelog", label: "Changelog" },
 ] as const

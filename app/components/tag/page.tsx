@@ -6,7 +6,7 @@ import TagPageClient from "./client-page"
 export const metadata: Metadata = createPageMetadata({
 	title: "Tag for Interactive Filters and Categories | monoline/ui",
 	description:
-		"Learn how to use the monoline/ui Tag component to create interactive filter buttons and category toggles with count badges.",
+		"Use the monoline/ui Tag component for interactive filters and categories, with pressed state, count badges, prefix and suffix slots, and optional dismissal.",
 	path: "/components/tag",
 })
 

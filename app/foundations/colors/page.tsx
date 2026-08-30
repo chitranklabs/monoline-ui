@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../lib/metadata"
 
-const pageTitle = "Color design tokens for light and dark React UI"
+const displayTitle = "Colors"
 const pageDescription =
-	"Explore the monoline/ui semantic color tokens for light and dark React interfaces, including surface, text, border, accent, status, and interactive state roles."
+	"Monoline UI maps light and dark themes to semantic color tokens for surfaces, text, borders, accents, status, and interactive states in React interfaces."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Color Design Tokens and UI Themes | monoline/ui Docs",
@@ -103,7 +103,7 @@ export default function ColorsPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
 			<DocsArticleJsonLd
-				title={pageTitle}
+				title={displayTitle}
 				description={pageDescription}
 				path="/foundations/colors"
 				section="Foundations"
@@ -111,7 +111,7 @@ export default function ColorsPage() {
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Colors</p>
-				<h1>{pageTitle}</h1>
+				<h1>{displayTitle}</h1>
 				<p>
 					Every color resolves through a CSS custom property. Change
 					<code> data-theme</code> on <code>&lt;html&gt;</code> and components

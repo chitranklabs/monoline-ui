@@ -178,7 +178,7 @@ export default async function HomePage() {
 					<p className="max-w-117.5 mt-ml-4 text-text-secondary text-base font-medium leading-normal">
 						{metadataJson.count} components for personal sites, portfolios, and
 						developer docs. Monochrome by default, one warm accent, two themes.
-						Drop in the package, change the brand color, and ship.
+						Install the package, then adapt the token layer to your brand.
 					</p>
 					<div className="intro-actions flex flex-wrap items-center gap-x-ml-5 gap-y-ml-3 mt-ml-5">
 						<Button asChild>

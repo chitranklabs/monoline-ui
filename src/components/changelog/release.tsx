@@ -18,6 +18,37 @@ const formatDate = (timestamp: number | null) => {
 	return `${day} ${month}, ${year}`
 }
 
+const isNoiseCommit = (commit: GitCliffCommit): boolean => {
+	const msg = commit.message.toLowerCase()
+	return (
+		msg.includes("bump version") ||
+		msg.startsWith("releasebump") ||
+		msg.startsWith("release: bump") ||
+		msg.startsWith("chore: bump") ||
+		msg.startsWith("chore(release)") ||
+		msg.startsWith("chore: update changelog") ||
+		msg.startsWith("docs: update changelog")
+	)
+}
+
+function IconLink({ className = "size-3" }: { className?: string }) {
+	return (
+		<svg
+			className={className}
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={2}
+			strokeLinecap="round"
+			strokeLinejoin="round"
+			aria-hidden="true"
+		>
+			<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+			<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+		</svg>
+	)
+}
+
 export function ChangelogRelease({
 	release,
 	allowedGroups,
@@ -33,6 +64,8 @@ export function ChangelogRelease({
 	const commitsByGroup: Record<string, GitCliffCommit[]> = {}
 
 	release.commits.forEach((commit) => {
+		if (isNoiseCommit(commit)) return
+
 		const rawGroup = commit.group || "Miscellaneous Tasks"
 		const cleanGroup =
 			rawGroup
@@ -93,9 +126,11 @@ export function ChangelogRelease({
 								href={releaseTagUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="ml-changelog-release-link"
+								className="ml-changelog-release-link inline-flex items-center gap-1.5"
+								title={`View release ${displayVersion} on GitHub`}
 							>
-								{displayVersion}
+								<IconLink className="size-3 text-text-muted opacity-80" />
+								<span>{displayVersion}</span>
 							</a>
 						) : (
 							displayVersion
