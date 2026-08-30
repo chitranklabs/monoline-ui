@@ -1,6 +1,6 @@
 {
 	"name": "monoline",
-	"version": "0.2.3",
+	"version": "0.3.0",
 	"private": true,
 	"description": "Monochrome React component library for developer portfolios, documentation, and editorial interfaces with Tailwind CSS v4 design tokens.",
 	"type": "module",

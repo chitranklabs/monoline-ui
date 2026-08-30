@@ -4,6 +4,32 @@ All notable changes to monoline-ui.
 
 ---
 
+## [0.3.0] - 2026-08-30
+
+### Features
+
+- Implement comprehensive SEO enhancements ([3f43881](https://github.com/chitranklabs/monoline-ui/commit/3f43881ae1ba717f0f2b4d1ddeb398c6c25d25b5))
+- Implement ChangelogTimeline component for rendering git-cliff formatted release logs ([50e2f77](https://github.com/chitranklabs/monoline-ui/commit/50e2f778bcb2f463dec5700c37d592e1ee87f25d))
+- Implement changelog page with navigation, table of contents, and data integration ([9fa9dcc](https://github.com/chitranklabs/monoline-ui/commit/9fa9dccb4895b03ff908ac47f617894599ddff5f))
+- Better SEO ([735d993](https://github.com/chitranklabs/monoline-ui/commit/735d993f1d5d8380e6fc2fc526123811be4738c9))
+- Enhance component playground with DataList and LinkList documentation views ([fb4e9cc](https://github.com/chitranklabs/monoline-ui/commit/fb4e9ccbbeacef7c04950293c4ec50845c503af3))
+- Automate changelog JSON generation and include in release commit and formatting process ([4e085bc](https://github.com/chitranklabs/monoline-ui/commit/4e085bc97fbb3f7db5447ed9b3b4d0ce5af0ce9f))
+
+### Maintenance
+
+- Update all major npm dependencies (#40) ([db73362](https://github.com/chitranklabs/monoline-ui/commit/db733627a0307e3dbaab42bb1057d346aedaab6f)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update actions/checkout action to v7.0.0 (#39) ([38326ba](https://github.com/chitranklabs/monoline-ui/commit/38326ba9c061fdb884f18bda348e04434ce15e77)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update github-actions dependencies (#38) ([322dfa8](https://github.com/chitranklabs/monoline-ui/commit/322dfa8b3481691acd1853e9e9ac39e5b4adbda2)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update all non-major npm dependencies (#37) ([3021d50](https://github.com/chitranklabs/monoline-ui/commit/3021d502d4b4afcb2f487fe01f13267d1e67edd6)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update postcss to 8.5.18 [SECURITY] (#43) ([e224773](https://github.com/chitranklabs/monoline-ui/commit/e22477308470ef79f126856931e6714c1370705d)) by [renovate[bot]](https://github.com/apps/renovate)
+- Update all non-major npm dependencies (#45) ([a22aba6](https://github.com/chitranklabs/monoline-ui/commit/a22aba64a1fc172178e9db21436fd5178b6647be)) by [renovate[bot]](https://github.com/apps/renovate)
+
+### Refactoring
+
+- Refine component documentation guidance, and improve SEO/JSON-LD metadata consistency ([64bd12d](https://github.com/chitranklabs/monoline-ui/commit/64bd12d26ba364d3cf72b2cfc074f4bbbf8c9000))
+
+---
+
 ## [0.2.2] - 2026-06-29
 
 ### Features
@@ -232,7 +258,7 @@ This reverts commit 479cd40493509409c03672cd0d4b30ac45c7759c. ([c5c8ff2](https:/
 - Adjust global typography, component sizing, and spacing for a refined UI design ([d20a880](https://github.com/chitranklabs/monoline-ui/commit/d20a88043f415f80a4b0a54ce4a30c1659845b70))
 - Tighten layout spacing and reduce UI element sizing throughout the playground app ([f22008c](https://github.com/chitranklabs/monoline-ui/commit/f22008ca05bc10db0b68c25c80e1e4df0fdbfff8))
 - Update Next.js type reference path and refine responsive hero layout styles ([495c747](https://github.com/chitranklabs/monoline-ui/commit/495c747238c10212f69ba5fa3555a94d80cfd767))
-- Update stylesheet import paths to use the \_styles directory ([95bd7b6](https://github.com/chitranklabs/monoline-ui/commit/95bd7b6b6f98ffc0780011e7d8e2883f357a80f1))
+- Update stylesheet import paths to use the _styles directory ([95bd7b6](https://github.com/chitranklabs/monoline-ui/commit/95bd7b6b6f98ffc0780011e7d8e2883f357a80f1))
 - Update docs shell styles and responsiveness for improved layout and typography ([a0979cc](https://github.com/chitranklabs/monoline-ui/commit/a0979cc844bdcc3d5fb2bca1aa337c08b9bb64a6))
 - Standardize focus ring styles using CSS variables across components ([ce42ff6](https://github.com/chitranklabs/monoline-ui/commit/ce42ff69acb5a259dedbe8d17068c49578d52251))
 - **theme:** Add semantic typography role tokens ([b7b453e](https://github.com/chitranklabs/monoline-ui/commit/b7b453e090d306dd6bc59438500421c5cd27bb39))
