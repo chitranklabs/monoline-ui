@@ -1,6 +1,6 @@
 {
 	"name": "@chitrank2050/monoline-ui",
-	"version": "0.2.3",
+	"version": "0.3.0",
 	"description": "Monochrome React components for developer portfolios, documentation, and editorial interfaces with Tailwind CSS v4 design tokens.",
 	"type": "module",
 	"author": {
