@@ -55,8 +55,9 @@ export default function RootLayout({
 			data-theme="light"
 			className={monolineFontClassName}
 			suppressHydrationWarning
+			data-scroll-behavior="smooth"
 		>
-			<body>
+			<body suppressHydrationWarning data-scroll-behavior="smooth">
 				<script
 					id="monoline-theme-init"
 					dangerouslySetInnerHTML={{

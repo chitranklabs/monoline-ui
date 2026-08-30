@@ -71,6 +71,7 @@
 	}
 
 	.ml-data-list__label {
+		padding-top: 0.125rem;
 		min-width: 0;
 		color: var(--text-muted);
 		font-family: var(--font-mono);

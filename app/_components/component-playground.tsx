@@ -15,6 +15,8 @@ import {
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { DataList } from "@chitrank2050/monoline-ui/data-list"
+import { LinkList } from "@chitrank2050/monoline-ui/link-list"
 import { SegmentedControl } from "@chitrank2050/monoline-ui/segmented-control"
 
 import {
@@ -524,6 +526,59 @@ export function ComponentPlayground<
 			? description
 			: `${title} usage, API, accessibility, runtime, and design-token guidance for Monoline UI.`)
 	const componentPath = `/components/${componentSlug}` as const
+	const runtimeLabel =
+		guidance.runtime === "client" ? "Client Component" : "Server Component"
+	const integrationGuidance = [
+		{
+			label: "01",
+			title: "Good fit",
+			description: guidance.whenToUse,
+		},
+		{
+			label: "02",
+			title: "Choose something else if",
+			description: guidance.whenToAvoid,
+		},
+		{
+			label: "03",
+			title: "Accessibility",
+			description: guidance.accessibility,
+		},
+		{
+			label: "04",
+			title: runtimeLabel,
+			description:
+				guidance.runtime === "client"
+					? "This component needs browser JavaScript for state or browser APIs."
+					: "This component can render without adding a Monoline client boundary when its children and props are serializable.",
+		},
+	]
+	const relatedDocumentation = [
+		...guidance.related.map((relatedSlug, index) => ({
+			label: String(index + 1).padStart(2, "0"),
+			date: "Component",
+			title: `${formatComponentSlug(relatedSlug)} React component`,
+			href: `/components/${relatedSlug}`,
+			tag: "Reference",
+			as: Link,
+		})),
+		{
+			label: "03",
+			date: "Setup",
+			title: "Install Monoline UI",
+			href: "/installation",
+			tag: "Guide",
+			as: Link,
+		},
+		{
+			label: "04",
+			date: "Theme",
+			title: "Tailwind CSS v4 design tokens",
+			href: "/foundations",
+			tag: "Foundations",
+			as: Link,
+		},
+	]
 	const jsonLd = {
 		"@context": "https://schema.org",
 		"@graph": [
@@ -593,28 +648,15 @@ export function ComponentPlayground<
 				<CodeBlock code={usageCode} language="jsx" />
 			</section>
 
-			<section className="docs-section">
+			<section className="docs-section" aria-labelledby="before-you-use-title">
 				<div className="docs-subhead">
-					<h2>Before you use it</h2>
+					<h2 id="before-you-use-title">Before you use it</h2>
 					<p>
-						Check that the component's behavior and HTML match the job, then
-						adapt its appearance with tokens.
+						Check the behavior, semantics, and runtime before adapting the
+						visual layer.
 					</p>
 				</div>
-				<h3>Good fit</h3>
-				<p>{guidance.whenToUse}</p>
-				<h3>Choose something else if</h3>
-				<p>{guidance.whenToAvoid}</p>
-				<h3>Accessibility</h3>
-				<p>{guidance.accessibility}</p>
-				<h3>Server or client?</h3>
-				<p>
-					This is a {guidance.runtime === "client" ? "Client" : "Server"}
-					{" Component"}.{" "}
-					{guidance.runtime === "client"
-						? "It needs browser JavaScript for state or browser APIs."
-						: "It can render without adding a Monoline client boundary, provided its children and props are serializable."}
-				</p>
+				<DataList size="sm" variant="numbered" items={integrationGuidance} />
 			</section>
 
 			{propRows && propRows.length > 0 && (
@@ -674,27 +716,19 @@ export function ComponentPlayground<
 				<CodeBlock code={sourceSnippet} language="jsx" />
 			</section>
 
-			<section className="docs-section">
+			<div className="docs-section">
 				<div className="docs-subhead">
-					<h2>Related documentation</h2>
-					<p>Components that solve nearby problems, plus setup and theming.</p>
+					<h2 id="related-documentation-title">Related documentation</h2>
+					<p>Continue with nearby components, installation, and theming.</p>
 				</div>
-				<ul>
-					{guidance.related.map((relatedSlug) => (
-						<li key={relatedSlug}>
-							<Link href={`/components/${relatedSlug}`}>
-								{formatComponentSlug(relatedSlug)} React component
-							</Link>
-						</li>
-					))}
-					<li>
-						<Link href="/installation">Install Monoline UI</Link>
-					</li>
-					<li>
-						<Link href="/foundations">Tailwind CSS v4 design tokens</Link>
-					</li>
-				</ul>
-			</section>
+				<LinkList
+					aria-labelledby="related-documentation-title"
+					size="sm"
+					title="Documentation map"
+					action={<Link href="/components">View component catalog →</Link>}
+					items={relatedDocumentation}
+				/>
+			</div>
 		</main>
 	)
 }
