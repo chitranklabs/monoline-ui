@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 
 import { Card } from "@chitrank2050/monoline-ui/card"
 
@@ -58,27 +57,26 @@ export default function FoundationsPage() {
 				<p className="ml-eyebrow">Tailwind CSS v4 · CSS variables</p>
 				<h1>Design-token foundations</h1>
 				<p>
-					Understand the shared color, type, spacing, radius, and motion
-					contracts before composing Monoline UI React components or replacing
-					the brand layer.
+					Start here if you want to understand how Monoline UI looks and feels,
+					or if you plan to adapt it to your own brand. These tokens control
+					color, type, spacing, corners, and motion across the library.
 				</p>
 			</header>
 
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Token reference</h2>
-					<p>One source of truth for every component and responsive layout.</p>
+					<p>See what each token controls and how to override it safely.</p>
 				</div>
 				<div className="grid grid-cols-1 gap-ml-4 md:grid-cols-2">
 					{foundationsNav.map((item) => (
-						<Card key={item.href} asChild>
-							<Link href={item.href ?? "/foundations"}>
-								<Card.Body>
-									<h3>{item.label} design tokens</h3>
-									<p>{foundationDescriptions[item.label]}</p>
-								</Card.Body>
-								<Card.Arrow />
-							</Link>
+						<Card key={item.href} href={item.href ?? "/foundations"}>
+							<Card.Body>
+								<Card.Title>{item.label}</Card.Title>
+								<Card.Description>
+									{foundationDescriptions[item.label]}
+								</Card.Description>
+							</Card.Body>
 						</Card>
 					))}
 				</div>

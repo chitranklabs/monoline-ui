@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 
 import { Card } from "@chitrank2050/monoline-ui/card"
 
@@ -50,10 +49,9 @@ export default function ComponentsPage() {
 				<p className="ml-eyebrow">37 typed primitives</p>
 				<h1>React component catalog</h1>
 				<p>
-					Explore every Monoline UI component by purpose. Each reference
-					includes a live responsive preview, installation path, typed API,
-					design tokens, accessibility guidance, edge cases, and implementation
-					source.
+					Browse the components by what they help you build. Each page has a
+					live preview, install command, API details, accessibility notes, and
+					the source behind the example.
 				</p>
 			</header>
 
@@ -61,20 +59,15 @@ export default function ComponentsPage() {
 				<section key={group.label} className="docs-section">
 					<div className="docs-subhead">
 						<h2>{group.label}</h2>
-						<p>Components designed to compose within this interface layer.</p>
+						<p>{group.description}</p>
 					</div>
 					<div className="grid grid-cols-1 gap-ml-4 md:grid-cols-2">
 						{group.items.map((item) => (
-							<Card key={item.href} asChild>
-								<Link href={item.href ?? "/components"}>
-									<Card.Body>
-										<h3>{item.label} React component</h3>
-										<p>
-											Open the interactive reference and integration contract.
-										</p>
-									</Card.Body>
-									<Card.Arrow />
-								</Link>
+							<Card key={item.href} href={item.href ?? "/components"}>
+								<Card.Body>
+									<Card.Title>{item.label}</Card.Title>
+									<Card.Description>{item.description}</Card.Description>
+								</Card.Body>
 							</Card>
 						))}
 					</div>

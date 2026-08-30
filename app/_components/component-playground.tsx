@@ -595,25 +595,25 @@ export function ComponentPlayground<
 
 			<section className="docs-section">
 				<div className="docs-subhead">
-					<h2>Integration guidance</h2>
+					<h2>Before you use it</h2>
 					<p>
-						Choose the component for its behavior and semantic contract, not
-						only its visual treatment.
+						Check that the component's behavior and HTML match the job, then
+						adapt its appearance with tokens.
 					</p>
 				</div>
-				<h3>When to use</h3>
+				<h3>Good fit</h3>
 				<p>{guidance.whenToUse}</p>
-				<h3>When to choose something else</h3>
+				<h3>Choose something else if</h3>
 				<p>{guidance.whenToAvoid}</p>
-				<h3>Accessibility contract</h3>
+				<h3>Accessibility</h3>
 				<p>{guidance.accessibility}</p>
-				<h3>Runtime behavior</h3>
+				<h3>Server or client?</h3>
 				<p>
 					This is a {guidance.runtime === "client" ? "Client" : "Server"}
 					{" Component"}.{" "}
 					{guidance.runtime === "client"
-						? "It ships browser JavaScript because its interaction model requires client state or browser APIs."
-						: "It can render without a client boundary when its children and props are serializable."}
+						? "It needs browser JavaScript for state or browser APIs."
+						: "It can render without adding a Monoline client boundary, provided its children and props are serializable."}
 				</p>
 			</section>
 
@@ -621,9 +621,7 @@ export function ComponentPlayground<
 				<section className="docs-section">
 					<div className="docs-subhead">
 						<h2>API Reference</h2>
-						<p>
-							Props, compound slots, and callbacks exposed by this component.
-						</p>
+						<p>Props, slots, and callbacks available on this component.</p>
 					</div>
 					<div className="props-table">
 						{propRows.map(([name, type, desc], index) => (
@@ -670,8 +668,7 @@ export function ComponentPlayground<
 				<div className="docs-subhead">
 					<h2>Implementation</h2>
 					<p>
-						Complete source pattern, including state and compound composition
-						when needed.
+						The source used by the example above, including any state it needs.
 					</p>
 				</div>
 				<CodeBlock code={sourceSnippet} language="jsx" />
@@ -680,9 +677,7 @@ export function ComponentPlayground<
 			<section className="docs-section">
 				<div className="docs-subhead">
 					<h2>Related documentation</h2>
-					<p>
-						Continue with adjacent primitives and the shared setup contract.
-					</p>
+					<p>Components that solve nearby problems, plus setup and theming.</p>
 				</div>
 				<ul>
 					{guidance.related.map((relatedSlug) => (

@@ -43,14 +43,14 @@
   <br/>
 </div>
 
-Monoline UI is a component library for developer sites, editorial interfaces, and documentation playgrounds where layout precision matters more than color variety. Every component ships monochrome by default - no dark-mode class gymnastics, no color-token sprawl.
+Monoline UI is a monochrome component library for developer sites, editorial interfaces, and documentation playgrounds. Its small token set keeps the emphasis on type, spacing, and layout, and can be adapted without maintaining separate light and dark utility classes.
 
 ---
 
 ## Why Monoline UI
 
 > [!TIP]
-> Most UI libraries are built around broad product palettes. Monoline is built around **editorial layout**. It gives developer portfolios and documentation sites a compact token system, typed primitives, and explicit server/client entrypoints.
+> Monoline UI focuses on the parts of developer portfolios and documentation sites that tend to be rebuilt from scratch: editorial layout, navigation, code examples, project summaries, and supporting metadata. The package exposes typed components through explicit server and client entrypoints.
 
 ---
 
@@ -58,14 +58,14 @@ Monoline UI is a component library for developer sites, editorial interfaces, an
 
 | Feature                              | Description                                                                   |
 | :----------------------------------- | :---------------------------------------------------------------------------- |
-| ⚫ **Monochrome-first**              | Zero dark-mode overhead. One set of tokens, works everywhere.                 |
+| ⚫ **Monochrome-first**              | A compact grayscale token set shared by light and dark themes.                |
 | 🚀 **Server-safe static primitives** | Presentational entrypoints can render without a Monoline client boundary.     |
 | ⚡ **Explicit client components**    | Interactive entrypoints declare client runtime behavior in their source/docs. |
-| 🔗 **Link polymorphism**             | Three-level routing control: global, per-link, and `asChild`.                 |
+| 🔗 **Link polymorphism**             | Configure routing globally, per link, or through `asChild`.                   |
 | 🌲 **Tree-shakeable ESM**            | Import only the components you use. No barrel-file bloat.                     |
 | 🎛️ **Token-driven**                  | Customize spacing, scale, and type via CSS custom properties.                 |
-| 📦 **37 components**                 | From `Avatar` to `Toc`—documented with live previews and typed APIs.          |
-| 🌊 **Tailwind CSS v4**               | First-class `@source` scanning - only used utilities ship.                    |
+| 📦 **37 components**                 | Each component has a live preview, typed API, and implementation notes.       |
+| 🌊 **Tailwind CSS v4**               | `@source` scanning includes utilities used by installed components.           |
 
 ---
 

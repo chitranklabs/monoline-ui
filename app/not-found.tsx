@@ -24,8 +24,8 @@ export default function NotFound() {
 				Page not found
 			</h1>
 			<p className="mt-ml-4 max-w-150 text-base leading-relaxed text-text-secondary">
-				That documentation URL is unavailable. Continue with the complete
-				component catalog or return to the Monoline UI introduction.
+				That documentation page does not exist. Browse the component catalog or
+				return to the Monoline UI introduction.
 			</p>
 			<div className="mt-ml-6 flex flex-wrap gap-ml-3">
 				<Button asChild>

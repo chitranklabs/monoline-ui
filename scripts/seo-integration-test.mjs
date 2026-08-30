@@ -156,6 +156,104 @@ function containsSchemaType(value, expectedType) {
 	)
 }
 
+function hasSchemaType(value, expectedType) {
+	const type = value?.["@type"]
+	return (
+		type === expectedType ||
+		(Array.isArray(type) && type.includes(expectedType))
+	)
+}
+
+function getTopLevelSchemaNodes(jsonLd) {
+	return jsonLd.flatMap((entry) => entry?.["@graph"] ?? [entry])
+}
+
+function validateStructuredData(jsonLd, pathname) {
+	const nodes = getTopLevelSchemaNodes(jsonLd)
+	const article = nodes.find((node) => hasSchemaType(node, "TechArticle"))
+
+	if (article) {
+		for (const role of ["author", "publisher"]) {
+			const person = article[role]
+			assert.ok(
+				hasSchemaType(person, "Person"),
+				`${pathname} TechArticle ${role} should be a Person`
+			)
+			assert.equal(
+				person?.["@id"],
+				"https://chitrankagnihotri.com/#person",
+				`${pathname} TechArticle ${role} should use the canonical Person id`
+			)
+			assert.equal(
+				person?.name,
+				"Chitrank Agnihotri",
+				`${pathname} TechArticle ${role} should name the Person`
+			)
+			assert.equal(
+				person?.url,
+				"https://chitrankagnihotri.com",
+				`${pathname} TechArticle ${role} should link to the author page`
+			)
+		}
+	}
+
+	const collection = nodes.find((node) => hasSchemaType(node, "CollectionPage"))
+	if (collection) {
+		const itemList = collection.mainEntity
+		assert.ok(
+			hasSchemaType(itemList, "ItemList"),
+			`${pathname} CollectionPage should have an ItemList main entity`
+		)
+		const items = itemList?.itemListElement
+		assert.ok(
+			Array.isArray(items) && items.length > 0,
+			`${pathname} ItemList should contain items`
+		)
+		assert.equal(
+			itemList.numberOfItems,
+			items.length,
+			`${pathname} ItemList count should match its entries`
+		)
+
+		const urls = items.map((item, index) => {
+			const target = item?.item?.["@id"] ?? item?.item ?? item?.url
+			assert.equal(
+				typeof target,
+				"string",
+				`${pathname} ItemList entry ${index + 1} should have a URL`
+			)
+			const url = new URL(target)
+			assert.equal(
+				url.origin,
+				SITE_URL,
+				`${pathname} ItemList entry ${index + 1} should use the canonical host`
+			)
+			return url.href
+		})
+		assert.equal(
+			new Set(urls).size,
+			urls.length,
+			`${pathname} ItemList entries should have unique URLs`
+		)
+	}
+
+	const breadcrumb = nodes.find((node) => hasSchemaType(node, "BreadcrumbList"))
+	if (breadcrumb) {
+		assert.ok(
+			Array.isArray(breadcrumb.itemListElement) &&
+				breadcrumb.itemListElement.length >= 2,
+			`${pathname} breadcrumb should contain at least two items`
+		)
+		breadcrumb.itemListElement.forEach((item, index) => {
+			assert.equal(
+				item.position,
+				index + 1,
+				`${pathname} breadcrumb positions should be sequential`
+			)
+		})
+	}
+}
+
 async function fetchResponse(pathname, redirect = "manual", headers = {}) {
 	return fetch(LOCAL_URL + pathname, {
 		headers: {
@@ -440,6 +538,7 @@ function validatePage(html, pathname, expectedSchemaTypes = []) {
 			`${pathname} should contain ${schemaType} JSON-LD`
 		)
 	}
+	validateStructuredData(jsonLd, pathname)
 
 	validateInternalLinks(html, pathname)
 

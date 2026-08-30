@@ -1,11 +1,13 @@
 export interface DocsNavItem {
 	label: string
 	href?: `/${string}`
+	description?: string
 	meta?: string
 }
 
 export interface DocsNavGroup {
 	label: string
+	description: string
 	items: DocsNavItem[]
 }
 
@@ -20,69 +22,264 @@ export const foundationsNav: DocsNavItem[] = [
 export const componentNavGroups: DocsNavGroup[] = [
 	{
 		label: "Layout & structure",
+		description: "Build page shells, sections, and content groupings.",
 		items: [
-			{ href: "/components/card", label: "Card" },
-			{ href: "/components/media-frame", label: "MediaFrame" },
-			{ href: "/components/section-head", label: "SectionHead" },
-			{ href: "/components/container", label: "Container" },
-			{ href: "/components/action-rail", label: "ActionRail" },
+			{
+				href: "/components/card",
+				label: "Card",
+				description:
+					"Compose linked, static, or button-backed editorial cards from image, body, footer, tag, and action slots.",
+			},
+			{
+				href: "/components/media-frame",
+				label: "MediaFrame",
+				description:
+					"Reserve stable media surfaces for images, video, placeholders, captions, and metadata.",
+			},
+			{
+				href: "/components/section-head",
+				label: "SectionHead",
+				description:
+					"Create section intros with eyebrow, title, subtitle, and size-based heading rhythm.",
+			},
+			{
+				href: "/components/container",
+				label: "Container",
+				description:
+					"Constrain page content with responsive max widths, horizontal padding tokens, and semantic element overrides.",
+			},
+			{
+				href: "/components/action-rail",
+				label: "ActionRail",
+				description:
+					"Group compact actions vertically or horizontally for toolbars, side rails, and social links.",
+			},
 		],
 	},
 	{
 		label: "Navigation",
+		description: "Help readers move around a site or within a long page.",
 		items: [
-			{ href: "/components/navbar", label: "Navbar" },
-			{ href: "/components/footer", label: "Footer" },
-			{ href: "/components/back-link", label: "BackLink" },
-			{ href: "/components/rail", label: "Rail" },
-			{ href: "/components/toc", label: "Toc" },
-			{ href: "/components/command-search", label: "CommandSearch" },
+			{
+				href: "/components/navbar",
+				label: "Navbar",
+				description:
+					"Build responsive headers with brand, nav links, actions, sticky or glass styles, and a progress slot.",
+			},
+			{
+				href: "/components/footer",
+				label: "Footer",
+				description:
+					"Build responsive site footers with brand copy, link columns, subscribe actions, and meta rows.",
+			},
+			{
+				href: "/components/back-link",
+				label: "BackLink",
+				description:
+					"Render a compact return link with a leading line, muted default state, and accent hover treatment.",
+			},
+			{
+				href: "/components/rail",
+				label: "Rail",
+				description:
+					"Render vertical navigation lists for sidebars, filters, and secondary sections.",
+			},
+			{
+				href: "/components/toc",
+				label: "Toc",
+				description:
+					"Render document outline links with active-section tracking and optional collapsible mode.",
+			},
+			{
+				href: "/components/command-search",
+				label: "CommandSearch",
+				description:
+					"Build a modal command palette with grouped results, filtering, keyboard navigation, and optional shortcut.",
+			},
 		],
 	},
 	{
 		label: "Forms & inputs",
+		description:
+			"Collect values and give people clear, keyboard-friendly controls.",
 		items: [
-			{ href: "/components/button", label: "Button" },
-			{ href: "/components/input", label: "Input" },
-			{ href: "/components/select", label: "Select" },
-			{ href: "/components/toggle", label: "Toggle" },
-			{ href: "/components/segmented-control", label: "SegmentedControl" },
-			{ href: "/components/theme-switcher", label: "ThemeSwitcher" },
-			{ href: "/components/tag", label: "Tag" },
+			{
+				href: "/components/button",
+				label: "Button",
+				description:
+					"Render primary actions, secondary actions, icon buttons, loading states, and asChild links.",
+			},
+			{
+				href: "/components/input",
+				label: "Input",
+				description:
+					"Render text fields with prefix and suffix slots, validation state, and consistent control sizing.",
+			},
+			{
+				href: "/components/select",
+				label: "Select",
+				description:
+					"Render single-choice dropdowns for sorting, filtering, and view controls with mobile sheet behavior.",
+			},
+			{
+				href: "/components/toggle",
+				label: "Toggle",
+				description:
+					"Render controlled or uncontrolled switches with role=switch semantics and token-backed motion.",
+			},
+			{
+				href: "/components/segmented-control",
+				label: "SegmentedControl",
+				description:
+					"Render single-select controls with roving keyboard focus and default or pill variants.",
+			},
+			{
+				href: "/components/theme-switcher",
+				label: "ThemeSwitcher",
+				description:
+					"Render controlled light and dark theme controls in mini or full mode.",
+			},
+			{
+				href: "/components/tag",
+				label: "Tag",
+				description:
+					"Render filter buttons or quiet chips for categories, stacks, and metadata.",
+			},
 		],
 	},
 	{
 		label: "Display",
+		description:
+			"Present identity, status, metadata, and small pieces of data.",
 		items: [
-			{ href: "/components/badge", label: "Badge" },
-			{ href: "/components/avatar", label: "Avatar" },
-			{ href: "/components/status", label: "Status" },
-			{ href: "/components/data-list", label: "DataList" },
-			{ href: "/components/eyebrow", label: "Eyebrow" },
-			{ href: "/components/metric", label: "Metric" },
-			{ href: "/components/meta-row", label: "MetaRow" },
-			{ href: "/components/changelog", label: "ChangelogTimeline" },
+			{
+				href: "/components/badge",
+				label: "Badge",
+				description:
+					"Label counts, statuses, and categories with compact size and variant controls.",
+			},
+			{
+				href: "/components/avatar",
+				label: "Avatar",
+				description:
+					"Render identity images or initials with fixed size tokens, fallback color, and slotted image support.",
+			},
+			{
+				href: "/components/status",
+				label: "Status",
+				description:
+					"Show compact state labels with a stable dot, tone, and optional pulse animation.",
+			},
+			{
+				href: "/components/data-list",
+				label: "DataList",
+				description:
+					"Render structured rows for stats, timelines, metadata, and compact content.",
+			},
+			{
+				href: "/components/eyebrow",
+				label: "Eyebrow",
+				description:
+					"Render compact section labels with mono text, uppercase rhythm, and predictable sizes.",
+			},
+			{
+				href: "/components/metric",
+				label: "Metric",
+				description:
+					"Show key numbers with labels, descriptions, and optional trend state.",
+			},
+			{
+				href: "/components/meta-row",
+				label: "MetaRow",
+				description:
+					"Render small inline metadata groups with mono text and separators.",
+			},
+			{
+				href: "/components/changelog",
+				label: "ChangelogTimeline",
+				description:
+					"Render structured, categorized, and timezone-consistent conventional release timeline logs from automated git-cliff output.",
+			},
 		],
 	},
 	{
 		label: "Content",
+		description:
+			"Structure articles, documentation, quotes, and supporting links.",
 		items: [
-			{ href: "/components/pull-quote", label: "PullQuote" },
-			{ href: "/components/callout", label: "Callout" },
-			{ href: "/components/code-block", label: "CodeBlock" },
-			{ href: "/components/link-list", label: "LinkList" },
-			{ href: "/components/resources-panel", label: "ResourcesPanel" },
-			{ href: "/components/testimonial", label: "Testimonial" },
-			{ href: "/components/testimonial-grid", label: "TestimonialGrid" },
-			{ href: "/components/editorial-line", label: "EditorialLine" },
+			{
+				href: "/components/pull-quote",
+				label: "PullQuote",
+				description:
+					"Highlight long-form quotes with optional attribution and an accent border.",
+			},
+			{
+				href: "/components/callout",
+				label: "Callout",
+				description:
+					"Mark notes, tips, and warnings with clear labels and token-backed accents.",
+			},
+			{
+				href: "/components/code-block",
+				label: "CodeBlock",
+				description:
+					"Show preformatted code with an optional filename, language metadata, and copy action.",
+			},
+			{
+				href: "/components/link-list",
+				label: "LinkList",
+				description:
+					"Render compact resource and reading-list rows with dates, descriptions, and external-link handling.",
+			},
+			{
+				href: "/components/resources-panel",
+				label: "ResourcesPanel",
+				description:
+					"List project resources such as live links, source, docs, files, and videos in a compact sidebar.",
+			},
+			{
+				href: "/components/testimonial",
+				label: "Testimonial",
+				description:
+					"Render quotes with author metadata, avatar fallback, size, and surface variants.",
+			},
+			{
+				href: "/components/testimonial-grid",
+				label: "TestimonialGrid",
+				description:
+					"Arrange testimonial cards in aligned grid or masonry layouts without JavaScript measurement.",
+			},
+			{
+				href: "/components/editorial-line",
+				label: "EditorialLine",
+				description:
+					"Render publication rows with index, date, title, summary, tag, and action metadata.",
+			},
 		],
 	},
 	{
 		label: "Feedback",
+		description: "Show loading, progress, and the result of an action.",
 		items: [
-			{ href: "/components/toast", label: "Toast", meta: "beta" },
-			{ href: "/components/skeleton", label: "Skeleton" },
-			{ href: "/components/progress", label: "Progress" },
+			{
+				href: "/components/toast",
+				label: "Toast",
+				description:
+					"Show status feedback banners with tone, message, and optional dismiss action.",
+				meta: "beta",
+			},
+			{
+				href: "/components/skeleton",
+				label: "Skeleton",
+				description:
+					"Reserve loading space with rectangle, pill, circle, and text placeholder variants.",
+			},
+			{
+				href: "/components/progress",
+				label: "Progress",
+				description:
+					"Show determinate, indeterminate, or scroll-following progress bars for articles and workflows.",
+			},
 		],
 	},
 ] as const

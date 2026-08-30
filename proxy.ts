@@ -9,22 +9,37 @@ export function proxy(request: NextRequest) {
 	const host = (forwardedHost ?? request.headers.get("host") ?? "").split(
 		","
 	)[0]
-	const forwardedProtocol = request.headers
-		.get("x-forwarded-proto")
-		?.split(",")[0]
+	const isLocal =
+		host.startsWith("localhost") ||
+		host.startsWith("127.0.0.1") ||
+		host.startsWith("0.0.0.0") ||
+		host.endsWith(".local")
 
-	if (host === `www.${canonicalHost}` || forwardedProtocol === "http") {
-		const destination = request.nextUrl.clone()
-		destination.protocol = "https:"
-		destination.hostname = canonicalHost
-		destination.port = ""
-		return NextResponse.redirect(destination, 308)
+	if (!isLocal) {
+		// 1. Enforce non-www canonical host
+		if (host === `www.${canonicalHost}` || host?.startsWith("www.")) {
+			const destination = request.nextUrl.clone()
+			destination.protocol = "https:"
+			destination.hostname = canonicalHost
+			destination.port = ""
+			return NextResponse.redirect(destination, 308)
+		}
+
+		// 2. Enforce HTTPS in production
+		const forwardedProtocol = request.headers
+			.get("x-forwarded-proto")
+			?.split(",")[0]
+		if (forwardedProtocol === "http" && process.env.NODE_ENV === "production") {
+			const destination = request.nextUrl.clone()
+			destination.protocol = "https:"
+			return NextResponse.redirect(destination, 308)
+		}
 	}
 
 	const response = NextResponse.next()
 	if (
 		request.nextUrl.search.length > 0 ||
-		(host.endsWith(".vercel.app") && host !== canonicalHost)
+		(!isLocal && host.endsWith(".vercel.app") && host !== canonicalHost)
 	) {
 		response.headers.set("X-Robots-Tag", "noindex, follow")
 	}

@@ -14,10 +14,10 @@ import { createPageMetadata } from "../lib/metadata"
 import { ChangelogToc } from "./toc"
 
 const changelogDescription =
-	"Follow every Monoline UI release, feature, accessibility improvement, performance change, and bug fix in the complete React component library version history."
+	"Read Monoline UI release notes for new React components, accessibility fixes, performance work, API changes, and resolved bugs across each published version."
 
 export const metadata: Metadata = createPageMetadata({
-	title: "Full Monoline UI Release Changelog and Version History",
+	title: "Monoline UI React Release Changelog and Version History",
 	description: changelogDescription,
 	path: "/changelog",
 })
@@ -52,7 +52,9 @@ export default function ChangelogPage() {
 							path: "/changelog",
 							items: releases.map((release) => ({
 								name: `Monoline UI ${release.version ?? "Unreleased"}`,
-								path: "/changelog" as const,
+								path: `/changelog#release-${(
+									release.version ?? "unreleased"
+								).replace(/\./g, "-")}` as const,
 							})),
 						}),
 						createBreadcrumbJsonLd([

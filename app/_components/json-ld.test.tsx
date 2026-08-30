@@ -5,8 +5,31 @@ import JsonLd, {
 	createBreadcrumbJsonLd,
 	createCollectionPageJsonLd,
 	createTechArticleJsonLd,
+	getPersonJsonLd,
 	getSoftwareSourceCodeJsonLd,
 } from "./json-ld"
+
+const identity = {
+	name: "Chitrank Agnihotri",
+	alternateNames: ["Chitrank"],
+	title: "Senior Technical Lead",
+	description: "Software engineer",
+	keywords: ["React"],
+	websiteUrl: "https://chitrankagnihotri.com",
+	portraitUrl: "https://chitrankagnihotri.com/portrait.png",
+	jobTitle: "Senior Technical Lead",
+	company: {
+		name: "Humanform.ai",
+		url: "https://humanform.ai",
+	},
+	education: "Bhagwan Parshuram Institute of Technology",
+	nationality: "Indian",
+	knowsAbout: ["React"],
+	socials: {
+		linkedin: "https://www.linkedin.com/in/chitrank-agnihotri/",
+		github: "https://github.com/chitrank2050",
+	},
+}
 
 describe("JsonLd", () => {
 	it("escapes script-breaking characters in structured data", () => {
@@ -46,6 +69,14 @@ describe("JsonLd", () => {
 		})
 	})
 
+	it("links the Person entity to the canonical employer", () => {
+		expect(getPersonJsonLd(identity).worksFor).toEqual({
+			"@type": "Organization",
+			name: "Humanform.ai",
+			url: "https://humanform.ai",
+		})
+	})
+
 	it("creates canonical TechArticle and breadcrumb entities", () => {
 		const article = createTechArticleJsonLd({
 			title: "Button React component",
@@ -62,7 +93,18 @@ describe("JsonLd", () => {
 			"@id":
 				"https://monolineui.chitrankagnihotri.com/components/button#webpage",
 			url: "https://monolineui.chitrankagnihotri.com/components/button",
-			author: { "@id": "https://chitrankagnihotri.com/#person" },
+			author: {
+				"@type": "Person",
+				"@id": "https://chitrankagnihotri.com/#person",
+				name: "Chitrank Agnihotri",
+				url: "https://chitrankagnihotri.com",
+			},
+			publisher: {
+				"@type": "Person",
+				"@id": "https://chitrankagnihotri.com/#person",
+				name: "Chitrank Agnihotri",
+				url: "https://chitrankagnihotri.com",
+			},
 		})
 		expect(breadcrumbs.itemListElement).toHaveLength(2)
 		expect(breadcrumbs.itemListElement[1]).toMatchObject({

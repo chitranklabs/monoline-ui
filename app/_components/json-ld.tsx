@@ -21,6 +21,17 @@ interface CollectionJsonLdInput extends PageJsonLdInput {
 }
 
 const authorId = "https://chitrankagnihotri.com/#person"
+const authorName = "Chitrank Agnihotri"
+const authorUrl = "https://chitrankagnihotri.com"
+
+function getArticleAuthorJsonLd() {
+	return {
+		"@type": "Person",
+		"@id": authorId,
+		name: authorName,
+		url: authorUrl,
+	}
+}
 
 function absoluteUrl(path: `/${string}`) {
 	return new URL(path, `${siteUrl}/`).toString()
@@ -38,6 +49,7 @@ export function getPersonJsonLd(identity: Identity) {
 		worksFor: {
 			"@type": "Organization",
 			name: identity.company.name,
+			url: identity.company.url,
 		},
 		alumniOf: {
 			"@type": "CollegeOrUniversity",
@@ -151,12 +163,14 @@ export function createWebPageJsonLd({
 }
 
 export function createTechArticleJsonLd(input: PageJsonLdInput) {
+	const author = getArticleAuthorJsonLd()
+
 	return {
 		...createWebPageJsonLd(input),
 		"@type": "TechArticle",
 		headline: input.title,
-		author: { "@id": authorId },
-		publisher: { "@id": authorId },
+		author,
+		publisher: author,
 	}
 }
 

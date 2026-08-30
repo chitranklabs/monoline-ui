@@ -2,28 +2,26 @@
 
 ## Executive summary
 
-Monoline UI now has a complete technical search foundation across its 47 public pages. The next constraint is not another metadata change; it is demand and authority for a young library in a competitive React ecosystem.
+The technical SEO work now covers all 47 public pages. They can be crawled, have distinct metadata, and link to the relevant documentation. More metadata changes are unlikely to produce meaningful growth on their own. Monoline UI now needs useful examples, independent mentions, and search demand around the problems it solves.
 
-The defensible search position is specific:
+The library has a narrower focus than a general-purpose component kit: monochrome React components for portfolios, documentation, and editorial sites. Static components can stay server-rendered, interactive components have explicit client boundaries, and the theme is built with Tailwind CSS v4 tokens.
 
-> Monochrome React components for developer portfolios, documentation, and editorial interfaces, with server-safe static primitives and Tailwind CSS v4 design tokens.
+People can discover that work in a few different places:
 
-Growth should compound through three connected surfaces:
-
-1. Searchable documentation and original technical guides on the canonical subdomain.
-2. Package discovery and API documentation on npm and JSR.
-3. Deep links and working examples on GitHub, release announcements, integrations, and real sites.
+- Searchable documentation and technical guides on the canonical subdomain.
+- Package and API pages on npm and JSR.
+- Working examples and direct documentation links from GitHub, release notes, integrations, and sites that use the library.
 
 ## Technical readiness delivered
 
 - All 47 public pages are discoverable through crawlable navigation and the native sitemap.
-- `/components`, `/foundations`, and `/changelog` are first-class collection pages.
-- Every component reference has a query-oriented H1, unique metadata, a canonical URL, `TechArticle` and breadcrumb structured data, runtime guidance, accessibility guidance, selection trade-offs, and related links.
+- `/components`, `/foundations`, and `/changelog` give crawlers and readers a clear route into the documentation.
+- Each component reference has its own H1, metadata, canonical URL, `TechArticle` and breadcrumb data, runtime and accessibility notes, trade-offs, and related links.
 - Foundation and installation pages have query-oriented H1s and page-specific article/breadcrumb schemas.
 - Homepage entities describe the website, package, source repository, npm listing, JSR listing, and author.
 - Query-string variants and Vercel preview hosts return `noindex, follow`; the `www` host redirects to the canonical subdomain.
 - The custom 404 is non-indexable and does not claim the homepage canonical.
-- The package has a deterministic local author-identity fallback.
+- The package has a local author-identity fallback when the canonical identity endpoint is unavailable.
 - The sitemap route set is derived from the filesystem, preventing silent omissions as documentation grows.
 - Production verification enforces route parity, metadata lengths and uniqueness, schemas, canonical URLs, internal links, redirects, security headers, manifest and social assets, 404 behavior, and a changelog payload budget.
 - Changelog HTML fell from roughly 774 KB in the live audit to 105.6 KB in the verified build.
@@ -32,9 +30,9 @@ Growth should compound through three connected surfaces:
 - npm package archives now retain the README assets, license, changelog, contribution guide, code of conduct, and security policy.
 - `llms.txt` gives AI retrieval systems a concise map of authoritative documentation and package URLs. This is discovery support, not a Google ranking claim.
 
-## The growth barrier
+## What still limits growth
 
-Generic queries such as “React component library” are dominated by established ecosystems. Monoline UI should not imitate their breadth. It should own narrower problems where its design and runtime choices are unusually relevant:
+Established libraries already dominate broad searches such as "React component library." Monoline UI has a better chance of being found through narrower problems that match how it is built:
 
 - React component libraries for developer portfolios.
 - Editorial and documentation UI components.
@@ -42,11 +40,11 @@ Generic queries such as “React component library” are dominated by establish
 - Server-safe static React primitives and explicit client boundaries.
 - Accessible monochrome interfaces.
 
-The library still needs external evidence: real examples, users, deep links, package documentation, and original engineering material. Technical SEO makes those assets discoverable; it cannot substitute for them.
+The missing evidence is outside the metadata: deployed examples, users, links to individual documentation pages, thorough package docs, and engineering articles based on work done in the library.
 
 ## 90-day execution plan
 
-### Month 1: establish proof
+### Month 1: measure the baseline and publish an example
 
 - Add a dedicated Google Search Console URL-prefix property for `https://monolineui.chitrankagnihotri.com/` and submit `/sitemap.xml`.
 - Record a 28-day baseline for impressions, clicks, non-brand queries, indexed pages, landing pages receiving impressions, and average position bands.
@@ -54,9 +52,9 @@ The library still needs external evidence: real examples, users, deep links, pac
 - Raise the JSR score from its audit baseline toward at least 90% by expanding public-symbol JSDoc and package documentation.
 - Add accurate GitHub topics covering the niche: `react`, `react-components`, `react-server-components`, `tailwindcss`, `tailwindcss-v4`, `design-system`, `developer-portfolio`, `documentation`, `editorial-design`, and `accessibility`.
 
-### Month 2: build the search cluster
+### Month 2: publish practical guides
 
-Publish two substantial guides. Each guide should include original code, a diagram, a measured result, failure cases, one example repository, one package install action, and three to five contextual documentation links.
+Publish two guides based on work already completed in Monoline UI. Include the code that was tested, what failed, a measured result, and links to the relevant component pages. Add a diagram or example repository when it genuinely helps explain the implementation.
 
 Recommended first guides:
 
@@ -65,7 +63,7 @@ Recommended first guides:
 
 Ship a second example: a developer-documentation site using navigation, search, TOC, code blocks, callouts, and changelog components. Link from the example README to the exact component reference URLs, not only the homepage.
 
-### Month 3: compound distribution
+### Month 3: publish more examples and distribute them
 
 Publish two more guides:
 
@@ -82,11 +80,11 @@ Earn two to four legitimate deep-link placements per month through:
 - Relevant framework showcases and community resource lists.
 - Real consuming projects that link to the exact component or guide used.
 
-Do not buy links, mass-submit directories, or publish interchangeable AI-generated articles.
+Paid links, bulk directory submissions, and generic articles would add noise without showing why someone should use the library.
 
 ## Content backlog after the first 90 days
 
-Prioritize topics with a working artifact and measurable evidence:
+Choose topics for which the repository can provide working code or a measurable result:
 
 - CSS variable theming without duplicated dark-mode utility classes.
 - An accessible command palette for Next.js documentation.
@@ -99,7 +97,7 @@ Prioritize topics with a working artifact and measurable evidence:
 
 ## Measurement model
 
-Use the install-copy event as the first conversion signal, then add events only for meaningful intent: npm outbound clicks, JSR outbound clicks, GitHub outbound clicks, and example-repository visits.
+Start with install-command copies as the first conversion signal. Add npm, JSR, GitHub, and example-repository clicks when those events are available in production.
 
 Review every 28 days:
 
@@ -112,7 +110,9 @@ Review every 28 days:
 | Adoption     | npm/JSR downloads and dependent/example projects | Whether interest becomes usage                       |
 | Quality      | Field LCP, INP, and CLS                          | Whether production experience remains healthy        |
 
-Set the 300% outcome only after the first 28-day baseline. A 300% increase means four times the starting value, while “grow to 300%” means three times; dashboards and reports must state which definition is used. Use both leading commitments and outcome targets:
+Set the growth target after collecting the first 28-day baseline. A 300% increase means four times the starting value; reaching 300% of the baseline means three times the starting value. Use one definition consistently in dashboards and reports.
+
+The working targets are:
 
 - Publish two evidence-backed guides per month.
 - Launch three real examples in 90 days.
