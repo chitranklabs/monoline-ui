@@ -557,7 +557,7 @@ export function ComponentPlayground<
 		...guidance.related.map((relatedSlug, index) => ({
 			label: String(index + 1).padStart(2, "0"),
 			date: "Component",
-			title: `${formatComponentSlug(relatedSlug)} React component`,
+			title: `${formatComponentSlug(relatedSlug)}`,
 			href: `/components/${relatedSlug}`,
 			tag: "Reference",
 			as: Link,

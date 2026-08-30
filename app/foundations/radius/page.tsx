@@ -14,7 +14,7 @@ export const metadata: Metadata = createPageMetadata({
 })
 
 const radii = [
-	["radius-xs", "4px", "kbd, code chip", 4],
+	["radius-xs", "4px", "kbd, code tag", 4],
 	["radius-sm", "6px", "button, input", 6],
 	["radius-md", "8px", "callout, toast", 8],
 	["radius-lg", "12px", "card", 12],

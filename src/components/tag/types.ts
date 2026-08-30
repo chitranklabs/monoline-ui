@@ -1,26 +1,48 @@
 import type * as React from "react"
 
 export type TagSize = "sm" | "md" | "lg"
-export type TagVariant = "filter" | "chip"
 
-interface TagBaseProps {
+export interface TagProps extends Omit<
+	React.ComponentProps<"button">,
+	"prefix"
+> {
+	/**
+	 * Maps to aria-pressed and selected filter styling.
+	 * @default false
+	 */
 	active?: boolean
-	interactive?: boolean
+	/**
+	 * Alias for active.
+	 * @default false
+	 */
+	selected?: boolean
+	/**
+	 * Optional prefix / key label (e.g. "Status", "Author", "Environment"). Rendered in 90% size and muted text.
+	 */
+	prefix?: React.ReactNode
+	/**
+	 * Optional suffix element / text. Rendered in 90% size and muted text.
+	 */
+	suffix?: React.ReactNode
+	/**
+	 * Callback when the cross icon is clicked in the selected state.
+	 */
+	onDismiss?: (e: React.MouseEvent) => void
+	/**
+	 * Accessible label for the dismiss cross icon.
+	 * @default "Remove filter"
+	 */
+	dismissAriaLabel?: string
+	/**
+	 * Tag scale. Maintains exact token height, padding, font-size, and pill radius.
+	 * @default "md"
+	 */
 	size?: TagSize
-	variant?: TagVariant
+	/**
+	 * Render as a child element via Radix Slot.
+	 * @default false
+	 */
 	asChild?: boolean
 }
-
-export type InteractiveTagProps = TagBaseProps &
-	React.ComponentProps<"button"> & {
-		interactive?: true
-	}
-
-export type StaticTagProps = TagBaseProps &
-	React.ComponentProps<"span"> & {
-		interactive?: false
-	}
-
-export type TagProps = InteractiveTagProps | StaticTagProps
 
 export type TagCountProps = React.ComponentProps<"span">

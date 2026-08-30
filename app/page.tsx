@@ -43,7 +43,7 @@ const builtFor = [
 	["Personal portfolios", "Editorial layout, long-form posts"],
 	["Developer docs", "Code blocks, callouts, TOC"],
 	["Product sites", "Hero, feature, and footer sections"],
-	["Internal tools", "Cards, tables, status chips"],
+	["Internal tools", "Cards, tables, status tags"],
 ]
 
 const components = [

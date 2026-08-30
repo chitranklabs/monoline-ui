@@ -1,6 +1,7 @@
+import { Suspense } from "react"
+
 import type { Metadata } from "next"
 
-import { ChangelogTimeline } from "@chitrank2050/monoline-ui/changelog"
 import type { GitCliffRelease } from "@chitrank2050/monoline-ui/changelog"
 import { Container } from "@chitrank2050/monoline-ui/container"
 
@@ -11,7 +12,8 @@ import JsonLd, {
 } from "../_components/json-ld"
 import changelogJson from "../lib/changelog.json"
 import { createPageMetadata } from "../lib/metadata"
-import { ChangelogToc } from "./toc"
+import { siteUrl } from "../lib/seo"
+import { ChangelogView } from "./changelog-view"
 
 const changelogDescription =
 	"Read Monoline UI release notes for new React components, accessibility fixes, performance work, API changes, and resolved bugs across each published version."
@@ -26,15 +28,10 @@ export const metadata: Metadata = createPageMetadata({
 const releases = (changelogJson as GitCliffRelease[]).filter(
 	(r) => r.version !== null
 )
-const tocItems = releases.map((release) => {
-	const version = release.version ?? "Unreleased"
-	return {
-		id: `release-${version.replace(/\./g, "-")}`,
-		label: version,
-	}
-})
 
 export default function ChangelogPage() {
+	const feedUrl = `${siteUrl}/changelog/feed.xml`
+
 	return (
 		<Container
 			as="main"
@@ -73,31 +70,9 @@ export default function ChangelogPage() {
 				</p>
 			</header>
 
-			{/* Two-column layout: sticky TOC left, timeline right */}
-			<div className="changelog-layout">
-				{/* Sticky TOC sidebar */}
-				<aside className="changelog-layout__toc">
-					<div className="changelog-layout__toc-inner">
-						<ChangelogToc items={tocItems} />
-					</div>
-				</aside>
-
-				{/* Main timeline */}
-				<section className="changelog-layout__content">
-					<h2 className="sr-only">Release history</h2>
-					<ChangelogTimeline
-						releases={releases}
-						githubOwner="chitranklabs"
-						githubRepo="monoline-ui"
-						allowedGroups={[
-							"Features",
-							"Bug Fixes",
-							"Performance",
-							"Documentation",
-						]}
-					/>
-				</section>
-			</div>
+			<Suspense fallback={null}>
+				<ChangelogView initialReleases={releases} feedUrl={feedUrl} />
+			</Suspense>
 
 			<DocsPager />
 		</Container>

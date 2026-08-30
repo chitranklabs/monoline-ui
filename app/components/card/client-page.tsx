@@ -1,7 +1,7 @@
 "use client"
 
+import { Badge } from "@chitrank2050/monoline-ui/badge"
 import { Card, type CardSize } from "@chitrank2050/monoline-ui/components/card"
-import { Tag } from "@chitrank2050/monoline-ui/tag"
 
 import { ComponentPlayground } from "../../_components/component-playground"
 
@@ -26,15 +26,16 @@ const usageCode = `<Card href="/blog/tunic-storefront" size="md">
   </Card.Body>
   <Card.Footer>
     <Card.TagList totalCount={4}>
-      <Tag variant="chip" size="sm">Next.js</Tag>
-      <Tag variant="chip" size="sm">Sanity</Tag>
-      <Tag variant="chip" size="sm">Vercel</Tag>
+      <Badge variant="muted" size="sm">Next.js</Badge>
+      <Badge variant="muted" size="sm">Sanity</Badge>
+      <Badge variant="muted" size="sm">Vercel</Badge>
     </Card.TagList>
     <Card.Action>View <Card.Arrow /></Card.Action>
   </Card.Footer>
 </Card>`
 
-const sourceSnippet = `import { Card } from "@chitrank2050/monoline-ui/components/card"
+const sourceSnippet = `import { Badge } from "@chitrank2050/monoline-ui/badge"
+import { Card } from "@chitrank2050/monoline-ui/components/card"
 
 export function ProjectCard() {
   return (
@@ -57,9 +58,9 @@ export function ProjectCard() {
       </Card.Body>
       <Card.Footer>
         <Card.TagList totalCount={4}>
-          <Tag variant="chip" size="sm">Next.js</Tag>
-          <Tag variant="chip" size="sm">Sanity</Tag>
-          <Tag variant="chip" size="sm">Vercel</Tag>
+          <Badge variant="muted" size="sm">Next.js</Badge>
+          <Badge variant="muted" size="sm">Sanity</Badge>
+          <Badge variant="muted" size="sm">Vercel</Badge>
         </Card.TagList>
         <Card.Action>View <Card.Arrow /></Card.Action>
       </Card.Footer>
@@ -150,15 +151,15 @@ export default function CardPageClient() {
 						</Card.Body>
 						<Card.Footer>
 							<Card.TagList totalCount={4}>
-								<Tag size="sm" variant="chip">
+								<Badge variant="muted" size="sm">
 									Next.js
-								</Tag>
-								<Tag size="sm" variant="chip">
+								</Badge>
+								<Badge variant="muted" size="sm">
 									Sanity
-								</Tag>
-								<Tag size="sm" variant="chip">
+								</Badge>
+								<Badge variant="muted" size="sm">
 									Vercel
-								</Tag>
+								</Badge>
 							</Card.TagList>
 							<Card.Action>
 								View

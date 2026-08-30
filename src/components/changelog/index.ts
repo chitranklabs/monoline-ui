@@ -8,6 +8,7 @@ import { ChangelogRelease } from "./release"
 import { ChangelogTimeline as ChangelogTimelineRoot } from "./root"
 
 export * from "./types"
+export * from "./feed"
 
 export const ChangelogTimeline: typeof ChangelogTimelineRoot & {
 	displayName: string

@@ -1,10 +1,104 @@
 @layer theme, base, components, utilities;
 
 @layer components {
-	.ml-tag[data-interactive="false"] {
+	.ml-tag {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		vertical-align: middle;
+		font-family: var(--font-sans);
+		border-width: 1px;
+		border-style: dashed;
 		border-color: var(--border-strong);
-		background: transparent;
-		color: var(--text-body);
-		box-shadow: none;
+		background-color: transparent;
+		color: var(--text-muted);
+		line-height: 1;
+		transition:
+			background-color var(--duration-micro) ease-out,
+			border-color var(--duration-micro) ease-out,
+			color var(--duration-micro) ease-out,
+			box-shadow var(--duration-micro) ease-out;
+	}
+
+	.ml-tag__prefix {
+		font-size: 0.9em;
+		color: var(--text-muted);
+		opacity: 0.8;
+		font-weight: 400;
+		user-select: none;
+		flex-shrink: 0;
+	}
+
+	.ml-tag__suffix {
+		font-size: 0.9em;
+		color: var(--text-muted);
+		opacity: 0.8;
+		font-weight: 400;
+		user-select: none;
+		flex-shrink: 0;
+	}
+
+	.ml-tag__value {
+		color: var(--text-muted);
+		font-weight: 500;
+		transition: color var(--duration-micro) ease-out;
+		white-space: nowrap;
+	}
+
+	/* 1. Unselected Hover state: solid border & bright value text */
+	.ml-tag:hover:not([data-active="true"]) {
+		border-style: solid;
+		border-color: var(--border-strong);
+		background-color: var(--button);
+	}
+
+	.ml-tag:hover:not([data-active="true"]) .ml-tag__value {
+		color: var(--text);
+	}
+
+	/* 2. Selected / active state: solid border, button surface, bright value text */
+	.ml-tag[data-active="true"] {
+		border-style: solid;
+		border-color: var(--border-strong);
+		background-color: var(--button);
+		color: var(--text);
+	}
+
+	.ml-tag[data-active="true"] .ml-tag__value {
+		color: var(--text);
+		font-weight: 500;
+	}
+
+	.ml-tag[data-active="true"] .ml-tag__prefix,
+	.ml-tag[data-active="true"] .ml-tag__suffix {
+		color: var(--text-muted);
+		opacity: 0.9;
+	}
+
+	/* 3. Selected Hover state: elevated button-hover surface */
+	.ml-tag[data-active="true"]:hover {
+		background-color: var(--button-hover);
+		border-color: var(--border-strong);
+	}
+
+	/* 4. Circular dismiss cross icon */
+	.ml-tag__dismiss {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 9999px;
+		background-color: var(--button-hover);
+		color: var(--text-muted);
+		transition:
+			color var(--duration-micro) ease-out,
+			background-color var(--duration-micro) ease-out,
+			transform var(--duration-micro) ease-out;
+		cursor: pointer;
+		flex-shrink: 0;
+	}
+
+	.ml-tag__dismiss:hover {
+		color: var(--text);
+		background-color: var(--border-strong);
 	}
 }

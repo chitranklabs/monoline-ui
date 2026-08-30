@@ -110,4 +110,62 @@ describe("ChangelogTimeline", () => {
 			"https://github.com/chitranklabs/monoline-ui/releases/tag/v1.0.0"
 		)
 	})
+
+	it("normalizes git-cliff group names with ordering comments and emojis", () => {
+		const rawGroupReleases: GitCliffRelease[] = [
+			{
+				version: "v2.0.0",
+				timestamp: 1700000000,
+				commits: [
+					{
+						id: "1111111111111111111111111111111111111111",
+						message: "add cool feature with comments",
+						body: null,
+						group: "<!-- 0 -->🚀 Features",
+						breaking: false,
+						scope: "core",
+						author: {
+							name: "Chitrank",
+							email: "chitrank@example.com",
+							timestamp: 1700000000,
+						},
+					},
+				],
+			},
+		]
+
+		render(
+			<ChangelogTimeline
+				releases={rawGroupReleases}
+				allowedGroups={["Features"]}
+			/>
+		)
+		expect(screen.getByText("v2.0.0")).toBeInTheDocument()
+		expect(screen.getByText("Features")).toBeInTheDocument()
+		expect(
+			screen.getByText("Add cool feature with comments")
+		).toBeInTheDocument()
+	})
+})
+
+describe("generateChangelogRss", () => {
+	it("generates a valid RSS 2.0 XML string with deep-links and releases", async () => {
+		const { generateChangelogRss } = await import("./index")
+		const xml = generateChangelogRss({
+			title: "monoline-ui Changelog",
+			description: "Release updates for monoline-ui",
+			siteUrl: "https://monolineui.chitrankagnihotri.com",
+			releases: mockReleases,
+		})
+
+		expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>')
+		expect(xml).toContain('<rss version="2.0"')
+		expect(xml).toContain("<title><![CDATA[monoline-ui Changelog]]></title>")
+		expect(xml).toContain("<title><![CDATA[v1.0.0]]></title>")
+		expect(xml).toContain(
+			"<link>https://monolineui.chitrankagnihotri.com/changelog#release-v1-0-0</link>"
+		)
+		expect(xml).toContain("[core]")
+		expect(xml).toContain("add cool feature")
+	})
 })

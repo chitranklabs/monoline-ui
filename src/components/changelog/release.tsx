@@ -33,12 +33,31 @@ export function ChangelogRelease({
 	const commitsByGroup: Record<string, GitCliffCommit[]> = {}
 
 	release.commits.forEach((commit) => {
-		const groupName = commit.group || "Miscellaneous Tasks"
-		if (allowedGroups.includes(groupName)) {
-			if (!commitsByGroup[groupName]) {
-				commitsByGroup[groupName] = []
+		const rawGroup = commit.group || "Miscellaneous Tasks"
+		const cleanGroup =
+			rawGroup
+				.replace(/<!--.*?-->/g, "")
+				.replace(/^[^\w]+/, "")
+				.trim() || rawGroup
+
+		const matchedGroup =
+			allowedGroups.find(
+				(g) =>
+					g.toLowerCase() === cleanGroup.toLowerCase() ||
+					g.toLowerCase() === rawGroup.toLowerCase()
+			) || cleanGroup
+
+		if (
+			allowedGroups.some(
+				(g) =>
+					g.toLowerCase() === cleanGroup.toLowerCase() ||
+					g.toLowerCase() === rawGroup.toLowerCase()
+			)
+		) {
+			if (!commitsByGroup[matchedGroup]) {
+				commitsByGroup[matchedGroup] = []
 			}
-			commitsByGroup[groupName].push(commit)
+			commitsByGroup[matchedGroup].push(commit)
 		}
 	})
 

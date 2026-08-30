@@ -1,42 +1,58 @@
 import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "../../lib/utils"
-import type { TagProps, TagSize, TagVariant } from "./types"
+import type { TagProps, TagSize } from "./types"
 
 const tagSizeClasses: Record<TagSize, string> = {
-	sm: "min-h-ml-7 gap-ml-1 whitespace-nowrap px-ml-2 text-xs",
-	md: "min-h-ml-8 gap-ml-1-5 whitespace-nowrap px-ml-3 text-sm",
-	lg: "min-h-ml-9 gap-ml-2 whitespace-nowrap px-ml-4 text-base",
+	sm: "min-h-ml-7 px-ml-2 text-xs",
+	md: "min-h-ml-8 px-ml-3 text-sm",
+	lg: "min-h-ml-9 px-ml-4 text-base",
 }
 
-const tagVariantClasses: Record<TagVariant, string> = {
-	filter: "ml-control-surface--secondary font-medium",
-	chip: "ml-control-surface--secondary text-body",
+const prefixSizeClasses: Record<TagSize, string> = {
+	sm: "mr-ml-1-5 text-xs",
+	md: "mr-ml-2 text-sm",
+	lg: "mr-ml-2-5 text-base",
 }
 
-const interactiveVariantClasses: Record<TagVariant, string> = {
-	filter:
-		"cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
-	chip: "cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+const suffixSizeClasses: Record<TagSize, string> = {
+	sm: "ml-ml-1-5 text-xs",
+	md: "ml-ml-2 text-sm",
+	lg: "ml-ml-2-5 text-base",
+}
+
+const valueSizeClasses: Record<TagSize, string> = {
+	sm: "text-xs",
+	md: "text-sm",
+	lg: "text-base",
+}
+
+const dismissSizeClasses: Record<TagSize, string> = {
+	sm: "size-3.5 ml-ml-1 p-0.5",
+	md: "size-4 ml-ml-1-5 p-0.5",
+	lg: "size-5 ml-ml-2 p-1",
 }
 
 export function TagRoot({
 	className,
 	active = false,
+	selected,
+	prefix,
+	suffix,
+	onDismiss,
+	dismissAriaLabel = "Remove filter",
 	size = "md",
-	variant = "filter",
-	interactive,
 	asChild = false,
+	type = "button",
+	children,
 	ref,
 	...props
 }: TagProps): React.ReactElement {
-	const isInteractive = interactive ?? variant === "filter"
+	const isSelected = selected ?? active
 
 	const sharedClassName = cn(
-		"ml-tag inline-flex select-none items-center rounded-(--radius-pill) border transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-out",
+		"ml-tag inline-flex select-none items-center rounded-(--radius-pill) font-sans cursor-pointer transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-out disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 		tagSizeClasses[size],
-		tagVariantClasses[variant],
-		isInteractive ? interactiveVariantClasses[variant] : "cursor-default",
 		className
 	)
 
@@ -44,45 +60,75 @@ export function TagRoot({
 		return (
 			<Slot
 				ref={ref as React.Ref<HTMLElement>}
-				data-active={active}
-				data-interactive={isInteractive ? "true" : "false"}
+				data-active={isSelected ? "true" : "false"}
+				aria-pressed={isSelected}
 				className={sharedClassName}
 				{...(props as React.ComponentProps<typeof Slot>)}
-			/>
+			>
+				{children}
+			</Slot>
 		)
 	}
 
-	if (!isInteractive) {
-		const { ...spanProps } = props as Omit<
-			Extract<TagProps, { interactive?: false }>,
-			"active" | "interactive" | "size" | "variant" | "asChild"
-		>
-
-		return (
-			<span
-				ref={ref as React.Ref<HTMLSpanElement>}
-				data-active={active}
-				data-interactive="false"
-				className={sharedClassName}
-				{...spanProps}
-			/>
-		)
+	const handleDismiss = (e: React.MouseEvent) => {
+		if (onDismiss) {
+			e.stopPropagation()
+			onDismiss(e)
+		}
 	}
-
-	const { type, ...buttonProps } = props as Omit<
-		Extract<TagProps, { interactive?: true }>,
-		"active" | "interactive" | "size" | "variant" | "asChild"
-	>
 
 	return (
 		<button
 			ref={ref as React.Ref<HTMLButtonElement>}
-			type={type ?? "button"}
-			aria-pressed={active}
-			data-active={active}
-			data-interactive="true"
+			type={type}
+			aria-pressed={isSelected}
+			data-active={isSelected ? "true" : "false"}
 			className={sharedClassName}
-			{...buttonProps}
-		/>
+			{...props}
+		>
+			{prefix && (
+				<span className={cn("ml-tag__prefix", prefixSizeClasses[size])}>
+					{prefix}
+				</span>
+			)}
+			<span className={cn("ml-tag__value", valueSizeClasses[size])}>
+				{children}
+			</span>
+			{suffix && (
+				<span className={cn("ml-tag__suffix", suffixSizeClasses[size])}>
+					{suffix}
+				</span>
+			)}
+			{isSelected && onDismiss && (
+				<span
+					role="button"
+					tabIndex={0}
+					aria-label={dismissAriaLabel}
+					onClick={handleDismiss}
+					onKeyDown={(e) => {
+						if (e.key === "Enter" || e.key === " ") {
+							e.preventDefault()
+							handleDismiss(e as unknown as React.MouseEvent)
+						}
+					}}
+					className={cn("ml-tag__dismiss", dismissSizeClasses[size])}
+				>
+					<svg
+						className="size-full"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth={2.5}
+						strokeLinecap="round"
+						strokeLinejoin="round"
+					>
+						<path d="M18 6 6 18" />
+						<path d="m6 6 12 12" />
+					</svg>
+				</span>
+			)}
+		</button>
 	)
 }
+
+TagRoot.displayName = "Tag"

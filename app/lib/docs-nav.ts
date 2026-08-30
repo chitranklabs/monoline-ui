@@ -143,7 +143,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 				href: "/components/tag",
 				label: "Tag",
 				description:
-					"Render filter buttons or quiet chips for categories, stacks, and metadata.",
+					"Render filter buttons for categories, stacks, and metadata.",
 			},
 		],
 	},

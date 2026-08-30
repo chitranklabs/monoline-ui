@@ -351,9 +351,9 @@ export const componentGuidance = {
 	tag: {
 		runtime: "server",
 		whenToUse:
-			"Tag works as a static chip or a pressed filter for one independent criterion.",
+			"Tag works as a an interactive filter for one independent criterion.",
 		whenToAvoid:
-			"The chip navigates, belongs to a mutually exclusive group, or changes a persistent setting.",
+			"The tag navigates, belongs to a mutually exclusive group, or changes a persistent setting.",
 		accessibility:
 			"An interactive Tag is a button with aria-pressed; a static Tag is a span. Any element supplied through asChild must preserve equivalent semantics.",
 		related: ["badge", "segmented-control"],
