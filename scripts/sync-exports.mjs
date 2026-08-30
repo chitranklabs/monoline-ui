@@ -193,6 +193,11 @@ async function run() {
 		import: "./lib/*.js",
 	}
 	newExports["./theme.css"] = {
+		style: "./styles/theme.css",
+		default: "./styles/theme.css",
+	}
+	newExports["./styles/theme.css"] = {
+		style: "./styles/theme.css",
 		default: "./styles/theme.css",
 	}
 	newExports["./package.json"] = "./package.json"

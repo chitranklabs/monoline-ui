@@ -12,6 +12,8 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { gzipSync } from "node:zlib"
 
+import { findClientComponentEntries } from "./lib/client-boundaries.mjs"
+
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDir, "..")
 const distDir = path.join(projectRoot, "dist")
@@ -41,7 +43,18 @@ const tsupBin = path.join(projectRoot, "node_modules", ".bin", "tsup")
 // Run tsup build
 await run(tsupBin)
 
-const clientEntryFiles = ["foundations/use-breakpoint.js"]
+const clientComponentEntries = await findClientComponentEntries(projectRoot)
+
+// The root barrel mixes server-safe and interactive exports, so it is a client
+// boundary by design. Consumers that need RSC optimization use component
+// subpaths; their server-safe entries remain directive-free.
+const clientEntryFiles = [
+	"index.js",
+	"foundations/use-breakpoint.js",
+	...clientComponentEntries.map(
+		(component) => `components/${component}/index.js`
+	),
+]
 for (const relativePath of clientEntryFiles) {
 	const filePath = path.join(distDir, relativePath)
 	const output = await readFile(filePath, "utf8")

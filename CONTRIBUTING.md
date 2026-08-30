@@ -83,6 +83,7 @@ Before opening a PR, run:
 pnpm lint        # ESLint + Markdownlint
 pnpm typecheck   # TypeScript (no emit)
 pnpm test        # Vitest test suite
+pnpm build:lib   # Published-package build and consumer contract checks
 pnpm format      # Prettier
 ```
 

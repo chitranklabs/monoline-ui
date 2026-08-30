@@ -56,9 +56,9 @@
 	--color-body: var(--text-body);
 	--color-code-text: var(--code-text);
 	--color-btn-primary-hover: var(--btn-primary-hover);
-	--color-live: var(--color-live);
-	--color-live-soft: var(--color-live-soft);
-	--color-live-border: var(--color-live-border);
+	--color-live: var(--ml-color-live);
+	--color-live-soft: var(--ml-color-live-soft);
+	--color-live-border: var(--ml-color-live-border);
 	--color-callout-tip-text: var(--callout-tip-text);
 	--color-callout-tip-accent: var(--callout-tip-accent);
 	--color-callout-warn-text: var(--callout-warn-text);
@@ -67,42 +67,42 @@
 	--color-callout-info-accent: var(--callout-info-accent);
 
 	/* Fonts */
-	--font-sans: var(--font-sans);
-	--font-mono: var(--font-mono);
-	--font-script: var(--font-script);
-	--font-headline: var(--font-headline);
+	--font-sans: var(--ml-font-sans);
+	--font-mono: var(--ml-font-mono);
+	--font-script: var(--ml-font-script);
+	--font-headline: var(--ml-font-headline);
 
 	/* Font Sizes */
-	--text-3xs: var(--text-3xs);
-	--text-2xs: var(--text-2xs);
-	--text-xs: var(--text-xs);
-	--text-sm: var(--text-sm);
-	--text-base: var(--text-base);
-	--text-md: var(--text-md);
-	--text-lg: var(--text-lg);
-	--text-xl: var(--text-xl);
-	--text-2xl: var(--text-2xl);
-	--text-3xl: var(--text-3xl);
-	--text-4xl: var(--text-4xl);
-	--text-5xl: var(--text-5xl);
-	--text-6xl: var(--text-6xl);
-	--text-7xl: var(--text-7xl);
+	--text-3xs: var(--ml-text-3xs);
+	--text-2xs: var(--ml-text-2xs);
+	--text-xs: var(--ml-text-xs);
+	--text-sm: var(--ml-text-sm);
+	--text-base: var(--ml-text-base);
+	--text-md: var(--ml-text-md);
+	--text-lg: var(--ml-text-lg);
+	--text-xl: var(--ml-text-xl);
+	--text-2xl: var(--ml-text-2xl);
+	--text-3xl: var(--ml-text-3xl);
+	--text-4xl: var(--ml-text-4xl);
+	--text-5xl: var(--ml-text-5xl);
+	--text-6xl: var(--ml-text-6xl);
+	--text-7xl: var(--ml-text-7xl);
 
 	/* Line Heights */
-	--leading-none: var(--leading-none);
-	--leading-tight: var(--leading-tight);
-	--leading-snug: var(--leading-snug);
-	--leading-normal: var(--leading-normal);
-	--leading-relaxed: var(--leading-relaxed);
-	--leading-loose: var(--leading-loose);
+	--leading-none: var(--ml-leading-none);
+	--leading-tight: var(--ml-leading-tight);
+	--leading-snug: var(--ml-leading-snug);
+	--leading-normal: var(--ml-leading-normal);
+	--leading-relaxed: var(--ml-leading-relaxed);
+	--leading-loose: var(--ml-leading-loose);
 
 	/* Letter Spacings */
-	--tracking-display: var(--tracking-display);
-	--tracking-heading: var(--tracking-heading);
-	--tracking-body: var(--tracking-body);
-	--tracking-normal: var(--tracking-normal);
-	--tracking-meta: var(--tracking-meta);
-	--tracking-eyebrow: var(--tracking-eyebrow);
+	--tracking-display: var(--ml-tracking-display);
+	--tracking-heading: var(--ml-tracking-heading);
+	--tracking-body: var(--ml-tracking-body);
+	--tracking-normal: var(--ml-tracking-normal);
+	--tracking-meta: var(--ml-tracking-meta);
+	--tracking-eyebrow: var(--ml-tracking-eyebrow);
 
 	/* Spacing */
 	--breakpoint-mobile: 24.375rem;
@@ -204,13 +204,13 @@
 	--spacing-footer-meta-pt-lg: var(--ml-footer-meta-pt-lg);
 
 	/* Radii */
-	--radius-sm: var(--radius-sm);
-	--radius-md: var(--radius-md);
-	--radius-lg: var(--radius-lg);
-	--radius-xl: var(--radius-xl);
-	--radius-2xl: var(--radius-2xl);
-	--radius-3xl: var(--radius-3xl);
-	--radius-pill: var(--radius-pill);
+	--radius-sm: var(--ml-radius-sm);
+	--radius-md: var(--ml-radius-md);
+	--radius-lg: var(--ml-radius-lg);
+	--radius-xl: var(--ml-radius-xl);
+	--radius-2xl: var(--ml-radius-2xl);
+	--radius-3xl: var(--ml-radius-3xl);
+	--radius-pill: var(--ml-radius-pill);
 
 	/* Border widths */
 	--border-width-thin: var(--border-thin);
@@ -218,11 +218,11 @@
 	--border-width-thick: var(--border-thick);
 
 	/* Shadows */
-	--shadow-xs: var(--shadow-xs);
-	--shadow-sm: var(--shadow-sm);
-	--shadow-md: var(--shadow-md);
-	--shadow-lg: var(--shadow-lg);
-	--shadow-xl: var(--shadow-xl);
+	--shadow-xs: var(--ml-shadow-xs);
+	--shadow-sm: var(--ml-shadow-sm);
+	--shadow-md: var(--ml-shadow-md);
+	--shadow-lg: var(--ml-shadow-lg);
+	--shadow-xl: var(--ml-shadow-xl);
 	--shadow-card: var(--shadow-lg);
 
 	/* Z-index */
@@ -247,30 +247,30 @@
 	--container-container-lg: var(--container-lg);
 	--container-container-xl: var(--container-xl);
 	--container-container-2xl: var(--container-2xl);
-	--container-prose: var(--container-prose);
+	--container-prose: var(--ml-container-prose);
 
 	/* Blurs */
-	--blur-sm: var(--blur-sm);
-	--blur-md: var(--blur-md);
-	--blur-lg: var(--blur-lg);
-	--blur-xl: var(--blur-xl);
+	--blur-sm: var(--ml-blur-sm);
+	--blur-md: var(--ml-blur-md);
+	--blur-lg: var(--ml-blur-lg);
+	--blur-xl: var(--ml-blur-xl);
 
 	/* Motion */
-	--ease-linear: var(--ease-linear);
-	--ease-in: var(--ease-in);
-	--ease-out: var(--ease-out);
-	--ease-in-out: var(--ease-in-out);
-	--ease-out-expo: var(--ease-out-expo);
-	--ease-spring: var(--ease-spring);
-	--ease-spring-soft: var(--ease-spring-soft);
-	--ease-out-back: var(--ease-out-back);
-	--duration-instant: var(--duration-instant);
-	--duration-micro: var(--duration-micro);
-	--duration-fast: var(--duration-fast);
-	--duration-short: var(--duration-short);
-	--duration-medium: var(--duration-medium);
-	--duration-long: var(--duration-long);
-	--duration-xlong: var(--duration-xlong);
+	--ease-linear: var(--ml-ease-linear);
+	--ease-in: var(--ml-ease-in);
+	--ease-out: var(--ml-ease-out);
+	--ease-in-out: var(--ml-ease-in-out);
+	--ease-out-expo: var(--ml-ease-out-expo);
+	--ease-spring: var(--ml-ease-spring);
+	--ease-spring-soft: var(--ml-ease-spring-soft);
+	--ease-out-back: var(--ml-ease-out-back);
+	--duration-instant: var(--ml-duration-instant);
+	--duration-micro: var(--ml-duration-micro);
+	--duration-fast: var(--ml-duration-fast);
+	--duration-short: var(--ml-duration-short);
+	--duration-medium: var(--ml-duration-medium);
+	--duration-long: var(--ml-duration-long);
+	--duration-xlong: var(--ml-duration-xlong);
 
 	--animate-heart-pop: heart-pop var(--duration-medium) var(--ease-out-expo);
 	--animate-ring-ripple: ring-ripple var(--duration-long) var(--ease-out);

@@ -44,10 +44,9 @@ const installSteps: InstallStep[] = [
 		number: "03",
 		title: "Add the design tokens",
 		description:
-			"Import the package theme once from your root stylesheet. It defines the CSS variables every component reads.",
+			"Import the package theme once from your root stylesheet. It defines the CSS variables and registers Monoline's compiled sources with Tailwind.",
 		label: "src/app/globals.css",
 		code: `@import "tailwindcss";
-@source "./node_modules/@chitrank2050/monoline-ui/dist/**/*.{js,mjs}";
 @import "@chitrank2050/monoline-ui/theme.css";
 
 /* The package theme now owns colours, typography, spacing, and component tokens. */`,

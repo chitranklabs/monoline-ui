@@ -226,6 +226,11 @@
 			"import": "./lib/*.js"
 		},
 		"./theme.css": {
+			"style": "./styles/theme.css",
+			"default": "./styles/theme.css"
+		},
+		"./styles/theme.css": {
+			"style": "./styles/theme.css",
 			"default": "./styles/theme.css"
 		},
 		"./package.json": "./package.json"

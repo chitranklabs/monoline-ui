@@ -130,7 +130,7 @@ export default function Page() {
   - `@radix-ui/react-slot` - polymorphic render delegation
   - `clsx` + `tailwind-merge` - class composition
   - `cmdk` - command palette interaction model
-- **Performance invariant**: Static entrypoints do not introduce a Monoline client boundary; application tooling and passed children still determine the final browser bundle.
+- **Performance invariant**: Static component subpaths do not introduce a Monoline client boundary. The mixed root barrel is client-safe because it also exports interactive components; use documented component subpaths for RSC optimization.
 
 ---
 
@@ -173,13 +173,10 @@ In your root stylesheet, point Tailwind's compiler at the compiled Monoline outp
 
 ```css
 @import "tailwindcss";
-
-/* Scan compiled outputs - only used utilities ship */
-@source "node_modules/@chitrank2050/monoline-ui/dist/**/*.{js,mjs}";
-
-/* Design tokens and CSS custom properties */
 @import "@chitrank2050/monoline-ui/theme.css";
 ```
+
+The published theme registers Monoline's compiled component sources with Tailwind, so consumers do not need to maintain a package-specific `@source` path.
 
 ---
 
@@ -187,6 +184,8 @@ In your root stylesheet, point Tailwind's compiler at the compiled Monoline outp
 
 > [!IMPORTANT]
 > Static primitives can render without a Monoline client boundary. `CodeBlock`, `CommandSearch`, `Progress`, `SegmentedControl`, `Select`, `ThemeSwitcher`, `Toc`, and `Toggle` require client JavaScript. The final bundle also depends on your application and passed children.
+
+Import static primitives from their component subpaths to preserve that boundary. The root package export intentionally remains client-safe because it mixes static and interactive exports.
 
 ```tsx
 import { Footer } from "@chitrank2050/monoline-ui/footer"

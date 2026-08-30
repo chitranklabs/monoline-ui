@@ -4,6 +4,10 @@ This note records the foundation consistency pass from the Tailwind v4 and shadc
 
 ## Fixed
 
+- Tailwind-facing theme variables resolve through `--ml-*` source tokens instead
+  of cyclic declarations such as `--font-sans: var(--font-sans)`.
+- Explicit light mode and system-selected light mode expose the same semantic,
+  syntax, status, shadow, and sidebar token values.
 - Breakpoints are exposed through Tailwind `--breakpoint-*` theme variables.
 - Z-index layers are exposed through `--z-index-*` theme variables.
 - Monoline container widths are exposed through `max-w-container-*` and `max-w-monoline-*` utility keys.
