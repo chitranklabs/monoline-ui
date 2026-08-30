@@ -109,9 +109,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
+      - name: Update app/lib/changelog.json 📄
+        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        with:
+          config: cliff.toml
+          args: --context --tag ${{ steps.vars.outputs.tag_name }} --output app/lib/changelog.json
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
       - name: Format generated files 🧹
         run: |
-          pnpm exec prettier --write package.json jsr.json CHANGELOG.md
+          pnpm exec prettier --write package.json jsr.json CHANGELOG.md app/lib/changelog.json
           pnpm exec prettier --write --parser json package.json.lib
 
       - name: Generate PR Body 📝
@@ -148,6 +156,7 @@ jobs:
           assignees: chitrank2050
           add-paths: |
             CHANGELOG.md
+            app/lib/changelog.json
             package.json
             package.json.lib
             jsr.json
