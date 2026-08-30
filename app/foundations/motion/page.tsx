@@ -1,11 +1,15 @@
 import type { Metadata } from "next"
 
+import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../lib/metadata"
+
+const pageTitle = "Motion design tokens for accessible React interfaces"
+const pageDescription =
+	"Explore the monoline/ui motion and duration tokens for React interfaces, including transition timing, reduced-motion behavior, and component feedback."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Motion and Duration Design Tokens | monoline/ui Docs",
-	description:
-		"Explore the monoline/ui motion and duration tokens for React interfaces, including transition timing, reduced-motion behavior, and component feedback.",
+	description: pageDescription,
 	path: "/foundations/motion",
 })
 
@@ -19,9 +23,16 @@ const motion = [
 export default function MotionPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
+			<DocsArticleJsonLd
+				title={pageTitle}
+				description={pageDescription}
+				path="/foundations/motion"
+				section="Foundations"
+				sectionPath="/foundations"
+			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Motion</p>
-				<h1>Four durations, two easings.</h1>
+				<h1>{pageTitle}</h1>
 				<p>
 					Use named tokens instead of raw ms values in components. Reduced
 					motion is handled automatically.

@@ -1,11 +1,15 @@
 import type { Metadata } from "next"
 
+import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../lib/metadata"
+
+const pageTitle = "Border radius design tokens for React components"
+const pageDescription =
+	"Explore the monoline/ui border radius tokens for React interfaces, including the available scale, semantic usage guidance, and consistent component surfaces."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Border Radius Design Tokens | monoline/ui Documentation",
-	description:
-		"Explore the monoline/ui border radius tokens for React interfaces, including the available scale, semantic usage guidance, and consistent component surfaces.",
+	description: pageDescription,
 	path: "/foundations/radius",
 })
 
@@ -20,9 +24,16 @@ const radii = [
 export default function RadiusPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
+			<DocsArticleJsonLd
+				title={pageTitle}
+				description={pageDescription}
+				path="/foundations/radius"
+				section="Foundations"
+				sectionPath="/foundations"
+			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Radius</p>
-				<h1>Match the curve to the element.</h1>
+				<h1>{pageTitle}</h1>
 				<p>
 					Five named radii from sharp to friendly. Buttons stay smaller, cards
 					go larger, status pills are fully rounded with{" "}

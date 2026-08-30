@@ -1,3 +1,4 @@
+/** @module Class-name composition utilities used by Monoline UI components. */
 import type * as React from "react"
 
 import { type ClassValue, clsx } from "clsx"

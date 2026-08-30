@@ -10,19 +10,35 @@ const footerColumns = [
 	{
 		title: "Navigate",
 		links: [
-			{ href: "#", label: "Projects" },
-			{ href: "#", label: "Blog" },
-			{ href: "#", label: "About" },
-			{ href: "#", label: "Now" },
+			{ href: "/components", label: "Components" },
+			{ href: "/foundations", label: "Foundations" },
+			{ href: "/installation", label: "Installation" },
+			{ href: "/changelog", label: "Changelog" },
 		],
 	},
 	{
 		title: "Elsewhere",
 		links: [
-			{ href: "https://linkedin.com", label: "LinkedIn", external: true },
-			{ href: "https://github.com", label: "GitHub", external: true },
-			{ href: "https://x.com", label: "X / Twitter", external: true },
-			{ href: "mailto:hello@example.com", label: "Email", external: true },
+			{
+				href: "https://github.com/chitranklabs/monoline-ui",
+				label: "GitHub",
+				external: true,
+			},
+			{
+				href: "https://www.npmjs.com/package/@chitrank2050/monoline-ui",
+				label: "npm",
+				external: true,
+			},
+			{
+				href: "https://jsr.io/@chitrank2050/monoline-ui",
+				label: "JSR",
+				external: true,
+			},
+			{
+				href: "https://chitrankagnihotri.com",
+				label: "Author",
+				external: true,
+			},
 		],
 	},
 ]

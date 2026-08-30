@@ -3,14 +3,18 @@ import type { Metadata } from "next"
 import { Container } from "@chitrank2050/monoline-ui/container"
 
 import { CodeBlock } from "../_components/code-block"
+import { DocsArticleJsonLd } from "../_components/docs-article-json-ld"
 import { DocsPager } from "../_components/docs-pager"
 import { InstallCommand } from "../_components/install-command"
 import { createPageMetadata } from "../lib/metadata"
 
+const pageTitle = "Install monoline/ui for React and Tailwind CSS v4"
+const pageDescription =
+	"Install monoline/ui in a React project, import its Tailwind CSS v4 theme, configure the root theme attribute, and use efficient component subpath imports."
+
 export const metadata: Metadata = createPageMetadata({
 	title: "Install monoline/ui for React and Tailwind CSS v4 | Docs",
-	description:
-		"Install monoline/ui in a React project, import its Tailwind CSS v4 theme, configure the root theme attribute, and use efficient component subpath imports.",
+	description: pageDescription,
 	path: "/installation",
 })
 
@@ -94,9 +98,16 @@ export default function InstallationPage() {
 			tabIndex={-1}
 			className="install-page pt-ml-14 pb-ml-20"
 		>
+			<DocsArticleJsonLd
+				title={pageTitle}
+				description={pageDescription}
+				path="/installation"
+				section="Installation"
+				sectionPath="/installation"
+			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Get started · ~5 minutes</p>
-				<h1>Installation</h1>
+				<h1>{pageTitle}</h1>
 				<p>
 					Install the package, import the theme once, then use component
 					subpaths in your app code.

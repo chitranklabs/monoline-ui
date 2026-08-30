@@ -137,6 +137,7 @@ const tokenRows = [
 export default function ChangelogPageClient() {
 	return (
 		<ComponentPlayground
+			slug="changelog"
 			title="ChangelogTimeline"
 			description="Render structured, categorized, and timezone-consistent conventional release timeline logs from automated git-cliff output."
 			importStatement='import { ChangelogTimeline } from "@chitrank2050/monoline-ui/changelog"'

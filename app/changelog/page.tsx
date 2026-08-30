@@ -5,14 +5,20 @@ import type { GitCliffRelease } from "@chitrank2050/monoline-ui/changelog"
 import { Container } from "@chitrank2050/monoline-ui/container"
 
 import { DocsPager } from "../_components/docs-pager"
+import JsonLd, {
+	createBreadcrumbJsonLd,
+	createCollectionPageJsonLd,
+} from "../_components/json-ld"
 import changelogJson from "../lib/changelog.json"
 import { createPageMetadata } from "../lib/metadata"
 import { ChangelogToc } from "./toc"
 
+const changelogDescription =
+	"Follow every Monoline UI release, feature, accessibility improvement, performance change, and bug fix in the complete React component library version history."
+
 export const metadata: Metadata = createPageMetadata({
-	title: "Changelog | monoline/ui",
-	description:
-		"Release history for monoline/ui — every feature, fix, and improvement shipped to the component library.",
+	title: "Full Monoline UI Release Changelog and Version History",
+	description: changelogDescription,
 	path: "/changelog",
 })
 
@@ -20,6 +26,13 @@ export const metadata: Metadata = createPageMetadata({
 const releases = (changelogJson as GitCliffRelease[]).filter(
 	(r) => r.version !== null
 )
+const tocItems = releases.map((release) => {
+	const version = release.version ?? "Unreleased"
+	return {
+		id: `release-${version.replace(/\./g, "-")}`,
+		label: version,
+	}
+})
 
 export default function ChangelogPage() {
 	return (
@@ -29,9 +42,29 @@ export default function ChangelogPage() {
 			tabIndex={-1}
 			className="pt-ml-14 pb-ml-20"
 		>
+			<JsonLd
+				data={{
+					"@context": "https://schema.org",
+					"@graph": [
+						createCollectionPageJsonLd({
+							title: "Monoline UI release changelog",
+							description: changelogDescription,
+							path: "/changelog",
+							items: releases.map((release) => ({
+								name: `Monoline UI ${release.version ?? "Unreleased"}`,
+								path: "/changelog" as const,
+							})),
+						}),
+						createBreadcrumbJsonLd([
+							{ name: "Home", path: "/" },
+							{ name: "Changelog", path: "/changelog" },
+						]),
+					],
+				}}
+			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">monoline/ui</p>
-				<h1>Changelog</h1>
+				<h1>Monoline UI release changelog</h1>
 				<p>
 					Every feature, fix, and improvement shipped to the component library,
 					generated from conventional commits.
@@ -43,12 +76,13 @@ export default function ChangelogPage() {
 				{/* Sticky TOC sidebar */}
 				<aside className="changelog-layout__toc">
 					<div className="changelog-layout__toc-inner">
-						<ChangelogToc releases={releases} />
+						<ChangelogToc items={tocItems} />
 					</div>
 				</aside>
 
 				{/* Main timeline */}
-				<div className="changelog-layout__content">
+				<section className="changelog-layout__content">
+					<h2 className="sr-only">Release history</h2>
 					<ChangelogTimeline
 						releases={releases}
 						githubOwner="chitranklabs"
@@ -60,7 +94,7 @@ export default function ChangelogPage() {
 							"Documentation",
 						]}
 					/>
-				</div>
+				</section>
 			</div>
 
 			<DocsPager />

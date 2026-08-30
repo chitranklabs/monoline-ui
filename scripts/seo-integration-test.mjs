@@ -1,6 +1,6 @@
 import assert from "node:assert/strict"
 import { spawn } from "node:child_process"
-import { readFileSync } from "node:fs"
+import { readFileSync, readdirSync } from "node:fs"
 
 const SITE_URL = "https://monolineui.chitrankagnihotri.com"
 const HOST = "127.0.0.1"
@@ -11,7 +11,6 @@ assert.ok(
 )
 const LOCAL_URL = `http://${HOST}:${PORT}`
 const STARTUP_TIMEOUT_MS = 60_000
-const EXPECTED_ROUTE_COUNT = 43
 const CRAWL_CONCURRENCY = 4
 const componentMetadata = JSON.parse(
 	readFileSync(new URL("../src/metadata.json", import.meta.url), "utf8")
@@ -20,22 +19,44 @@ assert.ok(
 	Array.isArray(componentMetadata.components),
 	"metadata.json should contain a components array"
 )
-const EXPECTED_PATHS = [
-	"/",
-	"/installation",
-	"/foundations/colors",
-	"/foundations/typography",
-	"/foundations/spacing",
-	"/foundations/radius",
-	"/foundations/motion",
-	...componentMetadata.components.map(
-		(component) => `/components/${component}`
-	),
-].toSorted()
-assert.equal(
-	EXPECTED_PATHS.length,
-	EXPECTED_ROUTE_COUNT,
-	`metadata.json and the static docs routes should define exactly ${EXPECTED_ROUTE_COUNT} public routes`
+function discoverPagePaths(directory, segments = []) {
+	const paths = []
+	for (const entry of readdirSync(directory, { withFileTypes: true })) {
+		if (entry.isFile() && entry.name === "page.tsx") {
+			const routeSegments = segments.filter(
+				(segment) => !segment.startsWith("(") && !segment.startsWith("@")
+			)
+			assert.ok(
+				routeSegments.every((segment) => !segment.startsWith("[")),
+				"the SEO crawl requires explicit fixtures for dynamic routes"
+			)
+			paths.push(
+				routeSegments.length === 0 ? "/" : `/${routeSegments.join("/")}`
+			)
+		}
+		if (entry.isDirectory()) {
+			paths.push(
+				...discoverPagePaths(new URL(`${entry.name}/`, directory), [
+					...segments,
+					entry.name,
+				])
+			)
+		}
+	}
+	return paths
+}
+
+const EXPECTED_PATHS = discoverPagePaths(
+	new URL("../app/", import.meta.url)
+).toSorted()
+const EXPECTED_ROUTE_COUNT = EXPECTED_PATHS.length
+const expectedComponentPaths = componentMetadata.components
+	.map((component) => `/components/${component}`)
+	.toSorted()
+assert.deepEqual(
+	EXPECTED_PATHS.filter((pathname) => pathname.startsWith("/components/")),
+	expectedComponentPaths,
+	"metadata.json should match every component reference page"
 )
 assert.equal(
 	new Set(EXPECTED_PATHS).size,
@@ -135,12 +156,13 @@ function containsSchemaType(value, expectedType) {
 	)
 }
 
-async function fetchResponse(pathname, redirect = "manual") {
+async function fetchResponse(pathname, redirect = "manual", headers = {}) {
 	return fetch(LOCAL_URL + pathname, {
 		headers: {
 			"user-agent": "monoline-seo-integration-test/1.0",
 			"x-forwarded-host": new URL(SITE_URL).host,
 			"x-forwarded-proto": "https",
+			...headers,
 		},
 		redirect,
 		signal: AbortSignal.timeout(30_000),
@@ -506,9 +528,10 @@ async function run() {
 	try {
 		await waitForServer(server)
 
-		const [robots, sitemapXml] = await Promise.all([
+		const [robots, sitemapXml, llmsText] = await Promise.all([
 			fetchText("/robots.txt"),
 			fetchText("/sitemap.xml"),
+			fetchText("/llms.txt"),
 		])
 		assert.match(
 			robots,
@@ -519,6 +542,16 @@ async function run() {
 			robots,
 			/^Sitemap:\s*https:\/\/monolineui\.chitrankagnihotri\.com\/sitemap\.xml\s*$/m,
 			"robots.txt should reference the canonical sitemap"
+		)
+		assert.match(
+			llmsText,
+			/^# Monoline UI$/m,
+			"llms.txt should identify the library"
+		)
+		assert.match(
+			llmsText,
+			/https:\/\/monolineui\.chitrankagnihotri\.com\/components/,
+			"llms.txt should link to the canonical component catalog"
 		)
 
 		const sitemapEntries = await getSitemapEntries(sitemapXml)
@@ -535,11 +568,13 @@ async function run() {
 			async (value) => {
 				const pathname = new URL(value).pathname
 				const html = await fetchText(pathname)
-				const metadata = validatePage(
-					html,
-					pathname,
-					pathname === "/" ? ["WebSite", "SoftwareSourceCode"] : []
-				)
+				const expectedSchemaTypes =
+					pathname === "/"
+						? ["WebSite", "SoftwareSourceCode", "WebPage"]
+						: ["/components", "/foundations", "/changelog"].includes(pathname)
+							? ["CollectionPage", "BreadcrumbList"]
+							: ["TechArticle", "BreadcrumbList"]
+				const metadata = validatePage(html, pathname, expectedSchemaTypes)
 				console.log(`✓ ${pathname}`)
 				return metadata
 			}
@@ -584,8 +619,92 @@ async function run() {
 			"the legacy foundation route should redirect to spacing"
 		)
 
-		const queryHtml = await fetchText("/components/button?theme=dark")
+		const queryResponse = await fetchResponse("/components/button?theme=dark")
+		assert.equal(queryResponse.status, 200, "query variant should render")
+		assert.match(
+			queryResponse.headers.get("x-robots-tag") ?? "",
+			/noindex,\s*follow/i,
+			"query variants should be excluded without blocking link discovery"
+		)
+		const queryHtml = await queryResponse.text()
 		validatePage(queryHtml, "/components/button")
+
+		const notFoundResponse = await fetchResponse("/not-a-real-page")
+		assert.equal(
+			notFoundResponse.status,
+			404,
+			"unknown routes should return 404"
+		)
+		const notFoundHtml = await notFoundResponse.text()
+		assert.equal(
+			countElements(notFoundHtml, "title"),
+			1,
+			"404 should have one title"
+		)
+		assert.equal(countElements(notFoundHtml, "h1"), 1, "404 should have one h1")
+		assert.equal(
+			findElementsByAttribute(notFoundHtml, "link", "rel", "canonical").length,
+			0,
+			"404 should not claim a canonical content URL"
+		)
+		assert.match(
+			getAttribute(
+				findElementByAttribute(notFoundHtml, "meta", "name", "robots") ?? "",
+				"content"
+			) ?? "",
+			/noindex/i,
+			"404 should be noindex"
+		)
+
+		const manifestResponse = await fetchResponse("/manifest.webmanifest")
+		assert.equal(manifestResponse.status, 200, "web manifest should resolve")
+		assert.match(
+			manifestResponse.headers.get("content-type") ?? "",
+			/application\/manifest\+json/,
+			"web manifest should use its standard content type"
+		)
+
+		const representativeResponse = await fetchResponse("/components/button")
+		for (const header of [
+			"x-content-type-options",
+			"referrer-policy",
+			"permissions-policy",
+			"cross-origin-opener-policy",
+		]) {
+			assert.ok(
+				representativeResponse.headers.get(header),
+				`${header} should be set on public pages`
+			)
+		}
+
+		const previewResponse = await fetchResponse("/", "manual", {
+			"x-forwarded-host": "monoline-ui-feature-branch.vercel.app",
+		})
+		assert.match(
+			previewResponse.headers.get("x-robots-tag") ?? "",
+			/noindex,\s*follow/i,
+			"Vercel preview hosts should not compete with the canonical subdomain"
+		)
+
+		const wwwResponse = await fetchResponse("/components", "manual", {
+			"x-forwarded-host": "www.monolineui.chitrankagnihotri.com",
+		})
+		assert.equal(
+			wwwResponse.status,
+			308,
+			"www host should redirect permanently"
+		)
+		assert.equal(
+			wwwResponse.headers.get("location"),
+			`${SITE_URL}/components`,
+			"www host should redirect to the canonical subdomain"
+		)
+
+		const changelogHtml = await fetchText("/changelog")
+		assert.ok(
+			Buffer.byteLength(changelogHtml) < 250_000,
+			"the changelog HTML should remain below 250 KB"
+		)
 
 		console.log(`✓ /robots.txt`)
 		console.log(`✓ /sitemap.xml (${sitemapUrls.length} URLs)`)

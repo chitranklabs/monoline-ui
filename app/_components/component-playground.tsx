@@ -12,11 +12,20 @@ import {
 	useState,
 } from "react"
 
+import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { SegmentedControl } from "@chitrank2050/monoline-ui/segmented-control"
 
+import {
+	type ComponentSlug,
+	componentGuidance,
+} from "../lib/component-guidance"
 import { CodeBlock } from "./code-block"
+import JsonLd, {
+	createBreadcrumbJsonLd,
+	createTechArticleJsonLd,
+} from "./json-ld"
 
 export { CodeBlock }
 
@@ -141,6 +150,8 @@ export interface ComponentPlaygroundProps<
 > {
 	title: string
 	description: ReactNode
+	slug?: ComponentSlug
+	seoDescription?: string
 
 	// Sizes (optional)
 	sizes?: TSize[]
@@ -497,23 +508,50 @@ export function ComponentPlayground<
 	const {
 		title,
 		description,
+		slug,
+		seoDescription,
 		importStatement,
 		usageCode,
 		props: propRows,
 		tokens,
 		sourceSnippet,
 	} = props
+	const componentSlug = slug ?? toComponentSlug(title)
+	const guidance = componentGuidance[componentSlug]
+	const descriptionText =
+		seoDescription ??
+		(typeof description === "string"
+			? description
+			: `${title} usage, API, accessibility, runtime, and design-token guidance for Monoline UI.`)
+	const componentPath = `/components/${componentSlug}` as const
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@graph": [
+			createTechArticleJsonLd({
+				title: `${title} React component`,
+				description: descriptionText,
+				path: componentPath,
+			}),
+			createBreadcrumbJsonLd([
+				{ name: "Monoline UI", path: "/" },
+				{ name: "React components", path: "/components" },
+				{ name: title, path: componentPath },
+			]),
+		],
+	}
 
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
+			<JsonLd data={jsonLd} />
 			<header className="docs-page__head docs-page__head--component">
 				<p className="ml-eyebrow">Component</p>
 				<div className="component-headline">
-					<h1>{title}</h1>
+					<h1>{title} React component</h1>
 				</div>
 				<p>{description}</p>
 			</header>
 
+			<h2 className="sr-only">Interactive preview</h2>
 			<Suspense
 				fallback={
 					<>
@@ -553,6 +591,30 @@ export function ComponentPlayground<
 
 				<h3>Basic usage</h3>
 				<CodeBlock code={usageCode} language="jsx" />
+			</section>
+
+			<section className="docs-section">
+				<div className="docs-subhead">
+					<h2>Integration guidance</h2>
+					<p>
+						Choose the component for its behavior and semantic contract, not
+						only its visual treatment.
+					</p>
+				</div>
+				<h3>When to use</h3>
+				<p>{guidance.whenToUse}</p>
+				<h3>When to choose something else</h3>
+				<p>{guidance.whenToAvoid}</p>
+				<h3>Accessibility contract</h3>
+				<p>{guidance.accessibility}</p>
+				<h3>Runtime behavior</h3>
+				<p>
+					This is a {guidance.runtime === "client" ? "Client" : "Server"}
+					{" Component"}.{" "}
+					{guidance.runtime === "client"
+						? "It ships browser JavaScript because its interaction model requires client state or browser APIs."
+						: "It can render without a client boundary when its children and props are serializable."}
+				</p>
 			</section>
 
 			{propRows && propRows.length > 0 && (
@@ -614,6 +676,49 @@ export function ComponentPlayground<
 				</div>
 				<CodeBlock code={sourceSnippet} language="jsx" />
 			</section>
+
+			<section className="docs-section">
+				<div className="docs-subhead">
+					<h2>Related documentation</h2>
+					<p>
+						Continue with adjacent primitives and the shared setup contract.
+					</p>
+				</div>
+				<ul>
+					{guidance.related.map((relatedSlug) => (
+						<li key={relatedSlug}>
+							<Link href={`/components/${relatedSlug}`}>
+								{formatComponentSlug(relatedSlug)} React component
+							</Link>
+						</li>
+					))}
+					<li>
+						<Link href="/installation">Install Monoline UI</Link>
+					</li>
+					<li>
+						<Link href="/foundations">Tailwind CSS v4 design tokens</Link>
+					</li>
+				</ul>
+			</section>
 		</main>
 	)
+}
+
+function toComponentSlug(title: string): ComponentSlug {
+	const candidate = title
+		.replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+		.toLowerCase() as ComponentSlug
+
+	if (!(candidate in componentGuidance)) {
+		throw new Error(`Missing integration guidance for ${title}`)
+	}
+
+	return candidate
+}
+
+function formatComponentSlug(slug: ComponentSlug) {
+	return slug
+		.split("-")
+		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+		.join(" ")
 }

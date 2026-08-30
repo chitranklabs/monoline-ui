@@ -2,15 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { Navbar } from "@chitrank2050/monoline-ui/navbar"
 
 import { primaryNav } from "../lib/docs-nav"
-import { CommandPalette } from "./command-palette"
 import { DocsNavigation } from "./docs-navigation"
 import { ThemeControl } from "./theme-control"
+
+const CommandPalette = dynamic(
+	() => import("./command-palette").then((module) => module.CommandPalette),
+	{ ssr: false }
+)
 
 function isActive(pathname: string, href: string) {
 	if (href === "/") {
@@ -133,10 +138,12 @@ export function SiteHeader() {
 				</button>
 			</Navbar>
 
-			<CommandPalette
-				open={paletteOpen}
-				onClose={() => setPaletteOpen(false)}
-			/>
+			{paletteOpen ? (
+				<CommandPalette
+					open={paletteOpen}
+					onClose={() => setPaletteOpen(false)}
+				/>
+			) : null}
 			<MobileMenu
 				open={menuOpen}
 				onClose={closeMenu}

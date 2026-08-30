@@ -127,7 +127,7 @@ export default function CardPageClient() {
 			sourceSnippet={sourceSnippet}
 			renderPreview={(size = "md") => (
 				<div className="grid gap-ml-5 p-ml-6 sm:grid-cols-2">
-					<Card size={size} href="/blog/tunic-storefront" className="max-w-90">
+					<Card size={size} href="/components/card" className="max-w-90">
 						<Card.Image ratio="landscape" placeholder>
 							<Card.ImageCaption>COVER · STOREFRONT</Card.ImageCaption>
 						</Card.Image>

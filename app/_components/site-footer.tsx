@@ -11,6 +11,16 @@ const footerGroups = [
 		title: "Docs",
 		links: [
 			{
+				title: "npm package",
+				href: "https://www.npmjs.com/package/@chitrank2050/monoline-ui",
+				external: true,
+			},
+			{
+				title: "JSR package",
+				href: "https://jsr.io/@chitrank2050/monoline-ui",
+				external: true,
+			},
+			{
 				title: "Installation",
 				href: "/installation",
 			},
@@ -30,11 +40,11 @@ const footerGroups = [
 		links: [
 			{
 				title: "Foundations",
-				href: "/foundations/colors",
+				href: "/foundations",
 			},
 			{
 				title: "Components",
-				href: "/components/card",
+				href: "/components",
 			},
 			{
 				title: "Case study",

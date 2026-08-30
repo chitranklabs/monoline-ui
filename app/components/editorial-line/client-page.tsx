@@ -69,14 +69,14 @@ export default function EditorialLinePageClient() {
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
 			renderPreview={() => (
-				<div className="flex flex-col w-full max-w-2xl border-t border-(--border)">
+				<div className="flex flex-col w-full max-w-2xl border-t border-border">
 					<EditorialLine
 						n={1}
 						date="June 17, 2026"
 						title="Building Premium Design Systems on Next.js 16"
 						readTime={4}
 						tag="Engineering"
-						href="#"
+						href="/foundations/colors"
 					/>
 					<EditorialLine
 						n={2}
@@ -84,7 +84,7 @@ export default function EditorialLinePageClient() {
 						title="Exploring Monochrome Aesthetics and Layout Geometry"
 						readTime={12}
 						tag="Design"
-						href="#"
+						href="/foundations/spacing"
 					/>
 					<EditorialLine
 						n={3}
@@ -92,7 +92,7 @@ export default function EditorialLinePageClient() {
 						title="Why Code Splitting and Tree-Shaking is Essential"
 						readTime={5}
 						tag="Performance"
-						href="#"
+						href="/installation"
 					/>
 				</div>
 			)}

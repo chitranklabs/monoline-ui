@@ -29,7 +29,7 @@ export function BadgeRoot({
 		<Comp
 			ref={ref}
 			className={cn(
-				"ml-badge inline-flex items-center gap-1.5 whitespace-nowrap rounded-[var(--radius-pill)] border font-medium",
+				"ml-badge inline-flex items-center gap-1.5 whitespace-nowrap rounded-(--radius-pill) border font-medium",
 				badgeVariantClasses[variant],
 				badgeSizeClasses[size],
 				className

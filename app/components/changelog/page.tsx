@@ -4,9 +4,9 @@ import { createPageMetadata } from "../../lib/metadata"
 import ChangelogPageClient from "./client-page"
 
 export const metadata: Metadata = createPageMetadata({
-	title: "ChangelogTimeline React Component | monoline/ui",
+	title: "React Changelog Timeline Component | monoline/ui Docs",
 	description:
-		"Learn how to render conventional-commit changelogs via git-cliff JSON data using the monoline/ui ChangelogTimeline component.",
+		"Render accessible React release timelines from git-cliff JSON with grouped commits, GitHub links, version anchors, runtime guidance, and typed Monoline UI APIs.",
 	path: "/components/changelog",
 })
 

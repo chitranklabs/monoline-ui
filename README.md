@@ -4,8 +4,8 @@
   <br/>
   <h1>monoline-ui</h1>
 
-  <p>A monochrome-first, layout-focused React component library.<br/>
-  Zero dark-mode gymnastics. Built for React 19, Next.js App Router, and Tailwind CSS v4.</p>
+  <p>Monochrome React components for developer portfolios, documentation, and editorial interfaces.<br/>
+  Built with typed subpath exports and Tailwind CSS v4 design tokens.</p>
 
   <p>
     <a href="https://www.npmjs.com/package/@chitrank2050/monoline-ui">
@@ -20,20 +20,11 @@
     <a href="https://github.com/chitranklabs/monoline-ui/actions/workflows/ci.yml">
       <img src="https://img.shields.io/github/actions/workflow/status/chitranklabs/monoline-ui/ci.yml?branch=main&style=flat-square" alt="CI Status" />
     </a>
-    <a href="https://bestpractices.coreinfrastructure.org/projects/1">
-      <img src="https://bestpractices.coreinfrastructure.org/projects/1/badge" alt="OpenSSF Best Practices" />
-    </a>
     <a href="https://github.com/chitranklabs/monoline-ui/actions/workflows/scorecard.yml">
       <img src="https://github.com/chitranklabs/monoline-ui/actions/workflows/scorecard.yml/badge.svg" alt="Scorecard Status" />
     </a>
     <a href="https://scorecard.dev/viewer/?uri=github.com/chitranklabs/monoline-ui">
       <img src="https://api.scorecard.dev/projects/github.com/chitranklabs/monoline-ui/badge" alt="OpenSSF Scorecard" />
-    </a>
-    <a href="https://github.com/gitleaks/gitleaks">
-      <img src="https://img.shields.io/badge/Security-Gitleaks-brightgreen?logo=gitleaks" alt="Security: Gitleaks" />
-    </a>
-    <a href="https://github.com/chitranklabs/monoline-ui/attestations">
-      <img src="https://img.shields.io/badge/SLSA-Level_3-blue?logo=slsa" alt="SLSA Level 3" />
     </a>
     <a href="./LICENSE">
       <img src="https://img.shields.io/github/license/chitranklabs/monoline-ui" alt="License" />
@@ -59,22 +50,22 @@ Monoline UI is a component library for developer sites, editorial interfaces, an
 ## Why Monoline UI
 
 > [!TIP]
-> Most UI libraries are built around color themes. Monoline is built around **layout**. If you're building a portfolio, a docs site, or an editorial UI, you don't need 40 color scales - you need components that compose cleanly, render on the server, and ship zero client JavaScript unless you ask for it.
+> Most UI libraries are built around broad product palettes. Monoline is built around **editorial layout**. It gives developer portfolios and documentation sites a compact token system, typed primitives, and explicit server/client entrypoints.
 
 ---
 
 ## Features <a id="features"></a>
 
-| Feature                   | Description                                                             |
-| :------------------------ | :---------------------------------------------------------------------- |
-| ⚫ **Monochrome-first**   | Zero dark-mode overhead. One set of tokens, works everywhere.           |
-| 🚀 **RSC-native**         | All compound components are Server Components by default.               |
-| ⚡ **0kb client JS**      | Static layouts hydrate nothing. Client code is opt-in per subcomponent. |
-| 🔗 **Link polymorphism**  | Three-level routing control: global, per-link, and `asChild`.           |
-| 🌲 **Tree-shakeable ESM** | Import only the components you use. No barrel-file bloat.               |
-| 🎛️ **Token-driven**       | Customize spacing, scale, and type via CSS custom properties.           |
-| 📦 **37+ components**     | From `Avatar` to `Toc` - layout primitives for real projects.           |
-| 🌊 **Tailwind CSS v4**    | First-class `@source` scanning - only used utilities ship.              |
+| Feature                              | Description                                                                   |
+| :----------------------------------- | :---------------------------------------------------------------------------- |
+| ⚫ **Monochrome-first**              | Zero dark-mode overhead. One set of tokens, works everywhere.                 |
+| 🚀 **Server-safe static primitives** | Presentational entrypoints can render without a Monoline client boundary.     |
+| ⚡ **Explicit client components**    | Interactive entrypoints declare client runtime behavior in their source/docs. |
+| 🔗 **Link polymorphism**             | Three-level routing control: global, per-link, and `asChild`.                 |
+| 🌲 **Tree-shakeable ESM**            | Import only the components you use. No barrel-file bloat.                     |
+| 🎛️ **Token-driven**                  | Customize spacing, scale, and type via CSS custom properties.                 |
+| 📦 **37 components**                 | From `Avatar` to `Toc`—documented with live previews and typed APIs.          |
+| 🌊 **Tailwind CSS v4**               | First-class `@source` scanning - only used utilities ship.                    |
 
 ---
 
@@ -102,13 +93,17 @@ export default function Page() {
 
 ## Documentation & Links
 
-| Resource       | URL                                                                                                    |
-| :------------- | :----------------------------------------------------------------------------------------------------- |
-| **Docs**       | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                           |
-| **npm**        | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui) |
-| **Repository** | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                     |
-| **Case study** | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                 |
-| **Changelog**  | [CHANGELOG.md](./CHANGELOG.md)                                                                         |
+| Resource         | URL                                                                                                    |
+| :--------------- | :----------------------------------------------------------------------------------------------------- |
+| **Docs**         | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                           |
+| **Components**   | [37 interactive React references](https://monolineui.chitrankagnihotri.com/components)                 |
+| **Foundations**  | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/foundations)                  |
+| **Installation** | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/installation)               |
+| **npm**          | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui) |
+| **JSR**          | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                           |
+| **Repository**   | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                     |
+| **Case study**   | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                 |
+| **Changelog**    | [CHANGELOG.md](./CHANGELOG.md)                                                                         |
 
 ---
 
@@ -116,8 +111,8 @@ export default function Page() {
 
 | Layer               | Technology             | Version     |
 | :------------------ | :--------------------- | :---------- |
-| **Runtime**         | Node.js                | `>=22.14.0` |
-| **Package Manager** | pnpm                   | `11.8.0`    |
+| **Runtime**         | Node.js                | `>=24.14.0` |
+| **Package Manager** | pnpm                   | `11.18.0`   |
 | **Framework**       | Next.js (App Router)   | `^16`       |
 | **UI Runtime**      | React                  | `^19`       |
 | **Compiler**        | TypeScript             | `^6.0`      |
@@ -130,11 +125,12 @@ export default function Page() {
 
 - **Module format**: ESM-only (`"type": "module"`)
 - **Target**: ES2022 / Bundler module resolution
-- **Peer dependencies**: `react ^19`, `next ^16`, `tailwindcss ^4`
+- **Peer dependencies**: `react ^18.2 || ^19`, `react-dom ^18.2 || ^19`, optional `tailwindcss >=4`
 - **Runtime dependencies**:
-  - `@radix-ui/react-slot` - polymorphic render delegation (0kb when static)
+  - `@radix-ui/react-slot` - polymorphic render delegation
   - `clsx` + `tailwind-merge` - class composition
-- **Performance invariant**: Static server-rendered layouts ship **0kb hydration overhead**
+  - `cmdk` - command palette interaction model
+- **Performance invariant**: Static entrypoints do not introduce a Monoline client boundary; application tooling and passed children still determine the final browser bundle.
 
 ---
 
@@ -143,7 +139,7 @@ export default function Page() {
 ```mermaid
 graph TD
     A[Consumer App] -->|import| B["@chitrank2050/monoline-ui"]
-    B --> C["RSC Components (Server)"]
+    B --> C["Static primitives (server-safe)"]
     B --> D["Interactive Subcomponents (Client)"]
     C --> E["CSS Foundations / Token Layer"]
     D --> E
@@ -156,7 +152,7 @@ graph TD
 monoline-ui/
 ├── app/                    ← Next.js playground & documentation
 ├── src/
-│   ├── components/         ← 37+ UI components (Avatar, Button, Footer…)
+│   ├── components/         ← 37 UI components (Avatar, Button, Footer…)
 │   └── foundations/        ← CSS layers, design tokens, breakpoints
 ├── scripts/
 │   └── build-lib.mjs       ← ESM bundling script
@@ -187,10 +183,10 @@ In your root stylesheet, point Tailwind's compiler at the compiled Monoline outp
 
 ---
 
-### 2. Composable Dot-Notation (RSC)
+### 2. Server and client runtime boundaries
 
 > [!IMPORTANT]
-> Compound components are **Server Components by default**. Client interactivity is scoped to specific subcomponents - static layouts pay zero hydration cost.
+> Static primitives can render without a Monoline client boundary. `CodeBlock`, `CommandSearch`, `Progress`, `SegmentedControl`, `Select`, `ThemeSwitcher`, `Toc`, and `Toggle` require client JavaScript. The final bundle also depends on your application and passed children.
 
 ```tsx
 import { Footer } from "@chitrank2050/monoline-ui/footer"

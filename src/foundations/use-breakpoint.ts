@@ -1,5 +1,6 @@
 "use client"
 
+/** @module Client-side breakpoint matching for responsive component behavior. */
 import { useEffect, useRef, useState } from "react"
 
 import { type MonolineBreakpoint, monolineBreakpoints } from "./breakpoints"

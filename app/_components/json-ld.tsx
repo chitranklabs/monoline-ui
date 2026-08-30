@@ -1,7 +1,29 @@
 import type { Identity } from "../lib/identity"
+import { siteUrl } from "../lib/seo"
 
 interface Props<T> {
 	data: T
+}
+
+interface BreadcrumbItem {
+	name: string
+	path: `/${string}`
+}
+
+interface PageJsonLdInput {
+	title: string
+	description: string
+	path: `/${string}`
+}
+
+interface CollectionJsonLdInput extends PageJsonLdInput {
+	items: ReadonlyArray<{ name: string; path: `/${string}` }>
+}
+
+const authorId = "https://chitrankagnihotri.com/#person"
+
+function absoluteUrl(path: `/${string}`) {
+	return new URL(path, `${siteUrl}/`).toString()
 }
 
 export function getPersonJsonLd(identity: Identity) {
@@ -69,6 +91,20 @@ export function getSoftwareSourceCodeJsonLd(
 		programmingLanguage: ["TypeScript", "CSS"],
 		runtimePlatform: "React 19",
 		license: "https://github.com/chitranklabs/monoline-ui/blob/main/LICENSE",
+		sameAs: [
+			"https://github.com/chitranklabs/monoline-ui",
+			"https://www.npmjs.com/package/@chitrank2050/monoline-ui",
+			"https://jsr.io/@chitrank2050/monoline-ui",
+		],
+		downloadUrl: "https://www.npmjs.com/package/@chitrank2050/monoline-ui",
+		softwareRequirements: "React 18.2 or React 19; Tailwind CSS v4",
+		keywords: [
+			"React component library",
+			"React Server Components",
+			"Tailwind CSS v4",
+			"design tokens",
+			"editorial UI",
+		],
 		version,
 		isAccessibleForFree: true,
 	}
@@ -81,6 +117,69 @@ export function getSoftwareSourceCodeJsonLd(
 	}
 
 	return jsonLd
+}
+
+export function createBreadcrumbJsonLd(items: readonly BreadcrumbItem[]) {
+	return {
+		"@type": "BreadcrumbList",
+		itemListElement: items.map((item, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			name: item.name,
+			item: absoluteUrl(item.path),
+		})),
+	}
+}
+
+export function createWebPageJsonLd({
+	title,
+	description,
+	path,
+}: PageJsonLdInput) {
+	const url = absoluteUrl(path)
+
+	return {
+		"@type": "WebPage",
+		"@id": `${url}#webpage`,
+		url,
+		name: title,
+		description,
+		inLanguage: "en",
+		isPartOf: { "@id": `${siteUrl}/#website` },
+		about: { "@id": `${siteUrl}/#software-source-code` },
+	}
+}
+
+export function createTechArticleJsonLd(input: PageJsonLdInput) {
+	return {
+		...createWebPageJsonLd(input),
+		"@type": "TechArticle",
+		headline: input.title,
+		author: { "@id": authorId },
+		publisher: { "@id": authorId },
+	}
+}
+
+export function createCollectionPageJsonLd({
+	title,
+	description,
+	path,
+	items,
+}: CollectionJsonLdInput) {
+	return {
+		...createWebPageJsonLd({ title, description, path }),
+		"@type": "CollectionPage",
+		mainEntity: {
+			"@type": "ItemList",
+			numberOfItems: items.length,
+			itemListElement: items.map((item, index) => ({
+				"@type": "ListItem",
+				position: index + 1,
+				name: item.name,
+				url: absoluteUrl(item.path),
+			})),
+		},
+	}
 }
 
 function serializeJsonLd<T>(data: T) {

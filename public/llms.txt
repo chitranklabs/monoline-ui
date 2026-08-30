@@ -1,0 +1,20 @@
+# Monoline UI
+
+> Monochrome React components for developer portfolios, documentation, and editorial interfaces, with typed APIs and Tailwind CSS v4 design tokens.
+
+Monoline UI is published as `@chitrank2050/monoline-ui` on npm and JSR. The documentation site and package source are public.
+
+## Documentation
+
+- [Introduction](https://monolineui.chitrankagnihotri.com/): Library positioning, installation command, and package summary.
+- [Installation](https://monolineui.chitrankagnihotri.com/installation): React and Tailwind CSS v4 integration.
+- [Component catalog](https://monolineui.chitrankagnihotri.com/components): All 37 component references.
+- [Design-token foundations](https://monolineui.chitrankagnihotri.com/foundations): Color, typography, spacing, radius, and motion contracts.
+- [Changelog](https://monolineui.chitrankagnihotri.com/changelog): Release and version history.
+
+## Package and source
+
+- [GitHub](https://github.com/chitranklabs/monoline-ui): Source code, issues, and releases.
+- [npm](https://www.npmjs.com/package/@chitrank2050/monoline-ui): Compiled ESM package.
+- [JSR](https://jsr.io/@chitrank2050/monoline-ui): TypeScript package and generated API documentation.
+- [Author](https://chitrankagnihotri.com): Chitrank Agnihotri.

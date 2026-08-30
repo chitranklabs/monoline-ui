@@ -1,3 +1,5 @@
+/** @module Responsive breakpoint constants shared by Monoline UI consumers. */
+
 export const monolineBreakpoints = {
 	mobile: 390,
 	mobileMax: 767,

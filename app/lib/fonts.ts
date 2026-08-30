@@ -9,6 +9,7 @@ const sansFont = Inter({
 const monoFont = IBM_Plex_Mono({
 	subsets: ["latin"],
 	display: "swap",
+	preload: false,
 	weight: ["400", "500", "600", "700"],
 	variable: "--font-plex-mono",
 })
@@ -16,6 +17,7 @@ const monoFont = IBM_Plex_Mono({
 const scriptFont = Caveat({
 	subsets: ["latin"],
 	display: "swap",
+	preload: false,
 	weight: ["700"],
 	variable: "--font-caveat-script",
 })

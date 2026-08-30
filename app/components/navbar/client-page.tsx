@@ -12,7 +12,7 @@ import { ComponentPlayground } from "../../_components/component-playground"
 
 const navbarSizes: NavbarSize[] = ["sm", "md", "lg"]
 
-const navbarLinks = [{ href: "#blog", label: "Blog" }]
+const navbarLinks = [{ href: "/components", label: "Components" }]
 
 const propsRows = [
 	["size", "sm | md | lg", "Navbar density and type scale"],

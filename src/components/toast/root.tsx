@@ -28,7 +28,7 @@ export function ToastRoot({
 			<span
 				aria-hidden
 				className={cn(
-					"size-2 shrink-0 rounded-[var(--radius-pill)]",
+					"size-2 shrink-0 rounded-(--radius-pill)",
 					dotVariantClasses[variant]
 				)}
 			/>

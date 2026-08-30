@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 
+import { track } from "@vercel/analytics"
+
 import { Button } from "@chitrank2050/monoline-ui/button"
 
 export function CliBadge() {
@@ -10,6 +12,7 @@ export function CliBadge() {
 	const handleCopy = async () => {
 		try {
 			await navigator.clipboard.writeText("npm i @chitrank2050/monoline-ui")
+			track("install_command_copied", { packageManager: "npm" })
 			setCopied(true)
 			setTimeout(() => setCopied(false), 2000)
 		} catch (err) {

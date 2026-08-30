@@ -1,0 +1,49 @@
+{
+	"name": "Chitrank Agnihotri",
+	"alternateNames": [
+		"Chitrank",
+		"Agnihotri",
+		"Chitrank Agnihotri",
+		"About Chitrank"
+	],
+	"title": "Chitrank Agnihotri | Senior Technical Lead & AI Engineer",
+	"description": "Senior Technical Lead with nine years of experience building React, Node.js, Python, distributed systems, and generative AI products for production at scale.",
+	"keywords": [
+		"Chitrank Agnihotri",
+		"Senior Technical Lead",
+		"AI Systems Engineer",
+		"Frontend Architect",
+		"React",
+		"Node.js",
+		"Python",
+		"Next.js"
+	],
+	"websiteUrl": "https://chitrankagnihotri.com",
+	"portraitUrl": "https://chitrankagnihotri.com/potrait/1.png",
+	"jobTitle": "Senior Technical Lead",
+	"company": {
+		"name": "Humanform.ai",
+		"url": "https://humanform.ai"
+	},
+	"education": "Bhagwan Parshuram Institute of Technology, Delhi, India",
+	"nationality": "Indian",
+	"knowsAbout": [
+		"Node.js",
+		"Nest.js",
+		"Python",
+		"React",
+		"Generative AI",
+		"Microservices",
+		"Frontend Engineering",
+		"Frontend Architecture",
+		"System Design",
+		"Distributed Systems",
+		"AI Systems",
+		"Machine Learning",
+		"Next.js"
+	],
+	"socials": {
+		"linkedin": "https://www.linkedin.com/in/chitrank-agnihotri/",
+		"github": "https://github.com/chitrank2050"
+	}
+}

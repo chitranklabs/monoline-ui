@@ -26,6 +26,8 @@
 		display: grid;
 		grid-template-columns: var(--space-6) 1fr;
 		gap: var(--space-5);
+		content-visibility: auto;
+		contain-intrinsic-block-size: auto 40rem;
 	}
 
 	.ml-changelog-release-node {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { ScrollToTop } from "./_components/scroll-to-top"
 import { SiteFooter } from "./_components/site-footer"
@@ -9,7 +10,6 @@ import { ThemeProvider } from "./_components/theme-provider"
 import "./globals.css"
 import { monolineFontClassName } from "./lib/fonts"
 import { fetchIdentity } from "./lib/identity"
-import { socialImage } from "./lib/metadata"
 import { siteUrl } from "./lib/seo"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,9 +20,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	return {
 		metadataBase: new URL(siteUrl),
-		title: "Monoline UI: React Component Library for Developer Sites",
-		description:
-			"Build editorial portfolios, developer documentation, and product interfaces with 36 token-driven React 19 components, Tailwind CSS v4, and accessible APIs.",
 		authors: [author],
 		creator: author.name,
 		publisher: author.name,
@@ -30,25 +27,6 @@ export async function generateMetadata(): Promise<Metadata> {
 			capable: true,
 			title: "monoline/ui",
 			statusBarStyle: "black-translucent",
-		},
-		openGraph: {
-			type: "website",
-			url: siteUrl,
-			title: "Monoline UI: React Component Library for Developer Sites",
-			description:
-				"Build editorial portfolios, developer documentation, and product interfaces with 36 token-driven React 19 components, Tailwind CSS v4, and accessible APIs.",
-			siteName: "monoline/ui",
-			images: [socialImage],
-		},
-		twitter: {
-			card: "summary_large_image",
-			title: "Monoline UI: React Component Library for Developer Sites",
-			description:
-				"Build editorial portfolios, developer documentation, and product interfaces with 36 token-driven React 19 components, Tailwind CSS v4, and accessible APIs.",
-			images: [socialImage],
-		},
-		alternates: {
-			canonical: "/",
 		},
 		robots: {
 			index: true,
@@ -97,6 +75,7 @@ export default function RootLayout({
 					</div>
 				</ThemeProvider>
 				{isProduction && <Analytics />}
+				{isProduction && <SpeedInsights />}
 			</body>
 		</html>
 	)

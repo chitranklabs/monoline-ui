@@ -14,7 +14,7 @@ const essays = [
 		label: "01",
 		date: "May 12, 2026",
 		title: "Designing a type-safe BFF with tRPC and Zod",
-		href: "/writing/type-safe-bff",
+		href: "/components/command-search",
 		tag: "Engineering",
 		meta: "9m →",
 	},
@@ -22,7 +22,7 @@ const essays = [
 		label: "02",
 		date: "Apr 28, 2026",
 		title: "Streaming LLM responses without losing your mind",
-		href: "/writing/streaming-llm",
+		href: "/components/progress",
 		tag: "AI",
 		meta: "12m →",
 	},
@@ -30,7 +30,7 @@ const essays = [
 		label: "03",
 		date: "Apr 14, 2026",
 		title: "A pragmatic guide to React Server Components",
-		href: "/writing/react-server-components",
+		href: "/installation",
 		tag: "Frontend",
 		meta: "8m →",
 	},
@@ -38,7 +38,7 @@ const essays = [
 		label: "04",
 		date: "Feb 19, 2026",
 		title: "Postgres tricks I wish I knew at twenty-two",
-		href: "/writing/postgres-tricks",
+		href: "/foundations/spacing",
 		tag: "Backend",
 		meta: "11m →",
 	},
@@ -108,7 +108,7 @@ export default function LinkListPageClient() {
 					<LinkList
 						size={size}
 						title="Further reading"
-						action={<a href="/writing">All essays</a>}
+						action={<a href="/components">All components</a>}
 						items={[...essays]}
 					/>
 				</div>

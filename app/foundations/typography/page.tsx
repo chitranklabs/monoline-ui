@@ -1,11 +1,15 @@
 import type { Metadata } from "next"
 
+import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../lib/metadata"
+
+const pageTitle = "Typography design tokens for editorial React UI"
+const pageDescription =
+	"Explore the monoline/ui typography tokens for React interfaces, including font roles, type scales, weights, line heights, and editorial usage guidance."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Typography Design Tokens | monoline/ui Documentation",
-	description:
-		"Explore the monoline/ui typography tokens for React interfaces, including font roles, type scales, weights, line heights, and editorial usage guidance.",
+	description: pageDescription,
 	path: "/foundations/typography",
 })
 
@@ -65,9 +69,16 @@ const scaleRows = [
 export default function TypographyPage() {
 	return (
 		<main id="main-content" tabIndex={-1} className="docs-page">
+			<DocsArticleJsonLd
+				title={pageTitle}
+				description={pageDescription}
+				path="/foundations/typography"
+				section="Foundations"
+				sectionPath="/foundations"
+			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Typography</p>
-				<h1>Three families. One job each.</h1>
+				<h1>{pageTitle}</h1>
 				<p>
 					Inter handles UI and body. IBM Plex Mono handles headlines, eyebrows,
 					and code. Caveat handles the personal signature. Keep the roles clear

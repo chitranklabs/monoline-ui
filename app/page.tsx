@@ -12,6 +12,7 @@ import pkg from "../package.json"
 import { CliBadge } from "./_components/cli-badge"
 import { CodeBlock } from "./_components/component-playground"
 import JsonLd, {
+	createWebPageJsonLd,
 	getPersonJsonLd,
 	getSoftwareSourceCodeJsonLd,
 	getWebsiteJsonLd,
@@ -21,10 +22,13 @@ import { createPageMetadata } from "./lib/metadata"
 import { getLatestRelease } from "./lib/releases"
 import { siteUrl } from "./lib/seo"
 
+const homeTitle = "React Component Library for Editorial UI | monoline/ui"
+const homeDescription =
+	"Build responsive React interfaces with monoline/ui, a token-first component library for portfolios, documentation, and editorial products using Tailwind CSS v4."
+
 export const metadata: Metadata = createPageMetadata({
-	title: "React Component Library for Editorial UI | monoline/ui",
-	description:
-		"Build responsive React interfaces with monoline/ui, a token-first component library for portfolios, documentation, and editorial products using Tailwind CSS v4.",
+	title: homeTitle,
+	description: homeDescription,
 	path: "/",
 })
 
@@ -143,6 +147,11 @@ export default async function HomePage() {
 			identity ? getPersonJsonLd(identity) : null,
 			getWebsiteJsonLd(identity, siteUrl),
 			getSoftwareSourceCodeJsonLd(identity, siteUrl, pkg.version),
+			createWebPageJsonLd({
+				title: homeTitle,
+				description: homeDescription,
+				path: "/",
+			}),
 		].filter(Boolean),
 	}
 
@@ -162,7 +171,7 @@ export default async function HomePage() {
 						</Status>
 					</div>
 					<h1 className="max-w-140 text-text font-mono text-[clamp(2.6875rem,5.3vw,3.875rem)] font-extrabold tracking-[-0.073em] leading-[0.915]">
-						A component library
+						A React component library
 						<br />
 						<span className="text-text-secondary">with a point of view.</span>
 					</h1>
@@ -179,7 +188,7 @@ export default async function HomePage() {
 							</Link>
 						</Button>
 						<Button asChild variant="secondary">
-							<Link href="/components/footer">Browse components</Link>
+							<Link href="/components">Browse components</Link>
 						</Button>
 						<CliBadge />
 					</div>
@@ -228,7 +237,7 @@ export default async function HomePage() {
 						level={2}
 					/>
 					<Link
-						href="/components/footer"
+						href="/components"
 						className="intro-section__link group inline-flex items-center gap-ml-2 shrink-0 text-xs font-medium no-underline transition-colors duration-(--duration-short) ease-out text-accent"
 					>
 						All components

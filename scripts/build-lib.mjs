@@ -85,12 +85,25 @@ for (const entry of componentEntries) {
 	}
 }
 
-// Copy template package.json and README.md
+// Copy package discovery, licensing, and contributor files so npm/JSR links do
+// not become dead ends after the repository is packaged.
 await cp(
 	path.join(projectRoot, "package.json.lib"),
 	path.join(distDir, "package.json")
 )
 await cp(path.join(projectRoot, "README.md"), path.join(distDir, "README.md"))
+await cp(path.join(projectRoot, "assets"), path.join(distDir, "assets"), {
+	recursive: true,
+})
+for (const file of [
+	"LICENSE",
+	"CHANGELOG.md",
+	"CONTRIBUTING.md",
+	"CODE_OF_CONDUCT.md",
+	"SECURITY.md",
+]) {
+	await cp(path.join(projectRoot, file), path.join(distDir, file))
+}
 
 // Calculate dynamic bundle size (Gzipped) for a representative set of components
 async function calculateBundleSize() {

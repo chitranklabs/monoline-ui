@@ -1,6 +1,6 @@
 export interface DocsNavItem {
 	label: string
-	href?: string
+	href?: `/${string}`
 	meta?: string
 }
 
@@ -90,7 +90,9 @@ export const componentNavGroups: DocsNavGroup[] = [
 export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/", label: "Introduction" },
 	{ href: "/installation", label: "Installation" },
+	{ href: "/foundations", label: "Foundations" },
 	...foundationsNav,
+	{ href: "/components", label: "Components" },
 	...componentNavGroups.flatMap((group) => group.items),
 	{ href: "/changelog", label: "Changelog" },
 ]
@@ -98,6 +100,6 @@ export const docsPagerNav: DocsNavItem[] = [
 export const primaryNav: DocsNavItem[] = [
 	{ href: "/", label: "Home" },
 	{ href: "/installation", label: "Installation" },
-	{ href: foundationsNav[0]?.href, label: "Foundation" },
-	{ href: componentNavGroups[0]?.items[0]?.href, label: "Components" },
+	{ href: "/foundations", label: "Foundations" },
+	{ href: "/components", label: "Components" },
 ] as const

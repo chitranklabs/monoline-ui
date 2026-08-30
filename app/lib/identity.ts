@@ -1,3 +1,5 @@
+import localIdentity from "../../public/identity.json"
+
 export interface Identity {
 	name: string
 	alternateNames: string[]
@@ -23,6 +25,7 @@ export interface Identity {
 const identityUrl = "https://chitrankagnihotri.com/identity.json"
 const identityRevalidateSeconds = 86400
 const identityFetchTimeoutMs = 3000
+const fallbackIdentity = localIdentity as Identity
 
 function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null
@@ -69,12 +72,12 @@ export async function fetchIdentity(): Promise<Identity | null> {
 			signal: controller.signal,
 		})
 
-		if (!res.ok) return null
+		if (!res.ok) return fallbackIdentity
 
 		const identity = await res.json()
-		return isIdentity(identity) ? identity : null
+		return isIdentity(identity) ? identity : fallbackIdentity
 	} catch {
-		return null
+		return fallbackIdentity
 	} finally {
 		clearTimeout(timeoutId)
 	}
