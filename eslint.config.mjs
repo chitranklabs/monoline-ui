@@ -12,6 +12,8 @@ export default tseslint.config(
 			"**/dist-playground/**",
 			"**/coverage/**",
 			"**/node_modules/**",
+			"**/.tmp*/**",
+			"**/.tmp-*/**",
 		],
 	},
 	js.configs.recommended,

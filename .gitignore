@@ -16,3 +16,5 @@ next-env.d.ts
 .pnpm/
 .claude
 *.tgz
+.tmp*
+.tmp-*

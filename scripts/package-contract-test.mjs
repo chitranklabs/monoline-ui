@@ -164,7 +164,7 @@ async function assertNextRscConsumerBuild() {
 		await writeFile(
 			path.join(consumerDir, "app", "layout.jsx"),
 			`export default function Layout({ children }) {
-	return <html><body>{children}</body></html>
+	return <html lang="en"><body>{children}</body></html>
 }
 `,
 			"utf8"
