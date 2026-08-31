@@ -1,7 +1,6 @@
 import { generateChangelogRss } from "@chitrank2050/monoline-ui/changelog"
-import type { GitCliffRelease } from "@chitrank2050/monoline-ui/changelog"
 
-import changelogJson from "../../lib/changelog.json"
+import { getCompactChangelog } from "../../lib/releases"
 import { siteUrl } from "../../lib/seo"
 
 export async function GET() {
@@ -11,7 +10,7 @@ export async function GET() {
 			"Release notes and updates for Monoline UI React component library",
 		siteUrl,
 		changelogPath: "/changelog",
-		releases: changelogJson as GitCliffRelease[],
+		releases: getCompactChangelog(),
 	})
 
 	return new Response(xml, {

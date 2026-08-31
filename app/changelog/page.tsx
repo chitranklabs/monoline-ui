@@ -2,7 +2,6 @@ import { Suspense } from "react"
 
 import type { Metadata } from "next"
 
-import type { GitCliffRelease } from "@chitrank2050/monoline-ui/changelog"
 import { Container } from "@chitrank2050/monoline-ui/container"
 
 import { DocsPager } from "../_components/docs-pager"
@@ -10,8 +9,8 @@ import JsonLd, {
 	createBreadcrumbJsonLd,
 	createCollectionPageJsonLd,
 } from "../_components/json-ld"
-import changelogJson from "../lib/changelog.json"
 import { createPageMetadata } from "../lib/metadata"
+import { getCompactChangelog } from "../lib/releases"
 import { siteUrl } from "../lib/seo"
 import { ChangelogView } from "./changelog-view"
 
@@ -25,9 +24,7 @@ export const metadata: Metadata = createPageMetadata({
 })
 
 // Only show tagged releases — filter out the null-version unreleased block
-const releases = (changelogJson as GitCliffRelease[]).filter(
-	(r) => r.version !== null
-)
+const releases = getCompactChangelog()
 
 export default function ChangelogPage() {
 	const feedUrl = `${siteUrl}/changelog/feed.xml`
