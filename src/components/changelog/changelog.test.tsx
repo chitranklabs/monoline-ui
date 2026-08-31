@@ -163,9 +163,63 @@ describe("generateChangelogRss", () => {
 		expect(xml).toContain("<title><![CDATA[monoline-ui Changelog]]></title>")
 		expect(xml).toContain("<title><![CDATA[v1.0.0]]></title>")
 		expect(xml).toContain(
-			"<link>https://monolineui.chitrankagnihotri.com/changelog#release-v1-0-0</link>"
+			"<link>https://monolineui.chitrankagnihotri.com/docs/changelog#release-v1-0-0</link>"
 		)
 		expect(xml).toContain("[core]")
 		expect(xml).toContain("add cool feature")
+	})
+})
+
+describe("compactGitCliffReleases", () => {
+	it("filters out null releases and noise commits", async () => {
+		const { compactGitCliffReleases } = await import("./index")
+		const raw: GitCliffRelease[] = [
+			{
+				version: null,
+				timestamp: null,
+				commits: [
+					{
+						id: "1234567890abcdef",
+						message: "unreleased commit",
+						body: null,
+						group: "Features",
+						breaking: false,
+						scope: null,
+						author: { name: "A", email: "", timestamp: 0 },
+					},
+				],
+			},
+			{
+				version: "v1.0.0",
+				timestamp: 1700000000,
+				commits: [
+					{
+						id: "abcdef1234567890abcdef",
+						message: "chore: bump version to v1.0.0",
+						body: null,
+						group: "Maintenance",
+						breaking: false,
+						scope: null,
+						author: { name: "Bot", email: "", timestamp: 0 },
+					},
+					{
+						id: "feeeddccbbaa11223344",
+						message: "feat: actual user feature",
+						body: null,
+						group: "Features",
+						breaking: false,
+						scope: "button",
+						author: { name: "Dev", email: "", timestamp: 0 },
+					},
+				],
+			},
+		]
+
+		const compacted = compactGitCliffReleases(raw)
+		expect(compacted).toHaveLength(1)
+		expect(compacted[0]?.version).toBe("v1.0.0")
+		expect(compacted[0]?.commits).toHaveLength(1)
+		expect(compacted[0]?.commits[0]?.id).toBe("feeeddc")
+		expect(compacted[0]?.commits[0]?.message).toBe("feat: actual user feature")
 	})
 })

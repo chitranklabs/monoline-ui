@@ -2,6 +2,20 @@ import { cn } from "../../lib/utils"
 import { Badge } from "../badge"
 import type { ChangelogCommitProps } from "./types"
 
+function renderFormattedMessage(text: string) {
+	const parts = text.split(/(`[^`]+`)/g)
+	return parts.map((part, i) => {
+		if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
+			return (
+				<code key={i} className="ml-changelog-inline-code">
+					{part.slice(1, -1)}
+				</code>
+			)
+		}
+		return part
+	})
+}
+
 export function ChangelogCommit({
 	commit,
 	githubOwner,
@@ -43,7 +57,7 @@ export function ChangelogCommit({
 					<span className="ml-changelog-commit-scope">{commit.scope}</span>
 				)}
 				<span className="ml-changelog-commit-message">
-					{message}
+					{renderFormattedMessage(message)}
 					{isBreaking && (
 						<Badge
 							variant="solid"

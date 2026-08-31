@@ -423,7 +423,7 @@ export const sectionsNav: DocsNavItem[] = [
 	{ href: routes.docs.foundations.root, label: "Foundation" },
 	{ href: routes.docs.components.root, label: "Components" },
 	...guidesNav.slice(2),
-	{ href: routes.changelog, label: "Changelog" },
+	{ href: routes.docs.changelog, label: "Changelog" },
 ]
 
 export const foundationsSidebarNav: DocsNavItem[] = sortNavItemsWithoutOverview(
@@ -440,7 +440,7 @@ export const docsPagerNav: DocsNavItem[] = [
 	...guidesNav,
 	...foundationsNav,
 	...componentNavGroups.flatMap((group) => group.items),
-	{ href: routes.changelog, label: "Changelog" },
+	{ href: routes.docs.changelog, label: "Changelog" },
 ]
 
 export const primaryNav: DocsNavItem[] = [
@@ -449,5 +449,5 @@ export const primaryNav: DocsNavItem[] = [
 	{ href: routes.docs.installation, label: "Installation" },
 	{ href: routes.docs.foundations.root, label: "Foundations" },
 	{ href: routes.docs.patterns, label: "Patterns" },
-	{ href: routes.changelog, label: "Changelog" },
+	{ href: routes.docs.changelog, label: "Changelog" },
 ] as const

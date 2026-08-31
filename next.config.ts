@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
 				permanent: true,
 			},
 			{
+				source: "/changelog",
+				destination: "/docs/changelog",
+				permanent: true,
+			},
+			{
 				source: "/foundations",
 				destination: "/docs/foundations",
 				permanent: true,

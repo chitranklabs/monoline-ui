@@ -183,11 +183,11 @@ export const componentGuidance = {
 	changelog: {
 		runtime: "server",
 		whenToUse:
-			"ChangelogTimeline turns grouped git-cliff releases into a timeline with commit, pull-request, and author links.",
+			"ChangelogTimeline turns git-cliff structured JSON (GitCliffRelease[]) generated from conventional commits into an accessible vertical release feed with SHA, PR, and author links.",
 		whenToAvoid:
-			"The data is a general event timeline or does not match the GitCliffRelease shape.",
+			"The data is a general event timeline or does not follow the GitCliffRelease schema (version, timestamp, commits array).",
 		accessibility:
-			"The timeline uses h3 headings for releases, h4 headings for groups, and lists for commits. Place it below an h2 and keep generated link labels clear in context.",
+			"The timeline uses semantic release version headings, categorized commit lists, and keyboard-accessible links back to GitHub pull requests and commit diffs.",
 		related: ["editorial-line", "toc"],
 	},
 	"code-block": {

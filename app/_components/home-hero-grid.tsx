@@ -19,6 +19,8 @@ import { Tag } from "@chitrank2050/monoline-ui/tag"
 import { Textarea } from "@chitrank2050/monoline-ui/textarea"
 import { Toggle } from "@chitrank2050/monoline-ui/toggle"
 
+import { routes } from "../lib/routes"
+
 export function HomeHeroGrid() {
 	const [toggle1, setToggle1] = useState(true)
 	const [toggle2, setToggle2] = useState(false)
@@ -215,7 +217,7 @@ export function HomeHeroGrid() {
 								</span>
 							</div>
 							<Button size="sm" variant="secondary" asChild>
-								<Link href="/changelog">Changelog →</Link>
+								<Link href={routes.docs.changelog}>Changelog →</Link>
 							</Button>
 						</div>
 					</div>

@@ -76,8 +76,9 @@ export const routes = {
 			root: "/docs/components",
 			item: componentPath,
 		},
+		changelog: "/docs/changelog",
 	},
-	changelog: "/changelog",
+	changelog: "/docs/changelog",
 } as const
 
 export const siteRoutes: readonly SitePath[] = [
@@ -96,7 +97,7 @@ export const siteRoutes: readonly SitePath[] = [
 	routes.docs.foundations.motion,
 	routes.docs.components.root,
 	...componentSlugs.map(componentPath),
-	routes.changelog,
+	routes.docs.changelog,
 ]
 
 interface LegacyRedirect {
@@ -111,6 +112,7 @@ const movedDocsRoutes: readonly [SitePath, SitePath][] = [
 	["/theming", routes.docs.theming],
 	["/compatibility", routes.docs.compatibility],
 	["/patterns", routes.docs.patterns],
+	["/changelog", routes.docs.changelog],
 	["/foundations", routes.docs.foundations.root],
 	["/foundations/colors", routes.docs.foundations.colors],
 	["/foundations/typography", routes.docs.foundations.typography],

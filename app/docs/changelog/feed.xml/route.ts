@@ -1,8 +1,8 @@
 import { generateChangelogRss } from "@chitrank2050/monoline-ui/changelog"
 
-import { getCompactChangelog } from "../../lib/releases"
-import { routes } from "../../lib/routes"
-import { siteUrl } from "../../lib/seo"
+import { getCompactChangelog } from "../../../lib/releases"
+import { routes } from "../../../lib/routes"
+import { siteUrl } from "../../../lib/seo"
 
 export async function GET() {
 	const xml = generateChangelogRss({

@@ -74,7 +74,7 @@ export default async function HomePage() {
 			<section className="flex flex-col items-start gap-ml-8">
 				<div className="flex flex-col items-start gap-ml-4">
 					<Link
-						href="/changelog"
+						href={routes.docs.changelog}
 						className="group inline-flex items-center gap-2 border border-border rounded-full bg-surface-2/60 py-1 pl-1.5 pr-3 text-xs text-text-secondary no-underline transition-colors hover:border-border-strong hover:text-text"
 					>
 						<Status variant="accent" size="sm" animate>

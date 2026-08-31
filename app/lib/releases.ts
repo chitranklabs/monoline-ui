@@ -1,4 +1,7 @@
-import type { GitCliffRelease } from "@chitrank2050/monoline-ui/changelog"
+import {
+	type GitCliffRelease,
+	compactGitCliffReleases,
+} from "@chitrank2050/monoline-ui/changelog"
 
 import pkg from "../../package.json"
 import changelogJson from "./changelog.json"
@@ -19,38 +22,7 @@ function formatReleaseDate(dateString: string): string {
 }
 
 export function getCompactChangelog(): GitCliffRelease[] {
-	return (changelogJson as unknown as GitCliffRelease[])
-		.filter((r) => r.version !== null)
-		.map((r) => ({
-			version: r.version,
-			timestamp: r.timestamp,
-			commits: (r.commits || []).map((c) => ({
-				id: c.id ? c.id.slice(0, 7) : "",
-				message: c.message || "",
-				body: null,
-				group: c.group || null,
-				breaking: Boolean(c.breaking),
-				scope: c.scope || null,
-				author: {
-					name: c.author?.name || "",
-					email: "",
-					timestamp: c.author?.timestamp || 0,
-				},
-				remote: c.remote
-					? {
-							username: c.remote.username || null,
-							pr_number: c.remote.pr_number || null,
-							pr_title: c.remote.pr_title || null,
-						}
-					: c.github
-						? {
-								username: c.github.username || null,
-								pr_number: c.github.pr_number || null,
-								pr_title: c.github.pr_title || null,
-							}
-						: null,
-			})),
-		}))
+	return compactGitCliffReleases(changelogJson as unknown as GitCliffRelease[])
 }
 
 export async function getLatestRelease(): Promise<ReleaseInfo> {

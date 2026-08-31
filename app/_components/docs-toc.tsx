@@ -16,7 +16,38 @@ export function DocsToc() {
 		const main = document.getElementById("main-content")
 		if (!main) return
 
-		setItems(collectDocsTocItems(main) satisfies TocItem[])
+		const updateItems = () => {
+			const nextItems = collectDocsTocItems(main) satisfies TocItem[]
+			setItems((prev) => {
+				if (
+					prev.length === nextItems.length &&
+					prev.every(
+						(p, idx) =>
+							p.id === nextItems[idx]?.id &&
+							p.label === nextItems[idx]?.label &&
+							p.depth === nextItems[idx]?.depth
+					)
+				) {
+					return prev
+				}
+				return nextItems
+			})
+		}
+
+		updateItems()
+
+		const observer = new MutationObserver(() => {
+			updateItems()
+		})
+
+		observer.observe(main, {
+			childList: true,
+			subtree: true,
+		})
+
+		return () => {
+			observer.disconnect()
+		}
 	}, [pathname])
 
 	if (items.length < 2) {

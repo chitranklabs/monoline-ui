@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Footer } from "@chitrank2050/monoline-ui/footer"
 
 import { getLatestRelease } from "../lib/releases"
+import { routes } from "../lib/routes"
 
 const footerGroups = [
 	{
@@ -12,7 +13,7 @@ const footerGroups = [
 		links: [
 			{
 				title: "Changelog",
-				href: "/changelog",
+				href: routes.docs.changelog,
 			},
 			{
 				title: "npm package",

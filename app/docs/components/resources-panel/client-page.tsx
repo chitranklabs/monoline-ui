@@ -46,8 +46,8 @@ const items = [
 	{
 		kind: "changelog",
 		label: "Changelog",
-		href: "https://monolineui.chitrankagnihotri.com/changelog",
-		host: "monolineui.chitrankagnihotri.com/changelog",
+		href: "https://monolineui.chitrankagnihotri.com/docs/changelog",
+		host: "monolineui.chitrankagnihotri.com/docs/changelog",
 		badge: "New",
 	},
 	{

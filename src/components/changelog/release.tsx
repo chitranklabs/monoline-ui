@@ -117,26 +117,41 @@ export function ChangelogRelease({
 			</div>
 			<div className="ml-changelog-release-content">
 				<header className="ml-changelog-release-header">
-					<h3
-						id={`release-${displayVersion.replace(/\./g, "-")}`}
-						className="ml-changelog-release-version"
-					>
-						{releaseTagUrl ? (
-							<a
-								href={releaseTagUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="ml-changelog-release-link inline-flex items-center gap-1.5"
-								title={`View release ${displayVersion} on GitHub`}
-							>
-								<IconLink className="size-3 text-text-muted opacity-80" />
-								<span>{displayVersion}</span>
-							</a>
-						) : (
-							displayVersion
-						)}
-					</h3>
-					<span className="ml-changelog-release-date">{formattedDate}</span>
+					<div className="ml-changelog-release-title-row">
+						<h2
+							id={`release-${displayVersion.replace(/\./g, "-")}`}
+							data-toc-label={displayVersion}
+							className="ml-changelog-release-version"
+						>
+							{releaseTagUrl ? (
+								<a
+									href={releaseTagUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="ml-changelog-release-link inline-flex items-center gap-1.5"
+									title={`View release ${displayVersion} on GitHub`}
+								>
+									<span>{displayVersion}</span>
+									<IconLink className="size-3.5 text-text-muted opacity-70" />
+								</a>
+							) : (
+								displayVersion
+							)}
+						</h2>
+						<span className="ml-changelog-release-date">{formattedDate}</span>
+					</div>
+
+					{releaseTagUrl && (
+						<a
+							href={releaseTagUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="ml-changelog-release-github-btn"
+						>
+							<span>Release notes</span>
+							<span aria-hidden="true">↗</span>
+						</a>
+					)}
 				</header>
 				{allowedGroups.map((groupName) => {
 					const groupCommits = commitsByGroup[groupName] || []

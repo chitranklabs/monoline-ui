@@ -70,6 +70,7 @@ const LEGACY_REDIRECTS = new Map([
 	["/theming", "/docs/theming"],
 	["/compatibility", "/docs/compatibility"],
 	["/patterns", "/docs/patterns"],
+	["/changelog", "/docs/changelog"],
 	["/foundations", "/docs/foundations"],
 	["/foundations/colors", "/docs/foundations/colors"],
 	["/foundations/typography", "/docs/foundations/typography"],
@@ -763,9 +764,11 @@ async function run() {
 				const expectedSchemaTypes =
 					pathname === "/"
 						? ["WebSite", "SoftwareSourceCode", "WebPage"]
-						: ["/docs/components", "/docs/foundations", "/changelog"].includes(
-									pathname
-							  )
+						: [
+									"/docs/components",
+									"/docs/foundations",
+									"/docs/changelog",
+							  ].includes(pathname)
 							? ["CollectionPage", "BreadcrumbList"]
 							: ["TechArticle", "BreadcrumbList"]
 				const metadata = validatePage(html, pathname, expectedSchemaTypes)
@@ -900,7 +903,7 @@ async function run() {
 			"www host should redirect to the canonical subdomain"
 		)
 
-		const changelogHtml = await fetchText("/changelog")
+		const changelogHtml = await fetchText("/docs/changelog")
 		assert.ok(
 			Buffer.byteLength(changelogHtml) < 250_000,
 			"the changelog HTML should remain below 250 KB"

@@ -10,7 +10,7 @@ Monoline UI is published as `@chitrank2050/monoline-ui` on npm and JSR. The docu
 - [Installation](https://monolineui.chitrankagnihotri.com/docs/installation): React and Tailwind CSS v4 integration.
 - [Component catalog](https://monolineui.chitrankagnihotri.com/docs/components): All 47 component references.
 - [Design-token foundations](https://monolineui.chitrankagnihotri.com/docs/foundations): Color, typography, spacing, radius, and motion contracts.
-- [Changelog](https://monolineui.chitrankagnihotri.com/changelog): Release and version history.
+- [Changelog](https://monolineui.chitrankagnihotri.com/docs/changelog): Release and version history.
 
 ## Package and source
 

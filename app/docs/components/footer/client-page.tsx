@@ -13,7 +13,7 @@ const footerColumns = [
 			{ href: "/docs/components", label: "Components" },
 			{ href: "/docs/foundations", label: "Foundations" },
 			{ href: "/docs/installation", label: "Installation" },
-			{ href: "/changelog", label: "Changelog" },
+			{ href: "/docs/changelog", label: "Changelog" },
 		],
 	},
 	{

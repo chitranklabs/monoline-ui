@@ -27,7 +27,7 @@ describe("docs sidebar navigation", () => {
 		const hrefs = sectionsNav.map((item) => item.href)
 
 		expect(hrefs).toContain(routes.docs.root)
-		expect(hrefs).toContain(routes.changelog)
+		expect(hrefs).toContain(routes.docs.changelog)
 		expect(
 			hrefs.filter((href) => href?.startsWith("/docs/foundations"))
 		).toEqual([routes.docs.foundations.root])

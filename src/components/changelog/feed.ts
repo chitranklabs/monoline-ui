@@ -15,7 +15,7 @@ export interface GenerateRssOptions {
 	siteUrl: string
 	/**
 	 * Path to the changelog web page.
-	 * @default "/changelog"
+	 * @default "/docs/changelog"
 	 */
 	changelogPath?: string
 	/**
@@ -58,7 +58,7 @@ export function generateChangelogRss({
 	title,
 	description,
 	siteUrl,
-	changelogPath = "/changelog",
+	changelogPath = "/docs/changelog",
 	releases,
 	language = "en-us",
 }: GenerateRssOptions): string {
@@ -112,4 +112,37 @@ export function generateChangelogRss({
     ${items}
   </channel>
 </rss>`.trim()
+}
+
+/**
+ * Filter and normalize raw git-cliff JSON output:
+ * - Omits null unreleased versions
+ * - Truncates commit IDs to 7-character short SHAs
+ * - Strips automated version bump noise
+ */
+export function compactGitCliffReleases(
+	releases: GitCliffRelease[]
+): GitCliffRelease[] {
+	return (releases || [])
+		.filter((r) => r && r.version !== null)
+		.map((r) => ({
+			version: r.version,
+			timestamp: r.timestamp,
+			commits: (r.commits || [])
+				.filter((c) => c && !isNoiseCommit(c.message || ""))
+				.map((c) => ({
+					id: c.id ? c.id.slice(0, 7) : "",
+					message: c.message || "",
+					body: c.body ?? null,
+					group: c.group ?? null,
+					breaking: Boolean(c.breaking),
+					scope: c.scope ?? null,
+					author: {
+						name: c.author?.name || "",
+						email: c.author?.email || "",
+						timestamp: c.author?.timestamp || 0,
+					},
+					remote: c.remote ?? c.github ?? null,
+				})),
+		}))
 }

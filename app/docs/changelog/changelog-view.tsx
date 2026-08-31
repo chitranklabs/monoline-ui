@@ -11,7 +11,6 @@ import {
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { Badge } from "@chitrank2050/monoline-ui/badge"
 import { Button } from "@chitrank2050/monoline-ui/button"
 import {
 	ChangelogTimeline,
@@ -20,8 +19,6 @@ import {
 } from "@chitrank2050/monoline-ui/changelog"
 import { Input } from "@chitrank2050/monoline-ui/input"
 import { Tag } from "@chitrank2050/monoline-ui/tag"
-
-import { ChangelogToc } from "./toc"
 
 // Hoisted regular expressions to eliminate per-render regex compilation
 const HTML_COMMENT_REGEX = /<!--.*?-->/g
@@ -60,6 +57,7 @@ function IconRss({ className = "size-3.5" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<path d="M4 11a9 9 0 0 1 9 9" />
 			<path d="M4 4a16 16 0 0 1 16 16" />
@@ -78,6 +76,7 @@ function IconSearch({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<circle cx="11" cy="11" r="8" />
 			<path d="m21 21-4.3-4.3" />
@@ -95,6 +94,7 @@ function IconGlobe({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<circle cx="12" cy="12" r="10" />
 			<path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
@@ -113,6 +113,7 @@ function IconSparkle({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
 		</svg>
@@ -129,6 +130,7 @@ function IconBug({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<rect width="8" height="14" x="8" y="6" rx="4" />
 			<path d="m19 7-3 2" />
@@ -153,6 +155,7 @@ function IconZap({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
 		</svg>
@@ -169,6 +172,7 @@ function IconDocs({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
 			<path d="M6 6h10" />
@@ -187,6 +191,7 @@ function IconWrench({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<circle cx="12" cy="12" r="3" />
 			<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
@@ -204,6 +209,7 @@ function IconAlert({ className = "size-3" }: { className?: string }) {
 			strokeWidth={2}
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			aria-hidden="true"
 		>
 			<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
 			<line x1="12" y1="9" x2="12" y2="13" />
@@ -213,13 +219,48 @@ function IconAlert({ className = "size-3" }: { className?: string }) {
 }
 
 const PRESET_GROUPS = [
-	{ id: "all", label: "All", icon: IconGlobe },
-	{ id: "Features", label: "Features", icon: IconSparkle },
-	{ id: "Bug Fixes", label: "Fixes", icon: IconBug },
-	{ id: "Performance", label: "Performance", icon: IconZap },
-	{ id: "Documentation", label: "Docs", icon: IconDocs },
-	{ id: "Maintenance", label: "Maintenance", icon: IconWrench },
-	{ id: "breaking", label: "Breaking", icon: IconAlert },
+	{
+		id: "all",
+		label: "All",
+		icon: IconGlobe,
+		iconColor: "text-text-secondary",
+	},
+	{
+		id: "Features",
+		label: "Features",
+		icon: IconSparkle,
+		iconColor: "text-emerald-500 dark:text-emerald-400",
+	},
+	{
+		id: "Bug Fixes",
+		label: "Fixes",
+		icon: IconBug,
+		iconColor: "text-amber-500 dark:text-amber-400",
+	},
+	{
+		id: "Performance",
+		label: "Performance",
+		icon: IconZap,
+		iconColor: "text-cyan-500 dark:text-cyan-400",
+	},
+	{
+		id: "Documentation",
+		label: "Docs",
+		icon: IconDocs,
+		iconColor: "text-blue-500 dark:text-blue-400",
+	},
+	{
+		id: "Maintenance",
+		label: "Maintenance",
+		icon: IconWrench,
+		iconColor: "text-purple-500 dark:text-purple-400",
+	},
+	{
+		id: "breaking",
+		label: "Breaking",
+		icon: IconAlert,
+		iconColor: "text-rose-500 dark:text-rose-400",
+	},
 ] as const
 
 interface ChangelogViewProps {
@@ -252,13 +293,13 @@ export function ChangelogView({
 	)
 	const [searchQuery, setSearchQuery] = useState<string>(paramQuery)
 
-	// Defer search query during heavy re-filtering to keep typing at 60fps
+	// Defer search query during heavy re-filtering to keep typing smooth
 	const deferredQuery = useDeferredValue(searchQuery)
 
-	// Ref-based debounce timer for URL query param sync to avoid unnecessary mount effects
+	// Ref-based debounce timer for URL query param sync
 	const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-	// Keep URL query params synchronized for SEO, bookmarking, and deep links
+	// Keep URL query params synchronized for bookmarking and deep links
 	const updateQueryParams = useCallback(
 		(groups: string[], query: string) => {
 			const params = new URLSearchParams()
@@ -369,17 +410,6 @@ export function ChangelogView({
 			.filter((release) => release.commits.length > 0)
 	}, [initialReleases, selectedGroups, deferredQuery])
 
-	// Dynamic TOC items based on filtered releases
-	const tocItems = useMemo(() => {
-		return filteredReleases.map((release) => {
-			const version = release.version ?? "Unreleased"
-			return {
-				id: `release-${version.replace(/\./g, "-")}`,
-				label: version,
-			}
-		})
-	}, [filteredReleases])
-
 	// Dynamic commit counts per group for Tag suffixes
 	const groupCounts = useMemo(() => {
 		const counts: Record<string, number> = { all: 0 }
@@ -413,124 +443,135 @@ export function ChangelogView({
 		updateQueryParams([], "")
 	}
 
+	const hasActiveFilters =
+		selectedGroups.length > 0 || searchQuery.trim().length > 0
+
 	return (
 		<div className="space-y-ml-8">
-			{/* Top Utility Row */}
-			<div className="flex flex-wrap items-center justify-between gap-ml-4 border-b border-border pb-ml-4 text-xs font-mono">
-				<div className="flex items-center gap-ml-3">
-					<a
-						href={feedUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="inline-flex items-center gap-1.5 text-xs font-mono text-accent hover:underline"
-					>
-						<IconRss className="size-3.5" />
-						<span>RSS Feed</span>
-					</a>
-				</div>
-
-				<div className="flex items-center gap-ml-2">
-					<Badge variant="outline" size="sm">
-						{filteredReleases.length} release
-						{filteredReleases.length !== 1 ? "s" : ""}
-					</Badge>
-				</div>
-			</div>
-
-			{/* Filter Bar: Category Tags + Live Search Input */}
-			<div className="flex flex-col gap-ml-3 sm:flex-row sm:items-center sm:justify-between">
-				{/* Category Tag Pills using Monoline Tag component */}
-				<div className="flex flex-wrap items-center gap-1.5">
-					{PRESET_GROUPS.map((preset) => {
-						const isActive =
-							preset.id === "all"
-								? selectedGroups.length === 0
-								: selectedGroups.includes(preset.id)
-						const Icon = preset.icon
-						const count = groupCounts[preset.id]
-						return (
-							<Tag
-								key={preset.id}
-								size="sm"
-								selected={isActive}
-								prefix={<Icon className="size-3" />}
-								suffix={count ? String(count) : undefined}
-								onClick={() => handleToggleGroup(preset.id)}
-								onDismiss={
-									isActive && preset.id !== "all"
-										? () => handleToggleGroup(preset.id)
-										: undefined
-								}
-								dismissAriaLabel={`Remove ${preset.label} filter`}
-								className="transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]"
-							>
-								{preset.label}
-							</Tag>
-						)
-					})}
-				</div>
-
-				{/* Search Input using Monoline Input component */}
-				<div className="w-full sm:w-64">
-					<Input
-						size="sm"
-						value={searchQuery}
-						onChange={(e) => handleSearchChange(e.target.value)}
-						placeholder="Find in changelog..."
-						prefix={<IconSearch />}
-						suffix={
-							searchQuery ? (
-								<button
-									type="button"
-									onClick={() => handleSearchChange("")}
-									className="text-text-muted hover:text-text cursor-pointer text-2xs"
-									aria-label="Clear search"
+			{/* Unified Filter & Search Toolbar */}
+			<div className="flex flex-col gap-ml-3 rounded-lg border border-border bg-surface-2/40 p-ml-3">
+				<div className="flex flex-col gap-ml-3 md:flex-row md:items-center md:justify-between">
+					{/* Category Tag Pills */}
+					<div className="flex flex-wrap items-center gap-1.5">
+						{PRESET_GROUPS.map((preset) => {
+							const isActive =
+								preset.id === "all"
+									? selectedGroups.length === 0
+									: selectedGroups.includes(preset.id)
+							const Icon = preset.icon
+							const count = groupCounts[preset.id]
+							return (
+								<Tag
+									key={preset.id}
+									size="sm"
+									selected={isActive}
+									prefix={
+										<Icon className={`size-3 shrink-0 ${preset.iconColor}`} />
+									}
+									suffix={count ? String(count) : undefined}
+									onClick={() => handleToggleGroup(preset.id)}
+									onDismiss={
+										isActive && preset.id !== "all"
+											? () => handleToggleGroup(preset.id)
+											: undefined
+									}
+									dismissAriaLabel={`Remove ${preset.label} filter`}
+									className="transition-all duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] [&_.ml-tag__prefix]:opacity-100"
 								>
-									✕
-								</button>
-							) : undefined
-						}
-					/>
+									{preset.label}
+								</Tag>
+							)
+						})}
+					</div>
+
+					{/* Search Input & RSS Button */}
+					<div className="flex items-center gap-ml-2">
+						<div className="w-full sm:w-56">
+							<Input
+								size="sm"
+								value={searchQuery}
+								onChange={(e) => handleSearchChange(e.target.value)}
+								placeholder="Search changes..."
+								prefix={
+									<IconSearch className="size-3 text-text-muted shrink-0" />
+								}
+								suffix={
+									searchQuery ? (
+										<button
+											type="button"
+											onClick={() => handleSearchChange("")}
+											className="text-text-muted hover:text-text cursor-pointer text-2xs"
+											aria-label="Clear search"
+										>
+											✕
+										</button>
+									) : undefined
+								}
+							/>
+						</div>
+
+						<a
+							href={feedUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md border border-border bg-surface px-2.5 font-mono text-2xs text-text-muted hover:text-text hover:border-border-strong transition-colors"
+							title="Subscribe to RSS feed"
+						>
+							<IconRss className="size-3 text-orange-500 dark:text-orange-400 shrink-0" />
+							<span className="hidden sm:inline">RSS</span>
+						</a>
+					</div>
 				</div>
+
+				{/* Active Filter Status Bar */}
+				{hasActiveFilters && (
+					<div className="flex items-center justify-between border-t border-border/60 pt-ml-2 text-2xs font-mono text-text-muted">
+						<span>
+							Showing{" "}
+							{filteredReleases.reduce((sum, r) => sum + r.commits.length, 0)}{" "}
+							commit
+							{filteredReleases.reduce(
+								(sum, r) => sum + r.commits.length,
+								0
+							) !== 1
+								? "s"
+								: ""}{" "}
+							in {filteredReleases.length} release
+							{filteredReleases.length !== 1 ? "s" : ""}
+						</span>
+						<button
+							type="button"
+							onClick={resetFilters}
+							className="text-accent hover:underline cursor-pointer"
+						>
+							Reset filters
+						</button>
+					</div>
+				)}
 			</div>
 
-			{/* Two-column layout: sticky TOC left, timeline right */}
-			<div className="changelog-layout pt-ml-2">
-				{/* Sticky TOC sidebar */}
-				<aside className="changelog-layout__toc">
-					<div className="changelog-layout__toc-inner">
-						{tocItems.length > 0 ? (
-							<ChangelogToc items={tocItems} />
-						) : (
-							<p className="text-2xs font-mono text-text-muted p-2">
-								No matches
-							</p>
-						)}
-					</div>
-				</aside>
-
-				{/* Main timeline */}
-				<section className="changelog-layout__content">
-					<h2 className="sr-only">Release history</h2>
-					{filteredReleases.length > 0 ? (
-						<ChangelogTimeline
-							releases={filteredReleases}
-							githubOwner="chitranklabs"
-							githubRepo="monoline-ui"
-							allowedGroups={[
-								"Features",
-								"Bug Fixes",
-								"Performance",
-								"Documentation",
-								"Maintenance",
-								"Miscellaneous Tasks",
-							]}
-						/>
-					) : (
-						<div className="rounded-xl border border-dashed border-border p-ml-12 text-center">
-							<p className="text-sm font-mono text-text-muted">
-								No changelog entries found matching your active filters.
-							</p>
+			{/* Main Release Timeline */}
+			<section className="pt-ml-2">
+				{filteredReleases.length > 0 ? (
+					<ChangelogTimeline
+						releases={filteredReleases}
+						githubOwner="chitranklabs"
+						githubRepo="monoline-ui"
+						allowedGroups={[
+							"Features",
+							"Bug Fixes",
+							"Performance",
+							"Documentation",
+							"Maintenance",
+							"Miscellaneous Tasks",
+						]}
+					/>
+				) : (
+					<div className="rounded-xl border border-dashed border-border p-ml-12 text-center">
+						<p className="text-sm font-mono text-text-muted">
+							No changelog entries found matching your active filters.
+						</p>
+						{hasActiveFilters ? (
 							<Button
 								variant="secondary"
 								size="sm"
@@ -539,10 +580,10 @@ export function ChangelogView({
 							>
 								Clear filters
 							</Button>
-						</div>
-					)}
-				</section>
-			</div>
+						) : null}
+					</div>
+				)}
+			</section>
 		</div>
 	)
 }

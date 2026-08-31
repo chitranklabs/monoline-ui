@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { CommandSearch } from "@chitrank2050/monoline-ui/command-search"
 
 import { componentNavGroups, foundationsNav, guidesNav } from "../lib/docs-nav"
+import { routes } from "../lib/routes"
 
 const TOP_PAGES = [
 	{ label: "Home", href: "/" },
@@ -13,7 +14,7 @@ const TOP_PAGES = [
 		href: item.href ?? "#",
 	})),
 	{ label: "Components", href: "/docs/components" },
-	{ label: "Changelog", href: "/changelog" },
+	{ label: "Changelog", href: routes.docs.changelog },
 ]
 
 const FOUNDATIONS = foundationsNav.map((item) => ({
