@@ -36,15 +36,15 @@ const footerGroups = [
 		links: [
 			{
 				title: "Installation",
-				href: "/installation",
+				href: "/docs/installation",
 			},
 			{
 				title: "Foundations",
-				href: "/foundations",
+				href: "/docs/foundations",
 			},
 			{
 				title: "Components",
-				href: "/components",
+				href: "/docs/components",
 			},
 			{
 				title: "Case study",
@@ -56,10 +56,10 @@ const footerGroups = [
 	{
 		title: "Guides",
 		links: [
-			{ title: "Accessibility", href: "/accessibility" },
-			{ title: "Theming", href: "/theming" },
-			{ title: "Compatibility", href: "/compatibility" },
-			{ title: "Patterns", href: "/patterns" },
+			{ title: "Accessibility", href: "/docs/accessibility" },
+			{ title: "Theming", href: "/docs/theming" },
+			{ title: "Compatibility", href: "/docs/compatibility" },
+			{ title: "Patterns", href: "/docs/patterns" },
 		],
 	},
 	{

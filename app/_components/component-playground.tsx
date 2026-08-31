@@ -569,7 +569,7 @@ export function ComponentPlayground<
 			label: String(index + 1).padStart(2, "0"),
 			date: "Component",
 			title: `${formatComponentSlug(relatedSlug)}`,
-			href: `/components/${relatedSlug}`,
+			href: `/docs/components/${relatedSlug}`,
 			tag: "Reference",
 			as: Link,
 		})),
@@ -577,7 +577,7 @@ export function ComponentPlayground<
 			label: "03",
 			date: "Setup",
 			title: "Install Monoline UI",
-			href: "/installation",
+			href: "/docs/installation",
 			tag: "Guide",
 			as: Link,
 		},
@@ -585,7 +585,7 @@ export function ComponentPlayground<
 			label: "04",
 			date: "Theme",
 			title: "Tailwind CSS v4 design tokens",
-			href: "/foundations",
+			href: "/docs/foundations",
 			tag: "Foundations",
 			as: Link,
 		},
@@ -736,7 +736,7 @@ export function ComponentPlayground<
 					aria-labelledby="related-documentation"
 					size="sm"
 					title="Documentation map"
-					action={<Link href="/components">View component catalog →</Link>}
+					action={<Link href="/docs/components">View component catalog →</Link>}
 					items={relatedDocumentation}
 				/>
 			</div>

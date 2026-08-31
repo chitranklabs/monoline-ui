@@ -59,7 +59,7 @@ export function HomeComponentGallery() {
 				</div>
 
 				<Link
-					href="/components"
+					href="/docs/components"
 					className="group inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-accent no-underline"
 				>
 					<span className="group-hover:underline underline-offset-4">
@@ -85,7 +85,7 @@ export function HomeComponentGallery() {
 									Button
 								</span>
 								<Link
-									href="/components/button"
+									href="/docs/components/button"
 									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
 									<span className="group-hover/link:underline underline-offset-4">
@@ -129,7 +129,7 @@ export function HomeComponentGallery() {
 									Toggle & Checkbox
 								</span>
 								<Link
-									href="/components/toggle"
+									href="/docs/components/toggle"
 									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
 									<span className="group-hover/link:underline underline-offset-4">
@@ -199,7 +199,7 @@ export function HomeComponentGallery() {
 									SegmentedControl
 								</span>
 								<Link
-									href="/components/segmented-control"
+									href="/docs/components/segmented-control"
 									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
 									<span className="group-hover/link:underline underline-offset-4">
@@ -252,7 +252,7 @@ export function HomeComponentGallery() {
 									Metric
 								</span>
 								<Link
-									href="/components/metric"
+									href="/docs/components/metric"
 									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
 									<span className="group-hover/link:underline underline-offset-4">
@@ -294,7 +294,7 @@ export function HomeComponentGallery() {
 									Status & Badges
 								</span>
 								<Link
-									href="/components/status"
+									href="/docs/components/status"
 									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
 									<span className="group-hover/link:underline underline-offset-4">
@@ -354,7 +354,7 @@ export function HomeComponentGallery() {
 									Callout
 								</span>
 								<Link
-									href="/components/callout"
+									href="/docs/components/callout"
 									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
 									<span className="group-hover/link:underline underline-offset-4">

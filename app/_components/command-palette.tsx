@@ -7,11 +7,12 @@ import { CommandSearch } from "@chitrank2050/monoline-ui/command-search"
 import { componentNavGroups, foundationsNav, guidesNav } from "../lib/docs-nav"
 
 const TOP_PAGES = [
-	{ label: "Introduction", href: "/" },
+	{ label: "Home", href: "/" },
 	...guidesNav.map((item) => ({
 		label: item.label,
 		href: item.href ?? "#",
 	})),
+	{ label: "Components", href: "/docs/components" },
 	{ label: "Changelog", href: "/changelog" },
 ]
 

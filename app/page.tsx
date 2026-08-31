@@ -104,11 +104,11 @@ export default async function HomePage() {
 
 					<div className="flex flex-wrap items-center gap-ml-3 pt-ml-2">
 						<Button asChild size="md">
-							<Link href="/installation">Get started</Link>
+							<Link href="/docs/installation">Get started</Link>
 						</Button>
 
 						<Button asChild variant="secondary" size="md">
-							<Link href="/components">Explore 47 components</Link>
+							<Link href="/docs/components">Explore 47 components</Link>
 						</Button>
 
 						<HomeQuickInstall />
@@ -183,7 +183,7 @@ export default async function HomePage() {
 					</p>
 					<div className="flex flex-wrap items-center justify-center gap-ml-3 pt-ml-4">
 						<Button asChild size="md">
-							<Link href="/installation">Read installation guide</Link>
+							<Link href="/docs/installation">Read installation guide</Link>
 						</Button>
 						<Button asChild variant="secondary" size="md">
 							<a

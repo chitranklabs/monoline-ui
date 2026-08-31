@@ -8,7 +8,7 @@ interface DocsArticleJsonLdProps {
 	description: string
 	path: `/${string}`
 	section: "Foundations" | "Installation"
-	sectionPath: "/foundations" | "/installation"
+	sectionPath: `/${string}`
 }
 
 export function DocsArticleJsonLd({

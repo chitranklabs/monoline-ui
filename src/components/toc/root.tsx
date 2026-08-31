@@ -127,16 +127,18 @@ export function TocRoot({
 						displayHeading
 					)}
 					<span
-						className="font-mono text-[11px] text-text-muted select-none transition-transform duration-(--duration-short) ease-out"
+						className="flex size-4 shrink-0 items-center justify-center text-text-muted select-none transition-transform duration-(--duration-short) ease-out"
 						style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
 					>
-						▸
+						<ChevronRightIcon className="size-3.5" />
 					</span>
 				</button>
 				<div
 					className={cn(
-						"mt-3 grid transition-[grid-template-rows,opacity] duration-(--duration-short) ease-out",
-						open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+						"grid transition-[grid-template-rows,opacity,margin] duration-(--duration-short) ease-out",
+						open
+							? "mt-3 grid-rows-[1fr] opacity-100"
+							: "mt-0 grid-rows-[0fr] opacity-0"
 					)}
 				>
 					<div className="overflow-hidden">
@@ -154,5 +156,25 @@ export function TocRoot({
 			{heading && <Eyebrow className="mb-3">{heading}</Eyebrow>}
 			{renderList()}
 		</nav>
+	)
+}
+
+function ChevronRightIcon({ className }: { className?: string }) {
+	return (
+		<svg
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className={className}
+			aria-hidden="true"
+		>
+			<path
+				d="M6 3.5L10.5 8L6 12.5"
+				stroke="currentColor"
+				strokeWidth="1.6"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
 	)
 }

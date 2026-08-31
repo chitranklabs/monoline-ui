@@ -29,7 +29,7 @@ export default function NotFound() {
 			</p>
 			<div className="mt-ml-6 flex flex-wrap gap-ml-3">
 				<Button asChild>
-					<Link href="/components">Browse React components</Link>
+					<Link href="/docs/components">Browse React components</Link>
 				</Button>
 				<Button asChild variant="secondary">
 					<Link href="/">Return to Monoline UI</Link>

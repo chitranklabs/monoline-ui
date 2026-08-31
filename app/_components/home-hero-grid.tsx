@@ -105,19 +105,19 @@ export function HomeHeroGrid() {
 									Documents
 								</span>
 								<Link
-									href="/components"
+									href="/docs/components"
 									className="text-text-secondary hover:text-text no-underline truncate transition-colors"
 								>
 									📄 Architecture
 								</Link>
 								<Link
-									href="/foundations"
+									href="/docs/foundations"
 									className="text-text-secondary hover:text-text no-underline truncate transition-colors"
 								>
 									🎨 Tokens
 								</Link>
 								<Link
-									href="/patterns"
+									href="/docs/patterns"
 									className="text-text-secondary hover:text-text no-underline truncate transition-colors"
 								>
 									🧩 Patterns
@@ -402,7 +402,7 @@ export function HomeHeroGrid() {
 				{/* ========================================================= */}
 				<div className="flex flex-col gap-ml-4">
 					{/* Editorial Article Card with hover arrow */}
-					<Card href="/components/card" size="sm" className="shadow-xs">
+					<Card href="/docs/components/card" size="sm" className="shadow-xs">
 						<Card.Body>
 							<Card.Header>
 								<div className="flex items-center justify-between">

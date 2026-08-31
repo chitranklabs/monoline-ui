@@ -18,13 +18,11 @@ const CommandPalette = dynamic(
 )
 
 function isActive(pathname: string, href: string) {
-	if (href === "/") {
-		return pathname === "/"
+	if (href === "/" || href === "/docs") {
+		return pathname === href
 	}
 
-	return pathname.startsWith(
-		href.split("/")[1] ? `/${href.split("/")[1]}` : href
-	)
+	return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 export function SiteHeader() {

@@ -51,10 +51,10 @@ const EXPECTED_PATHS = discoverPagePaths(
 ).toSorted()
 const EXPECTED_ROUTE_COUNT = EXPECTED_PATHS.length
 const expectedComponentPaths = componentMetadata.components
-	.map((component) => `/components/${component}`)
+	.map((component) => `/docs/components/${component}`)
 	.toSorted()
 assert.deepEqual(
-	EXPECTED_PATHS.filter((pathname) => pathname.startsWith("/components/")),
+	EXPECTED_PATHS.filter((pathname) => pathname.startsWith("/docs/components/")),
 	expectedComponentPaths,
 	"metadata.json should match every component reference page"
 )
@@ -426,9 +426,10 @@ function validatePage(html, pathname, expectedSchemaTypes = []) {
 	const heading = extractElementText(html, "h1")
 	assert.ok(heading, `${pathname} should have a non-empty h1`)
 	if (
-		pathname === "/installation" ||
-		pathname.startsWith("/components/") ||
-		pathname.startsWith("/foundations/")
+		pathname === "/docs" ||
+		pathname === "/docs/installation" ||
+		pathname.startsWith("/docs/components/") ||
+		pathname.startsWith("/docs/foundations/")
 	) {
 		assert.doesNotMatch(
 			heading,
@@ -662,7 +663,7 @@ async function run() {
 		)
 		assert.match(
 			llmsText,
-			/https:\/\/monolineui\.chitrankagnihotri\.com\/components/,
+			/https:\/\/monolineui\.chitrankagnihotri\.com\/docs\/components/,
 			"llms.txt should link to the canonical component catalog"
 		)
 
@@ -683,7 +684,9 @@ async function run() {
 				const expectedSchemaTypes =
 					pathname === "/"
 						? ["WebSite", "SoftwareSourceCode", "WebPage"]
-						: ["/components", "/foundations", "/changelog"].includes(pathname)
+						: ["/docs/components", "/docs/foundations", "/changelog"].includes(
+									pathname
+							  )
 							? ["CollectionPage", "BreadcrumbList"]
 							: ["TechArticle", "BreadcrumbList"]
 				const metadata = validatePage(html, pathname, expectedSchemaTypes)
@@ -727,11 +730,13 @@ async function run() {
 		)
 		assert.equal(
 			new URL(legacy.headers.get("location") ?? "", SITE_URL).pathname,
-			"/foundations/spacing",
+			"/docs/foundations/spacing",
 			"the legacy foundation route should redirect to spacing"
 		)
 
-		const queryResponse = await fetchResponse("/components/button?theme=dark")
+		const queryResponse = await fetchResponse(
+			"/docs/components/button?theme=dark"
+		)
 		assert.equal(queryResponse.status, 200, "query variant should render")
 		assert.match(
 			queryResponse.headers.get("x-robots-tag") ?? "",
@@ -739,7 +744,7 @@ async function run() {
 			"query variants should be excluded without blocking link discovery"
 		)
 		const queryHtml = await queryResponse.text()
-		validatePage(queryHtml, "/components/button")
+		validatePage(queryHtml, "/docs/components/button")
 
 		const notFoundResponse = await fetchResponse("/not-a-real-page")
 		assert.equal(
@@ -776,7 +781,9 @@ async function run() {
 			"web manifest should use its standard content type"
 		)
 
-		const representativeResponse = await fetchResponse("/components/button")
+		const representativeResponse = await fetchResponse(
+			"/docs/components/button"
+		)
 		for (const header of [
 			"x-content-type-options",
 			"referrer-policy",
@@ -798,7 +805,7 @@ async function run() {
 			"Vercel preview hosts should not compete with the canonical subdomain"
 		)
 
-		const wwwResponse = await fetchResponse("/components", "manual", {
+		const wwwResponse = await fetchResponse("/docs/components", "manual", {
 			"x-forwarded-host": "www.monolineui.chitrankagnihotri.com",
 		})
 		assert.equal(
@@ -808,7 +815,7 @@ async function run() {
 		)
 		assert.equal(
 			wwwResponse.headers.get("location"),
-			`${SITE_URL}/components`,
+			`${SITE_URL}/docs/components`,
 			"www host should redirect to the canonical subdomain"
 		)
 

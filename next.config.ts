@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
 		return [
 			{
 				source: "/foundations/spacing-motion",
-				destination: "/foundations/spacing",
+				destination: "/docs/foundations/spacing",
 				permanent: true,
 			},
 		]

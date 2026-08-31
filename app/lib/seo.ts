@@ -4,20 +4,21 @@ export const siteUrl = "https://monolineui.chitrankagnihotri.com"
 
 export const siteRoutes: readonly `/${string}`[] = [
 	"/",
-	"/installation",
-	"/accessibility",
-	"/theming",
-	"/compatibility",
-	"/patterns",
-	"/foundations",
-	"/foundations/colors",
-	"/foundations/typography",
-	"/foundations/spacing",
-	"/foundations/radius",
-	"/foundations/motion",
-	"/components",
+	"/docs",
+	"/docs/installation",
+	"/docs/accessibility",
+	"/docs/theming",
+	"/docs/compatibility",
+	"/docs/patterns",
+	"/docs/foundations",
+	"/docs/foundations/colors",
+	"/docs/foundations/typography",
+	"/docs/foundations/spacing",
+	"/docs/foundations/radius",
+	"/docs/foundations/motion",
+	"/docs/components",
 	...metadataJson.components.map(
-		(component) => `/components/${component}` as const
+		(component) => `/docs/components/${component}` as const
 	),
 	"/changelog",
 ]

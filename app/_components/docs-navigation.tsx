@@ -20,10 +20,9 @@ function isExactActive(pathname: string, href?: string) {
 
 function isSectionActive(pathname: string, href?: string) {
 	if (!href) return false
-	if (href === "/") return pathname === "/"
+	if (href === "/" || href === "/docs") return pathname === href
 
-	const section = href.split("/")[1]
-	return pathname.startsWith(section ? `/${section}` : href)
+	return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 export function DocsNavigation({
@@ -88,7 +87,7 @@ export function DocsNavigation({
 							) : (
 								<span
 									key={item.label}
-									className="flex items-center justify-between text-(--text-muted) opacity-55 text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1]"
+									className="flex items-center justify-between text-text-muted opacity-55 text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1]"
 								>
 									{item.label}
 								</span>
@@ -201,7 +200,7 @@ function DrawerSection({
 }) {
 	return (
 		<section className="mb-8">
-			<p className="mb-[0.875rem] text-(--text-muted) font-semibold">{label}</p>
+			<p className="mb-3.5 text-text-muted font-semibold">{label}</p>
 			<div className="grid gap-3">{children}</div>
 		</section>
 	)
@@ -219,7 +218,7 @@ function DrawerLink({
 	return (
 		<Link
 			href={href ?? "/"}
-			className="flex items-center justify-between text-(--text) no-underline text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1] aria-[current=page]:text-(--accent)"
+			className="flex items-center justify-between text-text no-underline text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1] aria-[current=page]:text-accent"
 			aria-current={active ? "page" : undefined}
 		>
 			{children}
