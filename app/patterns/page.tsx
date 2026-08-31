@@ -32,9 +32,11 @@ export function ProjectIndex({ projects }) {
         {projects.map((project) => (
           <Card key={project.slug} href={\`/projects/\${project.slug}\`}>
             <Card.Body>
-              <Card.Eyebrow>{project.year}</Card.Eyebrow>
-              <Card.Title>{project.title}</Card.Title>
-              <Card.Description>{project.summary}</Card.Description>
+              <Card.Header>
+                <Card.Eyebrow>{project.year}</Card.Eyebrow>
+                <Card.Title>{project.title}</Card.Title>
+                <Card.Description>{project.summary}</Card.Description>
+              </Card.Header>
             </Card.Body>
           </Card>
         ))}
@@ -130,12 +132,20 @@ export default function PatternsPage() {
 						{patternCards.map((pattern) => (
 							<Card key={pattern.title} href={pattern.href}>
 								<Card.Body>
-									<Card.Eyebrow>{pattern.components}</Card.Eyebrow>
-									<Card.Title>{pattern.title}</Card.Title>
-									<Card.Description lines={4}>
-										{pattern.description}
-									</Card.Description>
+									<Card.Header>
+										<Card.Eyebrow>{pattern.components}</Card.Eyebrow>
+										<Card.Title>{pattern.title}</Card.Title>
+										<Card.Description lines={3}>
+											{pattern.description}
+										</Card.Description>
+									</Card.Header>
 								</Card.Body>
+								<Card.Footer>
+									<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
+										Explore recipe
+									</span>
+									<Card.Arrow />
+								</Card.Footer>
 							</Card>
 						))}
 					</div>

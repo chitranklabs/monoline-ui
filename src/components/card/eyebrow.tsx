@@ -10,7 +10,7 @@ export function CardEyebrow({
 		<p
 			ref={ref}
 			className={cn(
-				"m-0 font-mono text-[0.72rem] leading-normal tracking-[0.05em] text-text-muted [[data-card-size=lg]>&]:text-sm",
+				"m-0 font-mono text-3xs font-semibold uppercase leading-normal tracking-eyebrow text-text-muted [[data-card-size=lg]>&]:text-2xs",
 				className
 			)}
 			{...props}

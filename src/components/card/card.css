@@ -30,14 +30,14 @@
 
 	.ml-card--hover:hover {
 		border-color: var(--border-strong);
-		background: var(--surface);
+		background: var(--surface-2);
 		box-shadow: var(--shadow-md);
 		transform: translate3d(0, var(--ml-card-lift), 0);
 	}
 
 	.ml-card--interactive:hover {
 		border-color: var(--border-strong);
-		background: var(--surface);
+		background: var(--surface-2);
 		box-shadow: var(--shadow-md);
 		transform: translate3d(0, var(--ml-card-lift), 0);
 	}
@@ -45,14 +45,14 @@
 	:root:not([data-theme="light"]) .ml-card--hover:hover,
 	[data-theme="dark"] .ml-card--hover:hover {
 		border-color: var(--border-strong);
-		background: var(--surface);
+		background: var(--surface-2);
 		box-shadow: var(--shadow-md);
 	}
 
 	:root:not([data-theme="light"]) .ml-card--interactive:hover,
 	[data-theme="dark"] .ml-card--interactive:hover {
 		border-color: var(--border-strong);
-		background: var(--surface);
+		background: var(--surface-2);
 		box-shadow: var(--shadow-md);
 	}
 
