@@ -16,8 +16,43 @@
 		color: var(--popover-foreground);
 		box-shadow: var(--shadow-md);
 		transform-origin: var(--radix-popover-content-transform-origin);
-		animation: ml-popover-content-enter var(--duration-fast) var(--ease-out)
-			both;
+		animation: ml-floating-enter var(--duration-fast) var(--ease-out-expo) both;
+	}
+
+	.ml-popover__content[data-side="top"] {
+		animation-name: ml-floating-slide-top-enter;
+	}
+
+	.ml-popover__content[data-side="bottom"] {
+		animation-name: ml-floating-slide-bottom-enter;
+	}
+
+	.ml-popover__content[data-side="left"] {
+		animation-name: ml-floating-slide-left-enter;
+	}
+
+	.ml-popover__content[data-side="right"] {
+		animation-name: ml-floating-slide-right-enter;
+	}
+
+	.ml-popover__content[data-state="closed"] {
+		animation: ml-floating-exit var(--duration-micro) var(--ease-in) both;
+	}
+
+	.ml-popover__content[data-state="closed"][data-side="top"] {
+		animation-name: ml-floating-slide-top-exit;
+	}
+
+	.ml-popover__content[data-state="closed"][data-side="bottom"] {
+		animation-name: ml-floating-slide-bottom-exit;
+	}
+
+	.ml-popover__content[data-state="closed"][data-side="left"] {
+		animation-name: ml-floating-slide-left-exit;
+	}
+
+	.ml-popover__content[data-state="closed"][data-side="right"] {
+		animation-name: ml-floating-slide-right-exit;
 	}
 
 	.ml-popover__content:focus-visible {
@@ -44,12 +79,6 @@
 		background: var(--popover);
 		content: "";
 		pointer-events: none;
-	}
-
-	@keyframes ml-popover-content-enter {
-		from {
-			opacity: 0;
-		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {

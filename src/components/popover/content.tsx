@@ -17,7 +17,7 @@ export function PopoverContent({
 	hideWhenDetached = anchoredFloatingDefaults.hideWhenDetached,
 	portalled = true,
 	ref,
-	sideOffset = 8,
+	sideOffset = 4,
 	sticky = anchoredFloatingDefaults.sticky,
 	...props
 }: PopoverContentProps): React.ReactElement {

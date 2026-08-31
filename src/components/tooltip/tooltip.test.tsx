@@ -15,7 +15,7 @@ describe("Tooltip", () => {
 		globalThis.ResizeObserver = ResizeObserverMock
 		const user = userEvent.setup()
 		render(
-			<Tooltip.Provider delayDuration={0}>
+			<Tooltip.Provider>
 				<Tooltip>
 					<Tooltip.Trigger>
 						<button type="button">Copy</button>

@@ -12,6 +12,7 @@ export function DropdownMenuSubContent({
 	collisionPadding = anchoredFloatingDefaults.collisionPadding,
 	hideWhenDetached = anchoredFloatingDefaults.hideWhenDetached,
 	ref,
+	sideOffset = 2,
 	sticky = anchoredFloatingDefaults.sticky,
 	...props
 }: DropdownMenuSubContentProps): React.ReactElement {
@@ -21,6 +22,7 @@ export function DropdownMenuSubContent({
 			avoidCollisions={avoidCollisions}
 			collisionPadding={collisionPadding}
 			hideWhenDetached={hideWhenDetached}
+			sideOffset={sideOffset}
 			sticky={sticky}
 			className={cn(
 				"ml-dropdown-menu__content ml-dropdown-menu__sub-content",

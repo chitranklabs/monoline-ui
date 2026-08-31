@@ -11,7 +11,7 @@ export function DropdownMenuContent({
 	avoidCollisions = anchoredFloatingDefaults.avoidCollisions,
 	collisionPadding = anchoredFloatingDefaults.collisionPadding,
 	hideWhenDetached = anchoredFloatingDefaults.hideWhenDetached,
-	sideOffset = 8,
+	sideOffset = 4,
 	sticky = anchoredFloatingDefaults.sticky,
 	portalContainer,
 	ref,

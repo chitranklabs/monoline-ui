@@ -148,7 +148,43 @@
 		color: var(--popover-foreground);
 		box-shadow: var(--ml-select-content-shadow);
 		transform-origin: var(--radix-popover-content-transform-origin);
-		animation: ml-select-content-enter var(--duration-fast) var(--ease-out) both;
+		animation: ml-floating-enter var(--duration-fast) var(--ease-out-expo) both;
+	}
+
+	.ml-select__content[data-side="top"] {
+		animation-name: ml-floating-slide-top-enter;
+	}
+
+	.ml-select__content[data-side="bottom"] {
+		animation-name: ml-floating-slide-bottom-enter;
+	}
+
+	.ml-select__content[data-side="left"] {
+		animation-name: ml-floating-slide-left-enter;
+	}
+
+	.ml-select__content[data-side="right"] {
+		animation-name: ml-floating-slide-right-enter;
+	}
+
+	.ml-select__content[data-state="closed"] {
+		animation: ml-floating-exit var(--duration-micro) var(--ease-in) both;
+	}
+
+	.ml-select__content[data-state="closed"][data-side="top"] {
+		animation-name: ml-floating-slide-top-exit;
+	}
+
+	.ml-select__content[data-state="closed"][data-side="bottom"] {
+		animation-name: ml-floating-slide-bottom-exit;
+	}
+
+	.ml-select__content[data-state="closed"][data-side="left"] {
+		animation-name: ml-floating-slide-left-exit;
+	}
+
+	.ml-select__content[data-state="closed"][data-side="right"] {
+		animation-name: ml-floating-slide-right-exit;
 	}
 
 	.ml-select__list {
@@ -328,12 +364,6 @@
 	.ml-select__content[data-size="lg"],
 	.ml-select__sheet[data-size="lg"] {
 		--ml-select-check-size: var(--ml-space-5);
-	}
-
-	@keyframes ml-select-content-enter {
-		from {
-			opacity: 0;
-		}
 	}
 
 	@keyframes ml-select-sheet-enter {

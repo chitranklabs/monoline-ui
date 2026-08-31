@@ -66,7 +66,7 @@ export default function TooltipPageClient() {
 			]}
 			renderPreview={(_size, theme) => (
 				<div className="min-w-112 p-ml-10">
-					<Tooltip.Provider delayDuration={800}>
+					<Tooltip.Provider>
 						<Tooltip>
 							<Tooltip.Trigger asChild>
 								<Button variant="secondary">Copy command</Button>
