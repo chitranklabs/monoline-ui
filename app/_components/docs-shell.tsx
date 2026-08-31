@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 
 import { DocsPager } from "./docs-pager"
 import { DocsSidebar } from "./docs-sidebar"
+import { DocsToc } from "./docs-toc"
 
 export function DocsShell({ children }: { children: ReactNode }) {
 	return (
@@ -11,6 +12,7 @@ export function DocsShell({ children }: { children: ReactNode }) {
 				{children}
 				<DocsPager />
 			</div>
+			<DocsToc />
 		</div>
 	)
 }

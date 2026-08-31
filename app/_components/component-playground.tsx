@@ -647,21 +647,21 @@ export function ComponentPlayground<
 				<InteractivePlayground {...props} />
 			</Suspense>
 
-			<section className="docs-section">
+			<section className="docs-section" aria-labelledby="usage">
 				<div className="docs-subhead">
-					<h2>Usage</h2>
+					<h2 id="usage">Usage</h2>
 					<p>Install path and a minimal example you can paste into an app.</p>
 				</div>
-				<h3>Import</h3>
+				<h3 id="import">Import</h3>
 				<CodeBlock code={importStatement} language="typescript" />
 
-				<h3>Basic usage</h3>
+				<h3 id="basic-usage">Basic usage</h3>
 				<CodeBlock code={usageCode} language="jsx" />
 			</section>
 
-			<section className="docs-section" aria-labelledby="before-you-use-title">
+			<section className="docs-section" aria-labelledby="before-you-use-it">
 				<div className="docs-subhead">
-					<h2 id="before-you-use-title">Before you use it</h2>
+					<h2 id="before-you-use-it">Before you use it</h2>
 					<p>
 						Check the behavior, semantics, and runtime before adapting the
 						visual layer.
@@ -671,9 +671,9 @@ export function ComponentPlayground<
 			</section>
 
 			{propRows && propRows.length > 0 && (
-				<section className="docs-section">
+				<section className="docs-section" aria-labelledby="api-reference">
 					<div className="docs-subhead">
-						<h2>API Reference</h2>
+						<h2 id="api-reference">API Reference</h2>
 						<p>Props, slots, and callbacks available on this component.</p>
 					</div>
 					<div className="props-table">
@@ -693,9 +693,9 @@ export function ComponentPlayground<
 			)}
 
 			{tokens && tokens.length > 0 && (
-				<section className="docs-section">
+				<section className="docs-section" aria-labelledby="design-tokens">
 					<div className="docs-subhead">
-						<h2>Design Tokens</h2>
+						<h2 id="design-tokens">Design Tokens</h2>
 						<p>
 							Theme variables this component reads for color, spacing, and
 							motion.
@@ -717,9 +717,9 @@ export function ComponentPlayground<
 				</section>
 			)}
 
-			<section className="docs-section">
+			<section className="docs-section" aria-labelledby="implementation">
 				<div className="docs-subhead">
-					<h2>Implementation</h2>
+					<h2 id="implementation">Implementation</h2>
 					<p>
 						The source used by the example above, including any state it needs.
 					</p>
@@ -729,11 +729,11 @@ export function ComponentPlayground<
 
 			<div className="docs-section">
 				<div className="docs-subhead">
-					<h2 id="related-documentation-title">Related documentation</h2>
+					<h2 id="related-documentation">Related documentation</h2>
 					<p>Continue with nearby components, installation, and theming.</p>
 				</div>
 				<LinkList
-					aria-labelledby="related-documentation-title"
+					aria-labelledby="related-documentation"
 					size="sm"
 					title="Documentation map"
 					action={<Link href="/components">View component catalog →</Link>}

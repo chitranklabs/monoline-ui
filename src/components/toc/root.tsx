@@ -14,12 +14,14 @@ export function TocRoot({
 	scrollOffset = 80,
 	collapsible = false,
 	defaultOpen = false,
+	variant = "default",
 	ref,
 	...props
 }: TocProps): React.ReactElement {
 	const [observedActive, setObservedActive] = useState<string | null>(null)
 	const [open, setOpen] = useState(defaultOpen)
 	const active = controlledActive ?? observedActive ?? items[0]?.id
+	const isCompact = variant === "compact"
 
 	useEffect(() => {
 		if (controlledActive !== undefined) return
@@ -47,18 +49,46 @@ export function TocRoot({
 	}, [items, controlledActive, scrollOffset])
 
 	const renderList = () => (
-		<ol className="ml-toc m-0 flex list-none flex-col gap-0.5 p-0">
+		<ol
+			className={cn(
+				"ml-toc m-0 flex list-none flex-col p-0",
+				isCompact ? "gap-1.5" : "gap-0.5"
+			)}
+		>
 			{items.map((it, i) => {
 				const isActive = it.id === active
+				const isNested = Boolean(it.depth && it.depth > 2)
+
+				if (isCompact) {
+					return (
+						<li key={it.id}>
+							<a
+								href={`#${it.id}`}
+								data-active={isActive}
+								className={cn(
+									"ml-toc__link block text-[13px] leading-relaxed no-underline transition-colors duration-(--duration-fast) ease-(--ease-out)",
+									isNested
+										? "pl-3 text-text-muted hover:text-text"
+										: "text-text-secondary hover:text-text",
+									isActive && "font-semibold text-text"
+								)}
+							>
+								{it.label}
+							</a>
+						</li>
+					)
+				}
+
 				return (
 					<li key={it.id}>
 						<a
 							href={`#${it.id}`}
 							data-active={isActive}
 							className={cn(
-								"ml-toc__link flex cursor-pointer items-start gap-2.5 border-l-2 border-transparent py-1.5 pl-3 text-[13px] no-underline transition-[border-color,color] duration-(--duration-short)",
+								"ml-toc__link flex cursor-pointer items-start gap-2.5 border-l-2 border-transparent py-1.5 pl-3 text-[13px] no-underline transition-[border-color,color] duration-(--duration-short) ease-(--ease-out)",
 								"text-text-secondary hover:text-text",
-								"data-[active=true]:border-l-accent data-[active=true]:text-text"
+								"data-[active=true]:border-l-accent data-[active=true]:text-text",
+								isNested && "pl-6 text-[12px]"
 							)}
 						>
 							<span

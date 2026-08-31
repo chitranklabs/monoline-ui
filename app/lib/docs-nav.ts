@@ -21,6 +21,12 @@ export const foundationsNav: DocsNavItem[] = [
 
 export const guidesNav: DocsNavItem[] = [
 	{
+		href: "/installation",
+		label: "Installation",
+		description:
+			"Install monoline/ui in a React project, configure Tailwind CSS v4, and import components.",
+	},
+	{
 		href: "/accessibility",
 		label: "Accessibility",
 		description:
@@ -380,7 +386,6 @@ export const componentNavGroups: DocsNavGroup[] = [
 
 export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/", label: "Introduction" },
-	{ href: "/installation", label: "Installation" },
 	...guidesNav,
 	{ href: "/foundations", label: "Foundations" },
 	...foundationsNav,

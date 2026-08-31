@@ -1,11 +1,10 @@
 import type { Metadata } from "next"
 
-import { Container } from "@chitrank2050/monoline-ui/container"
-
 import { CodeBlock } from "../_components/code-block"
 import { DocsArticleJsonLd } from "../_components/docs-article-json-ld"
-import { DocsPager } from "../_components/docs-pager"
+import { DocsShell } from "../_components/docs-shell"
 import { InstallCommand } from "../_components/install-command"
+import "../_styles/guide-pages.css"
 import { createPageMetadata } from "../lib/metadata"
 
 const displayTitle = "Installation"
@@ -20,6 +19,7 @@ export const metadata: Metadata = createPageMetadata({
 })
 
 interface InstallStep {
+	id: string
 	number: string
 	title: string
 	description: string
@@ -30,17 +30,20 @@ interface InstallStep {
 
 const installSteps: InstallStep[] = [
 	{
+		id: "prerequisites",
 		number: "01",
 		title: "Prerequisites",
 		description:
 			"Use React 19 or a current Next.js App Router project with Tailwind CSS v4. TypeScript is optional but recommended.",
 	},
 	{
+		id: "install-package",
 		number: "02",
 		title: "Install the package",
 		description: "Pick your package manager:",
 	},
 	{
+		id: "design-tokens",
 		number: "03",
 		title: "Add the design tokens",
 		description:
@@ -53,6 +56,7 @@ const installSteps: InstallStep[] = [
 		language: "css",
 	},
 	{
+		id: "root-theme",
 		number: "04",
 		title: "Set the theme on <html>",
 		description:
@@ -68,6 +72,7 @@ const installSteps: InstallStep[] = [
 		language: "tsx",
 	},
 	{
+		id: "import-component",
 		number: "05",
 		title: "Import a component",
 		description:
@@ -92,90 +97,88 @@ export default function Page() {
 
 export default function InstallationPage() {
 	return (
-		<Container
-			as="main"
-			id="main-content"
-			tabIndex={-1}
-			className="install-page pt-ml-14 pb-ml-20"
-		>
-			<DocsArticleJsonLd
-				title={displayTitle}
-				description={pageDescription}
-				path="/installation"
-				section="Installation"
-				sectionPath="/installation"
-			/>
-			<header className="docs-page__head">
-				<p className="ml-eyebrow">Get started · ~5 minutes</p>
-				<h1>{displayTitle}</h1>
-				<p>
-					Add the package, import its theme once, and keep application imports
-					focused on the components you use.
-				</p>
-			</header>
-
-			<div className="flex flex-col gap-ml-8">
-				{installSteps.map((step) => (
-					<section
-						key={step.number}
-						className="grid grid-cols-[1.25rem_minmax(0,1fr)] gap-ml-5"
-					>
-						<span className="pt-ml-1 font-mono text-2xs text-(--text-muted)">
-							{step.number}
-						</span>
-						<div className="min-w-0">
-							<h2 className="text-lg font-semibold tracking-body text-(--text)">
-								{step.title}
-							</h2>
-							<p className="mt-ml-2-5 max-w-170 text-base leading-normal text-(--text-secondary)">
-								{step.description}
-							</p>
-
-							{step.number === "02" ? <InstallCommand /> : null}
-
-							{step.label && step.code ? (
-								<div className="mt-ml-4">
-									<CodeBlock
-										code={step.code}
-										fileName={step.label}
-										language={step.language}
-									/>
-								</div>
-							) : null}
-						</div>
-					</section>
-				))}
-			</div>
-
-			<div
-				className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-ml-4 mt-ml-12 border border-(--accent) rounded-xl p-ml-5"
-				style={{
-					background:
-						"color-mix(in oklch, var(--accent-soft) 45%, var(--surface))",
-				}}
-			>
-				<div className="inline-flex items-center justify-center size-ml-7 rounded-full bg-(--accent) text-(--accent-foreground) text-sm">
-					✓
-				</div>
-				<div>
-					<h3 className="text-(--text) text-base font-semibold">
-						You&apos;re ready.
-					</h3>
-					<p className="mt-ml-1 text-(--text-secondary) text-sm">
-						Browse the{" "}
-						<a href="/components/footer" className="text-(--accent)">
-							component reference
-						</a>{" "}
-						for props and examples, or jump to{" "}
-						<a href="/foundations/colors" className="text-(--accent)">
-							Foundations
-						</a>{" "}
-						to see the token system.
+		<DocsShell>
+			<main id="main-content" tabIndex={-1} className="docs-page">
+				<DocsArticleJsonLd
+					title={displayTitle}
+					description={pageDescription}
+					path="/installation"
+					section="Installation"
+					sectionPath="/installation"
+				/>
+				<header className="docs-page__head">
+					<p className="ml-eyebrow">Product guide · Installation</p>
+					<h1>{displayTitle}</h1>
+					<p>
+						Add the package, import its theme once, and keep application imports
+						focused on the components you use.
 					</p>
-				</div>
-			</div>
+				</header>
 
-			<DocsPager />
-		</Container>
+				<div className="flex flex-col gap-ml-8">
+					{installSteps.map((step) => (
+						<section
+							key={step.number}
+							className="grid grid-cols-[1.25rem_minmax(0,1fr)] gap-ml-5"
+						>
+							<span className="pt-ml-1 font-mono text-2xs text-(--text-muted)">
+								{step.number}
+							</span>
+							<div className="min-w-0">
+								<h2
+									id={step.id}
+									className="text-lg font-semibold tracking-body text-(--text)"
+								>
+									{step.title}
+								</h2>
+								<p className="mt-ml-2-5 max-w-170 text-base leading-normal text-(--text-secondary)">
+									{step.description}
+								</p>
+
+								{step.number === "02" ? <InstallCommand /> : null}
+
+								{step.label && step.code ? (
+									<div className="mt-ml-4">
+										<CodeBlock
+											code={step.code}
+											fileName={step.label}
+											language={step.language}
+										/>
+									</div>
+								) : null}
+							</div>
+						</section>
+					))}
+				</div>
+
+				<div
+					className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-ml-4 mt-ml-12 border border-(--accent) rounded-xl p-ml-5"
+					style={{
+						background:
+							"color-mix(in oklch, var(--accent-soft) 45%, var(--surface))",
+					}}
+				>
+					<div className="inline-flex items-center justify-center size-ml-7 rounded-full bg-(--accent) text-(--accent-foreground) text-sm">
+						✓
+					</div>
+					<div>
+						<h3 className="text-(--text) text-base font-semibold">
+							You&apos;re ready.
+						</h3>
+						<p className="mt-ml-1 text-(--text-secondary) text-sm">
+							Browse the{" "}
+							<a href="/components/footer" className="text-(--accent)">
+								component reference
+							</a>{" "}
+							for props and examples, or jump to{" "}
+							<a href="/foundations/colors" className="text-(--accent)">
+								Foundations
+							</a>{" "}
+							to see the token system.
+						</p>
+					</div>
+				</div>
+			</main>
+		</DocsShell>
 	)
 }
