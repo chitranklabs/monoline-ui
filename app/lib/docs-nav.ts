@@ -446,8 +446,5 @@ export const docsPagerNav: DocsNavItem[] = [
 export const primaryNav: DocsNavItem[] = [
 	{ href: routes.docs.root, label: "Docs" },
 	{ href: routes.docs.components.root, label: "Components" },
-	{ href: routes.docs.installation, label: "Installation" },
 	{ href: routes.docs.foundations.root, label: "Foundations" },
-	{ href: routes.docs.patterns, label: "Patterns" },
-	{ href: routes.docs.changelog, label: "Changelog" },
 ] as const
