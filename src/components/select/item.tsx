@@ -5,9 +5,9 @@ import { useSelectContext } from "./root"
 import type { SelectItemProps } from "./types"
 
 const SIZE_CLASSES = {
-	sm: "min-h-ml-8 px-ml-2 text-xs",
-	md: "min-h-ml-9 px-ml-3 text-sm",
-	lg: "min-h-ml-10 px-ml-4 text-base",
+	sm: "min-h-ml-7 px-ml-2 text-xs",
+	md: "min-h-ml-8 px-ml-2-5 text-sm",
+	lg: "min-h-ml-10 px-ml-3-5 text-base",
 } as const
 
 const DESC_CLASSES = {
@@ -49,7 +49,7 @@ export function SelectItem({
 			data-selected={selected}
 			data-mobile={isMobile || undefined}
 			className={cn(
-				"ml-select__item flex w-full items-center justify-between rounded-md text-left font-medium leading-snug disabled:pointer-events-none disabled:opacity-45",
+				"ml-select__item flex w-full items-center justify-between rounded-md text-left font-medium leading-snug disabled:pointer-events-none disabled:opacity-[0.48]",
 				SIZE_CLASSES[size],
 				className
 			)}
@@ -77,7 +77,7 @@ export function SelectItem({
 			<span
 				aria-hidden="true"
 				className={cn(
-					"ml-select__check shrink-0 opacity-0 transition-opacity duration-(--duration-micro) ease-out",
+					"ml-select__check shrink-0 opacity-0 transition-opacity duration-(--duration-micro) ease-(--ease-out)",
 					selected && "opacity-100"
 				)}
 			>

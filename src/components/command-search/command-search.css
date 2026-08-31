@@ -3,12 +3,12 @@
 	.ml-command-search__backdrop {
 		position: fixed;
 		inset: 0;
-		z-index: var(--z-modal, 50);
+		z-index: var(--z-modal);
 		background: color-mix(in oklch, var(--background) 40%, transparent);
 		-webkit-backdrop-filter: blur(6px);
 		backdrop-filter: blur(6px);
-		animation: ml-command-search-fade-in var(--duration-fast, 140ms)
-			var(--ease-out, ease-out) both;
+		animation: ml-command-search-fade-in var(--duration-fast) var(--ease-out)
+			both;
 	}
 
 	@keyframes ml-command-search-fade-in {
@@ -22,12 +22,12 @@
 		position: fixed;
 		top: 7rem;
 		left: 50%;
-		z-index: var(--z-modal, 50);
+		z-index: var(--z-modal);
 		display: flex;
-		width: min(37.5rem, calc(100vw - 2rem));
+		inline-size: min(37.5rem, calc(100vw - 2rem));
 		flex-direction: column;
-		border: 1px solid var(--border);
-		border-radius: var(--radius-xl, 1rem);
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-xl);
 		background: color-mix(in oklch, var(--surface) 98%, transparent);
 		-webkit-backdrop-filter: blur(24px);
 		backdrop-filter: blur(24px);
@@ -37,8 +37,8 @@
 			0 24px 64px color-mix(in oklch, var(--background) 50%, transparent);
 		overflow: hidden;
 		transform: translateX(-50%);
-		animation: ml-command-search-slide-in var(--duration-fast, 140ms)
-			var(--ease-out, ease-out) both;
+		animation: ml-command-search-slide-in var(--duration-fast) var(--ease-out)
+			both;
 	}
 
 	@keyframes ml-command-search-slide-in {
@@ -50,7 +50,7 @@
 
 	@media (max-width: 40rem) {
 		.ml-command-search__panel {
-			top: var(--ml-space-4, 1rem);
+			top: var(--ml-space-4);
 		}
 	}
 
@@ -65,12 +65,12 @@
 	.ml-command-search__input-row {
 		display: flex;
 		align-items: center;
-		gap: 0.625rem;
-		border-bottom: 1px solid var(--border);
+		gap: var(--ml-space-2-5);
+		border-block-end: var(--border-thin) solid var(--border);
 		padding: 0.875rem 1rem;
 		transition:
-			border-color var(--duration-fast, 140ms) var(--ease-out, ease-out),
-			box-shadow var(--duration-fast, 140ms) var(--ease-out, ease-out);
+			border-color var(--duration-fast) var(--ease-out),
+			box-shadow var(--duration-fast) var(--ease-out);
 	}
 
 	.ml-command-search__input-row:focus-within {
@@ -87,7 +87,7 @@
 
 	.ml-command-search__input {
 		flex: 1;
-		min-width: 0;
+		min-inline-size: 0;
 		border: 0;
 		background: transparent;
 		color: var(--text);
@@ -112,19 +112,18 @@
 	}
 
 	.ml-command-search__esc {
-		border: 1px solid var(--border);
-		border-radius: var(--radius-xs, 0.25rem);
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-xs);
 		background: var(--surface);
 		padding: 0.1875rem 0.4375rem;
 		font-family: var(--font-mono);
-		font-size: 0.625rem;
+		font-size: var(--text-3xs);
 		font-weight: 700;
 		line-height: 1;
 		color: var(--text-muted);
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: border-color var(--duration-fast, 140ms)
-			var(--ease-out, ease-out);
+		transition: border-color var(--duration-fast) var(--ease-out);
 	}
 
 	.ml-command-search__esc:hover {
@@ -135,14 +134,14 @@
 	.ml-command-search__list {
 		display: flex;
 		flex-direction: column;
-		gap: 0.125rem;
-		max-height: 22rem;
+		gap: var(--ml-space-0-5);
+		max-block-size: 22rem;
 		overflow-y: auto;
-		padding: var(--ml-space-2, 0.5rem);
+		padding: var(--ml-space-2);
 	}
 
 	.ml-command-search__list::-webkit-scrollbar {
-		width: 4px;
+		inline-size: 4px;
 	}
 
 	.ml-command-search__list::-webkit-scrollbar-track {
@@ -151,21 +150,21 @@
 
 	.ml-command-search__list::-webkit-scrollbar-thumb {
 		background: var(--border);
-		border-radius: 999px;
+		border-radius: var(--radius-pill);
 	}
 
 	/* ── Group ── */
 	.ml-command-search__group {
-		padding-bottom: var(--ml-space-1, 0.25rem);
+		padding-block-end: var(--ml-space-1);
 	}
 
 	.ml-command-search__group [cmdk-group-heading],
 	.ml-command-search__group-heading {
 		padding: 0.5rem 0.75rem 0.25rem;
-		font-size: 0.625rem;
+		font-size: var(--text-3xs);
 		font-weight: 700;
 		font-family: var(--font-mono);
-		letter-spacing: 0.06em;
+		letter-spacing: var(--tracking-eyebrow);
 		text-transform: uppercase;
 		color: var(--text-muted);
 		user-select: none;
@@ -174,58 +173,59 @@
 	/* ── Item ── */
 	.ml-command-search__item {
 		display: flex;
-		width: 100%;
+		inline-size: 100%;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--ml-space-2);
 		border: none;
-		border-radius: var(--radius-md, 0.5rem);
+		border-radius: var(--radius-md);
 		padding: 0.5625rem 0.75rem;
 		background: transparent;
 		cursor: pointer;
-		transition: background var(--duration-fast, 140ms) var(--ease-out, ease-out);
+		transition: background var(--duration-fast) var(--ease-out);
 		outline: none;
 		text-align: left;
-		font-size: 0.875rem;
+		font-size: var(--text-sm);
 		font-weight: 550;
 		color: var(--text);
 	}
 
 	.ml-command-search__item[aria-selected="true"],
 	.ml-command-search__item[data-active] {
-		background: color-mix(in oklch, var(--text) 6%, transparent);
+		background: var(--surface-2);
 	}
 
 	.ml-command-search__item:focus-visible {
-		background: color-mix(in oklch, var(--text) 6%, transparent);
+		background: var(--surface-2);
+		box-shadow: var(--focus-ring);
 	}
 
 	/* ── Empty / threshold ── */
 	.ml-command-search__empty,
 	.ml-command-search__threshold {
-		padding: 2.5rem 1rem;
+		padding: var(--ml-space-10) 1rem;
 		text-align: center;
 		color: var(--text-muted);
-		font-size: 0.875rem;
+		font-size: var(--text-sm);
 	}
 
 	/* ── Footer (keyboard hints) ── */
 	.ml-command-search__footer {
 		display: flex;
 		align-items: center;
-		gap: 1.25rem;
-		border-top: 1px solid var(--border);
+		gap: var(--ml-space-5);
+		border-block-start: var(--border-thin) solid var(--border);
 		padding: 0.625rem 1rem;
 		color: var(--text-muted);
-		font-size: 0.6875rem;
+		font-size: var(--text-2xs);
 	}
 
 	.ml-command-search__footer kbd {
-		border: 1px solid var(--border);
-		border-radius: var(--radius-xs, 0.25rem);
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-xs);
 		padding: 0.125rem 0.3125rem;
 		font-family: var(--font-mono);
 		font-size: 0.5625rem;
 		font-weight: 700;
-		margin-right: 0.25rem;
+		margin-inline-end: var(--ml-space-1);
 	}
 }

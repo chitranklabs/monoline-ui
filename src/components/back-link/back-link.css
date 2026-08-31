@@ -9,7 +9,7 @@
 		font-weight: 500;
 		color: var(--text-muted);
 		text-decoration: none;
-		transition: color var(--duration-short) ease-out;
+		transition: color var(--duration-short) var(--ease-out);
 	}
 
 	.ml-back-link:hover {
@@ -18,13 +18,13 @@
 
 	.ml-back-link__line {
 		display: inline-block;
-		width: 20px;
-		height: 1px;
+		inline-size: var(--ml-space-5);
+		block-size: var(--border-thin);
 		background: currentColor;
-		transition: width var(--duration-short) ease-out;
+		transition: inline-size var(--duration-short) var(--ease-out);
 	}
 
 	.ml-back-link:hover .ml-back-link__line {
-		width: 28px;
+		inline-size: var(--ml-space-7);
 	}
 }

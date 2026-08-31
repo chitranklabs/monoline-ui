@@ -2,10 +2,10 @@
 
 @layer components {
 	.ml-toggle {
-		--ml-toggle-height: var(--ml-space-10);
-		--ml-toggle-width: var(--ml-space-20);
+		--ml-toggle-height: var(--ml-space-6);
+		--ml-toggle-width: var(--ml-space-11);
 		--ml-toggle-padding: var(--ml-space-0-5);
-		--ml-toggle-border-width: var(--border-medium);
+		--ml-toggle-border-width: var(--border-thin);
 		--ml-toggle-thumb-size: calc(
 			var(--ml-toggle-height) - (var(--ml-toggle-padding) * 2) -
 				(var(--ml-toggle-border-width) * 2)
@@ -34,13 +34,13 @@
 	}
 
 	.ml-toggle[data-size="sm"] {
-		--ml-toggle-height: var(--ml-space-8);
-		--ml-toggle-width: var(--ml-space-14);
+		--ml-toggle-height: var(--ml-space-5);
+		--ml-toggle-width: var(--ml-space-9);
 	}
 
 	.ml-toggle[data-size="lg"] {
-		--ml-toggle-height: var(--ml-space-12);
-		--ml-toggle-width: var(--space-24);
+		--ml-toggle-height: var(--ml-space-8);
+		--ml-toggle-width: var(--ml-space-14);
 	}
 
 	.ml-toggle[data-state="on"] {
@@ -69,7 +69,7 @@
 
 	.ml-toggle:disabled {
 		cursor: not-allowed;
-		opacity: 0.45;
+		opacity: 0.48;
 	}
 
 	.ml-toggle__thumb {

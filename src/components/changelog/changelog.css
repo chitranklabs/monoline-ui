@@ -14,10 +14,10 @@
 	.ml-changelog::before {
 		content: "";
 		position: absolute;
-		left: var(--space-3);
-		top: var(--space-2);
-		bottom: var(--space-2);
-		width: 1px;
+		inset-inline-start: var(--space-3);
+		inset-block-start: var(--space-2);
+		inset-block-end: var(--space-2);
+		inline-size: var(--border-thin);
 		background: var(--border-strong);
 	}
 
@@ -34,18 +34,18 @@
 		position: relative;
 		display: flex;
 		justify-content: center;
-		padding-top: var(--space-1);
+		padding-block-start: var(--space-1);
 	}
 
 	.ml-changelog-release-dot {
 		position: absolute;
-		width: 8px;
-		height: 8px;
+		inline-size: var(--ml-space-2);
+		block-size: var(--ml-space-2);
 		border-radius: var(--radius-pill);
 		background: var(--background);
-		border: 1.5px solid var(--accent);
+		border: var(--border-thin) solid var(--accent);
 		z-index: 1;
-		top: var(--space-1-5);
+		inset-block-start: var(--space-1-5);
 	}
 
 	.ml-changelog-release-content {
@@ -110,8 +110,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-3);
-		padding-left: var(--space-1);
-		border-left: 1px solid var(--border);
+		padding-inline-start: var(--space-1);
+		border-inline-start: var(--border-thin) solid var(--border);
 	}
 
 	/* ─── Commit Items ─────────────────────────────────────── */
@@ -119,7 +119,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-1);
-		padding-left: var(--space-3);
+		padding-inline-start: var(--space-3);
 	}
 
 	.ml-changelog-commit-row {
@@ -138,10 +138,10 @@
 		background: var(--surface-2);
 		padding: var(--space-0-5) var(--space-1);
 		border-radius: var(--radius-xs);
-		border: 1px solid var(--border);
+		border: var(--border-thin) solid var(--border);
 		white-space: nowrap;
 		flex-shrink: 0;
-		margin-top: 2px;
+		margin-block-start: var(--ml-space-0-5);
 	}
 
 	.ml-changelog-commit-message {

@@ -10,18 +10,25 @@
 	.ml-input--default:focus-within {
 		border-color: var(--accent);
 		background: var(--surface-2);
-		box-shadow: 0 0 0 3px var(--accent-soft);
+		box-shadow: var(--focus-ring);
+	}
+
+	.ml-input:has(:disabled) {
+		cursor: not-allowed;
+		opacity: 0.48;
 	}
 
 	.ml-input--error {
-		border-color: oklch(0.55 0.18 25);
+		border-color: var(--destructive);
 		background: var(--surface);
 		color: var(--text-primary);
 	}
 
 	.ml-input--error:focus-within {
+		border-color: var(--destructive);
 		background: var(--surface-2);
-		box-shadow: 0 0 0 3px oklch(0.55 0.18 25 / 0.18);
+		box-shadow: 0 0 0 3px
+			color-mix(in oklch, var(--destructive) 20%, transparent);
 	}
 
 	.ml-input input {

@@ -97,7 +97,7 @@ export function TocRoot({
 						displayHeading
 					)}
 					<span
-						className="font-mono text-[11px] text-text-muted select-none transition-transform duration-200 ease-out"
+						className="font-mono text-[11px] text-text-muted select-none transition-transform duration-(--duration-short) ease-(--ease-out)"
 						style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
 					>
 						▸
@@ -105,7 +105,7 @@ export function TocRoot({
 				</button>
 				<div
 					className={cn(
-						"mt-3 grid transition-[grid-template-rows,opacity] duration-200 ease-out",
+						"mt-3 grid transition-[grid-template-rows,opacity] duration-(--duration-short) ease-(--ease-out)",
 						open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
 					)}
 				>

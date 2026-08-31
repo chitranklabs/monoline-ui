@@ -51,7 +51,7 @@ export function TagRoot({
 	const isSelected = selected ?? active
 
 	const sharedClassName = cn(
-		"ml-tag inline-flex select-none items-center rounded-(--radius-pill) font-sans cursor-pointer transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-out disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+		"ml-tag inline-flex select-none items-center rounded-(--radius-pill) font-sans cursor-pointer transition-[background-color,border-color,color,box-shadow,opacity] duration-(--duration-micro) ease-(--ease-out) disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-[0.48] focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 		tagSizeClasses[size],
 		className
 	)

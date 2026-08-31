@@ -70,7 +70,7 @@
 	}
 	.ml-radio-group__item:disabled + .ml-radio-group__copy {
 		cursor: not-allowed;
-		opacity: 0.52;
+		opacity: 0.48;
 	}
 	@keyframes ml-radio-indicator-enter {
 		from {

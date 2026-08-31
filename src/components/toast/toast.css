@@ -17,6 +17,6 @@
 	}
 
 	.ml-toast-dot--warn {
-		background: oklch(0.7 0.16 80);
+		background: var(--callout-warn-accent);
 	}
 }

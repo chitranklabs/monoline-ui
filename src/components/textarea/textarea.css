@@ -50,7 +50,7 @@
 	.ml-textarea:focus-visible {
 		border-color: var(--accent);
 		background: var(--surface-2);
-		box-shadow: 0 0 0 3px var(--accent-soft);
+		box-shadow: var(--focus-ring);
 	}
 	.ml-textarea[aria-invalid="true"] {
 		border-color: var(--destructive);
@@ -61,7 +61,7 @@
 	}
 	.ml-textarea:disabled {
 		cursor: not-allowed;
-		opacity: 0.52;
+		opacity: 0.48;
 		resize: none;
 	}
 	.ml-textarea:read-only:not(:disabled) {

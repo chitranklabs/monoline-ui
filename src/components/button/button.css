@@ -123,7 +123,7 @@
 
 	.ml-btn--secondary {
 		border-color: var(--border-strong, currentColor);
-		background: var(--button, rgba(0, 0, 0, 0.05));
+		background: var(--button);
 		color: var(--primary, currentColor);
 	}
 	.ml-btn--secondary:not(:disabled):not([aria-disabled="true"]):not(
@@ -134,7 +134,7 @@
 			var(--primary, currentColor) 35%,
 			transparent
 		);
-		background: var(--button-hover, rgba(0, 0, 0, 0.08));
+		background: var(--button-hover);
 	}
 	.ml-btn--secondary:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
@@ -146,7 +146,7 @@
 		);
 		background: color-mix(
 			in oklch,
-			var(--button-hover, rgba(0, 0, 0, 0.08)) 82%,
+			var(--button-hover) 82%,
 			var(--primary, currentColor)
 		);
 	}
@@ -156,11 +156,7 @@
 			var(--border-strong, currentColor) 85%,
 			var(--primary, currentColor)
 		);
-		background: color-mix(
-			in oklch,
-			var(--button, rgba(0, 0, 0, 0.05)) 86%,
-			var(--button-hover, rgba(0, 0, 0, 0.08))
-		);
+		background: color-mix(in oklch, var(--button) 86%, var(--button-hover));
 		color: color-mix(
 			in oklch,
 			var(--primary, currentColor) 76%,
@@ -176,7 +172,7 @@
 	.ml-btn--ghost:not(:disabled):not([aria-disabled="true"]):not(
 			[data-disabled="true"]
 		):not([data-loading="true"]):hover {
-		background: var(--button-hover, rgba(0, 0, 0, 0.08));
+		background: var(--button-hover);
 		color: var(--primary, currentColor);
 	}
 	.ml-btn--ghost:not(:disabled):not([aria-disabled="true"]):not(
@@ -184,18 +180,14 @@
 		):not([data-loading="true"]):active {
 		background: color-mix(
 			in oklch,
-			var(--button-hover, rgba(0, 0, 0, 0.08)) 82%,
+			var(--button-hover) 82%,
 			var(--primary, currentColor)
 		);
 		color: var(--primary, currentColor);
 	}
 	.ml-btn--ghost[data-loading="true"] {
 		border-color: transparent;
-		background: color-mix(
-			in oklch,
-			var(--button-hover, rgba(0, 0, 0, 0.08)) 42%,
-			transparent
-		);
+		background: color-mix(in oklch, var(--button-hover) 42%, transparent);
 		color: color-mix(
 			in oklch,
 			var(--text-body, currentColor) 72%,
@@ -209,7 +201,7 @@
 		border-color: var(--border);
 		background: color-mix(in oklch, var(--button) 55%, transparent);
 		color: var(--text-muted);
-		opacity: 0.58;
+		opacity: 0.48;
 	}
 
 	.ml-btn--ghost[data-disabled="true"] {
