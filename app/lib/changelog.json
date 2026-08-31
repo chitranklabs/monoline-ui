@@ -1,5 +1,1659 @@
 [
 	{
+		"version": "v0.4.0",
+		"message": null,
+		"commits": [
+			{
+				"id": "ba0238fe570f55f1d0c2ce5208d90b813927d4f9",
+				"message": "improve documentation quality and SEO by refining page titles, descriptions",
+				"body": null,
+				"footers": [],
+				"group": "Refactoring",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788077981
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788077981
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 21,
+					"additions": 208,
+					"deletions": 139
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "refactor: improve documentation quality and SEO by refining page titles, descriptions"
+			},
+			{
+				"id": "70990d750519cbb0c0a5d632f362100c54026e07",
+				"message": "published client boundaries, CSS leakage, token integrity, and package consumer tests",
+				"body": null,
+				"footers": [],
+				"group": "Bug Fixes",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788094122
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788094122
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 13,
+					"additions": 703,
+					"deletions": 322
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "fix: published client boundaries, CSS leakage, token integrity, and package consumer tests"
+			},
+			{
+				"id": "3ae2a2ab3f654c2c196c091310c6f668dac7b1e5",
+				"message": "implement new UI components",
+				"body": null,
+				"footers": [],
+				"group": "Features",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788153165
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788153165
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 132,
+					"additions": 5279,
+					"deletions": 262
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "feat: implement new UI components"
+			},
+			{
+				"id": "7f5131196ef50116383cd86b07cf7af5c56a4878",
+				"message": "unify floating component animations",
+				"body": null,
+				"footers": [],
+				"group": "Features",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788153906
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788153906
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 12,
+					"additions": 248,
+					"deletions": 43
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "feat: unify floating component animations"
+			},
+			{
+				"id": "ce3a53fe57031da817329de496068fa781fd8f62",
+				"message": "modernize CSS layouts and consistent transition tokens across components",
+				"body": null,
+				"footers": [],
+				"group": "Refactoring",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788155928
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788155928
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 23,
+					"additions": 130,
+					"deletions": 131
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "refactor: modernize CSS layouts and consistent transition tokens across components"
+			},
+			{
+				"id": "aa9bcee5d4bb753781484f15e962f12fe3b771fb",
+				"message": "introduce Card.Header and Card.Footer, update hover styles, and refine Eyebrow & Title typo",
+				"body": null,
+				"footers": [],
+				"group": "Features",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788156398
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788156398
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": { "files_changed": 4, "additions": 24, "deletions": 14 },
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "feat: introduce Card.Header and Card.Footer, update hover styles, and refine Eyebrow & Title typo"
+			},
+			{
+				"id": "edd6fea766601c0ffcaacf09f1737aa1c3bae14c",
+				"message": "implement page-specific table of contents in docs shell and update installation page",
+				"body": null,
+				"footers": [],
+				"group": "Features",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788157367
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788157367
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 8,
+					"additions": 245,
+					"deletions": 101
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "feat: implement page-specific table of contents in docs shell and update installation page"
+			},
+			{
+				"id": "46ef1a37457d56083462dfbfee5c99950b1560b7",
+				"message": "fix build pipeline",
+				"body": null,
+				"footers": [],
+				"group": "Maintenance",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788158555
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788158555
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": { "files_changed": 3, "additions": 42, "deletions": 8 },
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "chore: fix build pipeline"
+			},
+			{
+				"id": "646840d0d7069ea55082bfae295740dc887f1046",
+				"message": "added build artifact to gitignore",
+				"body": null,
+				"footers": [],
+				"group": "Maintenance",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788158870
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788158870
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": { "files_changed": 6, "additions": 5, "deletions": 14 },
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "chore: added build artifact to gitignore"
+			}
+		],
+		"commit_id": "646840d0d7069ea55082bfae295740dc887f1046",
+		"timestamp": 1788159167,
+		"previous": {
+			"version": "v0.3.0",
+			"message": null,
+			"commits": [
+				{
+					"id": "db733627a0307e3dbaab42bb1057d346aedaab6f",
+					"message": "chore: Update all major npm dependencies (#40)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "renovate[bot]",
+						"email": "29139614+renovate[bot]@users.noreply.github.com",
+						"timestamp": 1782916838
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1782916838
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore: Update all major npm dependencies (#40)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>"
+				},
+				{
+					"id": "38326ba9c061fdb884f18bda348e04434ce15e77",
+					"message": "chore: Update actions/checkout action to v7.0.0 (#39)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: Chitrank Agnihotri <chitrank2050@gmail.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "renovate[bot]",
+						"email": "29139614+renovate[bot]@users.noreply.github.com",
+						"timestamp": 1782917025
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1782917025
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": { "files_changed": 2, "additions": 2, "deletions": 2 },
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore: Update actions/checkout action to v7.0.0 (#39)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: Chitrank Agnihotri <chitrank2050@gmail.com>"
+				},
+				{
+					"id": "322dfa8b3481691acd1853e9e9ac39e5b4adbda2",
+					"message": "chore: Update github-actions dependencies (#38)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: Chitrank Agnihotri <chitrank2050@gmail.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "renovate[bot]",
+						"email": "29139614+renovate[bot]@users.noreply.github.com",
+						"timestamp": 1782917109
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1782917109
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": { "files_changed": 2, "additions": 3, "deletions": 3 },
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore: Update github-actions dependencies (#38)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: Chitrank Agnihotri <chitrank2050@gmail.com>"
+				},
+				{
+					"id": "3021d502d4b4afcb2f487fe01f13267d1e67edd6",
+					"message": "chore: Update all non-major npm dependencies (#37)\n\n* chore: Update all non-major npm dependencies\n\n* chore: Update all non-major npm dependencies\n\n* chore: Update all non-major npm dependencies\n\n---------\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: chitrank2050 <chitrank2050@gmail.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "renovate[bot]",
+						"email": "29139614+renovate[bot]@users.noreply.github.com",
+						"timestamp": 1782918592
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1782918592
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 4,
+						"additions": 200,
+						"deletions": 205
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore: Update all non-major npm dependencies (#37)\n\n* chore: Update all non-major npm dependencies\n\n* chore: Update all non-major npm dependencies\n\n* chore: Update all non-major npm dependencies\n\n---------\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: chitrank2050 <chitrank2050@gmail.com>"
+				},
+				{
+					"id": "e22477308470ef79f126856931e6714c1370705d",
+					"message": "chore: Update postcss to 8.5.18 [SECURITY] (#43)\n\n* chore: Update postcss to 8.5.23 [SECURITY]\n\n* chore: update workspace dependency overrides and project package versions\n\n---------\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: chitrank2050 <chitrank2050@gmail.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "renovate[bot]",
+						"email": "29139614+renovate[bot]@users.noreply.github.com",
+						"timestamp": 1787921031
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1787921031
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 3,
+						"additions": 326,
+						"deletions": 274
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore: Update postcss to 8.5.18 [SECURITY] (#43)\n\n* chore: Update postcss to 8.5.23 [SECURITY]\n\n* chore: update workspace dependency overrides and project package versions\n\n---------\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: chitrank2050 <chitrank2050@gmail.com>"
+				},
+				{
+					"id": "a22aba64a1fc172178e9db21436fd5178b6647be",
+					"message": "chore: Update all non-major npm dependencies (#45)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: chitrank2050 <chitrank2050@gmail.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "renovate[bot]",
+						"email": "29139614+renovate[bot]@users.noreply.github.com",
+						"timestamp": 1787935662
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1787935662
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 3,
+						"additions": 1070,
+						"deletions": 1000
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore: Update all non-major npm dependencies (#45)\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: chitrank2050 <chitrank2050@gmail.com>"
+				},
+				{
+					"id": "8e8c84bf0246738b812bc46e6c23ef5ea201ebb4",
+					"message": "chore(deps): bump next in the npm_and_yarn group across 1 directory (#47)\n\nBumps the npm_and_yarn group with 1 update in the / directory: [next](https://github.com/vercel/next.js).\n\n\nUpdates `next` from 16.2.9 to 16.2.11\n- [Release notes](https://github.com/vercel/next.js/releases)\n- [Commits](https://github.com/vercel/next.js/compare/v16.2.9...v16.2.11)\n\n---\nupdated-dependencies:\n- dependency-name: next\n  dependency-version: 16.2.11\n  dependency-type: direct:production\n  dependency-group: npm_and_yarn\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "Chitrank Agnihotri",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1787936302
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1787936302
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 2,
+						"additions": 77,
+						"deletions": 72
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore(deps): bump next in the npm_and_yarn group across 1 directory (#47)\n\nBumps the npm_and_yarn group with 1 update in the / directory: [next](https://github.com/vercel/next.js).\n\n\nUpdates `next` from 16.2.9 to 16.2.11\n- [Release notes](https://github.com/vercel/next.js/releases)\n- [Commits](https://github.com/vercel/next.js/compare/v16.2.9...v16.2.11)\n\n---\nupdated-dependencies:\n- dependency-name: next\n  dependency-version: 16.2.11\n  dependency-type: direct:production\n  dependency-group: npm_and_yarn\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>"
+				},
+				{
+					"id": "3f43881ae1ba717f0f2b4d1ddeb398c6c25d25b5",
+					"message": "feat: implement comprehensive SEO enhancements",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1787976638
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1787976638
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 70,
+						"additions": 929,
+						"deletions": 504
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "feat: implement comprehensive SEO enhancements"
+				},
+				{
+					"id": "50e2f778bcb2f463dec5700c37d592e1ee87f25d",
+					"message": "feat: implement ChangelogTimeline component for rendering git-cliff formatted release logs",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1787989296
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1787989296
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 18,
+						"additions": 851,
+						"deletions": 1
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "feat: implement ChangelogTimeline component for rendering git-cliff formatted release logs"
+				},
+				{
+					"id": "9fa9dccb4895b03ff908ac47f617894599ddff5f",
+					"message": "feat: implement changelog page with navigation, table of contents, and data integration",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788018336
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788018336
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 14,
+						"additions": 32812,
+						"deletions": 84
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "feat: implement changelog page with navigation, table of contents, and data integration"
+				},
+				{
+					"id": "735d993f1d5d8380e6fc2fc526123811be4738c9",
+					"message": "feat: better SEO",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788057548
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788057548
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 56,
+						"additions": 1749,
+						"deletions": 204
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "feat: better SEO"
+				},
+				{
+					"id": "64bd12d26ba364d3cf72b2cfc074f4bbbf8c9000",
+					"message": "refactor: refine component documentation guidance, and improve SEO/JSON-LD metadata consistency",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788059605
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788059605
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 14,
+						"additions": 593,
+						"deletions": 239
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "refactor: refine component documentation guidance, and improve SEO/JSON-LD metadata consistency"
+				},
+				{
+					"id": "fb4e9ccbbeacef7c04950293c4ec50845c503af3",
+					"message": "feat: enhance component playground with DataList and LinkList documentation views",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788063793
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788063793
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 4,
+						"additions": 74,
+						"deletions": 39
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "feat: enhance component playground with DataList and LinkList documentation views"
+				},
+				{
+					"id": "4e085bc97fbb3f7db5447ed9b3b4d0ce5af0ce9f",
+					"message": "feat: automate changelog JSON generation and include in release commit and formatting process",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788069016
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788069016
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": { "files_changed": 1, "additions": 10, "deletions": 1 },
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "feat: automate changelog JSON generation and include in release commit and formatting process"
+				},
+				{
+					"id": "f9a6fbfecf8d149eb50a239da23b751bde209d37",
+					"message": "refactor: redesign Tag component while introducing a changelog feed",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788076864
+					},
+					"committer": {
+						"name": "chitrank2050",
+						"email": "chitrank2050@gmail.com",
+						"timestamp": 1788076864
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 19,
+						"additions": 1223,
+						"deletions": 202
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "refactor: redesign Tag component while introducing a changelog feed"
+				},
+				{
+					"id": "7cd6c176e71dcc5dc698951619191351b12be2e8",
+					"message": "chore(release): bump version to v0.3.0 (#48)\n\nCo-authored-by: chitrank2050 <13078364+chitrank2050@users.noreply.github.com>",
+					"group": null,
+					"scope": null,
+					"links": [],
+					"author": {
+						"name": "chitrank-actions[bot]",
+						"email": "279256889+chitrank-actions[bot]@users.noreply.github.com",
+						"timestamp": 1788069304
+					},
+					"committer": {
+						"name": "GitHub",
+						"email": "noreply@github.com",
+						"timestamp": 1788069304
+					},
+					"conventional": false,
+					"merge_commit": false,
+					"statistics": {
+						"files_changed": 5,
+						"additions": 10710,
+						"deletions": 10397
+					},
+					"extra": null,
+					"github": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitlab": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"gitea": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"bitbucket": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"azure_devops": {
+						"username": null,
+						"pr_title": null,
+						"pr_number": null,
+						"pr_labels": [],
+						"is_first_time": false
+					},
+					"raw_message": "chore(release): bump version to v0.3.0 (#48)\n\nCo-authored-by: chitrank2050 <13078364+chitrank2050@users.noreply.github.com>"
+				}
+			],
+			"commit_id": "7cd6c176e71dcc5dc698951619191351b12be2e8",
+			"timestamp": 1788069304,
+			"previous": null,
+			"repository": "/home/runner/work/monoline-ui/monoline-ui",
+			"commit_range": null,
+			"submodule_commits": {},
+			"statistics": null,
+			"extra": null,
+			"bump_type": null,
+			"github": { "contributors": [] },
+			"gitlab": { "contributors": [] },
+			"gitea": { "contributors": [] },
+			"bitbucket": { "contributors": [] },
+			"azure_devops": { "contributors": [] }
+		},
+		"repository": "/home/runner/work/monoline-ui/monoline-ui",
+		"commit_range": {
+			"from": "1499ffa2bf2239df9e406ca756242cb8666f5bcc",
+			"to": "646840d0d7069ea55082bfae295740dc887f1046"
+		},
+		"submodule_commits": {},
+		"statistics": {
+			"commit_count": 9,
+			"commits_timespan": 1,
+			"conventional_commit_count": 9,
+			"links": [],
+			"days_passed_since_last_release": 1
+		},
+		"extra": null,
+		"bump_type": null,
+		"github": {
+			"contributors": [
+				{
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				}
+			]
+		},
+		"gitlab": { "contributors": [] },
+		"gitea": { "contributors": [] },
+		"bitbucket": { "contributors": [] },
+		"azure_devops": { "contributors": [] }
+	},
+	{
 		"version": "v0.3.0",
 		"message": null,
 		"commits": [
@@ -986,10 +2640,82 @@
 					"is_first_time": false
 				},
 				"raw_message": "feat: automate changelog JSON generation and include in release commit and formatting process"
+			},
+			{
+				"id": "f9a6fbfecf8d149eb50a239da23b751bde209d37",
+				"message": "redesign Tag component while introducing a changelog feed",
+				"body": null,
+				"footers": [],
+				"group": "Refactoring",
+				"breaking_description": null,
+				"breaking": false,
+				"scope": null,
+				"links": [],
+				"author": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788076864
+				},
+				"committer": {
+					"name": "chitrank2050",
+					"email": "chitrank2050@gmail.com",
+					"timestamp": 1788076864
+				},
+				"conventional": true,
+				"merge_commit": false,
+				"statistics": {
+					"files_changed": 19,
+					"additions": 1223,
+					"deletions": 202
+				},
+				"extra": null,
+				"github": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitlab": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"gitea": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"bitbucket": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"azure_devops": {
+					"username": null,
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"remote": {
+					"username": "chitrank2050",
+					"pr_title": null,
+					"pr_number": null,
+					"pr_labels": [],
+					"is_first_time": false
+				},
+				"raw_message": "refactor: redesign Tag component while introducing a changelog feed"
 			}
 		],
-		"commit_id": "4e085bc97fbb3f7db5447ed9b3b4d0ce5af0ce9f",
-		"timestamp": 1788069157,
+		"commit_id": "7cd6c176e71dcc5dc698951619191351b12be2e8",
+		"timestamp": 1788069304,
 		"previous": {
 			"version": "v0.2.3",
 			"message": null,
@@ -1127,13 +2853,13 @@
 		"repository": "/home/runner/work/monoline-ui/monoline-ui",
 		"commit_range": {
 			"from": "db733627a0307e3dbaab42bb1057d346aedaab6f",
-			"to": "4e085bc97fbb3f7db5447ed9b3b4d0ce5af0ce9f"
+			"to": "7cd6c176e71dcc5dc698951619191351b12be2e8"
 		},
 		"submodule_commits": {},
 		"statistics": {
-			"commit_count": 13,
+			"commit_count": 14,
 			"commits_timespan": 60,
-			"conventional_commit_count": 13,
+			"conventional_commit_count": 14,
 			"links": [],
 			"days_passed_since_last_release": 62
 		},
@@ -1146,6 +2872,19 @@
 					"pr_title": null,
 					"pr_number": null,
 					"pr_labels": [],
+					"is_first_time": false
+				},
+				{
+					"username": "chitrank-actions[bot]",
+					"pr_title": "chore(release): 🚀 v0.3.0",
+					"pr_number": 48,
+					"pr_labels": [
+						"chore",
+						"release",
+						"area/docs",
+						"area/playground",
+						"area/deps"
+					],
 					"is_first_time": false
 				},
 				{
@@ -30897,70 +32636,6 @@
 				"raw_message": "refactor: add JSDoc modules and improve TypeScript component type definitions across the library"
 			},
 			{
-				"id": "c5c8ff2707db9b683af8174e5bd6ba4cbf3316ea",
-				"message": "Revert \"chore(release): bump version to v0.1.1 (#29)\" (#30)\n\nThis reverts commit 479cd40493509409c03672cd0d4b30ac45c7759c.",
-				"group": "Miscellaneous Tasks",
-				"scope": null,
-				"links": [],
-				"author": {
-					"name": "Chitrank Agnihotri",
-					"email": "chitrank2050@gmail.com",
-					"timestamp": 1782445292
-				},
-				"committer": {
-					"name": "GitHub",
-					"email": "noreply@github.com",
-					"timestamp": 1782445292
-				},
-				"conventional": false,
-				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 4, "deletions": 9 },
-				"extra": null,
-				"github": {
-					"username": "chitrank2050",
-					"pr_title": "Revert \"chore(release): 🚀 v0.1.1\"",
-					"pr_number": 30,
-					"pr_labels": [],
-					"is_first_time": false
-				},
-				"gitlab": {
-					"username": null,
-					"pr_title": null,
-					"pr_number": null,
-					"pr_labels": [],
-					"is_first_time": false
-				},
-				"gitea": {
-					"username": null,
-					"pr_title": null,
-					"pr_number": null,
-					"pr_labels": [],
-					"is_first_time": false
-				},
-				"bitbucket": {
-					"username": null,
-					"pr_title": null,
-					"pr_number": null,
-					"pr_labels": [],
-					"is_first_time": false
-				},
-				"azure_devops": {
-					"username": null,
-					"pr_title": null,
-					"pr_number": null,
-					"pr_labels": [],
-					"is_first_time": false
-				},
-				"remote": {
-					"username": "chitrank2050",
-					"pr_title": "Revert \"chore(release): 🚀 v0.1.1\"",
-					"pr_number": 30,
-					"pr_labels": [],
-					"is_first_time": false
-				},
-				"raw_message": "Revert \"chore(release): bump version to v0.1.1 (#29)\" (#30)\n\nThis reverts commit 479cd40493509409c03672cd0d4b30ac45c7759c."
-			},
-			{
 				"id": "a90795e345ad1593d6945954979842737ab90205",
 				"message": "modernize Rail component with dedicated CSS and add focus support to code blocks",
 				"body": null,
@@ -32766,7 +34441,7 @@
 		},
 		"submodule_commits": {},
 		"statistics": {
-			"commit_count": 235,
+			"commit_count": 234,
 			"commits_timespan": 90,
 			"conventional_commit_count": 234,
 			"links": []
