@@ -1,5 +1,7 @@
 import type * as React from "react"
 
+import type * as PopoverPrimitive from "@radix-ui/react-popover"
+
 export type SelectSize = "sm" | "md" | "lg"
 export type SelectVariant = "default" | "ghost"
 
@@ -39,8 +41,23 @@ export type SelectValueProps = React.ComponentProps<"span">
 
 export type SelectLabelProps = React.ComponentProps<"span">
 
-export interface SelectContentProps extends React.ComponentProps<"div"> {
+type SelectPositioningProps = Pick<
+	React.ComponentProps<typeof PopoverPrimitive.Content>,
+	| "align"
+	| "alignOffset"
+	| "avoidCollisions"
+	| "collisionBoundary"
+	| "collisionPadding"
+	| "hideWhenDetached"
+	| "side"
+	| "sideOffset"
+	| "sticky"
+>
+
+export interface SelectContentProps
+	extends React.ComponentProps<"div">, SelectPositioningProps {
 	children?: React.ReactNode
+	container?: HTMLElement | null
 }
 
 export interface SelectItemProps extends Omit<

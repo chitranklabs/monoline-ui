@@ -19,6 +19,7 @@ const DESC_CLASSES = {
 export function SelectItem({
 	className,
 	description,
+	id,
 	onClick,
 	value,
 	disabled,
@@ -28,6 +29,7 @@ export function SelectItem({
 }: SelectItemProps): React.ReactElement {
 	const {
 		isMobile,
+		listboxId,
 		onChange,
 		setOpen,
 		size,
@@ -38,9 +40,11 @@ export function SelectItem({
 	return (
 		<button
 			ref={ref}
+			id={id ?? `${listboxId}-option-${value}`}
 			type="button"
 			role="option"
 			aria-selected={selected}
+			aria-disabled={disabled || undefined}
 			disabled={disabled}
 			data-selected={selected}
 			data-mobile={isMobile || undefined}
@@ -73,7 +77,7 @@ export function SelectItem({
 			<span
 				aria-hidden="true"
 				className={cn(
-					"ml-select__check shrink-0 text-accent opacity-0 transition-opacity duration-(--duration-micro) ease-out",
+					"ml-select__check shrink-0 opacity-0 transition-opacity duration-(--duration-micro) ease-out",
 					selected && "opacity-100"
 				)}
 			>

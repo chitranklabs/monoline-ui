@@ -1,0 +1,22 @@
+/* Hallmark · component: label · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-label {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--ml-space-1-5);
+		color: var(--text-primary);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: var(--tracking-body);
+		line-height: var(--leading-tight);
+		cursor: pointer;
+	}
+
+	.ml-label:has(+ :disabled),
+	.ml-label[data-disabled="true"] {
+		color: var(--text-muted);
+		cursor: not-allowed;
+	}
+}

@@ -1,0 +1,60 @@
+/* Hallmark · component: popover · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-popover__content {
+		z-index: var(--z-dropdown);
+		min-width: 12rem;
+		max-width: min(24rem, calc(100vw - var(--ml-space-6)));
+		max-block-size: var(--radix-popover-content-available-height);
+		overflow: auto;
+		overscroll-behavior: contain;
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-md);
+		padding: var(--ml-space-4);
+		background: var(--popover);
+		color: var(--popover-foreground);
+		box-shadow: var(--shadow-md);
+		transform-origin: var(--radix-popover-content-transform-origin);
+		animation: ml-popover-content-enter var(--duration-fast) var(--ease-out)
+			both;
+	}
+
+	.ml-popover__content:focus-visible {
+		outline: none;
+		box-shadow: var(--shadow-md), var(--focus-ring);
+	}
+
+	.ml-popover__arrow {
+		display: block;
+		fill: var(--popover);
+		stroke: var(--border-strong);
+	}
+
+	/* Mask the closed SVG base so the surface border flows into the arrow. */
+	.ml-popover__content > span:has(> .ml-popover__arrow) {
+		z-index: 1;
+	}
+
+	.ml-popover__content > span:has(> .ml-popover__arrow)::after {
+		position: absolute;
+		inset-block-start: calc(0px - var(--border-thin));
+		inset-inline: var(--border-thin);
+		block-size: calc(var(--border-thin) + var(--border-thin));
+		background: var(--popover);
+		content: "";
+		pointer-events: none;
+	}
+
+	@keyframes ml-popover-content-enter {
+		from {
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ml-popover__content {
+			animation: none;
+		}
+	}
+}

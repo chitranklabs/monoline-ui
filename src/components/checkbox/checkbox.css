@@ -1,0 +1,83 @@
+/* Hallmark · component: checkbox · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-checkbox {
+		display: inline-grid;
+		inline-size: var(--ml-space-5);
+		block-size: var(--ml-space-5);
+		flex: 0 0 auto;
+		place-items: center;
+		padding: 0;
+		border: var(--border-thin) solid var(--border-strong);
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		color: var(--accent-foreground);
+		cursor: pointer;
+		outline: none;
+		transition:
+			background-color var(--duration-micro) var(--ease-out),
+			border-color var(--duration-micro) var(--ease-out),
+			transform var(--duration-micro) var(--ease-out);
+	}
+	.ml-checkbox:hover:not(:disabled) {
+		border-color: var(--accent);
+		background: var(--surface-2);
+	}
+	.ml-checkbox:active:not(:disabled) {
+		transform: scale(0.94);
+	}
+	.ml-checkbox:focus-visible {
+		box-shadow: var(--focus-ring);
+	}
+	.ml-checkbox[data-state="checked"],
+	.ml-checkbox[data-state="indeterminate"] {
+		border-color: var(--accent);
+		background: var(--accent);
+	}
+	.ml-checkbox[data-state="checked"]:hover:not(:disabled),
+	.ml-checkbox[data-state="indeterminate"]:hover:not(:disabled) {
+		background: color-mix(in oklch, var(--accent) 88%, var(--text));
+	}
+	.ml-checkbox:disabled {
+		cursor: not-allowed;
+		opacity: 0.48;
+	}
+	.ml-checkbox__indicator {
+		display: grid;
+		inline-size: 100%;
+		block-size: 100%;
+		place-items: center;
+	}
+	.ml-checkbox__indicator svg {
+		inline-size: var(--ml-space-4);
+		block-size: var(--ml-space-4);
+	}
+	.ml-checkbox__indicator[data-state="checked"],
+	.ml-checkbox__indicator[data-state="indeterminate"] {
+		animation: ml-checkbox-indicator-enter var(--duration-fast)
+			var(--ease-out-expo);
+	}
+	.ml-checkbox__indeterminate {
+		display: none;
+	}
+	.ml-checkbox__indicator[data-state="indeterminate"] .ml-checkbox__check {
+		display: none;
+	}
+	.ml-checkbox__indicator[data-state="indeterminate"]
+		.ml-checkbox__indeterminate {
+		display: block;
+	}
+	@keyframes ml-checkbox-indicator-enter {
+		from {
+			opacity: 0;
+			transform: scale(0.72);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.ml-checkbox__indicator[data-state="checked"],
+		.ml-checkbox__indicator[data-state="indeterminate"] {
+			animation: none;
+		}
+	}
+}

@@ -7,35 +7,45 @@ export const componentSlugs = [
 	"callout",
 	"card",
 	"changelog",
+	"checkbox",
 	"code-block",
 	"command-search",
 	"container",
 	"data-list",
+	"dialog",
+	"dropdown-menu",
 	"editorial-line",
 	"eyebrow",
+	"field",
 	"footer",
 	"input",
+	"label",
 	"link-list",
 	"media-frame",
 	"meta-row",
 	"metric",
 	"navbar",
+	"popover",
 	"progress",
 	"pull-quote",
+	"radio-group",
 	"rail",
 	"resources-panel",
 	"section-head",
 	"segmented-control",
 	"select",
+	"separator",
 	"skeleton",
 	"status",
 	"tag",
 	"testimonial",
 	"testimonial-grid",
+	"textarea",
 	"theme-switcher",
 	"toast",
 	"toc",
 	"toggle",
+	"tooltip",
 ] as const
 
 export type ComponentSlug = (typeof componentSlugs)[number]
@@ -49,6 +59,106 @@ interface ComponentGuidance {
 }
 
 export const componentGuidance = {
+	checkbox: {
+		runtime: "client",
+		whenToUse:
+			"Checkbox represents an independent yes-or-no choice or a group-level indeterminate state.",
+		whenToAvoid:
+			"The available choices are mutually exclusive, or one switch changes a setting immediately.",
+		accessibility:
+			"Checkbox provides keyboard and checked-state semantics. Pair it with a visible Label and associate any description or validation message explicitly.",
+		related: ["field", "radio-group"],
+	},
+	dialog: {
+		runtime: "client",
+		whenToUse:
+			"Dialog is appropriate when a focused task must temporarily interrupt the page and keep interaction inside a modal surface.",
+		whenToAvoid:
+			"The content can remain in the normal page flow or only needs lightweight context beside a trigger.",
+		accessibility:
+			"Dialog traps focus, makes background content inert, closes on Escape, and restores focus. Every dialog still needs a Dialog.Title and useful description when context is not obvious.",
+		related: ["popover", "command-search"],
+	},
+	"dropdown-menu": {
+		runtime: "client",
+		whenToUse:
+			"DropdownMenu groups secondary actions that belong to one trigger and benefit from compact keyboard navigation.",
+		whenToAvoid:
+			"The choices are form values, primary navigation, or important enough to remain visible without opening a menu.",
+		accessibility:
+			"DropdownMenu supplies menu roles, roving focus, typeahead, Escape handling, and focus restoration. Item labels must describe actions rather than destinations ambiguously.",
+		related: ["popover", "button"],
+	},
+	field: {
+		runtime: "server",
+		whenToUse:
+			"Field keeps a label, control, supporting description, and validation message together as one form unit.",
+		whenToAvoid:
+			"The content is not a form control or the layout would hide a required label and error relationship.",
+		accessibility:
+			"Field preserves native child semantics. Connect Label with htmlFor, then wire Field.Description and Field.Error IDs through aria-describedby and expose invalid state on the control.",
+		related: ["label", "input"],
+	},
+	label: {
+		runtime: "client",
+		whenToUse:
+			"Label gives a form control a visible name and lets pointer users focus or activate that control from its text.",
+		whenToAvoid:
+			"The text is only a heading, helper copy, or a visual caption for content that is not a form control.",
+		accessibility:
+			"Set htmlFor to the associated control ID unless the control is nested. Keep the visible wording specific and do not rely on placeholder text as the label.",
+		related: ["field", "input"],
+	},
+	popover: {
+		runtime: "client",
+		whenToUse:
+			"Popover places contextual controls or supporting information beside a trigger without blocking the rest of the page.",
+		whenToAvoid:
+			"The task must be modal, the content is only a short text hint, or the information should remain visible in the document.",
+		accessibility:
+			"Popover manages outside dismissal, Escape, collision positioning, and focus return. Its trigger needs a clear accessible name and its content needs a logical focus order.",
+		related: ["dialog", "tooltip"],
+	},
+	"radio-group": {
+		runtime: "client",
+		whenToUse:
+			"RadioGroup presents a visible set of mutually exclusive choices where comparing options before selection is useful.",
+		whenToAvoid:
+			"People may select several options, or a long option list would be easier to scan in a compact Select.",
+		accessibility:
+			"RadioGroup provides radio roles and arrow-key navigation. Give the group an accessible label and use each item's label prop or an explicitly associated label.",
+		related: ["field", "checkbox"],
+	},
+	separator: {
+		runtime: "client",
+		whenToUse:
+			"Separator creates a quiet visual or semantic boundary between adjacent sections, items, or control groups.",
+		whenToAvoid:
+			"Spacing alone explains the grouping, or a heading and section boundary would communicate the structure more clearly.",
+		accessibility:
+			"Separator is decorative by default and stays out of the accessibility tree. Set decorative to false only when the divider carries structural meaning.",
+		related: ["section-head", "data-list"],
+	},
+	textarea: {
+		runtime: "server",
+		whenToUse:
+			"Textarea collects prose, notes, messages, or any value that reasonably needs more than one line.",
+		whenToAvoid:
+			"The value is short and predictable, needs rich-text editing, or should be chosen from predefined options.",
+		accessibility:
+			"Textarea keeps native semantics. Pair it with Label, expose invalid state with aria-invalid, and associate descriptions and errors through aria-describedby.",
+		related: ["field", "input"],
+	},
+	tooltip: {
+		runtime: "client",
+		whenToUse:
+			"Tooltip adds a short explanation to a focusable control when the interface cannot show that supporting context persistently.",
+		whenToAvoid:
+			"The text is essential, interactive, lengthy, or being used instead of a control's accessible name.",
+		accessibility:
+			"Tooltip opens for pointer and keyboard focus and closes on Escape. The trigger must remain focusable and understandable without relying on the tooltip alone.",
+		related: ["popover", "button"],
+	},
 	"action-rail": {
 		runtime: "server",
 		whenToUse:

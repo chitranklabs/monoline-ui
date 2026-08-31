@@ -28,25 +28,34 @@
 			"@chitrank2050/monoline-ui/callout": ["./src/components/callout"],
 			"@chitrank2050/monoline-ui/card": ["./src/components/card"],
 			"@chitrank2050/monoline-ui/changelog": ["./src/components/changelog"],
+			"@chitrank2050/monoline-ui/checkbox": ["./src/components/checkbox"],
 			"@chitrank2050/monoline-ui/code-block": ["./src/components/code-block"],
 			"@chitrank2050/monoline-ui/command-search": [
 				"./src/components/command-search"
 			],
 			"@chitrank2050/monoline-ui/container": ["./src/components/container"],
 			"@chitrank2050/monoline-ui/data-list": ["./src/components/data-list"],
+			"@chitrank2050/monoline-ui/dialog": ["./src/components/dialog"],
+			"@chitrank2050/monoline-ui/dropdown-menu": [
+				"./src/components/dropdown-menu"
+			],
 			"@chitrank2050/monoline-ui/editorial-line": [
 				"./src/components/editorial-line"
 			],
 			"@chitrank2050/monoline-ui/eyebrow": ["./src/components/eyebrow"],
+			"@chitrank2050/monoline-ui/field": ["./src/components/field"],
 			"@chitrank2050/monoline-ui/footer": ["./src/components/footer"],
 			"@chitrank2050/monoline-ui/input": ["./src/components/input"],
+			"@chitrank2050/monoline-ui/label": ["./src/components/label"],
 			"@chitrank2050/monoline-ui/link-list": ["./src/components/link-list"],
 			"@chitrank2050/monoline-ui/media-frame": ["./src/components/media-frame"],
 			"@chitrank2050/monoline-ui/meta-row": ["./src/components/meta-row"],
 			"@chitrank2050/monoline-ui/metric": ["./src/components/metric"],
 			"@chitrank2050/monoline-ui/navbar": ["./src/components/navbar"],
+			"@chitrank2050/monoline-ui/popover": ["./src/components/popover"],
 			"@chitrank2050/monoline-ui/progress": ["./src/components/progress"],
 			"@chitrank2050/monoline-ui/pull-quote": ["./src/components/pull-quote"],
+			"@chitrank2050/monoline-ui/radio-group": ["./src/components/radio-group"],
 			"@chitrank2050/monoline-ui/rail": ["./src/components/rail"],
 			"@chitrank2050/monoline-ui/resources-panel": [
 				"./src/components/resources-panel"
@@ -58,6 +67,7 @@
 				"./src/components/segmented-control"
 			],
 			"@chitrank2050/monoline-ui/select": ["./src/components/select"],
+			"@chitrank2050/monoline-ui/separator": ["./src/components/separator"],
 			"@chitrank2050/monoline-ui/skeleton": ["./src/components/skeleton"],
 			"@chitrank2050/monoline-ui/status": ["./src/components/status"],
 			"@chitrank2050/monoline-ui/tag": ["./src/components/tag"],
@@ -65,12 +75,14 @@
 			"@chitrank2050/monoline-ui/testimonial-grid": [
 				"./src/components/testimonial-grid"
 			],
+			"@chitrank2050/monoline-ui/textarea": ["./src/components/textarea"],
 			"@chitrank2050/monoline-ui/theme-switcher": [
 				"./src/components/theme-switcher"
 			],
 			"@chitrank2050/monoline-ui/toast": ["./src/components/toast"],
 			"@chitrank2050/monoline-ui/toc": ["./src/components/toc"],
 			"@chitrank2050/monoline-ui/toggle": ["./src/components/toggle"],
+			"@chitrank2050/monoline-ui/tooltip": ["./src/components/tooltip"],
 			"@chitrank2050/monoline-ui/*": ["./src/*"]
 		},
 		"esModuleInterop": true,

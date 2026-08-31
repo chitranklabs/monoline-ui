@@ -12,7 +12,9 @@ import {
 } from "react"
 
 import { useBreakpoint } from "../../foundations/use-breakpoint"
-import { cn, composeRefs } from "../../lib/utils"
+import { cn } from "../../lib/utils"
+import { Dialog } from "../dialog"
+import { Popover } from "../popover"
 import type {
 	SelectOption,
 	SelectRootProps,
@@ -73,7 +75,6 @@ export function SelectRoot<T extends string>({
 	const [internalOpen, setInternalOpen] = useState(defaultOpen)
 	const [activeIndex, setActiveIndex] = useState(-1)
 	const breakpoint = useBreakpoint("desktop")
-	const rootRef = useRef<HTMLDivElement>(null)
 	const triggerRef = useRef<HTMLButtonElement>(null)
 	const listboxId = useId()
 	const isMobile = breakpoint === "mobile"
@@ -93,48 +94,25 @@ export function SelectRoot<T extends string>({
 		(nextOpen: boolean) => {
 			if (nextOpen) {
 				const idx = (options as SelectOption[]).findIndex(
-					(o) => o.value === value
+					(option) => option.value === value && !option.disabled
 				)
-				setActiveIndex(idx >= 0 ? idx : 0)
-			} else if (open) {
-				triggerRef.current?.focus()
+				const firstEnabled = (options as SelectOption[]).findIndex(
+					(option) => !option.disabled
+				)
+				setActiveIndex(idx >= 0 ? idx : firstEnabled)
 			}
 			if (openProp === undefined) {
 				setInternalOpen(nextOpen)
 			}
 			onOpenChangeRef.current?.(nextOpen)
 		},
-		[open, openProp, options, value]
+		[openProp, options, value]
 	)
 
 	const selectedOption = useMemo(
 		() => options.find((option) => option.value === value),
 		[options, value]
 	)
-
-	useEffect(() => {
-		if (!open) return
-
-		const handlePointerDown = (event: PointerEvent) => {
-			if (!rootRef.current?.contains(event.target as Node)) {
-				setOpen(false)
-			}
-		}
-
-		const handleEscape = (event: KeyboardEvent) => {
-			if (event.key === "Escape") {
-				setOpen(false)
-			}
-		}
-
-		document.addEventListener("pointerdown", handlePointerDown)
-		document.addEventListener("keydown", handleEscape)
-
-		return () => {
-			document.removeEventListener("pointerdown", handlePointerDown)
-			document.removeEventListener("keydown", handleEscape)
-		}
-	}, [open, setOpen])
 
 	const prevBreakpointRef = useRef(breakpoint)
 	useEffect(() => {
@@ -183,16 +161,21 @@ export function SelectRoot<T extends string>({
 	)
 
 	return (
-		<SelectContext.Provider value={contextValue}>
-			<div
-				ref={composeRefs(rootRef, ref)}
-				data-open={open}
-				data-size={size}
-				className={cn("ml-select relative inline-flex", className)}
-				{...props}
-			>
-				{children}
-			</div>
-		</SelectContext.Provider>
+		<Dialog open={isMobile && open} onOpenChange={setOpen}>
+			<Popover open={!isMobile && open} onOpenChange={setOpen}>
+				<SelectContext.Provider value={contextValue}>
+					<div
+						ref={ref}
+						data-open={open}
+						data-size={size}
+						data-variant={variant}
+						className={cn("ml-select relative inline-flex", className)}
+						{...props}
+					>
+						{children}
+					</div>
+				</SelectContext.Provider>
+			</Popover>
+		</Dialog>
 	)
 }

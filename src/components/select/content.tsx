@@ -2,16 +2,29 @@
 
 import { useCallback, useEffect, useRef } from "react"
 
+import { anchoredFloatingDefaults } from "../../lib/floating"
 import { cn, composeRefs } from "../../lib/utils"
+import { Dialog } from "../dialog"
+import { Popover } from "../popover"
 import { SelectItem } from "./item"
 import { useSelectContext } from "./root"
 import type { SelectContentProps } from "./types"
 
 export function SelectContent({
+	align = "start",
+	alignOffset = 0,
+	avoidCollisions = anchoredFloatingDefaults.avoidCollisions,
 	children,
 	className,
+	collisionBoundary,
+	collisionPadding = anchoredFloatingDefaults.collisionPadding,
+	container,
+	hideWhenDetached = anchoredFloatingDefaults.hideWhenDetached,
 	onKeyDown,
 	ref,
+	side = "bottom",
+	sideOffset = 6,
+	sticky = anchoredFloatingDefaults.sticky,
 	...props
 }: SelectContentProps): React.ReactElement | null {
 	const {
@@ -24,6 +37,8 @@ export function SelectContent({
 		setActiveIndex,
 		setOpen,
 		sheetLabel,
+		size,
+		triggerRef,
 	} = useSelectContext()
 	const listboxRef = useRef<HTMLDivElement>(null)
 	const searchBuffer = useRef("")
@@ -53,29 +68,7 @@ export function SelectContent({
 		if (open) listboxRef.current?.focus()
 	}, [open])
 
-	useEffect(() => {
-		if (!open || !isMobile) return
-
-		const handleMobileTab = (e: KeyboardEvent) => {
-			if (e.key !== "Tab") return
-			const cancelBtn = listboxRef.current
-				?.closest(".ml-select__sheet-stack")
-				?.querySelector(".ml-select__sheet-cancel") as HTMLElement | null
-			if (!cancelBtn || !listboxRef.current) return
-
-			const active = document.activeElement
-			if (e.shiftKey && active === listboxRef.current) {
-				e.preventDefault()
-				cancelBtn.focus()
-			} else if (!e.shiftKey && active === cancelBtn) {
-				e.preventDefault()
-				listboxRef.current.focus()
-			}
-		}
-
-		document.addEventListener("keydown", handleMobileTab)
-		return () => document.removeEventListener("keydown", handleMobileTab)
-	}, [open, isMobile])
+	useEffect(() => () => clearTimeout(searchTimeout.current), [])
 
 	const handleKeyDown = useCallback(
 		(e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -188,56 +181,80 @@ export function SelectContent({
 
 	if (isMobile) {
 		return (
-			<div className="ml-select__mobile-layer fixed inset-0 z-50 sm:hidden">
-				<button
-					type="button"
-					aria-label="Close select"
-					className="ml-select__backdrop absolute inset-0"
-					onClick={() => setOpen(false)}
-				/>
-				<div className="ml-select__sheet-stack absolute inset-x-ml-3 bottom-ml-3">
-					<div
-						ref={composeRefs(listboxRef, ref)}
-						id={listboxId}
-						role="listbox"
-						tabIndex={0}
-						aria-activedescendant={activeOptionId}
-						data-state="open"
-						className={cn("ml-select__sheet", className)}
-						onKeyDown={handleKeyDown}
-						{...props}
-					>
-						<div className="ml-select__sheet-handle-wrap">
-							<div className="ml-select__sheet-handle" />
+			<Dialog.Content
+				asChild
+				aria-describedby={undefined}
+				overlayClassName="ml-select__backdrop"
+			>
+				<div className="ml-select__mobile-layer fixed inset-0 z-50 sm:hidden">
+					<div className="ml-select__sheet-stack absolute inset-x-ml-3 bottom-ml-3">
+						<div
+							ref={composeRefs(listboxRef, ref)}
+							id={listboxId}
+							role="listbox"
+							tabIndex={0}
+							aria-activedescendant={activeOptionId}
+							data-state="open"
+							data-size={size}
+							className={cn("ml-select__sheet", className)}
+							onKeyDown={handleKeyDown}
+							{...props}
+						>
+							<div className="ml-select__sheet-handle-wrap">
+								<div className="ml-select__sheet-handle" />
+							</div>
+							<Dialog.Title asChild>
+								<div className="ml-select__sheet-label">{sheetLabel}</div>
+							</Dialog.Title>
+							<div className="ml-select__list">{contentChildren}</div>
 						</div>
-						<div className="ml-select__sheet-label">{sheetLabel}</div>
-						<div className="ml-select__list">{contentChildren}</div>
+						<Dialog.Close asChild>
+							<button type="button" className="ml-select__sheet-cancel">
+								Cancel
+							</button>
+						</Dialog.Close>
 					</div>
-					<button
-						type="button"
-						className="ml-select__sheet-cancel"
-						onClick={() => setOpen(false)}
-					>
-						Cancel
-					</button>
 				</div>
-			</div>
+			</Dialog.Content>
 		)
 	}
 
 	return (
-		<div
-			ref={composeRefs(listboxRef, ref)}
-			id={listboxId}
-			role="listbox"
-			tabIndex={0}
-			aria-activedescendant={activeOptionId}
-			data-state="open"
-			className={cn("ml-select__content", className)}
-			onKeyDown={handleKeyDown}
-			{...props}
+		<Popover.Content
+			asChild
+			align={align}
+			alignOffset={alignOffset}
+			avoidCollisions={avoidCollisions}
+			collisionBoundary={collisionBoundary}
+			collisionPadding={collisionPadding}
+			container={container}
+			hideWhenDetached={hideWhenDetached}
+			side={side}
+			sideOffset={sideOffset}
+			sticky={sticky}
+			onOpenAutoFocus={(event) => {
+				event.preventDefault()
+				listboxRef.current?.focus()
+			}}
+			onCloseAutoFocus={(event) => {
+				event.preventDefault()
+				triggerRef.current?.focus()
+			}}
 		>
-			<div className="ml-select__list">{contentChildren}</div>
-		</div>
+			<div
+				ref={composeRefs(listboxRef, ref)}
+				id={listboxId}
+				role="listbox"
+				tabIndex={0}
+				aria-activedescendant={activeOptionId}
+				data-state="open"
+				data-size={size}
+				className={cn("ml-select__content", className)}
+				onKeyDown={handleKeyDown}
+				{...props}
+			>
+				<div className="ml-select__list">{contentChildren}</div>
+			</div>
+		</Popover.Content>
 	)
 }

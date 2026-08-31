@@ -7,12 +7,16 @@ import { useRouter } from "next/navigation"
 
 import { Command } from "cmdk"
 
-import { componentNavGroups, foundationsNav } from "../lib/docs-nav"
+import { componentNavGroups, foundationsNav, guidesNav } from "../lib/docs-nav"
 
 /* ── Search index ─────────────────────────────────────── */
 const TOP_PAGES = [
 	{ label: "Introduction", href: "/" },
 	{ label: "Installation", href: "/installation" },
+	...guidesNav.map((item) => ({
+		label: item.label,
+		href: item.href ?? "#",
+	})),
 	{ label: "Changelog", href: "/changelog" },
 ]
 

@@ -1,0 +1,33 @@
+/* Hallmark · component: field · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-field {
+		display: grid;
+		gap: var(--ml-space-2);
+		min-inline-size: 0;
+	}
+
+	.ml-field[data-disabled="true"] {
+		opacity: 0.56;
+	}
+
+	.ml-field__description,
+	.ml-field__error {
+		margin: 0;
+		font-size: var(--text-xs);
+		line-height: var(--leading-relaxed);
+	}
+
+	.ml-field__description {
+		color: var(--text-muted);
+	}
+
+	.ml-field__error {
+		color: var(--destructive);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 550;
+		letter-spacing: var(--tracking-body);
+	}
+}

@@ -4,10 +4,6 @@
 		position: fixed;
 		inset: 0;
 		z-index: var(--z-modal, 50);
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		padding-top: 7rem;
 		background: color-mix(in oklch, var(--background) 40%, transparent);
 		-webkit-backdrop-filter: blur(6px);
 		backdrop-filter: blur(6px);
@@ -23,6 +19,10 @@
 
 	/* ── Panel ── */
 	.ml-command-search__panel {
+		position: fixed;
+		top: 7rem;
+		left: 50%;
+		z-index: var(--z-modal, 50);
 		display: flex;
 		width: min(37.5rem, calc(100vw - 2rem));
 		flex-direction: column;
@@ -36,6 +36,7 @@
 			0 8px 32px color-mix(in oklch, var(--background) 30%, transparent),
 			0 24px 64px color-mix(in oklch, var(--background) 50%, transparent);
 		overflow: hidden;
+		transform: translateX(-50%);
 		animation: ml-command-search-slide-in var(--duration-fast, 140ms)
 			var(--ease-out, ease-out) both;
 	}
@@ -43,7 +44,20 @@
 	@keyframes ml-command-search-slide-in {
 		from {
 			opacity: 0;
-			transform: translateY(-0.5rem) scale(0.97);
+			transform: translate(-50%, -0.5rem) scale(0.97);
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.ml-command-search__panel {
+			top: var(--ml-space-4, 1rem);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ml-command-search__backdrop,
+		.ml-command-search__panel {
+			animation: none;
 		}
 	}
 

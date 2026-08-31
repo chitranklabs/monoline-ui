@@ -1,0 +1,86 @@
+/* Hallmark · component: radio-group · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-radio-group {
+		display: grid;
+		gap: var(--ml-space-3);
+	}
+	.ml-radio-group__option {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: start;
+		gap: var(--ml-space-2-5);
+		padding-block: var(--ml-space-1);
+	}
+	.ml-radio-group__item {
+		display: inline-grid;
+		inline-size: var(--ml-space-5);
+		block-size: var(--ml-space-5);
+		place-items: center;
+		padding: 0;
+		border: var(--border-thin) solid var(--border-strong);
+		border-radius: var(--radius-pill);
+		background: var(--surface);
+		cursor: pointer;
+		outline: none;
+		transition:
+			border-color var(--duration-micro) var(--ease-out),
+			transform var(--duration-micro) var(--ease-out);
+	}
+	.ml-radio-group__item:hover:not(:disabled) {
+		border-color: var(--accent);
+	}
+	.ml-radio-group__item:active:not(:disabled) {
+		transform: scale(0.94);
+	}
+	.ml-radio-group__item[data-state="checked"] {
+		border-color: var(--accent);
+	}
+	.ml-radio-group__item:focus-visible {
+		box-shadow: var(--focus-ring);
+	}
+	.ml-radio-group__item:disabled {
+		cursor: not-allowed;
+		opacity: 0.48;
+	}
+	.ml-radio-group__indicator {
+		inline-size: var(--ml-space-2-5);
+		block-size: var(--ml-space-2-5);
+		border-radius: var(--radius-pill);
+		background: var(--accent);
+		animation: ml-radio-indicator-enter var(--duration-fast)
+			var(--ease-out-expo);
+	}
+	.ml-radio-group__copy {
+		display: grid;
+		gap: var(--ml-space-0-5);
+		cursor: pointer;
+	}
+	.ml-radio-group__label {
+		color: var(--text-primary);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		line-height: var(--leading-tight);
+	}
+	.ml-radio-group__description {
+		color: var(--text-muted);
+		font-size: var(--text-xs);
+		line-height: var(--leading-relaxed);
+	}
+	.ml-radio-group__item:disabled + .ml-radio-group__copy {
+		cursor: not-allowed;
+		opacity: 0.52;
+	}
+	@keyframes ml-radio-indicator-enter {
+		from {
+			opacity: 0;
+			transform: scale(0.6);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.ml-radio-group__indicator {
+			animation: none;
+		}
+	}
+}

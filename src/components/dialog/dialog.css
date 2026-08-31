@@ -1,0 +1,71 @@
+/* Hallmark · component: dialog · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-dialog__overlay {
+		position: fixed;
+		inset: 0;
+		z-index: var(--z-modal);
+		background: color-mix(in oklch, var(--background) 62%, transparent);
+		animation: ml-dialog-overlay-enter var(--duration-fast) var(--ease-out) both;
+	}
+
+	.ml-dialog__content {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		z-index: var(--z-modal);
+		width: min(32rem, calc(100vw - var(--ml-space-8)));
+		max-height: calc(100dvh - var(--ml-space-8));
+		overflow: auto;
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-xl);
+		padding: var(--ml-space-6);
+		background: var(--popover);
+		color: var(--popover-foreground);
+		box-shadow: var(--shadow-xl);
+		transform: translate(-50%, -50%);
+		animation: ml-dialog-content-enter var(--duration-fast) var(--ease-out-expo)
+			both;
+	}
+
+	.ml-dialog__content:focus-visible {
+		outline: none;
+		box-shadow: var(--shadow-xl), var(--focus-ring);
+	}
+
+	.ml-dialog__title {
+		color: var(--text);
+		font-family: var(--font-mono);
+		font-size: var(--text-base);
+		font-weight: 700;
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.ml-dialog__description {
+		margin-block-start: var(--ml-space-1-5);
+		color: var(--text-secondary);
+		font-size: var(--text-sm);
+		line-height: var(--leading-relaxed);
+	}
+
+	@keyframes ml-dialog-overlay-enter {
+		from {
+			opacity: 0;
+		}
+	}
+
+	@keyframes ml-dialog-content-enter {
+		from {
+			opacity: 0;
+			transform: translate(-50%, calc(-50% + var(--ml-space-2))) scale(0.98);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ml-dialog__overlay,
+		.ml-dialog__content {
+			animation: none;
+		}
+	}
+}

@@ -64,7 +64,7 @@ Monoline UI is a monochrome component library for developer sites, editorial int
 | 🔗 **Link polymorphism**             | Configure routing globally, per link, or through `asChild`.                   |
 | 🌲 **Tree-shakeable ESM**            | Import only the components you use. No barrel-file bloat.                     |
 | 🎛️ **Token-driven**                  | Customize spacing, scale, and type via CSS custom properties.                 |
-| 📦 **37 components**                 | Each component has a live preview, typed API, and implementation notes.       |
+| 📦 **47 components**                 | Each component has a live preview, typed API, and implementation notes.       |
 | 🌊 **Tailwind CSS v4**               | `@source` scanning includes utilities used by installed components.           |
 
 ---
@@ -93,17 +93,21 @@ export default function Page() {
 
 ## Documentation & Links
 
-| Resource         | URL                                                                                                    |
-| :--------------- | :----------------------------------------------------------------------------------------------------- |
-| **Docs**         | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                           |
-| **Components**   | [37 interactive React references](https://monolineui.chitrankagnihotri.com/components)                 |
-| **Foundations**  | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/foundations)                  |
-| **Installation** | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/installation)               |
-| **npm**          | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui) |
-| **JSR**          | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                           |
-| **Repository**   | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                     |
-| **Case study**   | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                 |
-| **Changelog**    | [CHANGELOG.md](./CHANGELOG.md)                                                                         |
+| Resource          | URL                                                                                                     |
+| :---------------- | :------------------------------------------------------------------------------------------------------ |
+| **Docs**          | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                            |
+| **Components**    | [47 interactive React references](https://monolineui.chitrankagnihotri.com/components)                  |
+| **Foundations**   | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/foundations)                   |
+| **Patterns**      | [Component composition recipes](https://monolineui.chitrankagnihotri.com/patterns)                      |
+| **Accessibility** | [Behavior and consumer responsibilities](https://monolineui.chitrankagnihotri.com/accessibility)        |
+| **Theming**       | [Light, dark, system, and token overrides](https://monolineui.chitrankagnihotri.com/theming)            |
+| **Compatibility** | [React, Next.js, Tailwind, and browser support](https://monolineui.chitrankagnihotri.com/compatibility) |
+| **Installation**  | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/installation)                |
+| **npm**           | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui)  |
+| **JSR**           | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                            |
+| **Repository**    | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                      |
+| **Case study**    | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                  |
+| **Changelog**     | [CHANGELOG.md](./CHANGELOG.md)                                                                          |
 
 ---
 
@@ -127,6 +131,7 @@ export default function Page() {
 - **Target**: ES2022 / Bundler module resolution
 - **Peer dependencies**: `react ^18.2 || ^19`, `react-dom ^18.2 || ^19`, optional `tailwindcss >=4`
 - **Runtime dependencies**:
+  - Radix UI primitives - dialog, popover, menu, tooltip, and form-control behavior
   - `@radix-ui/react-slot` - polymorphic render delegation
   - `clsx` + `tailwind-merge` - class composition
   - `cmdk` - command palette interaction model
@@ -152,7 +157,7 @@ graph TD
 monoline-ui/
 ├── app/                    ← Next.js playground & documentation
 ├── src/
-│   ├── components/         ← 37 UI components (Avatar, Button, Footer…)
+│   ├── components/         ← 47 UI components (Avatar, Button, Footer…)
 │   └── foundations/        ← CSS layers, design tokens, breakpoints
 ├── scripts/
 │   └── build-lib.mjs       ← ESM bundling script

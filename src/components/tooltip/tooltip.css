@@ -1,0 +1,60 @@
+/* Hallmark · component: tooltip · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-tooltip__content {
+		z-index: var(--z-tooltip);
+		max-inline-size: min(18rem, calc(100vw - var(--ml-space-8)));
+		max-block-size: var(--radix-tooltip-content-available-height);
+		padding: var(--ml-space-1-5) var(--ml-space-2-5);
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-md);
+		background: var(--primary);
+		color: var(--primary-foreground);
+		font-family: var(--font-sans);
+		font-size: var(--text-xs);
+		line-height: var(--leading-snug);
+		box-shadow: var(--shadow-lg);
+		transform-origin: var(--radix-tooltip-content-transform-origin);
+		animation: ml-tooltip-enter var(--duration-fast) var(--ease-out) both;
+	}
+	.ml-tooltip__content[data-state="closed"] {
+		animation: ml-tooltip-exit var(--duration-micro) var(--ease-out);
+	}
+	.ml-tooltip__arrow {
+		display: block;
+		fill: var(--primary);
+		stroke: var(--border);
+	}
+	/* Mask the closed SVG base so the surface border flows into the arrow. */
+	.ml-tooltip__content > span:has(> .ml-tooltip__arrow) {
+		z-index: 1;
+	}
+	.ml-tooltip__content > span:has(> .ml-tooltip__arrow)::after {
+		position: absolute;
+		inset-block-start: calc(0px - var(--border-thin));
+		inset-inline: var(--border-thin);
+		block-size: calc(var(--border-thin) + var(--border-thin));
+		background: var(--primary);
+		content: "";
+		pointer-events: none;
+	}
+	@keyframes ml-tooltip-enter {
+		from {
+			opacity: 0;
+		}
+	}
+	@keyframes ml-tooltip-exit {
+		from {
+			opacity: 1;
+		}
+		to {
+			opacity: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.ml-tooltip__content {
+			animation: none;
+		}
+	}
+}

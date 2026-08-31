@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { Card } from "@chitrank2050/monoline-ui/card"
 
+import metadataJson from "../../src/metadata.json"
 import JsonLd, {
 	createBreadcrumbJsonLd,
 	createCollectionPageJsonLd,
@@ -11,8 +12,7 @@ import { createPageMetadata } from "../lib/metadata"
 
 const displayTitle = "Component catalog"
 const seoTitle = "React Component Catalog for Editorial UI | monoline/ui"
-const pageDescription =
-	"Browse 37 React components for developer portfolios, documentation, and editorial interfaces, with live previews, typed APIs, tokens, and source examples."
+const pageDescription = `Browse ${metadataJson.count} React components for developer portfolios, documentation, and editorial interfaces, with live previews, typed APIs, tokens, and source examples.`
 
 export const metadata: Metadata = createPageMetadata({
 	title: seoTitle,
@@ -47,7 +47,7 @@ export default function ComponentsPage() {
 		<main id="main-content" tabIndex={-1} className="docs-page">
 			<JsonLd data={jsonLd} />
 			<header className="docs-page__head">
-				<p className="ml-eyebrow">37 typed primitives</p>
+				<p className="ml-eyebrow">{metadataJson.count} typed primitives</p>
 				<h1>{displayTitle}</h1>
 				<p>
 					Browse the components by what they help you build. Each page has a

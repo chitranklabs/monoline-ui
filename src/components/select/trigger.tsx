@@ -1,13 +1,10 @@
 "use client"
 
 import { cn, composeRefs } from "../../lib/utils"
+import { Dialog } from "../dialog"
+import { Popover } from "../popover"
 import { useSelectContext } from "./root"
-import type { SelectTriggerProps, SelectVariant } from "./types"
-
-const triggerVariantClasses: Record<SelectVariant, string> = {
-	default: "ml-control-surface--secondary focus-visible:shadow-(--focus-ring)",
-	ghost: "ml-control-surface--ghost",
-}
+import type { SelectTriggerProps } from "./types"
 
 export function SelectTrigger({
 	className,
@@ -19,6 +16,7 @@ export function SelectTrigger({
 	...props
 }: SelectTriggerProps): React.ReactElement {
 	const {
+		isMobile,
 		label,
 		listboxId,
 		open,
@@ -26,10 +24,9 @@ export function SelectTrigger({
 		setOpen,
 		placeholder,
 		triggerRef,
-		variant,
 	} = useSelectContext()
 
-	return (
+	const trigger = (
 		<button
 			ref={composeRefs(triggerRef, ref)}
 			type={type ?? "button"}
@@ -38,13 +35,12 @@ export function SelectTrigger({
 			aria-controls={listboxId}
 			className={cn(
 				"ml-select__trigger inline-flex max-w-full select-none items-center justify-between whitespace-nowrap rounded-md border font-medium focus-visible:outline-none",
-				triggerVariantClasses[variant],
 				className
 			)}
 			onClick={(event) => {
 				onClick?.(event)
 				if (event.defaultPrevented) return
-				setOpen(!open)
+				if (!isMobile) setOpen(!open)
 			}}
 			onKeyDown={(e) => {
 				onKeyDown?.(e)
@@ -68,13 +64,16 @@ export function SelectTrigger({
 					</>
 				)}
 			</span>
-			<span
-				aria-hidden="true"
-				className={cn("ml-select__caret", open && "rotate-180")}
-			>
+			<span aria-hidden="true" className="ml-select__caret" data-open={open}>
 				<ChevronDownIcon />
 			</span>
 		</button>
+	)
+
+	return isMobile ? (
+		<Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+	) : (
+		<Popover.Anchor asChild>{trigger}</Popover.Anchor>
 	)
 }
 

@@ -5,6 +5,7 @@ import {
 	type ReactNode,
 	Suspense,
 	startTransition,
+	useCallback,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
@@ -85,7 +86,7 @@ const previewFrameMinHeight = 320
 
 // Reusable PreviewFrame helper
 interface PreviewFrameProps {
-	children: ReactNode
+	children: (portalContainer: HTMLDivElement | null) => ReactNode
 	contentKey: string
 	theme: ThemeMode
 	viewportWidth: number
@@ -100,7 +101,14 @@ function PreviewFrame({
 	zoom,
 }: PreviewFrameProps) {
 	const previewRef = useRef<HTMLDivElement>(null)
+	const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
+		null
+	)
 	const [frameHeight, setFrameHeight] = useState(previewFrameMinHeight)
+	const setPreviewNode = useCallback((node: HTMLDivElement | null) => {
+		previewRef.current = node
+		setPortalContainer((current) => (current === node ? current : node))
+	}, [])
 
 	useLayoutEffect(() => {
 		const mountNode = previewRef.current
@@ -131,7 +139,7 @@ function PreviewFrame({
 			}}
 		>
 			<div
-				ref={previewRef}
+				ref={setPreviewNode}
 				data-theme={theme}
 				className="playground-canvas__frame"
 				style={{
@@ -140,7 +148,7 @@ function PreviewFrame({
 					transform: `scale(${zoom})`,
 				}}
 			>
-				{children}
+				{children(portalContainer)}
 			</div>
 		</div>
 	)
@@ -172,7 +180,8 @@ export interface ComponentPlaygroundProps<
 	renderPreview: (
 		size: TSize | undefined,
 		theme: ThemeMode,
-		variant: TVariant | undefined
+		variant: TVariant | undefined,
+		portalContainer: HTMLElement | null
 	) => ReactNode
 	previewLayout?: PreviewLayout
 
@@ -486,16 +495,18 @@ function InteractivePlayground<
 						viewportWidth={activeViewportOption.width}
 						zoom={zoom}
 					>
-						{renderedSizes.map((s, idx) => (
-							<div
-								key={s ?? idx}
-								className="playground-canvas__preview"
-								data-layout={previewLayout}
-								data-size={s}
-							>
-								{renderPreview(s, theme, variant)}
-							</div>
-						))}
+						{(portalContainer) =>
+							renderedSizes.map((s, idx) => (
+								<div
+									key={s ?? idx}
+									className="playground-canvas__preview"
+									data-layout={previewLayout}
+									data-size={s}
+								>
+									{renderPreview(s, theme, variant, portalContainer)}
+								</div>
+							))
+						}
 					</PreviewFrame>
 				</div>
 			</section>

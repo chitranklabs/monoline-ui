@@ -1,0 +1,18 @@
+/* Hallmark · component: separator · genre: modern-minimal · theme: monoline/ui */
+@layer theme, base, components, utilities;
+
+@layer components {
+	.ml-separator {
+		flex: 0 0 auto;
+		background: color-mix(in oklch, var(--border-strong) 72%, transparent);
+	}
+	.ml-separator[data-orientation="horizontal"] {
+		inline-size: 100%;
+		block-size: var(--border-thin);
+	}
+	.ml-separator[data-orientation="vertical"] {
+		inline-size: var(--border-thin);
+		block-size: 100%;
+		min-block-size: var(--ml-space-4);
+	}
+}

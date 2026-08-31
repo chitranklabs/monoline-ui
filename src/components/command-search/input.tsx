@@ -3,6 +3,7 @@
 import { Command } from "cmdk"
 
 import { cn } from "../../lib/utils"
+import { Dialog } from "../dialog"
 import { useCommandSearch } from "./root"
 import type { CommandSearchInputProps } from "./types"
 
@@ -43,7 +44,7 @@ export function CommandSearchInput({
 	spellCheck = false,
 	...props
 }: CommandSearchInputProps): React.ReactElement {
-	const { rawSearch, setRawSearch, placeholder, close } = useCommandSearch()
+	const { rawSearch, setRawSearch, placeholder } = useCommandSearch()
 
 	return (
 		<div className={cn("ml-command-search__input-row", className)}>
@@ -67,14 +68,15 @@ export function CommandSearchInput({
 				autoFocus={autoFocus}
 				{...props}
 			/>
-			<button
-				type="button"
-				className="ml-command-search__esc"
-				onClick={close}
-				aria-label="Close search"
-			>
-				esc
-			</button>
+			<Dialog.Close asChild>
+				<button
+					type="button"
+					className="ml-command-search__esc"
+					aria-label="Close search"
+				>
+					esc
+				</button>
+			</Dialog.Close>
 		</div>
 	)
 }

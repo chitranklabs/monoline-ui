@@ -37,7 +37,7 @@ const usageCode = `<Select
       <Select.Value />
     </span>
   </Select.Trigger>
-  <Select.Content />
+	<Select.Content side="bottom" align="start" />
 </Select>`
 
 const sourceSnippet = `import { Select } from "@chitrank2050/monoline-ui/components/select"
@@ -62,7 +62,7 @@ export function SortControl() {
           <Select.Value />
         </span>
       </Select.Trigger>
-      <Select.Content />
+		<Select.Content side="bottom" align="start" />
     </Select>
   )
 }`
@@ -75,20 +75,45 @@ const propsRows = [
 	["size", '"sm" | "md" | "lg"', "Trigger scale"],
 	["variant", '"default" | "ghost"', "Trigger visual treatment"],
 	["sheetLabel", "string", "Mobile bottom-sheet heading"],
+	[
+		"side",
+		'"top" | "right" | "bottom" | "left"',
+		"Desktop preferred placement; flips automatically when space is limited",
+	],
+	[
+		"align",
+		'"start" | "center" | "end"',
+		"Desktop alignment along the chosen side",
+	],
+	[
+		"collisionBoundary",
+		"Element | Element[]",
+		"Optional desktop clipping boundary; defaults to the viewport",
+	],
+	[
+		"collisionPadding",
+		"number | SideObject",
+		"Minimum space from the collision boundary; defaults to 12px",
+	],
 ] as const
 
 const tokenRows = [
-	["--surface / --surface-2", "Trigger, menu, and selected row surfaces"],
-	["--border / --border-strong", "Trigger and menu borders"],
+	[
+		"--surface / --surface-2",
+		"Neutral trigger, menu, and selected row surfaces",
+	],
+	["--border / --border-strong", "Resting and interactive boundaries"],
 	["--focus-ring", "Keyboard focus shadow"],
 	["--duration-micro + --duration-short", "Trigger and menu motion timing"],
 ] as const
 
 function SelectDemo({
 	size,
+	theme,
 	variant,
 }: {
 	size: SelectSize
+	theme: "light" | "dark"
 	variant: SelectVariant
 }) {
 	const [sort, setSort] = useState("recent")
@@ -109,7 +134,7 @@ function SelectDemo({
 						<Select.Value />
 					</span>
 				</Select.Trigger>
-				<Select.Content />
+				<Select.Content data-theme={theme} side="bottom" align="start" />
 			</Select>
 		</div>
 	)
@@ -130,8 +155,8 @@ export default function SelectPageClient() {
 			tokens={tokenRows}
 			sourceSnippet={sourceSnippet}
 			previewLayout="viewport"
-			renderPreview={(size = "md", _theme, variant = "default") => (
-				<SelectDemo size={size} variant={variant} />
+			renderPreview={(size = "md", theme, variant = "default") => (
+				<SelectDemo size={size} theme={theme} variant={variant} />
 			)}
 		/>
 	)

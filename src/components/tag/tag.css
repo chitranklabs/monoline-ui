@@ -81,9 +81,9 @@
 		border-color: var(--border-strong);
 	}
 
-	/* 4. Circular dismiss cross icon */
+	/* 4. Circular dismiss cross icon (hidden for now) */
 	.ml-tag__dismiss {
-		display: inline-flex;
+		display: none;
 		align-items: center;
 		justify-content: center;
 		border-radius: 9999px;

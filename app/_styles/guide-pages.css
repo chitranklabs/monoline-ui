@@ -1,0 +1,68 @@
+/* Hallmark · page alignment: long-form docs · tone: technical · system: monoline/ui */
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
+
+.guide-page__code-stack {
+	display: grid;
+	gap: var(--ml-space-4);
+}
+
+.guide-page__checklist {
+	display: grid;
+	gap: var(--ml-space-2);
+	color: var(--text-secondary);
+	font-size: var(--ml-text-sm);
+	line-height: var(--ml-leading-normal);
+}
+
+.guide-page__checklist li {
+	position: relative;
+	padding-left: var(--ml-space-4);
+}
+
+.guide-page__checklist li::before {
+	position: absolute;
+	top: 0.68em;
+	left: 0;
+	width: 0.25rem;
+	height: 0.25rem;
+	border-radius: var(--ml-radius-pill);
+	background: var(--accent);
+	content: "";
+}
+
+.guide-page__code {
+	margin-top: var(--ml-space-4);
+}
+
+.guide-page__decision-list {
+	border-top: var(--border-thin) solid var(--border);
+}
+
+.guide-page__decision {
+	display: grid;
+	grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1fr);
+	gap: var(--ml-space-4);
+	align-items: baseline;
+	border-bottom: var(--border-thin) solid var(--border);
+	padding: var(--ml-space-4) 0;
+}
+
+.guide-page__decision dt {
+	color: var(--text);
+	font-family: var(--font-mono);
+	font-size: var(--ml-text-sm);
+	font-weight: 600;
+}
+
+.guide-page__decision dd {
+	color: var(--text-secondary);
+	font-size: var(--ml-text-sm);
+	line-height: var(--ml-leading-normal);
+}
+
+@media (max-width: 47.99rem) {
+	.guide-page__decision {
+		grid-template-columns: 1fr;
+		gap: var(--ml-space-1-5);
+	}
+}

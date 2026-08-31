@@ -5,7 +5,12 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { componentNavGroups, foundationsNav, primaryNav } from "../lib/docs-nav"
+import {
+	componentNavGroups,
+	foundationsNav,
+	guidesNav,
+	primaryNav,
+} from "../lib/docs-nav"
 
 type DocsNavigationVariant = "sidebar" | "drawer"
 
@@ -35,8 +40,20 @@ export function DocsNavigation({
 					{primaryNav.map((item) => (
 						<DrawerLink
 							key={item.href}
-							href={item.href}
+							href={item.href ?? "/"}
 							active={isSectionActive(pathname, item.href)}
+						>
+							{item.label}
+						</DrawerLink>
+					))}
+				</DrawerSection>
+
+				<DrawerSection label="Guides">
+					{guidesNav.map((item) => (
+						<DrawerLink
+							key={item.href}
+							href={item.href ?? "/"}
+							active={isExactActive(pathname, item.href)}
 						>
 							{item.label}
 						</DrawerLink>
@@ -85,6 +102,18 @@ export function DocsNavigation({
 
 	return (
 		<>
+			<SidebarSection label="Guides">
+				{guidesNav.map((item) => (
+					<SidebarLink
+						key={item.href}
+						href={item.href ?? "/"}
+						active={isExactActive(pathname, item.href)}
+					>
+						<span>{item.label}</span>
+					</SidebarLink>
+				))}
+			</SidebarSection>
+
 			<SidebarSection label="Foundations">
 				{foundationsNav.map((item) =>
 					item.href ? (

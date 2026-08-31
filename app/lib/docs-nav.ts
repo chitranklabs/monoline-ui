@@ -19,6 +19,33 @@ export const foundationsNav: DocsNavItem[] = [
 	{ href: "/foundations/motion", label: "Motion" },
 ] as const
 
+export const guidesNav: DocsNavItem[] = [
+	{
+		href: "/accessibility",
+		label: "Accessibility",
+		description:
+			"Keyboard behavior, screen-reader expectations, contrast, motion, and testing responsibilities.",
+	},
+	{
+		href: "/theming",
+		label: "Theming",
+		description:
+			"Adapt semantic tokens, fonts, and light, dark, or system behavior without forking components.",
+	},
+	{
+		href: "/compatibility",
+		label: "Compatibility",
+		description:
+			"Supported React, Next.js, Tailwind CSS, browser, and Server Component boundaries.",
+	},
+	{
+		href: "/patterns",
+		label: "Patterns",
+		description:
+			"Small, reusable compositions assembled from Monoline components and foundations.",
+	},
+] as const
+
 export const componentNavGroups: DocsNavGroup[] = [
 	{
 		label: "Layout & structure",
@@ -53,6 +80,12 @@ export const componentNavGroups: DocsNavGroup[] = [
 				label: "ActionRail",
 				description:
 					"Group compact actions vertically or horizontally for toolbars, side rails, and social links.",
+			},
+			{
+				href: "/components/separator",
+				label: "Separator",
+				description:
+					"Divide related content horizontally or vertically with decorative or semantic separator behavior.",
 			},
 		],
 	},
@@ -99,6 +132,37 @@ export const componentNavGroups: DocsNavGroup[] = [
 		],
 	},
 	{
+		label: "Overlays & menus",
+		description:
+			"Layer contextual information and actions with managed focus and keyboard behavior.",
+		items: [
+			{
+				href: "/components/dialog",
+				label: "Dialog",
+				description:
+					"Open a modal surface with focus containment, Escape handling, background inertness, and focus restoration.",
+			},
+			{
+				href: "/components/popover",
+				label: "Popover",
+				description:
+					"Anchor contextual content to a trigger with collision-aware positioning and outside-interaction handling.",
+			},
+			{
+				href: "/components/tooltip",
+				label: "Tooltip",
+				description:
+					"Add short supporting context to focusable controls without replacing their accessible names.",
+			},
+			{
+				href: "/components/dropdown-menu",
+				label: "DropdownMenu",
+				description:
+					"Group secondary actions in a portal-mounted menu with roving focus, typeahead, and nested composition.",
+			},
+		],
+	},
+	{
 		label: "Forms & inputs",
 		description:
 			"Collect values and give people clear, keyboard-friendly controls.",
@@ -110,10 +174,40 @@ export const componentNavGroups: DocsNavGroup[] = [
 					"Render primary actions, secondary actions, icon buttons, loading states, and asChild links.",
 			},
 			{
+				href: "/components/field",
+				label: "Field",
+				description:
+					"Group a label, form control, supporting text, and validation message without hiding native semantics.",
+			},
+			{
+				href: "/components/label",
+				label: "Label",
+				description:
+					"Associate visible text with a form control and preserve native click-to-focus behavior.",
+			},
+			{
 				href: "/components/input",
 				label: "Input",
 				description:
 					"Render text fields with prefix and suffix slots, validation state, and consistent control sizing.",
+			},
+			{
+				href: "/components/textarea",
+				label: "Textarea",
+				description:
+					"Collect multi-line text with consistent sizing, validation styling, and controlled resize behavior.",
+			},
+			{
+				href: "/components/checkbox",
+				label: "Checkbox",
+				description:
+					"Represent independent checked, unchecked, and indeterminate choices with native keyboard behavior.",
+			},
+			{
+				href: "/components/radio-group",
+				label: "RadioGroup",
+				description:
+					"Choose one option from a visible set with arrow-key navigation and optional supporting descriptions.",
 			},
 			{
 				href: "/components/select",
@@ -287,6 +381,7 @@ export const componentNavGroups: DocsNavGroup[] = [
 export const docsPagerNav: DocsNavItem[] = [
 	{ href: "/", label: "Introduction" },
 	{ href: "/installation", label: "Installation" },
+	...guidesNav,
 	{ href: "/foundations", label: "Foundations" },
 	...foundationsNav,
 	{ href: "/components", label: "Components" },
@@ -298,5 +393,6 @@ export const primaryNav: DocsNavItem[] = [
 	{ href: "/installation", label: "Installation" },
 	{ href: "/foundations", label: "Foundations" },
 	{ href: "/components", label: "Components" },
+	{ href: "/patterns", label: "Patterns" },
 	{ href: "/changelog", label: "Changelog" },
 ] as const

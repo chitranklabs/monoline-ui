@@ -1,3 +1,4 @@
+/* Hallmark · component: select · genre: modern-minimal · tone: restrained · palette: semantic-neutral · fingerprint: anchored-listbox/mobile-sheet · pre-emit critique: P5 H5 E5 S5 R5 V4 · contrast: pass (46–50) · slop: pass */
 @layer theme, base, components, utilities;
 
 @layer components {
@@ -8,9 +9,9 @@
 		--ml-select-trigger-text: var(--text-sm);
 		--ml-select-caret-size: var(--ml-space-4);
 		--ml-select-check-size: var(--ml-space-4);
-		--ml-select-content-radius: var(--radius-lg);
-		--ml-select-sheet-radius: var(--radius-2xl);
-		--ml-select-content-shadow: var(--shadow-lg);
+		--ml-select-content-radius: var(--radius-md);
+		--ml-select-sheet-radius: var(--radius-xl);
+		--ml-select-content-shadow: var(--shadow-md);
 		--ml-select-sheet-shadow: var(--shadow-xl);
 	}
 
@@ -39,19 +40,59 @@
 		block-size: var(--ml-select-trigger-height);
 		max-inline-size: 100%;
 		padding-inline: var(--ml-select-trigger-padding-x);
+		border-color: var(--border);
+		background: var(--surface);
+		color: var(--text);
 		font-size: var(--ml-select-trigger-text);
 		border-radius: var(--radius-md);
 		line-height: 1;
+		box-shadow: var(--shadow-xs);
+		cursor: pointer;
 		transition:
 			background-color var(--duration-micro) var(--ease-out),
 			border-color var(--duration-micro) var(--ease-out),
-			color var(--duration-micro) var(--ease-out),
-			box-shadow var(--duration-micro) var(--ease-out);
+			color var(--duration-micro) var(--ease-out);
 	}
 
 	.ml-select[data-open="true"] .ml-select__trigger {
 		border-color: var(--border-strong);
-		box-shadow: var(--shadow-sm);
+		background: var(--surface-2);
+	}
+
+	.ml-select[data-variant="ghost"] .ml-select__trigger {
+		border-color: transparent;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	@media (hover: hover) {
+		.ml-select__trigger:not(:disabled):hover {
+			border-color: var(--border-strong);
+			background: var(--surface-2);
+		}
+
+		.ml-select[data-variant="ghost"] .ml-select__trigger:not(:disabled):hover {
+			border-color: transparent;
+			background: var(--surface-2);
+		}
+	}
+
+	.ml-select__trigger:focus-visible {
+		border-color: var(--border-strong);
+		box-shadow: var(--focus-ring);
+	}
+
+	.ml-select__trigger:not(:disabled):active {
+		background: var(--surface-3);
+	}
+
+	.ml-select__trigger:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+
+	.ml-select__trigger[aria-invalid="true"] {
+		border-color: var(--destructive);
 	}
 
 	.ml-select__trigger-copy {
@@ -64,8 +105,7 @@
 	}
 
 	.ml-select__label {
-		color: var(--text-body);
-		opacity: 0.58;
+		color: var(--text-muted);
 	}
 
 	.ml-select__caret {
@@ -74,9 +114,15 @@
 		block-size: var(--ml-select-caret-size);
 		flex: 0 0 auto;
 		color: var(--text-muted);
+		transform: rotate(0deg);
+		transform-origin: center;
 		transition:
 			transform var(--duration-short) var(--ease-out-expo),
 			color var(--duration-micro) var(--ease-out);
+	}
+
+	.ml-select__caret[data-open="true"] {
+		transform: rotate(180deg);
 	}
 
 	.ml-select__trigger:hover .ml-select__caret,
@@ -85,28 +131,34 @@
 	}
 
 	.ml-select__content {
-		position: absolute;
-		top: calc(100% + var(--ml-space-1-5));
-		left: 0;
+		--ml-select-check-size: var(--ml-space-4);
+		--ml-select-content-radius: var(--radius-md);
+		--ml-select-content-shadow: var(--shadow-md);
+
 		z-index: var(--z-dropdown);
 		width: max-content;
-		min-width: 100%;
+		min-inline-size: var(--radix-popover-trigger-width);
 		max-width: min(22rem, calc(100vw - var(--ml-space-8)));
+		max-block-size: var(--radix-popover-content-available-height);
 		overflow: hidden;
-		border: var(--border-thin) solid var(--border-strong);
+		overscroll-behavior: contain;
+		border: var(--border-thin) solid var(--border);
 		border-radius: var(--ml-select-content-radius);
 		background: var(--popover);
 		color: var(--popover-foreground);
 		box-shadow: var(--ml-select-content-shadow);
-		transform-origin: top left;
-		animation: ml-select-content-enter var(--duration-fast) var(--ease-out-expo);
+		transform-origin: var(--radix-popover-content-transform-origin);
+		animation: ml-select-content-enter var(--duration-fast) var(--ease-out) both;
 	}
 
 	.ml-select__list {
 		display: flex;
 		flex-direction: column;
 		gap: var(--ml-space-0-5);
+		max-block-size: inherit;
 		padding: var(--ml-space-1);
+		overflow-y: auto;
+		overscroll-behavior: contain;
 	}
 
 	.ml-select__mobile-layer {
@@ -114,6 +166,7 @@
 	}
 
 	.ml-select__backdrop {
+		z-index: var(--z-modal);
 		background: color-mix(in oklch, var(--background) 42%, transparent);
 		animation: ml-select-backdrop-enter var(--duration-fast) var(--ease-out);
 	}
@@ -126,12 +179,16 @@
 	}
 
 	.ml-select__sheet {
+		--ml-select-check-size: var(--ml-space-4);
+		--ml-select-sheet-radius: var(--radius-xl);
+		--ml-select-sheet-shadow: var(--shadow-xl);
+
 		display: flex;
 		flex-direction: column;
 		min-block-size: 0;
 		max-block-size: min(78dvh, 36rem);
 		overflow: hidden;
-		border: var(--border-thin) solid var(--border-strong);
+		border: var(--border-thin) solid var(--border);
 		border-radius: var(--ml-select-sheet-radius);
 		background: var(--popover);
 		color: var(--popover-foreground);
@@ -149,17 +206,14 @@
 		inline-size: var(--ml-space-10);
 		block-size: var(--ml-space-1);
 		border-radius: var(--radius-pill);
-		background: var(--border-strong);
+		background: var(--border);
 	}
 
 	.ml-select__sheet-label {
-		padding: var(--ml-space-4) var(--ml-space-5) var(--ml-space-2);
-		color: var(--text-muted);
-		font-family: var(--font-mono);
-		font-size: var(--text-3xs);
+		padding: var(--ml-space-4) var(--ml-space-5) var(--ml-space-3);
+		color: var(--text);
+		font-size: var(--text-sm);
 		font-weight: 600;
-		letter-spacing: var(--tracking-eyebrow);
-		text-transform: uppercase;
 	}
 
 	.ml-select__sheet .ml-select__list {
@@ -176,27 +230,33 @@
 		width: 100%;
 		align-items: center;
 		justify-content: center;
-		border: var(--border-thin) solid var(--border-strong);
-		border-radius: var(--radius-xl);
-		background: var(--button);
-		color: var(--primary);
+		border: var(--border-thin) solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--popover);
+		color: var(--text);
 		font-size: var(--text-sm);
 		font-weight: 600;
-		box-shadow: var(--shadow-lg);
+		box-shadow: var(--shadow-md);
 		transition:
 			background-color var(--duration-micro) var(--ease-out),
 			border-color var(--duration-micro) var(--ease-out),
-			color var(--duration-micro) var(--ease-out),
-			transform var(--duration-micro) var(--ease-out);
+			color var(--duration-micro) var(--ease-out);
 	}
 
-	.ml-select__sheet-cancel:hover {
-		border-color: var(--border-strong);
-		background: var(--button-hover);
+	@media (hover: hover) {
+		.ml-select__sheet-cancel:hover {
+			border-color: var(--border-strong);
+			background: var(--surface-2);
+		}
 	}
 
 	.ml-select__sheet-cancel:active {
-		opacity: 0.86;
+		background: var(--surface-3);
+	}
+
+	.ml-select__sheet-cancel:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
 	}
 
 	.ml-select__item {
@@ -204,15 +264,16 @@
 		border: 0;
 		background: transparent;
 		color: var(--text-body);
-		transform: translate3d(0, 0, 0);
 		transition:
 			background-color var(--duration-micro) var(--ease-out),
 			color var(--duration-micro) var(--ease-out);
 	}
 
-	.ml-select__item:hover {
-		background: var(--button-hover);
-		color: var(--primary);
+	@media (hover: hover) {
+		.ml-select__item:hover {
+			background: var(--surface-2);
+			color: var(--text);
+		}
 	}
 
 	.ml-select__item:active {
@@ -221,8 +282,8 @@
 
 	.ml-select__item[data-selected="true"] {
 		background: var(--surface-2);
-		color: var(--primary);
-		font-weight: 650;
+		color: var(--text);
+		font-weight: 500;
 	}
 
 	.ml-select__item[data-mobile="true"] {
@@ -230,10 +291,6 @@
 		border-radius: 0;
 		border-block-end: var(--border-thin) solid var(--border);
 		background: transparent;
-	}
-
-	.ml-select__item[data-mobile="true"]:hover {
-		background: var(--button-hover);
 	}
 
 	.ml-select__item[data-mobile="true"][data-selected="true"] {
@@ -260,17 +317,22 @@
 		margin-block-start: 0;
 		inline-size: var(--ml-select-check-size);
 		block-size: var(--ml-select-check-size);
+		color: var(--text);
+	}
+
+	.ml-select__content[data-size="sm"],
+	.ml-select__sheet[data-size="sm"] {
+		--ml-select-check-size: var(--ml-space-3);
+	}
+
+	.ml-select__content[data-size="lg"],
+	.ml-select__sheet[data-size="lg"] {
+		--ml-select-check-size: var(--ml-space-5);
 	}
 
 	@keyframes ml-select-content-enter {
 		from {
 			opacity: 0;
-			transform: translate3d(0, -2px, 0);
-		}
-
-		to {
-			opacity: 1;
-			transform: translate3d(0, 0, 0);
 		}
 	}
 

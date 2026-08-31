@@ -54,6 +54,15 @@ const footerGroups = [
 		],
 	},
 	{
+		title: "Guides",
+		links: [
+			{ title: "Accessibility", href: "/accessibility" },
+			{ title: "Theming", href: "/theming" },
+			{ title: "Compatibility", href: "/compatibility" },
+			{ title: "Patterns", href: "/patterns" },
+		],
+	},
+	{
 		title: "Community",
 		links: [
 			{

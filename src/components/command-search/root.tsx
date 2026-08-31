@@ -9,11 +9,11 @@ import {
 	useRef,
 	useState,
 } from "react"
-import { createPortal } from "react-dom"
 
 import { Command } from "cmdk"
 
 import { cn } from "../../lib/utils"
+import { Dialog } from "../dialog"
 import { CommandSearchFooter } from "./footer"
 import type { CommandSearchContextValue, CommandSearchProps } from "./types"
 
@@ -34,6 +34,12 @@ function defaultFilter(query: string, value: string) {
 	return value.toLowerCase().includes(query.toLowerCase())
 }
 
+function findFocusableTarget(target: HTMLElement): HTMLElement | null {
+	return target.closest<HTMLElement>(
+		'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+	)
+}
+
 export function CommandSearchRoot({
 	open,
 	onOpenChange,
@@ -48,15 +54,37 @@ export function CommandSearchRoot({
 	ref,
 	children,
 	showFooter = false,
-}: CommandSearchProps): React.ReactElement | null {
+}: CommandSearchProps): React.ReactElement {
 	const [rawSearch, setRawSearchState] = useState("")
 	const [search, setSearch] = useState("")
-	const [isBrowser, setIsBrowser] = useState(false)
 	const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 	const prevOpen = useRef(false)
+	const openRef = useRef(open)
+	const returnFocusRef = useRef<HTMLElement | null>(null)
+	openRef.current = open
 
 	useEffect(() => {
-		setIsBrowser(true)
+		const rememberFocus = (event: FocusEvent) => {
+			if (!openRef.current && event.target instanceof HTMLElement) {
+				returnFocusRef.current = event.target
+			}
+		}
+		const rememberPointerTarget = (event: PointerEvent) => {
+			if (!openRef.current && event.target instanceof HTMLElement) {
+				const focusableTarget = findFocusableTarget(event.target)
+				if (focusableTarget) returnFocusRef.current = focusableTarget
+			}
+		}
+
+		if (document.activeElement instanceof HTMLElement) {
+			returnFocusRef.current = document.activeElement
+		}
+		document.addEventListener("focusin", rememberFocus)
+		document.addEventListener("pointerdown", rememberPointerTarget)
+		return () => {
+			document.removeEventListener("focusin", rememberFocus)
+			document.removeEventListener("pointerdown", rememberPointerTarget)
+		}
 	}, [])
 
 	useEffect(() => {
@@ -94,8 +122,14 @@ export function CommandSearchRoot({
 	useEffect(() => {
 		if (!shortcut) return
 		const handler = (e: KeyboardEvent) => {
-			if ((e.metaKey || e.ctrlKey) && e.key === shortcut) {
+			if (
+				(e.metaKey || e.ctrlKey) &&
+				e.key.toLowerCase() === shortcut.toLowerCase()
+			) {
 				e.preventDefault()
+				if (!open && document.activeElement instanceof HTMLElement) {
+					returnFocusRef.current = document.activeElement
+				}
 				onOpenChange(!open)
 			}
 		}
@@ -111,8 +145,6 @@ export function CommandSearchRoot({
 		}
 	}, [filter, shouldFilter])
 
-	if (!isBrowser || !open) return null
-
 	const ctxValue: CommandSearchContextValue = {
 		search,
 		rawSearch,
@@ -122,30 +154,32 @@ export function CommandSearchRoot({
 		close,
 	}
 
-	return createPortal(
+	return (
 		<CommandSearchContext.Provider value={ctxValue}>
-			{/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-			<div
-				className="ml-command-search__backdrop"
-				onMouseDown={(e) => {
-					if (e.target === e.currentTarget) close()
-				}}
-			>
-				<Command
-					ref={ref}
-					label={placeholder}
-					shouldFilter={shouldFilter}
-					filter={cmdkFilter}
-					className={cn("ml-command-search__panel", className)}
-					onKeyDown={(e) => {
-						if (e.key === "Escape") close()
+			<Dialog open={open} onOpenChange={onOpenChange}>
+				<Dialog.Content
+					asChild
+					aria-describedby={undefined}
+					overlayClassName="ml-command-search__backdrop"
+					onCloseAutoFocus={(event) => {
+						event.preventDefault()
+						const returnTarget = returnFocusRef.current
+						queueMicrotask(() => returnTarget?.focus())
 					}}
 				>
-					{children}
-					{showFooter && <CommandSearchFooter />}
-				</Command>
-			</div>
-		</CommandSearchContext.Provider>,
-		document.body
+					<Command
+						ref={ref}
+						label={placeholder}
+						shouldFilter={shouldFilter}
+						filter={cmdkFilter}
+						className={cn("ml-command-search__panel", className)}
+					>
+						<Dialog.Title className="sr-only">{placeholder}</Dialog.Title>
+						{children}
+						{showFooter && <CommandSearchFooter />}
+					</Command>
+				</Dialog.Content>
+			</Dialog>
+		</CommandSearchContext.Provider>
 	)
 }
