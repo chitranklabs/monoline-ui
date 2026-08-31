@@ -11,6 +11,7 @@ import JsonLd, {
 } from "../_components/json-ld"
 import { createPageMetadata } from "../lib/metadata"
 import { getCompactChangelog } from "../lib/releases"
+import { routes } from "../lib/routes"
 import { siteUrl } from "../lib/seo"
 import { ChangelogView } from "./changelog-view"
 
@@ -20,7 +21,7 @@ const changelogDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Monoline UI React Release Changelog and Version History",
 	description: changelogDescription,
-	path: "/changelog",
+	path: routes.changelog,
 })
 
 // Only show tagged releases — filter out the null-version unreleased block
@@ -43,7 +44,7 @@ export default function ChangelogPage() {
 						createCollectionPageJsonLd({
 							title: "Monoline UI release changelog",
 							description: changelogDescription,
-							path: "/changelog",
+							path: routes.changelog,
 							items: releases.map((release) => ({
 								name: `Monoline UI ${release.version ?? "Unreleased"}`,
 								path: `/changelog#release-${(
@@ -52,8 +53,8 @@ export default function ChangelogPage() {
 							})),
 						}),
 						createBreadcrumbJsonLd([
-							{ name: "Home", path: "/" },
-							{ name: "Changelog", path: "/changelog" },
+							{ name: "Home", path: routes.home },
+							{ name: "Changelog", path: routes.changelog },
 						]),
 					],
 				}}

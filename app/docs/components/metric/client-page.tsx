@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Metric,
-	type MetricSize,
-} from "@chitrank2050/monoline-ui/components/metric"
+import { Metric, type MetricSize } from "@chitrank2050/monoline-ui/metric"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -17,7 +14,7 @@ const usageCode = `<Metric
   trend="up"
 />`
 
-const sourceSnippet = `import { Metric } from "@chitrank2050/monoline-ui/components/metric"
+const sourceSnippet = `import { Metric } from "@chitrank2050/monoline-ui/metric"
 
 export function Stats() {
   return (
@@ -50,7 +47,7 @@ export default function MetricPageClient() {
 			description="Show key numbers with labels, descriptions, and optional trend state."
 			sizes={metricSizes}
 			defaultSize="md"
-			importStatement='import { Metric } from "@chitrank2050/monoline-ui/components/metric"'
+			importStatement='import { Metric } from "@chitrank2050/monoline-ui/metric"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

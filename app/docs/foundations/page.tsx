@@ -8,6 +8,7 @@ import JsonLd, {
 } from "../../_components/json-ld"
 import { foundationsNav } from "../../lib/docs-nav"
 import { createPageMetadata } from "../../lib/metadata"
+import { routes } from "../../lib/routes"
 
 const displayTitle = "Design-token foundations"
 const seoTitle = "Tailwind CSS v4 Design Token Foundations | monoline/ui"
@@ -17,7 +18,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: seoTitle,
 	description: pageDescription,
-	path: "/docs/foundations",
+	path: routes.docs.foundations.root,
 })
 
 const foundationDescriptions: Record<string, string> = {
@@ -31,7 +32,7 @@ const foundationDescriptions: Record<string, string> = {
 }
 
 const foundationItems = foundationsNav
-	.filter((item) => item.href && item.href !== "/docs/foundations")
+	.filter((item) => item.href && item.href !== routes.docs.foundations.root)
 	.flatMap((item) => [{ name: item.label, path: item.href! }])
 
 export default function FoundationsPage() {
@@ -41,12 +42,15 @@ export default function FoundationsPage() {
 			createCollectionPageJsonLd({
 				title: displayTitle,
 				description: pageDescription,
-				path: "/docs/foundations",
+				path: routes.docs.foundations.root,
 				items: foundationItems,
 			}),
 			createBreadcrumbJsonLd([
-				{ name: "Monoline UI", path: "/" },
-				{ name: "Design-token foundations", path: "/docs/foundations" },
+				{ name: "Monoline UI", path: routes.home },
+				{
+					name: "Design-token foundations",
+					path: routes.docs.foundations.root,
+				},
 			]),
 		],
 	}
@@ -71,9 +75,12 @@ export default function FoundationsPage() {
 				</div>
 				<div className="grid grid-cols-1 gap-ml-4 md:grid-cols-2">
 					{foundationsNav
-						.filter((item) => item.href !== "/docs/foundations")
+						.filter((item) => item.href !== routes.docs.foundations.root)
 						.map((item) => (
-							<Card key={item.href} href={item.href ?? "/docs/foundations"}>
+							<Card
+								key={item.href}
+								href={item.href ?? routes.docs.foundations.root}
+							>
 								<Card.Body>
 									<Card.Title>{item.label}</Card.Title>
 									<Card.Description>

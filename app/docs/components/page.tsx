@@ -9,6 +9,7 @@ import JsonLd, {
 } from "../../_components/json-ld"
 import { componentNavGroups } from "../../lib/docs-nav"
 import { createPageMetadata } from "../../lib/metadata"
+import { routes } from "../../lib/routes"
 
 const displayTitle = "Component catalog"
 const seoTitle = "React Component Catalog for Editorial UI | monoline/ui"
@@ -17,7 +18,7 @@ const pageDescription = `Browse ${metadataJson.count} React components for devel
 export const metadata: Metadata = createPageMetadata({
 	title: seoTitle,
 	description: pageDescription,
-	path: "/docs/components",
+	path: routes.docs.components.root,
 })
 
 const componentItems = componentNavGroups
@@ -35,12 +36,12 @@ export default function ComponentsPage() {
 			createCollectionPageJsonLd({
 				title: displayTitle,
 				description: pageDescription,
-				path: "/docs/components",
+				path: routes.docs.components.root,
 				items: componentItems,
 			}),
 			createBreadcrumbJsonLd([
-				{ name: "Monoline UI", path: "/" },
-				{ name: "React components", path: "/docs/components" },
+				{ name: "Monoline UI", path: routes.home },
+				{ name: "React components", path: routes.docs.components.root },
 			]),
 		],
 	}
@@ -68,7 +69,10 @@ export default function ComponentsPage() {
 						</div>
 						<div className="grid grid-cols-1 gap-ml-4 md:grid-cols-2">
 							{group.items.map((item) => (
-								<Card key={item.href} href={item.href ?? "/docs/components"}>
+								<Card
+									key={item.href}
+									href={item.href ?? routes.docs.components.root}
+								>
 									<Card.Body>
 										<Card.Title>{item.label}</Card.Title>
 										<Card.Description>{item.description}</Card.Description>

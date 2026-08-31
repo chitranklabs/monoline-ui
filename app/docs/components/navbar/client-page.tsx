@@ -1,18 +1,18 @@
 "use client"
 
 import { Button } from "@chitrank2050/monoline-ui/button"
-import { Progress } from "@chitrank2050/monoline-ui/components/progress"
 import {
 	Navbar,
 	type NavbarLayout,
 	type NavbarSize,
 } from "@chitrank2050/monoline-ui/navbar"
+import { Progress } from "@chitrank2050/monoline-ui/progress"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
 const navbarSizes: NavbarSize[] = ["sm", "md", "lg"]
 
-const navbarLinks = [{ href: "/components", label: "Components" }]
+const navbarLinks = [{ href: "/docs/components", label: "Components" }]
 
 const propsRows = [
 	["size", "sm | md | lg", "Navbar density and type scale"],

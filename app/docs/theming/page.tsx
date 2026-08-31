@@ -10,6 +10,7 @@ import JsonLd, {
 } from "../../_components/json-ld"
 import "../../_styles/guide-pages.css"
 import { createPageMetadata } from "../../lib/metadata"
+import { routes } from "../../lib/routes"
 
 const displayTitle = "Theming"
 const pageDescription =
@@ -18,7 +19,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Tailwind CSS v4 Theming | monoline/ui Documentation",
 	description: pageDescription,
-	path: "/docs/theming",
+	path: routes.docs.theming,
 })
 
 const importCode = `@import "tailwindcss";
@@ -57,11 +58,11 @@ export default function ThemingPage() {
 			createTechArticleJsonLd({
 				title: displayTitle,
 				description: pageDescription,
-				path: "/docs/theming",
+				path: routes.docs.theming,
 			}),
 			createBreadcrumbJsonLd([
-				{ name: "Monoline UI", path: "/" },
-				{ name: displayTitle, path: "/docs/theming" },
+				{ name: "Monoline UI", path: routes.home },
+				{ name: displayTitle, path: routes.docs.theming },
 			]),
 		],
 	}

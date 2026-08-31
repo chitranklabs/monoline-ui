@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Eyebrow,
-	type EyebrowSize,
-} from "@chitrank2050/monoline-ui/components/eyebrow"
+import { Eyebrow, type EyebrowSize } from "@chitrank2050/monoline-ui/eyebrow"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -11,7 +8,7 @@ const eyebrowSizes: EyebrowSize[] = ["xs", "sm", "md"]
 
 const usageCode = `<Eyebrow size="sm">Foundations · Colors</Eyebrow>`
 
-const sourceSnippet = `import { Eyebrow } from "@chitrank2050/monoline-ui/components/eyebrow"
+const sourceSnippet = `import { Eyebrow } from "@chitrank2050/monoline-ui/eyebrow"
 
 export function SectionLabel() {
   return <Eyebrow>Selected work · 04</Eyebrow>
@@ -34,7 +31,7 @@ export default function EyebrowPageClient() {
 			description="Render compact section labels with mono text, uppercase rhythm, and predictable sizes."
 			sizes={eyebrowSizes}
 			defaultSize="sm"
-			importStatement='import { Eyebrow } from "@chitrank2050/monoline-ui/components/eyebrow"'
+			importStatement='import { Eyebrow } from "@chitrank2050/monoline-ui/eyebrow"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

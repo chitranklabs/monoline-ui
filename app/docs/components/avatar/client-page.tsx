@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Avatar,
-	type AvatarSize,
-} from "@chitrank2050/monoline-ui/components/avatar"
+import { Avatar, type AvatarSize } from "@chitrank2050/monoline-ui/avatar"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -24,7 +21,7 @@ const usageCode = `<Avatar size="md" src="/avatar.jpg" alt="Chitrank Agnihotri" 
 
 <Avatar size="lg">CA</Avatar>`
 
-const sourceSnippet = `import { Avatar } from "@chitrank2050/monoline-ui/components/avatar"
+const sourceSnippet = `import { Avatar } from "@chitrank2050/monoline-ui/avatar"
 import Image from "next/image"
 
 export function People() {
@@ -72,7 +69,7 @@ export default function AvatarPageClient() {
 			description="Render identity images or initials with fixed size tokens, fallback color, and slotted image support."
 			sizes={avatarSizes}
 			defaultSize="md"
-			importStatement='import { Avatar } from "@chitrank2050/monoline-ui/components/avatar"'
+			importStatement='import { Avatar } from "@chitrank2050/monoline-ui/avatar"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

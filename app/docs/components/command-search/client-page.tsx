@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 import { Button } from "@chitrank2050/monoline-ui/button"
-import { CommandSearch } from "@chitrank2050/monoline-ui/components/command-search"
+import { CommandSearch } from "@chitrank2050/monoline-ui/command-search"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -29,7 +29,7 @@ const usageCode = `<CommandSearch
 
 const sourceSnippet = `import { useState } from "react"
 import { Button } from "@chitrank2050/monoline-ui/button"
-import { CommandSearch } from "@chitrank2050/monoline-ui/components/command-search"
+import { CommandSearch } from "@chitrank2050/monoline-ui/command-search"
 
 export function SearchTrigger() {
   const [open, setOpen] = useState(false)
@@ -210,7 +210,7 @@ export default function CommandSearchPageClient() {
 			defaultSize="md"
 			variants={[]}
 			defaultVariant="default"
-			importStatement='import { CommandSearch } from "@chitrank2050/monoline-ui/components/command-search"'
+			importStatement='import { CommandSearch } from "@chitrank2050/monoline-ui/command-search"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

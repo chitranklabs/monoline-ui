@@ -1,3 +1,5 @@
+import { readFile, readdir } from "node:fs/promises"
+import path from "node:path"
 import { describe, expect, it } from "vitest"
 
 import metadata from "../../src/metadata.json"
@@ -22,5 +24,40 @@ describe("componentGuidance", () => {
 				expect(knownSlugs.has(relatedSlug)).toBe(true)
 			}
 		}
+	})
+
+	it("matches the client boundaries declared by component source", async () => {
+		const sourceClientComponents = []
+
+		for (const slug of componentSlugs) {
+			const componentDirectory = path.join(
+				process.cwd(),
+				"src",
+				"components",
+				slug
+			)
+			const files = await readdir(componentDirectory, { withFileTypes: true })
+			const sources = await Promise.all(
+				files
+					.filter((file) => file.isFile() && /\.[cm]?[jt]sx?$/.test(file.name))
+					.map((file) =>
+						readFile(path.join(componentDirectory, file.name), "utf8")
+					)
+			)
+
+			if (
+				sources.some((source) =>
+					/^(?:"use client"|'use client');?/.test(source)
+				)
+			) {
+				sourceClientComponents.push(slug)
+			}
+		}
+
+		const documentedClientComponents = componentSlugs.filter(
+			(slug) => componentGuidance[slug].runtime === "client"
+		)
+
+		expect(documentedClientComponents).toEqual(sourceClientComponents)
 	})
 })

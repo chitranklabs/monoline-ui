@@ -20,10 +20,8 @@ import { DataList } from "@chitrank2050/monoline-ui/data-list"
 import { LinkList } from "@chitrank2050/monoline-ui/link-list"
 import { SegmentedControl } from "@chitrank2050/monoline-ui/segmented-control"
 
-import {
-	type ComponentSlug,
-	componentGuidance,
-} from "../lib/component-guidance"
+import { componentGuidance } from "../lib/component-guidance"
+import { type ComponentSlug, componentPath, routes } from "../lib/routes"
 import { CodeBlock } from "./code-block"
 import JsonLd, {
 	createBreadcrumbJsonLd,
@@ -536,18 +534,18 @@ export function ComponentPlayground<
 		(typeof description === "string"
 			? description
 			: `${title} usage, API, accessibility, runtime, and design-token guidance for Monoline UI.`)
-	const componentPath = `/components/${componentSlug}` as const
+	const currentComponentPath = componentPath(componentSlug)
 	const runtimeLabel =
 		guidance.runtime === "client" ? "Client Component" : "Server Component"
 	const integrationGuidance = [
 		{
 			label: "01",
-			title: "Good fit",
+			title: "Use when",
 			description: guidance.whenToUse,
 		},
 		{
 			label: "02",
-			title: "Choose something else if",
+			title: "Avoid when",
 			description: guidance.whenToAvoid,
 		},
 		{
@@ -569,7 +567,7 @@ export function ComponentPlayground<
 			label: String(index + 1).padStart(2, "0"),
 			date: "Component",
 			title: `${formatComponentSlug(relatedSlug)}`,
-			href: `/docs/components/${relatedSlug}`,
+			href: componentPath(relatedSlug),
 			tag: "Reference",
 			as: Link,
 		})),
@@ -577,7 +575,7 @@ export function ComponentPlayground<
 			label: "03",
 			date: "Setup",
 			title: "Install Monoline UI",
-			href: "/docs/installation",
+			href: routes.docs.installation,
 			tag: "Guide",
 			as: Link,
 		},
@@ -585,7 +583,7 @@ export function ComponentPlayground<
 			label: "04",
 			date: "Theme",
 			title: "Tailwind CSS v4 design tokens",
-			href: "/docs/foundations",
+			href: routes.docs.foundations.root,
 			tag: "Foundations",
 			as: Link,
 		},
@@ -596,12 +594,12 @@ export function ComponentPlayground<
 			createTechArticleJsonLd({
 				title: `${title} component reference`,
 				description: descriptionText,
-				path: componentPath,
+				path: currentComponentPath,
 			}),
 			createBreadcrumbJsonLd([
 				{ name: "Monoline UI", path: "/" },
-				{ name: "React components", path: "/components" },
-				{ name: title, path: componentPath },
+				{ name: "React components", path: routes.docs.components.root },
+				{ name: title, path: currentComponentPath },
 			]),
 		],
 	}
@@ -650,7 +648,10 @@ export function ComponentPlayground<
 			<section className="docs-section" aria-labelledby="usage">
 				<div className="docs-subhead">
 					<h2 id="usage">Usage</h2>
-					<p>Install path and a minimal example you can paste into an app.</p>
+					<p>
+						Import the component entry and start with its smallest complete
+						example.
+					</p>
 				</div>
 				<h3 id="import">Import</h3>
 				<CodeBlock code={importStatement} language="typescript" />
@@ -659,12 +660,12 @@ export function ComponentPlayground<
 				<CodeBlock code={usageCode} language="jsx" />
 			</section>
 
-			<section className="docs-section" aria-labelledby="before-you-use-it">
+			<section className="docs-section" aria-labelledby="usage-guidance">
 				<div className="docs-subhead">
-					<h2 id="before-you-use-it">Before you use it</h2>
+					<h2 id="usage-guidance">Usage guidance</h2>
 					<p>
-						Check the behavior, semantics, and runtime before adapting the
-						visual layer.
+						Choose the component for its interaction model and semantics before
+						customizing its appearance.
 					</p>
 				</div>
 				<DataList size="sm" variant="numbered" items={integrationGuidance} />
@@ -673,7 +674,7 @@ export function ComponentPlayground<
 			{propRows && propRows.length > 0 && (
 				<section className="docs-section" aria-labelledby="api-reference">
 					<div className="docs-subhead">
-						<h2 id="api-reference">API Reference</h2>
+						<h2 id="api-reference">API reference</h2>
 						<p>Props, slots, and callbacks available on this component.</p>
 					</div>
 					<div className="props-table">
@@ -695,7 +696,7 @@ export function ComponentPlayground<
 			{tokens && tokens.length > 0 && (
 				<section className="docs-section" aria-labelledby="design-tokens">
 					<div className="docs-subhead">
-						<h2 id="design-tokens">Design Tokens</h2>
+						<h2 id="design-tokens">Design tokens</h2>
 						<p>
 							Theme variables this component reads for color, spacing, and
 							motion.
@@ -730,13 +731,19 @@ export function ComponentPlayground<
 			<div className="docs-section">
 				<div className="docs-subhead">
 					<h2 id="related-documentation">Related documentation</h2>
-					<p>Continue with nearby components, installation, and theming.</p>
+					<p>
+						Compare related components or review the package and theme setup.
+					</p>
 				</div>
 				<LinkList
 					aria-labelledby="related-documentation"
 					size="sm"
 					title="Documentation map"
-					action={<Link href="/docs/components">View component catalog →</Link>}
+					action={
+						<Link href={routes.docs.components.root}>
+							View component catalog →
+						</Link>
+					}
 					items={relatedDocumentation}
 				/>
 			</div>

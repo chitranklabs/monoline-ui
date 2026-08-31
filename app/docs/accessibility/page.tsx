@@ -11,6 +11,7 @@ import JsonLd, {
 } from "../../_components/json-ld"
 import "../../_styles/guide-pages.css"
 import { createPageMetadata } from "../../lib/metadata"
+import { routes } from "../../lib/routes"
 
 const displayTitle = "Accessibility"
 const pageDescription =
@@ -19,7 +20,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Accessible React Components | monoline/ui Guidelines",
 	description: pageDescription,
-	path: "/docs/accessibility",
+	path: routes.docs.accessibility,
 })
 
 const behaviorRows = [
@@ -84,11 +85,11 @@ export default function AccessibilityPage() {
 			createTechArticleJsonLd({
 				title: displayTitle,
 				description: pageDescription,
-				path: "/docs/accessibility",
+				path: routes.docs.accessibility,
 			}),
 			createBreadcrumbJsonLd([
-				{ name: "Monoline UI", path: "/" },
-				{ name: displayTitle, path: "/docs/accessibility" },
+				{ name: "Monoline UI", path: routes.home },
+				{ name: displayTitle, path: routes.docs.accessibility },
 			]),
 		],
 	}

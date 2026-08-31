@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { DocsArticleJsonLd } from "../../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../../lib/metadata"
+import { routes } from "../../../lib/routes"
 
 const displayTitle = "Typography"
 const pageDescription =
@@ -10,7 +11,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Typography Design Tokens | monoline/ui Documentation",
 	description: pageDescription,
-	path: "/docs/foundations/typography",
+	path: routes.docs.foundations.typography,
 })
 
 const families = [
@@ -72,9 +73,9 @@ export default function TypographyPage() {
 			<DocsArticleJsonLd
 				title={displayTitle}
 				description={pageDescription}
-				path="/foundations/typography"
+				path={routes.docs.foundations.typography}
 				section="Foundations"
-				sectionPath="/foundations"
+				sectionPath={routes.docs.foundations.root}
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Typography</p>

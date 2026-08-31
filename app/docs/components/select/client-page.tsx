@@ -7,7 +7,7 @@ import {
 	type SelectOption,
 	type SelectSize,
 	type SelectVariant,
-} from "@chitrank2050/monoline-ui/components/select"
+} from "@chitrank2050/monoline-ui/select"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -40,7 +40,7 @@ const usageCode = `<Select
 	<Select.Content side="bottom" align="start" />
 </Select>`
 
-const sourceSnippet = `import { Select } from "@chitrank2050/monoline-ui/components/select"
+const sourceSnippet = `import { Select } from "@chitrank2050/monoline-ui/select"
 
 export function SortControl() {
   const [sort, setSort] = useState("recent")
@@ -149,7 +149,7 @@ export default function SelectPageClient() {
 			defaultSize="md"
 			variants={variants}
 			defaultVariant="default"
-			importStatement='import { Select } from "@chitrank2050/monoline-ui/components/select"'
+			importStatement='import { Select } from "@chitrank2050/monoline-ui/select"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

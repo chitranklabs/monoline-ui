@@ -40,8 +40,8 @@ const items = [
 	{
 		kind: "docs",
 		label: "Documentation",
-		href: "https://monolineui.chitrankagnihotri.com/components",
-		host: "monolineui.chitrankagnihotri.com/components",
+		href: "https://monolineui.chitrankagnihotri.com/docs/components",
+		host: "monolineui.chitrankagnihotri.com/docs/components",
 	},
 	{
 		kind: "changelog",
@@ -53,8 +53,8 @@ const items = [
 	{
 		kind: "figma",
 		label: "Design foundations",
-		href: "https://monolineui.chitrankagnihotri.com/foundations",
-		host: "monolineui.chitrankagnihotri.com/foundations",
+		href: "https://monolineui.chitrankagnihotri.com/docs/foundations",
+		host: "monolineui.chitrankagnihotri.com/docs/foundations",
 	},
 	{
 		kind: "video",

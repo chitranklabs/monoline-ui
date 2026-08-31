@@ -21,6 +21,7 @@ import JsonLd, {
 import { fetchIdentity } from "./lib/identity"
 import { createPageMetadata } from "./lib/metadata"
 import { getLatestRelease } from "./lib/releases"
+import { routes } from "./lib/routes"
 import { siteUrl } from "./lib/seo"
 
 const homeTitle = "React Component Library for Editorial UI | monoline/ui"
@@ -30,14 +31,14 @@ const homeDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: homeTitle,
 	description: homeDescription,
-	path: "/",
+	path: routes.home,
 })
 
 const stats = [
 	{ value: `${metadataJson.count}`, label: "Components" },
-	{ value: "0 ms", label: "Runtime CSS" },
-	{ value: "2", label: "Native Themes" },
-	{ value: "100%", label: "TypeScript" },
+	{ value: "18.2+", label: "React support" },
+	{ value: "v4", label: "Tailwind CSS" },
+	{ value: "2", label: "Themes" },
 	{ value: "MIT", label: "Open Source" },
 ]
 
@@ -56,7 +57,7 @@ export default async function HomePage() {
 			createWebPageJsonLd({
 				title: homeTitle,
 				description: homeDescription,
-				path: "/",
+				path: routes.home,
 			}),
 		].filter(Boolean),
 	}
@@ -70,7 +71,6 @@ export default async function HomePage() {
 		>
 			<JsonLd data={jsonLd} />
 
-			{/* HERO SECTION */}
 			<section className="flex flex-col items-start gap-ml-8">
 				<div className="flex flex-col items-start gap-ml-4">
 					<Link
@@ -81,7 +81,7 @@ export default async function HomePage() {
 							{release.version}
 						</Status>
 						<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow">
-							Tailwind v4 Native
+							Tailwind CSS v4
 						</span>
 						<span className="text-text-muted transition-transform group-hover:translate-x-0.5">
 							→
@@ -97,9 +97,9 @@ export default async function HomePage() {
 					</h1>
 
 					<p className="max-w-140 text-text-secondary text-base sm:text-lg font-normal leading-relaxed">
-						47 craft-obsessed, dark-first components built with OKLCH color
-						tokens, razor-sharp hairlines, and zero runtime overhead. Designed
-						for portfolios, technical writing, and developer products.
+						47 typed components for portfolios, documentation, and editorial
+						products. The package ships ESM subpath exports and a Tailwind CSS
+						v4 theme built from semantic OKLCH tokens.
 					</p>
 
 					<div className="flex flex-wrap items-center gap-ml-3 pt-ml-2">
@@ -115,13 +115,12 @@ export default async function HomePage() {
 					</div>
 				</div>
 
-				{/* HERO LIVE COMPONENT GRID (SHADCN-STYLE WITH FADE) */}
 				<div className="w-full pt-ml-4">
+					<h2 className="sr-only">Component preview</h2>
 					<HomeHeroGrid />
 				</div>
 			</section>
 
-			{/* STATS & ATTRIBUTES RIBBON */}
 			<section
 				className="grid grid-cols-2 gap-ml-6 sm:grid-cols-5 border-y border-border py-ml-6 my-ml-16 items-center"
 				aria-label="Key library attributes"
@@ -138,13 +137,12 @@ export default async function HomePage() {
 				))}
 			</section>
 
-			{/* LIVE INTERACTIVE COMPONENT SHOWCASE */}
 			<section className="flex flex-col gap-ml-8 my-ml-16">
 				<div className="flex flex-col gap-ml-2">
 					<SectionHead
 						eyebrow={`Live Catalog · ${metadataJson.count} components`}
-						title="Interactive components with taste."
-						subtitle="Every component is keyboard-accessible, token-aware, and built for instant responsiveness."
+						title="Try the components in context."
+						subtitle="These examples use the same package exports documented in the component reference."
 						size="md"
 						level={2}
 					/>
@@ -153,13 +151,12 @@ export default async function HomePage() {
 				<HomeComponentGallery />
 			</section>
 
-			{/* HOW IT WORKS / CODE TABS SECTION */}
 			<section className="flex flex-col gap-ml-8 my-ml-16 border-t border-border pt-ml-16">
 				<div className="flex flex-col gap-ml-2">
 					<SectionHead
-						eyebrow="Zero Friction · Pure CSS Tokens"
-						title="One line to import. Three lines to rebrand."
-						subtitle="Swap variables in your stylesheet to completely adapt colors, typography, and radiuses."
+						eyebrow="Package architecture · CSS variables"
+						title="Import the theme once. Override semantic tokens when needed."
+						subtitle="Components read shared color, type, spacing, radius, and motion variables from the package stylesheet."
 						size="md"
 						level={2}
 					/>
@@ -168,18 +165,17 @@ export default async function HomePage() {
 				<HomeArchitectureTabs />
 			</section>
 
-			{/* EDITORIAL BOTTOM CTA */}
 			<section className="mt-ml-16 mb-ml-6 overflow-hidden border border-border rounded-xl bg-surface-2/40 p-ml-8 sm:p-ml-12 text-center shadow-xs">
 				<div className="mx-auto flex max-w-xl flex-col items-center gap-ml-4">
 					<p className="m-0 font-mono text-3xs font-semibold uppercase tracking-eyebrow text-accent">
-						MIT Licensed · Production Ready
+						MIT licensed · React 18.2 and 19
 					</p>
 					<h2 className="m-0 font-mono text-2xl sm:text-3xl font-bold tracking-tight text-text">
-						Build your next portfolio or documentation site with taste.
+						Start with one component.
 					</h2>
 					<p className="m-0 text-sm text-text-secondary leading-relaxed">
-						Start in under five minutes with Next.js App Router, Vite, or any
-						modern React 19 environment.
+						Install the package in a supported React project, import the theme,
+						then choose components through their direct subpath exports.
 					</p>
 					<div className="flex flex-wrap items-center justify-center gap-ml-3 pt-ml-4">
 						<Button asChild size="md">

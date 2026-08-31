@@ -11,6 +11,7 @@ import JsonLd, {
 } from "../../_components/json-ld"
 import "../../_styles/guide-pages.css"
 import { createPageMetadata } from "../../lib/metadata"
+import { routes } from "../../lib/routes"
 
 const displayTitle = "Compatibility"
 const pageDescription =
@@ -19,7 +20,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "React and Tailwind Compatibility | monoline/ui Docs",
 	description: pageDescription,
-	path: "/docs/compatibility",
+	path: routes.docs.compatibility,
 })
 
 const compatibilityRows = [
@@ -67,11 +68,11 @@ export default function CompatibilityPage() {
 			createTechArticleJsonLd({
 				title: displayTitle,
 				description: pageDescription,
-				path: "/docs/compatibility",
+				path: routes.docs.compatibility,
 			}),
 			createBreadcrumbJsonLd([
-				{ name: "Monoline UI", path: "/" },
-				{ name: displayTitle, path: "/docs/compatibility" },
+				{ name: "Monoline UI", path: routes.home },
+				{ name: displayTitle, path: routes.docs.compatibility },
 			]),
 		],
 	}
@@ -83,9 +84,9 @@ export default function CompatibilityPage() {
 				<p className="ml-eyebrow">Product guide · Compatibility</p>
 				<h1>{displayTitle}</h1>
 				<p>
-					Monoline targets modern React environments. This page summarizes
-					supported peer dependencies, bundler formats, and modern browser
-					features.
+					Monoline publishes an ESM package for React 18.2 and 19. This page
+					lists its peer dependencies, server and client boundaries, and the CSS
+					features expected from browsers.
 				</p>
 			</header>
 
@@ -132,8 +133,8 @@ export default function CompatibilityPage() {
 							<Card.Eyebrow>Not declared</Card.Eyebrow>
 							<Card.Title>Legacy browser support</Card.Title>
 							<Card.Description lines={4}>
-								Monoline does not publish an Internet Explorer or fixed
-								legacy-browser compatibility guarantee.
+								Monoline does not declare support for Internet Explorer or a
+								fixed set of legacy browser versions.
 							</Card.Description>
 						</Card.Body>
 					</Card>

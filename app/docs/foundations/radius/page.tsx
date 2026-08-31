@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { DocsArticleJsonLd } from "../../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../../lib/metadata"
+import { routes } from "../../../lib/routes"
 
 const displayTitle = "Radius"
 const pageDescription =
@@ -10,7 +11,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Border Radius Design Tokens | monoline/ui Documentation",
 	description: pageDescription,
-	path: "/docs/foundations/radius",
+	path: routes.docs.foundations.radius,
 })
 
 const radii = [
@@ -27,9 +28,9 @@ export default function RadiusPage() {
 			<DocsArticleJsonLd
 				title={displayTitle}
 				description={pageDescription}
-				path="/foundations/radius"
+				path={routes.docs.foundations.radius}
 				section="Foundations"
-				sectionPath="/foundations"
+				sectionPath={routes.docs.foundations.root}
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Radius</p>

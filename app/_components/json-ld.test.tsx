@@ -81,18 +81,18 @@ describe("JsonLd", () => {
 		const article = createTechArticleJsonLd({
 			title: "Button React component",
 			description: "Typed button integration guidance.",
-			path: "/components/button",
+			path: "/docs/components/button",
 		})
 		const breadcrumbs = createBreadcrumbJsonLd([
 			{ name: "Monoline UI", path: "/" },
-			{ name: "Button", path: "/components/button" },
+			{ name: "Button", path: "/docs/components/button" },
 		])
 
 		expect(article).toMatchObject({
 			"@type": "TechArticle",
 			"@id":
-				"https://monolineui.chitrankagnihotri.com/components/button#webpage",
-			url: "https://monolineui.chitrankagnihotri.com/components/button",
+				"https://monolineui.chitrankagnihotri.com/docs/components/button#webpage",
+			url: "https://monolineui.chitrankagnihotri.com/docs/components/button",
 			author: {
 				"@type": "Person",
 				"@id": "https://chitrankagnihotri.com/#person",
@@ -109,7 +109,7 @@ describe("JsonLd", () => {
 		expect(breadcrumbs.itemListElement).toHaveLength(2)
 		expect(breadcrumbs.itemListElement[1]).toMatchObject({
 			position: 2,
-			item: "https://monolineui.chitrankagnihotri.com/components/button",
+			item: "https://monolineui.chitrankagnihotri.com/docs/components/button",
 		})
 	})
 
@@ -117,10 +117,10 @@ describe("JsonLd", () => {
 		const collection = createCollectionPageJsonLd({
 			title: "React component catalog",
 			description: "All documented components.",
-			path: "/components",
+			path: "/docs/components",
 			items: [
-				{ name: "Button", path: "/components/button" },
-				{ name: "Card", path: "/components/card" },
+				{ name: "Button", path: "/docs/components/button" },
+				{ name: "Card", path: "/docs/components/card" },
 			],
 		})
 

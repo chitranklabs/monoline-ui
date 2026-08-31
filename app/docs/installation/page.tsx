@@ -5,6 +5,7 @@ import { DocsArticleJsonLd } from "../../_components/docs-article-json-ld"
 import { InstallCommand } from "../../_components/install-command"
 import "../../_styles/guide-pages.css"
 import { createPageMetadata } from "../../lib/metadata"
+import { routes } from "../../lib/routes"
 
 const displayTitle = "Installation"
 const seoTitle = "Install monoline/ui for React and Tailwind CSS v4 | Docs"
@@ -14,7 +15,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: seoTitle,
 	description: pageDescription,
-	path: "/docs/installation",
+	path: routes.docs.installation,
 })
 
 interface InstallStep {
@@ -33,7 +34,7 @@ const installSteps: InstallStep[] = [
 		number: "01",
 		title: "Prerequisites",
 		description:
-			"Use React 19 or a current Next.js App Router project with Tailwind CSS v4. TypeScript is optional but recommended.",
+			"Use React 18.2 or React 19 with Tailwind CSS v4. Monoline works with Next.js and other ESM-based React build tools.",
 	},
 	{
 		id: "install-package",
@@ -51,7 +52,7 @@ const installSteps: InstallStep[] = [
 		code: `@import "tailwindcss";
 @import "@chitrank2050/monoline-ui/theme.css";
 
-/* The package theme now owns colours, typography, spacing, and component tokens. */`,
+/* The package theme defines colors, typography, spacing, and component tokens. */`,
 		language: "css",
 	},
 	{
@@ -100,9 +101,9 @@ export default function InstallationPage() {
 			<DocsArticleJsonLd
 				title={displayTitle}
 				description={pageDescription}
-				path="/docs/installation"
+				path={routes.docs.installation}
 				section="Installation"
-				sectionPath="/docs/installation"
+				sectionPath={routes.docs.installation}
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Product guide · Installation</p>
@@ -161,10 +162,10 @@ export default function InstallationPage() {
 				</div>
 				<div>
 					<h3 className="text-text text-base font-semibold">
-						You&apos;re ready.
+						Verify the setup
 					</h3>
 					<p className="mt-ml-1 text-text-secondary text-sm">
-						Browse the{" "}
+						Render one component and check it in both themes. Then browse the{" "}
 						<a href="/docs/components/footer" className="text-accent">
 							component reference
 						</a>{" "}

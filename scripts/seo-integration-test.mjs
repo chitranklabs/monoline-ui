@@ -64,6 +64,25 @@ assert.equal(
 	"metadata-derived public routes should be unique"
 )
 const EXPECTED_PATH_SET = new Set(EXPECTED_PATHS)
+const LEGACY_REDIRECTS = new Map([
+	["/installation", "/docs/installation"],
+	["/accessibility", "/docs/accessibility"],
+	["/theming", "/docs/theming"],
+	["/compatibility", "/docs/compatibility"],
+	["/patterns", "/docs/patterns"],
+	["/foundations", "/docs/foundations"],
+	["/foundations/colors", "/docs/foundations/colors"],
+	["/foundations/typography", "/docs/foundations/typography"],
+	["/foundations/spacing", "/docs/foundations/spacing"],
+	["/foundations/spacing-motion", "/docs/foundations/spacing"],
+	["/foundations/radius", "/docs/foundations/radius"],
+	["/foundations/motion", "/docs/foundations/motion"],
+	["/components", "/docs/components"],
+	...componentMetadata.components.map((component) => [
+		`/components/${component}`,
+		`/docs/components/${component}`,
+	]),
+])
 
 function decodeEntities(value) {
 	return value
@@ -170,6 +189,25 @@ function getTopLevelSchemaNodes(jsonLd) {
 
 function validateStructuredData(jsonLd, pathname) {
 	const nodes = getTopLevelSchemaNodes(jsonLd)
+	const canonicalUrl = new URL(pathname, `${SITE_URL}/`).href
+	const page = nodes.find(
+		(node) =>
+			hasSchemaType(node, "TechArticle") ||
+			hasSchemaType(node, "CollectionPage") ||
+			hasSchemaType(node, "WebPage")
+	)
+
+	assert.ok(page, `${pathname} should describe its canonical page in JSON-LD`)
+	assert.equal(
+		page.url,
+		canonicalUrl,
+		`${pathname} JSON-LD url should match its canonical URL`
+	)
+	assert.equal(
+		page["@id"],
+		`${canonicalUrl}#webpage`,
+		`${pathname} JSON-LD @id should match its canonical URL`
+	)
 	const article = nodes.find((node) => hasSchemaType(node, "TechArticle"))
 
 	if (article) {
@@ -250,7 +288,46 @@ function validateStructuredData(jsonLd, pathname) {
 				index + 1,
 				`${pathname} breadcrumb positions should be sequential`
 			)
+			const itemUrl = new URL(item.item)
+			assert.equal(
+				itemUrl.origin,
+				SITE_URL,
+				`${pathname} breadcrumb item ${index + 1} should use the canonical host`
+			)
+			assert.ok(
+				EXPECTED_PATH_SET.has(itemUrl.pathname),
+				`${pathname} breadcrumb item ${index + 1} should use a canonical route`
+			)
 		})
+		assert.equal(
+			breadcrumb.itemListElement.at(-1)?.item,
+			canonicalUrl,
+			`${pathname} breadcrumb should end at the canonical page URL`
+		)
+	}
+}
+
+function validateHeadingOrder(html, pathname) {
+	const headings = html.match(/<h[1-6]\b[^>]*>/gi) ?? []
+	let previousLevel = 0
+
+	for (const heading of headings) {
+		const level = Number.parseInt(heading[2], 10)
+		assert.ok(
+			previousLevel === 0 || level <= previousLevel + 1,
+			`${pathname} should not skip from h${previousLevel} to h${level}`
+		)
+		previousLevel = level
+	}
+}
+
+function validateImages(html, pathname) {
+	for (const image of extractTags(html, "img")) {
+		assert.notEqual(
+			getAttribute(image, "alt"),
+			null,
+			`${pathname} images should declare alt text, including an empty alt for decorative images`
+		)
 	}
 }
 
@@ -423,6 +500,8 @@ function validatePage(html, pathname, expectedSchemaTypes = []) {
 		`${pathname} should have one main`
 	)
 	assert.equal(countElements(html, "h1"), 1, `${pathname} should have one h1`)
+	validateHeadingOrder(html, pathname)
+	validateImages(html, pathname)
 	const heading = extractElementText(html, "h1")
 	assert.ok(heading, `${pathname} should have a non-empty h1`)
 	if (
@@ -723,16 +802,18 @@ async function run() {
 			)
 		}
 
-		const legacy = await fetchResponse("/foundations/spacing-motion")
-		assert.ok(
-			[301, 308].includes(legacy.status),
-			"the legacy foundation route should permanently redirect"
-		)
-		assert.equal(
-			new URL(legacy.headers.get("location") ?? "", SITE_URL).pathname,
-			"/docs/foundations/spacing",
-			"the legacy foundation route should redirect to spacing"
-		)
+		for (const [source, destination] of LEGACY_REDIRECTS) {
+			const legacy = await fetchResponse(source)
+			assert.ok(
+				[301, 308].includes(legacy.status),
+				`${source} should permanently redirect`
+			)
+			assert.equal(
+				new URL(legacy.headers.get("location") ?? "", SITE_URL).pathname,
+				destination,
+				`${source} should redirect directly to ${destination}`
+			)
+		}
 
 		const queryResponse = await fetchResponse(
 			"/docs/components/button?theme=dark"

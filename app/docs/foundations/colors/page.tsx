@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { DocsArticleJsonLd } from "../../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../../lib/metadata"
+import { routes } from "../../../lib/routes"
 
 const displayTitle = "Colors"
 const pageDescription =
@@ -10,7 +11,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Color Design Tokens and UI Themes | monoline/ui Docs",
 	description: pageDescription,
-	path: "/docs/foundations/colors",
+	path: routes.docs.foundations.colors,
 })
 
 const colorGroups = [
@@ -105,9 +106,9 @@ export default function ColorsPage() {
 			<DocsArticleJsonLd
 				title={displayTitle}
 				description={pageDescription}
-				path="/foundations/colors"
+				path={routes.docs.foundations.colors}
 				section="Foundations"
-				sectionPath="/foundations"
+				sectionPath={routes.docs.foundations.root}
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Colors</p>
@@ -127,8 +128,8 @@ export default function ColorsPage() {
 					<p className="ml-eyebrow">Dark preview</p>
 					<h2>Dark mode sample</h2>
 					<p>
-						Body copy reads cleanly on this surface. The accent dot reads as
-						intentional, not noise.
+						This panel resolves surface, text, border, and accent variables from
+						the dark theme.
 					</p>
 					<span className="theme-preview__badge theme-preview__badge--dark">
 						<span /> Accent
@@ -141,8 +142,8 @@ export default function ColorsPage() {
 					<p className="ml-eyebrow">Light preview</p>
 					<h2>Light mode sample</h2>
 					<p>
-						Body copy reads cleanly on this surface. The accent dot reads as
-						intentional, not noise.
+						This panel resolves the same semantic variables from the light
+						theme.
 					</p>
 					<span className="theme-preview__badge">
 						<span /> Accent

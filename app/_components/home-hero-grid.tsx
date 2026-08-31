@@ -252,7 +252,7 @@ export function HomeHeroGrid() {
 					{/* Editorial Pull Quote Mini Card */}
 					<div className="rounded-xl border border-border bg-surface-2/40 p-ml-4 shadow-xs">
 						<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-accent">
-							Editorial Craft
+							Editorial layout
 						</span>
 						<p className="mt-ml-1 font-mono text-xs leading-relaxed text-text">
 							"Design tokens should live in CSS, not locked in build
@@ -385,13 +385,13 @@ export function HomeHeroGrid() {
 								id="chk_tokens"
 								checked={check2}
 								onCheckedChange={(v) => setCheck2(!!v)}
-								aria-label="Enable token caching option"
+								aria-label="Show semantic token labels"
 							/>
 							<label
 								htmlFor="chk_tokens"
 								className="cursor-pointer font-mono text-3xs text-text-secondary"
 							>
-								Enable OKLCH Token Caching
+								Show semantic token labels
 							</label>
 						</div>
 					</div>
@@ -413,8 +413,8 @@ export function HomeHeroGrid() {
 								</div>
 								<Card.Title>Monospace Editorial System</Card.Title>
 								<Card.Description lines={2}>
-									47 components with zero runtime CSS bloat, razor-sharp
-									strokes, and token-aware dark modes.
+									Typed React components styled through shared semantic tokens
+									for light and dark themes.
 								</Card.Description>
 							</Card.Header>
 
@@ -440,7 +440,7 @@ export function HomeHeroGrid() {
 						<div className="flex items-center justify-between border-b border-border pb-ml-2">
 							<div className="flex items-center gap-ml-1-5 font-mono text-xs font-bold text-text">
 								<span className="size-2 rounded-full bg-accent animate-pulse" />
-								<span>Monoline CLI</span>
+								<span>Package install</span>
 							</div>
 							<span className="font-mono text-3xs text-text-muted">READY</span>
 						</div>
@@ -450,14 +450,14 @@ export function HomeHeroGrid() {
 								$ npm i @chitrank2050/monoline-ui
 							</p>
 							<p className="m-0 text-accent font-semibold text-3xs">
-								✓ Installed 47 components (0ms CSS runtime)
+								✓ Package and TypeScript declarations installed
 							</p>
 						</div>
 
 						<div className="flex items-center gap-ml-1-5">
 							<Input
 								size="sm"
-								placeholder="Ask CLI or generate..."
+								placeholder="Filter component names..."
 								value={chatInput}
 								onChange={(e) => setChatInput(e.target.value)}
 								autoComplete="off"
@@ -465,7 +465,7 @@ export function HomeHeroGrid() {
 								data-lpignore="true"
 							/>
 							<Button size="sm" variant="secondary">
-								Send
+								Filter
 							</Button>
 						</div>
 					</div>
@@ -474,9 +474,9 @@ export function HomeHeroGrid() {
 					<Metric
 						size="sm"
 						value="47"
-						label="Production Components"
+						label="Documented components"
 						trend="up"
-						description="Accessible WAI-ARIA primitives ready for copy-paste or package import."
+						description="Package exports with examples, props, tokens, and usage guidance."
 					/>
 				</div>
 			</div>

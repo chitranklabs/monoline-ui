@@ -1,54 +1,6 @@
-export const componentSlugs = [
-	"action-rail",
-	"avatar",
-	"back-link",
-	"badge",
-	"button",
-	"callout",
-	"card",
-	"changelog",
-	"checkbox",
-	"code-block",
-	"command-search",
-	"container",
-	"data-list",
-	"dialog",
-	"dropdown-menu",
-	"editorial-line",
-	"eyebrow",
-	"field",
-	"footer",
-	"input",
-	"label",
-	"link-list",
-	"media-frame",
-	"meta-row",
-	"metric",
-	"navbar",
-	"popover",
-	"progress",
-	"pull-quote",
-	"radio-group",
-	"rail",
-	"resources-panel",
-	"section-head",
-	"segmented-control",
-	"select",
-	"separator",
-	"skeleton",
-	"status",
-	"tag",
-	"testimonial",
-	"testimonial-grid",
-	"textarea",
-	"theme-switcher",
-	"toast",
-	"toc",
-	"toggle",
-	"tooltip",
-] as const
+import type { ComponentSlug } from "./routes"
 
-export type ComponentSlug = (typeof componentSlugs)[number]
+export { componentSlugs } from "./routes"
 
 interface ComponentGuidance {
 	runtime: "server" | "client"
@@ -301,7 +253,7 @@ export const componentGuidance = {
 	footer: {
 		runtime: "server",
 		whenToUse:
-			"Footer combines site-wide copy, grouped resource links, an optional status, and a Server Action subscription form.",
+			"Footer combines site-wide copy, grouped resource links, an optional status, and a native or caller-supplied subscription form.",
 		whenToAvoid:
 			"The controls belong only to the current page, or a small legal footer is all the site needs.",
 		accessibility:

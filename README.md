@@ -62,7 +62,7 @@ Monoline UI is a monochrome component library for developer sites, editorial int
 | 🚀 **Server-safe static primitives** | Presentational entrypoints can render without a Monoline client boundary.     |
 | ⚡ **Explicit client components**    | Interactive entrypoints declare client runtime behavior in their source/docs. |
 | 🔗 **Link polymorphism**             | Configure routing globally, per link, or through `asChild`.                   |
-| 🌲 **Tree-shakeable ESM**            | Import only the components you use. No barrel-file bloat.                     |
+| 🌲 **Direct ESM subpaths**           | Import components through explicit package entries.                           |
 | 🎛️ **Token-driven**                  | Customize spacing, scale, and type via CSS custom properties.                 |
 | 📦 **47 components**                 | Each component has a live preview, typed API, and implementation notes.       |
 | 🌊 **Tailwind CSS v4**               | `@source` scanning includes utilities used by installed components.           |
@@ -93,21 +93,21 @@ export default function Page() {
 
 ## Documentation & Links
 
-| Resource          | URL                                                                                                     |
-| :---------------- | :------------------------------------------------------------------------------------------------------ |
-| **Docs**          | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                            |
-| **Components**    | [47 interactive React references](https://monolineui.chitrankagnihotri.com/components)                  |
-| **Foundations**   | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/foundations)                   |
-| **Patterns**      | [Component composition recipes](https://monolineui.chitrankagnihotri.com/patterns)                      |
-| **Accessibility** | [Behavior and consumer responsibilities](https://monolineui.chitrankagnihotri.com/accessibility)        |
-| **Theming**       | [Light, dark, system, and token overrides](https://monolineui.chitrankagnihotri.com/theming)            |
-| **Compatibility** | [React, Next.js, Tailwind, and browser support](https://monolineui.chitrankagnihotri.com/compatibility) |
-| **Installation**  | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/installation)                |
-| **npm**           | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui)  |
-| **JSR**           | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                            |
-| **Repository**    | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                      |
-| **Case study**    | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                  |
-| **Changelog**     | [CHANGELOG.md](./CHANGELOG.md)                                                                          |
+| Resource          | URL                                                                                                          |
+| :---------------- | :----------------------------------------------------------------------------------------------------------- |
+| **Docs**          | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                                 |
+| **Components**    | [47 interactive React references](https://monolineui.chitrankagnihotri.com/docs/components)                  |
+| **Foundations**   | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/docs/foundations)                   |
+| **Patterns**      | [Component composition recipes](https://monolineui.chitrankagnihotri.com/docs/patterns)                      |
+| **Accessibility** | [Behavior and consumer responsibilities](https://monolineui.chitrankagnihotri.com/docs/accessibility)        |
+| **Theming**       | [Light, dark, system, and token overrides](https://monolineui.chitrankagnihotri.com/docs/theming)            |
+| **Compatibility** | [React, Next.js, Tailwind, and browser support](https://monolineui.chitrankagnihotri.com/docs/compatibility) |
+| **Installation**  | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/docs/installation)                |
+| **npm**           | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui)       |
+| **JSR**           | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                                 |
+| **Repository**    | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                           |
+| **Case study**    | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                       |
+| **Changelog**     | [CHANGELOG.md](./CHANGELOG.md)                                                                               |
 
 ---
 
@@ -188,7 +188,7 @@ The published theme registers Monoline's compiled component sources with Tailwin
 ### 2. Server and client runtime boundaries
 
 > [!IMPORTANT]
-> Static primitives can render without a Monoline client boundary. `CodeBlock`, `CommandSearch`, `Progress`, `SegmentedControl`, `Select`, `ThemeSwitcher`, `Toc`, and `Toggle` require client JavaScript. The final bundle also depends on your application and passed children.
+> Static primitives can render without a Monoline client boundary. `Checkbox`, `CodeBlock`, `CommandSearch`, `Dialog`, `DropdownMenu`, `Label`, `Popover`, `Progress`, `RadioGroup`, `SegmentedControl`, `Select`, `Separator`, `ThemeSwitcher`, `Toc`, `Toggle`, and `Tooltip` require client JavaScript. The final bundle also depends on your application and passed children.
 
 Import static primitives from their component subpaths to preserve that boundary. The root package export intentionally remains client-safe because it mixes static and interactive exports.
 

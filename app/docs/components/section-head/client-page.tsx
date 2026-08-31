@@ -3,7 +3,7 @@
 import {
 	SectionHead,
 	type SectionHeadSize,
-} from "@chitrank2050/monoline-ui/components/section-head"
+} from "@chitrank2050/monoline-ui/section-head"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -18,7 +18,7 @@ const usageCode = `<SectionHead
   lede="Interfaces for engineers who need speed without losing taste."
 />`
 
-const sourceSnippet = `import { SectionHead } from "@chitrank2050/monoline-ui/components/section-head"
+const sourceSnippet = `import { SectionHead } from "@chitrank2050/monoline-ui/section-head"
 
 export function Intro() {
   return (
@@ -54,7 +54,7 @@ export default function SectionHeadPageClient() {
 			description="Create section intros with eyebrow, title, subtitle, and size-based heading rhythm."
 			sizes={sectionHeadSizes}
 			defaultSize="lg"
-			importStatement='import { SectionHead } from "@chitrank2050/monoline-ui/components/section-head"'
+			importStatement='import { SectionHead } from "@chitrank2050/monoline-ui/section-head"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

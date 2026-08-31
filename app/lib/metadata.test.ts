@@ -8,12 +8,12 @@ describe("createPageMetadata", () => {
 			title: "Button React Component Documentation | Monoline UI",
 			description:
 				"Build accessible React buttons with primary, secondary, ghost, icon, loading, and link variants. Review live examples, API details, tokens, and source code.",
-			path: "/components/button",
+			path: "/docs/components/button",
 		})
 
-		expect(metadata.alternates?.canonical).toBe("/components/button")
+		expect(metadata.alternates?.canonical).toBe("/docs/components/button")
 		expect(metadata.openGraph?.url).toBe(
-			"https://monolineui.chitrankagnihotri.com/components/button"
+			"https://monolineui.chitrankagnihotri.com/docs/components/button"
 		)
 		expect(metadata.openGraph?.images).toEqual([socialImage])
 		expect(metadata.twitter?.images).toEqual([socialImage])

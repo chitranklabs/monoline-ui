@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { DocsArticleJsonLd } from "../../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../../lib/metadata"
+import { routes } from "../../../lib/routes"
 
 const displayTitle = "Motion"
 const pageDescription =
@@ -10,7 +11,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Motion and Duration Design Tokens | monoline/ui Docs",
 	description: pageDescription,
-	path: "/docs/foundations/motion",
+	path: routes.docs.foundations.motion,
 })
 
 const motion = [
@@ -26,9 +27,9 @@ export default function MotionPage() {
 			<DocsArticleJsonLd
 				title={displayTitle}
 				description={pageDescription}
-				path="/foundations/motion"
+				path={routes.docs.foundations.motion}
 				section="Foundations"
-				sectionPath="/foundations"
+				sectionPath={routes.docs.foundations.root}
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Motion</p>

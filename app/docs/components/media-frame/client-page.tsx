@@ -4,7 +4,7 @@ import {
 	MediaFrame,
 	type MediaFrameRatio,
 	type MediaFrameSize,
-} from "@chitrank2050/monoline-ui/components/media-frame"
+} from "@chitrank2050/monoline-ui/media-frame"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -21,7 +21,7 @@ const usageCode = `<MediaFrame ratio="cinematic" size="md" placeholder>
 </MediaFrame>`
 
 const sourceSnippet = `import Image from "next/image"
-import { MediaFrame } from "@chitrank2050/monoline-ui/components/media-frame"
+import { MediaFrame } from "@chitrank2050/monoline-ui/media-frame"
 
 export function ProjectCover() {
   return (
@@ -72,7 +72,7 @@ export default function MediaFramePageClient() {
 			variants={mediaFrameRatios}
 			defaultVariant="cinematic"
 			previewLayout="viewport"
-			importStatement='import { MediaFrame } from "@chitrank2050/monoline-ui/components/media-frame"'
+			importStatement='import { MediaFrame } from "@chitrank2050/monoline-ui/media-frame"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

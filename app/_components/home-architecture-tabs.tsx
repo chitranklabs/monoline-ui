@@ -9,19 +9,20 @@ import { CodeBlock } from "./code-block"
 const tabs = [
 	{
 		id: "setup",
-		label: "01 · One-Line Setup",
+		label: "01 · Theme setup",
 		filename: "src/app/globals.css",
 		language: "css",
 		code: `@import "tailwindcss";
 @import "@chitrank2050/monoline-ui/theme.css";
 
-/* Done. Semantic OKLCH tokens and component styles are ready. */`,
+
+/* Add data-theme="light" or "dark" to the root html element. */`,
 		description:
-			"Import the package theme once. Monoline registers its compiled styles with Tailwind CSS v4 automatically.",
+			"Import the package theme once. It registers the compiled component sources and exposes the semantic CSS variables.",
 	},
 	{
 		id: "subpaths",
-		label: "02 · Subpath Tree Shaking",
+		label: "02 · Direct exports",
 		filename: "src/app/page.tsx",
 		language: "tsx",
 		code: `import { Button } from "@chitrank2050/monoline-ui/button"
@@ -38,21 +39,21 @@ export default function Page() {
   )
 }`,
 		description:
-			"Each component has its own dedicated subpath entry point. Bundlers import only the exact code you use.",
+			"Each component has a direct subpath entry. This keeps application imports explicit and avoids relying on the root barrel.",
 	},
 	{
 		id: "rebrand",
-		label: "03 · OKLCH Rebranding",
+		label: "03 · Token overrides",
 		filename: "src/app/globals.css",
 		language: "css",
-		code: `/* Rebrand all 47 components with 3 lines of CSS */
+		code: `/* Load overrides after the package theme. */
 [data-theme="dark"] {
-  --accent: oklch(0.8 0.12 65);       /* Custom brand accent */
-  --surface: oklch(0.14 0.02 260);    /* Custom midnight surface */
-  --font-mono: var(--font-jetbrains); /* Custom typography */
+	  --accent: oklch(0.8 0.12 65);
+	  --surface: oklch(0.14 0.02 260);
+	  --font-mono: var(--font-jetbrains);
 }`,
 		description:
-			"Rebrand the entire component suite without forking or overriding classes. All components automatically adapt.",
+			"Override semantic roles after the package import. Components that read those roles will use the new values without selector overrides.",
 	},
 ]
 
@@ -61,7 +62,7 @@ export function HomeArchitectureTabs() {
 	const current = tabs.find((t) => t.id === activeTab) ??
 		tabs[0] ?? {
 			id: "setup",
-			label: "01 · One-Line Setup",
+			label: "01 · Theme setup",
 			filename: "src/app/globals.css",
 			language: "css",
 			code: "",

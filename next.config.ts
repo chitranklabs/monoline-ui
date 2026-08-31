@@ -4,10 +4,57 @@ const nextConfig: NextConfig = {
 	distDir: process.env.NEXT_DIST_DIR || ".next",
 	trailingSlash: false,
 	async redirects() {
+		// Keep this config self-contained: the package contract runs Next from an
+		// isolated consumer directory that can still discover the parent config.
 		return [
+			{
+				source: "/installation",
+				destination: "/docs/installation",
+				permanent: true,
+			},
+			{
+				source: "/accessibility",
+				destination: "/docs/accessibility",
+				permanent: true,
+			},
+			{
+				source: "/theming",
+				destination: "/docs/theming",
+				permanent: true,
+			},
+			{
+				source: "/compatibility",
+				destination: "/docs/compatibility",
+				permanent: true,
+			},
+			{
+				source: "/patterns",
+				destination: "/docs/patterns",
+				permanent: true,
+			},
+			{
+				source: "/foundations",
+				destination: "/docs/foundations",
+				permanent: true,
+			},
 			{
 				source: "/foundations/spacing-motion",
 				destination: "/docs/foundations/spacing",
+				permanent: true,
+			},
+			{
+				source: "/foundations/:slug",
+				destination: "/docs/foundations/:slug",
+				permanent: true,
+			},
+			{
+				source: "/components",
+				destination: "/docs/components",
+				permanent: true,
+			},
+			{
+				source: "/components/:slug",
+				destination: "/docs/components/:slug",
 				permanent: true,
 			},
 		]

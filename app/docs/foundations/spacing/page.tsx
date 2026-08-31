@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { DocsArticleJsonLd } from "../../../_components/docs-article-json-ld"
 import { createPageMetadata } from "../../../lib/metadata"
+import { routes } from "../../../lib/routes"
 
 const displayTitle = "Spacing"
 const pageDescription =
@@ -10,7 +11,7 @@ const pageDescription =
 export const metadata: Metadata = createPageMetadata({
 	title: "Spacing Scale Design Tokens | monoline/ui Documentation",
 	description: pageDescription,
-	path: "/docs/foundations/spacing",
+	path: routes.docs.foundations.spacing,
 })
 
 const spacingRows = [
@@ -34,17 +35,17 @@ export default function SpacingPage() {
 			<DocsArticleJsonLd
 				title={displayTitle}
 				description={pageDescription}
-				path="/foundations/spacing"
+				path={routes.docs.foundations.spacing}
 				section="Foundations"
-				sectionPath="/foundations"
+				sectionPath={routes.docs.foundations.root}
 			/>
 			<header className="docs-page__head">
 				<p className="ml-eyebrow">Foundations · Spacing</p>
 				<h1>{displayTitle}</h1>
 				<p>
 					Spacing follows a named rem scale shared by CSS tokens, component
-					aliases, and Tailwind utilities. Add new distances only when they earn
-					a named token.
+					aliases, and Tailwind utilities. Use the existing scale before adding
+					a component-specific distance.
 				</p>
 			</header>
 

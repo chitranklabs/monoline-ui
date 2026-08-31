@@ -46,7 +46,7 @@ export function ArticleSidebar() {
     { id: "token-system", label: "Token System & Scales", depth: 2 },
     { id: "color-primitives", label: "OKLCH Primitives", depth: 3 },
     { id: "motion-physics", label: "Spring Motion Physics", depth: 3 },
-    { id: "accessibility", label: "Accessibility Guarantees", depth: 2 }
+    { id: "accessibility", label: "Accessibility notes", depth: 2 }
   ]
 
   return (

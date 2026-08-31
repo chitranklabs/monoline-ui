@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	Status,
-	type StatusSize,
-} from "@chitrank2050/monoline-ui/components/status"
+import { Status, type StatusSize } from "@chitrank2050/monoline-ui/status"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -13,7 +10,7 @@ const usageCode = `<Status size="md" variant="accent">Open to work</Status>
 <Status size="md" variant="success">Available</Status>
 <Status size="md" variant="muted">Archived</Status>`
 
-const sourceSnippet = `import { Status } from "@chitrank2050/monoline-ui/components/status"
+const sourceSnippet = `import { Status } from "@chitrank2050/monoline-ui/status"
 
 export function Availability() {
   return <Status>Open to work</Status>
@@ -43,7 +40,7 @@ export default function StatusPageClient() {
 			description="Show compact state labels with a stable dot, tone, and optional pulse animation."
 			sizes={statusSizes}
 			defaultSize="md"
-			importStatement='import { Status } from "@chitrank2050/monoline-ui/components/status"'
+			importStatement='import { Status } from "@chitrank2050/monoline-ui/status"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}

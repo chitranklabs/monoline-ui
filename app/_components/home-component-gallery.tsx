@@ -370,15 +370,14 @@ export function HomeComponentGallery() {
 							</div>
 							<div className="pt-ml-1">
 								<Callout variant="tip" label="Tailwind v4 native">
-									Built directly on standard CSS variables without heavy
-									JavaScript abstractions.
+									Uses semantic CSS variables and package component styles.
 								</Callout>
 							</div>
 						</div>
 						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
-								Editorial notes, warnings, and tips with razor-thin leading
-								accents.
+								Editorial notes, warnings, and tips with a one-pixel leading
+								border.
 							</p>
 						</div>
 					</div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { Badge } from "@chitrank2050/monoline-ui/badge"
-import { Card, type CardSize } from "@chitrank2050/monoline-ui/components/card"
+import { Card, type CardSize } from "@chitrank2050/monoline-ui/card"
 
 import { ComponentPlayground } from "../../../_components/component-playground"
 
@@ -35,7 +35,7 @@ const usageCode = `<Card href="/blog/tunic-storefront" size="md">
 </Card>`
 
 const sourceSnippet = `import { Badge } from "@chitrank2050/monoline-ui/badge"
-import { Card } from "@chitrank2050/monoline-ui/components/card"
+import { Card } from "@chitrank2050/monoline-ui/card"
 
 export function ProjectCard() {
   return (
@@ -121,7 +121,7 @@ export default function CardPageClient() {
 			description="Compose linked, static, or button-backed editorial cards from image, body, footer, tag, and action slots."
 			sizes={cardSizes}
 			defaultSize="md"
-			importStatement='import { Card } from "@chitrank2050/monoline-ui/components/card"'
+			importStatement='import { Card } from "@chitrank2050/monoline-ui/card"'
 			usageCode={usageCode}
 			props={propsRows}
 			tokens={tokenRows}
