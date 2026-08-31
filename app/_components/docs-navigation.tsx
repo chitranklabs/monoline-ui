@@ -6,23 +6,15 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import {
-	componentNavGroups,
-	foundationsNav,
-	guidesNav,
-	primaryNav,
+	componentsNav,
+	foundationsSidebarNav,
+	sectionsNav,
 } from "../lib/docs-nav"
 
 type DocsNavigationVariant = "sidebar" | "drawer"
 
 function isExactActive(pathname: string, href?: string) {
 	return Boolean(href && !href.includes("#") && pathname === href)
-}
-
-function isSectionActive(pathname: string, href?: string) {
-	if (!href) return false
-	if (href === "/" || href === "/docs") return pathname === href
-
-	return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 export function DocsNavigation({
@@ -35,20 +27,8 @@ export function DocsNavigation({
 	if (variant === "drawer") {
 		return (
 			<>
-				<DrawerSection label="Menu">
-					{primaryNav.map((item) => (
-						<DrawerLink
-							key={item.href}
-							href={item.href ?? "/"}
-							active={isSectionActive(pathname, item.href)}
-						>
-							{item.label}
-						</DrawerLink>
-					))}
-				</DrawerSection>
-
-				<DrawerSection label="Guides">
-					{guidesNav.map((item) => (
+				<DrawerSection label="Sections">
+					{sectionsNav.map((item) => (
 						<DrawerLink
 							key={item.href}
 							href={item.href ?? "/"}
@@ -59,50 +39,37 @@ export function DocsNavigation({
 					))}
 				</DrawerSection>
 
-				<DrawerSection label="Foundations">
-					{foundationsNav
-						.filter((item) => item.href && !item.href.includes("#"))
-						.map((item) => (
-							<DrawerLink
-								key={item.href}
-								href={item.href}
-								active={isExactActive(pathname, item.href)}
-							>
-								{item.label}
-							</DrawerLink>
-						))}
+				<DrawerSection label="Foundation">
+					{foundationsSidebarNav.map((item) => (
+						<DrawerLink
+							key={item.href}
+							href={item.href ?? "/"}
+							active={isExactActive(pathname, item.href)}
+						>
+							{item.label}
+						</DrawerLink>
+					))}
 				</DrawerSection>
 
-				{componentNavGroups.map((group) => (
-					<DrawerSection key={group.label} label={group.label}>
-						{group.items.map((item) =>
-							item.href ? (
-								<DrawerLink
-									key={item.label}
-									href={item.href}
-									active={isExactActive(pathname, item.href)}
-								>
-									{item.label}
-								</DrawerLink>
-							) : (
-								<span
-									key={item.label}
-									className="flex items-center justify-between text-text-muted opacity-55 text-[clamp(1.625rem,7vw,2.25rem)] font-bold leading-[1.1]"
-								>
-									{item.label}
-								</span>
-							)
-						)}
-					</DrawerSection>
-				))}
+				<DrawerSection label="Components">
+					{componentsNav.map((item) => (
+						<DrawerLink
+							key={item.href}
+							href={item.href ?? "/"}
+							active={isExactActive(pathname, item.href)}
+						>
+							{item.label}
+						</DrawerLink>
+					))}
+				</DrawerSection>
 			</>
 		)
 	}
 
 	return (
 		<>
-			<SidebarSection label="Guides">
-				{guidesNav.map((item) => (
+			<SidebarSection label="Sections">
+				{sectionsNav.map((item) => (
 					<SidebarLink
 						key={item.href}
 						href={item.href ?? "/"}
@@ -113,8 +80,20 @@ export function DocsNavigation({
 				))}
 			</SidebarSection>
 
-			<SidebarSection label="Foundations">
-				{foundationsNav.map((item) =>
+			<SidebarSection label="Foundation">
+				{foundationsSidebarNav.map((item) => (
+					<SidebarLink
+						key={item.href}
+						href={item.href ?? "/"}
+						active={isExactActive(pathname, item.href)}
+					>
+						<span>{item.label}</span>
+					</SidebarLink>
+				))}
+			</SidebarSection>
+
+			<SidebarSection label="Components">
+				{componentsNav.map((item) =>
 					item.href ? (
 						<SidebarLink
 							key={item.label}
@@ -126,32 +105,6 @@ export function DocsNavigation({
 					) : null
 				)}
 			</SidebarSection>
-
-			{componentNavGroups.map((group) => (
-				<SidebarSection key={group.label} label={group.label}>
-					{group.items.map((item) =>
-						item.href ? (
-							<SidebarLink
-								key={item.label}
-								href={item.href}
-								active={isExactActive(pathname, item.href)}
-							>
-								<span>{item.label}</span>
-								{item.meta ? (
-									<span className="docs-sidebar__meta">{item.meta}</span>
-								) : null}
-							</SidebarLink>
-						) : (
-							<span key={item.label} className="docs-sidebar__item">
-								<span>{item.label}</span>
-								{item.meta ? (
-									<span className="docs-sidebar__meta">{item.meta}</span>
-								) : null}
-							</span>
-						)
-					)}
-				</SidebarSection>
-			))}
 		</>
 	)
 }

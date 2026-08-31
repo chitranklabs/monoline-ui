@@ -120,7 +120,7 @@ export default function ColorsPage() {
 				</p>
 			</header>
 
-			<section className="theme-preview">
+			<section className="theme-preview" data-toc-exclude>
 				<div
 					className="theme-preview__panel theme-preview__panel--dark"
 					data-theme="dark"

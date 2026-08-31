@@ -405,6 +405,37 @@ export const componentNavGroups: DocsNavGroup[] = [
 	},
 ] as const
 
+function sortNavItems(items: readonly DocsNavItem[]): DocsNavItem[] {
+	return [...items].sort((left, right) =>
+		left.label.localeCompare(right.label, "en", { sensitivity: "base" })
+	)
+}
+
+function sortNavItemsWithoutOverview(
+	items: readonly DocsNavItem[],
+	overviewHref: `/${string}`
+): DocsNavItem[] {
+	return sortNavItems(items.filter((item) => item.href !== overviewHref))
+}
+
+export const sectionsNav: DocsNavItem[] = [
+	...guidesNav.slice(0, 2),
+	{ href: routes.docs.foundations.root, label: "Foundation" },
+	{ href: routes.docs.components.root, label: "Components" },
+	...guidesNav.slice(2),
+	{ href: routes.changelog, label: "Changelog" },
+]
+
+export const foundationsSidebarNav: DocsNavItem[] = sortNavItemsWithoutOverview(
+	foundationsNav,
+	routes.docs.foundations.root
+)
+
+export const componentsNav: DocsNavItem[] = sortNavItemsWithoutOverview(
+	componentNavGroups.flatMap((group) => group.items),
+	routes.docs.components.root
+)
+
 export const docsPagerNav: DocsNavItem[] = [
 	...guidesNav,
 	...foundationsNav,
