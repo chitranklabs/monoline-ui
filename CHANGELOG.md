@@ -4,6 +4,31 @@ All notable changes to monoline-ui.
 
 ---
 
+## [0.4.0] - 2026-08-31
+
+### Bug Fixes
+
+- Published client boundaries, CSS leakage, token integrity, and package consumer tests ([70990d7](https://github.com/chitranklabs/monoline-ui/commit/70990d750519cbb0c0a5d632f362100c54026e07))
+
+### Features
+
+- Implement new UI components ([3ae2a2a](https://github.com/chitranklabs/monoline-ui/commit/3ae2a2ab3f654c2c196c091310c6f668dac7b1e5))
+- Unify floating component animations ([7f51311](https://github.com/chitranklabs/monoline-ui/commit/7f5131196ef50116383cd86b07cf7af5c56a4878))
+- Introduce Card.Header and Card.Footer, update hover styles, and refine Eyebrow & Title typo ([aa9bcee](https://github.com/chitranklabs/monoline-ui/commit/aa9bcee5d4bb753781484f15e962f12fe3b771fb))
+- Implement page-specific table of contents in docs shell and update installation page ([edd6fea](https://github.com/chitranklabs/monoline-ui/commit/edd6fea766601c0ffcaacf09f1737aa1c3bae14c))
+
+### Maintenance
+
+- Fix build pipeline ([46ef1a3](https://github.com/chitranklabs/monoline-ui/commit/46ef1a37457d56083462dfbfee5c99950b1560b7))
+- Added build artifact to gitignore ([646840d](https://github.com/chitranklabs/monoline-ui/commit/646840d0d7069ea55082bfae295740dc887f1046))
+
+### Refactoring
+
+- Improve documentation quality and SEO by refining page titles, descriptions ([ba0238f](https://github.com/chitranklabs/monoline-ui/commit/ba0238fe570f55f1d0c2ce5208d90b813927d4f9))
+- Modernize CSS layouts and consistent transition tokens across components ([ce3a53f](https://github.com/chitranklabs/monoline-ui/commit/ce3a53fe57031da817329de496068fa781fd8f62))
+
+---
+
 ## [0.3.0] - 2026-08-30
 
 ### Features
@@ -27,6 +52,7 @@ All notable changes to monoline-ui.
 ### Refactoring
 
 - Refine component documentation guidance, and improve SEO/JSON-LD metadata consistency ([64bd12d](https://github.com/chitranklabs/monoline-ui/commit/64bd12d26ba364d3cf72b2cfc074f4bbbf8c9000))
+- Redesign Tag component while introducing a changelog feed ([f9a6fbf](https://github.com/chitranklabs/monoline-ui/commit/f9a6fbfecf8d149eb50a239da23b751bde209d37))
 
 ---
 
@@ -239,12 +265,6 @@ All notable changes to monoline-ui.
 - Add background and padding to monoline-ui logo in README ([0fa5db0](https://github.com/chitranklabs/monoline-ui/commit/0fa5db0caa713341d2a18d81db935370b8091311))
 - Add project maintenance scripts, improve navigation structure ([3f12589](https://github.com/chitranklabs/monoline-ui/commit/3f1258909ab56c43f65a785cd11d76c09748f9fa))
 - Disable provenance during JSR release publication ([c5825c5](https://github.com/chitranklabs/monoline-ui/commit/c5825c5b1953e2ae02c700bbbd566baee3745c41))
-
-### Miscellaneous Tasks
-
-- Revert "chore(release): bump version to v0.1.1 (#29)" (#30)
-
-This reverts commit 479cd40493509409c03672cd0d4b30ac45c7759c. ([c5c8ff2](https://github.com/chitranklabs/monoline-ui/commit/c5c8ff2707db9b683af8174e5bd6ba4cbf3316ea))
 
 ### Performance
 
