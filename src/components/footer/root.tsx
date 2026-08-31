@@ -104,12 +104,12 @@ export function FooterRoot({
 												link.rel ??
 												(external ? "noopener noreferrer" : undefined)
 											}
-											className="ml-footer__link group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,box-shadow] duration-(--duration-micro) ease-(--ease-out) hover:text-primary focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
+											className="ml-footer__link group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,box-shadow] duration-(--duration-micro) ease-out hover:text-primary focus-visible:outline-none focus-visible:shadow-(--focus-ring)"
 										>
 											<span>{link.label}</span>
 											{external ? (
 												<span
-													className="text-muted-foreground ml-ml-1 transition-[color,opacity] duration-(--duration-micro) ease-(--ease-out) group-hover/link:text-primary"
+													className="text-muted-foreground ml-ml-1 transition-[color,opacity] duration-(--duration-micro) ease-out group-hover/link:text-primary"
 													aria-hidden="true"
 												>
 													↗

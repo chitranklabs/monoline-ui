@@ -14,12 +14,16 @@ interface CodeBlockProps {
 	code: string
 	language?: string
 	fileName?: string
+	description?: React.ReactNode
+	className?: string
 }
 
 export function CodeBlock({
 	code,
 	language = "jsx",
 	fileName,
+	description,
+	className,
 }: CodeBlockProps) {
 	const [html, setHtml] = useState<string | null>(null)
 
@@ -30,7 +34,13 @@ export function CodeBlock({
 	}, [code, language])
 
 	return (
-		<LibCodeBlock filename={fileName} code={code} language={language}>
+		<LibCodeBlock
+			filename={fileName}
+			description={description}
+			code={code}
+			language={language}
+			className={className}
+		>
 			<pre
 				// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 				tabIndex={0}

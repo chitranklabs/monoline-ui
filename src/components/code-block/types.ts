@@ -5,6 +5,7 @@ export interface CodeBlockProps extends Omit<
 	"children"
 > {
 	filename?: string
+	description?: React.ReactNode
 	code?: string
 	language?: string
 	children?: React.ReactNode

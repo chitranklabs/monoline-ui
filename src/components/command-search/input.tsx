@@ -58,7 +58,7 @@ export function CommandSearchInput({
 					size === "lg" && "ml-command-search__input--lg",
 					inputClassName
 				)}
-				placeholder={placeholder}
+				placeholder={props.placeholder ?? placeholder}
 				value={rawSearch}
 				onValueChange={setRawSearch}
 				autoComplete={autoComplete}

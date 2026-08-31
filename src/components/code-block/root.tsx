@@ -7,6 +7,7 @@ import type { CodeBlockProps } from "./types"
 
 export function CodeBlockRoot({
 	filename,
+	description,
 	code,
 	language,
 	children,
@@ -27,11 +28,22 @@ export function CodeBlockRoot({
 		<figure
 			ref={ref}
 			className={cn(
-				"ml-code-block relative group overflow-hidden rounded-md border",
+				"ml-code-block relative group overflow-hidden rounded-xl border border-border bg-surface",
 				className
 			)}
 			{...props}
 		>
+			{description && (
+				<div className="ml-code-block__description border-b border-border bg-surface-2/40 px-4 py-3">
+					{typeof description === "string" ? (
+						<p className="m-0 text-xs text-text-secondary leading-relaxed font-medium">
+							{description}
+						</p>
+					) : (
+						description
+					)}
+				</div>
+			)}
 			{filename ? (
 				<header className="ml-code-block__header flex items-center justify-between border-b px-4 py-2">
 					<span className="font-mono text-[11px] text-text-muted">

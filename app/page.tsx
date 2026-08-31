@@ -66,7 +66,7 @@ export default async function HomePage() {
 			as="main"
 			id="main-content"
 			tabIndex={-1}
-			className="intro-page pt-ml-14 pb-ml-24"
+			className="intro-page pt-ml-14 pb-ml-6"
 		>
 			<JsonLd data={jsonLd} />
 
@@ -78,7 +78,7 @@ export default async function HomePage() {
 						className="group inline-flex items-center gap-2 border border-border rounded-full bg-surface-2/60 py-1 pl-1.5 pr-3 text-xs text-text-secondary no-underline transition-colors hover:border-border-strong hover:text-text"
 					>
 						<Status variant="accent" size="sm" animate>
-							v{release.version}
+							{release.version}
 						</Status>
 						<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow">
 							Tailwind v4 Native
@@ -104,10 +104,7 @@ export default async function HomePage() {
 
 					<div className="flex flex-wrap items-center gap-ml-3 pt-ml-2">
 						<Button asChild size="md">
-							<Link href="/installation">
-								Get started
-								<Button.Arrow />
-							</Link>
+							<Link href="/installation">Get started</Link>
 						</Button>
 
 						<Button asChild variant="secondary" size="md">
@@ -172,7 +169,7 @@ export default async function HomePage() {
 			</section>
 
 			{/* EDITORIAL BOTTOM CTA */}
-			<section className="my-ml-16 overflow-hidden border border-border rounded-xl bg-surface-2/40 p-ml-8 sm:p-ml-12 text-center shadow-xs">
+			<section className="mt-ml-16 mb-ml-6 overflow-hidden border border-border rounded-xl bg-surface-2/40 p-ml-8 sm:p-ml-12 text-center shadow-xs">
 				<div className="mx-auto flex max-w-xl flex-col items-center gap-ml-4">
 					<p className="m-0 font-mono text-3xs font-semibold uppercase tracking-eyebrow text-accent">
 						MIT Licensed · Production Ready
@@ -186,10 +183,7 @@ export default async function HomePage() {
 					</p>
 					<div className="flex flex-wrap items-center justify-center gap-ml-3 pt-ml-4">
 						<Button asChild size="md">
-							<Link href="/installation">
-								Read installation guide
-								<Button.Arrow />
-							</Link>
+							<Link href="/installation">Read installation guide</Link>
 						</Button>
 						<Button asChild variant="secondary" size="md">
 							<a

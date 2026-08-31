@@ -111,11 +111,11 @@ export function SiteHeader() {
 						type="button"
 						className="flex w-45 h-8 items-center gap-1.75 border border-border rounded-md bg-surface pl-2.5 pr-1.5 text-text-muted cursor-pointer outline-none transition-[border-color,background] duration-(--duration-fast) ease-out hover:border-border-strong focus-visible:border-border-strong focus-visible:shadow-(--focus-ring)"
 						onClick={() => setPaletteOpen(true)}
-						aria-label="Search components (⌘K)"
+						aria-label="Search docs (⌘K)"
 					>
 						<span aria-hidden="true">⌕</span>
 						<span className="flex-1 text-left text-2xs text-text-muted whitespace-nowrap overflow-hidden text-ellipsis">
-							Search components
+							Search docs
 						</span>
 						<kbd className="border border-border rounded-xs py-0.5 px-1.25 font-mono text-3xs font-bold shrink-0">
 							⌘K

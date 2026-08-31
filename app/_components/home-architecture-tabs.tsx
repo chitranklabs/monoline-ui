@@ -69,8 +69,8 @@ export function HomeArchitectureTabs() {
 		}
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="overflow-x-auto pb-1">
+		<div className="flex flex-col gap-ml-4">
+			<div className="overflow-x-auto pb-ml-1">
 				<SegmentedControl
 					size="sm"
 					options={tabs.map((t) => ({ value: t.id, label: t.label }))}
@@ -79,18 +79,12 @@ export function HomeArchitectureTabs() {
 				/>
 			</div>
 
-			<div className="overflow-hidden border border-border rounded-xl bg-surface">
-				<div className="border-b border-border bg-surface-2/40 px-4 py-3">
-					<p className="m-0 text-xs text-text-secondary leading-relaxed font-medium">
-						{current.description}
-					</p>
-				</div>
-				<CodeBlock
-					fileName={current.filename}
-					code={current.code}
-					language={current.language}
-				/>
-			</div>
+			<CodeBlock
+				description={current.description}
+				fileName={current.filename}
+				code={current.code}
+				language={current.language}
+			/>
 		</div>
 	)
 }

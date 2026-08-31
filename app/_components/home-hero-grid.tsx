@@ -483,7 +483,7 @@ export function HomeHeroGrid() {
 
 			{/* Bottom Fade Gradient Mask Overlay (Shadcn style) */}
 			<div
-				className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background via-background/80 to-transparent"
+				className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-background via-background/80 to-transparent"
 				aria-hidden="true"
 			/>
 		</div>

@@ -39,7 +39,7 @@ export function HomeQuickInstall() {
 							setManager(pm)
 							setCopied(false)
 						}}
-						className={`cursor-pointer rounded px-1.5 py-0.5 font-semibold transition-colors duration-(--duration-fast) ease-(--ease-out) ${
+						className={`cursor-pointer rounded px-1.5 py-0.5 font-semibold transition-colors duration-(--duration-fast) ease-out ${
 							manager === pm
 								? "bg-surface text-text shadow-xs"
 								: "text-text-muted hover:text-text"

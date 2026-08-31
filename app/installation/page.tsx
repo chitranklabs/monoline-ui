@@ -121,17 +121,17 @@ export default function InstallationPage() {
 							key={step.number}
 							className="grid grid-cols-[1.25rem_minmax(0,1fr)] gap-ml-5"
 						>
-							<span className="pt-ml-1 font-mono text-2xs text-(--text-muted)">
+							<span className="pt-ml-1 font-mono text-2xs text-text-muted">
 								{step.number}
 							</span>
 							<div className="min-w-0">
 								<h2
 									id={step.id}
-									className="text-lg font-semibold tracking-body text-(--text)"
+									className="text-lg font-semibold tracking-body text-text"
 								>
 									{step.title}
 								</h2>
-								<p className="mt-ml-2-5 max-w-170 text-base leading-normal text-(--text-secondary)">
+								<p className="mt-ml-2-5 max-w-170 text-base leading-normal text-text-secondary">
 									{step.description}
 								</p>
 
@@ -152,26 +152,26 @@ export default function InstallationPage() {
 				</div>
 
 				<div
-					className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-ml-4 mt-ml-12 border border-(--accent) rounded-xl p-ml-5"
+					className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-ml-4 mt-ml-12 border border-accent rounded-xl p-ml-5"
 					style={{
 						background:
 							"color-mix(in oklch, var(--accent-soft) 45%, var(--surface))",
 					}}
 				>
-					<div className="inline-flex items-center justify-center size-ml-7 rounded-full bg-(--accent) text-(--accent-foreground) text-sm">
+					<div className="inline-flex items-center justify-center size-ml-7 rounded-full bg-accent text-accent-foreground text-sm">
 						✓
 					</div>
 					<div>
-						<h3 className="text-(--text) text-base font-semibold">
+						<h3 className="text-text text-base font-semibold">
 							You&apos;re ready.
 						</h3>
-						<p className="mt-ml-1 text-(--text-secondary) text-sm">
+						<p className="mt-ml-1 text-text-secondary text-sm">
 							Browse the{" "}
-							<a href="/components/footer" className="text-(--accent)">
+							<a href="/components/footer" className="text-accent">
 								component reference
 							</a>{" "}
 							for props and examples, or jump to{" "}
-							<a href="/foundations/colors" className="text-(--accent)">
+							<a href="/foundations/colors" className="text-accent">
 								Foundations
 							</a>{" "}
 							to see the token system.

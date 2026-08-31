@@ -38,16 +38,16 @@ export function HomeComponentGallery() {
 		activeCategory === "all" || activeCategory === "editorial"
 
 	return (
-		<div className="flex flex-col gap-8">
+		<div className="flex flex-col gap-ml-8">
 			{/* Category Filter Bar */}
-			<div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
-				<div className="flex flex-wrap items-center gap-1.5">
+			<div className="flex flex-wrap items-center justify-between gap-ml-4 border-b border-border pb-ml-4">
+				<div className="flex flex-wrap items-center gap-ml-1-5">
 					{categories.map((cat) => (
 						<button
 							key={cat.id}
 							type="button"
 							onClick={() => setActiveCategory(cat.id)}
-							className={`cursor-pointer rounded-lg px-3 py-1.5 font-mono text-xs font-semibold tracking-eyebrow uppercase transition-all duration-(--duration-fast) ease-(--ease-out) ${
+							className={`cursor-pointer rounded-lg px-3 py-1.5 font-mono text-xs font-semibold tracking-eyebrow uppercase transition-all duration-(--duration-fast) ease-out ${
 								activeCategory === cat.id
 									? "bg-text text-background shadow-xs"
 									: "bg-surface-2/60 text-text-secondary hover:bg-surface-2 hover:text-text"
@@ -60,33 +60,46 @@ export function HomeComponentGallery() {
 
 				<Link
 					href="/components"
-					className="group inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-accent no-underline hover:underline"
+					className="group inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-accent no-underline"
 				>
-					View all 47 components
-					<span className="transition-transform group-hover:translate-x-0.5">
+					<span className="group-hover:underline underline-offset-4">
+						View all 47 components
+					</span>
+					<span
+						className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover:translate-x-0.5"
+						aria-hidden="true"
+					>
 						→
 					</span>
 				</Link>
 			</div>
 
 			{/* Interactive Component Grid */}
-			<div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+			<div className="grid grid-cols-1 gap-ml-5 md:grid-cols-2 lg:grid-cols-3">
 				{/* 1. Buttons Showcase */}
 				{showForms && (
-					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-5 transition-all duration-(--duration-fast) ease-(--ease-out) hover:border-border-strong hover:shadow-md">
+					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-ml-5 transition-all duration-(--duration-fast) ease-out hover:border-border-strong hover:shadow-md">
 						<div>
-							<div className="flex items-center justify-between pb-3">
+							<div className="flex items-center justify-between pb-ml-3">
 								<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
 									Button
 								</span>
 								<Link
 									href="/components/button"
-									className="text-3xs font-mono uppercase text-accent hover:underline"
+									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
-									Docs →
+									<span className="group-hover/link:underline underline-offset-4">
+										Docs
+									</span>
+									<span
+										className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover/link:translate-x-0.5"
+										aria-hidden="true"
+									>
+										→
+									</span>
 								</Link>
 							</div>
-							<div className="flex flex-wrap items-center gap-2 pt-2">
+							<div className="flex flex-wrap items-center gap-ml-2 pt-ml-2">
 								<Button size="sm">Primary</Button>
 								<Button size="sm" variant="secondary">
 									Secondary
@@ -99,7 +112,7 @@ export function HomeComponentGallery() {
 								</Button>
 							</div>
 						</div>
-						<div className="mt-5 border-t border-border/60 pt-3">
+						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
 								Supports asChild, icon slots, and token-backed active states.
 							</p>
@@ -109,20 +122,28 @@ export function HomeComponentGallery() {
 
 				{/* 2. Toggle & Checkbox Showcase */}
 				{showForms && (
-					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-5 transition-all duration-(--duration-fast) ease-(--ease-out) hover:border-border-strong hover:shadow-md">
+					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-ml-5 transition-all duration-(--duration-fast) ease-out hover:border-border-strong hover:shadow-md">
 						<div>
-							<div className="flex items-center justify-between pb-3">
+							<div className="flex items-center justify-between pb-ml-3">
 								<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
 									Toggle & Checkbox
 								</span>
 								<Link
 									href="/components/toggle"
-									className="text-3xs font-mono uppercase text-accent hover:underline"
+									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
-									Docs →
+									<span className="group-hover/link:underline underline-offset-4">
+										Docs
+									</span>
+									<span
+										className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover/link:translate-x-0.5"
+										aria-hidden="true"
+									>
+										→
+									</span>
 								</Link>
 							</div>
-							<div className="flex flex-col gap-3 pt-2">
+							<div className="flex flex-col gap-ml-3 pt-ml-2">
 								<div className="flex items-center justify-between">
 									<span className="text-xs text-text-secondary">
 										Strict typing
@@ -131,6 +152,7 @@ export function HomeComponentGallery() {
 										size="sm"
 										checked={toggle1}
 										onCheckedChange={setToggle1}
+										aria-label="Toggle strict typing demo"
 									/>
 								</div>
 								<div className="flex items-center justify-between">
@@ -141,13 +163,15 @@ export function HomeComponentGallery() {
 										size="sm"
 										checked={toggle2}
 										onCheckedChange={setToggle2}
+										aria-label="Toggle animated state demo"
 									/>
 								</div>
-								<div className="flex items-center gap-2.5 pt-1">
+								<div className="flex items-center gap-ml-2-5 pt-ml-1">
 									<Checkbox
 										checked={check1}
 										onCheckedChange={(v) => setCheck1(!!v)}
 										id="chk1"
+										aria-label="Checkbox OKLCH tokens enabled demo"
 									/>
 									<label
 										htmlFor="chk1"
@@ -158,7 +182,7 @@ export function HomeComponentGallery() {
 								</div>
 							</div>
 						</div>
-						<div className="mt-5 border-t border-border/60 pt-3">
+						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
 								WAI-ARIA switch semantics with hairline border alignment.
 							</p>
@@ -168,20 +192,28 @@ export function HomeComponentGallery() {
 
 				{/* 3. Segmented Control */}
 				{showForms && (
-					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-5 transition-all duration-(--duration-fast) ease-(--ease-out) hover:border-border-strong hover:shadow-md">
+					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-ml-5 transition-all duration-(--duration-fast) ease-out hover:border-border-strong hover:shadow-md">
 						<div>
-							<div className="flex items-center justify-between pb-3">
+							<div className="flex items-center justify-between pb-ml-3">
 								<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
 									SegmentedControl
 								</span>
 								<Link
 									href="/components/segmented-control"
-									className="text-3xs font-mono uppercase text-accent hover:underline"
+									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
-									Docs →
+									<span className="group-hover/link:underline underline-offset-4">
+										Docs
+									</span>
+									<span
+										className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover/link:translate-x-0.5"
+										aria-hidden="true"
+									>
+										→
+									</span>
 								</Link>
 							</div>
-							<div className="pt-2">
+							<div className="pt-ml-2">
 								<SegmentedControl
 									size="sm"
 									options={[
@@ -193,7 +225,7 @@ export function HomeComponentGallery() {
 									onChange={setSegVal}
 								/>
 							</div>
-							<div className="pt-3">
+							<div className="pt-ml-3">
 								<Input
 									size="sm"
 									placeholder="Filter releases..."
@@ -203,7 +235,7 @@ export function HomeComponentGallery() {
 								/>
 							</div>
 						</div>
-						<div className="mt-5 border-t border-border/60 pt-3">
+						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
 								Roving keyboard navigation with spring-inspired pill physics.
 							</p>
@@ -213,20 +245,28 @@ export function HomeComponentGallery() {
 
 				{/* 4. Metric & Stats */}
 				{showDisplay && (
-					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-5 transition-all duration-(--duration-fast) ease-(--ease-out) hover:border-border-strong hover:shadow-md">
+					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-ml-5 transition-all duration-(--duration-fast) ease-out hover:border-border-strong hover:shadow-md">
 						<div>
-							<div className="flex items-center justify-between pb-3">
+							<div className="flex items-center justify-between pb-ml-3">
 								<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
 									Metric
 								</span>
 								<Link
 									href="/components/metric"
-									className="text-3xs font-mono uppercase text-accent hover:underline"
+									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
-									Docs →
+									<span className="group-hover/link:underline underline-offset-4">
+										Docs
+									</span>
+									<span
+										className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover/link:translate-x-0.5"
+										aria-hidden="true"
+									>
+										→
+									</span>
 								</Link>
 							</div>
-							<div className="grid grid-cols-2 gap-3 pt-1">
+							<div className="grid grid-cols-2 gap-ml-3 pt-ml-1">
 								<Metric
 									size="sm"
 									value="0 ms"
@@ -236,7 +276,7 @@ export function HomeComponentGallery() {
 								<Metric size="sm" value="100%" label="Accessible" trend="up" />
 							</div>
 						</div>
-						<div className="mt-5 border-t border-border/60 pt-3">
+						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
 								Compact typography and trend indicators for dashboards &
 								portfolios.
@@ -247,21 +287,29 @@ export function HomeComponentGallery() {
 
 				{/* 5. Status & Badges */}
 				{showFeedback && (
-					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-5 transition-all duration-(--duration-fast) ease-(--ease-out) hover:border-border-strong hover:shadow-md">
+					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-ml-5 transition-all duration-(--duration-fast) ease-out hover:border-border-strong hover:shadow-md">
 						<div>
-							<div className="flex items-center justify-between pb-3">
+							<div className="flex items-center justify-between pb-ml-3">
 								<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
 									Status & Badges
 								</span>
 								<Link
 									href="/components/status"
-									className="text-3xs font-mono uppercase text-accent hover:underline"
+									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
-									Docs →
+									<span className="group-hover/link:underline underline-offset-4">
+										Docs
+									</span>
+									<span
+										className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover/link:translate-x-0.5"
+										aria-hidden="true"
+									>
+										→
+									</span>
 								</Link>
 							</div>
-							<div className="flex flex-col gap-2.5 pt-1">
-								<div className="flex items-center gap-2">
+							<div className="flex flex-col gap-ml-2-5 pt-ml-1">
+								<div className="flex items-center gap-ml-2">
 									<Status variant="accent" size="sm" animate>
 										Operational
 									</Status>
@@ -272,7 +320,7 @@ export function HomeComponentGallery() {
 										Healthy
 									</Status>
 								</div>
-								<div className="flex flex-wrap items-center gap-1.5 pt-1">
+								<div className="flex flex-wrap items-center gap-ml-1-5 pt-ml-1">
 									<Badge variant="accent" size="sm">
 										Tailwind v4
 									</Badge>
@@ -288,7 +336,7 @@ export function HomeComponentGallery() {
 								</div>
 							</div>
 						</div>
-						<div className="mt-5 border-t border-border/60 pt-3">
+						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
 								Stable indicator dot with subtle pulse animation and tone
 								variants.
@@ -299,27 +347,35 @@ export function HomeComponentGallery() {
 
 				{/* 6. Callout & Quotes */}
 				{showEditorial && (
-					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-5 transition-all duration-(--duration-fast) ease-(--ease-out) hover:border-border-strong hover:shadow-md">
+					<div className="group relative flex flex-col justify-between border border-border rounded-xl bg-surface p-ml-5 transition-all duration-(--duration-fast) ease-out hover:border-border-strong hover:shadow-md">
 						<div>
-							<div className="flex items-center justify-between pb-3">
+							<div className="flex items-center justify-between pb-ml-3">
 								<span className="font-mono text-3xs font-semibold uppercase tracking-eyebrow text-text-muted">
 									Callout
 								</span>
 								<Link
 									href="/components/callout"
-									className="text-3xs font-mono uppercase text-accent hover:underline"
+									className="group/link inline-flex items-center gap-1 font-mono text-3xs uppercase text-accent no-underline"
 								>
-									Docs →
+									<span className="group-hover/link:underline underline-offset-4">
+										Docs
+									</span>
+									<span
+										className="inline-block transition-transform duration-(--duration-fast) ease-out group-hover/link:translate-x-0.5"
+										aria-hidden="true"
+									>
+										→
+									</span>
 								</Link>
 							</div>
-							<div className="pt-1">
+							<div className="pt-ml-1">
 								<Callout variant="tip" label="Tailwind v4 native">
 									Built directly on standard CSS variables without heavy
 									JavaScript abstractions.
 								</Callout>
 							</div>
 						</div>
-						<div className="mt-5 border-t border-border/60 pt-3">
+						<div className="mt-ml-5 border-t border-border/60 pt-ml-3">
 							<p className="m-0 font-mono text-3xs text-text-muted">
 								Editorial notes, warnings, and tips with razor-thin leading
 								accents.

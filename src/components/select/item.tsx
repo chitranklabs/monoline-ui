@@ -77,7 +77,7 @@ export function SelectItem({
 			<span
 				aria-hidden="true"
 				className={cn(
-					"ml-select__check shrink-0 opacity-0 transition-opacity duration-(--duration-micro) ease-(--ease-out)",
+					"ml-select__check shrink-0 opacity-0 transition-opacity duration-(--duration-micro) ease-out",
 					selected && "opacity-100"
 				)}
 			>

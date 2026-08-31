@@ -11,7 +11,7 @@ export function CardTitle({
 		<h3
 			ref={ref}
 			className={cn(
-				"m-0 text-xl leading-tight font-semibold text-primary transition-colors duration-(--duration-micro) ease-(--ease-out) group-hover/card:text-accent [[data-card-size=sm]>&]:text-lg [[data-card-size=lg]>&]:text-2xl",
+				"m-0 text-xl leading-tight font-semibold text-primary transition-colors duration-(--duration-micro) ease-out group-hover/card:text-accent [[data-card-size=sm]>&]:text-lg [[data-card-size=lg]>&]:text-2xl",
 				className
 			)}
 			{...props}

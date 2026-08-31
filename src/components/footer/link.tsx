@@ -16,7 +16,7 @@ export function FooterLink({
 		<Comp
 			ref={ref}
 			className={cn(
-				"group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,box-shadow] duration-(--duration-micro) ease-(--ease-out) hover:text-primary focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
+				"group/link inline-flex w-fit items-center leading-none text-body no-underline transition-[color,box-shadow] duration-(--duration-micro) ease-out hover:text-primary focus-visible:outline-none focus-visible:shadow-(--focus-ring)",
 				className
 			)}
 			{...props}

@@ -66,7 +66,7 @@ export function TocRoot({
 								href={`#${it.id}`}
 								data-active={isActive}
 								className={cn(
-									"ml-toc__link block text-[13px] leading-relaxed no-underline transition-colors duration-(--duration-fast) ease-(--ease-out)",
+									"ml-toc__link block text-[13px] leading-relaxed no-underline transition-colors duration-(--duration-fast) ease-out",
 									isNested
 										? "pl-3 text-text-muted hover:text-text"
 										: "text-text-secondary hover:text-text",
@@ -85,7 +85,7 @@ export function TocRoot({
 							href={`#${it.id}`}
 							data-active={isActive}
 							className={cn(
-								"ml-toc__link flex cursor-pointer items-start gap-2.5 border-l-2 border-transparent py-1.5 pl-3 text-[13px] no-underline transition-[border-color,color] duration-(--duration-short) ease-(--ease-out)",
+								"ml-toc__link flex cursor-pointer items-start gap-2.5 border-l-2 border-transparent py-1.5 pl-3 text-[13px] no-underline transition-[border-color,color] duration-(--duration-short) ease-out",
 								"text-text-secondary hover:text-text",
 								"data-[active=true]:border-l-accent data-[active=true]:text-text",
 								isNested && "pl-6 text-[12px]"
@@ -127,7 +127,7 @@ export function TocRoot({
 						displayHeading
 					)}
 					<span
-						className="font-mono text-[11px] text-text-muted select-none transition-transform duration-(--duration-short) ease-(--ease-out)"
+						className="font-mono text-[11px] text-text-muted select-none transition-transform duration-(--duration-short) ease-out"
 						style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
 					>
 						▸
@@ -135,7 +135,7 @@ export function TocRoot({
 				</button>
 				<div
 					className={cn(
-						"mt-3 grid transition-[grid-template-rows,opacity] duration-(--duration-short) ease-(--ease-out)",
+						"mt-3 grid transition-[grid-template-rows,opacity] duration-(--duration-short) ease-out",
 						open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
 					)}
 				>

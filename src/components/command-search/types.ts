@@ -20,11 +20,12 @@ export interface CommandSearchProps {
 
 export interface CommandSearchInputProps extends Omit<
 	React.ComponentProps<typeof Command.Input>,
-	"children" | "className" | "onValueChange" | "placeholder" | "size" | "value"
+	"children" | "className" | "onValueChange" | "size" | "value"
 > {
 	className?: string
 	inputClassName?: string
 	size?: "sm" | "md" | "lg"
+	placeholder?: string
 }
 
 export type CommandSearchListProps = React.ComponentProps<typeof Command.List>
