@@ -54,4 +54,15 @@ describe("Tag", () => {
 		expect(container.firstChild).toHaveClass("text-xs")
 		expect(container.firstChild).toHaveClass("rounded-(--radius-pill)")
 	})
+
+	it("does not force button-only ARIA semantics onto an asChild element", () => {
+		const { container } = render(
+			<Tag asChild active>
+				<span>React</span>
+			</Tag>
+		)
+
+		expect(container.firstChild).toHaveAttribute("data-active", "true")
+		expect(container.firstChild).not.toHaveAttribute("aria-pressed")
+	})
 })

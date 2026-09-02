@@ -7,7 +7,8 @@ export interface TagProps extends Omit<
 	"prefix"
 > {
 	/**
-	 * Maps to aria-pressed and selected filter styling.
+	 * Maps to aria-pressed and selected filter styling on the default button.
+	 * With asChild, pass semantics supported by the child element explicitly.
 	 * @default false
 	 */
 	active?: boolean

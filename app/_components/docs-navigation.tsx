@@ -119,7 +119,9 @@ function SidebarSection({
 	return (
 		<div className="docs-sidebar__group">
 			<p className="ml-eyebrow">{label}</p>
-			<nav className="docs-sidebar__nav">{children}</nav>
+			<nav className="docs-sidebar__nav" aria-label={label}>
+				{children}
+			</nav>
 		</div>
 	)
 }

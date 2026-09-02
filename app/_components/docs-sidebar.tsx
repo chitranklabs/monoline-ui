@@ -37,6 +37,7 @@ export function DocsSidebar() {
 
 	return (
 		<aside
+			aria-label="Documentation navigation"
 			className={[
 				"docs-sidebar",
 				scrollState.canScrollUp ? "docs-sidebar--fade-top" : "",
