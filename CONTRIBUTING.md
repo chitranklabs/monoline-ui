@@ -10,8 +10,10 @@ By participating in this project, you agree to abide by our [Code of Conduct](./
 
 ### Prerequisites
 
-- **Node.js**: `>=22.14.0`
-- **pnpm**: `11.8.0` or higher
+- **Node.js**: `>=24.14.0`
+- **pnpm**: `11.18.0` or higher
+- **Gitleaks**: required by the pre-commit secret scan
+- **OSV-Scanner** and **zizmor**: recommended for the local pre-push and workflow checks; CI always enforces them
 
 ### Local Setup
 
@@ -27,6 +29,8 @@ By participating in this project, you agree to abide by our [Code of Conduct](./
    ```bash
    pnpm install
    ```
+
+   Dependency installation also installs the repository's Lefthook-managed Git hooks. Do not add Husky alongside Lefthook.
 
 3. **Start the playground**:
 
@@ -80,12 +84,12 @@ git-hygiene validates every commit message locally via Lefthook.
 Before opening a PR, run:
 
 ```bash
-pnpm lint        # ESLint + Markdownlint
-pnpm typecheck   # TypeScript (no emit)
-pnpm test        # Vitest test suite
-pnpm build:lib   # Published-package build and consumer contract checks
-pnpm format      # Prettier
+pnpm check:static   # Generated files, formatting, lint, types, and unit tests
+pnpm check:package  # Published package and React 18 consumer contracts
+pnpm test:docs      # Production docs, SEO, browser, and accessibility checks
 ```
+
+Run `pnpm check:all` when you need the complete local equivalent of CI.
 
 ## Adding a New Component
 
@@ -108,7 +112,7 @@ pnpm format      # Prettier
 Releases are fully automated:
 
 1. **Prepare** - run the `Release 1 - Prepare PR` workflow. It bumps the version and updates `CHANGELOG.md`.
-2. **Finalize** - merge the PR. `Release 2 - Finalize Tag` publishes to npm automatically.
+2. **Finalize** - merge the PR. `Release 2 - Finalize Tag` verifies the artifacts, publishes to npm and JSR, and then creates the GitHub release.
 
 ## Need Help?
 

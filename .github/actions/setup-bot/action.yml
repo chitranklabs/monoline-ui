@@ -7,6 +7,15 @@ inputs:
   private-key:
     description: "The GitHub App Private Key"
     required: true
+  permission-contents:
+    description: "Repository contents permission for the generated token"
+    required: true
+  permission-issues:
+    description: "Repository issues permission for the generated token"
+    required: false
+  permission-pull-requests:
+    description: "Repository pull requests permission for the generated token"
+    required: false
 outputs:
   token:
     description: "The generated GitHub App token"
@@ -20,3 +29,6 @@ runs:
       with:
         client-id: ${{ inputs.client-id }}
         private-key: ${{ inputs.private-key }}
+        permission-contents: ${{ inputs.permission-contents }}
+        permission-issues: ${{ inputs.permission-issues }}
+        permission-pull-requests: ${{ inputs.permission-pull-requests }}

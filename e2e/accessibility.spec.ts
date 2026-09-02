@@ -16,12 +16,6 @@ const routes = [
 	"/docs/installation",
 	"/docs/patterns",
 	"/docs/theming",
-	"/docs/blocks",
-	"/docs/blocks/article-index-01",
-	"/docs/blocks/contact-cta-01",
-	"/docs/blocks/experience-timeline-01",
-	"/docs/blocks/profile-hero-01",
-	"/docs/blocks/project-index-01",
 ]
 
 for (const route of routes) {
@@ -36,10 +30,12 @@ for (const route of routes) {
 	})
 }
 
-test("block pages preserve layout and theme state", async ({ page }) => {
-	await page.goto("/docs/blocks/profile-hero-01")
+test("documentation pages preserve layout and theme state", async ({
+	page,
+}) => {
+	await page.goto("/docs/components/button")
 	await expect(
-		page.getByRole("heading", { level: 1, name: "Profile hero" })
+		page.getByRole("heading", { level: 1, name: "Button" })
 	).toBeVisible()
 
 	let themeButton = page

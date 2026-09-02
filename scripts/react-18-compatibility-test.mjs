@@ -18,32 +18,23 @@ const result = await esbuild.build({
 		contents: `
 import React from "react"
 import { renderToString } from "react-dom/server"
-import { ProfileHero } from "./registry/default/profile-hero-01/profile-hero-01"
-import { ProjectIndex } from "./registry/default/project-index-01/project-index-01"
+import { Button } from "./src/components/button"
+import { Card } from "./src/components/card"
+import { Toggle } from "./src/components/toggle"
 
 if (!React.version.startsWith("18.")) throw new Error(\`Expected React 18, received \${React.version}\`)
 
 const html = renderToString(
   <main>
-    <ProfileHero
-      name="Ada Lovelace"
-      jobTitle="Software engineer"
-      location="London"
-      intro="I build dependable tools."
-      primaryAction={{ label: "View work", href: "/work" }}
-    />
-    <ProjectIndex projects={[{
-      title: "Analytical engine",
-      description: "A documented system design.",
-      href: "/work/engine",
-      year: "1843",
-      tags: ["Systems"]
-    }]} />
+    <Card>
+      <Button>View work</Button>
+      <Toggle aria-label="Pin project">Pin project</Toggle>
+    </Card>
   </main>
 )
 
-if (!html.includes("Ada Lovelace") || !html.includes("Analytical engine")) {
-  throw new Error("React 18 server rendering omitted registry block content")
+if (!html.includes("View work") || !html.includes("Pin project")) {
+	throw new Error("React 18 server rendering omitted component content")
 }
 `,
 	},
@@ -58,7 +49,7 @@ if (!html.includes("Ada Lovelace") || !html.includes("Analytical engine")) {
 	},
 })
 
-assert.ok(result.outputFiles[0]?.text.includes("Ada Lovelace"))
+assert.ok(result.outputFiles[0]?.text.includes("View work"))
 
 const tempDirectory = await mkdtemp(path.join(os.tmpdir(), "monoline-react18-"))
 const bundlePath = path.join(tempDirectory, "compatibility-test.cjs")
@@ -66,7 +57,9 @@ const bundlePath = path.join(tempDirectory, "compatibility-test.cjs")
 try {
 	await writeFile(bundlePath, result.outputFiles[0].text)
 	await import(`${pathToFileURL(bundlePath).href}?t=${Date.now()}`)
-	console.log("React 18 rendered the first registry blocks successfully")
+	console.log(
+		"React 18 rendered static and interactive components successfully"
+	)
 } finally {
 	await rm(tempDirectory, { recursive: true, force: true })
 }

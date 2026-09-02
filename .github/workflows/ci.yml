@@ -21,18 +21,22 @@ env:
   NODE_VERSION: 24
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   changes:
     name: Detect Changes 🔍
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
     outputs:
-      src: ${{ steps.filter.outputs.src }}
+      library: ${{ steps.filter.outputs.library }}
+      docs: ${{ steps.filter.outputs.docs }}
       deps: ${{ steps.filter.outputs.deps }}
       lint: ${{ steps.filter.outputs.lint }}
+      markdown: ${{ steps.filter.outputs.markdown }}
       workflows: ${{ steps.filter.outputs.workflows }}
     steps:
       - name: Harden Runner 🛡️
@@ -46,36 +50,65 @@ jobs:
           persist-credentials: false
           fetch-depth: 1
 
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+      - name: Classify changed paths
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: filter
         with:
           filters: |
-            src:
+            library:
               - 'src/**'
+              - 'package.json.lib'
+              - 'jsr.json'
+              - 'tsup.config.ts'
+              - 'tsconfig.build.json'
+              - 'scripts/build-lib.mjs'
+              - 'scripts/package-contract-test.mjs'
+              - 'scripts/react-18-compatibility-test.mjs'
+              - 'scripts/sync-exports.mjs'
+              - 'scripts/lib/**'
+            docs:
               - 'app/**'
+              - 'public/**'
               - 'e2e/**'
-              - 'scripts/**'
               - 'next.config.ts'
               - 'playwright.config.ts'
               - 'postcss.config.mjs'
-              - 'public/**'
+              - 'scripts/run-docs-integration.mjs'
+              - 'scripts/seo-integration-test.mjs'
             deps:
-              - 'pnpm-lock.yaml'
               - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
             lint:
+              - 'scripts/**'
               - 'eslint.config.mjs'
-              - 'tsconfig*.json'
+              - 'tsconfig.json'
+              - 'vitest.config.ts'
               - '.prettierrc.json'
+              - '.prettierignore'
+              - '.markdownlint.json'
+              - '.markdownlint-cli2.*'
+              - '.github/**'
+              - 'lefthook.yml'
             workflows:
               - '.github/workflows/**'
               - '.github/actions/**'
+            markdown:
+              - '**/*.md'
 
   quality:
     name: Hygiene & Security 🧼🛡️
     needs: changes
-    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.deps == 'true' || needs.changes.outputs.lint == 'true' || needs.changes.outputs.workflows == 'true'
+    if: |
+      needs.changes.outputs.library == 'true' ||
+      needs.changes.outputs.docs == 'true' ||
+      needs.changes.outputs.deps == 'true' ||
+      needs.changes.outputs.lint == 'true' ||
+      needs.changes.outputs.markdown == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
@@ -86,7 +119,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          fetch-depth: 1
 
       - name: Install pnpm 📦
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
@@ -95,112 +127,147 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: pnpm
 
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile --prefer-offline
 
-      - name: Run Parallel Checks ⚡️
-        env:
-          HAS_SRC: ${{ needs.changes.outputs.src }}
-          HAS_DEPS: ${{ needs.changes.outputs.deps }}
+      - name: Verify generated exports
+        if: needs.changes.outputs.library == 'true' || needs.changes.outputs.deps == 'true'
+        run: pnpm sync-exports:check
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Verify checks are read-only
         run: |
-          echo "::group::Starting Parallel Checks"
-          # Use RUNNER_TEMP so nothing lands inside the git workspace
-          CI_DIR="$RUNNER_TEMP/.ci-status"
-          mkdir -p "$CI_DIR"
-
-          if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
-            ((pnpm run build:all && pnpm run test:seo:built) > "$CI_DIR/build.log" 2>&1 || echo "1" > "$CI_DIR/build.fail") &
-          fi
-
-          if [ "$HAS_SRC" == "true" ]; then
-            (pnpm run test > "$CI_DIR/test.log" 2>&1 || echo "1" > "$CI_DIR/test.fail") &
-          fi
-
-          if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
-            (pnpm run typecheck > "$CI_DIR/typecheck.log" 2>&1 || echo "1" > "$CI_DIR/typecheck.fail") &
-          fi
-
-          if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
-            (pnpm run sync-exports:check > "$CI_DIR/sync-exports.log" 2>&1 || echo "1" > "$CI_DIR/sync-exports.fail") &
-            (pnpm run test:react18 > "$CI_DIR/react18.log" 2>&1 || echo "1" > "$CI_DIR/react18.fail") &
-          fi
-
-          (pnpm run lint > "$CI_DIR/lint.log" 2>&1 || echo "1" > "$CI_DIR/lint.fail") &
-          (pnpm run format:check > "$CI_DIR/format.log" 2>&1 || echo "1" > "$CI_DIR/format.fail") &
-
-          wait
-          echo "::endgroup::"
-
-          EXIT_CODE=0
-          for log in "$CI_DIR"/*.log; do
-            job=$(basename "$log" .log)
-            if [ -f "$CI_DIR/$job.fail" ]; then
-              echo "::error::❌ $job failed"
-              cat "$log"
-              EXIT_CODE=1
-            else
-              echo "✅ $job passed"
-            fi
-          done
-
           if [ -n "$(git status --porcelain)" ]; then
-            echo "::error::❌ Workspace is dirty after CI checks. Please run 'pnpm format' locally and commit the changes."
+            echo "::error::Checks changed tracked or generated files."
             git status --porcelain
             exit 1
           fi
 
-          exit $EXIT_CODE
-
-      - name: Dependency Vulnerability Scan 🔍
-        run: |
-          OSV_VERSION="2.3.8"
-          OSV_BIN="$RUNNER_TEMP/osv-scanner"
-          # -sSfL: fail fast on HTTP errors (no silent 504 HTML saves)
-          curl -sSfL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64" \
-            -o "$OSV_BIN"
-          # Verify SHA256 matches the published checksum for v2.3.8
-          echo "bc98e15319ed0d515e3f9235287ba53cdc5535d576d24fd573978ecfe9ab92dc  $OSV_BIN" | sha256sum -c -
-          chmod +x "$OSV_BIN"
-          "$OSV_BIN" --lockfile=pnpm-lock.yaml
-
-  browser:
-    name: Browser & Accessibility 🌐
+  package_contract:
+    name: Package Contract 📦
     needs: changes
-    if: needs.changes.outputs.src == 'true' || needs.changes.outputs.deps == 'true'
+    if: needs.changes.outputs.library == 'true' || needs.changes.outputs.deps == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - name: Checkout 📥
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pnpm 📦
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - name: Install dependencies 🛠️
+        run: pnpm install --frozen-lockfile --prefer-offline
+      - name: Verify published package contracts
+        run: pnpm check:package
+      - name: Verify package checks are read-only
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Package verification changed the workspace."
+            git status --porcelain
+            exit 1
+          fi
+
+  docs_integration:
+    name: Production Docs & Accessibility 🌐
+    needs: changes
+    if: needs.changes.outputs.docs == 'true' || needs.changes.outputs.library == 'true' || needs.changes.outputs.deps == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
-
       - name: Checkout 📥
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
       - name: Install pnpm 📦
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
-
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - name: Setup Node.js 🟢
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
-
+          cache: pnpm
+      - name: Restore Next.js build cache
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.0.3
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('app/**/*', 'src/**/*', 'public/**/*', 'next.config.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-
+            ${{ runner.os }}-next-
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile --prefer-offline
-
       - name: Install Chromium 🌐
         run: pnpm exec playwright install --with-deps chromium
+      - name: Build production documentation
+        run: pnpm build
+      - name: Test production documentation
+        run: pnpm test:docs:built
+      - name: Upload browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
 
-      - name: Run browser and accessibility checks ✅
-        run: pnpm run test:browser
+  dependency_scan:
+    name: Dependency Scan 🔍
+    needs: changes
+    if: needs.changes.outputs.deps == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - name: Checkout 📥
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install OSV Scanner
+        run: |
+          OSV_VERSION="2.3.8"
+          OSV_BIN="$RUNNER_TEMP/osv-scanner"
+          curl -sSfL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64" -o "$OSV_BIN"
+          echo "bc98e15319ed0d515e3f9235287ba53cdc5535d576d24fd573978ecfe9ab92dc  $OSV_BIN" | sha256sum -c -
+          chmod +x "$OSV_BIN"
+          "$OSV_BIN" --lockfile=pnpm-lock.yaml
 
   secret_scan:
     name: Secret Scan 🔑
@@ -213,23 +280,69 @@ jobs:
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
-
       - name: Checkout 📥
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
           persist-credentials: false
-
+          fetch-depth: 0
       - name: Install Gitleaks 🕵️
         run: |
-          GITLEAKS_BIN="$RUNNER_TEMP/gitleaks"
-          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.27.2/gitleaks_8.27.2_linux_x64.tar.gz \
-            -o "$RUNNER_TEMP/gitleaks.tar.gz"
-          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
-          chmod +x "$GITLEAKS_BIN"
+          GITLEAKS_VERSION="8.27.2"
+          GITLEAKS_ARCHIVE="$RUNNER_TEMP/gitleaks.tar.gz"
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o "$GITLEAKS_ARCHIVE"
+          echo "141c3b2dede46d8b3a53b47116da756bd223decc0374797559a6b50ecba5590c  $GITLEAKS_ARCHIVE" | sha256sum -c -
+          tar -xzf "$GITLEAKS_ARCHIVE" -C "$RUNNER_TEMP" gitleaks
+          chmod +x "$RUNNER_TEMP/gitleaks"
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
-
       - name: Run Gitleaks 🕵️
         env:
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
         run: gitleaks detect --source . --verbose --redact
+
+  workflow_security:
+    name: Run zizmor 🌈
+    needs: changes
+    if: needs.changes.outputs.workflows == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - name: Checkout 📥
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install zizmor
+        run: pipx install zizmor==1.29.0
+      - name: Audit workflow security
+        run: zizmor --offline .
+
+  ci_gate:
+    name: CI Gate 🚦
+    if: always()
+    needs:
+      - changes
+      - quality
+      - package_contract
+      - docs_integration
+      - dependency_scan
+      - secret_scan
+      - workflow_security
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require successful applicable jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          for result in $RESULTS; do
+            if [ "$result" != "success" ] && [ "$result" != "skipped" ]; then
+              echo "::error::A required CI job finished with: $result"
+              exit 1
+            fi
+          done

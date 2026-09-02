@@ -1,11 +1,13 @@
-import { execSync } from "node:child_process"
+import { execFile } from "node:child_process"
 import { readFile, readdir, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { promisify } from "node:util"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, "..")
+const execFileAsync = promisify(execFile)
 const srcDir = path.join(projectRoot, "src")
 const componentsDir = path.join(srcDir, "components")
 const checkMode = process.argv.includes("--check")
@@ -85,15 +87,17 @@ async function run() {
 
 		const indexTsPath = path.join(componentsDir, comp, "index.ts")
 		if (await fileExists(indexTsPath)) {
-			let content = await readFile(indexTsPath, "utf8")
+			const content = await readFile(indexTsPath, "utf8")
 			const cssImportRegex = new RegExp(
 				`import\\s+["']\\./${comp}\\.css["'];?\\r?\\n?`,
 				"g"
 			)
 			if (cssImportRegex.test(content)) {
-				content = content.replace(cssImportRegex, "")
-				await writeFile(indexTsPath, content, "utf8")
-				console.log(`✓ Removed CSS import from ${comp}/index.ts`)
+				await writeGenerated(
+					indexTsPath,
+					content.replace(cssImportRegex, ""),
+					`✓ Removed CSS import from ${comp}/index.ts`
+				)
 			}
 		}
 	}
@@ -211,24 +215,20 @@ async function run() {
 
 	// 5b. Update jsr.json exports
 	const jsrPath = path.join(projectRoot, "jsr.json")
-	try {
-		const jsrRaw = await readFile(jsrPath, "utf8")
-		const jsr = JSON.parse(jsrRaw)
-		const jsrExports = {
-			".": "./src/index.ts",
-		}
-		for (const comp of components) {
-			jsrExports[`./${comp}`] = `./src/components/${comp}/index.ts`
-		}
-		jsr.exports = jsrExports
-		await writeGenerated(
-			jsrPath,
-			JSON.stringify(jsr, null, "\t") + "\n",
-			"✓ Updated jsr.json exports"
-		)
-	} catch (err) {
-		console.warn("Could not sync jsr.json:", err.message)
+	const jsrRaw = await readFile(jsrPath, "utf8")
+	const jsr = JSON.parse(jsrRaw)
+	const jsrExports = {
+		".": "./src/index.ts",
 	}
+	for (const comp of components) {
+		jsrExports[`./${comp}`] = `./src/components/${comp}/index.ts`
+	}
+	jsr.exports = jsrExports
+	await writeGenerated(
+		jsrPath,
+		JSON.stringify(jsr, null, "\t") + "\n",
+		"✓ Updated jsr.json exports"
+	)
 
 	// 6. Update tsconfig.json paths
 	const tsconfigPath = path.join(projectRoot, "tsconfig.json")
@@ -280,36 +280,32 @@ async function run() {
 
 	// 7b. Update src/foundations/theme.css component style imports
 	const themeCssPath = path.join(srcDir, "foundations", "theme.css")
-	try {
-		let themeCss = await readFile(themeCssPath, "utf8")
-		const cssImports = componentsWithCss
-			.map((comp) => `@import "../components/${comp}/${comp}.css";`)
-			.join("\n")
+	let themeCss = await readFile(themeCssPath, "utf8")
+	const cssImports = componentsWithCss
+		.map((comp) => `@import "../components/${comp}/${comp}.css";`)
+		.join("\n")
 
-		const startToken = "/* @components-start */"
-		const endToken = "/* @components-end */"
-		const startIndex = themeCss.indexOf(startToken)
-		const endIndex = themeCss.indexOf(endToken)
+	const startToken = "/* @components-start */"
+	const endToken = "/* @components-end */"
+	const startIndex = themeCss.indexOf(startToken)
+	const endIndex = themeCss.indexOf(endToken)
 
-		if (startIndex !== -1 && endIndex !== -1) {
-			themeCss =
-				themeCss.slice(0, startIndex + startToken.length) +
-				"\n" +
-				cssImports +
-				"\n" +
-				themeCss.slice(endIndex)
-
-			await writeGenerated(
-				themeCssPath,
-				themeCss,
-				`✓ Updated theme.css with ${componentsWithCss.length} component style imports`
-			)
-		} else {
-			console.warn("Could not find components placeholder in theme.css")
-		}
-	} catch (err) {
-		console.warn("Could not sync theme.css component imports:", err.message)
+	if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+		throw new Error("Could not find a valid components block in theme.css")
 	}
+
+	themeCss =
+		themeCss.slice(0, startIndex + startToken.length) +
+		"\n" +
+		cssImports +
+		"\n" +
+		themeCss.slice(endIndex)
+
+	await writeGenerated(
+		themeCssPath,
+		themeCss,
+		`✓ Updated theme.css with ${componentsWithCss.length} component style imports`
+	)
 
 	if (checkMode) {
 		if (mismatches.length > 0) {
@@ -327,28 +323,18 @@ async function run() {
 	}
 
 	// 8. Format generated files
-	try {
-		const prettierBin = path.join(
-			projectRoot,
-			"node_modules",
-			".bin",
-			"prettier"
-		)
-		execSync(
-			`"${prettierBin}" --write "${tsconfigPath}" "${metadataPath}" "${indexTsPath}" "${jsrPath}"`,
-			{
-				cwd: projectRoot,
-				stdio: "pipe",
-			}
-		)
-		execSync(`"${prettierBin}" --write --parser json "${pkgLibPath}"`, {
-			cwd: projectRoot,
-			stdio: "pipe",
-		})
-		console.log(`✓ Formatted generated files with Prettier`)
-	} catch {
-		// Fallback silently if prettier fails
-	}
+	const prettierBin = path.join(projectRoot, "node_modules", ".bin", "prettier")
+	await execFileAsync(
+		prettierBin,
+		["--write", tsconfigPath, metadataPath, indexTsPath, jsrPath],
+		{ cwd: projectRoot }
+	)
+	await execFileAsync(
+		prettierBin,
+		["--write", "--parser", "json", pkgLibPath],
+		{ cwd: projectRoot }
+	)
+	console.log(`✓ Formatted generated files with Prettier`)
 }
 
 run().catch((err) => {

@@ -1,48 +1,53 @@
 glob_matcher: doublestar
 
 pre-commit:
-  parallel: true
-  commands:
-    # Auto-sync exports when component source files change
-    sync-exports:
+  jobs:
+    # Generated files must settle before formatters inspect the staged snapshot.
+    - name: sync-exports
       glob: "src/{components,foundations,lib}/**/*.{ts,tsx,css}"
       run: pnpm run sync-exports && git add tsconfig.json jsr.json package.json.lib src/index.ts src/metadata.json src/foundations/theme.css
       stage_fixed: true
 
-    # Block commits that contain secrets/credentials
-    secrets:
-      run: gitleaks protect --staged --redact -v
+    - name: staged-quality
+      group:
+        parallel: true
+        jobs:
+          # Block commits that contain secrets/credentials.
+          - name: secrets
+            run: if command -v gitleaks > /dev/null; then gitleaks protect --staged --redact -v; else echo "gitleaks is required. Install it with 'brew install gitleaks'"; exit 1; fi
 
-    # JS/TS/MJS - ESLint + Prettier
-    lint-ts:
-      glob:
-        - "{src,tests,app,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
-        - "*.{ts,tsx,js,jsx,mjs,cjs}"
-      run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
-      stage_fixed: true
+          # JS/TS/MJS - ESLint + Prettier
+          - name: lint-ts
+            glob:
+              - "{src,tests,app,e2e,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
+              - "*.{ts,tsx,js,jsx,mjs,cjs}"
+            run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
+            stage_fixed: true
 
-    # Prettier format only
-    format-styles:
-      glob: "**/*.{css,scss}"
-      run: pnpm exec prettier --write {staged_files}
-      stage_fixed: true
+          # Prettier format only
+          - name: format-styles
+            glob: "**/*.{css,scss}"
+            run: pnpm exec prettier --write {staged_files}
+            stage_fixed: true
 
-    # JSON / YAML - Prettier format only
-    lint-json-yml:
-      glob: "**/*.{json,yml,yaml}"
-      run: pnpm exec prettier --write {staged_files}
-      stage_fixed: true
+          # JSON / YAML - Prettier format only
+          - name: lint-json-yml
+            glob: "**/*.{json,yml,yaml}"
+            run: pnpm exec prettier --write {staged_files}
+            stage_fixed: true
 
-    # Markdown linting & formatting
-    lint-md:
-      glob: "**/*.md"
-      run: pnpm exec markdownlint --fix {staged_files} && pnpm exec prettier --write {staged_files}
-      stage_fixed: true
+          # Markdown linting & formatting
+          - name: lint-md
+            glob: "**/*.md"
+            run: pnpm exec markdownlint --fix {staged_files} && pnpm exec prettier --write {staged_files}
+            stage_fixed: true
 
-    # GitHub Actions - Security linting
-    lint-actions:
-      glob: ".github/workflows/*.yml"
-      run: if command -v zizmor > /dev/null; then zizmor {staged_files}; else echo "zizmor not found, skipping actions lint. Install with 'brew install zizmor'"; fi
+          # GitHub Actions - Security linting
+          - name: lint-actions
+            glob:
+              - ".github/workflows/*.{yml,yaml}"
+              - ".github/actions/**/*.{yml,yaml}"
+            run: if command -v zizmor > /dev/null; then zizmor --offline {staged_files}; else echo "zizmor not found, skipping actions lint. Install with 'brew install zizmor'"; fi
 
 commit-msg:
   commands:
@@ -61,4 +66,5 @@ pre-push:
 
     # Scan for dependency vulnerabilities
     audit:
+      glob: "pnpm-lock.yaml"
       run: if command -v osv-scanner > /dev/null; then osv-scanner --lockfile pnpm-lock.yaml; else echo "osv-scanner not found, skipping audit. Install with 'brew install osv-scanner'"; fi
