@@ -53,6 +53,8 @@ jobs:
             src:
               - 'src/**'
               - 'app/**'
+              - 'registry.json'
+              - 'registry/**'
               - 'scripts/**'
               - 'next.config.ts'
               - 'postcss.config.mjs'
@@ -109,7 +111,7 @@ jobs:
           mkdir -p "$CI_DIR"
 
           if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
-            ((pnpm run build:all && pnpm run test:seo:built) > "$CI_DIR/build.log" 2>&1 || echo "1" > "$CI_DIR/build.fail") &
+            ((pnpm run build:all && pnpm run registry:test-consumer && pnpm run test:seo:built) > "$CI_DIR/build.log" 2>&1 || echo "1" > "$CI_DIR/build.fail") &
           fi
 
           if [ "$HAS_SRC" == "true" ]; then
@@ -122,6 +124,7 @@ jobs:
 
           if [ "$HAS_SRC" == "true" ] || [ "$HAS_DEPS" == "true" ]; then
             (pnpm run sync-exports:check > "$CI_DIR/sync-exports.log" 2>&1 || echo "1" > "$CI_DIR/sync-exports.fail") &
+            (pnpm run registry:validate > "$CI_DIR/registry.log" 2>&1 || echo "1" > "$CI_DIR/registry.fail") &
           fi
 
           (pnpm run lint > "$CI_DIR/lint.log" 2>&1 || echo "1" > "$CI_DIR/lint.fail") &

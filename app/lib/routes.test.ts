@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import metadataJson from "../../src/metadata.json"
+import { blockPath, blockSlugs } from "./blocks"
 import {
 	componentPath,
 	componentSlugs,
@@ -21,6 +22,10 @@ describe("route registry", () => {
 		expect(new Set(siteRoutes).size).toBe(siteRoutes.length)
 		expect(siteRoutes).toContain(routes.docs.components.root)
 		expect(siteRoutes).toContain(routes.docs.foundations.root)
+		expect(siteRoutes).toContain(routes.docs.blocks.root)
+		expect(
+			blockSlugs.map(blockPath).every((path) => siteRoutes.includes(path))
+		).toBe(true)
 	})
 
 	it("redirects only legacy routes to registered canonical routes", () => {

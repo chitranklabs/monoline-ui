@@ -93,6 +93,8 @@
 		"next-env.d.ts",
 		"app/**/*.ts",
 		"app/**/*.tsx",
+		"registry/**/*.ts",
+		"registry/**/*.tsx",
 		"src/**/*.ts",
 		"src/**/*.tsx",
 		".next/types/**/*.ts",

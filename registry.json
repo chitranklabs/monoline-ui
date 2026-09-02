@@ -1,0 +1,112 @@
+{
+	"$schema": "https://ui.shadcn.com/schema/registry.json",
+	"name": "monoline-ui",
+	"homepage": "https://monolineui.chitrankagnihotri.com/docs/blocks",
+	"items": [
+		{
+			"name": "article-index-01",
+			"type": "registry:block",
+			"title": "Article index",
+			"description": "A compact editorial index for essays, notes, and technical writing.",
+			"author": "Chitrank Agnihotri <chitrank2050@gmail.com>",
+			"dependencies": ["@chitrank2050/monoline-ui@^0.4.0"],
+			"files": [
+				{
+					"path": "registry/default/article-index-01/article-index-01.tsx",
+					"type": "registry:component",
+					"target": "@components/monoline/article-index-01.tsx"
+				}
+			],
+			"categories": ["portfolio", "content"],
+			"meta": {
+				"surface": "server",
+				"theme": "light-dark",
+				"seoDescription": "Install a compact React article index for essays, notes, and technical writing. Preview the Monoline composition, then copy its editable source into your app."
+			}
+		},
+		{
+			"name": "contact-cta-01",
+			"type": "registry:block",
+			"title": "Contact CTA",
+			"description": "A restrained contact section with availability status and one clear action.",
+			"author": "Chitrank Agnihotri <chitrank2050@gmail.com>",
+			"dependencies": ["@chitrank2050/monoline-ui@^0.4.0"],
+			"files": [
+				{
+					"path": "registry/default/contact-cta-01/contact-cta-01.tsx",
+					"type": "registry:component",
+					"target": "@components/monoline/contact-cta-01.tsx"
+				}
+			],
+			"categories": ["portfolio", "call-to-action"],
+			"meta": {
+				"surface": "server",
+				"theme": "light-dark",
+				"seoDescription": "Install a restrained contact section with availability status and one clear action. Preview the Monoline block, then copy its editable source into your app."
+			}
+		},
+		{
+			"name": "experience-timeline-01",
+			"type": "registry:block",
+			"title": "Experience timeline",
+			"description": "A chronological work-history section focused on roles and shipped outcomes.",
+			"author": "Chitrank Agnihotri <chitrank2050@gmail.com>",
+			"dependencies": ["@chitrank2050/monoline-ui@^0.4.0"],
+			"files": [
+				{
+					"path": "registry/default/experience-timeline-01/experience-timeline-01.tsx",
+					"type": "registry:component",
+					"target": "@components/monoline/experience-timeline-01.tsx"
+				}
+			],
+			"categories": ["portfolio", "resume"],
+			"meta": {
+				"surface": "server",
+				"theme": "light-dark",
+				"seoDescription": "Install a React work-history timeline focused on roles and shipped outcomes. Preview the Monoline composition, then copy its editable source into your app."
+			}
+		},
+		{
+			"name": "profile-hero-01",
+			"type": "registry:block",
+			"title": "Profile hero",
+			"description": "A portfolio introduction with identity, role, availability, and primary actions.",
+			"author": "Chitrank Agnihotri <chitrank2050@gmail.com>",
+			"dependencies": ["@chitrank2050/monoline-ui@^0.4.0"],
+			"files": [
+				{
+					"path": "registry/default/profile-hero-01/profile-hero-01.tsx",
+					"type": "registry:component",
+					"target": "@components/monoline/profile-hero-01.tsx"
+				}
+			],
+			"categories": ["portfolio", "hero"],
+			"meta": {
+				"surface": "server",
+				"theme": "light-dark",
+				"seoDescription": "Install a portfolio introduction with identity, role, availability, and clear actions. Preview the Monoline block, then copy its editable source into your app."
+			}
+		},
+		{
+			"name": "project-index-01",
+			"type": "registry:block",
+			"title": "Project index",
+			"description": "A responsive project grid for concise case-study summaries and measurable outcomes.",
+			"author": "Chitrank Agnihotri <chitrank2050@gmail.com>",
+			"dependencies": ["@chitrank2050/monoline-ui@^0.4.0"],
+			"files": [
+				{
+					"path": "registry/default/project-index-01/project-index-01.tsx",
+					"type": "registry:component",
+					"target": "@components/monoline/project-index-01.tsx"
+				}
+			],
+			"categories": ["portfolio", "projects"],
+			"meta": {
+				"surface": "server",
+				"theme": "light-dark",
+				"seoDescription": "Install a responsive project grid for concise case studies and measurable outcomes. Preview the Monoline block, then copy its editable source into your app."
+			}
+		}
+	]
+}

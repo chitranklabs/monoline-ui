@@ -34,11 +34,15 @@ describe("docs sidebar navigation", () => {
 		expect(
 			hrefs.filter((href) => href?.startsWith("/docs/components"))
 		).toEqual([routes.docs.components.root])
+		expect(hrefs.filter((href) => href?.startsWith("/docs/blocks"))).toEqual([
+			routes.docs.blocks.root,
+		])
 		expect(sectionsNav.map((item) => item.label)).toEqual([
 			"Introduction",
 			"Installation",
 			"Foundation",
 			"Components",
+			"Blocks",
 			"Accessibility",
 			"Theming",
 			"Compatibility",
