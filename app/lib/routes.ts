@@ -1,3 +1,5 @@
+import { blockPath, blockSlugs } from "./blocks"
+
 export const componentSlugs = [
 	"action-rail",
 	"avatar",
@@ -76,6 +78,10 @@ export const routes = {
 			root: "/docs/components",
 			item: componentPath,
 		},
+		blocks: {
+			root: "/docs/blocks",
+			item: blockPath,
+		},
 		changelog: "/docs/changelog",
 	},
 	changelog: "/docs/changelog",
@@ -96,6 +102,8 @@ export const siteRoutes: readonly SitePath[] = [
 	routes.docs.foundations.radius,
 	routes.docs.foundations.motion,
 	routes.docs.components.root,
+	routes.docs.blocks.root,
+	...blockSlugs.map(blockPath),
 	...componentSlugs.map(componentPath),
 	routes.docs.changelog,
 ]

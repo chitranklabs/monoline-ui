@@ -93,21 +93,23 @@ export default function Page() {
 
 ## Documentation & Links
 
-| Resource          | URL                                                                                                          |
-| :---------------- | :----------------------------------------------------------------------------------------------------------- |
-| **Docs**          | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                                 |
-| **Components**    | [47 interactive React references](https://monolineui.chitrankagnihotri.com/docs/components)                  |
-| **Foundations**   | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/docs/foundations)                   |
-| **Patterns**      | [Component composition recipes](https://monolineui.chitrankagnihotri.com/docs/patterns)                      |
-| **Accessibility** | [Behavior and consumer responsibilities](https://monolineui.chitrankagnihotri.com/docs/accessibility)        |
-| **Theming**       | [Light, dark, system, and token overrides](https://monolineui.chitrankagnihotri.com/docs/theming)            |
-| **Compatibility** | [React, Next.js, Tailwind, and browser support](https://monolineui.chitrankagnihotri.com/docs/compatibility) |
-| **Installation**  | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/docs/installation)                |
-| **npm**           | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui)       |
-| **JSR**           | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                                 |
-| **Repository**    | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                           |
-| **Case study**    | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                       |
-| **Changelog**     | [CHANGELOG.md](./CHANGELOG.md)                                                                               |
+| Resource           | URL                                                                                                                   |
+| :----------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **Docs**           | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                                          |
+| **Components**     | [47 interactive React references](https://monolineui.chitrankagnihotri.com/docs/components)                           |
+| **Blocks**         | [Five installable portfolio compositions](https://monolineui.chitrankagnihotri.com/docs/blocks)                       |
+| **Foundations**    | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/docs/foundations)                            |
+| **Patterns**       | [Component composition recipes](https://monolineui.chitrankagnihotri.com/docs/patterns)                               |
+| **Accessibility**  | [Behavior and consumer responsibilities](https://monolineui.chitrankagnihotri.com/docs/accessibility)                 |
+| **Theming**        | [Light, dark, system, and token overrides](https://monolineui.chitrankagnihotri.com/docs/theming)                     |
+| **Compatibility**  | [React, Next.js, Tailwind, and browser support](https://monolineui.chitrankagnihotri.com/docs/compatibility)          |
+| **Installation**   | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/docs/installation)                         |
+| **npm**            | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui)                |
+| **JSR**            | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                                          |
+| **Repository**     | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                                    |
+| **Block requests** | [Request a registry composition](https://github.com/chitranklabs/monoline-ui/issues/new?template=registry_request.md) |
+| **Case study**     | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                                |
+| **Changelog**      | [CHANGELOG.md](./CHANGELOG.md)                                                                                        |
 
 ---
 
@@ -156,6 +158,8 @@ graph TD
 ```text
 monoline-ui/
 ├── app/                    ← Next.js playground & documentation
+├── registry/               ← Installable Monoline-native compositions
+├── registry.json           ← GitHub registry contract
 ├── src/
 │   ├── components/         ← 47 UI components (Avatar, Button, Footer…)
 │   └── foundations/        ← CSS layers, design tokens, breakpoints

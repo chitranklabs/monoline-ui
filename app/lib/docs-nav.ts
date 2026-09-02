@@ -1,3 +1,4 @@
+import { blockPath, blocks } from "./blocks"
 import { componentPath, routes } from "./routes"
 
 export interface DocsNavItem {
@@ -422,6 +423,7 @@ export const sectionsNav: DocsNavItem[] = [
 	...guidesNav.slice(0, 2),
 	{ href: routes.docs.foundations.root, label: "Foundation" },
 	{ href: routes.docs.components.root, label: "Components" },
+	{ href: routes.docs.blocks.root, label: "Blocks" },
 	...guidesNav.slice(2),
 	{ href: routes.docs.changelog, label: "Changelog" },
 ]
@@ -438,6 +440,11 @@ export const componentsNav: DocsNavItem[] = sortNavItemsWithoutOverview(
 
 export const docsPagerNav: DocsNavItem[] = [
 	...guidesNav,
+	{ href: routes.docs.blocks.root, label: "Blocks" },
+	...blocks.map((block) => ({
+		href: blockPath(block.name),
+		label: block.title,
+	})),
 	...foundationsNav,
 	...componentNavGroups.flatMap((group) => group.items),
 	{ href: routes.docs.changelog, label: "Changelog" },

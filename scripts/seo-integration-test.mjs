@@ -15,10 +15,24 @@ const CRAWL_CONCURRENCY = 4
 const componentMetadata = JSON.parse(
 	readFileSync(new URL("../src/metadata.json", import.meta.url), "utf8")
 )
+const blockRegistry = JSON.parse(
+	readFileSync(new URL("../registry.json", import.meta.url), "utf8")
+)
 assert.ok(
 	Array.isArray(componentMetadata.components),
 	"metadata.json should contain a components array"
 )
+assert.ok(
+	Array.isArray(blockRegistry.items),
+	"registry.json should contain a blocks array"
+)
+const dynamicRouteFixtures = new Map([
+	[
+		"/docs/blocks/[slug]",
+		blockRegistry.items.map((item) => `/docs/blocks/${item.name}`),
+	],
+])
+
 function discoverPagePaths(directory, segments = []) {
 	const paths = []
 	for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -26,13 +40,18 @@ function discoverPagePaths(directory, segments = []) {
 			const routeSegments = segments.filter(
 				(segment) => !segment.startsWith("(") && !segment.startsWith("@")
 			)
-			assert.ok(
-				routeSegments.every((segment) => !segment.startsWith("[")),
-				"the SEO crawl requires explicit fixtures for dynamic routes"
-			)
-			paths.push(
+			const routePattern =
 				routeSegments.length === 0 ? "/" : `/${routeSegments.join("/")}`
-			)
+			if (routeSegments.some((segment) => segment.startsWith("["))) {
+				const fixtures = dynamicRouteFixtures.get(routePattern)
+				assert.ok(
+					fixtures?.length,
+					`the SEO crawl requires explicit fixtures for ${routePattern}`
+				)
+				paths.push(...fixtures)
+			} else {
+				paths.push(routePattern)
+			}
 		}
 		if (entry.isDirectory()) {
 			paths.push(
@@ -57,6 +76,11 @@ assert.deepEqual(
 	EXPECTED_PATHS.filter((pathname) => pathname.startsWith("/docs/components/")),
 	expectedComponentPaths,
 	"metadata.json should match every component reference page"
+)
+assert.deepEqual(
+	EXPECTED_PATHS.filter((pathname) => pathname.startsWith("/docs/blocks/")),
+	blockRegistry.items.map((item) => `/docs/blocks/${item.name}`).toSorted(),
+	"registry.json should match every block reference page"
 )
 assert.equal(
 	new Set(EXPECTED_PATHS).size,
@@ -765,6 +789,7 @@ async function run() {
 					pathname === "/"
 						? ["WebSite", "SoftwareSourceCode", "WebPage"]
 						: [
+									"/docs/blocks",
 									"/docs/components",
 									"/docs/foundations",
 									"/docs/changelog",
