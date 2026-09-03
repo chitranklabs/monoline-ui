@@ -227,6 +227,23 @@ test("Scorecard keeps scheduled/security updates without ordinary source pushes"
 	assert.equal(scorecard.concurrency["cancel-in-progress"], true)
 })
 
+test("label token uses only the existing contents and pull-request grants", () => {
+	const token = readWorkflow("labeler").jobs.label.steps.find(
+		(step) => step.uses === "./.github/actions/setup-bot"
+	)
+	assert.ok(token)
+	// Label create/update/assignment accept pull_requests:write; issues:write is
+	// not granted to our app installation and makes token creation fail with 422.
+	assert.deepEqual(
+		Object.fromEntries(
+			Object.entries(token.with).filter(([key]) =>
+				key.startsWith("permission-")
+			)
+		),
+		{ "permission-contents": "read", "permission-pull-requests": "write" }
+	)
+})
+
 test("label definitions are maintained separately from safe PR labeling", () => {
 	const labeler = readWorkflow("labeler")
 	assert.ok(Object.hasOwn(labeler.on, "workflow_dispatch"))

@@ -54,7 +54,7 @@ jobs:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: read
-          permission-issues: write
+          # Label APIs accept pull-requests:write; this installation has no Issues grant.
           permission-pull-requests: write
 
       - name: Sync Label Colors and Descriptions 🎨
