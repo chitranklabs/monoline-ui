@@ -91,6 +91,33 @@ pnpm test:docs      # Production docs, SEO, browser, and accessibility checks
 
 Run `pnpm check:all` when you need the complete local equivalent of CI.
 
+### CI selection and maintenance
+
+CI runs for every PR so required checks are always reported. Markdown-only edits
+outside `app/` and `src/`, and formatting-configuration PRs, run formatting,
+Markdown lint, CI selection tests, and secret scanning without unrelated
+TypeScript, unit, or browser checks.
+Changes to the library, shared TypeScript configuration, or build-validation
+workflows run package contracts and production documentation checks as well.
+Playground-only changes do not rebuild the published package.
+
+The path filters live in `.github/workflows/ci.yml`. Run `pnpm test:ci` after
+editing them; the tests parse the workflow itself and cover mixed changes,
+deleted paths, required checks, and maintenance triggers. `pnpm check:static`
+also includes these tests. The YAML parser and glob matcher are development
+dependencies, not library runtime dependencies.
+
+Main-branch push exclusions are retained, and code changes still receive
+post-merge verification. Zizmor runs when workflows or composite actions change.
+Production browser checks install only Chromium's headless shell; keep that
+installation command aligned if a browser project later adds a `channel`.
+
+Scorecard runs weekly, on branch-protection events, and on relevant security or
+build-configuration pushes. Ordinary component changes can take until the next
+weekly scan to appear in its results. Label assignment still runs on PR updates;
+label colors and descriptions are synchronized only when label configuration
+merges into `main`, or through the Labeler workflow's manual run on `main`.
+
 ## Adding a New Component
 
 1. Create `src/components/<name>/` with an `index.ts` and component file(s).
