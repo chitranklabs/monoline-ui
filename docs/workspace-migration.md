@@ -79,9 +79,24 @@ JSR entries, peer compatibility, stylesheet side effects, and 62 public routes.
 Production tests check SEO, redirects, keyboard behavior, and accessibility.
 
 1. Preparation contracts and explicit path ownership: committed separately.
-2. Workspace moves and the necessary wiring: this batch.
-3. Real tarball consumer installations outside the workspace: next batch.
+2. Workspace moves and the necessary wiring: committed separately.
+3. Real tarball consumer installations outside the workspace: this batch.
 4. Changesets and replacement release automation: separate PR.
 
-Existing symlink-based consumer tests are not equivalent to step 3. Blocks,
-registry work, and changelog-page redesign remain parked.
+The package job now packs once and installs separate React 18.2 and React 19
+consumers outside the repository. Each checks installed subpaths, strict
+declarations, rejected private imports, invalid props, and server rendering.
+React 19 also builds a Next.js Server Component page with interactive subpaths
+and verifies emitted Tailwind utilities and both theme selectors.
+
+No root dependency aliases or library symlinks supply consumer imports. The
+React 19 framework/tool versions follow the installed workspace versions;
+React 18 runtime and type versions are explicit compatibility fixtures.
+Transitive dependencies resolve from the published package's declared ranges,
+without the workspace's overrides. This exercises consumer installation rather
+than duplicating the repository lockfile. Installs reuse the pnpm download cache
+and may require registry access; they are not offline-only or fully lockfile-pinned.
+
+The matrix replaces the separate source-based React 18 run in `check:package`,
+so CI does not test that consumer twice. Blocks, registry work, and changelog-page
+redesign remain parked.

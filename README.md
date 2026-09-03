@@ -153,6 +153,8 @@ graph TD
 
 The pnpm workspace separates the published UI package from its Next.js website.
 The website consumes built package exports, just as an installed consumer does.
+`pnpm check:package` also installs the real npm tarball in temporary React 18
+and React 19 projects outside the workspace, including a Next.js/Tailwind build.
 
 The [workspace migration safeguards](https://github.com/chitranklabs/monoline-ui/blob/main/docs/workspace-migration.md) describe the
 package boundaries and the contracts that must remain unchanged.

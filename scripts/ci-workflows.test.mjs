@@ -156,6 +156,7 @@ const cases = [
 	["PR template", [".github/PULL_REQUEST_TEMPLATE.md"], prose],
 	["format config", [".prettierrc.json"], prose],
 	["library component", ["packages/ui/src/components/button/root.tsx"], full],
+	["tarball consumer harness", ["scripts/lib/tarball-consumers.mjs"], full],
 	["theme tokens", ["packages/ui/src/foundations/theme/tokens.css"], full],
 	["shared TypeScript config", ["tsconfig.json"], full],
 	["package TypeScript config", ["packages/ui/tsconfig.build.json"], full],

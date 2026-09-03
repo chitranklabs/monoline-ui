@@ -85,11 +85,18 @@ Before opening a PR, run:
 
 ```bash
 pnpm check:static   # Generated files, formatting, lint, types, and unit tests
-pnpm check:package  # Published package and React 18 consumer contracts
+pnpm check:package  # Real tarball: React 18/19, types, Next.js RSC, and CSS
 pnpm test:docs      # Production docs, SEO, browser, and accessibility checks
 ```
 
 Run `pnpm check:all` when you need the complete local equivalent of CI.
+
+Package contracts pack `packages/ui/dist` once and install it into independent
+temporary projects. They do not use workspace aliases or symlink the library.
+Downloads use pnpm's cache; uncached dependencies require registry access.
+Lifecycle scripts are disabled, installs/builds have timeouts, and temporary
+projects are removed on success or failure. `pnpm test:react18` runs only the
+React 18 consumer against an already-built library for focused diagnosis.
 
 ### CI selection and maintenance
 
