@@ -52,6 +52,7 @@ export function HomeHeroGrid() {
 
 						<Input
 							size="sm"
+							aria-label="Project name"
 							placeholder="Enter project name..."
 							autoComplete="off"
 							data-1p-ignore
@@ -59,6 +60,7 @@ export function HomeHeroGrid() {
 						/>
 						<Textarea
 							size="sm"
+							aria-label="Project description"
 							rows={2}
 							placeholder="Write a brief description..."
 							autoComplete="off"
@@ -158,7 +160,11 @@ export function HomeHeroGrid() {
 								65% completed · $273,000 achieved
 							</p>
 						</div>
-						<Progress value={65} size="sm" />
+						<Progress
+							value={65}
+							size="sm"
+							aria-label="Quarterly target progress"
+						/>
 					</div>
 				</div>
 
@@ -284,6 +290,7 @@ export function HomeHeroGrid() {
 							</Label>
 							<Input
 								size="sm"
+								aria-label="Goal name"
 								defaultValue="Type-safe BFF Rollout"
 								autoComplete="off"
 								data-1p-ignore
@@ -298,6 +305,7 @@ export function HomeHeroGrid() {
 								</Label>
 								<Input
 									size="sm"
+									aria-label="Target amount"
 									defaultValue="15,000"
 									autoComplete="off"
 									data-1p-ignore
@@ -310,6 +318,7 @@ export function HomeHeroGrid() {
 								</Label>
 								<Input
 									size="sm"
+									aria-label="Timeline"
 									defaultValue="Q4 2026"
 									autoComplete="off"
 									data-1p-ignore
@@ -360,6 +369,7 @@ export function HomeHeroGrid() {
 							</div>
 							<Input
 								size="sm"
+								aria-label="Payout threshold amount"
 								value={payoutInput}
 								onChange={(e) => setPayoutInput(e.target.value)}
 								autoComplete="off"
@@ -459,6 +469,7 @@ export function HomeHeroGrid() {
 						<div className="flex items-center gap-ml-1-5">
 							<Input
 								size="sm"
+								aria-label="Filter component names"
 								placeholder="Filter component names..."
 								value={chatInput}
 								onChange={(e) => setChatInput(e.target.value)}

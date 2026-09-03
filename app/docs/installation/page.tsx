@@ -166,11 +166,17 @@ export default function InstallationPage() {
 					</h3>
 					<p className="mt-ml-1 text-text-secondary text-sm">
 						Render one component and check it in both themes. Then browse the{" "}
-						<a href="/docs/components/footer" className="text-accent">
+						<a
+							href="/docs/components/footer"
+							className="text-accent underline underline-offset-4"
+						>
 							component reference
 						</a>{" "}
 						for props and examples, or jump to{" "}
-						<a href="/docs/foundations/colors" className="text-accent">
+						<a
+							href="/docs/foundations/colors"
+							className="text-accent underline underline-offset-4"
+						>
 							Foundations
 						</a>{" "}
 						to see the token system.

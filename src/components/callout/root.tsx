@@ -10,7 +10,7 @@ const calloutVariantClasses: Record<CalloutVariant, string> = {
 const labelVariantClasses: Record<CalloutVariant, string> = {
 	note: "text-text-muted",
 	tip: "text-callout-tip-accent",
-	warn: "text-[oklch(0.7_0.16_80)]",
+	warn: "text-callout-warn-text",
 }
 
 export function CalloutRoot({
@@ -19,11 +19,13 @@ export function CalloutRoot({
 	label,
 	children,
 	ref,
+	role = "note",
 	...props
 }: CalloutProps): React.ReactElement {
 	return (
 		<aside
 			ref={ref}
+			role={role}
 			className={cn(
 				"ml-callout my-6 rounded-md border border-l-2 p-4",
 				calloutVariantClasses[variant],

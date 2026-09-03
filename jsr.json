@@ -54,15 +54,15 @@
 		"./tooltip": "./src/components/tooltip/index.ts"
 	},
 	"publish": {
-		"exclude": [
-			".github",
-			".vscode",
-			"app",
-			"scripts",
-			"next.config.ts",
-			"postcss.config.mjs",
-			"tsconfig.json",
-			"tsconfig.build.json"
-		]
+		"include": [
+			"src",
+			"assets/logo_stroke.png",
+			"CHANGELOG.md",
+			"LICENSE",
+			"README.md",
+			"jsr.json",
+			"package.json"
+		],
+		"exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test-setup.ts"]
 	}
 }

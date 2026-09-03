@@ -10,16 +10,22 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			"@chitrank2050/monoline-ui/lib": resolve(__dirname, "./src/lib"),
+			"@chitrank2050/monoline-ui/lib": resolve(
+				import.meta.dirname,
+				"./src/lib"
+			),
 			"@chitrank2050/monoline-ui/components": resolve(
-				__dirname,
+				import.meta.dirname,
 				"./src/components"
 			),
 			"@chitrank2050/monoline-ui/foundations": resolve(
-				__dirname,
+				import.meta.dirname,
 				"./src/foundations"
 			),
-			"@chitrank2050/monoline-ui": resolve(__dirname, "./src/index.ts"),
+			"@chitrank2050/monoline-ui": resolve(
+				import.meta.dirname,
+				"./src/index.ts"
+			),
 		},
 	},
 })

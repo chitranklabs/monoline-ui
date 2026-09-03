@@ -142,7 +142,14 @@ export function TocRoot({
 					)}
 				>
 					<div className="overflow-hidden">
-						<nav ref={ref} className="flex flex-col" {...props}>
+						<nav
+							ref={ref}
+							aria-label={
+								typeof heading === "string" ? heading : "Table of contents"
+							}
+							className="flex flex-col"
+							{...props}
+						>
 							{renderList()}
 						</nav>
 					</div>
@@ -152,7 +159,12 @@ export function TocRoot({
 	}
 
 	return (
-		<nav ref={ref} className={cn("flex flex-col", className)} {...props}>
+		<nav
+			ref={ref}
+			aria-label={typeof heading === "string" ? heading : "Table of contents"}
+			className={cn("flex flex-col", className)}
+			{...props}
+		>
 			{heading && <Eyebrow className="mb-3">{heading}</Eyebrow>}
 			{renderList()}
 		</nav>

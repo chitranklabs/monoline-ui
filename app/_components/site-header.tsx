@@ -186,13 +186,16 @@ function MobileMenu({
 					<span className="absolute top-1/2 left-0.5 w-5 h-0.5 rounded-full bg-current -rotate-45" />
 				</button>
 				<span>Menu</span>
-				<button
-					type="button"
-					className="justify-self-end w-[min(18rem,40vw)] border border-border rounded-lg bg-surface py-2.5 px-4 text-text-muted text-left text-sm max-[32.5rem]:hidden"
-					onClick={onSearch}
-				>
-					Search…
-				</button>
+				<div className="justify-self-end flex items-center gap-ml-2">
+					<button
+						type="button"
+						className="w-[min(18rem,40vw)] border border-border rounded-lg bg-surface py-2.5 px-4 text-text-muted text-left text-sm max-[32.5rem]:hidden"
+						onClick={onSearch}
+					>
+						Search…
+					</button>
+					<ThemeControl mode="mini" size="sm" />
+				</div>
 			</div>
 
 			<div className="site-menu-drawer__body relative flex-1 overflow-y-auto py-8 px-6 pb-20">

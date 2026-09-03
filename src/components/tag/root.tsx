@@ -61,7 +61,6 @@ export function TagRoot({
 			<Slot
 				ref={ref as React.Ref<HTMLElement>}
 				data-active={isSelected ? "true" : "false"}
-				aria-pressed={isSelected}
 				className={sharedClassName}
 				{...(props as React.ComponentProps<typeof Slot>)}
 			>

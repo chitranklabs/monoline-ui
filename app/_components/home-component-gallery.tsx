@@ -228,6 +228,7 @@ export function HomeComponentGallery() {
 							<div className="pt-ml-3">
 								<Input
 									size="sm"
+									aria-label="Filter releases"
 									placeholder="Filter releases..."
 									autoComplete="off"
 									data-1p-ignore

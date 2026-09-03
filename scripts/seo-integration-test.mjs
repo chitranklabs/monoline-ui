@@ -9,7 +9,14 @@ assert.ok(
 	Number.isInteger(PORT) && PORT >= 1 && PORT <= 65_535,
 	"SEO_TEST_PORT should be a valid TCP port"
 )
-const LOCAL_URL = `http://${HOST}:${PORT}`
+const externalBaseUrl = process.env.TEST_BASE_URL
+const LOCAL_URL = externalBaseUrl ?? `http://${HOST}:${PORT}`
+const parsedLocalUrl = new URL(LOCAL_URL)
+assert.ok(
+	parsedLocalUrl.protocol === "http:" &&
+		["127.0.0.1", "localhost"].includes(parsedLocalUrl.hostname),
+	"TEST_BASE_URL must use an HTTP loopback address"
+)
 const STARTUP_TIMEOUT_MS = 60_000
 const CRAWL_CONCURRENCY = 4
 const componentMetadata = JSON.parse(
@@ -696,30 +703,33 @@ async function stopServer(server) {
 
 async function run() {
 	const serverOutput = []
-	const server = spawn(
-		process.execPath,
-		[
-			"node_modules/next/dist/bin/next",
-			"start",
-			"--hostname",
-			HOST,
-			"--port",
-			String(PORT),
-		],
-		{
-			cwd: process.cwd(),
-			env: { ...process.env, NODE_ENV: "production" },
-			stdio: ["ignore", "pipe", "pipe"],
-		}
-	)
+	let server = null
+	if (!externalBaseUrl) {
+		server = spawn(
+			process.execPath,
+			[
+				"node_modules/next/dist/bin/next",
+				"start",
+				"--hostname",
+				HOST,
+				"--port",
+				String(PORT),
+			],
+			{
+				cwd: process.cwd(),
+				env: { ...process.env, NODE_ENV: "production" },
+				stdio: ["ignore", "pipe", "pipe"],
+			}
+		)
 
-	for (const stream of [server.stdout, server.stderr]) {
-		stream.setEncoding("utf8")
-		stream.on("data", (chunk) => serverOutput.push(chunk))
+		for (const stream of [server.stdout, server.stderr]) {
+			stream.setEncoding("utf8")
+			stream.on("data", (chunk) => serverOutput.push(chunk))
+		}
 	}
 
 	try {
-		await waitForServer(server)
+		if (server) await waitForServer(server)
 
 		const [robots, sitemapXml, llmsText] = await Promise.all([
 			fetchText("/robots.txt"),
@@ -918,7 +928,7 @@ async function run() {
 		}
 		throw error
 	} finally {
-		await stopServer(server)
+		if (server) await stopServer(server)
 	}
 }
 

@@ -348,13 +348,21 @@ async function assertThemeAliasesAreAcyclic() {
 	)
 }
 
-await assertExportTargetsExist()
-await assertInstalledPackageImports()
-await assertPackManifest()
-await assertClientBoundaries()
-await assertNextRscConsumerBuild()
-await assertCssOwnership()
-await assertThemeAliasesAreAcyclic()
-await assertSystemLightThemeParity()
+async function runContract(name, contract) {
+	const startedAt = performance.now()
+	await contract()
+	console.log(`✓ ${name} (${Math.round(performance.now() - startedAt)}ms)`)
+}
+
+await Promise.all([
+	runContract("package export targets", assertExportTargetsExist),
+	runContract("installed package imports", assertInstalledPackageImports),
+	runContract("npm pack manifest", assertPackManifest),
+	runContract("client boundaries", assertClientBoundaries),
+	runContract("component CSS ownership", assertCssOwnership),
+	runContract("acyclic theme aliases", assertThemeAliasesAreAcyclic),
+	runContract("system light-theme parity", assertSystemLightThemeParity),
+])
+await runContract("Next.js RSC consumer", assertNextRscConsumerBuild)
 
 console.log("Package contract verified")

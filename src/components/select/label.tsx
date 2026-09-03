@@ -12,11 +12,7 @@ export function SelectLabel({
 	const { label } = useSelectContext()
 
 	return (
-		<span
-			ref={ref}
-			className={cn("text-body opacity-55", className)}
-			{...props}
-		>
+		<span ref={ref} className={cn("text-text-secondary", className)} {...props}>
 			{props.children ?? (label ? `${label}:` : null)}
 		</span>
 	)
