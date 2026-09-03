@@ -153,6 +153,10 @@ graph TD
 
 **Flat single-package architecture** - no workspace sync, no symlink resolution overhead.
 
+The [workspace migration safeguards](https://github.com/chitranklabs/monoline-ui/blob/main/docs/workspace-migration.md) describe the
+planned separation and the contracts that must remain unchanged. The current
+layout has not moved yet.
+
 ```text
 monoline-ui/
 ├── app/                    ← Next.js playground & documentation

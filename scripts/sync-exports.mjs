@@ -1,14 +1,12 @@
 import { execFile } from "node:child_process"
 import { readFile, readdir, writeFile } from "node:fs/promises"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
 import { promisify } from "node:util"
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const projectRoot = path.resolve(__dirname, "..")
+import { projectPaths } from "./lib/project-paths.mjs"
+
+const { repositoryRoot: projectRoot, sourceDir: srcDir } = projectPaths
 const execFileAsync = promisify(execFile)
-const srcDir = path.join(projectRoot, "src")
 const componentsDir = path.join(srcDir, "components")
 const checkMode = process.argv.includes("--check")
 const mismatches = []
@@ -163,7 +161,7 @@ async function run() {
 	)
 
 	// 5. Update package.json.lib
-	const pkgLibPath = path.join(projectRoot, "package.json.lib")
+	const pkgLibPath = projectPaths.libraryManifest
 	const pkgLibRaw = await readFile(pkgLibPath, "utf8")
 	const pkgLib = JSON.parse(pkgLibRaw)
 
@@ -214,7 +212,7 @@ async function run() {
 	)
 
 	// 5b. Update jsr.json exports
-	const jsrPath = path.join(projectRoot, "jsr.json")
+	const jsrPath = projectPaths.jsrManifest
 	const jsrRaw = await readFile(jsrPath, "utf8")
 	const jsr = JSON.parse(jsrRaw)
 	const jsrExports = {
@@ -231,22 +229,28 @@ async function run() {
 	)
 
 	// 6. Update tsconfig.json paths
-	const tsconfigPath = path.join(projectRoot, "tsconfig.json")
+	const tsconfigPath = projectPaths.websiteTsconfig
 	const tsconfigRaw = await readFile(tsconfigPath, "utf8")
 	const tsconfig = JSON.parse(tsconfigRaw)
 
 	const newPaths = {
 		"@/*": ["./app/*"],
-		"@chitrank2050/monoline-ui": ["./src/index.ts"],
+		"@chitrank2050/monoline-ui": [
+			`${projectPaths.websiteSourcePrefix}/index.ts`,
+		],
 	}
 
 	// Dynamic component paths
 	for (const comp of components) {
-		newPaths[`@chitrank2050/monoline-ui/${comp}`] = [`./src/components/${comp}`]
+		newPaths[`@chitrank2050/monoline-ui/${comp}`] = [
+			`${projectPaths.websiteSourcePrefix}/components/${comp}`,
+		]
 	}
 
 	// Dynamic foundations and lib paths
-	newPaths["@chitrank2050/monoline-ui/*"] = ["./src/*"]
+	newPaths["@chitrank2050/monoline-ui/*"] = [
+		`${projectPaths.websiteSourcePrefix}/*`,
+	]
 
 	tsconfig.compilerOptions.paths = newPaths
 	await writeGenerated(
@@ -323,7 +327,7 @@ async function run() {
 	}
 
 	// 8. Format generated files
-	const prettierBin = path.join(projectRoot, "node_modules", ".bin", "prettier")
+	const prettierBin = path.join(projectPaths.toolBinDir, "prettier")
 	await execFileAsync(
 		prettierBin,
 		["--write", tsconfigPath, metadataPath, indexTsPath, jsrPath],

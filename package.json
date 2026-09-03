@@ -33,7 +33,7 @@
 		"lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore CHANGELOG.md --ignore playwright-report --ignore test-results",
 		"lint:branch": "git-hygiene branch",
 		"test": "vitest run",
-		"test:ci": "node --test scripts/ci-workflows.test.mjs",
+		"test:ci": "node --test scripts/ci-workflows.test.mjs scripts/migration-contract.test.mjs scripts/project-paths.test.mjs",
 		"test:package": "node scripts/package-contract-test.mjs",
 		"test:react18": "node scripts/react-18-compatibility-test.mjs",
 		"test:browser": "playwright test",
