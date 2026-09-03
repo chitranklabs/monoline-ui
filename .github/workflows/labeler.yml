@@ -11,7 +11,17 @@ on:
   # zizmor: ignore[dangerous-triggers]
   pull_request_target:
     branches: [main]
-    types: [opened, synchronize]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/labeler.yml"
+      - ".github/labeler.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request_target' }}
 
 permissions:
   contents: read
@@ -20,6 +30,8 @@ permissions:
 jobs:
   label:
     name: Apply Labels 🏷️
+    # Manual maintenance is restricted to trusted main; PR labeling never checks out PR code.
+    if: github.event_name == 'pull_request_target' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -42,10 +54,12 @@ jobs:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: read
-          permission-issues: write
+          # Label APIs accept pull-requests:write; this installation has no Issues grant.
           permission-pull-requests: write
 
       - name: Sync Label Colors and Descriptions 🎨
+        # Definitions change only on a configuration merge or a manual maintenance run.
+        if: github.event_name != 'pull_request_target'
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
@@ -71,6 +85,7 @@ jobs:
           done
 
       - uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
+        if: github.event_name == 'pull_request_target'
         with:
           repo-token: "${{ steps.generate_token.outputs.token }}"
           sync-labels: true

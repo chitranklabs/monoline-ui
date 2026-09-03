@@ -36,6 +36,7 @@ jobs:
       docs: ${{ steps.filter.outputs.docs }}
       deps: ${{ steps.filter.outputs.deps }}
       lint: ${{ steps.filter.outputs.lint }}
+      code: ${{ steps.filter.outputs.code }}
       markdown: ${{ steps.filter.outputs.markdown }}
       workflows: ${{ steps.filter.outputs.workflows }}
     steps:
@@ -56,6 +57,10 @@ jobs:
         with:
           filters: |
             library:
+              # Shared build settings and pipeline edits must exercise the jobs they affect.
+              - 'tsconfig.json'
+              - '.github/workflows/ci.yml'
+              - '.github/workflows/release-finalize.yml'
               - 'src/**'
               - 'package.json.lib'
               - 'jsr.json'
@@ -67,6 +72,7 @@ jobs:
               - 'scripts/sync-exports.mjs'
               - 'scripts/lib/**'
             docs:
+              - 'next-env.d.ts'
               - 'app/**'
               - 'public/**'
               - 'e2e/**'
@@ -90,6 +96,10 @@ jobs:
               - '.markdownlint-cli2.*'
               - '.github/**'
               - 'lefthook.yml'
+            code:
+              - 'scripts/**'
+              - 'tests/**'
+              - '*.{ts,tsx,js,jsx,mjs,cjs,mts,cts}'
             workflows:
               - '.github/workflows/**'
               - '.github/actions/**'
@@ -104,6 +114,7 @@ jobs:
       needs.changes.outputs.docs == 'true' ||
       needs.changes.outputs.deps == 'true' ||
       needs.changes.outputs.lint == 'true' ||
+      needs.changes.outputs.code == 'true' ||
       needs.changes.outputs.markdown == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -139,13 +150,35 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
-      - name: Lint
-        run: pnpm lint
+      - name: Verify CI selection contracts
+        run: pnpm test:ci
+
+      - name: Lint code
+        if: |
+          needs.changes.outputs.library == 'true' ||
+          needs.changes.outputs.docs == 'true' ||
+          needs.changes.outputs.deps == 'true' ||
+          needs.changes.outputs.code == 'true'
+        run: pnpm exec eslint .
+
+      - name: Lint Markdown
+        run: pnpm lint:md
 
       - name: Typecheck
+        # Prose/format-only edits still report this job, but avoid unrelated code checks.
+        if: |
+          needs.changes.outputs.library == 'true' ||
+          needs.changes.outputs.docs == 'true' ||
+          needs.changes.outputs.deps == 'true' ||
+          needs.changes.outputs.code == 'true'
         run: pnpm typecheck
 
       - name: Run unit tests
+        if: |
+          needs.changes.outputs.library == 'true' ||
+          needs.changes.outputs.docs == 'true' ||
+          needs.changes.outputs.deps == 'true' ||
+          needs.changes.outputs.code == 'true'
         run: pnpm test
 
       - name: Verify checks are read-only
@@ -227,7 +260,8 @@ jobs:
       - name: Install dependencies 🛠️
         run: pnpm install --frozen-lockfile --prefer-offline
       - name: Install Chromium 🌐
-        run: pnpm exec playwright install --with-deps chromium
+        # Both browser projects use the default headless shell, not a Chromium channel.
+        run: pnpm exec playwright install --with-deps --only-shell chromium
       - name: Build production documentation
         run: pnpm build
       - name: Test production documentation
