@@ -4,8 +4,7 @@ const nextConfig: NextConfig = {
 	distDir: process.env.NEXT_DIST_DIR || ".next",
 	trailingSlash: false,
 	async redirects() {
-		// Keep this config self-contained: the package contract runs Next from an
-		// isolated consumer directory that can still discover the parent config.
+		// Keep the existing public route migration independent of workspace paths.
 		return [
 			{
 				source: "/installation",

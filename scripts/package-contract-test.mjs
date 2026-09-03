@@ -5,6 +5,7 @@ import {
 	mkdtemp,
 	readFile,
 	readdir,
+	realpath,
 	rm,
 	symlink,
 	writeFile,
@@ -18,10 +19,11 @@ import {
 	findClientComponentEntries,
 	hasUseClientDirective,
 } from "./lib/client-boundaries.mjs"
+import { projectPaths } from "./lib/project-paths.mjs"
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDir, "..")
-const distDir = path.join(projectRoot, "dist")
+const { distDir, libraryRoot, websiteRoot } = projectPaths
 const execFileAsync = promisify(execFile)
 
 const readJson = async (filePath) =>
@@ -154,6 +156,14 @@ async function assertNextRscConsumerBuild() {
 	await mkdir(packageScopeDir, { recursive: true })
 
 	await symlink(distDir, path.join(packageScopeDir, "monoline-ui"), "dir")
+	// Use the website's installed framework rather than a root dependency.
+	for (const name of ["next", "react", "react-dom"]) {
+		await symlink(
+			await realpath(path.join(websiteRoot, "node_modules", name)),
+			path.join(nodeModulesDir, name),
+			"dir"
+		)
+	}
 
 	try {
 		await writeFile(
@@ -183,7 +193,7 @@ export default function Page() {
 
 		await assert.doesNotReject(
 			execFileAsync(
-				path.join(projectRoot, "node_modules", ".bin", "next"),
+				path.join(websiteRoot, "node_modules", ".bin", "next"),
 				["build"],
 				{
 					cwd: consumerDir,
@@ -198,7 +208,7 @@ export default function Page() {
 }
 
 async function assertClientBoundaries() {
-	const clientComponentEntries = await findClientComponentEntries(projectRoot)
+	const clientComponentEntries = await findClientComponentEntries(libraryRoot)
 	const rootEntry = await readFile(path.join(distDir, "index.js"), "utf8")
 	assert.equal(
 		hasUseClientDirective(rootEntry),
@@ -244,7 +254,7 @@ async function assertClientBoundaries() {
 }
 
 async function assertCssOwnership() {
-	const componentRoot = path.join(projectRoot, "src", "components")
+	const componentRoot = path.join(libraryRoot, "src", "components")
 	const componentDirs = await readdir(componentRoot, { withFileTypes: true })
 	const componentNames = componentDirs
 		.filter((entry) => entry.isDirectory())
@@ -310,7 +320,7 @@ function readCustomProperties(block) {
 
 async function assertSystemLightThemeParity() {
 	const tokens = await readFile(
-		path.join(projectRoot, "src", "foundations", "theme", "tokens.css"),
+		path.join(libraryRoot, "src", "foundations", "theme", "tokens.css"),
 		"utf8"
 	)
 	const explicitLight = readCustomProperties(
@@ -334,7 +344,7 @@ async function assertSystemLightThemeParity() {
 
 async function assertThemeAliasesAreAcyclic() {
 	const tailwindTheme = await readFile(
-		path.join(projectRoot, "src", "foundations", "theme", "tailwind.css"),
+		path.join(libraryRoot, "src", "foundations", "theme", "tailwind.css"),
 		"utf8"
 	)
 	const cyclicAliases = [

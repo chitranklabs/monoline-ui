@@ -4,28 +4,16 @@ import { defineConfig } from "vitest/config"
 export default defineConfig({
 	test: {
 		environment: "jsdom",
-		include: ["src/**/*.test.{ts,tsx}", "app/**/*.test.{ts,tsx}"],
-		setupFiles: ["src/test-setup.ts"],
+		include: [
+			"packages/ui/src/**/*.test.{ts,tsx}",
+			"apps/website/app/**/*.test.{ts,tsx}",
+		],
+		setupFiles: ["packages/ui/src/test-setup.ts"],
 		css: true,
 	},
 	resolve: {
 		alias: {
-			"@chitrank2050/monoline-ui/lib": resolve(
-				import.meta.dirname,
-				"./src/lib"
-			),
-			"@chitrank2050/monoline-ui/components": resolve(
-				import.meta.dirname,
-				"./src/components"
-			),
-			"@chitrank2050/monoline-ui/foundations": resolve(
-				import.meta.dirname,
-				"./src/foundations"
-			),
-			"@chitrank2050/monoline-ui": resolve(
-				import.meta.dirname,
-				"./src/index.ts"
-			),
+			"@": resolve(import.meta.dirname, "./apps/website/app"),
 		},
 	},
 })

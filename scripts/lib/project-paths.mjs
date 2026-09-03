@@ -28,7 +28,7 @@ export function createProjectPaths({
 		websiteRoot,
 		sourceDir,
 		distDir: path.join(libraryRoot, "dist"),
-		libraryManifest: path.join(libraryRoot, "package.json.lib"),
+		libraryManifest: path.join(libraryRoot, "package.json"),
 		jsrManifest: path.join(libraryRoot, "jsr.json"),
 		websiteTsconfig: path.join(websiteRoot, "tsconfig.json"),
 		websiteSourcePrefix: relativeSource.startsWith(".")
@@ -38,6 +38,10 @@ export function createProjectPaths({
 	})
 }
 
+const repositoryRoot = fileURLToPath(new URL("../../", import.meta.url))
+
 export const projectPaths = createProjectPaths({
-	repositoryRoot: fileURLToPath(new URL("../../", import.meta.url)),
+	repositoryRoot,
+	libraryRoot: path.join(repositoryRoot, "packages/ui"),
+	websiteRoot: path.join(repositoryRoot, "apps/website"),
 })

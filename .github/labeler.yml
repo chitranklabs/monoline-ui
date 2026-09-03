@@ -19,17 +19,19 @@
 "area/design":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/**"
+          - "packages/ui/src/**"
 
 "area/playground":
   - changed-files:
       - any-glob-to-any-file:
-          - "app/**"
+          - "apps/website/app/**"
 
 "area/deps":
   - changed-files:
       - any-glob-to-any-file:
           - "package.json"
+          - "packages/*/package.json"
+          - "apps/*/package.json"
           - "pnpm-lock.yaml"
           - "pnpm-workspace.yaml"
 
@@ -51,10 +53,12 @@
               - ".prettierrc.json"
               - ".markdownlint.json"
               - "tsconfig.json"
-              - "tsconfig.build.json"
-              - "tsup.config.ts"
+              - "packages/ui/tsconfig.json"
+              - "apps/website/tsconfig.json"
+              - "packages/ui/tsconfig.build.json"
+              - "packages/ui/tsup.config.ts"
               - "eslint.config.mjs"
-              - "postcss.config.mjs"
+              - "apps/website/postcss.config.mjs"
               - "cliff.toml"
       - head-branch:
           - "^maintenance/.*"

@@ -4,8 +4,8 @@ pre-commit:
   jobs:
     # Generated files must settle before formatters inspect the staged snapshot.
     - name: sync-exports
-      glob: "src/{components,foundations,lib}/**/*.{ts,tsx,css}"
-      run: pnpm run sync-exports && git add tsconfig.json jsr.json package.json.lib src/index.ts src/metadata.json src/foundations/theme.css
+      glob: "packages/ui/src/{components,foundations,lib}/**/*.{ts,tsx,css}"
+      run: pnpm run sync-exports && git add packages/ui/jsr.json packages/ui/package.json packages/ui/src/index.ts packages/ui/src/metadata.json packages/ui/src/foundations/theme.css apps/website/app/lib/catalog.json
       stage_fixed: true
 
     - name: staged-quality
@@ -19,7 +19,7 @@ pre-commit:
           # JS/TS/MJS - ESLint + Prettier
           - name: lint-ts
             glob:
-              - "{src,tests,app,e2e,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
+              - "{packages,apps,tests,e2e,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
               - "*.{ts,tsx,js,jsx,mjs,cjs}"
             run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
             stage_fixed: true

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -euo pipefail
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd -- "$SCRIPT_DIR/.."
+test -f pnpm-workspace.yaml && test -f packages/ui/package.json && test -f apps/website/package.json
+
 # Define total steps
 TOTAL_STEPS=4
 
@@ -9,10 +14,12 @@ echo "🪄  Initiating obliviate protocols..."
 echo "[1/$TOTAL_STEPS] 🗑️  Removing build artifacts (.next, dist)..."
 rm -rf .next
 rm -rf dist
+rm -rf apps/website/.next packages/ui/dist
 
 # Step 2: Dependencies
 echo "[2/$TOTAL_STEPS] 💥 Removing dependencies (node_modules)..."
 rm -rf node_modules
+rm -rf apps/website/node_modules packages/ui/node_modules
 
 # Step 3: Lockfiles
 echo "[3/$TOTAL_STEPS] 🔓 Removing lockfiles..."

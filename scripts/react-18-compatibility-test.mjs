@@ -7,7 +7,7 @@ import path from "node:path"
 import { pathToFileURL } from "node:url"
 
 const require = createRequire(import.meta.url)
-const projectRoot = path.resolve(import.meta.dirname, "..")
+const projectRoot = path.resolve(import.meta.dirname, "../packages/ui")
 const react18Root = path.dirname(require.resolve("react18/package.json"))
 const reactDom18Root = path.dirname(require.resolve("react-dom18/package.json"))
 

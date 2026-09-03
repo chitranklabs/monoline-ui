@@ -13,6 +13,7 @@ test("export check works outside the repo and leaves generated files unchanged",
 		projectPaths.libraryManifest,
 		projectPaths.jsrManifest,
 		projectPaths.websiteTsconfig,
+		path.join(projectPaths.websiteRoot, "app/lib/catalog.json"),
 		path.join(projectPaths.sourceDir, "index.ts"),
 		path.join(projectPaths.sourceDir, "metadata.json"),
 		path.join(projectPaths.sourceDir, "foundations/theme.css"),
@@ -42,7 +43,7 @@ test("flat layout preserves existing package and website locations", () => {
 	assert.equal(paths.websiteRoot, root)
 	assert.equal(paths.sourceDir, path.join(root, "src"))
 	assert.equal(paths.distDir, path.join(root, "dist"))
-	assert.equal(paths.libraryManifest, path.join(root, "package.json.lib"))
+	assert.equal(paths.libraryManifest, path.join(root, "package.json"))
 	assert.equal(paths.websiteTsconfig, path.join(root, "tsconfig.json"))
 	assert.equal(paths.websiteSourcePrefix, "./src")
 })

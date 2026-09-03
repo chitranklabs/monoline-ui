@@ -22,10 +22,11 @@ on:
       - "CODEOWNERS"
       - "SECURITY.md"
       - "package.json"
-      - "package.json.lib"
+      - "packages/*/package.json"
+      - "apps/*/package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
-      - "jsr.json"
+      - "packages/ui/jsr.json"
       - "scripts/build-lib.mjs"
 
 concurrency:

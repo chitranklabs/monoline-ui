@@ -61,28 +61,34 @@ jobs:
               - 'tsconfig.json'
               - '.github/workflows/ci.yml'
               - '.github/workflows/release-finalize.yml'
-              - 'src/**'
-              - 'package.json.lib'
-              - 'jsr.json'
-              - 'tsup.config.ts'
-              - 'tsconfig.build.json'
+              - 'packages/ui/src/**'
+              - 'packages/ui/tsconfig.json'
+              - 'packages/ui/package.json'
+              - 'packages/ui/jsr.json'
+              - 'packages/ui/tsup.config.ts'
+              - 'packages/ui/tsconfig.build.json'
               - 'scripts/build-lib.mjs'
               - 'scripts/package-contract-test.mjs'
               - 'scripts/react-18-compatibility-test.mjs'
               - 'scripts/sync-exports.mjs'
               - 'scripts/lib/**'
             docs:
-              - 'next-env.d.ts'
-              - 'app/**'
-              - 'public/**'
+              - 'apps/website/next-env.d.ts'
+              - 'apps/website/tsconfig.json'
+              - 'apps/website/proxy.ts'
+              - 'apps/website/vercel.json'
+              - 'apps/website/app/**'
+              - 'apps/website/public/**'
               - 'e2e/**'
-              - 'next.config.ts'
+              - 'apps/website/next.config.ts'
               - 'playwright.config.ts'
-              - 'postcss.config.mjs'
+              - 'apps/website/postcss.config.mjs'
               - 'scripts/run-docs-integration.mjs'
               - 'scripts/seo-integration-test.mjs'
             deps:
               - 'package.json'
+              - 'packages/*/package.json'
+              - 'apps/*/package.json'
               - 'pnpm-lock.yaml'
               - 'pnpm-workspace.yaml'
             lint:
@@ -252,8 +258,8 @@ jobs:
       - name: Restore Next.js build cache
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.0.3
         with:
-          path: .next/cache
-          key: ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('app/**/*', 'src/**/*', 'public/**/*', 'next.config.ts') }}
+          path: apps/website/.next/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('apps/website/app/**/*', 'packages/ui/src/**/*', 'apps/website/public/**/*', 'apps/website/next.config.ts') }}
           restore-keys: |
             ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-
             ${{ runner.os }}-next-

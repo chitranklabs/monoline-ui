@@ -94,9 +94,9 @@ jobs:
         with:
           name: build-output
           path: |
-            dist/
+            packages/ui/dist/
             package.json
-            jsr.json
+            packages/ui/jsr.json
             CHANGELOG.md
 
       - name: Push Verified Tag 🏷️
@@ -160,7 +160,7 @@ jobs:
       - name: Publish to NPM 📦
         run: |
           pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          pnpm publish ./dist --access public --no-git-checks --provenance
+          pnpm publish ./packages/ui/dist --access public --no-git-checks --provenance
 
   publish-jsr:
     name: Publish to JSR 🦖
@@ -200,14 +200,15 @@ jobs:
 
       - name: Verify JSR Version 🔄
         run: |
-          PACKAGE_VERSION="$(jq -r .version package.json)"
-          JSR_VERSION="$(jq -r .version jsr.json)"
+          PACKAGE_VERSION="$(jq -r .version packages/ui/package.json)"
+          JSR_VERSION="$(jq -r .version packages/ui/jsr.json)"
           if [ "$PACKAGE_VERSION" != "$JSR_VERSION" ]; then
-            echo "::error::package.json ($PACKAGE_VERSION) and jsr.json ($JSR_VERSION) versions differ."
+            echo "::error::package.json ($PACKAGE_VERSION) and packages/ui/jsr.json ($JSR_VERSION) versions differ."
             exit 1
           fi
 
       - name: Publish to JSR 📦
+        working-directory: packages/ui
         run: deno publish --allow-slow-types
 
   create-release:
@@ -260,7 +261,7 @@ jobs:
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: |
-            dist/**
+            packages/ui/dist/**
             CHANGELOG.md
           push-to-registry: false
 

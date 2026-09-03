@@ -71,7 +71,7 @@ jobs:
           MANUAL_TAG: ${{ github.event.inputs.tag_name }}
           BUMP: ${{ steps.bump.outputs.releaseType }}
         run: |
-          CURRENT_VERSION=$(jq -r .version package.json)
+          CURRENT_VERSION=$(jq -r .version packages/ui/package.json)
           RAW_INPUT="${MANUAL_TAG}"
 
           if [ -n "$RAW_INPUT" ]; then
@@ -99,8 +99,8 @@ jobs:
           CLEAN_VERSION: ${{ steps.vars.outputs.clean_version }}
         run: |
           jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
-          jq ".version = \"$CLEAN_VERSION\"" package.json.lib > package.json.lib.tmp && mv package.json.lib.tmp package.json.lib
-          jq ".version = \"$CLEAN_VERSION\"" jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          jq ".version = \"$CLEAN_VERSION\"" packages/ui/package.json > packages/ui/package.json.tmp && mv packages/ui/package.json.tmp packages/ui/package.json
+          jq ".version = \"$CLEAN_VERSION\"" packages/ui/jsr.json > packages/ui/jsr.json.tmp && mv packages/ui/jsr.json.tmp packages/ui/jsr.json
 
       - name: Update CHANGELOG.md 📝
         uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
@@ -111,18 +111,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - name: Update app/lib/changelog.json 📄
+      - name: Update apps/website/app/lib/changelog.json 📄
         uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
         with:
           config: cliff.toml
-          args: --context --tag ${{ steps.vars.outputs.tag_name }} --output app/lib/changelog.json
+          args: --context --tag ${{ steps.vars.outputs.tag_name }} --output apps/website/app/lib/changelog.json
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Format generated files 🧹
         run: |
-          pnpm exec prettier --write package.json jsr.json CHANGELOG.md app/lib/changelog.json
-          pnpm exec prettier --write --parser json package.json.lib
+          pnpm exec prettier --write package.json packages/ui/jsr.json CHANGELOG.md apps/website/app/lib/changelog.json
+          pnpm exec prettier --write --parser json packages/ui/package.json
 
       - name: Generate PR Body 📝
         uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
@@ -158,7 +158,7 @@ jobs:
           assignees: chitrank2050
           add-paths: |
             CHANGELOG.md
-            app/lib/changelog.json
+            apps/website/app/lib/changelog.json
             package.json
-            package.json.lib
-            jsr.json
+            packages/ui/package.json
+            packages/ui/jsr.json

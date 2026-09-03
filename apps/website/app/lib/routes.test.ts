@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
-import metadataJson from "../../src/metadata.json"
+import metadataJson from "@/lib/catalog.json"
+
 import {
 	componentPath,
 	componentSlugs,

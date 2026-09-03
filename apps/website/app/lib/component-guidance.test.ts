@@ -2,7 +2,8 @@ import { readFile, readdir } from "node:fs/promises"
 import path from "node:path"
 import { describe, expect, it } from "vitest"
 
-import metadata from "../../src/metadata.json"
+import metadata from "@/lib/catalog.json"
+
 import { componentGuidance, componentSlugs } from "./component-guidance"
 
 describe("componentGuidance", () => {
@@ -32,7 +33,7 @@ describe("componentGuidance", () => {
 		for (const slug of componentSlugs) {
 			const componentDirectory = path.join(
 				process.cwd(),
-				"src",
+				"packages/ui/src",
 				"components",
 				slug
 			)

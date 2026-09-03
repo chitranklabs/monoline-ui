@@ -1,8 +1,9 @@
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { test } from "node:test"
 
-import { componentSlugs, siteRoutes } from "../app/lib/routes.ts"
+import { componentSlugs, siteRoutes } from "../apps/website/app/lib/routes.ts"
+import { createPublishManifest } from "./lib/publish-manifest.mjs"
 
 // Deliberately independent of sync-exports and metadata.json. A generator must
 // not be able to redefine the migration baseline by changing its own outputs.
@@ -12,7 +13,45 @@ const components =
 	)
 const root = new URL("../", import.meta.url)
 const readJson = (file) => JSON.parse(readFileSync(new URL(file, root), "utf8"))
-const manifest = readJson("package.json.lib")
+const manifest = createPublishManifest(readJson("packages/ui/package.json"))
+
+test("website resolves built workspace exports without library source aliases", () => {
+	const website = readJson("apps/website/package.json")
+	const library = readJson("packages/ui/package.json")
+	assert.equal(website.private, true)
+	assert.equal(website.dependencies[library.name], "workspace:*")
+	assert.equal(readJson("package.json").dependencies, undefined)
+	assert.equal(library.dependencies.next, undefined)
+	assert.deepEqual(
+		readJson("apps/website/tsconfig.json").compilerOptions.paths,
+		{
+			"@/*": ["./app/*"],
+		}
+	)
+	assert.equal(library.exports["."].import, "./dist/index.js")
+	assert.equal(library.publishConfig.directory, "dist")
+	assert.equal(manifest.devDependencies, undefined)
+	assert.equal(manifest.scripts, undefined)
+	assert.equal(manifest.publishConfig.directory, undefined)
+	assert.deepEqual(
+		readJson("apps/website/app/lib/catalog.json"),
+		readJson("packages/ui/src/metadata.json")
+	)
+})
+
+test("both registry artifacts have package-owned documentation and licensing", () => {
+	const jsr = readJson("packages/ui/jsr.json")
+	for (const file of jsr.publish.include) {
+		assert.ok(
+			existsSync(new URL(`packages/ui/${file}`, root)),
+			`Missing JSR include: ${file}`
+		)
+	}
+	assert.equal(
+		readFileSync(new URL("packages/ui/LICENSE", root), "utf8"),
+		readFileSync(new URL("LICENSE", root), "utf8")
+	)
+})
 
 test("migration preserves npm identity, peer compatibility and CSS side effects", () => {
 	assert.equal(manifest.name, "@chitrank2050/monoline-ui")
@@ -57,7 +96,7 @@ test("migration preserves every existing npm export and target", () => {
 })
 
 test("migration preserves JSR identity and component subpaths", () => {
-	const jsr = readJson("jsr.json")
+	const jsr = readJson("packages/ui/jsr.json")
 	assert.equal(jsr.name, manifest.name)
 	assert.equal(jsr.version, manifest.version)
 	assert.deepEqual(jsr.exports, {

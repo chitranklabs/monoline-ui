@@ -5,9 +5,9 @@
 # =============================================================
 
 # Dependencies and build artifacts
-node_modules/
-dist/
-.next/
+**/node_modules/
+**/dist/
+**/.next/
 coverage/
 
 # Auto-generated files

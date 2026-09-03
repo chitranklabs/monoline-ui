@@ -2,6 +2,8 @@ import { spawn } from "node:child_process"
 import path from "node:path"
 import { setTimeout as delay } from "node:timers/promises"
 
+import { projectPaths } from "./lib/project-paths.mjs"
+
 const projectRoot = path.resolve(import.meta.dirname, "..")
 const host = "127.0.0.1"
 const port = Number.parseInt(process.env.DOCS_TEST_PORT ?? "3200", 10)
@@ -12,7 +14,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65_535) {
 
 const baseUrl = `http://${host}:${port}`
 const nextBin = path.join(
-	projectRoot,
+	projectPaths.websiteRoot,
 	"node_modules",
 	"next",
 	"dist",
@@ -76,7 +78,7 @@ const server = spawn(
 	process.execPath,
 	[nextBin, "start", "--hostname", host, "--port", String(port)],
 	{
-		cwd: projectRoot,
+		cwd: projectPaths.websiteRoot,
 		env: { ...process.env, NODE_ENV: "production" },
 		stdio: "inherit",
 	}

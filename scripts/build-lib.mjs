@@ -7,6 +7,7 @@ import { gzipSync } from "node:zlib"
 
 import { findClientComponentEntries } from "./lib/client-boundaries.mjs"
 import { projectPaths } from "./lib/project-paths.mjs"
+import { createPublishManifest } from "./lib/publish-manifest.mjs"
 
 const {
 	repositoryRoot: projectRoot,
@@ -98,8 +99,17 @@ for (const entry of componentEntries) {
 
 // Copy package discovery, licensing, and contributor files so npm/JSR links do
 // not become dead ends after the repository is packaged.
-await cp(projectPaths.libraryManifest, path.join(distDir, "package.json"))
-await cp(path.join(projectRoot, "README.md"), path.join(distDir, "README.md"))
+await writeFile(
+	path.join(distDir, "package.json"),
+	JSON.stringify(
+		createPublishManifest(
+			JSON.parse(await readFile(projectPaths.libraryManifest, "utf8"))
+		),
+		null,
+		"\t"
+	) + "\n"
+)
+await cp(path.join(libraryRoot, "README.md"), path.join(distDir, "README.md"))
 await cp(path.join(projectRoot, "assets"), path.join(distDir, "assets"), {
 	recursive: true,
 })

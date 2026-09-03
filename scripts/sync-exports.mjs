@@ -160,7 +160,7 @@ async function run() {
 		`✓ Generated index.ts with ${components.length} components`
 	)
 
-	// 5. Update package.json.lib
+	// 5. Update packages/ui/package.json
 	const pkgLibPath = projectPaths.libraryManifest
 	const pkgLibRaw = await readFile(pkgLibPath, "utf8")
 	const pkgLib = JSON.parse(pkgLibRaw)
@@ -204,11 +204,23 @@ async function run() {
 	}
 	newExports["./package.json"] = "./package.json"
 
-	pkgLib.exports = newExports
+	pkgLib.exports = Object.fromEntries(
+		Object.entries(newExports).map(([key, target]) => [
+			key,
+			typeof target === "string"
+				? target
+				: Object.fromEntries(
+						Object.entries(target).map(([condition, file]) => [
+							condition,
+							file.replace(/^\.\//, "./dist/"),
+						])
+					),
+		])
+	)
 	await writeGenerated(
 		pkgLibPath,
 		JSON.stringify(pkgLib, null, "\t") + "\n",
-		"✓ Updated package.json.lib exports"
+		"✓ Updated packages/ui/package.json exports"
 	)
 
 	// 5b. Update jsr.json exports
@@ -226,37 +238,6 @@ async function run() {
 		jsrPath,
 		JSON.stringify(jsr, null, "\t") + "\n",
 		"✓ Updated jsr.json exports"
-	)
-
-	// 6. Update tsconfig.json paths
-	const tsconfigPath = projectPaths.websiteTsconfig
-	const tsconfigRaw = await readFile(tsconfigPath, "utf8")
-	const tsconfig = JSON.parse(tsconfigRaw)
-
-	const newPaths = {
-		"@/*": ["./app/*"],
-		"@chitrank2050/monoline-ui": [
-			`${projectPaths.websiteSourcePrefix}/index.ts`,
-		],
-	}
-
-	// Dynamic component paths
-	for (const comp of components) {
-		newPaths[`@chitrank2050/monoline-ui/${comp}`] = [
-			`${projectPaths.websiteSourcePrefix}/components/${comp}`,
-		]
-	}
-
-	// Dynamic foundations and lib paths
-	newPaths["@chitrank2050/monoline-ui/*"] = [
-		`${projectPaths.websiteSourcePrefix}/*`,
-	]
-
-	tsconfig.compilerOptions.paths = newPaths
-	await writeGenerated(
-		tsconfigPath,
-		JSON.stringify(tsconfig, null, "\t") + "\n",
-		"✓ Updated tsconfig.json paths"
 	)
 
 	const metadataPath = path.join(srcDir, "metadata.json")
@@ -280,6 +261,17 @@ async function run() {
 		metadataPath,
 		JSON.stringify(metadata, null, "\t") + "\n",
 		`✓ Generated src/metadata.json with component count: ${components.length}`
+	)
+
+	// The website owns this generated catalog, not a source-path alias into UI.
+	const catalogPath = path.join(
+		projectPaths.websiteRoot,
+		"app/lib/catalog.json"
+	)
+	await writeGenerated(
+		catalogPath,
+		JSON.stringify(metadata, null, "\t") + "\n",
+		"✓ Updated website catalog"
 	)
 
 	// 7b. Update src/foundations/theme.css component style imports
@@ -330,7 +322,7 @@ async function run() {
 	const prettierBin = path.join(projectPaths.toolBinDir, "prettier")
 	await execFileAsync(
 		prettierBin,
-		["--write", tsconfigPath, metadataPath, indexTsPath, jsrPath],
+		["--write", catalogPath, metadataPath, indexTsPath, jsrPath],
 		{ cwd: projectRoot }
 	)
 	await execFileAsync(
