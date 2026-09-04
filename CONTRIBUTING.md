@@ -144,10 +144,13 @@ merges into `main`, or through the Labeler workflow's manual run on `main`.
 
 ## Release Process
 
-Releases are fully automated:
+Library releases require explicit intent; website-only changes do not bump the package:
 
-1. **Prepare** - run the `Release 1 - Prepare PR` workflow. It bumps the version and updates `CHANGELOG.md`.
-2. **Finalize** - merge the PR. `Release 2 - Finalize Tag` verifies the artifacts, publishes to npm and JSR, and then creates the GitHub release.
+1. **Describe** - run `pnpm changeset` for a user-visible library change and commit the generated file with your work. Select `@chitrank2050/monoline-ui` and the appropriate bump.
+2. **Prepare** - run `Release 1 - Prepare PR` on `main`. Changesets versions the library and updates `packages/ui/CHANGELOG.md`; an adapter prepends the website timeline without rewriting old releases.
+3. **Finalize** - merge the release PR. `Release 2 - Finalize Tag` verifies the artifacts, publishes to npm and JSR, and then creates the GitHub release.
+
+Read the [release guide](https://github.com/chitranklabs/monoline-ui/blob/main/docs/releases.md) before preparing or retrying a release. Git-hygiene still validates commits and branches; it no longer chooses release versions.
 
 ## Need Help?
 

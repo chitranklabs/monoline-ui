@@ -18,6 +18,9 @@
 		"url": "https://github.com/chitranklabs/monoline-ui/issues"
 	},
 	"scripts": {
+		"changeset": "changeset",
+		"release:status": "changeset status",
+		"release:version": "node scripts/release-version.mjs",
 		"dev": "pnpm build:lib && pnpm --filter @monoline/website dev",
 		"build": "pnpm build:lib && pnpm --filter @monoline/website build",
 		"start": "pnpm --filter @monoline/website start",
@@ -33,7 +36,7 @@
 		"lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore CHANGELOG.md --ignore playwright-report --ignore test-results",
 		"lint:branch": "git-hygiene branch",
 		"test": "vitest run",
-		"test:ci": "node --test scripts/ci-workflows.test.mjs scripts/migration-contract.test.mjs scripts/project-paths.test.mjs",
+		"test:ci": "node --test scripts/ci-workflows.test.mjs scripts/migration-contract.test.mjs scripts/project-paths.test.mjs scripts/release-automation.test.mjs",
 		"test:package": "node scripts/package-contract-test.mjs",
 		"test:react18": "node scripts/react-18-compatibility-test.mjs",
 		"test:browser": "playwright test",
@@ -53,6 +56,7 @@
 		"clean-build": "pnpm run nuke && pnpm run init && pnpm run build:all"
 	},
 	"devDependencies": {
+		"@changesets/cli": "3.0.1",
 		"@chitrank2050/git-hygiene": "^0.4.12",
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "1.60.0",
