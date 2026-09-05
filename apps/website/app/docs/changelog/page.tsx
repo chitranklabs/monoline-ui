@@ -21,7 +21,7 @@ export const metadata: Metadata = createPageMetadata({
 	path: routes.docs.changelog,
 })
 
-// Only show tagged releases — filter out the null-version unreleased block
+// Only show tagged releases - filter out the null-version unreleased block
 const releases = getCompactChangelog()
 
 export default function DocsChangelogPage() {

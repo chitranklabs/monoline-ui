@@ -249,7 +249,7 @@
 		margin: 0 0.125rem;
 	}
 
-	/* Meta row — SHA, PR, author */
+	/* Meta row - SHA, PR, author */
 	.ml-changelog-commit-meta {
 		display: inline-flex;
 		align-items: center;

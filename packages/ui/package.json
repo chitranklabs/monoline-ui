@@ -65,15 +65,11 @@
 		"access": "public",
 		"directory": "dist"
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"sideEffects": [
-		"./dist/styles/theme.css"
-	],
+	"sideEffects": ["./dist/styles/theme.css"],
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
