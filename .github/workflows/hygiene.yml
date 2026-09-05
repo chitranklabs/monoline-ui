@@ -30,19 +30,25 @@ jobs:
           persist-credentials: false
           fetch-depth: 100
 
+      - name: Install pnpm 📦
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          version: 11.18.0
+          run_install: false
+
       - name: Setup Node.js 🟢
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
+          cache: pnpm
 
-      - name: Validate PR Title 🏷️
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
-        with:
-          command: "title"
-          value: ${{ github.event.pull_request.title }}
+      - name: Install locked validation tool
+        run: pnpm install --frozen-lockfile --ignore-scripts --prefer-offline
 
-      - name: Validate Branch Name 🌿
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
-        with:
-          command: "branch"
-          value: ${{ github.event.pull_request.head.ref }}
+      - name: Validate PR metadata 🏷️
+        env:
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pnpm exec git-hygiene title "$PR_TITLE"
+          pnpm exec git-hygiene branch "$PR_BRANCH"

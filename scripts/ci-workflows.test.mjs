@@ -11,6 +11,60 @@ const readWorkflow = (name) =>
 const ci = readWorkflow("ci")
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
+const packageManagerVersion = JSON.parse(
+	readFileSync(new URL("package.json", root), "utf8")
+).packageManager.split("@")[1]
+
+test("workflows install one exact pnpm version without implicit dependency installs", () => {
+	for (const name of ["ci", "hygiene", "release-prepare", "release-finalize"]) {
+		const workflow = readWorkflow(name)
+		for (const job of Object.values(workflow.jobs)) {
+			for (const step of job.steps.filter((entry) =>
+				entry.uses?.startsWith("pnpm/action-setup@")
+			)) {
+				assert.equal(String(step.with.version), packageManagerVersion)
+				assert.equal(step.with.run_install, false)
+			}
+		}
+	}
+})
+
+test("PR hygiene uses the locked local CLI without network-time latest resolution", () => {
+	const hygiene = readWorkflow("hygiene")
+	const serialized = JSON.stringify(hygiene)
+	assert.equal(serialized.includes("chitranklabs/git-hygiene@"), false)
+	assert.equal(serialized.includes("@latest"), false)
+	const install = hygiene.jobs["branch-name"].steps.find(
+		(step) => step.name === "Install locked validation tool"
+	)
+	const steps = hygiene.jobs["branch-name"].steps
+	assert.ok(
+		steps.findIndex((step) => step.uses?.startsWith("pnpm/action-setup@")) <
+			steps.findIndex((step) => step.uses?.startsWith("actions/setup-node@"))
+	)
+	assert.equal(
+		install.run,
+		"pnpm install --frozen-lockfile --ignore-scripts --prefer-offline"
+	)
+	const validate = hygiene.jobs["branch-name"].steps.find(
+		(step) => step.name === "Validate PR metadata 🏷️"
+	)
+	assert.match(validate.run, /git-hygiene title "\$PR_TITLE"/)
+	assert.match(validate.run, /git-hygiene branch "\$PR_BRANCH"/)
+})
+
+test("two dependent workspaces do not justify an uncached task orchestrator", () => {
+	const manifest = JSON.parse(
+		readFileSync(new URL("package.json", root), "utf8")
+	)
+	assert.equal(manifest.devDependencies?.turbo, undefined)
+	assert.equal(
+		readFileSync(new URL("pnpm-workspace.yaml", root), "utf8").includes(
+			"turbo"
+		),
+		false
+	)
+})
 
 test("release preparation uses explicit Changesets intent and gates no-op PRs", () => {
 	const prepare = readWorkflow("release-prepare")

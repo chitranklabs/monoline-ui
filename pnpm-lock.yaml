@@ -24,7 +24,7 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
       '@chitrank2050/git-hygiene':
-        specifier: ^0.4.12
+        specifier: 0.4.12
         version: 0.4.12
       '@eslint/js':
         specifier: ^10.0.1
