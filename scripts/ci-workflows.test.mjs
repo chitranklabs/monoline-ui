@@ -11,6 +11,56 @@ const readWorkflow = (name) =>
 const ci = readWorkflow("ci")
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
+const packageManagerVersion = JSON.parse(
+	readFileSync(new URL("package.json", root), "utf8")
+).packageManager.split("@")[1]
+
+test("workflows install one exact pnpm version without implicit dependency installs", () => {
+	for (const name of ["ci", "hygiene", "release-prepare", "release-finalize"]) {
+		const workflow = readWorkflow(name)
+		for (const job of Object.values(workflow.jobs)) {
+			for (const step of job.steps.filter((entry) =>
+				entry.uses?.startsWith("pnpm/action-setup@")
+			)) {
+				assert.equal(String(step.with.version), packageManagerVersion)
+				assert.equal(step.with.run_install, false)
+			}
+		}
+	}
+})
+
+test("PR hygiene uses one exact CLI version without workspace installation", () => {
+	const hygiene = readWorkflow("hygiene")
+	const serialized = JSON.stringify(hygiene)
+	assert.equal(serialized.includes("chitranklabs/git-hygiene@"), false)
+	assert.equal(serialized.includes("@latest"), false)
+	assert.equal(serialized.includes("pnpm install"), false)
+	assert.equal(serialized.includes("pnpm/action-setup@"), false)
+	const validate = hygiene.jobs["branch-name"].steps.find(
+		(step) => step.name === "Validate PR metadata 🏷️"
+	)
+	assert.match(
+		validate.run,
+		/npm exec --yes --package=@chitrank2050\/git-hygiene@0\.4\.12 -- git-hygiene title "\$PR_TITLE"/
+	)
+	assert.match(
+		validate.run,
+		/npm exec --yes --package=@chitrank2050\/git-hygiene@0\.4\.12 -- git-hygiene branch "\$PR_BRANCH"/
+	)
+})
+
+test("two dependent workspaces do not justify an uncached task orchestrator", () => {
+	const manifest = JSON.parse(
+		readFileSync(new URL("package.json", root), "utf8")
+	)
+	assert.equal(manifest.devDependencies?.turbo, undefined)
+	assert.equal(
+		readFileSync(new URL("pnpm-workspace.yaml", root), "utf8").includes(
+			"turbo"
+		),
+		false
+	)
+})
 
 test("release preparation uses explicit Changesets intent and gates no-op PRs", () => {
 	const prepare = readWorkflow("release-prepare")

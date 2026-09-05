@@ -35,14 +35,10 @@ jobs:
         with:
           node-version: 24
 
-      - name: Validate PR Title 🏷️
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
-        with:
-          command: "title"
-          value: ${{ github.event.pull_request.title }}
-
-      - name: Validate Branch Name 🌿
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
-        with:
-          command: "branch"
-          value: ${{ github.event.pull_request.head.ref }}
+      - name: Validate PR metadata 🏷️
+        env:
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          npm exec --yes --package=@chitrank2050/git-hygiene@0.4.12 -- git-hygiene title "$PR_TITLE"
+          npm exec --yes --package=@chitrank2050/git-hygiene@0.4.12 -- git-hygiene branch "$PR_BRANCH"
