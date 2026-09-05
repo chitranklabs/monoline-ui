@@ -3,11 +3,12 @@ import Link from "next/link"
 
 import { Button } from "@chitrank2050/monoline-ui/button"
 import { Container } from "@chitrank2050/monoline-ui/container"
-import metadataJson from "@chitrank2050/monoline-ui/metadata.json"
+import pkg from "@chitrank2050/monoline-ui/package.json"
 import { SectionHead } from "@chitrank2050/monoline-ui/section-head"
 import { Status } from "@chitrank2050/monoline-ui/status"
 
-import pkg from "../package.json"
+import metadataJson from "@/lib/catalog.json"
+
 import { HomeArchitectureTabs } from "./_components/home-architecture-tabs"
 import { HomeComponentGallery } from "./_components/home-component-gallery"
 import { HomeHeroGrid } from "./_components/home-hero-grid"

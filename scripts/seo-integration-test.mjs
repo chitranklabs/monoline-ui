@@ -2,6 +2,8 @@ import assert from "node:assert/strict"
 import { spawn } from "node:child_process"
 import { readFileSync, readdirSync } from "node:fs"
 
+import { projectPaths } from "./lib/project-paths.mjs"
+
 const SITE_URL = "https://monolineui.chitrankagnihotri.com"
 const HOST = "127.0.0.1"
 const PORT = Number.parseInt(process.env.SEO_TEST_PORT || "3211", 10)
@@ -20,7 +22,10 @@ assert.ok(
 const STARTUP_TIMEOUT_MS = 60_000
 const CRAWL_CONCURRENCY = 4
 const componentMetadata = JSON.parse(
-	readFileSync(new URL("../src/metadata.json", import.meta.url), "utf8")
+	readFileSync(
+		new URL("../packages/ui/src/metadata.json", import.meta.url),
+		"utf8"
+	)
 )
 assert.ok(
 	Array.isArray(componentMetadata.components),
@@ -54,7 +59,7 @@ function discoverPagePaths(directory, segments = []) {
 }
 
 const EXPECTED_PATHS = discoverPagePaths(
-	new URL("../app/", import.meta.url)
+	new URL("../apps/website/app/", import.meta.url)
 ).toSorted()
 const EXPECTED_ROUTE_COUNT = EXPECTED_PATHS.length
 const expectedComponentPaths = componentMetadata.components
@@ -716,7 +721,7 @@ async function run() {
 				String(PORT),
 			],
 			{
-				cwd: process.cwd(),
+				cwd: projectPaths.websiteRoot,
 				env: { ...process.env, NODE_ENV: "production" },
 				stdio: ["ignore", "pipe", "pipe"],
 			}

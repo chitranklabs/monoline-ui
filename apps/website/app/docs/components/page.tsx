@@ -2,7 +2,8 @@ import type { Metadata } from "next"
 
 import { Card } from "@chitrank2050/monoline-ui/card"
 
-import metadataJson from "../../../src/metadata.json"
+import metadataJson from "@/lib/catalog.json"
+
 import JsonLd, {
 	createBreadcrumbJsonLd,
 	createCollectionPageJsonLd,

@@ -1,28 +1,15 @@
 import assert from "node:assert/strict"
-import { execFile } from "node:child_process"
-import {
-	mkdir,
-	mkdtemp,
-	readFile,
-	readdir,
-	rm,
-	symlink,
-	writeFile,
-} from "node:fs/promises"
-import os from "node:os"
+import { readFile, readdir } from "node:fs/promises"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
-import { promisify } from "node:util"
 
 import {
 	findClientComponentEntries,
 	hasUseClientDirective,
 } from "./lib/client-boundaries.mjs"
+import { projectPaths } from "./lib/project-paths.mjs"
+import { runTarballConsumers } from "./lib/tarball-consumers.mjs"
 
-const scriptDir = path.dirname(fileURLToPath(import.meta.url))
-const projectRoot = path.resolve(scriptDir, "..")
-const distDir = path.join(projectRoot, "dist")
-const execFileAsync = promisify(execFile)
+const { distDir, libraryRoot } = projectPaths
 
 const readJson = async (filePath) =>
 	JSON.parse(await readFile(filePath, "utf8"))
@@ -78,127 +65,8 @@ async function assertExportTargetsExist() {
 	)
 }
 
-async function assertInstalledPackageImports() {
-	const packageJson = await readJson(path.join(distDir, "package.json"))
-	const consumerDir = await mkdtemp(
-		path.join(os.tmpdir(), "monoline-consumer-")
-	)
-	const packageScopeDir = path.join(
-		consumerDir,
-		"node_modules",
-		"@chitrank2050"
-	)
-	await mkdir(packageScopeDir, { recursive: true })
-	await symlink(distDir, path.join(packageScopeDir, "monoline-ui"), "dir")
-
-	try {
-		const importTargets = Object.entries(packageJson.exports)
-			.filter(
-				([exportName, exportTarget]) =>
-					!exportName.includes("*") &&
-					(typeof exportTarget === "string"
-						? exportTarget.endsWith(".js")
-						: typeof exportTarget.import === "string")
-			)
-			.map(([exportName]) =>
-				exportName === "."
-					? packageJson.name
-					: `${packageJson.name}${exportName.slice(1)}`
-			)
-		const smokeFile = path.join(consumerDir, "smoke.mjs")
-		await writeFile(
-			smokeFile,
-			`${importTargets.map((target) => `await import(${JSON.stringify(target)})`).join("\n")}\n`,
-			"utf8"
-		)
-		await assert.doesNotReject(
-			execFileAsync(process.execPath, [smokeFile], { cwd: consumerDir }),
-			"A clean consumer could not import the published package subpaths"
-		)
-	} finally {
-		await rm(consumerDir, { recursive: true, force: true })
-	}
-}
-
-async function assertPackManifest() {
-	const { stdout } = await execFileAsync(
-		"npm",
-		["pack", "--dry-run", "--json"],
-		{ cwd: distDir }
-	)
-	const [packResult] = JSON.parse(stdout)
-	const packedFiles = new Set(packResult.files.map((file) => file.path))
-
-	for (const requiredFile of [
-		"index.js",
-		"index.d.ts",
-		"styles/theme.css",
-		"README.md",
-		"LICENSE",
-	]) {
-		assert.equal(
-			packedFiles.has(requiredFile),
-			true,
-			`The npm artifact must include ${requiredFile}`
-		)
-	}
-}
-
-async function assertNextRscConsumerBuild() {
-	const consumerDir = await mkdtemp(
-		path.join(projectRoot, ".tmp-next-rsc-consumer-")
-	)
-	const nodeModulesDir = path.join(consumerDir, "node_modules")
-	const packageScopeDir = path.join(nodeModulesDir, "@chitrank2050")
-	await mkdir(path.join(consumerDir, "app"), { recursive: true })
-	await mkdir(packageScopeDir, { recursive: true })
-
-	await symlink(distDir, path.join(packageScopeDir, "monoline-ui"), "dir")
-
-	try {
-		await writeFile(
-			path.join(consumerDir, "package.json"),
-			JSON.stringify({ private: true, type: "module" }),
-			"utf8"
-		)
-		await writeFile(
-			path.join(consumerDir, "app", "layout.jsx"),
-			`export default function Layout({ children }) {
-	return <html lang="en"><body>{children}</body></html>
-}
-`,
-			"utf8"
-		)
-		await writeFile(
-			path.join(consumerDir, "app", "page.jsx"),
-			`import { Card } from "@chitrank2050/monoline-ui/card"
-import { Toggle } from "@chitrank2050/monoline-ui/toggle"
-
-export default function Page() {
-	return <main><Card>Server-safe card</Card><Toggle aria-label="Theme" /></main>
-}
-`,
-			"utf8"
-		)
-
-		await assert.doesNotReject(
-			execFileAsync(
-				path.join(projectRoot, "node_modules", ".bin", "next"),
-				["build"],
-				{
-					cwd: consumerDir,
-					env: { ...process.env, NEXT_TELEMETRY_DISABLED: "1" },
-				}
-			),
-			"A Next.js Server Component could not consume static and client subpaths"
-		)
-	} finally {
-		await rm(consumerDir, { recursive: true, force: true })
-	}
-}
-
 async function assertClientBoundaries() {
-	const clientComponentEntries = await findClientComponentEntries(projectRoot)
+	const clientComponentEntries = await findClientComponentEntries(libraryRoot)
 	const rootEntry = await readFile(path.join(distDir, "index.js"), "utf8")
 	assert.equal(
 		hasUseClientDirective(rootEntry),
@@ -244,7 +112,7 @@ async function assertClientBoundaries() {
 }
 
 async function assertCssOwnership() {
-	const componentRoot = path.join(projectRoot, "src", "components")
+	const componentRoot = path.join(libraryRoot, "src", "components")
 	const componentDirs = await readdir(componentRoot, { withFileTypes: true })
 	const componentNames = componentDirs
 		.filter((entry) => entry.isDirectory())
@@ -310,7 +178,7 @@ function readCustomProperties(block) {
 
 async function assertSystemLightThemeParity() {
 	const tokens = await readFile(
-		path.join(projectRoot, "src", "foundations", "theme", "tokens.css"),
+		path.join(libraryRoot, "src", "foundations", "theme", "tokens.css"),
 		"utf8"
 	)
 	const explicitLight = readCustomProperties(
@@ -334,7 +202,7 @@ async function assertSystemLightThemeParity() {
 
 async function assertThemeAliasesAreAcyclic() {
 	const tailwindTheme = await readFile(
-		path.join(projectRoot, "src", "foundations", "theme", "tailwind.css"),
+		path.join(libraryRoot, "src", "foundations", "theme", "tailwind.css"),
 		"utf8"
 	)
 	const cyclicAliases = [
@@ -356,13 +224,11 @@ async function runContract(name, contract) {
 
 await Promise.all([
 	runContract("package export targets", assertExportTargetsExist),
-	runContract("installed package imports", assertInstalledPackageImports),
-	runContract("npm pack manifest", assertPackManifest),
 	runContract("client boundaries", assertClientBoundaries),
 	runContract("component CSS ownership", assertCssOwnership),
 	runContract("acyclic theme aliases", assertThemeAliasesAreAcyclic),
 	runContract("system light-theme parity", assertSystemLightThemeParity),
 ])
-await runContract("Next.js RSC consumer", assertNextRscConsumerBuild)
+await runContract("real tarball consumers", runTarballConsumers)
 
 console.log("Package contract verified")

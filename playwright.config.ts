@@ -19,7 +19,8 @@ export default defineConfig({
 	webServer: externalServer
 		? undefined
 		: {
-				command: "pnpm exec next dev --hostname 127.0.0.1 --port 3200",
+				command:
+					"pnpm build:lib && pnpm --filter @monoline/website exec next dev --hostname 127.0.0.1 --port 3200",
 				url: baseURL,
 				reuseExistingServer: !process.env.CI,
 				timeout: 120_000,

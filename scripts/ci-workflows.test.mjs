@@ -1,7 +1,15 @@
 import { load } from "js-yaml"
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
-import { readFileSync } from "node:fs"
+import {
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs"
+import { tmpdir } from "node:os"
+import path from "node:path"
 import { test } from "node:test"
 import picomatch from "picomatch"
 
@@ -11,6 +19,78 @@ const readWorkflow = (name) =>
 const ci = readWorkflow("ci")
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
+
+test("release version synchronization reaches both moved package manifests", () => {
+	const prepare = readWorkflow("release-prepare")
+	const step = prepare.jobs.prepare.steps.find(
+		(step) => step.name === "Sync Version 📦"
+	)
+	assert.ok(step)
+	const directory = mkdtempSync(path.join(tmpdir(), "monoline-release-paths-"))
+	const files = [
+		"package.json",
+		"packages/ui/package.json",
+		"packages/ui/jsr.json",
+	]
+	try {
+		mkdirSync(path.join(directory, "packages/ui"), { recursive: true })
+		for (const file of files)
+			writeFileSync(
+				path.join(directory, file),
+				readFileSync(new URL(file, root))
+			)
+		const result = spawnSync("bash", ["-e", "-c", step.run], {
+			cwd: directory,
+			env: { ...process.env, CLEAN_VERSION: "9.8.7" },
+			encoding: "utf8",
+		})
+		assert.equal(result.status, 0, result.stderr)
+		for (const file of files)
+			assert.equal(
+				JSON.parse(readFileSync(path.join(directory, file), "utf8")).version,
+				"9.8.7"
+			)
+	} finally {
+		rmSync(directory, { recursive: true, force: true })
+	}
+})
+
+test("release artifacts, registry publication, and generated history use workspace paths", () => {
+	const prepare = readWorkflow("release-prepare")
+	const finalize = readWorkflow("release-finalize")
+	const releasePr = prepare.jobs.prepare.steps.find((step) =>
+		step.uses?.startsWith("peter-evans/create-pull-request@")
+	)
+	for (const file of [
+		"packages/ui/package.json",
+		"packages/ui/jsr.json",
+		"apps/website/app/lib/changelog.json",
+	]) {
+		assert.ok(releasePr.with["add-paths"].split(/\s+/).includes(file))
+	}
+	assert.ok(
+		prepare.jobs.prepare.steps.some((step) =>
+			step.with?.args?.includes("--output apps/website/app/lib/changelog.json")
+		)
+	)
+	const artifact = finalize.jobs.build.steps.find((step) =>
+		step.uses?.startsWith("actions/upload-artifact@")
+	)
+	assert.ok(artifact.with.path.split(/\s+/).includes("packages/ui/dist/"))
+	assert.ok(
+		artifact.with.path.split(/\s+/).includes("package.json"),
+		"pnpm setup still needs the root packageManager"
+	)
+	assert.ok(
+		finalize.jobs["publish-npm"].steps.some((step) =>
+			step.run?.includes("pnpm publish ./packages/ui/dist ")
+		)
+	)
+	const jsr = finalize.jobs["publish-jsr"].steps.find((step) =>
+		step.run?.startsWith("deno publish")
+	)
+	assert.equal(jsr["working-directory"], "packages/ui")
+})
 
 // Match paths with the same library and dot-file option as dorny/paths-filter.
 // Read the production YAML rather than maintaining a second list of patterns.
@@ -75,10 +155,11 @@ const cases = [
 	["multiple prose files", ["README.md", "CONTRIBUTING.md"], prose],
 	["PR template", [".github/PULL_REQUEST_TEMPLATE.md"], prose],
 	["format config", [".prettierrc.json"], prose],
-	["library component", ["src/components/button/root.tsx"], full],
-	["theme tokens", ["src/foundations/theme/tokens.css"], full],
+	["library component", ["packages/ui/src/components/button/root.tsx"], full],
+	["tarball consumer harness", ["scripts/lib/tarball-consumers.mjs"], full],
+	["theme tokens", ["packages/ui/src/foundations/theme/tokens.css"], full],
 	["shared TypeScript config", ["tsconfig.json"], full],
-	["package TypeScript config", ["tsconfig.build.json"], full],
+	["package TypeScript config", ["packages/ui/tsconfig.build.json"], full],
 	["CI workflow", [".github/workflows/ci.yml"], full],
 	[
 		"release validation workflow",
@@ -88,11 +169,16 @@ const cases = [
 	["dependency lockfile", ["pnpm-lock.yaml"], full],
 	["dependency install policy", ["pnpm-workspace.yaml"], full],
 	["package scripts", ["package.json"], full],
-	["package manifest", ["package.json.lib"], full],
-	["playground page", ["app/docs/page.tsx"], docs],
+	["package manifest", ["packages/ui/package.json"], full],
+	["website manifest", ["apps/website/package.json"], full],
+	["library compiler settings", ["packages/ui/tsconfig.json"], full],
+	["website compiler settings", ["apps/website/tsconfig.json"], docs],
+	["website host and indexing proxy", ["apps/website/proxy.ts"], docs],
+	["website deployment", ["apps/website/vercel.json"], docs],
+	["playground page", ["apps/website/app/docs/page.tsx"], docs],
 	["browser tests", ["e2e/accessibility.spec.ts"], docs],
 	["browser config", ["playwright.config.ts"], docs],
-	["Next type environment", ["next-env.d.ts"], docs],
+	["Next type environment", ["apps/website/next-env.d.ts"], docs],
 	[
 		"build script tests",
 		["scripts/ci-workflows.test.mjs"],
@@ -101,12 +187,16 @@ const cases = [
 	["test-runner config", ["vitest.config.ts"], { ...docs, docs: false }],
 	[
 		"mixed prose and code",
-		["README.md", "src/components/button/root.tsx"],
+		["README.md", "packages/ui/src/components/button/root.tsx"],
 		full,
 	],
 	// Deleted paths and both sides of renames must still be classified.
-	["removed component", ["src/components/removed/index.ts"], full],
-	["renamed source", ["src/old.ts", "src/new.ts"], full],
+	["removed component", ["packages/ui/src/components/removed/index.ts"], full],
+	[
+		"renamed source",
+		["packages/ui/src/old.ts", "packages/ui/src/new.ts"],
+		full,
+	],
 ]
 
 for (const [name, paths, expected] of cases) {
@@ -218,8 +308,8 @@ test("Scorecard keeps scheduled/security updates without ordinary source pushes"
 		assert.equal(match(file), true)
 	}
 	for (const file of [
-		"src/components/button/root.tsx",
-		"app/docs/page.tsx",
+		"packages/ui/src/components/button/root.tsx",
+		"apps/website/app/docs/page.tsx",
 		"README.md",
 	]) {
 		assert.equal(match(file), false)

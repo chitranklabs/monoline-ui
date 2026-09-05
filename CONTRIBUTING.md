@@ -48,11 +48,11 @@ By participating in this project, you agree to abide by our [Code of Conduct](./
 
 ### Repository Structure
 
-This is a flat single-package repository - no monorepo, no workspace sync:
+This is a pnpm workspace with one library and one website:
 
-- `src/components/` - UI component source (what you'll work in most)
-- `src/foundations/` - CSS token layer and design foundations
-- `app/` - Next.js playground for manual testing
+- `packages/ui/src/components/` - UI component source (what you'll work in most)
+- `packages/ui/src/foundations/` - CSS token layer and design foundations
+- `apps/website/app/` - Next.js playground for manual testing
 
 ### Branch Naming
 
@@ -85,21 +85,29 @@ Before opening a PR, run:
 
 ```bash
 pnpm check:static   # Generated files, formatting, lint, types, and unit tests
-pnpm check:package  # Published package and React 18 consumer contracts
+pnpm check:package  # Real tarball: React 18/19, types, Next.js RSC, and CSS
 pnpm test:docs      # Production docs, SEO, browser, and accessibility checks
 ```
 
 Run `pnpm check:all` when you need the complete local equivalent of CI.
 
+Package contracts pack `packages/ui/dist` once and install it into independent
+temporary projects. They do not use workspace aliases or symlink the library.
+Downloads use pnpm's cache; uncached dependencies require registry access.
+Lifecycle scripts are disabled, installs/builds have timeouts, and temporary
+projects are removed on success or failure. `pnpm test:react18` runs only the
+React 18 consumer against an already-built library for focused diagnosis.
+
 ### CI selection and maintenance
 
 CI runs for every PR so required checks are always reported. Markdown-only edits
-outside `app/` and `src/`, and formatting-configuration PRs, run formatting,
+outside `apps/website/app/` and `packages/ui/src/`, and formatting-configuration PRs, run formatting,
 Markdown lint, CI selection tests, and secret scanning without unrelated
 TypeScript, unit, or browser checks.
 Changes to the library, shared TypeScript configuration, or build-validation
 workflows run package contracts and production documentation checks as well.
-Playground-only changes do not rebuild the published package.
+Playground-only changes build the local UI dependency but do not run the separate
+package-contract CI job.
 
 The path filters live in `.github/workflows/ci.yml`. Run `pnpm test:ci` after
 editing them; the tests parse the workflow itself and cover mixed changes,
@@ -120,12 +128,12 @@ merges into `main`, or through the Labeler workflow's manual run on `main`.
 
 ## Adding a New Component
 
-1. Create `src/components/<name>/` with an `index.ts` and component file(s).
+1. Create `packages/ui/src/components/<name>/` with an `index.ts` and component file(s).
 2. Follow the RSC-first pattern - server component by default, `"use client"` only for interactive subcomponents.
 3. Export from the component's `index.ts` using the dot-notation pattern (`Component.Sub`).
-4. Run `pnpm run sync-exports` to update the root `exports` map.
-5. Add a usage example in `app/` so it's visible in the playground.
-6. Add at minimum a smoke test under `src/components/<name>/`.
+4. Run `pnpm run sync-exports` to update the library export map and website catalog.
+5. Add a usage example in `apps/website/app/` so it's visible in the playground.
+6. Add at minimum a smoke test under `packages/ui/src/components/<name>/`.
 
 ## Pull Request Process
 

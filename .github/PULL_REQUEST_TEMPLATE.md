@@ -18,7 +18,7 @@
 - [ ] `pnpm lint` passes
 - [ ] `pnpm typecheck` passes
 - [ ] `pnpm test` passes
-- [ ] New component or changed behavior is visible in the `app/` playground
+- [ ] New component or changed behavior is visible in the `apps/website/app/` playground
 - [ ] RSC-first pattern maintained (no unnecessary `"use client"` directives)
 
 ## Screenshots / Demo

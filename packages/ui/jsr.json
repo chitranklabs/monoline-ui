@@ -54,15 +54,7 @@
 		"./tooltip": "./src/components/tooltip/index.ts"
 	},
 	"publish": {
-		"include": [
-			"src",
-			"assets/logo_stroke.png",
-			"CHANGELOG.md",
-			"LICENSE",
-			"README.md",
-			"jsr.json",
-			"package.json"
-		],
+		"include": ["src", "LICENSE", "README.md", "jsr.json", "package.json"],
 		"exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test-setup.ts"]
 	}
 }

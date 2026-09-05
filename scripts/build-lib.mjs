@@ -3,20 +3,24 @@ import assert from "node:assert/strict"
 import { spawn } from "node:child_process"
 import { cp, mkdir, readFile, readdir, writeFile } from "node:fs/promises"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
 import { gzipSync } from "node:zlib"
 
 import { findClientComponentEntries } from "./lib/client-boundaries.mjs"
+import { projectPaths } from "./lib/project-paths.mjs"
+import { createPublishManifest } from "./lib/publish-manifest.mjs"
 
-const scriptDir = path.dirname(fileURLToPath(import.meta.url))
-const projectRoot = path.resolve(scriptDir, "..")
-const distDir = path.join(projectRoot, "dist")
+const {
+	repositoryRoot: projectRoot,
+	libraryRoot,
+	sourceDir,
+	distDir,
+} = projectPaths
 const bundleBudgetBytes = 4 * 1024
 
 function run(command, args = []) {
 	return new Promise((resolve, reject) => {
 		const child = spawn(command, args, {
-			cwd: projectRoot,
+			cwd: libraryRoot,
 			stdio: "inherit",
 			shell: process.platform === "win32",
 		})
@@ -33,12 +37,12 @@ function run(command, args = []) {
 	})
 }
 
-const tsupBin = path.join(projectRoot, "node_modules", ".bin", "tsup")
+const tsupBin = path.join(projectPaths.toolBinDir, "tsup")
 
 // Run tsup build
 await run(tsupBin)
 
-const clientComponentEntries = await findClientComponentEntries(projectRoot)
+const clientComponentEntries = await findClientComponentEntries(libraryRoot)
 
 // The root barrel mixes server-safe and interactive exports, so it is a client
 // boundary by design. Consumers that need RSC optimization use component
@@ -61,11 +65,11 @@ for (const relativePath of clientEntryFiles) {
 // Copy foundation styles
 await mkdir(path.join(distDir, "styles"), { recursive: true })
 await cp(
-	path.join(projectRoot, "src/foundations/theme.css"),
+	path.join(sourceDir, "foundations/theme.css"),
 	path.join(distDir, "styles/theme.css")
 )
 await cp(
-	path.join(projectRoot, "src/foundations/theme"),
+	path.join(sourceDir, "foundations/theme"),
 	path.join(distDir, "styles/theme"),
 	{ recursive: true }
 )
@@ -78,7 +82,7 @@ const themeContent = await readFile(distThemePath, "utf8")
 await writeFile(distThemePath, themeContent + '\n@source "..";\n', "utf8")
 
 // Copy per-component CSS files
-const componentsDir = path.join(projectRoot, "src/components")
+const componentsDir = path.join(sourceDir, "components")
 const componentEntries = await readdir(componentsDir, { withFileTypes: true })
 for (const entry of componentEntries) {
 	if (!entry.isDirectory()) continue
@@ -95,11 +99,17 @@ for (const entry of componentEntries) {
 
 // Copy package discovery, licensing, and contributor files so npm/JSR links do
 // not become dead ends after the repository is packaged.
-await cp(
-	path.join(projectRoot, "package.json.lib"),
-	path.join(distDir, "package.json")
+await writeFile(
+	path.join(distDir, "package.json"),
+	JSON.stringify(
+		createPublishManifest(
+			JSON.parse(await readFile(projectPaths.libraryManifest, "utf8"))
+		),
+		null,
+		"\t"
+	) + "\n"
 )
-await cp(path.join(projectRoot, "README.md"), path.join(distDir, "README.md"))
+await cp(path.join(libraryRoot, "README.md"), path.join(distDir, "README.md"))
 await cp(path.join(projectRoot, "assets"), path.join(distDir, "assets"), {
 	recursive: true,
 })
@@ -124,7 +134,7 @@ async function calculateBundleSize() {
 		stdin: {
 			contents: mockEntryContent,
 			loader: "js",
-			resolveDir: projectRoot,
+			resolveDir: libraryRoot,
 			sourcefile: "bundle-size-entry.js",
 		},
 		bundle: true,
@@ -150,7 +160,7 @@ async function calculateBundleSize() {
 	const sizeStr = `${sizeKb}kb`
 
 	const metadata = JSON.parse(
-		await readFile(path.join(projectRoot, "src", "metadata.json"), "utf8")
+		await readFile(path.join(sourceDir, "metadata.json"), "utf8")
 	)
 	metadata.size = sizeStr
 	await writeFile(

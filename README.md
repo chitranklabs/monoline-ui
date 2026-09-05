@@ -151,22 +151,31 @@ graph TD
     F["Tailwind v4 @source scan"] --> B
 ```
 
-**Flat single-package architecture** - no workspace sync, no symlink resolution overhead.
+The pnpm workspace separates the published UI package from its Next.js website.
+The website consumes built package exports, just as an installed consumer does.
+`pnpm check:package` also installs the real npm tarball in temporary React 18
+and React 19 projects outside the workspace, including a Next.js/Tailwind build.
+
+The [workspace migration safeguards](https://github.com/chitranklabs/monoline-ui/blob/main/docs/workspace-migration.md) describe the
+package boundaries and the contracts that must remain unchanged.
 
 ```text
 monoline-ui/
-├── app/                    ← Next.js playground & documentation
-├── src/
-│   ├── components/         ← 47 UI components (Avatar, Button, Footer…)
-│   └── foundations/        ← CSS layers, design tokens, breakpoints
+├── apps/website/           ← Next.js playground & documentation
+├── packages/ui/
+│   ├── src/components/     ← 47 UI components (Avatar, Button, Footer…)
+│   ├── src/foundations/    ← CSS layers, design tokens, breakpoints
+│   └── package.json        ← Published library identity and dependencies
 ├── scripts/
 │   └── build-lib.mjs       ← ESM bundling script
-├── package.json
-└── tsconfig.json
+├── package.json            ← Shared tooling and repository commands
+└── pnpm-workspace.yaml
 ```
 
 > [!IMPORTANT]
-> `/app` and `/src` coexist in a single package. The playground and the library share the same `package.json` - no monorepo overhead.
+> Run `pnpm dev` or `pnpm build` from the repository root. Both build the UI
+> package before starting the website. After editing library code, run
+> `pnpm build:lib` again; website source edits retain Next.js fast refresh.
 
 ---
 

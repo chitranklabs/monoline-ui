@@ -8,7 +8,7 @@ import "prismjs/components/prism-jsx"
 import "prismjs/components/prism-tsx"
 import "prismjs/components/prism-typescript"
 
-import { CodeBlock as LibCodeBlock } from "../../src/components/code-block"
+import { CodeBlock as LibCodeBlock } from "@chitrank2050/monoline-ui/code-block"
 
 interface CodeBlockProps {
 	code: string

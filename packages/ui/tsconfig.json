@@ -1,9 +1,13 @@
 {
 	"compilerOptions": {
 		"target": "ES2022",
+		"types": ["node"],
 		"lib": ["DOM", "DOM.Iterable", "ES2022"],
 		"skipLibCheck": true,
 		"strict": true,
+		"ignoreDeprecations": "6.0",
+		"noUncheckedIndexedAccess": true,
+		"esModuleInterop": true,
 		"noEmit": true,
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
@@ -11,6 +15,6 @@
 		"isolatedModules": true,
 		"jsx": "react-jsx"
 	},
-	"include": ["e2e/**/*.ts", "playwright.config.ts", "vitest.config.ts"],
-	"exclude": ["node_modules"]
+	"include": ["src/**/*.ts", "src/**/*.tsx", "tsup.config.ts"],
+	"exclude": ["node_modules", "dist"]
 }

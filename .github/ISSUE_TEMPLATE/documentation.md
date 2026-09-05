@@ -15,7 +15,7 @@ A clear description of what needs to be documented or improved.
 - [ ] README.md
 - [ ] CONTRIBUTING.md
 - [ ] Component JSDoc / prop types
-- [ ] Playground examples (`app/`)
+- [ ] Playground examples (`apps/website/app/`)
 - [ ] Other
 
 ## Content

@@ -2,8 +2,8 @@ import {
 	type GitCliffRelease,
 	compactGitCliffReleases,
 } from "@chitrank2050/monoline-ui/changelog"
+import pkg from "@chitrank2050/monoline-ui/package.json"
 
-import pkg from "../../package.json"
 import changelogJson from "./changelog.json"
 
 export interface ReleaseInfo {

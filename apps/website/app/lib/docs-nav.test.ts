@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
-import metadata from "../../src/metadata.json"
+import metadata from "@/lib/catalog.json"
+
 import { componentsNav, foundationsSidebarNav, sectionsNav } from "./docs-nav"
 import { routes } from "./routes"
 
