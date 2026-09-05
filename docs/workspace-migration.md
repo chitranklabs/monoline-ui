@@ -60,10 +60,11 @@ deployment before merging. Keep the existing domain and environment variables.
 
 ## Release and CI
 
-Git-cliff and the existing release workflows remain the release owners for now.
-They read the library version in `packages/ui/package.json`, write website release
-data in its new location, publish npm from `packages/ui/dist`, and publish JSR
-from `packages/ui`. No version bump is part of this migration.
+Changesets now owns library version intent and future package release notes.
+The existing two-phase workflows read `packages/ui/package.json`, prepend website
+release data, publish npm from `packages/ui/dist`, and publish JSR from `packages/ui`.
+The root changelog and old website entries remain historical archives.
+No version bump is part of this migration. See [release operation](./releases.md).
 
 CI path selection follows both workspaces, including nested manifests, proxy,
 build configuration, and deployment configuration. Existing required checks,
@@ -80,8 +81,8 @@ Production tests check SEO, redirects, keyboard behavior, and accessibility.
 
 1. Preparation contracts and explicit path ownership: committed separately.
 2. Workspace moves and the necessary wiring: committed separately.
-3. Real tarball consumer installations outside the workspace: this batch.
-4. Changesets and replacement release automation: separate PR.
+3. Real tarball consumer installations outside the workspace: committed separately.
+4. Changesets and replacement release automation: this separate, stacked PR.
 
 The package job now packs once and installs separate React 18.2 and React 19
 consumers outside the repository. Each checks installed subpaths, strict

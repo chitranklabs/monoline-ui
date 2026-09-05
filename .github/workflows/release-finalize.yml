@@ -12,6 +12,11 @@ on:
         description: "Version to finalize (e.g. v0.1.0)"
         required: true
 
+concurrency:
+  # Unrelated closed PRs must not replace a pending release run.
+  group: library-release-finalize-${{ github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'release') }}
+  cancel-in-progress: false
+
 permissions: {}
 
 env:
@@ -25,7 +30,7 @@ jobs:
       (github.event_name == 'pull_request' &&
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'release')) ||
-      (github.event_name == 'workflow_dispatch' && github.actor == 'chitrank2050')
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.actor == 'chitrank2050')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -43,6 +48,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
 
       - name: Create Bot Token 🤖🔑
         id: generate_token
@@ -51,21 +57,6 @@ jobs:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: write
-
-      - name: Extract Tag Name 🏷️
-        id: vars
-        env:
-          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
-          INPUT_VERSION: ${{ github.event.inputs.version }}
-        run: |
-          RAW_INPUT="${INPUT_VERSION:-$BRANCH_NAME}"
-          TAG_NAME=$(echo "$RAW_INPUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+(-.*)?' | head -1)
-          if [ -z "$TAG_NAME" ]; then
-            echo "❌ Could not extract a semantic version from: $RAW_INPUT"
-            exit 1
-          fi
-          if [[ ! "$TAG_NAME" =~ ^v ]]; then TAG_NAME="v$TAG_NAME"; fi
-          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Setup Publishing Environment 🛠️
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
@@ -80,6 +71,13 @@ jobs:
       - name: Install dependencies 📥
         run: pnpm install --frozen-lockfile --prefer-offline
 
+      - name: Verify prepared release identity
+        id: vars
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: node scripts/release-verify.mjs
+
       - name: Run static quality checks ✅
         run: pnpm run check:static
 
@@ -89,6 +87,14 @@ jobs:
       - name: Build production documentation 🏗️
         run: pnpm run build
 
+      - name: Verify release checks left source unchanged
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Release verification changed tracked or untracked source."
+            git status --porcelain
+            exit 1
+          fi
+
       - name: Upload Build Artifacts 📦
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -97,7 +103,7 @@ jobs:
             packages/ui/dist/
             package.json
             packages/ui/jsr.json
-            CHANGELOG.md
+            packages/ui/CHANGELOG.md
 
       - name: Push Verified Tag 🏷️
         env:
@@ -180,6 +186,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
 
       - name: Setup Publishing Environment 🛠️
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
@@ -234,6 +241,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
 
       - name: Download Build Artifacts 📥
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -248,29 +256,24 @@ jobs:
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: write
 
-      - name: Generate release notes 📝
-        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
-        id: git-cliff
-        with:
-          config: cliff.toml
-          args: --latest --strip all
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
       - name: Attest Build Artifacts 📜
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: |
             packages/ui/dist/**
-            CHANGELOG.md
+            packages/ui/CHANGELOG.md
           push-to-registry: false
+
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Create GitHub Release ✨
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           TAG_NAME: ${{ needs.build.outputs.tag_name }}
-          RELEASE_NOTES: ${{ steps.git-cliff.outputs.content }}
+          INPUT_VERSION: ${{ needs.build.outputs.tag_name }}
         run: |
-          PRERELEASE_FLAG=""
-          if [[ "$TAG_NAME" == *"-"* ]]; then PRERELEASE_FLAG="--prerelease"; fi
-          gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "$RELEASE_NOTES" $PRERELEASE_FLAG
+          node scripts/release-verify.mjs
+          gh release create "$TAG_NAME" --verify-tag --title "$TAG_NAME" --notes-file "$RUNNER_TEMP/release-notes.md"

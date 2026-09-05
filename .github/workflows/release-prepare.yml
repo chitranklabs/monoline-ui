@@ -2,15 +2,15 @@ name: Release 1 - Prepare PR 📝
 
 on:
   workflow_dispatch:
-    inputs:
-      tag_name:
-        description: "Manual tag to release (e.g. v0.1.0). Leave empty to use git-hygiene recommendation."
-        required: false
+
+concurrency:
+  group: release-prepare
+  cancel-in-progress: false
 
 jobs:
   prepare:
     name: Prepare Release PR 🚀
-    if: github.actor == github.repository_owner || github.actor == 'chitrank2050'
+    if: github.ref == 'refs/heads/main' && (github.actor == github.repository_owner || github.actor == 'chitrank2050')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -42,15 +42,19 @@ jobs:
       - name: Install dependencies 📥
         run: pnpm install --frozen-lockfile --prefer-offline
 
-      - name: Get Recommended Bump 🌊
-        id: bump
-        if: github.event.inputs.tag_name == ''
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
-        with:
-          command: "bump"
+      - name: Prepare Changesets release
+        id: vars
+        run: pnpm release:version
+
+      - name: Format release files
+        if: steps.vars.outputs.release_ready == 'true'
+        run: |
+          pnpm install --lockfile-only --ignore-scripts --prefer-offline
+          pnpm exec prettier --write packages/ui/package.json packages/ui/jsr.json packages/ui/CHANGELOG.md apps/website/app/lib/changelog.json
 
       - name: Create Bot Token 🤖🔑
         id: generate_token
+        if: steps.vars.outputs.release_ready == 'true'
         uses: ./.github/actions/setup-bot
         with:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
@@ -58,83 +62,9 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
-      - name: Configure Authenticated Git 🔧
-        env:
-          TOKEN: ${{ steps.generate_token.outputs.token }}
-          REPO: ${{ github.repository }}
-        run: |
-          git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPO}"
-
-      - name: Determine New Version 🔢
-        id: vars
-        env:
-          MANUAL_TAG: ${{ github.event.inputs.tag_name }}
-          BUMP: ${{ steps.bump.outputs.releaseType }}
-        run: |
-          CURRENT_VERSION=$(jq -r .version packages/ui/package.json)
-          RAW_INPUT="${MANUAL_TAG}"
-
-          if [ -n "$RAW_INPUT" ]; then
-            NEW_VERSION=$(echo "$RAW_INPUT" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+(-.*)?' | head -1)
-            if [[ ! "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-.*)?$ ]]; then
-              echo "❌ Error: Could not extract valid version from '$RAW_INPUT'"
-              exit 1
-            fi
-          else
-            NEW_VERSION=$(node -e "
-              const semver = '$CURRENT_VERSION'.split('.').map(Number);
-              const type = '$BUMP';
-              if (type === 'major') semver[0]++, semver[1] = 0, semver[2] = 0;
-              else if (type === 'minor') semver[1]++, semver[2] = 0;
-              else semver[2]++;
-              console.log(semver.join('.'));
-            ")
-          fi
-
-          echo "clean_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-          echo "tag_name=v$NEW_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Sync Version 📦
-        env:
-          CLEAN_VERSION: ${{ steps.vars.outputs.clean_version }}
-        run: |
-          jq ".version = \"$CLEAN_VERSION\"" package.json > package.json.tmp && mv package.json.tmp package.json
-          jq ".version = \"$CLEAN_VERSION\"" packages/ui/package.json > packages/ui/package.json.tmp && mv packages/ui/package.json.tmp packages/ui/package.json
-          jq ".version = \"$CLEAN_VERSION\"" packages/ui/jsr.json > packages/ui/jsr.json.tmp && mv packages/ui/jsr.json.tmp packages/ui/jsr.json
-
-      - name: Update CHANGELOG.md 📝
-        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
-        id: git-cliff
-        with:
-          config: cliff.toml
-          args: --tag ${{ steps.vars.outputs.tag_name }} --output CHANGELOG.md
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - name: Update apps/website/app/lib/changelog.json 📄
-        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
-        with:
-          config: cliff.toml
-          args: --context --tag ${{ steps.vars.outputs.tag_name }} --output apps/website/app/lib/changelog.json
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - name: Format generated files 🧹
-        run: |
-          pnpm exec prettier --write package.json packages/ui/jsr.json CHANGELOG.md apps/website/app/lib/changelog.json
-          pnpm exec prettier --write --parser json packages/ui/package.json
-
-      - name: Generate PR Body 📝
-        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
-        id: git-cliff-pr
-        with:
-          config: cliff.toml
-          args: --unreleased --tag ${{ steps.vars.outputs.tag_name }} --strip header
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
       - name: Create Pull Request for Release 🔀
         id: cpr
+        if: steps.vars.outputs.release_ready == 'true'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -142,14 +72,12 @@ jobs:
           title: "chore(release): 🚀 ${{ steps.vars.outputs.tag_name }}"
           branch: "chore/release-${{ steps.vars.outputs.tag_name }}"
           body: |
-            ## 📦 Release ${{ steps.vars.outputs.tag_name }}
+            ## Library release ${{ steps.vars.outputs.tag_name }}
 
-            <!-- autofill-start -->
-            ${{ steps.git-cliff-pr.outputs.content }}
-            <!-- autofill-end -->
+            Changesets owns the version and package changelog. Review
+            packages/ui/CHANGELOG.md and the matching website timeline entries.
+            Historical mixed release notes remain archived at the repository root.
 
-            ---
-            - **Bump Strategy**: ${{ github.event.inputs.tag_name != '' && 'Manual Override' || format('git-hygiene recommendation ({0})', steps.bump.outputs.releaseType) }}
           labels: |
             chore
             release
@@ -157,8 +85,9 @@ jobs:
           delete-branch: true
           assignees: chitrank2050
           add-paths: |
-            CHANGELOG.md
-            apps/website/app/lib/changelog.json
-            package.json
+            .changeset/*.md
             packages/ui/package.json
             packages/ui/jsr.json
+            packages/ui/CHANGELOG.md
+            apps/website/app/lib/changelog.json
+            pnpm-lock.yaml

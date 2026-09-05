@@ -15,7 +15,7 @@ import { routes } from "../../lib/routes"
 
 const displayTitle = "Accessibility"
 const pageDescription =
-	"Learn how monoline/ui handles keyboard input, focus, reduced motion, semantic roles, and accessible states—and what your application still needs to provide."
+	"Learn how monoline/ui handles keyboard input, focus, reduced motion, semantic roles, and accessible states-and what your application still needs to provide."
 
 export const metadata: Metadata = createPageMetadata({
 	title: "Accessible React Components | monoline/ui Guidelines",

@@ -15,6 +15,11 @@ const readJson = async (filePath) =>
 	JSON.parse(await readFile(filePath, "utf8"))
 
 async function assertExportTargetsExist() {
+	assert.equal(
+		await readFile(path.join(distDir, "CHANGELOG.md"), "utf8"),
+		await readFile(path.join(libraryRoot, "CHANGELOG.md"), "utf8"),
+		"Publish the package changelog, not the archived mixed release history"
+	)
 	const packageJson = await readJson(path.join(distDir, "package.json"))
 	const themeExport = packageJson.exports["./theme.css"]
 	assert.deepEqual(

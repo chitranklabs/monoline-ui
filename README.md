@@ -292,10 +292,12 @@ pnpm format            # Prettier
 
 ## Release Process
 
-Monoline uses a two-phase release pipeline powered by **[git-hygiene](https://github.com/chitranklabs/git-hygiene)**:
+Monoline uses Changesets for library version intent and keeps a two-phase release pipeline:
 
-1. **Prepare** - run the `Release 1 - Prepare PR` workflow. Bumps the version, updates `CHANGELOG.md`, opens a PR.
-2. **Finalize** - merge the PR. `Release 2 - Finalize Tag` tags the release, creates a GitHub Release, and publishes to npm.
+1. **Prepare** - contributors add a changeset for library changes. Run `Release 1 - Prepare PR` on `main` to consume pending changesets and open a release PR.
+2. **Finalize** - merge the release PR. `Release 2 - Finalize Tag` verifies the prepared version, tags the verified commit, publishes to npm and JSR, then creates the GitHub release.
+
+Future notes live in `packages/ui/CHANGELOG.md`; the root changelog remains a historical archive. Website-only work does not bump the library. See the [release guide](./docs/releases.md).
 
 ---
 

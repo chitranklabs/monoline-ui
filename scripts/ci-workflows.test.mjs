@@ -1,15 +1,7 @@
 import { load } from "js-yaml"
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
-import {
-	mkdirSync,
-	mkdtempSync,
-	readFileSync,
-	rmSync,
-	writeFileSync,
-} from "node:fs"
-import { tmpdir } from "node:os"
-import path from "node:path"
+import { readFileSync } from "node:fs"
 import { test } from "node:test"
 import picomatch from "picomatch"
 
@@ -20,39 +12,52 @@ const ci = readWorkflow("ci")
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
 
-test("release version synchronization reaches both moved package manifests", () => {
+test("release preparation uses explicit Changesets intent and gates no-op PRs", () => {
 	const prepare = readWorkflow("release-prepare")
-	const step = prepare.jobs.prepare.steps.find(
-		(step) => step.name === "Sync Version 📦"
+	const steps = prepare.jobs.prepare.steps
+	assert.equal(
+		steps.find((step) => step.id === "vars").run,
+		"pnpm release:version"
 	)
-	assert.ok(step)
-	const directory = mkdtempSync(path.join(tmpdir(), "monoline-release-paths-"))
-	const files = [
-		"package.json",
-		"packages/ui/package.json",
-		"packages/ui/jsr.json",
-	]
-	try {
-		mkdirSync(path.join(directory, "packages/ui"), { recursive: true })
-		for (const file of files)
-			writeFileSync(
-				path.join(directory, file),
-				readFileSync(new URL(file, root))
-			)
-		const result = spawnSync("bash", ["-e", "-c", step.run], {
-			cwd: directory,
-			env: { ...process.env, CLEAN_VERSION: "9.8.7" },
-			encoding: "utf8",
-		})
-		assert.equal(result.status, 0, result.stderr)
-		for (const file of files)
-			assert.equal(
-				JSON.parse(readFileSync(path.join(directory, file), "utf8")).version,
-				"9.8.7"
-			)
-	} finally {
-		rmSync(directory, { recursive: true, force: true })
+	assert.ok(prepare.jobs.prepare.if.includes("refs/heads/main"))
+	for (const step of steps.filter(
+		(step) => step.id === "cpr" || step.id === "generate_token"
+	)) {
+		assert.equal(step.if, "steps.vars.outputs.release_ready == 'true'")
 	}
+	assert.equal(JSON.stringify(prepare).includes("git-cliff"), false)
+	assert.equal(JSON.stringify(prepare).includes("git-hygiene bump"), false)
+})
+
+test("release finalization uses the same immutable commit and exact prepared tag", () => {
+	const finalize = readWorkflow("release-finalize")
+	assert.equal(finalize.concurrency["cancel-in-progress"], false)
+	for (const job of Object.values(finalize.jobs)) {
+		for (const step of job.steps.filter((step) =>
+			step.uses?.startsWith("actions/checkout@")
+		)) {
+			assert.equal(
+				step.with.ref,
+				"${{ github.event.pull_request.merge_commit_sha || github.sha }}"
+			)
+			assert.equal(step.with["persist-credentials"], false)
+		}
+	}
+	const build = finalize.jobs.build.steps
+	assert.equal(
+		build.find((step) => step.id === "vars").run,
+		"node scripts/release-verify.mjs"
+	)
+	assert.ok(
+		build.findIndex((step) => step.id === "vars") <
+			build.findIndex((step) => step.run === "pnpm run check:static")
+	)
+	const create = finalize.jobs["create-release"].steps.find((step) =>
+		step.run?.includes("gh release create")
+	)
+	assert.ok(create.run.includes("--verify-tag"))
+	assert.ok(create.run.includes("node scripts/release-verify.mjs"))
+	assert.equal(JSON.stringify(finalize).includes("git-cliff"), false)
 })
 
 test("release artifacts, registry publication, and generated history use workspace paths", () => {
@@ -64,14 +69,16 @@ test("release artifacts, registry publication, and generated history use workspa
 	for (const file of [
 		"packages/ui/package.json",
 		"packages/ui/jsr.json",
+		"packages/ui/CHANGELOG.md",
+		".changeset/*.md",
+		"pnpm-lock.yaml",
 		"apps/website/app/lib/changelog.json",
 	]) {
 		assert.ok(releasePr.with["add-paths"].split(/\s+/).includes(file))
 	}
-	assert.ok(
-		prepare.jobs.prepare.steps.some((step) =>
-			step.with?.args?.includes("--output apps/website/app/lib/changelog.json")
-		)
+	assert.equal(
+		releasePr.with["add-paths"].split(/\s+/).includes("CHANGELOG.md"),
+		false
 	)
 	const artifact = finalize.jobs.build.steps.find((step) =>
 		step.uses?.startsWith("actions/upload-artifact@")
@@ -156,6 +163,15 @@ const cases = [
 	["PR template", [".github/PULL_REQUEST_TEMPLATE.md"], prose],
 	["format config", [".prettierrc.json"], prose],
 	["library component", ["packages/ui/src/components/button/root.tsx"], full],
+	["Changesets config", [".changeset/config.json"], full],
+	["release intent", [".changeset/focus.md"], prose],
+	[
+		"release preparation workflow",
+		[".github/workflows/release-prepare.yml"],
+		full,
+	],
+	["release preparation script", ["scripts/release-version.mjs"], full],
+	["release verification script", ["scripts/release-verify.mjs"], full],
 	["tarball consumer harness", ["scripts/lib/tarball-consumers.mjs"], full],
 	["theme tokens", ["packages/ui/src/foundations/theme/tokens.css"], full],
 	["shared TypeScript config", ["tsconfig.json"], full],

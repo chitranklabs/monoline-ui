@@ -115,13 +115,16 @@ await cp(path.join(projectRoot, "assets"), path.join(distDir, "assets"), {
 })
 for (const file of [
 	"LICENSE",
-	"CHANGELOG.md",
 	"CONTRIBUTING.md",
 	"CODE_OF_CONDUCT.md",
 	"SECURITY.md",
 ]) {
 	await cp(path.join(projectRoot, file), path.join(distDir, file))
 }
+await cp(
+	path.join(libraryRoot, "CHANGELOG.md"),
+	path.join(distDir, "CHANGELOG.md")
+)
 
 // Calculate dynamic bundle size (Gzipped) for a representative set of components
 async function calculateBundleSize() {

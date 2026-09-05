@@ -69,7 +69,7 @@ export function ChangelogCommit({
 				</span>
 			</div>
 
-			{/* Meta row — SHA, PR, author */}
+			{/* Meta row - SHA, PR, author */}
 			<span className="ml-changelog-commit-meta">
 				{prNumber && prUrl && (
 					<a
