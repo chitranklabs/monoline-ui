@@ -29,28 +29,24 @@ test("workflows install one exact pnpm version without implicit dependency insta
 	}
 })
 
-test("PR hygiene uses the locked local CLI without network-time latest resolution", () => {
+test("PR hygiene uses one exact CLI version without workspace installation", () => {
 	const hygiene = readWorkflow("hygiene")
 	const serialized = JSON.stringify(hygiene)
 	assert.equal(serialized.includes("chitranklabs/git-hygiene@"), false)
 	assert.equal(serialized.includes("@latest"), false)
-	const install = hygiene.jobs["branch-name"].steps.find(
-		(step) => step.name === "Install locked validation tool"
-	)
-	const steps = hygiene.jobs["branch-name"].steps
-	assert.ok(
-		steps.findIndex((step) => step.uses?.startsWith("pnpm/action-setup@")) <
-			steps.findIndex((step) => step.uses?.startsWith("actions/setup-node@"))
-	)
-	assert.equal(
-		install.run,
-		"pnpm install --frozen-lockfile --ignore-scripts --prefer-offline"
-	)
+	assert.equal(serialized.includes("pnpm install"), false)
+	assert.equal(serialized.includes("pnpm/action-setup@"), false)
 	const validate = hygiene.jobs["branch-name"].steps.find(
 		(step) => step.name === "Validate PR metadata 🏷️"
 	)
-	assert.match(validate.run, /git-hygiene title "\$PR_TITLE"/)
-	assert.match(validate.run, /git-hygiene branch "\$PR_BRANCH"/)
+	assert.match(
+		validate.run,
+		/npm exec --yes --package=@chitrank2050\/git-hygiene@0\.4\.12 -- git-hygiene title "\$PR_TITLE"/
+	)
+	assert.match(
+		validate.run,
+		/npm exec --yes --package=@chitrank2050\/git-hygiene@0\.4\.12 -- git-hygiene branch "\$PR_BRANCH"/
+	)
 })
 
 test("two dependent workspaces do not justify an uncached task orchestrator", () => {
