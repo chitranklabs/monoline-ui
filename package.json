@@ -49,7 +49,7 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"deps:update": "pnpm update --interactive --latest",
-		"typecheck": "pnpm build:lib && pnpm --filter @chitrank2050/monoline-ui typecheck && pnpm --filter @monoline/website typecheck && tsc --noEmit",
+		"typecheck": "pnpm build:lib && pnpm --recursive --workspace-concurrency=2 --no-sort run typecheck && tsc --noEmit",
 		"init": "./scripts/install.sh",
 		"nuke": "./scripts/obliviate.sh",
 		"clean-setup": "pnpm run nuke && pnpm run init",
