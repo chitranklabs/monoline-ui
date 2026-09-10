@@ -11,6 +11,23 @@ const readWorkflow = (name) =>
 const ci = readWorkflow("ci")
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
+const packageManagerVersion = JSON.parse(
+	readFileSync(new URL("package.json", root), "utf8")
+).packageManager.split("@")[1]
+
+test("workflows install one exact pnpm version without implicit dependency installs", () => {
+	for (const name of ["ci", "release-prepare", "release-finalize"]) {
+		for (const job of Object.values(readWorkflow(name).jobs)) {
+			for (const step of job.steps.filter((entry) =>
+				entry.uses?.startsWith("pnpm/action-setup@")
+			)) {
+				assert.equal(String(step.with.version), packageManagerVersion)
+				assert.equal(step.with.run_install, false)
+			}
+		}
+	}
+})
+
 const gitHygieneAction =
 	"chitranklabs/git-hygiene@48c2a75c76ae4b3ae0875d2bed55b8047188e66c"
 
