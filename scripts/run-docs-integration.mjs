@@ -86,13 +86,24 @@ const server = spawn(
 
 try {
 	await waitForServer(server)
-	await run(process.execPath, ["scripts/seo-integration-test.mjs"], {
-		TEST_BASE_URL: baseUrl,
-	})
-	await run(process.execPath, [playwrightBin, "test"], {
-		PLAYWRIGHT_TEST_BASE_URL: baseUrl,
-		PLAYWRIGHT_EXTERNAL_SERVER: "1",
-	})
+	// Both suites read the same production server. Wait for both before teardown,
+	// including when one fails, so its sibling can finish and retain diagnostics.
+	const results = await Promise.allSettled([
+		run(process.execPath, ["scripts/seo-integration-test.mjs"], {
+			TEST_BASE_URL: baseUrl,
+		}),
+		run(process.execPath, [playwrightBin, "test"], {
+			PLAYWRIGHT_TEST_BASE_URL: baseUrl,
+			PLAYWRIGHT_EXTERNAL_SERVER: "1",
+		}),
+	])
+	const failures = results.filter((result) => result.status === "rejected")
+	if (failures.length) {
+		throw new AggregateError(
+			failures.map((result) => result.reason),
+			"Production documentation checks failed"
+		)
+	}
 } finally {
 	await stopServer(server)
 }
