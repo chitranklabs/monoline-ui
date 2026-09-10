@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
 name: "Setup Chitrank Bot"
 description: "Generates a GitHub App token for automated tasks"
 inputs:
