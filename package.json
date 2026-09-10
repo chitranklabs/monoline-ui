@@ -48,7 +48,7 @@
 		"test:watch": "vitest",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"deps:update": "pnpm update --interactive --latest",
+		"deps:update": "pnpm update --interactive --latest -w",
 		"typecheck": "pnpm sync-exports:check && node scripts/build-lib.mjs --types-only && pnpm --recursive --workspace-concurrency=2 --no-sort run typecheck && tsc --noEmit",
 		"init": "./scripts/install.sh",
 		"nuke": "./scripts/obliviate.sh",
@@ -56,10 +56,10 @@
 		"clean-build": "pnpm run nuke && pnpm run init && pnpm run build:all"
 	},
 	"devDependencies": {
-		"@changesets/cli": "3.0.1",
+		"@changesets/cli": "3.0.2",
 		"@chitrank2050/git-hygiene": "^0.5.1",
 		"@eslint/js": "^10.0.1",
-		"@playwright/test": "1.60.0",
+		"@playwright/test": "1.63.0",
 		"@testing-library/jest-dom": "^7.0.1",
 		"@testing-library/react": "^16.3.2",
 		"@testing-library/user-event": "^14.6.1",
@@ -83,7 +83,7 @@
 		"tsup": "^8.5.1",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.65.0",
-		"vitest": "^4.1.11"
+		"vitest": "^5.0.0"
 	},
 	"packageManager": "pnpm@11.18.0",
 	"engines": {
