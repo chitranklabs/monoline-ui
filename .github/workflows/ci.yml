@@ -70,6 +70,7 @@ jobs:
               - 'packages/ui/jsr.json'
               - 'packages/ui/tsup.config.ts'
               - 'packages/ui/tsconfig.build.json'
+              - 'packages/ui/tsconfig.types.json'
               - 'scripts/build-lib.mjs'
               - 'scripts/package-contract-test.mjs'
               - 'scripts/react-18-compatibility-test.mjs'
@@ -185,13 +186,20 @@ jobs:
           needs.changes.outputs.code == 'true'
         run: pnpm typecheck
 
-      - name: Run unit tests
+      - name: Run library unit tests
+        if: |
+          needs.changes.outputs.library == 'true' ||
+          needs.changes.outputs.deps == 'true' ||
+          needs.changes.outputs.code == 'true'
+        run: pnpm test -- packages/ui
+
+      - name: Run website unit tests
         if: |
           needs.changes.outputs.library == 'true' ||
           needs.changes.outputs.docs == 'true' ||
           needs.changes.outputs.deps == 'true' ||
           needs.changes.outputs.code == 'true'
-        run: pnpm test
+        run: pnpm test -- apps/website
 
       - name: Verify checks are read-only
         run: |

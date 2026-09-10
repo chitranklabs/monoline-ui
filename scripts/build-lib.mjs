@@ -39,6 +39,30 @@ function run(command, args = []) {
 
 const tsupBin = path.join(projectPaths.toolBinDir, "tsup")
 
+async function writePublishManifest() {
+	await writeFile(
+		path.join(distDir, "package.json"),
+		JSON.stringify(
+			createPublishManifest(
+				JSON.parse(await readFile(projectPaths.libraryManifest, "utf8"))
+			),
+			null,
+			"\t"
+		) + "\n"
+	)
+}
+
+if (process.argv.includes("--types-only")) {
+	await run(path.join(projectPaths.toolBinDir, "tsc"), [
+		"-p",
+		"tsconfig.types.json",
+	])
+	// pnpm can link consumers directly to publishConfig.directory (dist).
+	// Declarations need the same export map as the published package.
+	await writePublishManifest()
+	process.exit(0)
+}
+
 // Run tsup build
 await run(tsupBin)
 
@@ -99,16 +123,7 @@ for (const entry of componentEntries) {
 
 // Copy package discovery, licensing, and contributor files so npm/JSR links do
 // not become dead ends after the repository is packaged.
-await writeFile(
-	path.join(distDir, "package.json"),
-	JSON.stringify(
-		createPublishManifest(
-			JSON.parse(await readFile(projectPaths.libraryManifest, "utf8"))
-		),
-		null,
-		"\t"
-	) + "\n"
-)
+await writePublishManifest()
 await cp(path.join(libraryRoot, "README.md"), path.join(distDir, "README.md"))
 await cp(path.join(projectRoot, "assets"), path.join(distDir, "assets"), {
 	recursive: true,

@@ -172,7 +172,9 @@ function selected(paths) {
 		package: applicable(ci.jobs.package_contract.if, changes),
 		docs: applicable(ci.jobs.docs_integration.if, changes),
 		types: stepEnabled("pnpm typecheck"),
-		unit: stepEnabled("pnpm test"),
+		unit:
+			stepEnabled("pnpm test -- packages/ui") ||
+			stepEnabled("pnpm test -- apps/website"),
 	}
 }
 
@@ -191,6 +193,27 @@ const prose = {
 	unit: false,
 }
 const docs = { ...full, package: false }
+
+test("website-only changes skip library tests; shared and library changes cover both", () => {
+	const libraryTests = ci.jobs.quality.steps.find(
+		(step) => step.run === "pnpm test -- packages/ui"
+	)
+	const websiteTests = ci.jobs.quality.steps.find(
+		(step) => step.run === "pnpm test -- apps/website"
+	)
+	const websiteChange = classify(["apps/website/app/docs/page.tsx"])
+	assert.equal(applicable(libraryTests.if, websiteChange), false)
+	assert.equal(applicable(websiteTests.if, websiteChange), true)
+	for (const file of [
+		"packages/ui/src/components/button/root.tsx",
+		"pnpm-lock.yaml",
+		"vitest.config.ts",
+	]) {
+		assert.equal(applicable(libraryTests.if, classify([file])), true)
+		assert.equal(applicable(websiteTests.if, classify([file])), true)
+	}
+})
+
 const cases = [
 	["root Markdown", ["README.md"], prose],
 	["nested Markdown", ["docs/contributing/review.md"], prose],
@@ -211,6 +234,7 @@ const cases = [
 	["theme tokens", ["packages/ui/src/foundations/theme/tokens.css"], full],
 	["shared TypeScript config", ["tsconfig.json"], full],
 	["package TypeScript config", ["packages/ui/tsconfig.build.json"], full],
+	["declaration TypeScript config", ["packages/ui/tsconfig.types.json"], full],
 	["CI workflow", [".github/workflows/ci.yml"], full],
 	[
 		"release validation workflow",

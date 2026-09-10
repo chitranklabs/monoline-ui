@@ -49,7 +49,7 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"deps:update": "pnpm update --interactive --latest",
-		"typecheck": "pnpm build:lib && pnpm --recursive --workspace-concurrency=2 --no-sort run typecheck && tsc --noEmit",
+		"typecheck": "pnpm sync-exports:check && node scripts/build-lib.mjs --types-only && pnpm --recursive --workspace-concurrency=2 --no-sort run typecheck && tsc --noEmit",
 		"init": "./scripts/install.sh",
 		"nuke": "./scripts/obliviate.sh",
 		"clean-setup": "pnpm run nuke && pnpm run init",

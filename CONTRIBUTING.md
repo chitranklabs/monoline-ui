@@ -100,6 +100,13 @@ React 18 consumer against an already-built library for focused diagnosis.
 
 ### CI selection and maintenance
 
+`pnpm typecheck` prepares library declarations and the package export map,
+then checks both workspaces and root tooling. It does not build runnable
+JavaScript or CSS; use `pnpm build:lib` or `pnpm build` before running consumers.
+Package contracts and production documentation still test the full build.
+Website-only edits skip library unit tests; library and shared configuration
+changes run both unit suites because the website consumes the library.
+
 CI runs for every PR so required checks are always reported. Markdown-only edits
 outside `apps/website/app/` and `packages/ui/src/`, and formatting-configuration PRs, run formatting,
 Markdown lint, CI selection tests, and secret scanning without unrelated
