@@ -11,10 +11,12 @@ TOTAL_STEPS=4
 echo "🪄  Initiating obliviate protocols..."
 
 # Step 1: Build artifacts
-echo "[1/$TOTAL_STEPS] 🗑️  Removing build artifacts (.next, dist)..."
+echo "[1/$TOTAL_STEPS] 🗑️  Removing build artifacts (.next, dist, test outputs)..."
 rm -rf .next
 rm -rf dist
 rm -rf apps/website/.next packages/ui/dist
+rm -rf coverage playwright-report test-results
+rm -f tsconfig.tsbuildinfo apps/website/tsconfig.tsbuildinfo packages/ui/tsconfig.tsbuildinfo
 
 # Step 2: Dependencies
 echo "[2/$TOTAL_STEPS] 💥 Removing dependencies (node_modules)..."

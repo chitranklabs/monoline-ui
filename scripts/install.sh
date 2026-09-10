@@ -3,6 +3,7 @@
 set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd -- "$SCRIPT_DIR/.."
+test -f pnpm-workspace.yaml && test -f packages/ui/package.json && test -f apps/website/package.json
 
 # Define total steps
 TOTAL_STEPS=4
@@ -32,10 +33,11 @@ pnpm run sync-exports
 
 # Step 4: Verify
 echo "[4/$TOTAL_STEPS] ✅ Verifying installation..."
-if [ -d "node_modules" ]; then
+if [ -d "node_modules" ] && [ -d "packages/ui/node_modules" ] && [ -d "apps/website/node_modules" ]; then
     echo "🎉 Success! Dependencies and exports are ready."
     exit 0
 else
     echo "❌ Error: node_modules folder missing after install."
     exit 1
 fi
+

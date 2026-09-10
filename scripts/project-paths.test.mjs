@@ -79,3 +79,24 @@ test("roots must be explicit absolute paths, never depend on shell cwd", () => {
 		)
 	}
 })
+
+test("install.sh and obliviate.sh enforce monorepo structure and clean workspace artifacts", () => {
+	const installSh = readFileSync(
+		path.join(projectPaths.repositoryRoot, "scripts/install.sh"),
+		"utf8"
+	)
+	const obliviateSh = readFileSync(
+		path.join(projectPaths.repositoryRoot, "scripts/obliviate.sh"),
+		"utf8"
+	)
+
+	const workspaceGuard =
+		"test -f pnpm-workspace.yaml && test -f packages/ui/package.json && test -f apps/website/package.json"
+	assert.ok(installSh.includes(workspaceGuard))
+	assert.ok(obliviateSh.includes(workspaceGuard))
+	assert.ok(installSh.includes("packages/ui/node_modules"))
+	assert.ok(installSh.includes("apps/website/node_modules"))
+	assert.ok(obliviateSh.includes("packages/ui/dist"))
+	assert.ok(obliviateSh.includes("apps/website/.next"))
+	assert.ok(obliviateSh.includes("tsconfig.tsbuildinfo"))
+})
