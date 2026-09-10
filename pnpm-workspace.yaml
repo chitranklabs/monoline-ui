@@ -8,6 +8,12 @@ allowBuilds:
   msw: false
   sharp: true
 
+# First-party release verified against the immutable v0.5.1 action tag.
+# Remove these entries after the minimum-release-age window has elapsed.
+minimumReleaseAgeExclude:
+  - "@chitrank2050/git-hygiene-core@0.5.1"
+  - "@chitrank2050/git-hygiene@0.5.1"
+
 overrides:
   postcss: ">=8.5.23"
   esbuild: ">=0.28.1"

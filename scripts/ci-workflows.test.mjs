@@ -11,6 +11,24 @@ const readWorkflow = (name) =>
 const ci = readWorkflow("ci")
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
+const gitHygieneAction =
+	"chitranklabs/git-hygiene@48c2a75c76ae4b3ae0875d2bed55b8047188e66c"
+
+test("hygiene uses the immutable bundled action without registry bootstrap", () => {
+	const hygiene = readWorkflow("hygiene")
+	const serialized = JSON.stringify(hygiene)
+	const validationSteps = hygiene.jobs["branch-name"].steps.filter((step) =>
+		step.uses?.startsWith("chitranklabs/git-hygiene@")
+	)
+
+	assert.equal(validationSteps.length, 2)
+	for (const step of validationSteps) {
+		assert.equal(step.uses, gitHygieneAction)
+	}
+	assert.equal(serialized.includes("actions/setup-node@"), false)
+	assert.equal(serialized.includes("npm exec"), false)
+	assert.equal(serialized.includes("@latest"), false)
+})
 
 test("release preparation uses explicit Changesets intent and gates no-op PRs", () => {
 	const prepare = readWorkflow("release-prepare")

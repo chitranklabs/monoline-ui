@@ -24,5 +24,17 @@
 	},
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
+	},
+	"yaml.schemas": {
+		"https://www.schemastore.org/github-action.json": [
+			"action.yml",
+			"action.yaml",
+			"**/.github/actions/**/action.yml",
+			"**/.github/actions/**/action.yaml"
+		],
+		"https://www.schemastore.org/github-workflow.json": [
+			".github/workflows/*.yml",
+			".github/workflows/*.yaml"
+		]
 	}
 }

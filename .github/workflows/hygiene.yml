@@ -30,19 +30,14 @@ jobs:
           persist-credentials: false
           fetch-depth: 100
 
-      - name: Setup Node.js 🟢
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 24
-
       - name: Validate PR Title 🏷️
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
+        uses: chitranklabs/git-hygiene@48c2a75c76ae4b3ae0875d2bed55b8047188e66c # v0.5.1
         with:
           command: "title"
           value: ${{ github.event.pull_request.title }}
 
       - name: Validate Branch Name 🌿
-        uses: chitranklabs/git-hygiene@22783c72540d66e1b851295d1961c19b6db81856 # v0.4.12
+        uses: chitranklabs/git-hygiene@48c2a75c76ae4b3ae0875d2bed55b8047188e66c # v0.5.1
         with:
           command: "branch"
           value: ${{ github.event.pull_request.head.ref }}
