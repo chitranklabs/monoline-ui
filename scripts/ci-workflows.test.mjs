@@ -74,7 +74,7 @@ test("release finalization uses the same immutable commit and exact prepared tag
 			assert.equal(
 				step.with.ref,
 				name === "build"
-					? "${{ github.event_name == 'workflow_dispatch' && inputs.version || github.event.pull_request.merge_commit_sha }}"
+					? "${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.merge_commit_sha }}"
 					: "${{ needs.build.outputs.release_sha }}"
 			)
 			assert.equal(step.with["persist-credentials"], false)
