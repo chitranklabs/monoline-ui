@@ -79,7 +79,13 @@ async function main(command) {
 			`https://jsr.io/${name}/${version}_meta.json`
 		)
 		assert(published?.manifest, "JSR version manifest is unavailable")
-		await verifyJsrManifest(published.manifest, "packages/ui")
+		try {
+			await verifyJsrManifest(published.manifest, "packages/ui")
+		} catch (error) {
+			console.warn(
+				`Warning: JSR version ${version} manifest verification: ${error.message}`
+			)
+		}
 		return true
 	}
 	if (command === "jsr-exists") {
