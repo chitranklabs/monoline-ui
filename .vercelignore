@@ -1,0 +1,14 @@
+.changeset
+.github
+.vscode
+.editorconfig
+.prettierrc*
+.markdownlint*
+SECURITY.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+README.md
+LICENSE
+CHANGELOG.md
+cliff.toml
+lefthook.yml
