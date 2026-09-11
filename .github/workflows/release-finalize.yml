@@ -267,7 +267,7 @@ jobs:
           else
             status=$?
             [ "$status" -eq 1 ] || exit "$status"
-            deno publish --config packages/ui/jsr.json --allow-slow-types
+            deno publish --config packages/ui/jsr.json --allow-slow-types --no-provenance
           fi
           node scripts/release-registry.mjs verify-jsr
 
