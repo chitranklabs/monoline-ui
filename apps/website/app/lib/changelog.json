@@ -1,5 +1,24 @@
 [
 	{
+		"version": "v0.5.0",
+		"timestamp": 1789105317,
+		"commits": [
+			{
+				"id": "5ac45464e26822de83c6dd28d082c75fa7ea98a8",
+				"message": "convert repository to monorepo and update website docs shell",
+				"body": "- Refactored repository into pnpm workspaces separating `@chitrank2050/monoline-ui` (`packages/ui`) and website (`apps/website`).\n- Standardized UI component package export boundaries and sync-exports contract.\n- Modernized documentation routes under `/docs` with updated sidebar, TOC, and landing page gallery.\n- Updated website changelog release cards and timeline styling.\n- Added repository CODEOWNERS and updated install script contracts.",
+				"group": "Features",
+				"breaking": false,
+				"scope": "workspace",
+				"author": {
+					"name": "chitrank2050",
+					"email": "",
+					"timestamp": 1789104707
+				}
+			}
+		]
+	},
+	{
 		"version": "v0.4.0",
 		"message": null,
 		"commits": [
@@ -385,7 +404,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 24, "deletions": 14 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 24,
+					"deletions": 14
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -525,7 +548,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 42, "deletions": 8 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 42,
+					"deletions": 8
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -593,7 +620,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 5, "deletions": 14 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 5,
+					"deletions": 14
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -664,7 +695,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 3,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -721,7 +756,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 2, "deletions": 2 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 2,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -778,7 +817,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 3, "deletions": 3 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 3,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -1445,7 +1488,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 10, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 10,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -1616,11 +1663,21 @@
 			"statistics": null,
 			"extra": null,
 			"bump_type": null,
-			"github": { "contributors": [] },
-			"gitlab": { "contributors": [] },
-			"gitea": { "contributors": [] },
-			"bitbucket": { "contributors": [] },
-			"azure_devops": { "contributors": [] }
+			"github": {
+				"contributors": []
+			},
+			"gitlab": {
+				"contributors": []
+			},
+			"gitea": {
+				"contributors": []
+			},
+			"bitbucket": {
+				"contributors": []
+			},
+			"azure_devops": {
+				"contributors": []
+			}
 		},
 		"repository": "/home/runner/work/monoline-ui/monoline-ui",
 		"commit_range": {
@@ -1648,10 +1705,18 @@
 				}
 			]
 		},
-		"gitlab": { "contributors": [] },
-		"gitea": { "contributors": [] },
-		"bitbucket": { "contributors": [] },
-		"azure_devops": { "contributors": [] }
+		"gitlab": {
+			"contributors": []
+		},
+		"gitea": {
+			"contributors": []
+		},
+		"bitbucket": {
+			"contributors": []
+		},
+		"azure_devops": {
+			"contributors": []
+		}
 	},
 	{
 		"version": "v0.3.0",
@@ -1686,7 +1751,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 3,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -1767,7 +1836,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 2, "deletions": 2 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 2,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -1848,7 +1921,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 3, "deletions": 3 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 3,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -2243,7 +2320,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 18, "additions": 851, "deletions": 1 },
+				"statistics": {
+					"files_changed": 18,
+					"additions": 851,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -2527,7 +2608,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 74, "deletions": 39 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 74,
+					"deletions": 39
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -2595,7 +2680,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 10, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 10,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -2738,7 +2827,11 @@
 					},
 					"conventional": false,
 					"merge_commit": true,
-					"statistics": { "files_changed": 4, "additions": 7, "deletions": 3 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 7,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -2795,7 +2888,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 11, "deletions": 3 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 11,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -2844,11 +2941,21 @@
 			"statistics": null,
 			"extra": null,
 			"bump_type": null,
-			"github": { "contributors": [] },
-			"gitlab": { "contributors": [] },
-			"gitea": { "contributors": [] },
-			"bitbucket": { "contributors": [] },
-			"azure_devops": { "contributors": [] }
+			"github": {
+				"contributors": []
+			},
+			"gitlab": {
+				"contributors": []
+			},
+			"gitea": {
+				"contributors": []
+			},
+			"bitbucket": {
+				"contributors": []
+			},
+			"azure_devops": {
+				"contributors": []
+			}
 		},
 		"repository": "/home/runner/work/monoline-ui/monoline-ui",
 		"commit_range": {
@@ -2896,10 +3003,18 @@
 				}
 			]
 		},
-		"gitlab": { "contributors": [] },
-		"gitea": { "contributors": [] },
-		"bitbucket": { "contributors": [] },
-		"azure_devops": { "contributors": [] }
+		"gitlab": {
+			"contributors": []
+		},
+		"gitea": {
+			"contributors": []
+		},
+		"bitbucket": {
+			"contributors": []
+		},
+		"azure_devops": {
+			"contributors": []
+		}
 	},
 	{
 		"version": "v0.2.2",
@@ -2927,7 +3042,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 13, "deletions": 1 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 13,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -2998,7 +3117,11 @@
 					},
 					"conventional": false,
 					"merge_commit": true,
-					"statistics": { "files_changed": 4, "additions": 37, "deletions": 4 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 37,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -3116,7 +3239,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 6, "additions": 94, "deletions": 5 },
+					"statistics": {
+						"files_changed": 6,
+						"additions": 94,
+						"deletions": 5
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -3234,7 +3361,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 12, "deletions": 1 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 12,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -3291,7 +3422,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 19, "deletions": 3 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 19,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -3340,11 +3475,21 @@
 			"statistics": null,
 			"extra": null,
 			"bump_type": null,
-			"github": { "contributors": [] },
-			"gitlab": { "contributors": [] },
-			"gitea": { "contributors": [] },
-			"bitbucket": { "contributors": [] },
-			"azure_devops": { "contributors": [] }
+			"github": {
+				"contributors": []
+			},
+			"gitlab": {
+				"contributors": []
+			},
+			"gitea": {
+				"contributors": []
+			},
+			"bitbucket": {
+				"contributors": []
+			},
+			"azure_devops": {
+				"contributors": []
+			}
 		},
 		"repository": "/home/runner/work/monoline-ui/monoline-ui",
 		"commit_range": {
@@ -3378,10 +3523,18 @@
 				}
 			]
 		},
-		"gitlab": { "contributors": [] },
-		"gitea": { "contributors": [] },
-		"bitbucket": { "contributors": [] },
-		"azure_devops": { "contributors": [] }
+		"gitlab": {
+			"contributors": []
+		},
+		"gitea": {
+			"contributors": []
+		},
+		"bitbucket": {
+			"contributors": []
+		},
+		"azure_devops": {
+			"contributors": []
+		}
 	},
 	{
 		"version": "v0.2.1",
@@ -3409,7 +3562,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 11, "deletions": 10 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 11,
+					"deletions": 10
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -3477,7 +3634,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 94, "deletions": 5 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 94,
+					"deletions": 5
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -3545,7 +3706,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 44, "deletions": 44 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 44,
+					"deletions": 44
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -3613,7 +3778,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 12, "deletions": 1 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 12,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -3806,7 +3975,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 26, "deletions": 9 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 26,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -3863,7 +4036,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -3981,7 +4158,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 58, "deletions": 4 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 58,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -4038,7 +4219,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 4, "deletions": 4 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 4,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -4339,7 +4524,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 45, "deletions": 3 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 45,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -4762,7 +4951,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 7, "deletions": 7 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 7,
+						"deletions": 7
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -5185,7 +5378,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 46, "deletions": 5 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 46,
+						"deletions": 5
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -5364,7 +5561,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 9, "deletions": 8 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 9,
+						"deletions": 8
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -5421,7 +5622,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 9, "deletions": 9 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 9,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -5478,7 +5683,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 8, "deletions": 7 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 8,
+						"deletions": 7
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -5901,7 +6110,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6141,7 +6354,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 18, "deletions": 5 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 18,
+						"deletions": 5
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6198,7 +6415,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 2, "deletions": 4 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 2,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6255,7 +6476,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 15, "deletions": 5 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 15,
+						"deletions": 5
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6312,7 +6537,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 71, "deletions": 9 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 71,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6430,7 +6659,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 10, "deletions": 7 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 10,
+						"deletions": 7
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6487,7 +6720,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 19, "deletions": 3 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 19,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6605,7 +6842,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 18, "deletions": 8 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 18,
+						"deletions": 8
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6662,7 +6903,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 19, "deletions": 9 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 19,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6719,7 +6964,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 8, "deletions": 4 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 8,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6776,7 +7025,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 8, "deletions": 4 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 8,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6894,7 +7147,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 10, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 10,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -6951,7 +7208,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 11, "deletions": 6 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 11,
+						"deletions": 6
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -7008,7 +7269,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 30, "deletions": 2 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 30,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -7065,7 +7330,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 37, "deletions": 1 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 37,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -7183,7 +7452,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 46, "deletions": 9 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 46,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -7911,7 +8184,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 7, "deletions": 28 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 7,
+						"deletions": 28
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -8090,7 +8367,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 3,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -8269,7 +8550,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 9, "deletions": 4 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 9,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -8448,7 +8733,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 5, "deletions": 0 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 5,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -8688,7 +8977,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 16, "deletions": 2 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 16,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -8989,7 +9282,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 44, "deletions": 2 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 44,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9290,7 +9587,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 77, "deletions": 0 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 77,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9408,7 +9709,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 52, "deletions": 0 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 52,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9465,7 +9770,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 1, "deletions": 6 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 1,
+						"deletions": 6
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9522,7 +9831,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 14, "deletions": 7 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 14,
+						"deletions": 7
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9701,7 +10014,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 9, "deletions": 33 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 9,
+						"deletions": 33
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9758,7 +10075,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9876,7 +10197,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9933,7 +10258,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 12, "deletions": 2 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 12,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -9990,7 +10319,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 5, "deletions": 6 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 5,
+						"deletions": 6
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -10169,7 +10502,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 6, "additions": 9, "deletions": 12 },
+					"statistics": {
+						"files_changed": 6,
+						"additions": 9,
+						"deletions": 12
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -10348,7 +10685,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 33, "deletions": 8 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 33,
+						"deletions": 8
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -10527,7 +10868,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 3,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -10645,7 +10990,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -10702,7 +11051,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 14, "deletions": 6 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 14,
+						"deletions": 6
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -10942,7 +11295,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 10, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 10,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11548,7 +11905,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11666,7 +12027,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 11, "deletions": 1 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 11,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11723,7 +12088,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 4, "deletions": 4 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 4,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11780,7 +12149,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 26, "deletions": 1 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 26,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11837,7 +12210,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 7, "additions": 21, "deletions": 5 },
+					"statistics": {
+						"files_changed": 7,
+						"additions": 21,
+						"deletions": 5
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11894,7 +12271,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 22, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 22,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -11951,7 +12332,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 4, "deletions": 4 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 4,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -12008,7 +12393,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 12, "deletions": 9 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 12,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -12126,7 +12515,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -12671,7 +13064,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 2 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -13216,7 +13613,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -13273,7 +13674,11 @@
 					},
 					"conventional": false,
 					"merge_commit": true,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -13330,7 +13735,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 8, "deletions": 4 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 8,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -13448,7 +13857,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -13505,7 +13918,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 26, "deletions": 7 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 26,
+						"deletions": 7
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14172,7 +14589,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14351,7 +14772,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14408,7 +14833,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 43, "deletions": 2 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 43,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14709,7 +15138,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 8, "additions": 87, "deletions": 2 },
+					"statistics": {
+						"files_changed": 8,
+						"additions": 87,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14766,7 +15199,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 5, "deletions": 16 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 5,
+						"deletions": 16
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14823,7 +15260,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 5, "additions": 39, "deletions": 6 },
+					"statistics": {
+						"files_changed": 5,
+						"additions": 39,
+						"deletions": 6
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14880,7 +15321,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 3, "deletions": 3 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 3,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -14998,7 +15443,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 5, "deletions": 1 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 5,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15116,7 +15565,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 2, "deletions": 0 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 2,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15417,7 +15870,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 7, "additions": 81, "deletions": 6 },
+					"statistics": {
+						"files_changed": 7,
+						"additions": 81,
+						"deletions": 6
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15596,7 +16053,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 3, "deletions": 2 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 3,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15775,7 +16236,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 8, "deletions": 2 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 8,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15832,7 +16297,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 3, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 3,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15889,7 +16358,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 8, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 8,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -15946,7 +16419,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 3, "additions": 13, "deletions": 8 },
+					"statistics": {
+						"files_changed": 3,
+						"additions": 13,
+						"deletions": 8
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16003,7 +16480,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 0, "deletions": 7 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 0,
+						"deletions": 7
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16060,7 +16541,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 8, "deletions": 2 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 8,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16239,7 +16724,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 8, "deletions": 9 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 8,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16296,7 +16785,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 2, "deletions": 2 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 2,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16414,7 +16907,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 9, "deletions": 4 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 9,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16471,7 +16968,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 4, "deletions": 9 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 4,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16589,7 +17090,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16829,7 +17334,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 5, "additions": 20, "deletions": 3 },
+					"statistics": {
+						"files_changed": 5,
+						"additions": 20,
+						"deletions": 3
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -16947,7 +17456,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17004,7 +17517,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 0, "additions": 0, "deletions": 0 },
+					"statistics": {
+						"files_changed": 0,
+						"additions": 0,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17061,7 +17578,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 5, "additions": 9, "deletions": 9 },
+					"statistics": {
+						"files_changed": 5,
+						"additions": 9,
+						"deletions": 9
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17118,7 +17639,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 4, "deletions": 4 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 4,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17236,7 +17761,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 1, "deletions": 24 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 1,
+						"deletions": 24
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17415,7 +17944,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 21, "deletions": 0 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 21,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17533,7 +18066,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 0, "deletions": 0 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 0,
+						"deletions": 0
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17590,7 +18127,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17647,7 +18188,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17704,7 +18249,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 0, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 0,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17883,7 +18432,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 2, "additions": 16, "deletions": 2 },
+					"statistics": {
+						"files_changed": 2,
+						"additions": 16,
+						"deletions": 2
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17940,7 +18493,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+					"statistics": {
+						"files_changed": 1,
+						"additions": 1,
+						"deletions": 1
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -17997,7 +18554,11 @@
 					},
 					"conventional": false,
 					"merge_commit": false,
-					"statistics": { "files_changed": 4, "additions": 37, "deletions": 4 },
+					"statistics": {
+						"files_changed": 4,
+						"additions": 37,
+						"deletions": 4
+					},
 					"extra": null,
 					"github": {
 						"username": null,
@@ -18046,11 +18607,21 @@
 			"statistics": null,
 			"extra": null,
 			"bump_type": null,
-			"github": { "contributors": [] },
-			"gitlab": { "contributors": [] },
-			"gitea": { "contributors": [] },
-			"bitbucket": { "contributors": [] },
-			"azure_devops": { "contributors": [] }
+			"github": {
+				"contributors": []
+			},
+			"gitlab": {
+				"contributors": []
+			},
+			"gitea": {
+				"contributors": []
+			},
+			"bitbucket": {
+				"contributors": []
+			},
+			"azure_devops": {
+				"contributors": []
+			}
 		},
 		"repository": "/home/runner/work/monoline-ui/monoline-ui",
 		"commit_range": {
@@ -18085,10 +18656,18 @@
 				}
 			]
 		},
-		"gitlab": { "contributors": [] },
-		"gitea": { "contributors": [] },
-		"bitbucket": { "contributors": [] },
-		"azure_devops": { "contributors": [] }
+		"gitlab": {
+			"contributors": []
+		},
+		"gitea": {
+			"contributors": []
+		},
+		"bitbucket": {
+			"contributors": []
+		},
+		"azure_devops": {
+			"contributors": []
+		}
 	},
 	{
 		"version": "v0.2.0",
@@ -18260,7 +18839,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 26, "deletions": 9 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 26,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -18328,7 +18911,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -18468,7 +19055,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 58, "deletions": 4 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 58,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -18536,7 +19127,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 4, "deletions": 4 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 4,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -18748,7 +19343,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 184, "deletions": 13 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 184,
+					"deletions": 13
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -18888,7 +19487,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 45, "deletions": 3 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 45,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -19388,7 +19991,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 7, "deletions": 7 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 7,
+					"deletions": 7
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -19456,7 +20063,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 57, "deletions": 24 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 57,
+					"deletions": 24
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -19682,7 +20293,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 4, "deletions": 1081 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 4,
+					"deletions": 1081
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -19894,7 +20509,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 46, "deletions": 5 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 46,
+					"deletions": 5
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -19962,7 +20581,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 51, "deletions": 46 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 51,
+					"deletions": 46
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20030,7 +20653,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 44, "deletions": 44 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 44,
+					"deletions": 44
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20098,7 +20725,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 9, "deletions": 8 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 9,
+					"deletions": 8
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20166,7 +20797,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 9, "deletions": 9 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 9,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20234,7 +20869,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 8, "deletions": 7 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 8,
+					"deletions": 7
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20302,7 +20941,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 34, "deletions": 26 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 34,
+					"deletions": 26
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20370,7 +21013,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 25, "deletions": 20 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 25,
+					"deletions": 20
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20654,7 +21301,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 112, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 112,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20722,7 +21373,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -20790,7 +21445,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 20, "deletions": 15 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 20,
+					"deletions": 15
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21002,7 +21661,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 18, "deletions": 5 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 18,
+					"deletions": 5
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21070,7 +21733,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 2, "deletions": 4 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 2,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21138,7 +21805,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 15, "deletions": 5 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 15,
+					"deletions": 5
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21206,7 +21877,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 71, "deletions": 9 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 71,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21274,7 +21949,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 76, "deletions": 46 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 76,
+					"deletions": 46
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21342,7 +22021,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 10, "deletions": 7 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 10,
+					"deletions": 7
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21410,7 +22093,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 19, "deletions": 3 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 19,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21478,7 +22165,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 30, "deletions": 14 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 30,
+					"deletions": 14
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21546,7 +22237,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 18, "deletions": 8 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 18,
+					"deletions": 8
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21614,7 +22309,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 19, "deletions": 9 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 19,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21682,7 +22381,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 8, "deletions": 4 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 8,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21750,7 +22453,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 8, "deletions": 4 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 8,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21818,7 +22525,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 32, "deletions": 11 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 32,
+					"deletions": 11
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21886,7 +22597,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 10, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 10,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -21954,7 +22669,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 11, "deletions": 6 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 11,
+					"deletions": 6
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22022,7 +22741,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 30, "deletions": 2 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 30,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22090,7 +22813,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 37, "deletions": 1 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 37,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22158,7 +22885,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 18, "deletions": 17 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 18,
+					"deletions": 17
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22226,7 +22957,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 46, "deletions": 9 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 46,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22294,7 +23029,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 26, "deletions": 26 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 26,
+					"deletions": 26
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22362,7 +23101,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 8, "additions": 125, "deletions": 10 },
+				"statistics": {
+					"files_changed": 8,
+					"additions": 125,
+					"deletions": 10
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22574,7 +23317,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 66, "deletions": 61 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 66,
+					"deletions": 61
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22642,7 +23389,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 128, "deletions": 31 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 128,
+					"deletions": 31
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22710,7 +23461,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 252, "deletions": 56 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 252,
+					"deletions": 56
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -22850,7 +23605,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 115, "deletions": 3 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 115,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23062,7 +23821,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 7, "deletions": 28 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 7,
+					"deletions": 28
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23274,7 +24037,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 3,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23414,7 +24181,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 145, "deletions": 83 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 145,
+					"deletions": 83
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23482,7 +24253,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 9, "deletions": 4 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 9,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23550,7 +24325,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 9, "additions": 906, "deletions": 61 },
+				"statistics": {
+					"files_changed": 9,
+					"additions": 906,
+					"deletions": 61
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23618,7 +24397,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 25, "deletions": 14 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 25,
+					"deletions": 14
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23686,7 +24469,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 5, "deletions": 0 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 5,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23754,7 +24541,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 77, "deletions": 13 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 77,
+					"deletions": 13
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23822,7 +24613,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 60, "deletions": 18 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 60,
+					"deletions": 18
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23890,7 +24685,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 46, "deletions": 68 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 46,
+					"deletions": 68
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -23958,7 +24757,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 16, "deletions": 2 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 16,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24314,7 +25117,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 44, "deletions": 2 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 44,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24454,7 +25261,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 11, "deletions": 16 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 11,
+					"deletions": 16
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24522,7 +25333,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 35, "deletions": 10 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 35,
+					"deletions": 10
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24662,7 +25477,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 77, "deletions": 0 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 77,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24802,7 +25621,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 52, "deletions": 0 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 52,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24870,7 +25693,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 1, "deletions": 6 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 1,
+					"deletions": 6
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -24938,7 +25765,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 14, "deletions": 7 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 14,
+					"deletions": 7
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25006,7 +25837,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 47, "deletions": 17 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 47,
+					"deletions": 17
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25074,7 +25909,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 21, "deletions": 22 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 21,
+					"deletions": 22
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25142,7 +25981,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 9, "deletions": 33 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 9,
+					"deletions": 33
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25210,7 +26053,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25278,7 +26125,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 85, "deletions": 11 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 85,
+					"deletions": 11
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25346,7 +26197,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25414,7 +26269,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 12, "deletions": 2 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 12,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25482,7 +26341,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 5, "deletions": 6 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 5,
+					"deletions": 6
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25694,7 +26557,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 9, "deletions": 12 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 9,
+					"deletions": 12
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25762,7 +26629,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 11, "additions": 35, "deletions": 12 },
+				"statistics": {
+					"files_changed": 11,
+					"additions": 35,
+					"deletions": 12
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25830,7 +26701,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 52, "deletions": 12 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 52,
+					"deletions": 12
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25898,7 +26773,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 33, "deletions": 8 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 33,
+					"deletions": 8
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -25966,7 +26845,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 9, "additions": 38, "deletions": 15 },
+				"statistics": {
+					"files_changed": 9,
+					"additions": 38,
+					"deletions": 15
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26034,7 +26917,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 588, "deletions": 21 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 588,
+					"deletions": 21
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26102,7 +26989,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 3, "deletions": 3 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 3,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26170,7 +27061,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 10, "additions": 36, "deletions": 43 },
+				"statistics": {
+					"files_changed": 10,
+					"additions": 36,
+					"deletions": 43
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26238,7 +27133,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26306,7 +27205,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 14, "deletions": 6 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 14,
+					"deletions": 6
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26518,7 +27421,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 89, "deletions": 48 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 89,
+					"deletions": 48
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26586,7 +27493,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 10, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 10,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26654,7 +27565,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 9, "additions": 239, "deletions": 79 },
+				"statistics": {
+					"files_changed": 9,
+					"additions": 239,
+					"deletions": 79
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26722,7 +27637,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 132, "deletions": 45 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 132,
+					"deletions": 45
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -26790,7 +27709,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 46, "deletions": 13 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 46,
+					"deletions": 13
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27002,7 +27925,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 133, "deletions": 63 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 133,
+					"deletions": 63
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27142,7 +28069,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 8, "additions": 80, "deletions": 62 },
+				"statistics": {
+					"files_changed": 8,
+					"additions": 80,
+					"deletions": 62
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27210,7 +28141,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 8, "additions": 91, "deletions": 23 },
+				"statistics": {
+					"files_changed": 8,
+					"additions": 91,
+					"deletions": 23
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27278,7 +28213,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27418,7 +28357,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 11, "deletions": 1 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 11,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27486,7 +28429,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 4, "deletions": 4 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 4,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27554,7 +28501,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 26, "deletions": 1 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 26,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27622,7 +28573,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 21, "deletions": 5 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 21,
+					"deletions": 5
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27690,7 +28645,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 22, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 22,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27758,7 +28717,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 4, "deletions": 4 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 4,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27826,7 +28789,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 12, "deletions": 9 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 12,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27894,7 +28861,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 80, "deletions": 19 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 80,
+					"deletions": 19
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -27969,7 +28940,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -28116,7 +29091,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 43, "deletions": 35 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 43,
+					"deletions": 35
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -28328,7 +29307,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 83, "deletions": 13 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 83,
+					"deletions": 13
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -28396,7 +29379,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 81, "deletions": 45 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 81,
+					"deletions": 45
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -28477,7 +29464,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 18, "deletions": 18 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 18,
+					"deletions": 18
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -28558,7 +29549,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 2 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -28698,7 +29693,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 34, "deletions": 22 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 34,
+					"deletions": 22
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -28766,7 +29765,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 23, "deletions": 26 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 23,
+					"deletions": 26
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -28834,7 +29837,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 10, "additions": 29, "deletions": 15 },
+				"statistics": {
+					"files_changed": 10,
+					"additions": 29,
+					"deletions": 15
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -28902,7 +29909,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 9, "additions": 184, "deletions": 50 },
+				"statistics": {
+					"files_changed": 9,
+					"additions": 184,
+					"deletions": 50
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29121,7 +30132,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -29189,7 +30204,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 8, "deletions": 4 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 8,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29257,7 +30276,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 108, "deletions": 67 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 108,
+					"deletions": 67
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29325,7 +30348,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29393,7 +30420,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 26, "deletions": 7 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 26,
+					"deletions": 7
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29533,7 +30564,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 11, "additions": 686, "deletions": 8 },
+				"statistics": {
+					"files_changed": 11,
+					"additions": 686,
+					"deletions": 8
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29601,7 +30636,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 15, "deletions": 15 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 15,
+					"deletions": 15
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29669,7 +30708,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 9, "additions": 53, "deletions": 54 },
+				"statistics": {
+					"files_changed": 9,
+					"additions": 53,
+					"deletions": 54
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29737,7 +30780,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 14, "additions": 522, "deletions": 4 },
+				"statistics": {
+					"files_changed": 14,
+					"additions": 522,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29877,7 +30924,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 41, "deletions": 20 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 41,
+					"deletions": 20
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -29945,7 +30996,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 21, "additions": 45, "deletions": 41 },
+				"statistics": {
+					"files_changed": 21,
+					"additions": 45,
+					"deletions": 41
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30013,7 +31068,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 17, "additions": 46, "deletions": 3 },
+				"statistics": {
+					"files_changed": 17,
+					"additions": 46,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30081,7 +31140,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 20, "deletions": 60 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 20,
+					"deletions": 60
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30149,7 +31212,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30361,7 +31428,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30429,7 +31500,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 43, "deletions": 2 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 43,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30713,7 +31788,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 77, "deletions": 78 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 77,
+					"deletions": 78
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30781,7 +31860,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 8, "additions": 87, "deletions": 2 },
+				"statistics": {
+					"files_changed": 8,
+					"additions": 87,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30849,7 +31932,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 5, "deletions": 16 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 5,
+					"deletions": 16
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30917,7 +32004,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 39, "deletions": 6 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 39,
+					"deletions": 6
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -30985,7 +32076,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 3, "deletions": 3 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 3,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -31125,7 +32220,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 5, "deletions": 1 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 5,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -31265,7 +32364,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 2, "deletions": 0 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 2,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -31621,7 +32724,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 81, "deletions": 6 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 81,
+					"deletions": 6
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -31761,7 +32868,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 73, "deletions": 73 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 73,
+					"deletions": 73
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -31829,7 +32940,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 3, "deletions": 2 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 3,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32041,7 +33156,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 8, "deletions": 2 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 8,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32109,7 +33228,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 3, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 3,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32177,7 +33300,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 8, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 8,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32245,7 +33372,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 3, "additions": 13, "deletions": 8 },
+				"statistics": {
+					"files_changed": 3,
+					"additions": 13,
+					"deletions": 8
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32313,7 +33444,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 0, "deletions": 7 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 0,
+					"deletions": 7
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32381,7 +33516,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 8, "deletions": 2 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 8,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32449,7 +33588,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 8, "deletions": 9 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 8,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32517,7 +33660,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 2, "deletions": 2 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 2,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32729,7 +33876,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32797,7 +33948,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 175, "deletions": 34 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 175,
+					"deletions": 34
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -32937,7 +34092,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 38, "deletions": 39 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 38,
+					"deletions": 39
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33005,7 +34164,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 20, "deletions": 3 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 20,
+					"deletions": 3
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33073,7 +34236,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 6, "additions": 29, "deletions": 329 },
+				"statistics": {
+					"files_changed": 6,
+					"additions": 29,
+					"deletions": 329
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33154,7 +34321,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -33235,7 +34406,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 0, "additions": 0, "deletions": 0 },
+				"statistics": {
+					"files_changed": 0,
+					"additions": 0,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -33316,7 +34491,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 5, "additions": 9, "deletions": 9 },
+				"statistics": {
+					"files_changed": 5,
+					"additions": 9,
+					"deletions": 9
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -33397,7 +34576,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 4, "deletions": 4 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 4,
+					"deletions": 4
+				},
 				"extra": null,
 				"github": {
 					"username": "renovate[bot]",
@@ -33550,7 +34733,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 1, "deletions": 24 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 1,
+					"deletions": 24
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33618,7 +34805,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 9, "additions": 628, "deletions": 68 },
+				"statistics": {
+					"files_changed": 9,
+					"additions": 628,
+					"deletions": 68
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33686,7 +34877,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 37, "deletions": 37 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 37,
+					"deletions": 37
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33754,7 +34949,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 21, "deletions": 0 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 21,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33822,7 +35021,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 4, "additions": 103, "deletions": 2 },
+				"statistics": {
+					"files_changed": 4,
+					"additions": 103,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33890,7 +35093,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 0, "deletions": 0 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 0,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -33958,7 +35165,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34026,7 +35237,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34094,7 +35309,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 0, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 0,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34162,7 +35381,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 7, "additions": 180, "deletions": 27 },
+				"statistics": {
+					"files_changed": 7,
+					"additions": 180,
+					"deletions": 27
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34230,7 +35453,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 132, "deletions": 0 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 132,
+					"deletions": 0
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34298,7 +35525,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 2, "additions": 16, "deletions": 2 },
+				"statistics": {
+					"files_changed": 2,
+					"additions": 16,
+					"deletions": 2
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34366,7 +35597,11 @@
 				},
 				"conventional": true,
 				"merge_commit": false,
-				"statistics": { "files_changed": 1, "additions": 1, "deletions": 1 },
+				"statistics": {
+					"files_changed": 1,
+					"additions": 1,
+					"deletions": 1
+				},
 				"extra": null,
 				"github": {
 					"username": "chitrank2050",
@@ -34428,11 +35663,21 @@
 			"statistics": null,
 			"extra": null,
 			"bump_type": null,
-			"github": { "contributors": [] },
-			"gitlab": { "contributors": [] },
-			"gitea": { "contributors": [] },
-			"bitbucket": { "contributors": [] },
-			"azure_devops": { "contributors": [] }
+			"github": {
+				"contributors": []
+			},
+			"gitlab": {
+				"contributors": []
+			},
+			"gitea": {
+				"contributors": []
+			},
+			"bitbucket": {
+				"contributors": []
+			},
+			"azure_devops": {
+				"contributors": []
+			}
 		},
 		"repository": "/home/runner/work/monoline-ui/monoline-ui",
 		"commit_range": {
@@ -34473,9 +35718,17 @@
 				}
 			]
 		},
-		"gitlab": { "contributors": [] },
-		"gitea": { "contributors": [] },
-		"bitbucket": { "contributors": [] },
-		"azure_devops": { "contributors": [] }
+		"gitlab": {
+			"contributors": []
+		},
+		"gitea": {
+			"contributors": []
+		},
+		"bitbucket": {
+			"contributors": []
+		},
+		"azure_devops": {
+			"contributors": []
+		}
 	}
 ]
