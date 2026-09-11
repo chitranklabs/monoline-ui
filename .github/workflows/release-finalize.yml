@@ -1,5 +1,8 @@
 name: Release 2 - Finalize Tag 🏷️
 
+# Builds one verified release candidate, publishes npm and JSR independently,
+# and exposes targeted recovery without republishing successful registries.
+
 on:
   pull_request:
     types:
@@ -9,8 +12,20 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Existing release tag to recover (e.g. v0.1.0)"
+        description: "Existing release tag to recover (e.g. v0.5.0)"
         required: true
+      target:
+        description: "Release surface to run."
+        type: choice
+        required: true
+        default: all
+        options: [all, npm, jsr, github-release]
+      jsr_provenance:
+        description: "Disable only to recover from a confirmed upstream provenance outage."
+        type: choice
+        required: true
+        default: required
+        options: [required, disabled-for-recovery]
 
 concurrency:
   # Unrelated closed PRs must not replace a pending release run.
@@ -136,10 +151,37 @@ jobs:
           if-no-files-found: error
           retention-days: 10
 
+  tag:
+    name: Anchor Release Tag 🏷️
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout verified source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.build.outputs.release_sha }}
+          persist-credentials: false
+
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        uses: $/.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Push Verified Tag 🏷️
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-          TAG_NAME: ${{ steps.vars.outputs.tag_name }}
+          TAG_NAME: ${{ needs.build.outputs.tag_name }}
         run: |
           git config user.name "chitrank-actions[bot]"
           git config user.email "actions@github.com"
@@ -159,7 +201,11 @@ jobs:
 
   publish-npm:
     name: Publish to NPM 📦
-    needs: build
+    needs: [build, tag]
+    if: |
+      github.event_name != 'workflow_dispatch' ||
+      inputs.target == 'all' ||
+      inputs.target == 'npm'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -211,7 +257,11 @@ jobs:
 
   publish-jsr:
     name: Publish to JSR 🦖
-    needs: build
+    needs: [build, tag]
+    if: |
+      github.event_name != 'workflow_dispatch' ||
+      inputs.target == 'all' ||
+      inputs.target == 'jsr'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -261,13 +311,20 @@ jobs:
       - name: Publish to JSR 📦
         env:
           RELEASE_TAG: ${{ needs.build.outputs.tag_name }}
+          JSR_PROVENANCE: ${{ inputs.jsr_provenance || 'required' }}
         run: |
+          PUBLISH_ARGS=(--config packages/ui/jsr.json --allow-slow-types)
+          if [ "$JSR_PROVENANCE" = "disabled-for-recovery" ]; then
+            [ "${{ github.event_name }}" = "workflow_dispatch" ] || exit 1
+            PUBLISH_ARGS+=(--no-provenance)
+            echo "::warning::JSR provenance explicitly disabled for recovery"
+          fi
           if node scripts/release-registry.mjs jsr-exists; then
             echo "JSR version is already published."
           else
             status=$?
             [ "$status" -eq 1 ] || exit "$status"
-            deno publish --config packages/ui/jsr.json --allow-slow-types --no-provenance
+            deno publish "${PUBLISH_ARGS[@]}"
           fi
           node scripts/release-registry.mjs verify-jsr
 
@@ -275,8 +332,18 @@ jobs:
     name: Create Verified GitHub Release ✨
     needs:
       - build
+      - tag
       - publish-npm
       - publish-jsr
+    if: |
+      always() &&
+      needs.build.result == 'success' &&
+      needs.tag.result == 'success' &&
+      (github.event_name != 'workflow_dispatch' ||
+      inputs.target == 'all' ||
+      inputs.target == 'github-release') &&
+      (needs.publish-npm.result == 'success' || needs.publish-npm.result == 'skipped') &&
+      (needs.publish-jsr.result == 'success' || needs.publish-jsr.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -330,3 +397,34 @@ jobs:
           else
             gh release create "$TAG_NAME" --verify-tag --title "$TAG_NAME" --notes-file "$RUNNER_TEMP/release-notes.md" release-artifacts/monoline.tgz
           fi
+
+  release-summary:
+    name: Release Summary 📋
+    needs: [build, tag, publish-npm, publish-jsr, create-release]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Write recovery summary
+        env:
+          TAG: ${{ needs.build.outputs.tag_name }}
+          BUILD: ${{ needs.build.result }}
+          TAG_JOB: ${{ needs.tag.result }}
+          NPM: ${{ needs.publish-npm.result }}
+          JSR: ${{ needs.publish-jsr.result }}
+          GITHUB_RELEASE: ${{ needs.create-release.result }}
+        run: |
+          {
+            echo "## Release ${TAG:-unresolved}"
+            echo "| Surface | Result |"
+            echo "| --- | --- |"
+            echo "| Build candidate | $BUILD |"
+            echo "| Git tag | $TAG_JOB |"
+            echo "| npm | $NPM |"
+            echo "| JSR | $JSR |"
+            echo "| GitHub Release | $GITHUB_RELEASE |"
+            echo
+            echo "Use **Re-run failed jobs** for an immediate retry."
+            echo "For targeted recovery, dispatch this workflow with the same version and failed target."
+          } >> "$GITHUB_STEP_SUMMARY"
