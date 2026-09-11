@@ -3,6 +3,8 @@ name: Release 1 - Prepare PR 📝
 on:
   workflow_dispatch:
 
+permissions: {}
+
 concurrency:
   group: release-prepare
   cancel-in-progress: false
@@ -58,7 +60,7 @@ jobs:
       - name: Create Bot Token 🤖🔑
         id: generate_token
         if: steps.vars.outputs.release_ready == 'true'
-        uses: ./.github/actions/setup-bot
+        uses: $/.github/actions/setup-bot
         with:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}

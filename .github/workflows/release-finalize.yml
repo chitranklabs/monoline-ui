@@ -9,12 +9,12 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to finalize (e.g. v0.1.0)"
+        description: "Existing release tag to recover (e.g. v0.1.0)"
         required: true
 
 concurrency:
   # Unrelated closed PRs must not replace a pending release run.
-  group: library-release-finalize-${{ github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'release') }}
+  group: library-release-finalize
   cancel-in-progress: false
 
 permissions: {}
@@ -35,8 +35,11 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read
+      id-token: write
+      attestations: write
     outputs:
       tag_name: ${{ steps.vars.outputs.tag_name }}
+      release_sha: ${{ steps.vars.outputs.release_sha }}
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
@@ -48,11 +51,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.event.pull_request.merge_commit_sha }}
 
       - name: Create Bot Token 🤖🔑
         id: generate_token
-        uses: ./.github/actions/setup-bot
+        uses: $/.github/actions/setup-bot
         with:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
@@ -84,11 +87,23 @@ jobs:
       - name: Run static quality checks ✅
         run: pnpm run check:static
 
+      - name: Verify release belongs to main
+        run: git merge-base --is-ancestor HEAD origin/main
+
       - name: Verify published package contracts 📦
         run: pnpm run check:package
 
       - name: Build production documentation 🏗️
         run: pnpm run build
+
+      - name: Setup Deno for publication preflight
+        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: 2.9.6
+
+      - name: Validate JSR publication before tagging
+        working-directory: packages/ui
+        run: deno publish --dry-run --allow-slow-types
 
       - name: Verify release checks left source unchanged
         run: |
@@ -97,6 +112,16 @@ jobs:
             git status --porcelain
             exit 1
           fi
+
+      - name: Pack verified release candidate
+        run: |
+          mkdir -p release-artifacts
+          pnpm --dir packages/ui/dist pack --out "$GITHUB_WORKSPACE/release-artifacts/monoline.tgz"
+
+      - name: Attest release candidate
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: release-artifacts/monoline.tgz
 
       - name: Upload Build Artifacts 📦
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -107,6 +132,9 @@ jobs:
             package.json
             packages/ui/jsr.json
             packages/ui/CHANGELOG.md
+            release-artifacts/
+          if-no-files-found: error
+          retention-days: 10
 
       - name: Push Verified Tag 🏷️
         env:
@@ -139,11 +167,18 @@ jobs:
       id-token: write
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
+
+      - name: Checkout verified source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.build.outputs.release_sha }}
+          persist-credentials: false
 
       - name: Download Build Artifacts 📥
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -170,9 +205,9 @@ jobs:
           fi
 
       - name: Publish to NPM 📦
-        run: |
-          pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          pnpm publish ./packages/ui/dist --access public --no-git-checks --provenance
+        env:
+          RELEASE_TAG: ${{ needs.build.outputs.tag_name }}
+        run: node scripts/release-registry.mjs publish-npm
 
   publish-jsr:
     name: Publish to JSR 🦖
@@ -192,7 +227,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+          ref: ${{ needs.build.outputs.release_sha }}
 
       - name: Setup Publishing Environment 🛠️
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
@@ -224,8 +259,17 @@ jobs:
           fi
 
       - name: Publish to JSR 📦
-        working-directory: packages/ui
-        run: deno publish --allow-slow-types
+        env:
+          RELEASE_TAG: ${{ needs.build.outputs.tag_name }}
+        run: |
+          if node scripts/release-registry.mjs jsr-exists; then
+            echo "JSR version is already published."
+          else
+            status=$?
+            [ "$status" -eq 1 ] || exit "$status"
+            deno publish --config packages/ui/jsr.json --allow-slow-types
+          fi
+          node scripts/release-registry.mjs verify-jsr
 
   create-release:
     name: Create Verified GitHub Release ✨
@@ -237,8 +281,6 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
-      id-token: write
-      attestations: write
     steps:
       - name: Harden Runner 🛡️
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
@@ -250,7 +292,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+          ref: ${{ needs.build.outputs.release_sha }}
 
       - name: Download Build Artifacts 📥
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -259,19 +301,11 @@ jobs:
 
       - name: Create Bot Token 🤖🔑
         id: generate_token
-        uses: ./.github/actions/setup-bot
+        uses: $/.github/actions/setup-bot
         with:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: write
-
-      - name: Attest Build Artifacts 📜
-        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
-        with:
-          subject-path: |
-            packages/ui/dist/**
-            packages/ui/CHANGELOG.md
-          push-to-registry: false
 
       - name: Setup Node.js 🟢
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -283,6 +317,16 @@ jobs:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
           TAG_NAME: ${{ needs.build.outputs.tag_name }}
           INPUT_VERSION: ${{ needs.build.outputs.tag_name }}
+          RELEASE_TAG: ${{ needs.build.outputs.tag_name }}
         run: |
           node scripts/release-verify.mjs
-          gh release create "$TAG_NAME" --verify-tag --title "$TAG_NAME" --notes-file "$RUNNER_TEMP/release-notes.md"
+          node scripts/release-registry.mjs verify-npm
+          node scripts/release-registry.mjs verify-jsr
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            mkdir -p "$RUNNER_TEMP/published-assets"
+            gh release download "$TAG_NAME" --pattern monoline.tgz --dir "$RUNNER_TEMP/published-assets"
+            cmp release-artifacts/monoline.tgz "$RUNNER_TEMP/published-assets/monoline.tgz"
+            echo "Verified existing release $TAG_NAME."
+          else
+            gh release create "$TAG_NAME" --verify-tag --title "$TAG_NAME" --notes-file "$RUNNER_TEMP/release-notes.md" release-artifacts/monoline.tgz
+          fi

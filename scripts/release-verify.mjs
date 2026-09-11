@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process"
 import { appendFile, readFile, readdir, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
@@ -54,7 +55,10 @@ if (
 		process.env.BRANCH_NAME?.replace(/^chore\/release-/, "")
 	const release = await verifyRelease(projectPaths.repositoryRoot, requested)
 	if (process.env.GITHUB_OUTPUT)
-		await appendFile(process.env.GITHUB_OUTPUT, `tag_name=${release.tag}\n`)
+		await appendFile(
+			process.env.GITHUB_OUTPUT,
+			`tag_name=${release.tag}\nrelease_sha=${execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim()}\n`
+		)
 	if (process.env.RUNNER_TEMP)
 		await writeFile(
 			path.join(process.env.RUNNER_TEMP, "release-notes.md"),

@@ -67,13 +67,15 @@ test("release preparation uses explicit Changesets intent and gates no-op PRs", 
 test("release finalization uses the same immutable commit and exact prepared tag", () => {
 	const finalize = readWorkflow("release-finalize")
 	assert.equal(finalize.concurrency["cancel-in-progress"], false)
-	for (const job of Object.values(finalize.jobs)) {
+	for (const [name, job] of Object.entries(finalize.jobs)) {
 		for (const step of job.steps.filter((step) =>
 			step.uses?.startsWith("actions/checkout@")
 		)) {
 			assert.equal(
 				step.with.ref,
-				"${{ github.event.pull_request.merge_commit_sha || github.sha }}"
+				name === "build"
+					? "${{ github.event_name == 'workflow_dispatch' && inputs.version || github.event.pull_request.merge_commit_sha }}"
+					: "${{ needs.build.outputs.release_sha }}"
 			)
 			assert.equal(step.with["persist-credentials"], false)
 		}
@@ -124,14 +126,16 @@ test("release artifacts, registry publication, and generated history use workspa
 		"pnpm setup still needs the root packageManager"
 	)
 	assert.ok(
-		finalize.jobs["publish-npm"].steps.some((step) =>
-			step.run?.includes("pnpm publish ./packages/ui/dist ")
+		finalize.jobs["publish-npm"].steps.some(
+			(step) => step.run === "node scripts/release-registry.mjs publish-npm"
 		)
 	)
 	const jsr = finalize.jobs["publish-jsr"].steps.find((step) =>
-		step.run?.startsWith("deno publish")
+		step.run?.includes("deno publish")
 	)
-	assert.equal(jsr["working-directory"], "packages/ui")
+	assert.ok(jsr.run.includes("--config packages/ui/jsr.json"))
+	assert.ok(jsr.run.includes('[ "$status" -eq 1 ] || exit "$status"'))
+	assert.ok(artifact.with.path.includes("release-artifacts/"))
 })
 
 // Match paths with the same library and dot-file option as dorny/paths-filter.

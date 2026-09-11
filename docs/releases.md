@@ -73,10 +73,16 @@ intended for the Prepare workflow; running it locally consumes pending changeset
 ## Failure recovery and boundaries
 
 - If one registry fails after the other succeeds, use GitHub's **Re-run failed jobs**
-  on that same run. Do not re-run successful publication jobs or move an existing tag.
-- Manual Finalize dispatch requires `main` and an exact prepared `vX.Y.Z`. It is not
-  a way to publish arbitrary historical versions from current source. An existing
-  tag pointing to another commit is rejected.
+  on that same run. Never move an existing tag. npm retries compare published package
+  contents with the attested candidate; JSR retries compare published file checksums
+  with the verified source. Lookup failures stop publishing instead of treating a
+  registry outage as an absent version.
+- Manual Finalize dispatch runs from `main` but checks out the requested existing
+  `vX.Y.Z` tag. All downstream jobs use the verified commit SHA. Recovery cannot
+  publish current main under an older version. An existing GitHub release must
+  contain the matching tarball; missing or conflicting assets require review.
+- These recovery guards apply to releases containing this workflow and its helper
+  scripts. Older tags may require a separately reviewed recovery procedure.
 - Preparation requires committed changesets for attribution. It rejects prerelease
   mode, JSR version drift, duplicate timeline versions, and additional publishable
   packages before versioning. A failed local generation may leave partial generated
