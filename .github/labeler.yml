@@ -3,6 +3,23 @@
 # Keys represent the label names in GitHub.
 # Values represent the file patterns to match.
 
+# 📦 Workspace Packages & Applications
+"pkg/ui":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "packages/ui/**"
+
+"pkg/docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "packages/docs/**"
+
+"app/website":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "apps/website/**"
+
+# 🌐 Cross-Cutting Areas
 "area/docs":
   - changed-files:
       - any-glob-to-any-file:
@@ -15,16 +32,6 @@
           - ".github/workflows/**"
           - ".github/actions/**"
           - "lefthook.yml"
-
-"area/design":
-  - changed-files:
-      - any-glob-to-any-file:
-          - "packages/ui/src/**"
-
-"area/playground":
-  - changed-files:
-      - any-glob-to-any-file:
-          - "apps/website/app/**"
 
 "area/deps":
   - changed-files:
@@ -53,12 +60,11 @@
               - ".prettierrc.json"
               - ".markdownlint.json"
               - "tsconfig.json"
-              - "packages/ui/tsconfig.json"
-              - "apps/website/tsconfig.json"
-              - "packages/ui/tsconfig.build.json"
-              - "packages/ui/tsup.config.ts"
+              - "packages/*/tsconfig*.json"
+              - "apps/*/tsconfig*.json"
+              - "packages/*/tsup.config.ts"
               - "eslint.config.mjs"
-              - "apps/website/postcss.config.mjs"
+              - "apps/*/postcss.config.mjs"
               - "cliff.toml"
       - head-branch:
           - "^maintenance/.*"
