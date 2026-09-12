@@ -6,6 +6,9 @@
 	"exports": {
 		".": "./src/index.ts"
 	},
+	"dependencies": {
+		"js-yaml": "5.4.1"
+	},
 	"scripts": {
 		"typecheck": "tsc --noEmit"
 	}

@@ -142,7 +142,11 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
 
-  packages/docs: {}
+  packages/docs:
+    dependencies:
+      js-yaml:
+        specifier: '>=5.2.2'
+        version: 5.4.1
 
   packages/ui:
     dependencies:
