@@ -1,3 +1,5 @@
+import type { NavigationItem } from "./navigation"
+
 export {
 	discoverPages,
 	type DiscoverPagesOptions,
@@ -5,15 +7,17 @@ export {
 	type DocumentationPage,
 } from "./content"
 
+export {
+	buildNavigation,
+	type NavigationItem,
+	type ResolvedNavigation,
+} from "./navigation"
+
 export interface MonolineDocsConfig {
 	title: string
 	description?: string
 	navigation?: NavigationItem[]
 }
-
-export type NavigationItem =
-	| { label: string; href: `/${string}` }
-	| { label: string; items: NavigationItem[] }
 
 export function defineConfig(config: MonolineDocsConfig): MonolineDocsConfig {
 	return config
