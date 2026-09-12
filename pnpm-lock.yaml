@@ -156,6 +156,13 @@ importers:
       markdown-it:
         specifier: '>=14.3.0'
         version: 15.0.1
+      prismjs:
+        specifier: 1.30.0
+        version: 1.30.0
+    devDependencies:
+      '@types/prismjs':
+        specifier: 1.26.6
+        version: 1.26.6
 
   packages/ui:
     dependencies:

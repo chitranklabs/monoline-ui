@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="120" viewBox="0 0 640 120" role="img" aria-label="Monoline Docs">
+  <rect width="640" height="120" rx="8" fill="#f5f5f5"/>
+  <path d="M32 84V36l24 32 24-32v48" fill="none" stroke="#171717" stroke-width="3"/>
+  <text x="112" y="73" font-family="system-ui, sans-serif" font-size="32" fill="#171717">Monoline Docs</text>
+</svg>

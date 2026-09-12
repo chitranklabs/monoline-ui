@@ -1,0 +1,10 @@
+import { fileURLToPath } from "node:url"
+
+export default {
+	title: "Monoline Docs",
+	description: "Write documentation in Markdown and publish a static site.",
+	contentDirectory: fileURLToPath(new URL("./content", import.meta.url)),
+	assetsDirectory: fileURLToPath(new URL("./assets", import.meta.url)),
+	outDirectory: fileURLToPath(new URL("./dist", import.meta.url)),
+	base: process.env.DOCS_BASE ?? "/",
+}
