@@ -398,7 +398,7 @@ test("Scorecard keeps scheduled/security updates without ordinary source pushes"
 
 test("label token uses only the existing contents and pull-request grants", () => {
 	const token = readWorkflow("labeler").jobs.label.steps.find(
-		(step) => step.uses === "./.github/actions/setup-bot"
+		(step) => step.uses === "$/.github/actions/setup-bot"
 	)
 	assert.ok(token)
 	// Label create/update/assignment accept pull_requests:write; issues:write is

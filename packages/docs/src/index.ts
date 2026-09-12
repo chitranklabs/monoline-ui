@@ -1,4 +1,9 @@
-export { discoverPages, type DocumentationPage } from "./content"
+export {
+	discoverPages,
+	type DiscoverPagesOptions,
+	type DocumentationMetadata,
+	type DocumentationPage,
+} from "./content"
 
 export interface MonolineDocsConfig {
 	title: string

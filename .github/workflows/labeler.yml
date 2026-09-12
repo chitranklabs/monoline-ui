@@ -49,7 +49,7 @@ jobs:
 
       - name: Create Bot Token 🤖🔑
         id: generate_token
-        uses: ./.github/actions/setup-bot
+        uses: $/.github/actions/setup-bot
         with:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
@@ -65,10 +65,11 @@ jobs:
         run: |
           # Define labels as "name:color:description"
           labels=(
+            "pkg/ui:C2F2D0:UI component library package and design foundations"
+            "pkg/docs:7FE3D6:Documentation parsing package and content utilities"
+            "app/website:F9E8B3:Website, documentation app, and component playground"
             "area/docs:8FD6E8:Documentation files, guides, and markdown files"
             "area/ci:F9D0C4:CI/CD workflows and actions configuration"
-            "area/design:C2F2D0:Design system components, styles, and core library code"
-            "area/playground:F9E8B3:Playground app pages, routing, and next.js docs setup"
             "area/deps:D2D2D2:Dependency upgrades and lockfile updates"
             "area/security:FFB3B3:Security policies and scanner configurations"
             "area/maintenance:D0E1FD:Build scripts, workspace config, and project maintenance"
