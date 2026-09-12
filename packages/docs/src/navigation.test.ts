@@ -11,8 +11,10 @@ function page(
 ): DocumentationPage {
 	return {
 		filePath: `/content${route === "/" ? "/index" : route}.md`,
+		format: "md",
 		metadata: { title, ...(order === undefined ? {} : { order }) },
 		route,
+		source: "",
 	}
 }
 
