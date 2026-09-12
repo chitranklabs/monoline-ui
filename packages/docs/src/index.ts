@@ -1,3 +1,5 @@
+export { discoverPages, type DocumentationPage } from "./content"
+
 export interface MonolineDocsConfig {
 	title: string
 	description?: string

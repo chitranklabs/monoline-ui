@@ -5,6 +5,7 @@ export default defineConfig({
 	test: {
 		environment: "jsdom",
 		include: [
+			"packages/docs/src/**/*.test.ts",
 			"packages/ui/src/**/*.test.{ts,tsx}",
 			"apps/website/app/**/*.test.{ts,tsx}",
 		],
