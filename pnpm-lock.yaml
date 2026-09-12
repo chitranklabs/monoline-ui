@@ -105,6 +105,12 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(@types/node@26.5.1)(jsdom@30.0.1)(vite@8.3.0(@types/node@26.5.1)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.0))
 
+  apps/docs-demo:
+    dependencies:
+      '@monoline/docs':
+        specifier: workspace:*
+        version: link:../../packages/docs
+
   apps/website:
     dependencies:
       '@chitrank2050/monoline-ui':
@@ -147,6 +153,9 @@ importers:
       js-yaml:
         specifier: '>=5.2.2'
         version: 5.4.1
+      markdown-it:
+        specifier: '>=14.3.0'
+        version: 15.0.1
 
   packages/ui:
     dependencies:

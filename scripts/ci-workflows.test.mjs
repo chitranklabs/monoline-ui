@@ -218,6 +218,23 @@ test("website-only changes skip library tests; shared and library changes cover 
 	}
 })
 
+test("docs package changes run focused checks without the website build", () => {
+	const step = ci.jobs.quality.steps.find(
+		(entry) => entry.name === "Validate documentation package"
+	)
+	assert.ok(step)
+	for (const file of [
+		"packages/docs/src/build.ts",
+		"apps/docs-demo/content/index.md",
+	]) {
+		const changes = classify([file])
+		assert.equal(applicable(ci.jobs.quality.if, changes), true)
+		assert.equal(applicable(step.if, changes), true)
+		assert.equal(applicable(ci.jobs.docs_integration.if, changes), false)
+	}
+	assert.equal(applicable(step.if, classify(["README.md"])), false)
+})
+
 const cases = [
 	["root Markdown", ["README.md"], prose],
 	["nested Markdown", ["docs/contributing/review.md"], prose],

@@ -4,10 +4,12 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts"
+		".": "./src/index.ts",
+		"./build": "./src/build.ts"
 	},
 	"dependencies": {
-		"js-yaml": "5.4.1"
+		"js-yaml": "5.4.1",
+		"markdown-it": "15.0.1"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit"

@@ -34,6 +34,7 @@ jobs:
     outputs:
       library: ${{ steps.filter.outputs.library }}
       docs: ${{ steps.filter.outputs.docs }}
+      docs_package: ${{ steps.filter.outputs.docs_package }}
       deps: ${{ steps.filter.outputs.deps }}
       lint: ${{ steps.filter.outputs.lint }}
       code: ${{ steps.filter.outputs.code }}
@@ -56,6 +57,9 @@ jobs:
         id: filter
         with:
           filters: |
+            docs_package:
+              - 'packages/docs/**'
+              - 'apps/docs-demo/**'
             library:
               # Shared build settings and pipeline edits must exercise the jobs they affect.
               - 'tsconfig.json'
@@ -120,6 +124,7 @@ jobs:
     name: Hygiene & Security 🧼🛡️
     needs: changes
     if: |
+      needs.changes.outputs.docs_package == 'true' ||
       needs.changes.outputs.library == 'true' ||
       needs.changes.outputs.docs == 'true' ||
       needs.changes.outputs.deps == 'true' ||
@@ -168,6 +173,7 @@ jobs:
 
       - name: Lint code
         if: |
+          needs.changes.outputs.docs_package == 'true' ||
           needs.changes.outputs.library == 'true' ||
           needs.changes.outputs.docs == 'true' ||
           needs.changes.outputs.deps == 'true' ||
@@ -200,6 +206,17 @@ jobs:
           needs.changes.outputs.deps == 'true' ||
           needs.changes.outputs.code == 'true'
         run: pnpm test -- apps/website
+
+      - name: Validate documentation package
+        if: |
+          needs.changes.outputs.docs_package == 'true' ||
+          needs.changes.outputs.deps == 'true' ||
+          needs.changes.outputs.lint == 'true' ||
+          needs.changes.outputs.workflows == 'true'
+        run: |
+          pnpm --filter @monoline/docs typecheck
+          pnpm test -- packages/docs
+          pnpm --filter @monoline/docs-demo build
 
       - name: Verify checks are read-only
         run: |
