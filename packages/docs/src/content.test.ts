@@ -4,7 +4,7 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { afterEach, describe, expect, it } from "vitest"
 
-import { discoverPages } from "./content"
+import { discoverPages, findPage } from "./content"
 
 const temporaryDirectories: string[] = []
 
@@ -42,22 +42,28 @@ describe("discoverPages", () => {
 		await expect(discoverPages(directory)).resolves.toEqual([
 			{
 				filePath: join(directory, "index.md"),
+				format: "md",
 				metadata: { title: "Home" },
 				route: "/",
+				source: "# Home",
 			},
 			{
 				filePath: join(directory, "guides", "advanced", "index.md"),
+				format: "md",
 				metadata: { title: "Advanced" },
 				route: "/guides/advanced",
+				source: "# Advanced",
 			},
 			{
 				filePath: join(directory, "guides", "install.mdx"),
+				format: "mdx",
 				metadata: {
 					description: "Install Monoline Docs.",
 					order: 1,
 					title: "Install",
 				},
 				route: "/guides/install",
+				source: "# Install",
 			},
 		])
 	})
@@ -101,5 +107,33 @@ describe("discoverPages", () => {
 		await expect(
 			discoverPages(directory, { environment: "production" })
 		).resolves.toEqual([])
+	})
+
+	it("normalizes CRLF bodies and preserves empty documents", async () => {
+		const directory = await contentDirectory()
+		await Promise.all([
+			writeFile(
+				join(directory, "crlf.md"),
+				"---\r\ntitle: CRLF\r\n---\r\nFirst\r\n\r\nSecond"
+			),
+			writeFile(join(directory, "empty.mdx"), "---\ntitle: Empty\n---\n"),
+		])
+
+		const pages = await discoverPages(directory)
+		expect(findPage(pages, "/crlf")).toMatchObject({
+			format: "md",
+			source: "First\n\nSecond",
+		})
+		expect(findPage(pages, "/empty")).toMatchObject({
+			format: "mdx",
+			source: "",
+		})
+	})
+
+	it("returns undefined when a route does not exist", async () => {
+		const directory = await contentDirectory()
+		await writeFile(join(directory, "index.md"), "---\ntitle: Home\n---\n")
+
+		expect(findPage(await discoverPages(directory), "/missing")).toBeUndefined()
 	})
 })

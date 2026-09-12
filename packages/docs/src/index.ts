@@ -2,6 +2,7 @@ import type { NavigationItem } from "./navigation"
 
 export {
 	discoverPages,
+	findPage,
 	type DiscoverPagesOptions,
 	type DocumentationMetadata,
 	type DocumentationPage,

@@ -11,8 +11,10 @@ export interface DocumentationMetadata {
 
 export interface DocumentationPage {
 	filePath: string
+	format: "md" | "mdx"
 	metadata: DocumentationMetadata
 	route: `/${string}`
+	source: string
 }
 
 export interface DiscoverPagesOptions {
@@ -25,10 +27,10 @@ function metadataError(filePath: string, message: string): Error {
 	)
 }
 
-function parseMetadata(
+function parseDocument(
 	filePath: string,
 	source: string
-): DocumentationMetadata {
+): { metadata: DocumentationMetadata; source: string } {
 	const frontmatter = source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)
 	if (!frontmatter) throw metadataError(filePath, "frontmatter is required")
 
@@ -67,12 +69,15 @@ function parseMetadata(
 	}
 
 	return {
-		title: metadata.title.trim(),
-		...(metadata.description === undefined
-			? {}
-			: { description: metadata.description }),
-		...(metadata.order === undefined ? {} : { order: metadata.order }),
-		...(metadata.draft === undefined ? {} : { draft: metadata.draft }),
+		metadata: {
+			title: metadata.title.trim(),
+			...(metadata.description === undefined
+				? {}
+				: { description: metadata.description }),
+			...(metadata.order === undefined ? {} : { order: metadata.order }),
+			...(metadata.draft === undefined ? {} : { draft: metadata.draft }),
+		},
+		source: source.slice(frontmatter[0].length).replaceAll("\r\n", "\n"),
 	}
 }
 
@@ -106,15 +111,17 @@ export async function discoverPages(
 			const filePath = join(directory, entry.name)
 			if (entry.isDirectory()) await visit(filePath)
 			else if (/\.mdx?$/.test(entry.name)) {
-				const metadata = parseMetadata(
+				const document = parseDocument(
 					filePath,
 					await readFile(filePath, "utf8")
 				)
-				if (environment === "production" && metadata.draft) continue
+				if (environment === "production" && document.metadata.draft) continue
 				pages.push({
 					filePath,
-					metadata,
+					format: extname(filePath) === ".mdx" ? "mdx" : "md",
+					metadata: document.metadata,
 					route: routeFromFile(contentDirectory, filePath),
+					source: document.source,
 				})
 			}
 		}
@@ -130,4 +137,11 @@ export async function discoverPages(
 	}
 
 	return pages
+}
+
+export function findPage(
+	pages: DocumentationPage[],
+	route: `/${string}`
+): DocumentationPage | undefined {
+	return pages.find((page) => page.route === route)
 }
