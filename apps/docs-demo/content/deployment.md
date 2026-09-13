@@ -31,6 +31,17 @@ DOCS_BASE=/monoline/ pnpm --filter @monoline/docs-demo build
 The base applies to navigation, article links, pager links, scripts, assets, and
 stylesheets. The same `DOCS_BASE` setting works with the development command.
 
+## Publishing metadata
+
+Set `site` in your configuration to the deployment origin, such as
+`https://docs.example.com`. Use `base` separately for a repository subpath.
+With a site configured, production builds generate canonical links and a sitemap.
+Root deployments also receive a robots file; an origin's owner manages that file
+when the docs live under a subpath. No site URL is assumed by the demo.
+
+Serve missing pages with an HTTP 404 response, using the generated `404.html`.
+Do not configure an SPA fallback that returns the homepage for every missing URL.
+
 ## Rebuilding
 
 The builder records generated files in `.monoline-generated.json`. A later build

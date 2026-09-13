@@ -218,6 +218,12 @@ jobs:
           pnpm test -- packages/docs
           pnpm --filter @monoline/docs-demo build
 
+      - name: Verify standalone documentation consumer
+        if: |
+          needs.changes.outputs.docs_package == 'true' ||
+          needs.changes.outputs.deps == 'true'
+        run: pnpm --filter @monoline/docs test:consumer
+
       - name: Verify checks are read-only
         run: |
           if [ -n "$(git status --porcelain)" ]; then

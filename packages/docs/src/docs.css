@@ -8,8 +8,16 @@
 	--border: light-dark(rgba(10, 10, 10, 0.08), rgba(255, 255, 255, 0.1));
 	--surface: light-dark(oklch(0.96 0 0), oklch(0.12 0 0));
 	--accent: light-dark(oklch(0.52 0.13 40), oklch(0.78 0.09 60));
-	font-family: ui-sans-serif, system-ui, sans-serif;
-	line-height: 1.65;
+	--font-body: ui-sans-serif, system-ui, sans-serif;
+	--font-code: ui-monospace, monospace;
+	--line-height: 1.65;
+	--radius: 0.35rem;
+	--content-width: 72ch;
+	--page-width: 90rem;
+	--sidebar-width: 15.5rem;
+	--content-padding: 2.5rem;
+	font-family: var(--font-body);
+	line-height: var(--line-height);
 }
 :root[data-theme="light"] {
 	color-scheme: light;
@@ -57,7 +65,7 @@ summary:focus-visible {
 	color: var(--foreground);
 	background: var(--background);
 	border: 1px solid var(--border);
-	border-radius: 0.35rem;
+	border-radius: var(--radius);
 	padding: 0.35rem 0.6rem;
 }
 .search-dialog {
@@ -67,7 +75,7 @@ summary:focus-visible {
 	color: var(--foreground);
 	background: var(--background);
 	border: 1px solid var(--border);
-	border-radius: 0.5rem;
+	border-radius: calc(var(--radius) + 0.15rem);
 	overflow-y: auto;
 }
 .search-dialog::backdrop {
@@ -106,7 +114,7 @@ summary:focus-visible {
 .search-results a {
 	display: block;
 	padding: 0.75rem;
-	border-radius: 0.35rem;
+	border-radius: var(--radius);
 	text-decoration: none;
 	overflow-wrap: anywhere;
 }
@@ -155,20 +163,38 @@ summary:focus-visible {
 	color: var(--foreground);
 }
 header {
-	height: 3.5rem;
+	min-height: 3.5rem;
 	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem 1rem;
 	align-items: center;
 	justify-content: space-between;
 	border-bottom: 1px solid var(--border);
-	padding: 0 1.5rem;
+	padding: 0.5rem 1.5rem;
 }
 header span,
 .description {
 	color: var(--muted);
 }
 .brand {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+	overflow-wrap: anywhere;
 	font-weight: 650;
 	text-decoration: none;
+}
+.brand img {
+	object-fit: contain;
+	flex-shrink: 0;
+}
+.header-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	overflow-wrap: anywhere;
+	font-size: 0.875rem;
 }
 .dev-error {
 	padding: 1rem 1.5rem;
@@ -178,10 +204,10 @@ header span,
 	overflow-wrap: anywhere;
 }
 .layout {
-	max-width: 90rem;
+	max-width: var(--page-width);
 	margin: auto;
 	display: grid;
-	grid-template-columns: 15.5rem minmax(0, 1fr) 14rem;
+	grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 14rem;
 	align-items: start;
 }
 .sidebar,
@@ -232,8 +258,7 @@ summary {
 }
 main {
 	min-width: 0;
-	padding: 2.5rem;
-	max-width: 56rem;
+	padding: var(--content-padding);
 }
 h1 {
 	font-size: clamp(2rem, 4vw, 2.75rem);
@@ -250,18 +275,18 @@ h4 {
 	scroll-margin-top: 2rem;
 }
 article {
-	max-width: 72ch;
+	max-width: var(--content-width);
 	overflow-wrap: anywhere;
 }
 pre {
 	background: var(--surface);
 	border: 1px solid var(--border);
-	border-radius: 0.4rem;
+	border-radius: var(--radius);
 	padding: 1rem;
 	overflow: auto;
 }
 code {
-	font-family: ui-monospace, monospace;
+	font-family: var(--font-code);
 	font-size: 0.875em;
 }
 :not(pre) > code {
@@ -314,7 +339,7 @@ th {
 }
 @media (max-width: 75rem) {
 	.layout {
-		grid-template-columns: 15.5rem minmax(0, 1fr);
+		grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
 	}
 	.toc {
 		display: none;
@@ -332,7 +357,8 @@ th {
 		padding: 1rem 1.25rem;
 	}
 	main {
-		padding: 2rem 1.25rem;
+		padding: min(var(--content-padding), 2rem)
+			min(var(--content-padding), 1.25rem);
 	}
 	header span {
 		display: none;

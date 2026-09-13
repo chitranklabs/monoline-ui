@@ -9,10 +9,11 @@ import { extname, join } from "node:path"
 
 import { assetTypes } from "./assets.ts"
 import { type BuildOptions, buildDocs } from "./build.ts"
+import { defineConfig } from "./config.ts"
 
 /** A loopback-only preview. Rebuild errors leave the last successful page available. */
 export async function startDevServer(options: BuildOptions, port = 4321) {
-	const buildOptions = { ...options, environment: "development" as const }
+	const buildOptions = defineConfig({ ...options, environment: "development" })
 	let result = await buildDocs(buildOptions)
 	let knownFiles = new Set<string>(
 		JSON.parse(
@@ -184,8 +185,8 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 	}
 	try {
 		for (const directory of [
-			options.contentDirectory,
-			options.assetsDirectory,
+			buildOptions.contentDirectory,
+			buildOptions.assetsDirectory,
 		].filter((path): path is string => Boolean(path))) {
 			const watcher = watch(directory, { recursive: true }, () => {
 				clearTimeout(timer)

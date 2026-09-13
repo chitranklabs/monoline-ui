@@ -40,6 +40,25 @@ it("ranks titles and headings, matches all terms, and handles empty/unicode quer
 	expect(searchEntries(entries, "ｐｎｐｍ")).toHaveLength(1)
 })
 
+it("closes on the first Escape even when the search input has a query", () => {
+	vi.stubGlobal(
+		"fetch",
+		vi.fn().mockResolvedValue({ ok: true, json: async () => entries })
+	)
+	const { dialog, input, trigger } = mount()
+	trigger.click()
+	input.value = "packages"
+	const escape = new KeyboardEvent("keydown", {
+		key: "Escape",
+		bubbles: true,
+		cancelable: true,
+	})
+	input.dispatchEvent(escape)
+	expect(escape.defaultPrevented).toBe(true)
+	expect(dialog.open).toBe(false)
+	expect(document.activeElement).toBe(trigger)
+})
+
 function mount() {
 	document.body.innerHTML =
 		'<header></header><button class="search-trigger" hidden>Search</button><dialog class="search-dialog" data-index="/handbook/search-index.json"><button class="search-close">Close</button><input><p role="status"></p><ul></ul></dialog>'

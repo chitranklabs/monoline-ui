@@ -42,6 +42,78 @@ async function fixture() {
 	}
 }
 
+it("applies branding, stylesheet order, default mode, language and production URLs", async () => {
+	const options = await fixture()
+	const assetsDirectory = join(options.contentDirectory, "../assets")
+	await mkdir(assetsDirectory)
+	await writeFile(
+		join(assetsDirectory, "logo.svg"),
+		'<svg xmlns="http://www.w3.org/2000/svg"/>'
+	)
+	await writeFile(join(assetsDirectory, "custom.css"), ":root { --radius: 0; }")
+	const configuration = {
+		...options,
+		assetsDirectory,
+		stylesheet: "/assets/custom.css",
+		site: "https://example.com",
+		base: "/handbook/",
+		lang: "fr",
+		defaultMode: "dark" as const,
+		logo: { src: "/assets/logo.svg", alt: "A & B", width: 24, height: 24 },
+		headerLinks: [
+			{ label: "Source & issues", href: "https://example.com/?a=1&b=2" },
+		],
+	}
+	await buildDocs(configuration)
+	const html = await readFile(join(options.outDirectory, "index.html"), "utf8")
+	expect(html).toContain('lang="fr" data-theme="dark"')
+	expect(html).toContain('href="https://example.com/handbook/"')
+	expect(html).toContain(
+		'src="/handbook/assets/logo.svg" alt="A &amp; B" width="24" height="24"'
+	)
+	expect(html).toContain('href="https://example.com/?a=1&amp;b=2"')
+	expect(html.indexOf("/handbook/docs.css")).toBeLessThan(
+		html.indexOf("/handbook/assets/custom.css")
+	)
+	expect(
+		await readFile(join(options.outDirectory, "sitemap.xml"), "utf8")
+	).toContain("<loc>https://example.com/handbook/guide/</loc>")
+	await expect(
+		access(join(options.outDirectory, "robots.txt"))
+	).rejects.toThrow()
+	expect(
+		await readFile(join(options.outDirectory, "404.html"), "utf8")
+	).toContain('name="robots" content="noindex"')
+	await buildDocs({ ...configuration, base: "/" })
+	expect(
+		await readFile(join(options.outDirectory, "robots.txt"), "utf8")
+	).toContain("Sitemap: https://example.com/sitemap.xml")
+	await buildDocs({ ...configuration, environment: "development" })
+	await expect(
+		access(join(options.outDirectory, "sitemap.xml"))
+	).rejects.toThrow()
+	await expect(
+		access(join(options.outDirectory, "robots.txt"))
+	).rejects.toThrow()
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).toContain("noindex, nofollow")
+})
+
+it("fails invalid config and missing logos before creating output", async () => {
+	const options = await fixture()
+	await expect(
+		buildDocs({ ...options, defaultMode: "sepia" as "dark" })
+	).rejects.toThrow("defaultMode")
+	await expect(
+		buildDocs({
+			...options,
+			logo: { src: "/assets/missing.svg", alt: "Logo", width: 20, height: 20 },
+		})
+	).rejects.toThrow("Missing local asset")
+	await expect(access(options.outDirectory)).rejects.toThrow()
+})
+
 it("indexes readable sections with stable anchors and removes production drafts on rebuild", async () => {
 	const options = { ...(await fixture()), base: "/handbook/" }
 	await writeFile(

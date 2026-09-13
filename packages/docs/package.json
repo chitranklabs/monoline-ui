@@ -4,9 +4,27 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts",
-		"./build": "./src/build.ts",
-		"./dev": "./src/dev.ts"
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./build": {
+			"types": "./dist/build.d.ts",
+			"default": "./dist/build.js"
+		},
+		"./dev": {
+			"types": "./dist/dev.d.ts",
+			"default": "./dist/dev.js"
+		}
+	},
+	"bin": {
+		"monoline-docs": "./dist/cli.js"
+	},
+	"files": [
+		"dist"
+	],
+	"engines": {
+		"node": ">=24.14.0"
 	},
 	"dependencies": {
 		"js-yaml": "5.4.1",
@@ -17,6 +35,8 @@
 		"@types/prismjs": "1.26.6"
 	},
 	"scripts": {
+		"build": "node build.mjs",
+		"test:consumer": "node test-consumer.mjs",
 		"typecheck": "tsc --noEmit"
 	}
 }

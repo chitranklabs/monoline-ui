@@ -3,8 +3,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "node dev.mjs",
-		"build": "node build.mjs"
+		"dev": "pnpm --filter @monoline/docs build && node dev.mjs",
+		"build": "pnpm --filter @monoline/docs build && node build.mjs"
 	},
 	"dependencies": {
 		"@monoline/docs": "workspace:*"

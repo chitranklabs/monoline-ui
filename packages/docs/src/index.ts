@@ -1,25 +1,15 @@
-import type { NavigationItem } from "./navigation"
-
 export {
 	discoverPages,
 	findPage,
 	type DiscoverPagesOptions,
 	type DocumentationMetadata,
 	type DocumentationPage,
-} from "./content"
+} from "./content.ts"
 
 export {
 	buildNavigation,
 	type NavigationItem,
 	type ResolvedNavigation,
-} from "./navigation"
+} from "./navigation.ts"
 
-export interface MonolineDocsConfig {
-	title: string
-	description?: string
-	navigation?: NavigationItem[]
-}
-
-export function defineConfig(config: MonolineDocsConfig): MonolineDocsConfig {
-	return config
-}
+export { defineConfig, type MonolineDocsConfig } from "./config.ts"

@@ -27,6 +27,58 @@ For production, run `pnpm --filter @monoline/docs-demo build`. This excludes
 drafts, removes obsolete generated files, and writes the static site to
 `apps/docs-demo/dist`. Run it again after previewing and before deployment.
 
+## Configuration and standalone commands
+
+`defineConfig` is the shared contract for the CLI, build API, and preview API.
+It validates configuration at runtime, including unknown keys, URL protocols,
+navigation shape, language tags, and logo dimensions. Defaults apply without
+changing the supplied object. Only the title is required.
+
+The package remains private. Build it with `pnpm --filter @monoline/docs build`
+before using its compiled exports. The demo commands do this automatically.
+`pnpm --filter @monoline/docs test:consumer` packs it and installs the artifact
+into a temporary project outside the workspace, then checks its CLI, declarations,
+static output, and preview. Installation requires registry access; lifecycle
+scripts are disabled. No publishing occurs.
+
+An installed consumer can use this `monoline.config.mjs`:
+
+```js
+import { defineConfig } from "@monoline/docs"
+
+export default defineConfig({
+	title: "Team handbook",
+	description: "How our team builds and operates its services.",
+	site: "https://docs.example.com",
+	base: "/",
+	lang: "en",
+	contentDirectory: "./content",
+	outDirectory: "./dist",
+	assetsDirectory: "./assets",
+	stylesheet: "/assets/custom.css",
+	defaultMode: "system",
+	headerLinks: [
+		{ label: "Source", href: "https://github.com/example/handbook" },
+	],
+})
+```
+
+Create `content/index.md`, your assets folder, and the referenced stylesheet.
+Run `monoline-docs dev` or `monoline-docs build` through your package manager or
+package scripts. `--config path/to/config.mjs` selects a different config file;
+`dev --port 4322` changes the preview port. CLI paths resolve relative to the
+configuration file, even when invoked from another directory. Programmatic API
+paths remain relative to the caller's working directory.
+
+Configuration is trusted executable JavaScript, not a sandbox for untrusted
+authors. Changes to configuration require restarting preview. The CLI always
+builds for production and previews for development.
+
+Optional `logo` takes `src`, `alt`, `width`, and `height`. Its source must be an
+existing local `/assets/` image. Dimensions reserve space before loading.
+`headerLinks` accepts labeled absolute HTTP(S) URLs, not HTML or icon markup.
+`navigation` retains the existing route/group structure.
+
 ## Package boundary
 
 The existing package entry exposes discovery, metadata, navigation, and lookup.
@@ -59,9 +111,42 @@ to its URL, for example `/assets/site.css`. Use relative CSS URLs such as
 copied unchanged: references inside CSS are the author's responsibility, rather
 than checked by the Markdown link validator.
 
+## Supported customization
+
+Monoline supplies one design with light, dark, and system modes. Additional
+presets are deferred. User CSS loads after defaults, including on the 404 page.
+Use these supported custom properties rather than internal HTML selectors:
+
+| Area       | Variables                                                                                 |
+| ---------- | ----------------------------------------------------------------------------------------- |
+| Colors     | `--background`, `--foreground`, `--muted-foreground`, `--border`, `--surface`, `--accent` |
+| Typography | `--font-body`, `--font-code`, `--line-height`                                             |
+| Shape      | `--radius`                                                                                |
+| Layout     | `--content-width`, `--page-width`, `--sidebar-width`, `--content-padding`                 |
+
+For separate light and dark colors, use `light-dark()` in a root override. It
+respects the selected mode and system preference without duplicate selectors:
+
+```css
+:root {
+	--background: light-dark(#fff, #171717);
+	--foreground: light-dark(#202020, #f5f5f5);
+	--accent: light-dark(#185abd, #9ac5ff);
+	--font-body: "Docs Body", system-ui, sans-serif;
+	--radius: 0.375rem;
+	--content-width: 70ch;
+}
+```
+
+Custom styles are trusted author input. Authors must verify contrast, font
+licensing, and responsive layout after overrides. The shell uses modern CSS
+including `light-dark()` and native dialogs; legacy browser support is not
+promised. This is not a component replacement or plugin API.
+
 ## Theme and code controls
 
-The header offers light, dark, and system modes. Explicit choices persist in
+`defaultMode` selects the initial mode, including without JavaScript. The header
+offers light, dark, and system modes. Explicit choices persist in
 local storage; the stored choice is applied before styles load. With storage
 disabled, selection still works for the current page. System mode follows the
 browser's color-scheme preference. Semantic colors match Monoline UI's tokens;
@@ -100,12 +185,23 @@ implementation scans the index and displays up to 20 results. It does not offer
 typo tolerance or language-specific stemming; measure larger documentation sets
 before replacing it with a dedicated search engine.
 
+## Deployment metadata
+
+Set `site` to your absolute HTTP(S) origin. Paths belong in `base`, not `site`.
+Production builds then emit canonical URLs and a sitemap containing published
+pages only. Root deployments also receive `robots.txt`; for subpath deployments,
+the origin owner manages its root robots file. Without `site`, neither canonical
+URLs nor sitemap/robots files are generated. No placeholder hostname is invented.
+404 pages are noindex; development pages are noindex/nofollow and have no sitemap.
+`lang` sets the HTML language tag; built-in controls remain English. It is not
+full interface localization.
+
 ## Remaining work before release
 
 - Choose and integrate an MDX compiler and its component contract.
 - Verify shared token packaging.
-- Add canonical URLs, sitemap generation, and configurable language metadata.
-- Verify package installation outside this workspace and static-host deployments.
+- Verify a real static-host deployment and compatibility across target browsers.
+- Measure larger sites and finish authoring features before optional MDX.
 
 This is a private prototype, not a publishable documentation framework. It needs
 no library Changeset and does not change the UI package's release contract.
