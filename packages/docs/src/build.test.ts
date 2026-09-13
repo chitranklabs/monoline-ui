@@ -42,6 +42,47 @@ async function fixture() {
 	}
 }
 
+it("indexes readable sections with stable anchors and removes production drafts on rebuild", async () => {
+	const options = { ...(await fixture()), base: "/handbook/" }
+	await writeFile(
+		join(options.contentDirectory, "draft.md"),
+		"---\ntitle: Secret draft\ndraft: true\n---\nPrivate words"
+	)
+	await writeFile(
+		join(options.contentDirectory, "guide.md"),
+		"---\ntitle: Guide\n---\n# Install\nUse **packages** and `pnpm`.\n# Install\nSecond section.\n```js\n// excluded fence noise\n```\n"
+	)
+	await buildDocs({ ...options, environment: "development" })
+	expect(
+		await readFile(join(options.outDirectory, "search-index.json"), "utf8")
+	).toContain("Secret draft")
+	await buildDocs(options)
+	const raw = await readFile(
+		join(options.outDirectory, "search-index.json"),
+		"utf8"
+	)
+	const index = JSON.parse(raw)
+	expect(raw).not.toContain("Secret draft")
+	expect(raw).not.toContain("excluded fence noise")
+	expect(index).toContainEqual({
+		title: "Guide",
+		heading: "Install",
+		text: "Install Use packages and pnpm.",
+		url: "/handbook/guide/#install",
+	})
+	expect(
+		index.some(
+			(entry: { url: string }) => entry.url === "/handbook/guide/#install-1"
+		)
+	).toBe(true)
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).toContain('data-index="/handbook/search-index.json"')
+	await expect(
+		access(join(options.outDirectory, "search.js"))
+	).resolves.toBeUndefined()
+})
+
 it("builds a browsable site under a base with matching sidebar, anchors, and CSS", async () => {
 	const options = await fixture()
 	await expect(

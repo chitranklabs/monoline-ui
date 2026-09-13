@@ -30,6 +30,7 @@ a {
 	text-underline-offset: 0.2em;
 }
 a:focus-visible,
+input:focus-visible,
 button:focus-visible,
 select:focus-visible,
 pre:focus-visible,
@@ -48,6 +49,9 @@ summary:focus-visible {
 	display: none;
 }
 .theme-control select,
+.search-trigger,
+.search-close,
+.search-dialog input,
 .copy-code {
 	font: inherit;
 	color: var(--foreground);
@@ -55,6 +59,63 @@ summary:focus-visible {
 	border: 1px solid var(--border);
 	border-radius: 0.35rem;
 	padding: 0.35rem 0.6rem;
+}
+.search-dialog {
+	width: min(40rem, calc(100% - 2rem));
+	max-height: 80dvh;
+	padding: 1.25rem;
+	color: var(--foreground);
+	background: var(--background);
+	border: 1px solid var(--border);
+	border-radius: 0.5rem;
+	overflow-y: auto;
+}
+.search-dialog::backdrop {
+	background: rgb(0 0 0 / 45%);
+}
+.search-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.search-heading h2 {
+	margin: 0;
+	font-size: 1rem;
+}
+.search-dialog label {
+	display: block;
+	margin-top: 1rem;
+	font-size: 0.875rem;
+}
+.search-dialog input {
+	width: 100%;
+	margin-top: 0.5rem;
+	font-size: 1rem;
+}
+#search-status,
+.search-results p {
+	color: var(--muted-foreground);
+	font-size: 0.875rem;
+}
+.search-results {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.search-results a {
+	display: block;
+	padding: 0.75rem;
+	border-radius: 0.35rem;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+.search-results a:hover,
+.search-results a:focus-visible {
+	background: var(--surface);
+}
+.search-results p {
+	margin: 0.25rem 0 0;
 }
 .copy-code {
 	cursor: pointer;

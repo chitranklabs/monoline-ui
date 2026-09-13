@@ -162,6 +162,22 @@ export async function buildDocs(options: BuildOptions) {
 			)
 	}
 	const files = new Map<string, string | Uint8Array>(assets)
+	files.set(
+		"search-index.json",
+		JSON.stringify(
+			pages.flatMap((page) =>
+				documents.get(page.route)!.sections.map((section) => ({
+					title: page.metadata.title,
+					heading: section.heading,
+					text: section.text,
+					url:
+						href(page.route) +
+						(section.id ? `#${encodeURIComponent(section.id)}` : ""),
+				}))
+			)
+		)
+	)
+	const search = `<button class="search-trigger" type="button" hidden>Search</button><dialog class="search-dialog" aria-labelledby="search-title" data-index="${escape(base)}search-index.json"><div class="search-heading"><h2 id="search-title">Search documentation</h2><button type="button" class="search-close" aria-label="Close search">Close</button></div><label for="docs-query">Search pages and headings</label><input id="docs-query" type="search" maxlength="200" autocomplete="off" autofocus aria-describedby="search-status"><p id="search-status" role="status">Type to search.</p><ul class="search-results" aria-label="Search results"></ul></dialog><script type="module" src="${escape(base)}search.js"></script>`
 	const nav = (items: NavigationItem[], current: string): string =>
 		`<ul>${items
 			.map((item) =>
@@ -191,7 +207,7 @@ export async function buildDocs(options: BuildOptions) {
 			`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>${escape(page.metadata.title)} | ${escape(options.title)}</title><meta name="description" content="${escape(description)}"><script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}<script src="${escape(base)}client.js" defer></script></head>
 <body><a class="skip" href="#content">Skip to content</a><header><a class="brand" href="${escape(href("/"))}">${escape(options.title)}</a><label class="theme-control" hidden>Theme <select aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></header>
-<div class="layout"><aside class="sidebar"><details open><summary>Navigation</summary><nav aria-label="Documentation">${nav(navigation.items, page.route)}</nav></details></aside>
+${search}<div class="layout"><aside class="sidebar"><details open><summary>Navigation</summary><nav aria-label="Documentation">${nav(navigation.items, page.route)}</nav></details></aside>
 <main id="content" tabindex="-1"><h1>${escape(page.metadata.title)}</h1>${description ? `<p class="description">${escape(description)}</p>` : ""}<article>${rendered.html}</article><nav class="pager" aria-label="Page navigation">${pager}</nav></main>
 <aside class="toc"><nav aria-label="On this page"><strong>On this page</strong><ul>${rendered.headings
 				.filter((heading) => heading.level <= 3)
@@ -206,7 +222,7 @@ export async function buildDocs(options: BuildOptions) {
 		"docs.css",
 		await readFile(new URL("./docs.css", import.meta.url), "utf8")
 	)
-	for (const name of ["theme.js", "client.js"])
+	for (const name of ["theme.js", "client.js", "search.js"])
 		files.set(
 			name,
 			await readFile(new URL(`./${name}`, import.meta.url), "utf8")
@@ -232,7 +248,7 @@ export async function buildDocs(options: BuildOptions) {
 					(name) =>
 						typeof name !== "string" ||
 						(!isAssetName(name) &&
-							!/^(?:[\p{L}\p{N}_-]+\/)*(?:index\.html|404\.html|docs\.css|theme\.js|client\.js)$/u.test(
+							!/^(?:[\p{L}\p{N}_-]+\/)*(?:index\.html|404\.html|docs\.css|theme\.js|client\.js|search\.js|search-index\.json)$/u.test(
 								name
 							))
 				)

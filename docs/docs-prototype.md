@@ -81,10 +81,29 @@ directories. The output directory must be separate from both content and assets.
 Build completion
 must precede deployment; output replacement is not atomic.
 
+## Static search
+
+Search loads a local JSON index only when opened. It searches page titles,
+headings, descriptions, and prose, with title and heading matches ranked first.
+All query terms must match; matching ignores case and normalizes Unicode.
+Code fences are excluded to avoid noisy results. Results link to the generated
+heading IDs and respect the deployment base path.
+
+The native dialog supports Escape, Tab, and arrow-key result navigation, with
+focus restored to the search button when closed. Loading, empty, and failure
+states are announced. Reopen after a loading failure to retry. Navigation remains
+available without JavaScript.
+
+Production drafts never enter the index; preview rebuilds refresh it alongside
+the pages. Search runs locally with no hosted service or analytics. This initial
+implementation scans the index and displays up to 20 results. It does not offer
+typo tolerance or language-specific stemming; measure larger documentation sets
+before replacing it with a dedicated search engine.
+
 ## Remaining work before release
 
 - Choose and integrate an MDX compiler and its component contract.
-- Add search and verify shared token packaging.
+- Verify shared token packaging.
 - Add canonical URLs, sitemap generation, and configurable language metadata.
 - Verify package installation outside this workspace and static-host deployments.
 
