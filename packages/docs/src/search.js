@@ -111,6 +111,12 @@ export function setupSearch(root = document) {
 	})
 	input.addEventListener("input", render)
 	dialog.addEventListener("keydown", (event) => {
+		// Native search inputs otherwise consume Escape to clear their value first.
+		if (event.key === "Escape") {
+			event.preventDefault()
+			dialog.close()
+			return
+		}
 		if (!["ArrowDown", "ArrowUp"].includes(event.key)) return
 		const targets = [input, ...results.querySelectorAll("a")]
 		const index = targets.indexOf(root.activeElement)

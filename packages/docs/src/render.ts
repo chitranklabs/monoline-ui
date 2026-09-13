@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it"
 import { createRequire } from "node:module"
 import Prism from "prismjs"
 
-import type { DocumentationPage } from "./content"
+import type { DocumentationPage } from "./content.ts"
 
 // Load only supported grammars at build time, never modules named by content.
 const loadLanguages = createRequire(import.meta.url)(

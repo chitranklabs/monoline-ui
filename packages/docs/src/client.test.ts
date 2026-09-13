@@ -40,6 +40,19 @@ it("restores a saved theme and persists light/dark/system selection", () => {
 	expect(document.documentElement.dataset.theme).toBe("system")
 })
 
+it("respects the configured default unless a valid saved choice overrides it", () => {
+	document.documentElement.dataset.theme = "dark"
+	run(theme)
+	expect(document.documentElement.dataset.theme).toBe("dark")
+	localStorage.setItem("monoline-docs-theme", "system")
+	run(theme)
+	expect(document.documentElement.dataset.theme).toBe("system")
+	localStorage.setItem("monoline-docs-theme", "invalid")
+	document.documentElement.dataset.theme = "light"
+	run(theme)
+	expect(document.documentElement.dataset.theme).toBe("light")
+})
+
 it("works when persistent storage is unavailable", () => {
 	const storage = {
 		getItem() {

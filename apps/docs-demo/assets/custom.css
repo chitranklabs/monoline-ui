@@ -1,0 +1,5 @@
+/* Override documented variables without depending on the shell's HTML classes. */
+:root {
+	--content-width: 70ch;
+	--radius: 0.375rem;
+}

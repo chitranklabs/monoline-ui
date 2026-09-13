@@ -15,6 +15,18 @@ const packageManagerVersion = JSON.parse(
 	readFileSync(new URL("package.json", root), "utf8")
 ).packageManager.split("@")[1]
 
+test("standalone docs consumer stays in the existing job and runs only for package or dependency changes", () => {
+	const steps = Object.values(ci.jobs).flatMap((job) => job.steps ?? [])
+	const consumers = steps.filter(
+		(step) => step.run === "pnpm --filter @monoline/docs test:consumer"
+	)
+	assert.equal(consumers.length, 1)
+	assert.equal(
+		consumers[0].if.trim(),
+		"needs.changes.outputs.docs_package == 'true' ||\nneeds.changes.outputs.deps == 'true'"
+	)
+})
+
 test("workflows install one exact pnpm version without implicit dependency installs", () => {
 	for (const name of ["ci", "release-prepare", "release-finalize"]) {
 		for (const job of Object.values(readWorkflow(name).jobs)) {

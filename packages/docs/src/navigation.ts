@@ -1,4 +1,4 @@
-import type { DocumentationPage } from "./content"
+import type { DocumentationPage } from "./content.ts"
 
 export type NavigationItem =
 	| { label: string; href: `/${string}` }

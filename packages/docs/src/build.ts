@@ -17,26 +17,13 @@ import {
 } from "node:path"
 
 import { collectAssets, isAssetName } from "./assets.ts"
+import { type MonolineDocsConfig, defineConfig, safeRoute } from "./config.ts"
 import { discoverPages } from "./content.ts"
-import type { MonolineDocsConfig } from "./index.ts"
 import { buildNavigation } from "./navigation.ts"
 import type { NavigationItem } from "./navigation.ts"
 import { escapeHtml as escape, renderMarkdown } from "./render.ts"
 
-export interface BuildOptions extends MonolineDocsConfig {
-	contentDirectory: string
-	outDirectory: string
-	base?: string
-	assetsDirectory?: string
-	stylesheet?: string
-	environment?: "production" | "development"
-}
-
-function safeRoute(route: string): boolean {
-	return (
-		route === "/" || /^\/(?:[\p{L}\p{N}_-]+\/)*[\p{L}\p{N}_-]+$/u.test(route)
-	)
-}
+export type BuildOptions = MonolineDocsConfig
 
 async function canonicalPath(path: string): Promise<string> {
 	try {
@@ -48,12 +35,9 @@ async function canonicalPath(path: string): Promise<string> {
 }
 
 /** Build a local, static Markdown site. Paths are relative to the caller's cwd. */
-export async function buildDocs(options: BuildOptions) {
-	if (!options.title?.trim()) throw new Error("A site title is required")
-	const base = options.base ?? "/"
-	if (base !== "/" && (!base.endsWith("/") || !safeRoute(base.slice(0, -1)))) {
-		throw new Error("base must be / or an absolute directory path ending in /")
-	}
+export async function buildDocs(config: BuildOptions) {
+	const options = defineConfig(config)
+	const { base } = options
 	const content = await realpath(resolve(options.contentDirectory))
 	const output = await canonicalPath(resolve(options.outDirectory))
 	const inside = (parent: string, child: string) => {
@@ -96,6 +80,13 @@ export async function buildDocs(options: BuildOptions) {
 	const stylesheet = options.stylesheet
 		? `<link rel="stylesheet" href="${escape(assetUrl(options.stylesheet))}">`
 		: ""
+	const logo = options.logo
+		? `<img src="${escape(assetUrl(options.logo.src))}" alt="${escape(options.logo.alt)}" width="${options.logo.width}" height="${options.logo.height}">`
+		: ""
+	const headerLinks = options.headerLinks?.length
+		? `<nav class="header-links" aria-label="Site links">${options.headerLinks.map((link) => `<a href="${escape(link.href)}">${escape(link.label)}</a>`).join("")}</nav>`
+		: ""
+	const htmlAttributes = `lang="${escape(options.lang)}" data-theme="${options.defaultMode}"`
 	const pages = await discoverPages(content, {
 		environment: options.environment ?? "production",
 	})
@@ -162,6 +153,18 @@ export async function buildDocs(options: BuildOptions) {
 			)
 	}
 	const files = new Map<string, string | Uint8Array>(assets)
+	if (options.site && options.environment === "production") {
+		files.set(
+			"sitemap.xml",
+			`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${escape(new URL(href(page.route), options.site).href)}</loc></url>`).join("")}</urlset>`
+		)
+		// robots.txt is only effective at an origin's root, never at a project subpath.
+		if (base === "/")
+			files.set(
+				"robots.txt",
+				`User-agent: *\nAllow: /\nSitemap: ${options.site}/sitemap.xml\n`
+			)
+	}
 	files.set(
 		"search-index.json",
 		JSON.stringify(
@@ -202,11 +205,18 @@ export async function buildDocs(options: BuildOptions) {
 			.filter(Boolean)
 			.join("")
 		const description = page.metadata.description ?? options.description ?? ""
+		const canonical = options.site
+			? `<link rel="canonical" href="${escape(new URL(href(page.route), options.site).href)}">`
+			: ""
+		const indexing =
+			options.environment === "development"
+				? '<meta name="robots" content="noindex, nofollow">'
+				: ""
 		files.set(
 			page.route === "/" ? "index.html" : `${page.route.slice(1)}/index.html`,
 			`<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>${escape(page.metadata.title)} | ${escape(options.title)}</title><meta name="description" content="${escape(description)}"><script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}<script src="${escape(base)}client.js" defer></script></head>
-<body><a class="skip" href="#content">Skip to content</a><header><a class="brand" href="${escape(href("/"))}">${escape(options.title)}</a><label class="theme-control" hidden>Theme <select aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></header>
+<html ${htmlAttributes}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>${escape(page.metadata.title)} | ${escape(options.title)}</title><meta name="description" content="${escape(description)}">${canonical}${indexing}<script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}<script src="${escape(base)}client.js" defer></script></head>
+<body><a class="skip" href="#content">Skip to content</a><header><a class="brand" href="${escape(href("/"))}">${logo}${escape(options.title)}</a>${headerLinks}<label class="theme-control" hidden>Theme <select aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></header>
 ${search}<div class="layout"><aside class="sidebar"><details open><summary>Navigation</summary><nav aria-label="Documentation">${nav(navigation.items, page.route)}</nav></details></aside>
 <main id="content" tabindex="-1"><h1>${escape(page.metadata.title)}</h1>${description ? `<p class="description">${escape(description)}</p>` : ""}<article>${rendered.html}</article><nav class="pager" aria-label="Page navigation">${pager}</nav></main>
 <aside class="toc"><nav aria-label="On this page"><strong>On this page</strong><ul>${rendered.headings
@@ -229,7 +239,7 @@ ${search}<div class="layout"><aside class="sidebar"><details open><summary>Navig
 		)
 	files.set(
 		"404.html",
-		`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>Page not found</title><script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}</head><body><main><h1>Page not found</h1><p>Check the address or <a href="${escape(href("/"))}">browse the documentation</a>.</p></main></body></html>`
+		`<!doctype html><html ${htmlAttributes}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><title>Page not found</title><script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}</head><body><main><h1>Page not found</h1><p>Check the address or <a href="${escape(href("/"))}">browse the documentation</a>.</p></main></body></html>`
 	)
 	// Refuse unrelated output directories; only replace files recorded by this builder.
 	const manifest = ".monoline-generated.json"
@@ -248,7 +258,7 @@ ${search}<div class="layout"><aside class="sidebar"><details open><summary>Navig
 					(name) =>
 						typeof name !== "string" ||
 						(!isAssetName(name) &&
-							!/^(?:[\p{L}\p{N}_-]+\/)*(?:index\.html|404\.html|docs\.css|theme\.js|client\.js|search\.js|search-index\.json)$/u.test(
+							!/^(?:[\p{L}\p{N}_-]+\/)*(?:index\.html|404\.html|docs\.css|theme\.js|client\.js|search\.js|search-index\.json|sitemap\.xml|robots\.txt)$/u.test(
 								name
 							))
 				)

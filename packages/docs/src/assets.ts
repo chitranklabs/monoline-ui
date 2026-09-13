@@ -18,6 +18,7 @@ export const assetTypes: Record<string, string> = {
 	".pdf": "application/pdf",
 	".txt": "text/plain; charset=utf-8",
 	".json": "application/json",
+	".xml": "application/xml; charset=utf-8",
 }
 
 export function isAssetName(name: string): boolean {
