@@ -118,6 +118,9 @@ it("watches real edits, reports errors, recovers, and closes active streams", as
 	while (changed.revision <= first.revision)
 		changed = (await stream.next()).value!
 	expect(await (await fetch(server.url)).text()).toContain("Edited")
+	const search = await fetch(server.url + "search-index.json")
+	expect(search.headers.get("content-type")).toContain("application/json")
+	expect(await search.text()).toContain("Edited")
 	await writeFile(
 		join(server.contentDirectory, "index.md"),
 		"---\ntitle: 42\n---"
@@ -134,6 +137,9 @@ it("watches real edits, reports errors, recovers, and closes active streams", as
 	while (recovered.error || recovered.revision <= changed.revision)
 		recovered = (await stream.next()).value!
 	expect(await (await fetch(server.url)).text()).toContain("Recovered")
+	expect(
+		await (await fetch(server.url + "search-index.json")).text()
+	).toContain("Recovered")
 	await writeFile(join(server.assetsDirectory, "font.woff2"), Buffer.from([4]))
 	let assetChanged = (await stream.next()).value!
 	while (assetChanged.revision <= recovered.revision)

@@ -106,8 +106,33 @@ export function renderMarkdown(
 			tokens[index + 2]!.tag = token.tag
 		headings.push({ id, text, level })
 	}
+	const sections = [
+		{ id: "", heading: "", text: page.metadata.description ?? "" },
+	]
+	for (const token of tokens) {
+		if (token.type === "heading_open") {
+			const heading = headings.find(
+				(entry) => entry.id === token.attrGet("id")
+			)!
+			sections.push({ id: heading.id, heading: heading.text, text: "" })
+		} else if (token.type === "inline") {
+			const text = (token.children ?? [])
+				.filter((child) =>
+					["text", "code_inline", "image", "softbreak", "hardbreak"].includes(
+						child.type
+					)
+				)
+				.map((child) => child.content || " ")
+				.join("")
+			sections[sections.length - 1]!.text += ` ${text}`
+		}
+	}
 	return {
 		html: markdown.renderer.render(tokens, markdown.options, {}),
 		headings,
+		sections: sections.map((section) => ({
+			...section,
+			text: section.text.replace(/\s+/g, " ").trim(),
+		})),
 	}
 }
