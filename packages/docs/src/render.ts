@@ -1,6 +1,14 @@
 import MarkdownIt from "markdown-it"
+import { createRequire } from "node:module"
+import Prism from "prismjs"
 
 import type { DocumentationPage } from "./content"
+
+// Load only supported grammars at build time, never modules named by content.
+const loadLanguages = createRequire(import.meta.url)(
+	"prismjs/components/index.js"
+) as (languages: string[]) => void
+loadLanguages(["typescript", "tsx", "bash", "json", "yaml", "sql"])
 
 export interface Heading {
 	id: string
@@ -24,31 +32,41 @@ export function escapeHtml(value: string): string {
 
 export function renderMarkdown(
 	page: DocumentationPage,
-	resolveLink: (href: string) => string = (href) => href
+	resolveLink: (href: string) => string = (href) => href,
+	resolveAsset: (href: string) => string = (href) => {
+		if (!/^https:\/\//i.test(href))
+			throw new Error(`Missing asset resolver for ${href}`)
+		return href
+	}
 ) {
 	if (page.format !== "md") {
 		throw new Error(
 			`${page.filePath}: MDX rendering is not supported by the static prototype. Use Markdown.`
 		)
 	}
-	const markdown = new MarkdownIt({ html: false })
+	const markdown = new MarkdownIt({
+		html: false,
+		highlight(code, language) {
+			const grammar = Object.hasOwn(Prism.languages, language)
+				? Prism.languages[language]
+				: undefined
+			return grammar && typeof grammar === "object"
+				? Prism.highlight(code, grammar, language)
+				: ""
+		},
+	})
 	for (const rule of ["fence", "code_block"]) {
 		const render = markdown.renderer.rules[rule]!
 		markdown.renderer.rules[rule] = (...arguments_) =>
-			render(...arguments_).replace("<pre>", '<pre tabindex="0">')
+			`<div class="code-block">${render(...arguments_).replace("<pre>", '<pre tabindex="0">')}<button class="copy-code" type="button" aria-label="Copy code block" hidden>Copy</button><span class="copy-status" role="status"></span></div>`
 	}
 	const tokens = markdown.parse(page.source, {})
 	const walkLinks = (entries: typeof tokens) => {
 		for (const token of entries) {
 			if (token.type === "link_open")
 				token.attrSet("href", resolveLink(String(token.attrGet("href") ?? "")))
-			if (
-				token.type === "image" &&
-				!/^https:\/\//.test(String(token.attrGet("src") ?? ""))
-			)
-				throw new Error(
-					`${page.filePath}: local images require an asset pipeline; use an HTTPS image URL for this prototype`
-				)
+			if (token.type === "image")
+				token.attrSet("src", resolveAsset(String(token.attrGet("src") ?? "")))
 			if (token.children) walkLinks(token.children)
 		}
 	}

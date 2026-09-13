@@ -1,21 +1,21 @@
 :root {
 	color-scheme: light dark;
-	--background: #fff;
-	--foreground: #171717;
-	--muted: #595959;
-	--border: #e5e5e5;
-	--surface: #f5f5f5;
+	/* Match the semantic colors in Monoline UI's theme/tokens.css. */
+	--background: light-dark(oklch(1 0 0), oklch(0.145 0 0));
+	--foreground: light-dark(oklch(0.18 0 0), oklch(0.985 0 0));
+	--muted-foreground: light-dark(oklch(0.5 0 0), oklch(0.62 0 0));
+	--muted: var(--muted-foreground);
+	--border: light-dark(rgba(10, 10, 10, 0.08), rgba(255, 255, 255, 0.1));
+	--surface: light-dark(oklch(0.96 0 0), oklch(0.12 0 0));
+	--accent: light-dark(oklch(0.52 0.13 40), oklch(0.78 0.09 60));
 	font-family: ui-sans-serif, system-ui, sans-serif;
 	line-height: 1.65;
 }
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
-		--muted: #a3a3a3;
-		--border: #303030;
-		--surface: #171717;
-	}
+:root[data-theme="light"] {
+	color-scheme: light;
+}
+:root[data-theme="dark"] {
+	color-scheme: dark;
 }
 * {
 	box-sizing: border-box;
@@ -30,11 +30,68 @@ a {
 	text-underline-offset: 0.2em;
 }
 a:focus-visible,
+button:focus-visible,
+select:focus-visible,
 pre:focus-visible,
 table:focus-visible,
 summary:focus-visible {
 	outline: 2px solid currentColor;
 	outline-offset: 4px;
+}
+.theme-control {
+	font-size: 0.875rem;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+.theme-control[hidden] {
+	display: none;
+}
+.theme-control select,
+.copy-code {
+	font: inherit;
+	color: var(--foreground);
+	background: var(--background);
+	border: 1px solid var(--border);
+	border-radius: 0.35rem;
+	padding: 0.35rem 0.6rem;
+}
+.copy-code {
+	cursor: pointer;
+	font-size: 0.8rem;
+	margin-bottom: 0.75rem;
+}
+.code-block pre {
+	margin-bottom: 0.5rem;
+}
+.copy-status {
+	font-size: 0.8rem;
+	margin-left: 0.6rem;
+	color: var(--muted-foreground);
+}
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: var(--muted-foreground);
+}
+.token.keyword,
+.token.tag,
+.token.boolean {
+	color: var(--accent);
+}
+.token.string,
+.token.attr-value {
+	color: light-dark(#116329, #a5d6a7);
+}
+.token.number,
+.token.function,
+.token.class-name {
+	color: light-dark(#6639a6, #d2a8ff);
+}
+.token.punctuation,
+.token.operator {
+	color: var(--foreground);
 }
 header {
 	height: 3.5rem;
@@ -51,6 +108,13 @@ header span,
 .brand {
 	font-weight: 650;
 	text-decoration: none;
+}
+.dev-error {
+	padding: 1rem 1.5rem;
+	border-bottom: 2px solid var(--accent);
+	background: var(--surface);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
 }
 .layout {
 	max-width: 90rem;

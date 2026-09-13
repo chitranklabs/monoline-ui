@@ -16,6 +16,7 @@ import {
 	resolve,
 } from "node:path"
 
+import { collectAssets, isAssetName } from "./assets.ts"
 import { discoverPages } from "./content.ts"
 import type { MonolineDocsConfig } from "./index.ts"
 import { buildNavigation } from "./navigation.ts"
@@ -26,6 +27,9 @@ export interface BuildOptions extends MonolineDocsConfig {
 	contentDirectory: string
 	outDirectory: string
 	base?: string
+	assetsDirectory?: string
+	stylesheet?: string
+	environment?: "production" | "development"
 }
 
 function safeRoute(route: string): boolean {
@@ -58,7 +62,43 @@ export async function buildDocs(options: BuildOptions) {
 	}
 	if (inside(content, output) || inside(output, content))
 		throw new Error("Content and output directories must not overlap")
-	const pages = await discoverPages(content, { environment: "production" })
+	if (options.assetsDirectory) {
+		const assetsPath = await realpath(resolve(options.assetsDirectory))
+		if (inside(assetsPath, output) || inside(output, assetsPath))
+			throw new Error("Assets and output directories must not overlap")
+	}
+	const assets = await collectAssets(options.assetsDirectory)
+	const assetUrl = (link: string): string => {
+		if (/^https:\/\//i.test(link)) return link
+		const url = new URL(link, "https://docs.invalid/")
+		const name = decodeURIComponent(url.pathname).slice(1)
+		if (
+			url.origin !== "https://docs.invalid" ||
+			!isAssetName(name) ||
+			!assets.has(name)
+		)
+			throw new Error(
+				`Missing local asset: ${link}. Use /assets/ paths from assetsDirectory.`
+			)
+		return (
+			base +
+			name.split("/").map(encodeURIComponent).join("/") +
+			url.search +
+			url.hash
+		)
+	}
+	if (
+		options.stylesheet &&
+		(!options.stylesheet.startsWith("/assets/") ||
+			!options.stylesheet.endsWith(".css"))
+	)
+		throw new Error("stylesheet must name a local /assets/*.css file")
+	const stylesheet = options.stylesheet
+		? `<link rel="stylesheet" href="${escape(assetUrl(options.stylesheet))}">`
+		: ""
+	const pages = await discoverPages(content, {
+		environment: options.environment ?? "production",
+	})
 	if (!pages.length) throw new Error("No published documentation pages found")
 	if (!pages.some((page) => page.route === "/"))
 		throw new Error(
@@ -76,32 +116,37 @@ export async function buildDocs(options: BuildOptions) {
 	const documents = new Map(
 		pages.map((page) => [
 			page.route as string,
-			renderMarkdown(page, (link) => {
-				if (/^(?:https?:|mailto:|tel:|\/\/)/i.test(link)) return link
-				const url = new URL(
-					link,
-					`https://docs.invalid${page.route === "/" ? "/" : page.route + "/"}`
-				)
-				const path = decodeURIComponent(url.pathname)
-				let target
-				if (/\.mdx?$/.test(path)) {
-					const sourcePath = decodeURIComponent(link.split(/[?#]/)[0]!)
-					target = byFile.get(
-						resolve(
-							sourcePath.startsWith("/") ? content : dirname(page.filePath),
-							sourcePath.replace(/^\//, "")
-						)
+			renderMarkdown(
+				page,
+				(link) => {
+					if (/^(?:https?:|mailto:|tel:|\/\/)/i.test(link)) return link
+					if (link.startsWith("/assets/")) return assetUrl(link)
+					const url = new URL(
+						link,
+						`https://docs.invalid${page.route === "/" ? "/" : page.route + "/"}`
 					)
-				} else target = byRoute.get(path.replace(/\/$/, "") || "/")
-				if (!target)
-					throw new Error(`${page.filePath}: broken internal link "${link}"`)
-				references.push({
-					from: page.filePath,
-					route: target.route,
-					hash: decodeURIComponent(url.hash.slice(1)),
-				})
-				return href(target.route) + url.search + url.hash
-			}),
+					const path = decodeURIComponent(url.pathname)
+					let target
+					if (/\.mdx?$/.test(path)) {
+						const sourcePath = decodeURIComponent(link.split(/[?#]/)[0]!)
+						target = byFile.get(
+							resolve(
+								sourcePath.startsWith("/") ? content : dirname(page.filePath),
+								sourcePath.replace(/^\//, "")
+							)
+						)
+					} else target = byRoute.get(path.replace(/\/$/, "") || "/")
+					if (!target)
+						throw new Error(`${page.filePath}: broken internal link "${link}"`)
+					references.push({
+						from: page.filePath,
+						route: target.route,
+						hash: decodeURIComponent(url.hash.slice(1)),
+					})
+					return href(target.route) + url.search + url.hash
+				},
+				assetUrl
+			),
 		])
 	)
 	for (const reference of references) {
@@ -116,7 +161,7 @@ export async function buildDocs(options: BuildOptions) {
 				`${reference.from}: missing heading #${reference.hash} on ${reference.route}`
 			)
 	}
-	const files = new Map<string, string>()
+	const files = new Map<string, string | Uint8Array>(assets)
 	const nav = (items: NavigationItem[], current: string): string =>
 		`<ul>${items
 			.map((item) =>
@@ -144,8 +189,8 @@ export async function buildDocs(options: BuildOptions) {
 		files.set(
 			page.route === "/" ? "index.html" : `${page.route.slice(1)}/index.html`,
 			`<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>${escape(page.metadata.title)} | ${escape(options.title)}</title><meta name="description" content="${escape(description)}"><link rel="stylesheet" href="${escape(base)}docs.css"></head>
-<body><a class="skip" href="#content">Skip to content</a><header><a class="brand" href="${escape(href("/"))}">${escape(options.title)}</a><span>Documentation</span></header>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>${escape(page.metadata.title)} | ${escape(options.title)}</title><meta name="description" content="${escape(description)}"><script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}<script src="${escape(base)}client.js" defer></script></head>
+<body><a class="skip" href="#content">Skip to content</a><header><a class="brand" href="${escape(href("/"))}">${escape(options.title)}</a><label class="theme-control" hidden>Theme <select aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></header>
 <div class="layout"><aside class="sidebar"><details open><summary>Navigation</summary><nav aria-label="Documentation">${nav(navigation.items, page.route)}</nav></details></aside>
 <main id="content" tabindex="-1"><h1>${escape(page.metadata.title)}</h1>${description ? `<p class="description">${escape(description)}</p>` : ""}<article>${rendered.html}</article><nav class="pager" aria-label="Page navigation">${pager}</nav></main>
 <aside class="toc"><nav aria-label="On this page"><strong>On this page</strong><ul>${rendered.headings
@@ -161,9 +206,14 @@ export async function buildDocs(options: BuildOptions) {
 		"docs.css",
 		await readFile(new URL("./docs.css", import.meta.url), "utf8")
 	)
+	for (const name of ["theme.js", "client.js"])
+		files.set(
+			name,
+			await readFile(new URL(`./${name}`, import.meta.url), "utf8")
+		)
 	files.set(
 		"404.html",
-		`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found</title><link rel="stylesheet" href="${escape(base)}docs.css"><main><h1>Page not found</h1><p>Check the address or <a href="${escape(href("/"))}">browse the documentation</a>.</p></main></html>`
+		`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>Page not found</title><script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}</head><body><main><h1>Page not found</h1><p>Check the address or <a href="${escape(href("/"))}">browse the documentation</a>.</p></main></body></html>`
 	)
 	// Refuse unrelated output directories; only replace files recorded by this builder.
 	const manifest = ".monoline-generated.json"
@@ -181,9 +231,10 @@ export async function buildDocs(options: BuildOptions) {
 				previous.some(
 					(name) =>
 						typeof name !== "string" ||
-						!/^(?:[\p{L}\p{N}_-]+\/)*(?:index\.html|404\.html|docs\.css)$/u.test(
-							name
-						)
+						(!isAssetName(name) &&
+							!/^(?:[\p{L}\p{N}_-]+\/)*(?:index\.html|404\.html|docs\.css|theme\.js|client\.js)$/u.test(
+								name
+							))
 				)
 			)
 				throw new Error("Invalid generated-file manifest")

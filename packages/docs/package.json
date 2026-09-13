@@ -5,11 +5,16 @@
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
-		"./build": "./src/build.ts"
+		"./build": "./src/build.ts",
+		"./dev": "./src/dev.ts"
 	},
 	"dependencies": {
 		"js-yaml": "5.4.1",
-		"markdown-it": "15.0.1"
+		"markdown-it": "15.0.1",
+		"prismjs": "1.30.0"
+	},
+	"devDependencies": {
+		"@types/prismjs": "1.26.6"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit"

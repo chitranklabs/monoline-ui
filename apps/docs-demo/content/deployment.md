@@ -1,10 +1,14 @@
 ---
 title: Deployment
 description: Build static files for your chosen host.
-order: 2
+order: 3
 ---
 
 ## Build the demo
+
+While writing, run `pnpm --filter @monoline/docs-demo dev`. The local preview
+includes drafts, rebuilds on content and asset changes, and reloads open pages.
+Configuration changes require restarting the preview.
 
 From the repository root:
 
@@ -24,7 +28,8 @@ For a site mounted at `/monoline/`, build with:
 DOCS_BASE=/monoline/ pnpm --filter @monoline/docs-demo build
 ```
 
-The base applies to navigation, article links, pager links, and stylesheets.
+The base applies to navigation, article links, pager links, scripts, assets, and
+stylesheets. The same `DOCS_BASE` setting works with the development command.
 
 ## Rebuilding
 
@@ -32,5 +37,6 @@ The builder records generated files in `.monoline-generated.json`. A later build
 removes stale files listed there, including pages changed to drafts. It refuses
 an existing nonempty directory that it does not manage.
 
-Use a dedicated output directory. Deploy only after the build succeeds; builds
-write files directly and are not an atomic deployment mechanism.
+Use a dedicated output directory. Run the production build after previewing to
+remove draft pages. Deploy only after it succeeds; builds write files directly
+and are not an atomic deployment mechanism.
