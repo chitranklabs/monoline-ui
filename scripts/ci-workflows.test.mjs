@@ -242,7 +242,15 @@ test("docs package changes run focused checks without the website build", () => 
 		const changes = classify([file])
 		assert.equal(applicable(ci.jobs.quality.if, changes), true)
 		assert.equal(applicable(step.if, changes), true)
-		assert.equal(applicable(ci.jobs.docs_integration.if, changes), false)
+		assert.equal(applicable(ci.jobs.docs_integration.if, changes), true)
+		const websiteBuild = ci.jobs.docs_integration.steps.find(
+			(entry) => entry.run === "pnpm build"
+		)
+		assert.equal(applicable(websiteBuild.if, changes), false)
+		const browser = ci.jobs.docs_integration.steps.find(
+			(entry) => entry.name === "Test Docs package in production browser"
+		)
+		assert.equal(applicable(browser.if, changes), true)
 	}
 	assert.equal(applicable(step.if, classify(["README.md"])), false)
 })

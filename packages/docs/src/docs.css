@@ -1,13 +1,6 @@
 :root {
 	color-scheme: light dark;
-	/* Match the semantic colors in Monoline UI's theme/tokens.css. */
-	--background: light-dark(oklch(1 0 0), oklch(0.145 0 0));
-	--foreground: light-dark(oklch(0.18 0 0), oklch(0.985 0 0));
-	--muted-foreground: light-dark(oklch(0.5 0 0), oklch(0.62 0 0));
 	--muted: var(--muted-foreground);
-	--border: light-dark(rgba(10, 10, 10, 0.08), rgba(255, 255, 255, 0.1));
-	--surface: light-dark(oklch(0.96 0 0), oklch(0.12 0 0));
-	--accent: light-dark(oklch(0.52 0.13 40), oklch(0.78 0.09 60));
 	--font-body: ui-sans-serif, system-ui, sans-serif;
 	--font-code: ui-monospace, monospace;
 	--line-height: 1.65;
@@ -142,21 +135,23 @@ summary:focus-visible {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-	color: var(--muted-foreground);
+	color: var(--code-comment);
 }
 .token.keyword,
 .token.tag,
 .token.boolean {
-	color: var(--accent);
+	color: var(--code-keyword);
 }
 .token.string,
 .token.attr-value {
-	color: light-dark(#116329, #a5d6a7);
+	color: var(--code-string);
 }
-.token.number,
+.token.number {
+	color: var(--code-number);
+}
 .token.function,
 .token.class-name {
-	color: light-dark(#6639a6, #d2a8ff);
+	color: var(--code-ident);
 }
 .token.punctuation,
 .token.operator {
@@ -299,6 +294,44 @@ blockquote {
 	padding-left: 1rem;
 	border-left: 2px solid var(--border);
 	color: var(--muted);
+}
+.heading-anchor {
+	display: inline-block;
+	margin-left: 0.5em;
+	padding: 0 0.15em;
+	font-size: 0.8em;
+	font-weight: 400;
+	color: var(--muted-foreground);
+	text-decoration: none;
+}
+.heading-anchor:hover {
+	color: var(--foreground);
+}
+.callout {
+	--callout-accent: var(--callout-info-accent);
+	margin: 1.5rem 0;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--border);
+	border-inline-start: 3px solid var(--callout-accent);
+	border-radius: var(--radius);
+	background: var(--surface);
+	color: var(--foreground);
+}
+.callout-tip {
+	--callout-accent: var(--callout-tip-accent);
+}
+.callout-warning {
+	--callout-accent: var(--callout-warn-accent);
+}
+.callout-caution {
+	--callout-accent: var(--destructive);
+}
+.callout .callout-title {
+	margin: 0 0 0.5rem;
+	font-weight: 650;
+}
+.callout > :last-child {
+	margin-bottom: 0;
 }
 img {
 	max-width: 100%;

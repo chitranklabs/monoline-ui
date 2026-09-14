@@ -3,6 +3,10 @@ import { copyFile, mkdir, rm } from "node:fs/promises"
 import { fileURLToPath } from "node:url"
 
 const directory = fileURLToPath(new URL(".", import.meta.url))
+execFileSync(process.execPath, ["sync-tokens.mjs", "--check"], {
+	cwd: directory,
+	stdio: "inherit",
+})
 // This directory contains only generated package artifacts, never site output.
 await rm(new URL("./dist/", import.meta.url), { recursive: true, force: true })
 execFileSync("tsc", ["-p", "tsconfig.build.json"], {
@@ -12,6 +16,7 @@ execFileSync("tsc", ["-p", "tsconfig.build.json"], {
 await mkdir(new URL("./dist/", import.meta.url), { recursive: true })
 for (const name of [
 	"docs.css",
+	"theme-tokens.css",
 	"theme.js",
 	"client.js",
 	"search.js",

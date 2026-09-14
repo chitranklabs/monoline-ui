@@ -43,3 +43,21 @@ tables.
 
 Set `draft: true` to exclude a page from production builds. Remove references to
 that draft from configured navigation and published pages before building.
+
+## Callouts
+
+Use a blockquote with an uppercase marker on its first line. Supported markers are `NOTE`, `TIP`, `WARNING`, and `CAUTION`.
+
+```markdown
+> [!NOTE]
+> Keep configuration files in version control.
+```
+
+> [!TIP]
+> Link to the section that answers the reader's question, not just the page.
+
+Callouts support Markdown paragraphs, links, and lists. Other markers remain ordinary blockquotes. Their labels do not appear in the table of contents.
+
+## Heading permalinks
+
+Each section heading has a keyboard-accessible `#` link to its section. Heading IDs are generated from the heading text; duplicate headings receive distinct IDs. Renaming a heading changes its link, so update references when editing it.
