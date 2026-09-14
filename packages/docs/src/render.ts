@@ -60,7 +60,55 @@ export function renderMarkdown(
 		markdown.renderer.rules[rule] = (...arguments_) =>
 			`<div class="code-block">${render(...arguments_).replace("<pre>", '<pre tabindex="0">')}<button class="copy-code" type="button" aria-label="Copy code block" hidden>Copy</button><span class="copy-status" role="status"></span></div>`
 	}
-	const tokens = markdown.parse(page.source, {})
+	const environment = {}
+	const tokens = markdown.parse(page.source, environment)
+	markdown.renderer.rules.blockquote_open = (
+		entries,
+		index,
+		options,
+		_env,
+		renderer
+	) => {
+		const label = entries[index]!.meta?.calloutLabel as string | undefined
+		return (
+			renderer.renderToken(entries, index, options) +
+			(label ? `<p class="callout-title">${label}</p>\n` : "")
+		)
+	}
+	for (let index = 0; index < tokens.length; index += 1) {
+		const opening = tokens[index]!
+		const inline = tokens[index + 2]
+		if (
+			opening.type !== "blockquote_open" ||
+			tokens[index + 1]?.type !== "paragraph_open" ||
+			inline?.type !== "inline"
+		)
+			continue
+		const marker = inline.content.match(
+			/^\[!(NOTE|TIP|WARNING|CAUTION)\](?:\n|$)/
+		)
+		if (!marker) continue
+		const closing = tokens
+			.slice(index + 1)
+			.find(
+				(token) =>
+					token.type === "blockquote_close" && token.level === opening.level
+			)!
+		const kind = marker[1]!.toLowerCase()
+		const label = kind[0]!.toUpperCase() + kind.slice(1)
+		opening.tag = closing.tag = "aside"
+		opening.attrSet("class", `callout callout-${kind}`)
+		opening.attrSet("role", "note")
+		opening.attrSet("aria-label", label)
+		opening.meta = { calloutLabel: label }
+		inline.content = inline.content.slice(marker[0].length)
+		inline.children = markdown.parseInline(
+			inline.content,
+			environment
+		)[0]!.children
+		if (!inline.content)
+			tokens[index + 1]!.hidden = tokens[index + 3]!.hidden = true
+	}
 	const walkLinks = (entries: typeof tokens) => {
 		for (const token of entries) {
 			if (token.type === "link_open")
@@ -106,6 +154,17 @@ export function renderMarkdown(
 			tokens[index + 2]!.tag = token.tag
 		headings.push({ id, text, level })
 	}
+	markdown.renderer.rules.heading_close = (
+		entries,
+		index,
+		options,
+		_env,
+		renderer
+	) => {
+		const id = entries[index - 2]!.attrGet("id")!
+		const heading = headings.find((entry) => entry.id === id)!
+		return `<a class="heading-anchor" href="#${encodeURIComponent(id)}" aria-label="Link to ${escapeHtml(heading.text)}"><span aria-hidden="true">#</span></a>${renderer.renderToken(entries, index, options)}`
+	}
 	const sections = [
 		{ id: "", heading: "", text: page.metadata.description ?? "" },
 	]
@@ -128,7 +187,7 @@ export function renderMarkdown(
 		}
 	}
 	return {
-		html: markdown.renderer.render(tokens, markdown.options, {}),
+		html: markdown.renderer.render(tokens, markdown.options, environment),
 		headings,
 		sections: sections.map((section) => ({
 			...section,

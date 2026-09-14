@@ -221,7 +221,7 @@ export async function buildDocs(config: BuildOptions) {
 			`<!doctype html>
 <html ${htmlAttributes}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>${escape(page.metadata.title)} | ${escape(options.title)}</title><meta name="description" content="${escape(description)}">${canonical}${indexing}<script src="${escape(base)}theme.js"></script><link rel="stylesheet" href="${escape(base)}docs.css">${stylesheet}<script src="${escape(base)}client.js" defer></script></head>
 <body><a class="skip" href="#content">Skip to content</a><header><a class="brand" href="${escape(href("/"))}">${logo}${escape(options.title)}</a>${headerLinks}<label class="theme-control" hidden>Theme <select aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></header>
-${search}<div class="layout"><aside class="sidebar"><details open><summary>Navigation</summary><nav aria-label="Documentation">${nav(navigation.items, page.route)}</nav></details></aside>
+${search}<div class="layout"><aside class="sidebar" aria-label="Documentation sidebar"><details open><summary>Navigation</summary><nav aria-label="Documentation">${nav(navigation.items, page.route)}</nav></details></aside>
 <main id="content" tabindex="-1"><h1>${escape(page.metadata.title)}</h1>${description ? `<p class="description">${escape(description)}</p>` : ""}<article>${rendered.html}</article><nav class="pager" aria-label="Page navigation">${pager}</nav></main>
 <aside class="toc"><nav aria-label="On this page"><strong>On this page</strong><ul>${rendered.headings
 				.filter((heading) => heading.level <= 3)
@@ -234,7 +234,8 @@ ${search}<div class="layout"><aside class="sidebar"><details open><summary>Navig
 	}
 	files.set(
 		"docs.css",
-		await readFile(new URL("./docs.css", import.meta.url), "utf8")
+		(await readFile(new URL("./theme-tokens.css", import.meta.url), "utf8")) +
+			(await readFile(new URL("./docs.css", import.meta.url), "utf8"))
 	)
 	for (const name of ["theme.js", "client.js", "search.js"])
 		files.set(
