@@ -54,6 +54,35 @@ try {
 		`import { defineConfig } from '@monoline/docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark' });`
 	)
 	const cli = join(root, "node_modules/.bin/monoline-docs")
+	await writeFile(
+		join(root, "monoline-docs.yml"),
+		"title: YAML consumer\nsite: https://example.com\nbase: /handbook/\nassetsDirectory: ./assets\nstylesheet: /assets/custom.css\ndefaultMode: dark\n"
+	)
+	run(cli, ["build", "--base", "/", "--indexing", "false"])
+	assert(
+		(await readFile(join(root, "dist/index.html"), "utf8")).includes(
+			'content="noindex, nofollow"'
+		)
+	)
+	assert(
+		!(await readFile(join(root, "dist/search-index.json"), "utf8")).includes(
+			"Unpublished"
+		)
+	)
+	await assert.rejects(readFile(join(root, "dist/sitemap.xml")))
+	assert.throws(() => run(cli, ["build", "--indexing", "maybe"]))
+	await writeFile(join(root, "monoline-docs.yaml"), "title: Ambiguous")
+	assert.throws(() => run(cli, ["build"]))
+	await rm(join(root, "monoline-docs.yaml"))
+	for (const recipe of ["vercel.json", "netlify.toml", "github-pages.yml"])
+		assert(
+			(
+				await readFile(
+					join(root, "node_modules/@monoline/docs/templates", recipe),
+					"utf8"
+				)
+			).length > 0
+		)
 	// Invoke from another directory to verify paths belong to the config file.
 	run(cli, ["build", "--config", join(root, "monoline.config.mjs")], tmpdir())
 	const html = await readFile(join(root, "dist/index.html"), "utf8")

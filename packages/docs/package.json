@@ -21,7 +21,8 @@
 		"monoline-docs": "./dist/cli.js"
 	},
 	"files": [
-		"dist"
+		"dist",
+		"templates"
 	],
 	"engines": {
 		"node": ">=24.14.0"

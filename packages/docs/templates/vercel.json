@@ -1,0 +1,8 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"framework": null,
+	"installCommand": "pnpm install --frozen-lockfile",
+	"buildCommand": "if [ \"$VERCEL_ENV\" = \"production\" ]; then pnpm build; else pnpm build --indexing false; fi",
+	"outputDirectory": "dist",
+	"trailingSlash": true
+}

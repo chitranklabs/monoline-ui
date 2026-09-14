@@ -5,6 +5,8 @@ export interface MonolineDocsConfig {
 	description?: string
 	/** Absolute HTTP(S) origin; deployment subdirectories belong in base. */
 	site?: string
+	/** Disable indexing for hosted previews without including development drafts. */
+	indexing?: boolean
 	base?: string
 	lang?: string
 	contentDirectory?: string
@@ -64,6 +66,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"title",
 		"description",
 		"site",
+		"indexing",
 		"base",
 		"lang",
 		"contentDirectory",
@@ -77,6 +80,8 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"environment",
 	])
 	string(config.title, "title")
+	if (config.indexing !== undefined && typeof config.indexing !== "boolean")
+		throw new Error("indexing must be a boolean")
 	for (const key of [
 		"description",
 		"site",
@@ -163,6 +168,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 	if (config.navigation !== undefined) navigation(config.navigation)
 	return {
 		...config,
+		indexing: config.indexing ?? true,
 		site,
 		base,
 		lang,

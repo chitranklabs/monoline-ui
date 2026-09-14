@@ -1,0 +1,12 @@
+title: Monoline Docs
+description: Write documentation in Markdown and publish a static site.
+contentDirectory: ./content
+assetsDirectory: ./assets
+outDirectory: ./dist
+base: /
+defaultMode: system
+lang: en
+stylesheet: /assets/custom.css
+headerLinks:
+  - label: GitHub
+    href: https://github.com/chitranklabs/monoline-ui

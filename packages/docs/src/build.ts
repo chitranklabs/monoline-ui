@@ -153,7 +153,11 @@ export async function buildDocs(config: BuildOptions) {
 			)
 	}
 	const files = new Map<string, string | Uint8Array>(assets)
-	if (options.site && options.environment === "production") {
+	if (
+		options.site &&
+		options.indexing &&
+		options.environment === "production"
+	) {
 		files.set(
 			"sitemap.xml",
 			`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${escape(new URL(href(page.route), options.site).href)}</loc></url>`).join("")}</urlset>`
@@ -209,7 +213,7 @@ export async function buildDocs(config: BuildOptions) {
 			? `<link rel="canonical" href="${escape(new URL(href(page.route), options.site).href)}">`
 			: ""
 		const indexing =
-			options.environment === "development"
+			options.environment === "development" || !options.indexing
 				? '<meta name="robots" content="noindex, nofollow">'
 				: ""
 		files.set(
