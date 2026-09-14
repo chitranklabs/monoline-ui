@@ -3,6 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"predev": "pnpm --filter @chitrank2050/monoline-ui build",
 		"dev": "NODE_OPTIONS='--max-old-space-size=4096' next dev",
 		"build": "next build",
 		"start": "next start",

@@ -2,7 +2,10 @@
 
 The private `@monoline/docs` package now connects content discovery and navigation
 to a runnable static Markdown site. This validates the authoring and deployment
-flow before committing to MDX execution or a framework integration.
+flow before integrating the approved Astro engine and MDX support. The current
+implementation remains the Markdown builder; see the
+[integration design](./superpowers/specs/2026-09-14-docs-astro-engine-design.md)
+for the proposed migration boundaries and acceptance gates.
 
 ## Run
 
