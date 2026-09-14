@@ -1,17 +1,19 @@
-import { defineConfig } from "@monoline/docs"
+import { loadConfig } from "@monoline/docs"
 import { fileURLToPath } from "node:url"
 
-export default defineConfig({
-	title: "Monoline Docs",
-	description: "Write documentation in Markdown and publish a static site.",
-	contentDirectory: fileURLToPath(new URL("./content", import.meta.url)),
-	assetsDirectory: fileURLToPath(new URL("./assets", import.meta.url)),
-	outDirectory: fileURLToPath(new URL("./dist", import.meta.url)),
-	base: process.env.DOCS_BASE ?? "/",
-	defaultMode: "system",
-	lang: "en",
-	stylesheet: "/assets/custom.css",
-	headerLinks: [
-		{ label: "GitHub", href: "https://github.com/chitranklabs/monoline-ui" },
-	],
+if (
+	process.env.DOCS_INDEXING !== undefined &&
+	!["true", "false"].includes(process.env.DOCS_INDEXING)
+)
+	throw new Error("DOCS_INDEXING must be true or false")
+
+export default await loadConfig({
+	cwd: fileURLToPath(new URL(".", import.meta.url)),
+	overrides: {
+		...(process.env.DOCS_BASE !== undefined && { base: process.env.DOCS_BASE }),
+		...(process.env.DOCS_SITE !== undefined && { site: process.env.DOCS_SITE }),
+		...(process.env.DOCS_INDEXING !== undefined && {
+			indexing: process.env.DOCS_INDEXING === "true",
+		}),
+	},
 })

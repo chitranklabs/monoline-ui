@@ -1,0 +1,16 @@
+[build]
+command = "pnpm build"
+publish = "dist"
+
+[build.environment]
+NODE_VERSION = "24.14.0"
+PNPM_VERSION = "11.18.0"
+PNPM_FLAGS = "--frozen-lockfile"
+
+[context.deploy-preview]
+command = "pnpm build --indexing false"
+
+[context.branch-deploy]
+command = "pnpm build --indexing false"
+
+# No SPA fallback: missing paths must remain HTTP 404 responses.

@@ -13,3 +13,4 @@ export {
 } from "./navigation.ts"
 
 export { defineConfig, type MonolineDocsConfig } from "./config.ts"
+export { loadConfig, type LoadConfigOptions } from "./load-config.ts"

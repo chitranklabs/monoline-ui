@@ -41,7 +41,20 @@ into a temporary project outside the workspace, then checks its CLI, declaration
 static output, and preview. Installation requires registry access; lifecycle
 scripts are disabled. No publishing occurs.
 
-An installed consumer can use this `monoline.config.mjs`:
+The recommended configuration file is `monoline-docs.yml`. `.yaml` is also
+supported. `loadConfig()` discovers exactly one supported file and passes it
+through `defineConfig`; it never silently merges multiple files. YAML rejects
+duplicate keys, multiple documents, and executable tags.
+
+```yaml
+title: Team handbook
+site: https://docs.example.com
+defaultMode: system
+assetsDirectory: ./assets
+stylesheet: /assets/custom.css
+```
+
+For executable configuration, use `monoline-docs.config.mjs` instead:
 
 ```js
 import { defineConfig } from "@monoline/docs"
@@ -70,9 +83,16 @@ package scripts. `--config path/to/config.mjs` selects a different config file;
 configuration file, even when invoked from another directory. Programmatic API
 paths remain relative to the caller's working directory.
 
-Configuration is trusted executable JavaScript, not a sandbox for untrusted
-authors. Changes to configuration require restarting preview. The CLI always
-builds for production and previews for development.
+Module configuration is trusted executable JavaScript, not a sandbox for untrusted
+authors. YAML configuration is data-only, without environment interpolation.
+Changes to configuration require restarting preview. The CLI always builds for
+production and previews for development. `--site`, `--base`, and `--indexing
+true|false` override deployment settings without editing YAML. Hosted preview builds
+use `--indexing false`, not development mode, so drafts stay excluded.
+
+The demo reads `monoline-docs.yml` through its `config.mjs` bridge. That bridge
+supports `DOCS_SITE`, `DOCS_BASE`, and `DOCS_INDEXING` for its monorepo build scripts.
+See [deployment recipes](./docs-deployment.md) for standalone and monorepo setup.
 
 Optional `logo` takes `src`, `alt`, `width`, and `height`. Its source must be an
 existing local `/assets/` image. Dimensions reserve space before loading.
@@ -192,7 +212,8 @@ Production builds then emit canonical URLs and a sitemap containing published
 pages only. Root deployments also receive `robots.txt`; for subpath deployments,
 the origin owner manages its root robots file. Without `site`, neither canonical
 URLs nor sitemap/robots files are generated. No placeholder hostname is invented.
-404 pages are noindex; development pages are noindex/nofollow and have no sitemap.
+404 pages are noindex; development pages and builds with `indexing: false` are
+noindex/nofollow and have no sitemap. Indexing does not control draft filtering.
 `lang` sets the HTML language tag; built-in controls remain English. It is not
 full interface localization.
 

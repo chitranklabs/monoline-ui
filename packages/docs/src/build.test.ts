@@ -42,6 +42,38 @@ async function fixture() {
 	}
 }
 
+it("keeps hosted previews noindex without exposing drafts and restores production metadata", async () => {
+	const options = { ...(await fixture()), site: "https://example.com" }
+	await writeFile(
+		join(options.contentDirectory, "draft.md"),
+		"---\ntitle: Unpublished\ndraft: true\n---\nSecret content"
+	)
+	await buildDocs(options)
+	await buildDocs({ ...options, indexing: false })
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).toContain('content="noindex, nofollow"')
+	expect(
+		await readFile(join(options.outDirectory, "search-index.json"), "utf8")
+	).not.toContain("Secret content")
+	await expect(
+		access(join(options.outDirectory, "draft/index.html"))
+	).rejects.toThrow()
+	await expect(
+		access(join(options.outDirectory, "sitemap.xml"))
+	).rejects.toThrow()
+	await expect(
+		access(join(options.outDirectory, "robots.txt"))
+	).rejects.toThrow()
+	await buildDocs(options)
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).not.toContain("noindex")
+	await expect(
+		access(join(options.outDirectory, "sitemap.xml"))
+	).resolves.toBeUndefined()
+})
+
 it("applies branding, stylesheet order, default mode, language and production URLs", async () => {
 	const options = await fixture()
 	const assetsDirectory = join(options.contentDirectory, "../assets")
