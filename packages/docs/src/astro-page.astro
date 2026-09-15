@@ -1,0 +1,27 @@
+---
+import { pages, site } from "virtual:monoline-docs/pages"
+
+export function getStaticPaths() {
+	return pages.map(page => ({
+		params: { slug: page.route === "/" ? undefined : page.route.slice(1) },
+		props: { page },
+	}))
+}
+
+const { page } = Astro.props
+const Content = page.Content
+---
+<!doctype html>
+<html lang={site.lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{page.metadata.title} | {site.title}</title>
+	</head>
+	<body>
+		<main id="content">
+			<h1>{page.metadata.title}</h1>
+			<article><Content /></article>
+		</main>
+	</body>
+</html>

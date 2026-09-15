@@ -7,6 +7,31 @@ implementation remains the Markdown builder; see the
 [integration design](./superpowers/specs/2026-09-14-docs-astro-engine-design.md)
 for the proposed migration boundaries and acceptance gates.
 
+## Internal Astro foundation
+
+The package now contains an internal, staged Astro renderer for Markdown and
+MDX. It is not selected by the public CLI or build API yet: the current commands
+still use the existing renderer until link, search, theme, and output-promotion
+parity is verified.
+
+```sh
+pnpm --filter @monoline/docs test:engine
+pnpm --filter @monoline/docs test:consumer
+```
+
+The engine check renders Markdown and MDX with a local static component, verifies
+that ordinary pages have no scripts, ignores consumer Astro configuration/pages,
+checks draft filtering and compilation failures, and removes its owned temporary
+output. The consumer check also exercises this renderer from the packed package
+using its existing isolated installation. No extra CI job or second installation
+is needed.
+
+The engine uses Astro's native Markdown processor to preserve escaped HTML and
+the existing single-H1 policy. Only validated Monoline page metadata participates
+in rendering; unknown Markdown `layout` fields do not select executable layouts.
+Runtime `.astro` files ship with the compiled package. The renderer is internal,
+not an additional supported package export or public engine-selection setting.
+
 ## Run
 
 Use Node 24.14 or newer and the repository's pinned pnpm version.

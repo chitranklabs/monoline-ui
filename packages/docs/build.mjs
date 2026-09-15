@@ -22,6 +22,7 @@ for (const name of [
 	"search.js",
 	"dev-client.js",
 	"cli.js",
+	"astro-page.astro",
 ]) {
 	await copyFile(
 		new URL(`./src/${name}`, import.meta.url),

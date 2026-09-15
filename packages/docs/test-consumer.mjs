@@ -5,6 +5,8 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 
+import { verifyEngine } from "./test-engine.mjs"
+
 const packageDirectory = fileURLToPath(new URL(".", import.meta.url))
 const root = await mkdtemp(join(tmpdir(), "monoline-docs-consumer-"))
 function run(command, args, cwd = root) {
@@ -38,6 +40,7 @@ try {
 		})
 	)
 	run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund"])
+	await verifyEngine(join(root, "node_modules/@monoline/docs"), root)
 	await mkdir(join(root, "content"))
 	await mkdir(join(root, "assets"))
 	await writeFile(
