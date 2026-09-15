@@ -46,7 +46,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		)
 		await writeFile(
 			join(project, "components/Table.astro"),
-			'---\nconst rows = [{ name: "theme", type: "light | dark" }]\n---\n<table><caption>Generated API</caption><tbody>{rows.map(row => <tr><th>{row.name}</th><td>{row.type}</td></tr>)}</tbody></table>'
+			'---\nconst rows = [{ name: "theme", type: "light | dark" }]\n---\n<h3 id="properties">Properties</h3><table><caption>Generated API</caption><tbody>{rows.map(row => <tr><th>{row.name}</th><td>{row.type}</td></tr>)}</tbody></table><a href={import.meta.env.BASE_URL + "guide/#installation"}>Installation</a><div data-docs-search="exclude"><h2>Example noise</h2></div>'
 		)
 		await writeFile(
 			join(contentDirectory, "index.mdx"),
@@ -91,6 +91,26 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		assert.match(home, /<table>/)
 		assert.match(home, /light \| dark/)
 		assert.doesNotMatch(home, /<script\b/)
+		assert.match(home, /aria-label="On this page"/)
+		assert.match(home, /href="#properties"/)
+		assert.doesNotMatch(home, /<a[^>]*>Example noise<\/a>/)
+		const index = JSON.parse(
+			await readFile(join(result.directory, "search-index.json"), "utf8")
+		)
+		assert.ok(
+			index.some(
+				(entry) =>
+					entry.url === "/ask-widget/#properties" &&
+					entry.text.includes("theme light | dark")
+			)
+		)
+		assert.ok(
+			index.every(
+				(entry) =>
+					!entry.text.includes("Example noise") &&
+					!entry.text.includes("import Table")
+			)
+		)
 		const guide = await readFile(
 			join(result.directory, "guide/index.html"),
 			"utf8"
@@ -167,6 +187,23 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		)
 		await assert.rejects(buildAstroSite(options), /broken internal link/)
 		await rm(join(contentDirectory, "broken.md"))
+		const tablePath = join(project, "components/Table.astro")
+		const tableSource = await readFile(tablePath, "utf8")
+		for (const [markup, message] of [
+			['<a href="#missing">Broken fragment</a>', /missing fragment/],
+			['<a href="./missing/">Broken target</a>', /missing local target/],
+			[
+				'<img src="./assets/missing.svg" alt="Missing">',
+				/missing local target/,
+			],
+			["<h2>No identifier</h2>", /heading requires a stable id/],
+			['<div id="properties">Duplicate</div>', /duplicate id/],
+		]) {
+			await writeFile(tablePath, tableSource + markup)
+			await assert.rejects(buildAstroSite(options), message)
+			assert.deepEqual(await readdir(outDirectory), ["keep.txt"])
+		}
+		await writeFile(tablePath, tableSource)
 		await writeFile(
 			join(contentDirectory, "index.md"),
 			"---\ntitle: Duplicate\n---\nDuplicate"

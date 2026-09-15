@@ -165,6 +165,9 @@ importers:
       markdown-it:
         specifier: '>=14.3.0'
         version: 15.0.1
+      parse5:
+        specifier: 8.0.1
+        version: 8.0.1
       prismjs:
         specifier: 1.30.0
         version: 1.30.0

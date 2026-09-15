@@ -1,9 +1,17 @@
 import { satteri } from "@astrojs/markdown-satteri"
 import mdx from "@astrojs/mdx"
 import { type AstroIntegration, build } from "astro"
-import { mkdir, mkdtemp, realpath, rm, writeFile } from "node:fs/promises"
+import {
+	mkdir,
+	mkdtemp,
+	readFile,
+	readdir,
+	realpath,
+	rm,
+	writeFile,
+} from "node:fs/promises"
 import { tmpdir } from "node:os"
-import { dirname, join } from "node:path"
+import { dirname, join, relative, sep } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { collectAssets, createAssetUrl } from "./assets.ts"
@@ -11,6 +19,11 @@ import { type MonolineDocsConfig, defineConfig, safeRoute } from "./config.ts"
 import { type DocumentationPage, discoverPages } from "./content.ts"
 import { createHeadingId } from "./heading-id.ts"
 import { createPageLinks } from "./links.ts"
+import {
+	type RenderedPage,
+	inspectRenderedPage,
+	validateRenderedLinks,
+} from "./rendered-content.ts"
 
 export interface StagedAstroSite {
 	directory: string
@@ -177,6 +190,50 @@ export async function buildAstroSite(
 			await mkdir(dirname(join(directory, name)), { recursive: true })
 			await writeFile(join(directory, name), data)
 		}
+		const files = new Set<string>()
+		for (const entry of await readdir(directory, {
+			recursive: true,
+			withFileTypes: true,
+		})) {
+			if (entry.isSymbolicLink())
+				throw new Error(`Unexpected staged symlink: ${entry.name}`)
+			if (entry.isFile())
+				files.add(
+					relative(directory, join(entry.parentPath, entry.name))
+						.split(sep)
+						.join("/")
+				)
+		}
+		const documents = new Map<string, RenderedPage>()
+		const pageFile = (route: string) =>
+			join(
+				directory,
+				route === "/" ? "index.html" : `${route.slice(1)}/index.html`
+			)
+		for (const page of pages)
+			documents.set(
+				page.route,
+				inspectRenderedPage(await readFile(pageFile(page.route), "utf8"), page)
+			)
+		validateRenderedLinks(documents, files, options.base, options.site)
+		for (const [route, document] of documents)
+			await writeFile(pageFile(route), document.html)
+		await writeFile(
+			join(directory, "search-index.json"),
+			JSON.stringify(
+				pages.flatMap((page) =>
+					documents.get(page.route)!.sections.map((section) => ({
+						title: page.metadata.title,
+						heading: section.heading,
+						text: section.text,
+						url:
+							options.base +
+							(page.route === "/" ? "" : page.route.slice(1) + "/") +
+							(section.id ? `#${encodeURIComponent(section.id)}` : ""),
+					}))
+				)
+			)
+		)
 		return { directory, pages, dispose }
 	} catch (error) {
 		await dispose()

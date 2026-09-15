@@ -21,7 +21,8 @@ const Content = page.Content
 	<body>
 		<main id="content">
 			<h1>{page.metadata.title}</h1>
-			<article><Content /></article>
+			<article data-docs-article><Content /></article>
 		</main>
+		<aside class="toc" data-docs-toc></aside>
 	</body>
 </html>

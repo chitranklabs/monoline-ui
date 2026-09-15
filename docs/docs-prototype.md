@@ -13,8 +13,25 @@ The staged engine now shares the existing renderer's heading IDs, page-link
 resolution, and local-asset rules. Markdown and MDX preserve Unicode and duplicate
 heading anchors, reserve `content` for the shell, and resolve source-file links
 under the configured base path. Local assets are copied only into staging.
-Rendered component links and fragment validation, TOC/search extraction, the
-themed shell, and final-output promotion remain part of the next parity work.
+The staged engine also inspects rendered articles, including imported static
+components. It builds TOC entries and the existing search-index format from that
+HTML, then checks local links, fragments, image/source URLs, and video posters
+against staged pages and files. Failures discard staging without touching the
+configured output directory. The themed shell and final-output promotion still
+need parity before the public CLI changes engines.
+
+Static component headings must use H2–H6 with explicit, unique IDs. Search and
+TOC extraction skip navigation, footers, scripts, styles, code blocks, hidden
+content, and interactive islands. Wrap noisy examples in
+`data-docs-search="exclude"` to omit them from both. This does not exempt their
+links from validation. Static API tables remain searchable. Only the shell's
+TOC slot is replaced; rendered article and island bytes are preserved.
+
+Markdown source links are rewritten automatically. In imported Astro components,
+use `import.meta.env.BASE_URL` for base-aware local URLs, for example
+`href={import.meta.env.BASE_URL + "guide/#installation"}`. Validation does not
+rewrite authored JSX URLs or request external sites. CSS URLs, `srcset`
+candidates, and client-created content are not inspected by this check.
 
 The package now contains an internal, staged Astro renderer for Markdown and
 MDX. It is not selected by the public CLI or build API yet: the current commands
