@@ -1,6 +1,28 @@
 import { readFile, readdir } from "node:fs/promises"
 import { join } from "node:path"
 
+export function createAssetUrl(assets: Map<string, Uint8Array>, base: string) {
+	return (link: string): string => {
+		if (/^https:\/\//i.test(link)) return link
+		const url = new URL(link, "https://docs.invalid/")
+		const name = decodeURIComponent(url.pathname).slice(1)
+		if (
+			url.origin !== "https://docs.invalid" ||
+			!isAssetName(name) ||
+			!assets.has(name)
+		)
+			throw new Error(
+				`Missing local asset: ${link}. Use /assets/ paths from assetsDirectory.`
+			)
+		return (
+			base +
+			name.split("/").map(encodeURIComponent).join("/") +
+			url.search +
+			url.hash
+		)
+	}
+}
+
 export const assetTypes: Record<string, string> = {
 	".svg": "image/svg+xml",
 	".png": "image/png",

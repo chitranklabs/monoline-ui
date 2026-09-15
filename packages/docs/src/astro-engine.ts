@@ -1,13 +1,16 @@
 import { satteri } from "@astrojs/markdown-satteri"
 import mdx from "@astrojs/mdx"
 import { type AstroIntegration, build } from "astro"
-import { mkdir, mkdtemp, realpath, rm } from "node:fs/promises"
+import { mkdir, mkdtemp, realpath, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
-import { join } from "node:path"
+import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
+import { collectAssets, createAssetUrl } from "./assets.ts"
 import { type MonolineDocsConfig, defineConfig, safeRoute } from "./config.ts"
 import { type DocumentationPage, discoverPages } from "./content.ts"
+import { createHeadingId } from "./heading-id.ts"
+import { createPageLinks } from "./links.ts"
 
 export interface StagedAstroSite {
 	directory: string
@@ -24,6 +27,9 @@ export async function buildAstroSite(
 	const pages = await discoverPages(content, {
 		environment: options.environment,
 	})
+	const assets = await collectAssets(options.assetsDirectory)
+	const assetUrl = createAssetUrl(assets, options.base)
+	const links = createPageLinks(pages, content, options.base, assetUrl)
 	if (!pages.some((page) => page.route === "/"))
 		throw new Error("Documentation requires an index.md or index.mdx home page")
 	for (const page of pages) {
@@ -40,6 +46,7 @@ export async function buildAstroSite(
 		const sources = new Map(
 			pages.map((page) => [page.filePath.replaceAll("\\", "/"), page])
 		)
+		const headingIds = new WeakMap<object, ReturnType<typeof createHeadingId>>()
 		const moduleSource = [
 			...pages.map(
 				(page, index) =>
@@ -95,6 +102,23 @@ export async function buildAstroSite(
 			markdown: {
 				syntaxHighlight: false,
 				processor: satteri({
+					hastPlugins: [
+						{
+							name: "monoline-heading-ids",
+							before(_tree, context) {
+								headingIds.set(context.data, createHeadingId())
+							},
+							element: {
+								filter: ["h1", "h2", "h3", "h4", "h5", "h6"],
+								visit(node, context) {
+									const id = headingIds.get(context.data)!(
+										context.textContent(node)
+									)
+									context.setProperty(node, "id", id)
+								},
+							},
+						},
+					],
 					mdastPlugins: [
 						{
 							name: "monoline-markdown-policy",
@@ -114,12 +138,45 @@ export async function buildAstroSite(
 							heading(node, context) {
 								if (node.depth === 1) context.setProperty(node, "depth", 2)
 							},
+							link(node, context) {
+								const page =
+									context.fileURL &&
+									sources.get(
+										fileURLToPath(context.fileURL).replaceAll("\\", "/")
+									)
+								if (page)
+									context.setProperty(
+										node,
+										"url",
+										links.resolve(page, node.url)
+									)
+							},
+							definition(node, context) {
+								const page =
+									context.fileURL &&
+									sources.get(
+										fileURLToPath(context.fileURL).replaceAll("\\", "/")
+									)
+								if (page)
+									context.setProperty(
+										node,
+										"url",
+										links.resolve(page, node.url)
+									)
+							},
+							image(node, context) {
+								context.setProperty(node, "url", assetUrl(node.url))
+							},
 						},
 					],
 				}),
 			},
 			integrations: [mdx(), integration],
 		})
+		for (const [name, data] of assets) {
+			await mkdir(dirname(join(directory, name)), { recursive: true })
+			await writeFile(join(directory, name), data)
+		}
 		return { directory, pages, dispose }
 	} catch (error) {
 		await dispose()

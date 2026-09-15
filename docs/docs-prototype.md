@@ -9,6 +9,13 @@ for the proposed migration boundaries and acceptance gates.
 
 ## Internal Astro foundation
 
+The staged engine now shares the existing renderer's heading IDs, page-link
+resolution, and local-asset rules. Markdown and MDX preserve Unicode and duplicate
+heading anchors, reserve `content` for the shell, and resolve source-file links
+under the configured base path. Local assets are copied only into staging.
+Rendered component links and fragment validation, TOC/search extraction, the
+themed shell, and final-output promotion remain part of the next parity work.
+
 The package now contains an internal, staged Astro renderer for Markdown and
 MDX. It is not selected by the public CLI or build API yet: the current commands
 still use the existing renderer until link, search, theme, and output-promotion

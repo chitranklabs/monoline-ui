@@ -50,12 +50,17 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		)
 		await writeFile(
 			join(contentDirectory, "index.mdx"),
-			'---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\n\n## API\n\n<Table />\n'
+			'---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\n\n## API\n\n<Table />\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
 		)
 		await mkdir(join(contentDirectory, "guide"))
+		await mkdir(join(project, "assets"))
+		await writeFile(
+			join(project, "assets/logo.svg"),
+			'<svg xmlns="http://www.w3.org/2000/svg"/>'
+		)
 		await writeFile(
 			join(contentDirectory, "guide/index.md"),
-			'---\ntitle: Guide\nlayout: ./missing-layout.astro\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n'
+			'---\ntitle: Guide\nlayout: ./missing-layout.astro\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
 		)
 		await writeFile(
 			join(contentDirectory, "draft.mdx"),
@@ -66,6 +71,15 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			contentDirectory,
 			outDirectory,
 			base: "/ask-widget/",
+			assetsDirectory: join(project, "assets"),
+		}
+		for (const name of ["index.mdx", "guide/index.md"]) {
+			const path = join(contentDirectory, name)
+			await writeFile(
+				path,
+				(await readFile(path, "utf8")) +
+					"\n[Guide](/guide/index.md?source=docs#installation)\n\n[Home][home]\n\n[home]: /index.mdx#api\n\n![Logo](/assets/logo.svg)\n\n![Reference logo][logo]\n\n[logo]: /assets/logo.svg\n"
+			)
 		}
 		const sourceFiles = (await readdir(project, { recursive: true })).sort()
 		const result = await buildAstroSite(options)
@@ -84,6 +98,20 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		assert.match(guide, /<h2[^>]*>Installation<\/h2>/)
 		assert.doesNotMatch(guide, /<script\b/)
 		assert.match(guide, /&lt;script&gt;/)
+		for (const html of [home, guide]) {
+			for (const id of ["content-1", "café-api", "café-api-1", "section"])
+				assert.ok(html.includes(`id="${id}"`), `Missing stable heading ${id}`)
+			assert.equal((html.match(/<h1\b/g) ?? []).length, 1)
+			assert.ok(
+				html.includes('href="/ask-widget/guide/?source=docs#installation"')
+			)
+			assert.ok(html.includes('href="/ask-widget/#api"'))
+			assert.ok(html.includes('src="/ask-widget/assets/logo.svg"'))
+		}
+		assert.match(
+			await readFile(join(result.directory, "assets/logo.svg"), "utf8"),
+			/<svg/
+		)
 		await assert.rejects(access(join(result.directory, "unrelated/index.html")))
 		await assert.rejects(access(join(result.directory, "draft/index.html")))
 		assert.deepEqual(
@@ -103,6 +131,11 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			environment: "development",
 		})
 		outputs.push(preview)
+		assert.ok(
+			(await readFile(join(preview.directory, "index.html"), "utf8")).includes(
+				'href="/guide/?source=docs#installation"'
+			)
+		)
 		assert.equal(preview.pages.length, 3)
 		assert.match(
 			await readFile(join(preview.directory, "draft/index.html"), "utf8"),
@@ -129,6 +162,12 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		)
 		await rm(join(contentDirectory, "broken.mdx"))
 		await writeFile(
+			join(contentDirectory, "broken.md"),
+			"---\ntitle: Broken link\n---\n[Missing](missing.md)"
+		)
+		await assert.rejects(buildAstroSite(options), /broken internal link/)
+		await rm(join(contentDirectory, "broken.md"))
+		await writeFile(
 			join(contentDirectory, "index.md"),
 			"---\ntitle: Duplicate\n---\nDuplicate"
 		)
@@ -145,6 +184,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			"Previous output is not the engine staging directory"
 		)
 		assert.deepEqual((await readdir(project)).sort(), [
+			"assets",
 			"astro.config.mjs",
 			"components",
 			"content",

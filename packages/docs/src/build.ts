@@ -16,9 +16,10 @@ import {
 	resolve,
 } from "node:path"
 
-import { collectAssets, isAssetName } from "./assets.ts"
+import { collectAssets, createAssetUrl, isAssetName } from "./assets.ts"
 import { type MonolineDocsConfig, defineConfig, safeRoute } from "./config.ts"
 import { discoverPages } from "./content.ts"
+import { createPageLinks } from "./links.ts"
 import { buildNavigation } from "./navigation.ts"
 import type { NavigationItem } from "./navigation.ts"
 import { escapeHtml as escape, renderMarkdown } from "./render.ts"
@@ -52,25 +53,7 @@ export async function buildDocs(config: BuildOptions) {
 			throw new Error("Assets and output directories must not overlap")
 	}
 	const assets = await collectAssets(options.assetsDirectory)
-	const assetUrl = (link: string): string => {
-		if (/^https:\/\//i.test(link)) return link
-		const url = new URL(link, "https://docs.invalid/")
-		const name = decodeURIComponent(url.pathname).slice(1)
-		if (
-			url.origin !== "https://docs.invalid" ||
-			!isAssetName(name) ||
-			!assets.has(name)
-		)
-			throw new Error(
-				`Missing local asset: ${link}. Use /assets/ paths from assetsDirectory.`
-			)
-		return (
-			base +
-			name.split("/").map(encodeURIComponent).join("/") +
-			url.search +
-			url.hash
-		)
-	}
+	const assetUrl = createAssetUrl(assets, base)
 	if (
 		options.stylesheet &&
 		(!options.stylesheet.startsWith("/assets/") ||
@@ -101,46 +84,14 @@ export async function buildDocs(config: BuildOptions) {
 	const navigation = buildNavigation(pages, options.navigation)
 	const href = (route: string) =>
 		base + (route === "/" ? "" : route.slice(1) + "/")
-	const byRoute = new Map(pages.map((page) => [page.route as string, page]))
-	const byFile = new Map(pages.map((page) => [resolve(page.filePath), page]))
-	const references: Array<{ from: string; route: string; hash: string }> = []
+	const links = createPageLinks(pages, content, base, assetUrl)
 	const documents = new Map(
 		pages.map((page) => [
 			page.route as string,
-			renderMarkdown(
-				page,
-				(link) => {
-					if (/^(?:https?:|mailto:|tel:|\/\/)/i.test(link)) return link
-					if (link.startsWith("/assets/")) return assetUrl(link)
-					const url = new URL(
-						link,
-						`https://docs.invalid${page.route === "/" ? "/" : page.route + "/"}`
-					)
-					const path = decodeURIComponent(url.pathname)
-					let target
-					if (/\.mdx?$/.test(path)) {
-						const sourcePath = decodeURIComponent(link.split(/[?#]/)[0]!)
-						target = byFile.get(
-							resolve(
-								sourcePath.startsWith("/") ? content : dirname(page.filePath),
-								sourcePath.replace(/^\//, "")
-							)
-						)
-					} else target = byRoute.get(path.replace(/\/$/, "") || "/")
-					if (!target)
-						throw new Error(`${page.filePath}: broken internal link "${link}"`)
-					references.push({
-						from: page.filePath,
-						route: target.route,
-						hash: decodeURIComponent(url.hash.slice(1)),
-					})
-					return href(target.route) + url.search + url.hash
-				},
-				assetUrl
-			),
+			renderMarkdown(page, (link) => links.resolve(page, link), assetUrl),
 		])
 	)
-	for (const reference of references) {
+	for (const reference of links.references) {
 		if (
 			reference.hash &&
 			reference.hash !== "content" &&

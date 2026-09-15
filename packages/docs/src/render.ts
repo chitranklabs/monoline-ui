@@ -3,6 +3,7 @@ import { createRequire } from "node:module"
 import Prism from "prismjs"
 
 import type { DocumentationPage } from "./content.ts"
+import { createHeadingId } from "./heading-id.ts"
 
 // Load only supported grammars at build time, never modules named by content.
 const loadLanguages = createRequire(import.meta.url)(
@@ -120,7 +121,7 @@ export function renderMarkdown(
 	}
 	walkLinks(tokens)
 	const headings: Heading[] = []
-	const ids = new Set<string>(["content"])
+	const headingId = createHeadingId()
 	for (let index = 0; index < tokens.length; index += 1) {
 		const token = tokens[index]!
 		if (token.type === "table_open") token.attrSet("tabindex", "0")
@@ -135,17 +136,7 @@ export function renderMarkdown(
 					: ""
 			)
 			.join("")
-		const base =
-			text
-				.toLowerCase()
-				.normalize("NFC")
-				.replace(/[^\p{L}\p{N}\s-]/gu, "")
-				.trim()
-				.replace(/\s+/g, "-") || "section"
-		let id = base
-		let suffix = 1
-		while (ids.has(id)) id = `${base}-${suffix++}`
-		ids.add(id)
+		const id = headingId(text)
 		token.attrSet("id", id)
 		// The page title owns H1; preserve normal Markdown H2-H6 levels.
 		const level = Math.max(2, Number(token.tag.slice(1)))
