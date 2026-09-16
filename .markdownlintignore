@@ -8,7 +8,11 @@
 **/node_modules/
 **/dist/
 **/.next/
+**/.astro/
+**/.turbo/
 coverage/
+playwright-report/
+test-results/
 
 # Auto-generated files
 CHANGELOG.md

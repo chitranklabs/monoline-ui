@@ -1,4 +1,5 @@
 import js from "@eslint/js"
+import astro from "eslint-plugin-astro"
 import jsxA11y from "eslint-plugin-jsx-a11y"
 import globals from "globals"
 import tseslint from "typescript-eslint"
@@ -7,11 +8,14 @@ export default tseslint.config(
 	{
 		ignores: [
 			"**/.next/**",
+			"**/.astro/**",
 			"**/.turbo/**",
 			"**/dist/**",
 			"**/dist-playground/**",
 			"**/coverage/**",
 			"**/node_modules/**",
+			"**/playwright-report/**",
+			"**/test-results/**",
 			"**/.tmp*/**",
 			"**/.tmp-*/**",
 		],
@@ -19,6 +23,7 @@ export default tseslint.config(
 	js.configs.recommended,
 	...tseslint.configs.recommended,
 	jsxA11y.flatConfigs.recommended,
+	...astro.configs.recommended,
 	{
 		files: ["**/*.{js,mjs,cjs,jsx,ts,tsx,mts,cts}"],
 		languageOptions: {

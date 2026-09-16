@@ -3,7 +3,15 @@
 	"singleQuote": false,
 	"semi": false,
 	"trailingComma": "es5",
-	"plugins": ["@trivago/prettier-plugin-sort-imports"],
+	"plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-astro"],
+	"overrides": [
+		{
+			"files": "*.astro",
+			"options": {
+				"parser": "astro"
+			}
+		}
+	],
 	"importOrder": [
 		"^react(.*)$",
 		"^next(.*)$",

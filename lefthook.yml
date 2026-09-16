@@ -16,11 +16,9 @@ pre-commit:
           - name: secrets
             run: if command -v gitleaks > /dev/null; then gitleaks protect --staged --redact -v; else echo "gitleaks is required. Install it with 'brew install gitleaks'"; exit 1; fi
 
-          # JS/TS/MJS - ESLint + Prettier
+          # JavaScript, TypeScript, and Astro - ESLint + Prettier
           - name: lint-ts
-            glob:
-              - "{packages,apps,tests,e2e,scripts}/**/*.{ts,tsx,js,jsx,mjs,cjs}"
-              - "*.{ts,tsx,js,jsx,mjs,cjs}"
+            glob: "**/*.{js,mjs,cjs,jsx,ts,tsx,mts,cts,astro}"
             run: pnpm exec eslint {staged_files} --fix && pnpm exec prettier --write {staged_files}
             stage_fixed: true
 
@@ -38,7 +36,7 @@ pre-commit:
 
           # Markdown linting & formatting
           - name: lint-md
-            glob: "**/*.md"
+            glob: "**/*.{md,mdx}"
             run: pnpm exec markdownlint --fix {staged_files} && pnpm exec prettier --write {staged_files}
             stage_fixed: true
 
