@@ -7,7 +7,7 @@ import { createServer } from "node:http"
 import { tmpdir } from "node:os"
 import { extname, join } from "node:path"
 
-import { buildDocs } from "./dist/build.js"
+import { buildAstroDocs } from "./dist/astro-engine.js"
 
 const temporary = await mkdtemp(join(tmpdir(), "monoline-docs-browser-"))
 let browser
@@ -30,7 +30,7 @@ try {
 	const outputs = new Map()
 	for (const base of ["/", "/handbook/"]) {
 		const output = join(temporary, base === "/" ? "root" : "handbook")
-		await buildDocs({
+		await buildAstroDocs({
 			title: "Browser fixture",
 			contentDirectory: content,
 			outDirectory: output,

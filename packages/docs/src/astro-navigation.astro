@@ -1,0 +1,33 @@
+---
+import type { NavigationItem } from "./navigation.ts"
+
+interface Props {
+	items: NavigationItem[]
+	current: string
+	base: string
+}
+
+const { items, current, base } = Astro.props
+const href = (route: string) =>
+	base + (route === "/" ? "" : route.slice(1) + "/")
+---
+
+<ul>
+	{items.map((item) => (
+		<li>
+			{"href" in item ? (
+				<a
+					href={href(item.href)}
+					aria-current={item.href === current ? "page" : undefined}
+				>
+					{item.label}
+				</a>
+			) : (
+				<>
+					<span class="group">{item.label}</span>
+					<Astro.self items={item.items} current={current} base={base} />
+				</>
+			)}
+		</li>
+	))}
+</ul>

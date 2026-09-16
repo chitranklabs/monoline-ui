@@ -204,7 +204,8 @@ export function validateRenderedLinks(
 			if (!target && !path!.startsWith(base))
 				fail(`local URL outside base ${base}`)
 			if (target && (!reference.asset || reference.fragment)) {
-				if (hash! && !target.ids.has(hash!)) fail("missing fragment")
+				if (hash! && !target.ids.has(hash!))
+					fail("missing heading (missing fragment)")
 			} else if (!files.has(path!.slice(base.length)))
 				fail("missing local target")
 		}

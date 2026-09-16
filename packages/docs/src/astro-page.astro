@@ -1,5 +1,6 @@
 ---
 import { pages, site } from "virtual:monoline-docs/pages"
+import Navigation from "./astro-navigation.astro"
 
 export function getStaticPaths() {
 	return pages.map((page) => ({
@@ -10,22 +11,129 @@ export function getStaticPaths() {
 
 const { page } = Astro.props
 const Content = page.Content
+const href = (route) => site.base + (route === "/" ? "" : route.slice(1) + "/")
+const index = site.navigation.sequence.findIndex(
+	(entry) => entry.href === page.route
+)
+const previous = index > 0 ? site.navigation.sequence[index - 1] : undefined
+const next = index >= 0 ? site.navigation.sequence[index + 1] : undefined
+const description = page.metadata.description ?? site.description ?? ""
+const canonical = site.site
+	? new URL(href(page.route), site.site).href
+	: undefined
 ---
 
 <!doctype html>
-<html lang={site.lang}>
+<html lang={site.lang} data-theme={site.defaultMode}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
 		<title>{page.metadata.title} | {site.title}</title>
+		<meta name="description" content={description} />
+		{canonical && <link rel="canonical" href={canonical} />}
+		{site.noindex && <meta name="robots" content="noindex, nofollow" />}
+		<script is:inline src={`${site.base}theme.js`}></script>
+		<link rel="stylesheet" href={`${site.base}docs.css`} />
+		{site.stylesheet && <link rel="stylesheet" href={site.stylesheet} />}
+		<script src={`${site.base}client.js`} defer></script>
 	</head>
 	<body>
-		<main id="content">
-			<h1>{page.metadata.title}</h1>
-			<article data-docs-article>
-				<Content />
-			</article>
-		</main>
-		<aside class="toc" data-docs-toc></aside>
+		<a class="skip" href="#content">
+			Skip to content
+		</a>
+		<header>
+			<a class="brand" href={href("/")}>
+				{site.logo && (
+					<img
+						src={site.logo.src}
+						alt={site.logo.alt}
+						width={site.logo.width}
+						height={site.logo.height}
+					/>
+				)}
+				{site.title}
+			</a>
+			{site.headerLinks?.length > 0 && (
+				<nav class="header-links" aria-label="Site links">
+					{site.headerLinks.map((link) => (
+						<a href={link.href}>{link.label}</a>
+					))}
+				</nav>
+			)}
+			<label class="theme-control" hidden>
+				Theme
+				<select aria-label="Color theme">
+					<option value="system">System</option>
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+				</select>
+			</label>
+		</header>
+		<button class="search-trigger" type="button" hidden>
+			Search
+		</button>
+		<dialog
+			class="search-dialog"
+			aria-labelledby="search-title"
+			data-index={`${site.base}search-index.json`}
+		>
+			<div class="search-heading">
+				<h2 id="search-title">Search documentation</h2>
+				<button type="button" class="search-close" aria-label="Close search">
+					Close
+				</button>
+			</div>
+			<label>
+				Search pages and headings
+				<input
+					id="docs-query"
+					type="search"
+					maxlength="200"
+					autocomplete="off"
+					autofocus
+					aria-describedby="search-status"
+				/>
+			</label>
+			<p id="search-status" role="status">
+				Type to search.
+			</p>
+			<ul class="search-results" aria-label="Search results"></ul>
+		</dialog>
+		<script type="module" src={`${site.base}search.js`}></script>
+		<div class="layout">
+			<aside class="sidebar" aria-label="Documentation sidebar">
+				<details open>
+					<summary>Navigation</summary>
+					<nav aria-label="Documentation">
+						<Navigation
+							items={site.navigation.items}
+							current={page.route}
+							base={site.base}
+						/>
+					</nav>
+				</details>
+			</aside>
+			<main id="content" tabindex="-1">
+				<h1>{page.metadata.title}</h1>
+				{description && <p class="description">{description}</p>}
+				<article data-docs-article>
+					<Content />
+				</article>
+				<nav class="pager" aria-label="Page navigation">
+					{previous && (
+						<a rel="prev" href={href(previous.href)}>
+							Previous: {previous.label}
+						</a>
+					)}
+					{next && (
+						<a rel="next" href={href(next.href)}>
+							Next: {next.label}
+						</a>
+					)}
+				</nav>
+			</main>
+			<aside class="toc" data-docs-toc></aside>
+		</div>
 	</body>
 </html>

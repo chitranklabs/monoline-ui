@@ -5,6 +5,7 @@ import {
 	mkdtemp,
 	readFile,
 	readdir,
+	realpath,
 	rm,
 	writeFile,
 } from "node:fs/promises"
@@ -13,7 +14,7 @@ import { dirname, join, resolve } from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 
 export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
-	const { buildAstroSite } = await import(
+	const { buildAstroDocs, buildAstroSite } = await import(
 		pathToFileURL(join(packageDirectory, "dist/astro-engine.js")).href
 	)
 	const packageFiles = (
@@ -58,9 +59,10 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			join(project, "assets/logo.svg"),
 			'<svg xmlns="http://www.w3.org/2000/svg"/>'
 		)
+		await writeFile(join(project, "assets/custom.css"), ":root{--test:1}")
 		await writeFile(
 			join(contentDirectory, "guide/index.md"),
-			'---\ntitle: Guide\nlayout: ./missing-layout.astro\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
+			'---\ntitle: Guide\nlayout: ./missing-layout.astro\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n\n> [!NOTE]\n> Keep this safe.\n\n```js\nconst ready = true\n```\n\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
 		)
 		await writeFile(
 			join(contentDirectory, "draft.mdx"),
@@ -68,10 +70,20 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		)
 		const options = {
 			title: "Engine fixture",
+			description: "Astro documentation fixture",
+			site: "https://example.com",
 			contentDirectory,
 			outDirectory,
 			base: "/ask-widget/",
 			assetsDirectory: join(project, "assets"),
+			stylesheet: "/assets/custom.css",
+			logo: {
+				src: "/assets/logo.svg",
+				alt: "Fixture logo",
+				width: 24,
+				height: 24,
+			},
+			headerLinks: [{ label: "GitHub", href: "https://github.com/example" }],
 		}
 		for (const name of ["index.mdx", "guide/index.md"]) {
 			const path = join(contentDirectory, name)
@@ -90,7 +102,18 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		assert.match(home, /<h1[^>]*>Home<\/h1>/)
 		assert.match(home, /<table>/)
 		assert.match(home, /light \| dark/)
-		assert.doesNotMatch(home, /<script\b/)
+		assert.match(home, /data-theme="system"/)
+		assert.match(home, /href="\/ask-widget\/docs\.css"/)
+		assert.match(home, /src="\/ask-widget\/theme\.js"/)
+		assert.match(home, /src="\/ask-widget\/client\.js"/)
+		assert.match(home, /src="\/ask-widget\/search\.js"/)
+		assert.doesNotMatch(home, /_astro|astro-island|react/i)
+		assert.match(home, /href="https:\/\/example\.com\/ask-widget\/"/)
+		assert.match(home, /content="Astro documentation fixture"/)
+		assert.match(home, /src="\/ask-widget\/assets\/logo\.svg"/)
+		assert.match(home, /href="\/ask-widget\/assets\/custom\.css"/)
+		assert.match(home, /aria-label="Documentation sidebar"/)
+		assert.match(home, /aria-current="page"/)
 		assert.match(home, /aria-label="On this page"/)
 		assert.match(home, /href="#properties"/)
 		assert.doesNotMatch(home, /<a[^>]*>Example noise<\/a>/)
@@ -115,9 +138,16 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			join(result.directory, "guide/index.html"),
 			"utf8"
 		)
-		assert.match(guide, /<h2[^>]*>Installation<\/h2>/)
-		assert.doesNotMatch(guide, /<script\b/)
+		assert.match(guide, /<h2[^>]*>Installation/)
+		assert.doesNotMatch(guide, /<script>throw new Error/)
+		assert.doesNotMatch(guide, /_astro|astro-island|react/i)
 		assert.match(guide, /&lt;script&gt;/)
+		assert.match(guide, /class="callout callout-note"/)
+		assert.match(guide, /class="callout-title">Note/)
+		assert.match(guide, /class="code-block"/)
+		assert.match(guide, /class="copy-code"/)
+		assert.match(guide, /class="token keyword">const/)
+		assert.match(guide, /class="heading-anchor"/)
 		for (const html of [home, guide]) {
 			for (const id of ["content-1", "café-api", "café-api-1", "section"])
 				assert.ok(html.includes(`id="${id}"`), `Missing stable heading ${id}`)
@@ -132,6 +162,16 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			await readFile(join(result.directory, "assets/logo.svg"), "utf8"),
 			/<svg/
 		)
+		for (const name of [
+			"404.html",
+			"docs.css",
+			"theme.js",
+			"client.js",
+			"search.js",
+			"sitemap.xml",
+		])
+			await access(join(result.directory, name))
+		await assert.rejects(access(join(result.directory, "robots.txt")))
 		await assert.rejects(access(join(result.directory, "unrelated/index.html")))
 		await assert.rejects(access(join(result.directory, "draft/index.html")))
 		assert.deepEqual(
@@ -213,6 +253,46 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			/Duplicate documentation route/
 		)
 		await rm(join(contentDirectory, "index.md"))
+		await writeFile(
+			join(contentDirectory, "index.mdx"),
+			'---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\n\n## API\n\n<Table />\n'
+		)
+		const published = join(project, "published-safe")
+		const publishedOptions = { ...options, outDirectory: published }
+		const publishedResult = await buildAstroDocs(publishedOptions)
+		assert.equal(publishedResult.pages, 2)
+		assert.equal(publishedResult.outDirectory, await realpath(published))
+		await writeFile(join(published, "keep.txt"), "unrelated")
+		await mkdir(join(published, "_astro"), { recursive: true })
+		await writeFile(join(published, "_astro/stale.js"), "stale")
+		const manifestPath = join(published, ".monoline-generated.json")
+		const manifest = JSON.parse(await readFile(manifestPath, "utf8"))
+		await writeFile(
+			manifestPath,
+			JSON.stringify([...manifest, "_astro/stale.js"])
+		)
+		await buildAstroDocs(publishedOptions)
+		assert.equal(
+			await readFile(join(published, "keep.txt"), "utf8"),
+			"unrelated"
+		)
+		await assert.rejects(access(join(published, "_astro/stale.js")))
+		const lastGood = await readFile(join(published, "index.html"), "utf8")
+		await writeFile(join(contentDirectory, "index.mdx"), "<Broken")
+		await assert.rejects(buildAstroDocs(publishedOptions))
+		assert.equal(
+			await readFile(join(published, "index.html"), "utf8"),
+			lastGood
+		)
+		await writeFile(manifestPath, JSON.stringify(["../outside.txt"]))
+		await writeFile(
+			join(contentDirectory, "index.mdx"),
+			'---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\n\n## API\n\n<Table />\n'
+		)
+		await assert.rejects(
+			buildAstroDocs(publishedOptions),
+			/Invalid generated-file manifest/
+		)
 		await rm(join(contentDirectory, "index.mdx"))
 		await assert.rejects(buildAstroSite(options), /index\.md|home/i)
 		assert.deepEqual(await readdir(outDirectory), ["keep.txt"])
@@ -226,6 +306,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			"components",
 			"content",
 			"published",
+			"published-safe",
 			"src",
 		])
 		assert.deepEqual(
