@@ -17,6 +17,8 @@ export interface MonolineDocsConfig {
 	defaultMode?: "light" | "dark" | "system"
 	logo?: { src: string; alt: string; width: number; height: number }
 	headerLinks?: Array<{ label: string; href: string }>
+	/** Enable React components and explicit Astro client directives in MDX. */
+	react?: boolean
 	environment?: "production" | "development"
 }
 
@@ -77,11 +79,14 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"defaultMode",
 		"logo",
 		"headerLinks",
+		"react",
 		"environment",
 	])
 	string(config.title, "title")
 	if (config.indexing !== undefined && typeof config.indexing !== "boolean")
 		throw new Error("indexing must be a boolean")
+	if (config.react !== undefined && typeof config.react !== "boolean")
+		throw new Error("react must be a boolean")
 	for (const key of [
 		"description",
 		"site",
@@ -173,6 +178,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		base,
 		lang,
 		defaultMode,
+		react: config.react ?? false,
 		environment,
 		contentDirectory: config.contentDirectory ?? "./content",
 		outDirectory: config.outDirectory ?? "./dist",

@@ -171,6 +171,11 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			"sitemap.xml",
 		])
 			await access(join(result.directory, name))
+		assert.ok(
+			!(await readdir(result.directory, { recursive: true })).some(
+				(name) => name.startsWith("_astro/") && name.endsWith(".js")
+			)
+		)
 		await assert.rejects(access(join(result.directory, "robots.txt")))
 		await assert.rejects(access(join(result.directory, "unrelated/index.html")))
 		await assert.rejects(access(join(result.directory, "draft/index.html")))
@@ -262,6 +267,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		const publishedResult = await buildAstroDocs(publishedOptions)
 		assert.equal(publishedResult.pages, 2)
 		assert.equal(publishedResult.outDirectory, await realpath(published))
+		assert.equal("dependencies" in publishedResult, false)
 		await writeFile(join(published, "keep.txt"), "unrelated")
 		await mkdir(join(published, "_astro"), { recursive: true })
 		await writeFile(join(published, "_astro/stale.js"), "stale")

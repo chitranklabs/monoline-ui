@@ -2,7 +2,7 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises"
 import { get } from "node:http"
 import { tmpdir } from "node:os"
-import { join } from "node:path"
+import { dirname, join } from "node:path"
 import { afterEach, expect, it } from "vitest"
 
 import { startDevServer } from "./dev"
@@ -16,11 +16,15 @@ async function fixture() {
 	cleanups.push(() => rm(root, { force: true, recursive: true }))
 	const contentDirectory = join(root, "content")
 	const assetsDirectory = join(root, "assets")
+	const componentsDirectory = join(root, "components")
 	await mkdir(contentDirectory)
 	await mkdir(assetsDirectory)
+	await mkdir(componentsDirectory)
+	const component = join(componentsDirectory, "Status.astro")
+	await writeFile(component, "<p>Component original</p>")
 	await writeFile(
-		join(contentDirectory, "index.md"),
-		"---\ntitle: Original\n---\n# Hello"
+		join(contentDirectory, "index.mdx"),
+		'---\ntitle: Original\n---\nimport Status from "../components/Status.astro"\n\n# Hello\n\n<Status />'
 	)
 	await writeFile(
 		join(contentDirectory, "draft.md"),
@@ -38,7 +42,7 @@ async function fixture() {
 		0
 	)
 	cleanups.push(server.close)
-	return { ...server, contentDirectory, assetsDirectory }
+	return { ...server, contentDirectory, assetsDirectory, component }
 }
 
 async function* updates(response: Response) {
@@ -110,8 +114,26 @@ it("watches real edits, reports errors, recovers, and closes active streams", as
 		await fetch(server.url + "__monoline/events", { signal: abort.signal })
 	)
 	const first = (await stream.next()).value!
+	await fetch(server.url)
 	await writeFile(
-		join(server.contentDirectory, "index.md"),
+		server.component,
+		'---\nimport { message } from "./message.js"\n---\n<p>{message}</p>'
+	)
+	let dependencyFailed = (await stream.next()).value!
+	while (!dependencyFailed.error)
+		dependencyFailed = (await stream.next()).value!
+	await writeFile(
+		join(dirname(server.component), "message.js"),
+		'export const message = "Component recovered"'
+	)
+	let componentChanged = (await stream.next()).value!
+	while (componentChanged.error || componentChanged.revision <= first.revision)
+		componentChanged = (await stream.next()).value!
+	expect(await (await fetch(server.url)).text()).toContain(
+		"Component recovered"
+	)
+	await writeFile(
+		join(server.contentDirectory, "index.mdx"),
 		"---\ntitle: Edited\n---\n# Hello"
 	)
 	let changed = (await stream.next()).value!
@@ -122,7 +144,7 @@ it("watches real edits, reports errors, recovers, and closes active streams", as
 	expect(search.headers.get("content-type")).toContain("application/json")
 	expect(await search.text()).toContain("Edited")
 	await writeFile(
-		join(server.contentDirectory, "index.md"),
+		join(server.contentDirectory, "index.mdx"),
 		"---\ntitle: 42\n---"
 	)
 	let failed = (await stream.next()).value!
@@ -130,7 +152,7 @@ it("watches real edits, reports errors, recovers, and closes active streams", as
 	expect(failed.error).toContain("title must")
 	expect(await (await fetch(server.url)).text()).toContain("Edited")
 	await writeFile(
-		join(server.contentDirectory, "index.md"),
+		join(server.contentDirectory, "index.mdx"),
 		"---\ntitle: Recovered\n---\n# Hello"
 	)
 	let recovered = (await stream.next()).value!
@@ -149,6 +171,8 @@ it("watches real edits, reports errors, recovers, and closes active streams", as
 			await (await fetch(server.url + "assets/font.woff2")).arrayBuffer()
 		)
 	).toEqual(new Uint8Array([4]))
+	const finalRebuild = server.rebuild()
 	await server.close()
+	await finalRebuild
 	await expect(fetch(server.url)).rejects.toThrow()
 }, 10000)

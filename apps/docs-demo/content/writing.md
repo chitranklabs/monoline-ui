@@ -39,6 +39,27 @@ IDs, and headings inside code fences never enter the table of contents.
 Raw HTML is displayed as text. Use normal Markdown for prose, lists, code, and
 tables.
 
+## MDX and React
+
+Use `.mdx` for trusted project content that imports local or installed
+components. Static Astro components need no configuration. For React 19, install
+`react` and `react-dom`, set `react: true`, and add a client directive only when
+the component needs browser interaction:
+
+```mdx
+import Counter from "../components/Counter.jsx"
+
+<Counter client:visible />
+```
+
+Without `client:load`, `client:idle`, or `client:visible`, a React component is
+rendered as static HTML. Ordinary pages do not receive the React runtime. MDX and
+module configuration execute trusted project code during the build; do not use
+them for untrusted or remotely supplied content.
+
+Inside authored JSX, use `import.meta.env.BASE_URL` for local site URLs so links
+work at both `/` and a deployment subpath.
+
 ## Drafts
 
 Set `draft: true` to exclude a page from production builds. Remove references to

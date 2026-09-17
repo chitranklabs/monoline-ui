@@ -77,6 +77,19 @@ try {
 	await writeFile(join(root, "monoline-docs.yaml"), "title: Ambiguous")
 	assert.throws(() => run(cli, ["build"]))
 	await rm(join(root, "monoline-docs.yaml"))
+	await mkdir(join(root, "components"))
+	await writeFile(
+		join(root, "components/Counter.jsx"),
+		'import { useState } from "react"; export default function Counter() { const [count, setCount] = useState(0); return <button onClick={() => setCount(count + 1)}>Count {count}</button> }'
+	)
+	await writeFile(
+		join(root, "content/react.mdx"),
+		'---\ntitle: React example\n---\nimport Counter from "../components/Counter.jsx"\n\n## Counter\n\n<Counter client:load />\n'
+	)
+	await writeFile(
+		join(root, "monoline.config.mjs"),
+		`import { defineConfig } from '@monoline/docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark', react: true });`
+	)
 	for (const recipe of ["vercel.json", "netlify.toml", "github-pages.yml"])
 		assert(
 			(
@@ -89,8 +102,18 @@ try {
 	// Invoke from another directory to verify paths belong to the config file.
 	run(cli, ["build", "--config", join(root, "monoline.config.mjs")], tmpdir())
 	const html = await readFile(join(root, "dist/index.html"), "utf8")
+	const reactHtml = await readFile(join(root, "dist/react/index.html"), "utf8")
 	assert(html.includes('data-theme="dark"'))
 	assert(html.includes('href="https://example.com/handbook/"'))
+	assert(!html.includes("astro-island"))
+	assert(!html.includes("/_astro/"))
+	assert(reactHtml.includes("astro-island"))
+	assert(/Count(?:<!--.*?-->|\s)*0/.test(reactHtml))
+	assert(
+		JSON.parse(
+			await readFile(join(root, "dist/.monoline-generated.json"), "utf8")
+		).some((name) => name.startsWith("_astro/") && name.endsWith(".js"))
+	)
 	assert(
 		!(await readFile(join(root, "dist/search-index.json"), "utf8")).includes(
 			"Unpublished"
@@ -116,8 +139,46 @@ try {
 		`import assert from 'node:assert/strict'; import { startDevServer } from '@monoline/docs/dev'; import config from './monoline.config.mjs'; const preview = await startDevServer(config, 0); try { const response = await fetch(preview.url + 'search-index.json'); assert.equal(response.status, 200); assert((await response.text()).includes('Unpublished')); assert.equal((await fetch(preview.url + 'missing/')).status, 404); } finally { await preview.close(); }`
 	)
 	run(process.execPath, ["preview.mjs"])
+	const pnpmRoot = join(root, "pnpm-consumer")
+	await mkdir(join(pnpmRoot, "content"), { recursive: true })
+	await mkdir(join(pnpmRoot, "components"))
+	await writeFile(
+		join(pnpmRoot, "package.json"),
+		JSON.stringify({
+			private: true,
+			type: "module",
+			dependencies: {
+				"@monoline/docs": `file:${join(root, packed.filename)}`,
+				react: "19.3.0",
+				"react-dom": "19.3.0",
+			},
+		})
+	)
+	await writeFile(
+		join(pnpmRoot, "components/Counter.jsx"),
+		'import { useState } from "react"; export default function Counter() { const [count] = useState(0); return <button>Count {count}</button> }'
+	)
+	await writeFile(
+		join(pnpmRoot, "content/index.mdx"),
+		'---\ntitle: pnpm consumer\n---\nimport Counter from "../components/Counter.jsx"\n\n<Counter client:load />\n'
+	)
+	await writeFile(
+		join(pnpmRoot, "monoline-docs.yml"),
+		"title: pnpm consumer\nbase: /reference/\nreact: true\n"
+	)
+	run(
+		"pnpm",
+		["install", "--ignore-scripts", "--strict-peer-dependencies"],
+		pnpmRoot
+	)
+	run(join(pnpmRoot, "node_modules/.bin/monoline-docs"), ["build"], pnpmRoot)
+	assert(
+		(await readFile(join(pnpmRoot, "dist/index.html"), "utf8")).includes(
+			"astro-island"
+		)
+	)
 	console.log(
-		"Docs consumer passed: packed install, CLI, declarations, subpath build, drafts, search and preview."
+		"Docs consumer passed: npm and strict pnpm installs, CLI, React island, declarations, subpath build, drafts, search and preview."
 	)
 } finally {
 	await rm(root, { recursive: true, force: true })

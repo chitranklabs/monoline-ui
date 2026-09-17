@@ -1,5 +1,6 @@
 import { satteri } from "@astrojs/markdown-satteri"
 import mdx from "@astrojs/mdx"
+import react from "@astrojs/react"
 import { type AstroIntegration, build } from "astro"
 import {
 	mkdir,
@@ -11,7 +12,7 @@ import {
 	writeFile,
 } from "node:fs/promises"
 import { tmpdir } from "node:os"
-import { dirname, join, relative, sep } from "node:path"
+import { dirname, isAbsolute, join, relative, sep } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { collectAssets, createAssetUrl } from "./assets.ts"
@@ -30,11 +31,19 @@ import {
 export interface StagedAstroSite {
 	directory: string
 	pages: DocumentationPage[]
+	dependencies: string[]
 	dispose(): Promise<void>
 }
 
+const inside = (parent: string, child: string) => {
+	const path = relative(parent, child)
+	return path === "" || (!path.startsWith("..") && !isAbsolute(path))
+}
+
 /** Internal parity path: stage, validate, then update only managed output files. */
-export async function buildAstroDocs(config: MonolineDocsConfig) {
+export async function buildAstroDocsWithDependencies(
+	config: MonolineDocsConfig
+) {
 	const options = defineConfig(config)
 	const output = await resolveOutput(options)
 	const staged = await buildAstroSite(options)
@@ -54,10 +63,20 @@ export async function buildAstroDocs(config: MonolineDocsConfig) {
 			files.set(name, await readFile(join(staged.directory, name)))
 		}
 		await publishFiles(output, files)
-		return { pages: staged.pages.length, outDirectory: output }
+		return {
+			pages: staged.pages.length,
+			outDirectory: output,
+			dependencies: staged.dependencies,
+		}
 	} finally {
 		await staged.dispose()
 	}
+}
+
+export async function buildAstroDocs(config: MonolineDocsConfig) {
+	const { dependencies: _dependencies, ...result } =
+		await buildAstroDocsWithDependencies(config)
+	return result
 }
 
 /** Internal renderer only: never writes to the configured final output. */
@@ -81,6 +100,8 @@ export async function buildAstroSite(
 	const navigation = buildNavigation(pages, options.navigation)
 	const workspace = await mkdtemp(join(tmpdir(), "monoline-astro-"))
 	const directory = join(workspace, "output")
+	const dependencies = new Set<string>()
+	const runtime = dirname(fileURLToPath(import.meta.url))
 	const dispose = () => rm(workspace, { recursive: true, force: true })
 	try {
 		await mkdir(join(workspace, "source"))
@@ -145,11 +166,27 @@ export async function buildAstroSite(
 									resolveId(id) {
 										if (id === virtualId) return resolvedId
 										// The owned staging root has no node_modules; use this package's engine.
-										if (id === "astro" || id.startsWith("astro/"))
+										if (
+											id === "astro" ||
+											id.startsWith("astro/") ||
+											id === "@astrojs/react" ||
+											id.startsWith("@astrojs/react/")
+										)
 											return fileURLToPath(import.meta.resolve(id))
 									},
 									load(id) {
 										if (id === resolvedId) return moduleSource
+									},
+									moduleParsed({ id }) {
+										const path = id.split("?", 1)[0]!
+										if (
+											isAbsolute(path) &&
+											!path.includes(`${sep}node_modules${sep}`) &&
+											!inside(content, path) &&
+											!inside(workspace, path) &&
+											!inside(runtime, path)
+										)
+											dependencies.add(path)
 									},
 								},
 							],
@@ -171,7 +208,7 @@ export async function buildAstroSite(
 			trailingSlash: "always",
 			logLevel: "silent",
 			markdown: {
-				syntaxHighlight: "prism",
+				syntaxHighlight: { type: "prism", excludeLangs: ["mdx"] },
 				processor: satteri({
 					hastPlugins: [
 						{
@@ -367,7 +404,7 @@ export async function buildAstroSite(
 					],
 				}),
 			},
-			integrations: [mdx(), integration],
+			integrations: [mdx(), ...(options.react ? [react()] : []), integration],
 		})
 		for (const [name, data] of assets) {
 			await mkdir(dirname(join(directory, name)), { recursive: true })
@@ -449,7 +486,7 @@ export async function buildAstroSite(
 				)
 			)
 		)
-		return { directory, pages, dispose }
+		return { directory, pages, dependencies: [...dependencies].sort(), dispose }
 	} catch (error) {
 		await dispose()
 		throw error

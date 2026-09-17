@@ -41,6 +41,7 @@ keys fail validation, so a misspelled option does not silently do nothing.
 | `navigation`       | Generated    | [Sidebar links and groups](navigation.md).                                          |
 | `logo`             | Unset        | Local image with `src`, nonempty `alt`, and positive integer `width` and `height`.  |
 | `headerLinks`      | Unset        | Links with `label` and absolute HTTP(S) `href`.                                     |
+| `react`            | `false`      | Enable React 19 components and explicit client directives in MDX.                   |
 | `environment`      | `production` | Build environment; the CLI build forces production and preview uses development.    |
 
 Use [appearance](appearance.md) for logo and stylesheet examples and

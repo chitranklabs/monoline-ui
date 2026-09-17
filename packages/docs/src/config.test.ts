@@ -17,6 +17,7 @@ it("resolves defaults and canonicalizes origin and language without mutating inp
 		contentDirectory: "./content",
 		outDirectory: "./dist",
 		environment: "production",
+		react: false,
 	})
 	expect(input.site).toBe("https://example.com/")
 })
@@ -35,6 +36,7 @@ it.each([
 	[{ lang: "not_a_language" }, "BCP 47"],
 	[{ defaultMode: "sepia" }, "defaultMode"],
 	[{ environment: "prod" }, "environment"],
+	[{ react: "yes" }, "react"],
 	[{ stylesheet: "https://example.com/style.css" }, "stylesheet"],
 	[{ headerLinks: [{ label: "Unsafe", href: "//example.com" }] }, "HTTP(S)"],
 	[

@@ -27,7 +27,7 @@ its anchor; update incoming links too. Duplicate routes can occur when both
 
 Every page needs a YAML block at the very start of the file and a nonempty
 `title`. Use a number for `order` and a boolean for `draft`, not quoted strings.
-A production site also needs a published `index.md` at the content root.
+A production site also needs a published `index.md` or `index.mdx` at the content root.
 
 See the [frontmatter example](writing.md#frontmatter).
 
@@ -60,11 +60,15 @@ the homepage with a success response.
 If search fails, verify that `search-index.json` is reachable under the same base.
 If copy fails, use the browser's normal text selection and copy action.
 
-## Unsupported authoring syntax
+## MDX or React does not build
 
-Use `.md` pages. MDX execution, interactive tabs, and raw HTML rendering are not
-supported. Callout markers must be on the first line of their own blockquote;
-see [callouts](writing.md#callouts).
+Use `.mdx` for component imports. React components require React 19, React DOM 19,
+and `react: true` in configuration. Add a `client:*` directive only to components
+that need browser interaction. Imported local component and data changes are
+watched by preview after a successful build.
+
+Raw HTML in `.md` remains escaped. Callout markers must be on the first line of
+their own blockquote; see [callouts](writing.md#callouts).
 
 Re-run the [production build](deployment.md#build-the-demo) after fixing an error.
 Deploy only a successful build.

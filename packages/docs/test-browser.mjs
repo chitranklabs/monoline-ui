@@ -2,10 +2,18 @@ import { chromium, expect } from "@playwright/test"
 import axe from "axe-core"
 import assert from "node:assert/strict"
 import { once } from "node:events"
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
+import {
+	mkdir,
+	mkdtemp,
+	readFile,
+	rm,
+	symlink,
+	writeFile,
+} from "node:fs/promises"
 import { createServer } from "node:http"
 import { tmpdir } from "node:os"
-import { extname, join } from "node:path"
+import { dirname, extname, join } from "node:path"
+import { fileURLToPath } from "node:url"
 
 import { buildAstroDocs } from "./dist/astro-engine.js"
 
@@ -15,9 +23,21 @@ let server
 try {
 	const content = join(temporary, "content")
 	await mkdir(join(content, "guide"), { recursive: true })
+	await symlink(
+		join(
+			dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
+			"node_modules"
+		),
+		join(temporary, "node_modules"),
+		"dir"
+	)
 	await writeFile(
-		join(content, "index.md"),
-		"---\ntitle: Welcome\n---\n## Getting started\nRead the [nested guide](./guide/install.md#installation).\n"
+		join(temporary, "Counter.jsx"),
+		'import { useState } from "react"; export default function Counter() { const [count, setCount] = useState(0); return <button onClick={() => setCount(count + 1)}>Count {count}</button> }'
+	)
+	await writeFile(
+		join(content, "index.mdx"),
+		'---\ntitle: Welcome\n---\nimport Counter from "../Counter.jsx"\n\n## Getting started\nRead the [nested guide](./guide/install.md#installation).\n\n<Counter client:load />\n'
 	)
 	await writeFile(
 		join(content, "draft.md"),
@@ -35,6 +55,7 @@ try {
 			contentDirectory: content,
 			outDirectory: output,
 			base,
+			react: true,
 		})
 		outputs.set(base, output)
 		assert(
@@ -101,6 +122,9 @@ try {
 		await expect(
 			page.getByRole("heading", { name: "Welcome", exact: true })
 		).toBeVisible()
+		const counter = page.getByRole("button", { name: "Count 0" })
+		await counter.click()
+		await expect(page.getByRole("button", { name: "Count 1" })).toBeVisible()
 		await page.getByRole("link", { name: "nested guide", exact: true }).click()
 		await expect(page).toHaveURL(`${origin}${base}guide/install/#installation`)
 		await expect(

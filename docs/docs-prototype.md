@@ -1,9 +1,8 @@
 # Monoline Docs prototype
 
-The private `@monoline/docs` package now connects content discovery and navigation
-to a runnable static Markdown site. This validates the authoring and deployment
-flow before integrating the approved Astro engine and MDX support. The current
-implementation remains the Markdown builder; see the
+The private `@monoline/docs` package connects content discovery and navigation
+to a static Markdown and MDX site. The public builder and CLI now use the approved
+Astro engine; see the
 [integration design](./superpowers/specs/2026-09-14-docs-astro-engine-design.md)
 for the proposed migration boundaries and acceptance gates.
 
@@ -17,8 +16,8 @@ The staged engine also inspects rendered articles, including imported static
 components. It builds TOC entries and the existing search-index format from that
 HTML, then checks local links, fragments, image/source URLs, and video posters
 against staged pages and files. Failures discard staging without touching the
-configured output directory. The themed shell and final-output promotion still
-need parity before the public CLI changes engines.
+configured output directory. The themed shell and final-output promotion use the
+same validated route, asset, and ownership contracts.
 
 Static component headings must use H2–H6 with explicit, unique IDs. Search and
 TOC extraction skip navigation, footers, scripts, styles, code blocks, hidden
@@ -33,10 +32,9 @@ use `import.meta.env.BASE_URL` for base-aware local URLs, for example
 rewrite authored JSX URLs or request external sites. CSS URLs, `srcset`
 candidates, and client-created content are not inspected by this check.
 
-The package now contains an internal, staged Astro renderer for Markdown and
-MDX. It is not selected by the public CLI or build API yet: the current commands
-still use the existing renderer until link, search, theme, and output-promotion
-parity is verified.
+The package builds Markdown and MDX through an internal staged Astro renderer.
+The public CLI and build API validate that output before promoting only files
+owned by Monoline Docs.
 
 ```sh
 pnpm --filter @monoline/docs test:engine
@@ -44,7 +42,7 @@ pnpm --filter @monoline/docs test:consumer
 ```
 
 The engine check renders Markdown and MDX with a local static component, verifies
-that ordinary pages have no scripts, ignores consumer Astro configuration/pages,
+that ordinary pages have no React runtime, ignores consumer Astro configuration/pages,
 checks draft filtering and compilation failures, and removes its owned temporary
 output. The consumer check also exercises this renderer from the packed package
 using its existing isolated installation. No extra CI job or second installation
@@ -66,7 +64,7 @@ pnpm --filter @monoline/docs-demo dev
 ```
 
 Open the printed preview URL. The server binds to `127.0.0.1:4321` and watches
-content and assets. Successful rebuilds reload the browser. Invalid content
+content, assets, and imported local component or data files. Successful rebuilds reload the browser. Invalid content
 shows an error banner while retaining the previous generated pages. Fixing the
 content rebuilds and reloads the page. Drafts are visible in the local preview.
 
@@ -159,15 +157,17 @@ content directory, output directory, optional description, optional navigation,
 and an optional base directory such as `/project/`. The `@monoline/docs/dev`
 entry exposes `startDevServer(options, port)`, using the same build options.
 
-The builder uses Markdown-it with raw HTML disabled. Titles and navigation labels
-are escaped. It validates internal page and heading links before writing files.
-The site requires a published `index.md` homepage. Only published Markdown pages
-enter the generated site. File names must use
+The builder uses Astro for Markdown and MDX, with raw HTML in Markdown escaped.
+Titles and navigation labels are escaped. It validates internal page and heading
+links before writing files. The site requires a published `index.md` or
+`index.mdx` homepage. Only published pages enter the generated site. File names must use
 letters, numbers, hyphens, or underscores.
 
 The responsive shell follows the existing Monoline website's sidebar/content/TOC
 layout. Reading and navigation work without JavaScript. Small client scripts add
-theme selection and copy buttons. React components are not hydrated.
+theme selection and copy buttons. React 19 components are available only when
+`react: true`; explicit Astro client directives control hydration, and ordinary
+pages do not load React.
 
 ## Assets and fonts
 
@@ -271,10 +271,10 @@ full interface localization.
 
 ## Remaining work before release
 
-- Choose and integrate an MDX compiler and its component contract.
-- Verify shared token packaging.
-- Verify a real static-host deployment and compatibility across target browsers.
-- Measure larger sites and finish authoring features before optional MDX.
+- Finish the documented header, footer, sidebar, and essential MDX components.
+- Rehearse the Ask Widget migration and account for every published route.
+- Verify real static-host deployments and compatibility across target browsers.
+- Re-run the large-site performance fixtures against the release candidate.
 
 This is a private prototype, not a publishable documentation framework. It needs
 no library Changeset and does not change the UI package's release contract.

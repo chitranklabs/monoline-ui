@@ -6,7 +6,7 @@ order: 0
 
 ## Start here
 
-Monoline Docs turns a folder of Markdown into a static website. Navigation,
+Monoline Docs turns a folder of Markdown and MDX into a static website. Navigation,
 headings, and page links come from the same content, so updating a page does not
 require editing the website layout.
 
@@ -56,14 +56,16 @@ documents are not automatically included in your site.
 - Local images, downloads, fonts, and optional custom CSS.
 - Persisted light, dark, and system themes.
 - Highlighted code blocks with keyboard-accessible copy buttons.
-- Local preview with watched rebuilds and browser reload.
+- Local preview that watches content, assets, and imported local components.
+- Static MDX components, with opt-in React 19 islands for interactive examples.
 - Static builds for a root domain or a repository subpath.
 - [Local search](search.md) across published page titles, headings, and text.
 
 ## Current boundaries
 
-Write plain Markdown. MDX execution, interactive tabs, and executable HTML are
-not supported. Raw HTML is displayed as text. There is one built-in design with
+Use Markdown for ordinary pages and MDX when a page imports a component. React
+hydration is opt-in; interactive tabs and a component catalog are not built in.
+Raw HTML in `.md` files is displayed as text. There is one built-in design with
 CSS customization, not a theme marketplace.
 
 If a build stops, use [troubleshooting](troubleshooting.md) to check the reported

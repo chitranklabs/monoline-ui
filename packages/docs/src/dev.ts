@@ -5,16 +5,24 @@ import {
 	type ServerResponse,
 	createServer,
 } from "node:http"
-import { extname, join } from "node:path"
+import {
+	dirname,
+	extname,
+	isAbsolute,
+	join,
+	relative,
+	resolve,
+} from "node:path"
 
 import { assetTypes } from "./assets.ts"
-import { type BuildOptions, buildDocs } from "./build.ts"
+import { buildAstroDocsWithDependencies } from "./astro-engine.ts"
+import type { BuildOptions } from "./build.ts"
 import { defineConfig } from "./config.ts"
 
 /** A loopback-only preview. Rebuild errors leave the last successful page available. */
 export async function startDevServer(options: BuildOptions, port = 4321) {
 	const buildOptions = defineConfig({ ...options, environment: "development" })
-	let result = await buildDocs(buildOptions)
+	let result = await buildAstroDocsWithDependencies(buildOptions)
 	let knownFiles = new Set<string>(
 		JSON.parse(
 			await readFile(
@@ -26,6 +34,7 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 	const base = options.base ?? "/"
 	const clients = new Set<ServerResponse>()
 	const watchers: FSWatcher[] = []
+	const dependencyWatchers = new Map<string, FSWatcher>()
 	let revision = 0
 	let errorMessage = ""
 	let closed = false
@@ -36,6 +45,37 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 		const message = `data: ${JSON.stringify({ revision, error: errorMessage })}\n\n`
 		for (const client of clients) client.write(message)
 	}
+	const scheduleRebuild = () => {
+		clearTimeout(timer)
+		timer = setTimeout(() => {
+			void rebuild()
+		}, 80)
+	}
+	const inside = (parent: string, child: string) => {
+		const path = relative(parent, child)
+		return path === "" || (!path.startsWith("..") && !isAbsolute(path))
+	}
+	const watchDependencies = (paths: string[]) => {
+		for (const watcher of dependencyWatchers.values()) watcher.close()
+		dependencyWatchers.clear()
+		const ignored = [
+			result.outDirectory,
+			resolve(buildOptions.contentDirectory),
+			buildOptions.assetsDirectory && resolve(buildOptions.assetsDirectory),
+		].filter((path): path is string => Boolean(path))
+		for (const directory of new Set(paths.map(dirname))) {
+			const watcher = watch(directory, { recursive: true }, (_event, name) => {
+				const changed = name && resolve(directory, name)
+				if (changed && ignored.some((path) => inside(path, changed))) return
+				scheduleRebuild()
+			})
+			watcher.on("error", (error) => {
+				errorMessage = `Watcher failed: ${error.message}. Restart the preview.`
+				broadcast()
+			})
+			dependencyWatchers.set(directory, watcher)
+		}
+	}
 	function rebuild(): Promise<void> {
 		dirty = true
 		if (running) return running
@@ -43,7 +83,7 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 			while (dirty && !closed) {
 				dirty = false
 				try {
-					result = await buildDocs(buildOptions)
+					result = await buildAstroDocsWithDependencies(buildOptions)
 					knownFiles = new Set(
 						JSON.parse(
 							await readFile(
@@ -52,6 +92,7 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 							)
 						)
 					)
+					if (!closed) watchDependencies(result.dependencies)
 					errorMessage = ""
 					revision += 1
 				} catch (error) {
@@ -177,8 +218,11 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 		closed = true
 		clearTimeout(timer)
 		for (const watcher of watchers) watcher.close()
+		for (const watcher of dependencyWatchers.values()) watcher.close()
 		for (const client of clients) client.end()
 		await running
+		for (const watcher of dependencyWatchers.values()) watcher.close()
+		dependencyWatchers.clear()
 		server.closeAllConnections()
 		if (server.listening)
 			await new Promise<void>((resolve) => server.close(() => resolve()))
@@ -188,18 +232,14 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 			buildOptions.contentDirectory,
 			buildOptions.assetsDirectory,
 		].filter((path): path is string => Boolean(path))) {
-			const watcher = watch(directory, { recursive: true }, () => {
-				clearTimeout(timer)
-				timer = setTimeout(() => {
-					void rebuild()
-				}, 80)
-			})
+			const watcher = watch(directory, { recursive: true }, scheduleRebuild)
 			watcher.on("error", (error) => {
 				errorMessage = `Watcher failed: ${error.message}. Restart the preview.`
 				broadcast()
 			})
 			watchers.push(watcher)
 		}
+		watchDependencies(result.dependencies)
 		await new Promise<void>((resolve, reject) => {
 			server.once("error", reject)
 			server.listen(port, "127.0.0.1", () => {
