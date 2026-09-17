@@ -1,0 +1,44 @@
+---
+interface Row {
+	name: string
+	type: string
+	default?: string
+	description: string
+}
+
+interface Props {
+	rows: Row[]
+	caption?: string
+}
+
+const { rows, caption = "API reference" } = Astro.props
+---
+
+{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- keyboard-scrollable overflow region */}
+<table class="docs-api-table" tabindex="0">
+	<caption>{caption}</caption>
+	<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Type</th>
+			<th scope="col">Default</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		{rows.map((row) => (
+			<tr>
+				<th scope="row">
+					<code>{row.name}</code>
+				</th>
+				<td>
+					<code>{row.type}</code>
+				</td>
+				<td>
+					<code>{row.default ?? "—"}</code>
+				</td>
+				<td>{row.description}</td>
+			</tr>
+		))}
+	</tbody>
+</table>

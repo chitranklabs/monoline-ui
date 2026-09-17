@@ -10,6 +10,8 @@ interface Props {
 const { items, current, base } = Astro.props
 const href = (route: string) =>
 	base + (route === "/" ? "" : route.slice(1) + "/")
+const containsCurrent = (item: NavigationItem): boolean =>
+	"href" in item ? item.href === current : item.items.some(containsCurrent)
 ---
 
 <ul>
@@ -23,10 +25,10 @@ const href = (route: string) =>
 					{item.label}
 				</a>
 			) : (
-				<>
-					<span class="group">{item.label}</span>
+				<details class="nav-group" open={containsCurrent(item)}>
+					<summary>{item.label}</summary>
 					<Astro.self items={item.items} current={current} base={base} />
-				</>
+				</details>
 			)}
 		</li>
 	))}

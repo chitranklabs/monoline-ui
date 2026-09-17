@@ -44,8 +44,8 @@ try {
 	await mkdir(join(root, "content"))
 	await mkdir(join(root, "assets"))
 	await writeFile(
-		join(root, "content/index.md"),
-		"---\ntitle: Start\n---\n## Install\nStandalone consumer.\n"
+		join(root, "content/index.mdx"),
+		'---\ntitle: Start\n---\nimport Tabs from "@monoline/docs/components/Tabs.astro"\nimport LinkCard from "@monoline/docs/components/LinkCard.astro"\n\n## Install\n\n<Tabs id="install" labels={["npm", "pnpm"]}><pre slot="npm"><code>npm install</code></pre><pre slot="pnpm"><code>pnpm add</code></pre></Tabs>\n<LinkCard href="/" title="Introduction" description="Return home" />\n'
 	)
 	await writeFile(
 		join(root, "content/draft.md"),
@@ -104,6 +104,8 @@ try {
 	const html = await readFile(join(root, "dist/index.html"), "utf8")
 	const reactHtml = await readFile(join(root, "dist/react/index.html"), "utf8")
 	assert(html.includes('data-theme="dark"'))
+	assert(html.includes('class="docs-tabs"'))
+	assert(html.includes('href="/handbook/"'))
 	assert(html.includes('href="https://example.com/handbook/"'))
 	assert(!html.includes("astro-island"))
 	assert(!html.includes("/_astro/"))

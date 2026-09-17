@@ -37,11 +37,15 @@ try {
 	)
 	await writeFile(
 		join(content, "index.mdx"),
-		'---\ntitle: Welcome\n---\nimport Counter from "../Counter.jsx"\n\n## Getting started\nRead the [nested guide](./guide/install.md#installation).\n\n<Counter client:load />\n'
+		`---\ntitle: Welcome\n---\nimport Counter from "../Counter.jsx"\nimport Tabs from ${JSON.stringify(fileURLToPath(new URL("./dist/components/Tabs.astro", import.meta.url)))}\n\n## Getting started\nRead the [nested guide](./guide/install.md#installation).\n\n<Tabs id="install" labels={["npm", "pnpm"]}><p slot="npm">npm install package</p><p slot="pnpm">pnpm add package</p></Tabs>\n\n<Counter client:load />\n`
 	)
 	await writeFile(
 		join(content, "draft.md"),
 		"---\ntitle: Secret draft\ndraft: true\n---\nUnpublished platypus\n"
+	)
+	await writeFile(
+		join(content, "wide.md"),
+		"---\ntitle: Wide page\nsidebar: false\ntoc: false\n---\n## Wide content\n"
 	)
 	await writeFile(
 		join(content, "guide/install.md"),
@@ -56,6 +60,24 @@ try {
 			outDirectory: output,
 			base,
 			react: true,
+			headerLinks: [{ label: "Guide", href: "/guide/install" }],
+			footer: {
+				text: "Released under MIT.",
+				links: [{ label: "Home", href: "/" }],
+			},
+			editLink: {
+				href: "https://github.com/example/docs/edit/main/{path}",
+			},
+			navigation: [
+				{
+					label: "Guide",
+					items: [
+						{ label: "Welcome", href: "/" },
+						{ label: "Installation", href: "/guide/install" },
+						{ label: "Wide page", href: "/wide" },
+					],
+				},
+			],
 		})
 		outputs.set(base, output)
 		assert(
@@ -63,6 +85,9 @@ try {
 				"platypus"
 			)
 		)
+		const wide = await readFile(join(output, "wide/index.html"), "utf8")
+		assert(!wide.includes('class="sidebar"'))
+		assert(wide.includes("<template data-docs-toc"))
 	}
 	// Serve only generated files: development mode intentionally exposes drafts.
 	server = createServer(async (request, response) => {
@@ -122,6 +147,26 @@ try {
 		await expect(
 			page.getByRole("heading", { name: "Welcome", exact: true })
 		).toBeVisible()
+		await expect(
+			page.getByRole("link", { name: "Guide", exact: true })
+		).toHaveAttribute("href", `${base}guide/install/`)
+		await expect(page.getByText("Released under MIT.")).toBeVisible()
+		await expect(
+			page.getByRole("link", { name: "Edit this page" })
+		).toHaveAttribute(
+			"href",
+			"https://github.com/example/docs/edit/main/index.mdx"
+		)
+		const pnpmTab = page.getByRole("tab", { name: "pnpm" })
+		await pnpmTab.focus()
+		await pnpmTab.press("ArrowLeft")
+		await expect(
+			page.getByRole("tab", { name: "npm", exact: true })
+		).toBeFocused()
+		await pnpmTab.click()
+		await expect(page.getByText("pnpm add package")).toBeVisible()
+		await expect(page.getByText("npm install package")).toBeHidden()
+		await expect(page.locator(".nav-group")).toHaveAttribute("open", "")
 		const counter = page.getByRole("button", { name: "Count 0" })
 		await counter.click()
 		await expect(page.getByRole("button", { name: "Count 1" })).toBeVisible()
@@ -231,6 +276,10 @@ try {
 		})
 		const plain = await noJS.newPage()
 		await plain.goto(origin + base)
+		await expect(plain.getByRole("tab")).toHaveCount(0)
+		await expect(plain.locator(".docs-tab-list")).not.toBeVisible()
+		await expect(plain.getByText("npm install package")).toBeVisible()
+		await expect(plain.getByText("pnpm add package")).toBeVisible()
 		await expect(
 			plain.getByRole("button", { name: "Search", exact: true })
 		).not.toBeVisible()

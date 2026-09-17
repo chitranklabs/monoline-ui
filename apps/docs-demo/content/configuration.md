@@ -40,12 +40,31 @@ keys fail validation, so a misspelled option does not silently do nothing.
 | `defaultMode`      | `system`     | `light`, `dark`, or `system`; visitors can override it.                             |
 | `navigation`       | Generated    | [Sidebar links and groups](navigation.md).                                          |
 | `logo`             | Unset        | Local image with `src`, nonempty `alt`, and positive integer `width` and `height`.  |
-| `headerLinks`      | Unset        | Links with `label` and absolute HTTP(S) `href`.                                     |
+| `headerLinks`      | Unset        | Header links with `label` and a docs route or absolute HTTP(S) `href`.              |
+| `footer`           | Unset        | Optional `text` and labeled links shown below every page.                           |
+| `editLink`         | Unset        | HTTP(S) edit URL containing `{path}`; supports an optional `label`.                 |
 | `react`            | `false`      | Enable React 19 components and explicit client directives in MDX.                   |
 | `environment`      | `production` | Build environment; the CLI build forces production and preview uses development.    |
 
 Use [appearance](appearance.md) for logo and stylesheet examples and
 [deployment](deployment.md) for `site`, `base`, and indexing behavior.
+
+Internal header and footer routes automatically include `base`. The edit URL
+receives the content-relative Markdown or MDX path:
+
+```yaml
+headerLinks:
+  - label: Writing
+    href: /writing
+footer:
+  text: Released under the MIT License.
+  links:
+    - label: GitHub
+      href: https://github.com/example/docs
+editLink:
+  href: https://github.com/example/docs/edit/main/content/{path}
+  label: Improve this page
+```
 
 ## Invoke the local CLI
 

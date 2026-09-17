@@ -121,8 +121,16 @@ export default defineConfig({
 	stylesheet: "/assets/custom.css",
 	defaultMode: "system",
 	headerLinks: [
+		{ label: "Writing", href: "/writing" },
 		{ label: "Source", href: "https://github.com/example/handbook" },
 	],
+	footer: {
+		text: "Released under the MIT License.",
+		links: [{ label: "Home", href: "/" }],
+	},
+	editLink: {
+		href: "https://github.com/example/handbook/edit/main/content/{path}",
+	},
 })
 ```
 
@@ -146,7 +154,10 @@ See [deployment recipes](./docs-deployment.md) for standalone and monorepo setup
 
 Optional `logo` takes `src`, `alt`, `width`, and `height`. Its source must be an
 existing local `/assets/` image. Dimensions reserve space before loading.
-`headerLinks` accepts labeled absolute HTTP(S) URLs, not HTML or icon markup.
+Header and footer links accept documentation routes or absolute HTTP(S) URLs.
+Internal routes receive the configured base. `footer` accepts optional text and
+labeled links. `editLink.href` is an absolute HTTP(S) template containing
+`{path}`; the placeholder receives the encoded content-relative source path.
 `navigation` retains the existing route/group structure.
 
 ## Package boundary
@@ -165,9 +176,21 @@ letters, numbers, hyphens, or underscores.
 
 The responsive shell follows the existing Monoline website's sidebar/content/TOC
 layout. Reading and navigation work without JavaScript. Small client scripts add
-theme selection and copy buttons. React 19 components are available only when
+theme selection, copy buttons, and accessible tab behavior. Navigation groups
+use native disclosure controls and open around the current page. Page frontmatter
+can set `sidebar: false` or `toc: false` without changing navigation, search, or
+the previous/next sequence. React 19 components are available only when
 `react: true`; explicit Astro client directives control hydration, and ordinary
 pages do not load React.
+
+Packaged Astro authoring components are available from
+`@monoline/docs/components/*.astro`: `Steps` with `Step`, `LinkCard`, `Tabs`,
+`ApiTable`, and `CodeBlock`. Static content and all tab panels remain readable without JavaScript;
+the existing shell script progressively enhances tabs. Link cards apply the
+configured base to documentation routes, and API-table text enters local search.
+`CodeBlock` adds an optional filename and validated one-based line highlights;
+ordinary Markdown fences remain the syntax-highlighted default. The demo's
+authoring-components page is the executable reference.
 
 ## Assets and fonts
 
@@ -271,7 +294,6 @@ full interface localization.
 
 ## Remaining work before release
 
-- Finish the documented header, footer, sidebar, and essential MDX components.
 - Rehearse the Ask Widget migration and account for every published route.
 - Verify real static-host deployments and compatibility across target browsers.
 - Re-run the large-site performance fixtures against the release candidate.

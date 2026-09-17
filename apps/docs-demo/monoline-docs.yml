@@ -8,5 +8,16 @@ defaultMode: system
 lang: en
 stylesheet: /assets/custom.css
 headerLinks:
+  - label: Writing
+    href: /writing
   - label: GitHub
     href: https://github.com/chitranklabs/monoline-ui
+footer:
+  text: Released under the MIT License.
+  links:
+    - label: Introduction
+      href: /
+    - label: GitHub
+      href: https://github.com/chitranklabs/monoline-ui
+editLink:
+  href: https://github.com/chitranklabs/monoline-ui/edit/main/apps/docs-demo/content/{path}

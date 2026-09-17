@@ -68,3 +68,48 @@ it("rejects cyclic navigation without overflowing the stack", () => {
 	navigation.push({ label: "Cycle", items: navigation })
 	expect(() => defineConfig({ title: "Docs", navigation })).toThrow("cyclic")
 })
+
+it("accepts base-aware site chrome and an edit URL template", () => {
+	expect(
+		defineConfig({
+			title: "Docs",
+			headerLinks: [
+				{ label: "Guide", href: "/guide" },
+				{ label: "GitHub", href: "https://github.com/example/docs" },
+			],
+			footer: {
+				text: "Released under MIT.",
+				links: [{ label: "Home", href: "/" }],
+			},
+			editLink: {
+				href: "https://github.com/example/docs/edit/main/{path}",
+			},
+		})
+	).toMatchObject({
+		footer: { text: "Released under MIT." },
+		editLink: {
+			href: "https://github.com/example/docs/edit/main/{path}",
+		},
+	})
+})
+
+it.each([
+	[
+		{ headerLinks: [{ label: "Unsafe", href: "javascript:alert(1)" }] },
+		"HTTP(S)",
+	],
+	[{ footer: { typo: true } }, "footer.typo"],
+	[{ footer: {} }, "footer must contain"],
+	[
+		{ footer: { links: [{ label: "Unsafe", href: "mailto:a@example.com" }] } },
+		"HTTP(S)",
+	],
+	[
+		{ editLink: { href: "https://github.com/example/docs/edit/main/page.md" } },
+		"{path}",
+	],
+])("rejects invalid site chrome %j", (input, error) => {
+	expect(() =>
+		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
+	).toThrow(error)
+})

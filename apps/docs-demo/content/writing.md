@@ -82,3 +82,9 @@ Callouts support Markdown paragraphs, links, and lists. Other markers remain ord
 ## Heading permalinks
 
 Each section heading has a keyboard-accessible `#` link to its section. Heading IDs are generated from the heading text; duplicate headings receive distinct IDs. Renaming a heading changes its link, so update references when editing it.
+
+## Structured authoring
+
+Use [authoring components](components.mdx) in MDX for steps, link cards, tabs,
+package-manager commands, and API references. These components are static by
+default; only tabs add a small progressive-enhancement script.

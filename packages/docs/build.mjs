@@ -14,6 +14,7 @@ execFileSync("tsc", ["-p", "tsconfig.build.json"], {
 	stdio: "inherit",
 })
 await mkdir(new URL("./dist/", import.meta.url), { recursive: true })
+await mkdir(new URL("./dist/components/", import.meta.url), { recursive: true })
 for (const name of [
 	"docs.css",
 	"theme-tokens.css",
@@ -30,3 +31,15 @@ for (const name of [
 		new URL(`./dist/${name}`, import.meta.url)
 	)
 }
+for (const name of [
+	"ApiTable",
+	"CodeBlock",
+	"LinkCard",
+	"Step",
+	"Steps",
+	"Tabs",
+])
+	await copyFile(
+		new URL(`./src/components/${name}.astro`, import.meta.url),
+		new URL(`./dist/components/${name}.astro`, import.meta.url)
+	)

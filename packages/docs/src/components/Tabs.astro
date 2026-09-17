@@ -1,0 +1,42 @@
+---
+interface Props {
+	id: string
+	labels: string[]
+}
+
+const { id, labels } = Astro.props
+if (!/^[A-Za-z][\w-]*$/.test(id))
+	throw new Error(
+		"Tabs id must start with a letter and contain only letters, numbers, underscores, or hyphens"
+	)
+if (labels.length < 2 || new Set(labels).size !== labels.length)
+	throw new Error("Tabs labels must contain at least two unique entries")
+const key = (label: string) =>
+	label
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-|-$/g, "")
+const keys = labels.map(key)
+if (keys.some((value) => !value) || new Set(keys).size !== keys.length)
+	throw new Error("Tabs labels must produce unique identifiers")
+---
+
+<div class="docs-tabs" data-docs-tabs>
+	<div class="docs-tab-list" data-tab-list hidden>
+		{labels.map((label, index) => (
+			<button
+				type="button"
+				data-tab-id={`${id}-tab-${keys[index]}`}
+				data-tab-panel={`${id}-panel-${keys[index]}`}
+			>
+				{label}
+			</button>
+		))}
+	</div>
+	{labels.map((label, index) => (
+		<section id={`${id}-panel-${keys[index]}`} data-tab-panel>
+			<p class="docs-tab-label">{label}</p>
+			<slot name={key(label)} />
+		</section>
+	))}
+</div>

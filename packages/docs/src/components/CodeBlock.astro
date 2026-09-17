@@ -1,0 +1,37 @@
+---
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex -- keyboard-scrollable overflow region */
+interface Props {
+	code: string
+	filename?: string
+	language?: string
+	highlights?: number[]
+}
+
+const { code, filename, language, highlights = [] } = Astro.props
+const lines = code.replace(/\n$/, "").split("\n")
+if (
+	highlights.some(
+		(line) => !Number.isInteger(line) || line < 1 || line > lines.length
+	)
+)
+	throw new Error(
+		"CodeBlock highlights must reference existing positive line numbers"
+	)
+const selected = new Set(highlights)
+---
+
+<div class="docs-code-block">
+	{filename && <div class="docs-code-filename">{filename}</div>}
+	<div class="code-block">
+		<button class="copy-code" type="button" aria-label="Copy code block" hidden>
+			Copy
+		</button>
+		<span class="copy-status" role="status"></span>
+		<pre
+			tabindex="0"
+			data-language={language}
+		><code>{lines.map((line, index) => (
+			<span class="docs-code-line" data-highlight={selected.has(index + 1) ? "true" : undefined}>{line}{index < lines.length - 1 ? "\n" : ""}</span>
+		))}</code></pre>
+	</div>
+</div>

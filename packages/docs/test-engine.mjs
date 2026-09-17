@@ -51,7 +51,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		)
 		await writeFile(
 			join(contentDirectory, "index.mdx"),
-			'---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\n\n## API\n\n<Table />\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
+			`---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\nimport ApiTable from ${JSON.stringify(join(packageDirectory, "dist/components/ApiTable.astro"))}\nimport CodeBlock from ${JSON.stringify(join(packageDirectory, "dist/components/CodeBlock.astro"))}\nimport LinkCard from ${JSON.stringify(join(packageDirectory, "dist/components/LinkCard.astro"))}\nimport Steps from ${JSON.stringify(join(packageDirectory, "dist/components/Steps.astro"))}\nimport Step from ${JSON.stringify(join(packageDirectory, "dist/components/Step.astro"))}\n\n## API\n\n<Table />\n<ApiTable caption="Options" rows={[{ name: "position", type: "string", default: "right", description: "Widget placement" }]} />\n<CodeBlock filename="config.yml" code={"title: Docs\\nbase: /docs/"} highlights={[2]} />\n<LinkCard href="/guide" title="Read the guide" description="Install the package." />\n<Steps><Step><strong>Install</strong></Step><Step><strong>Configure</strong></Step></Steps>\n# Content\n\n## Café \`API\`\n\n## Café API\n\n## !!!\n`
 		)
 		await mkdir(join(contentDirectory, "guide"))
 		await mkdir(join(project, "assets"))
@@ -101,6 +101,11 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		const home = await readFile(join(result.directory, "index.html"), "utf8")
 		assert.match(home, /<h1[^>]*>Home<\/h1>/)
 		assert.match(home, /<table>/)
+		assert.match(home, /class="docs-api-table"/)
+		assert.match(home, /class="docs-code-filename">config.yml/)
+		assert.match(home, /class="docs-code-line" data-highlight="true"/)
+		assert.match(home, /class="docs-link-card" href="\/ask-widget\/guide\/"/)
+		assert.match(home, /class="docs-steps"/)
 		assert.match(home, /light \| dark/)
 		assert.match(home, /data-theme="system"/)
 		assert.match(home, /href="\/ask-widget\/docs\.css"/)
@@ -226,6 +231,15 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			[]
 		)
 		await rm(join(contentDirectory, "broken.mdx"))
+		await writeFile(
+			join(contentDirectory, "invalid-code.mdx"),
+			`---\ntitle: Invalid code\n---\nimport CodeBlock from ${JSON.stringify(join(packageDirectory, "dist/components/CodeBlock.astro"))}\n\n<CodeBlock code="one line" highlights={[2]} />\n`
+		)
+		await assert.rejects(
+			buildAstroSite(options),
+			/CodeBlock highlights must reference existing positive line numbers/
+		)
+		await rm(join(contentDirectory, "invalid-code.mdx"))
 		await writeFile(
 			join(contentDirectory, "broken.md"),
 			"---\ntitle: Broken link\n---\n[Missing](missing.md)"

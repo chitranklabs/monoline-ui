@@ -205,6 +205,15 @@ header span,
 	grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 14rem;
 	align-items: start;
 }
+.layout.without-sidebar {
+	grid-template-columns: minmax(0, 1fr) 14rem;
+}
+.layout.without-toc {
+	grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+}
+.layout.without-sidebar.without-toc {
+	grid-template-columns: minmax(0, 1fr);
+}
 .sidebar,
 .toc {
 	position: sticky;
@@ -239,12 +248,13 @@ nav li {
 .sidebar [aria-current] {
 	font-weight: 650;
 }
-.group {
-	display: block;
+.nav-group {
 	margin-top: 1.5rem;
+}
+.nav-group summary {
 	font-weight: 600;
 }
-.group + ul {
+.nav-group > ul {
 	padding-left: 0.75rem;
 }
 summary {
@@ -358,6 +368,154 @@ th {
 	border-top: 1px solid var(--border);
 	font-size: 0.875rem;
 }
+.edit-link {
+	display: inline-block;
+	margin-top: 2rem;
+	color: var(--muted);
+	font-size: 0.875rem;
+}
+body > footer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 0.75rem 1.5rem;
+	max-width: var(--page-width);
+	margin: auto;
+	padding: 1.5rem;
+	border-top: 1px solid var(--border);
+	color: var(--muted);
+	font-size: 0.875rem;
+}
+body > footer p {
+	margin: 0;
+}
+body > footer nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+.docs-steps {
+	list-style: none;
+	padding: 0;
+	counter-reset: docs-step;
+}
+.docs-step {
+	position: relative;
+	padding: 0 0 1.5rem 2.75rem;
+	counter-increment: docs-step;
+}
+.docs-step:not(:last-child)::before {
+	content: "";
+	position: absolute;
+	top: 2rem;
+	bottom: 0;
+	left: 1rem;
+	border-left: 1px solid var(--border);
+}
+.docs-step::after {
+	content: counter(docs-step);
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border: 1px solid var(--border);
+	border-radius: 50%;
+	background: var(--background);
+	font-size: 0.8rem;
+	font-weight: 650;
+}
+.docs-step > div > :first-child {
+	margin-top: 0;
+}
+.docs-link-card {
+	display: grid;
+	gap: 0.25rem;
+	margin: 1rem 0;
+	padding: 1rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	text-decoration: none;
+}
+.docs-link-card:hover {
+	background: var(--surface);
+}
+.docs-link-card span {
+	color: var(--muted);
+	font-size: 0.875rem;
+}
+.docs-api-table caption {
+	padding: 0.75rem 0;
+	font-weight: 650;
+	text-align: left;
+}
+.docs-code-block {
+	margin: 1.5rem 0;
+}
+.docs-code-filename {
+	padding: 0.55rem 0.8rem;
+	border: 1px solid var(--border);
+	border-bottom: 0;
+	border-radius: var(--radius) var(--radius) 0 0;
+	background: var(--surface);
+	font-family: var(--font-code);
+	font-size: 0.8rem;
+}
+.docs-code-filename + .code-block pre {
+	margin-top: 0;
+	border-radius: 0 0 var(--radius) var(--radius);
+}
+.docs-code-line {
+	display: block;
+	min-height: 1lh;
+}
+.docs-code-line[data-highlight="true"] {
+	margin-inline: -1rem;
+	padding-inline: calc(1rem - 2px);
+	border-inline-start: 2px solid var(--accent);
+	background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.docs-tabs {
+	margin: 1.5rem 0;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+.docs-tab-list {
+	display: flex;
+	gap: 0.25rem;
+	padding: 0.35rem;
+	border-bottom: 1px solid var(--border);
+	overflow-x: auto;
+}
+.docs-tab-list[hidden] {
+	display: none;
+}
+.docs-tabs [role="tab"] {
+	font: inherit;
+	color: var(--muted);
+	background: transparent;
+	border: 0;
+	border-radius: calc(var(--radius) - 0.1rem);
+	padding: 0.4rem 0.65rem;
+	white-space: nowrap;
+}
+.docs-tabs [role="tab"][aria-selected="true"] {
+	color: var(--foreground);
+	background: var(--surface);
+}
+.docs-tabs [role="tabpanel"] {
+	padding: 0 1rem;
+}
+.docs-tab-label {
+	margin: 0;
+	padding: 0.75rem 1rem 0;
+	font-weight: 650;
+}
+.docs-tabs:not([data-ready]) [data-tab-panel] + [data-tab-panel] {
+	border-top: 1px solid var(--border);
+}
 .skip {
 	position: fixed;
 	top: 0.5rem;
@@ -373,6 +531,9 @@ th {
 @media (max-width: 75rem) {
 	.layout {
 		grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+	}
+	.layout.without-sidebar {
+		grid-template-columns: minmax(0, 1fr);
 	}
 	.toc {
 		display: none;

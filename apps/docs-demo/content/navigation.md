@@ -54,3 +54,10 @@ not access control.
 The right-hand table of contents comes from rendered article headings through
 H3. It is separate from sidebar configuration. See the
 [heading rules](writing.md#headings) for linkable section titles.
+
+Set `sidebar: false` or `toc: false` in a page's frontmatter when that page needs
+more horizontal space. These options hide shell regions only; they do not change
+the navigation sequence, previous/next links, search, or access to the page.
+
+Named sidebar groups use native disclosure controls. The group containing the
+current page opens by default and remains usable without JavaScript.

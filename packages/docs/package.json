@@ -15,7 +15,8 @@
 		"./dev": {
 			"types": "./dist/dev.d.ts",
 			"default": "./dist/dev.js"
-		}
+		},
+		"./components/*.astro": "./dist/components/*.astro"
 	},
 	"bin": {
 		"monoline-docs": "./dist/cli.js"

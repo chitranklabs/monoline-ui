@@ -130,6 +130,26 @@ describe("discoverPages", () => {
 		})
 	})
 
+	it("keeps validated per-page shell visibility", async () => {
+		const directory = await contentDirectory()
+		await writeFile(
+			join(directory, "index.md"),
+			"---\ntitle: Home\nsidebar: false\ntoc: false\n---\nBody"
+		)
+
+		expect((await discoverPages(directory))[0]?.metadata).toMatchObject({
+			sidebar: false,
+			toc: false,
+		})
+		await writeFile(
+			join(directory, "invalid.md"),
+			"---\ntitle: Invalid\ntoc: yes\n---\nBody"
+		)
+		await expect(discoverPages(directory)).rejects.toThrow(
+			"toc must be a boolean"
+		)
+	})
+
 	it("returns undefined when a route does not exist", async () => {
 		const directory = await contentDirectory()
 		await writeFile(join(directory, "index.md"), "---\ntitle: Home\n---\n")

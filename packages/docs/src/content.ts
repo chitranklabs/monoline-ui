@@ -7,6 +7,8 @@ export interface DocumentationMetadata {
 	description?: string
 	order?: number
 	draft?: boolean
+	sidebar?: boolean
+	toc?: boolean
 }
 
 export interface DocumentationPage {
@@ -67,6 +69,10 @@ function parseDocument(
 	if (metadata.draft !== undefined && typeof metadata.draft !== "boolean") {
 		throw metadataError(filePath, "draft must be a boolean")
 	}
+	for (const key of ["sidebar", "toc"] as const) {
+		if (metadata[key] !== undefined && typeof metadata[key] !== "boolean")
+			throw metadataError(filePath, `${key} must be a boolean`)
+	}
 
 	return {
 		metadata: {
@@ -76,6 +82,10 @@ function parseDocument(
 				: { description: metadata.description }),
 			...(metadata.order === undefined ? {} : { order: metadata.order }),
 			...(metadata.draft === undefined ? {} : { draft: metadata.draft }),
+			...(metadata.sidebar === undefined
+				? {}
+				: { sidebar: metadata.sidebar as boolean }),
+			...(metadata.toc === undefined ? {} : { toc: metadata.toc as boolean }),
 		},
 		source: source.slice(frontmatter[0].length).replaceAll("\r\n", "\n"),
 	}

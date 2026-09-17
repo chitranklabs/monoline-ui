@@ -1,0 +1,108 @@
+---
+title: Authoring components
+description: Add structured documentation UI without hydrating the whole page.
+order: 3
+---
+
+import ApiTable from "@monoline/docs/components/ApiTable.astro"
+import CodeBlock from "@monoline/docs/components/CodeBlock.astro"
+import LinkCard from "@monoline/docs/components/LinkCard.astro"
+import Step from "@monoline/docs/components/Step.astro"
+import Steps from "@monoline/docs/components/Steps.astro"
+import Tabs from "@monoline/docs/components/Tabs.astro"
+
+## Install commands and tabs
+
+Tabs progressively enhance static content. Every panel remains readable without
+JavaScript; the browser adds tab behavior when scripts are available. Give each
+group a page-unique `id`, at least two unique labels, and a named slot derived
+from each lowercase label.
+
+<Tabs id="package-manager" labels={["npm", "pnpm"]}>
+	<pre slot="npm">
+		<code>npm install @monoline/docs</code>
+	</pre>
+	<pre slot="pnpm">
+		<code>pnpm add @monoline/docs</code>
+	</pre>
+</Tabs>
+
+```mdx
+import Tabs from "@monoline/docs/components/Tabs.astro"
+
+<Tabs id="package-manager" labels={["npm", "pnpm"]}>
+	<pre slot="npm">
+		<code>npm install @monoline/docs</code>
+	</pre>
+	<pre slot="pnpm">
+		<code>pnpm add @monoline/docs</code>
+	</pre>
+</Tabs>
+```
+
+## Steps
+
+Use `Steps` and `Step` for an ordered process. They render as a semantic ordered
+list and require no browser script.
+
+<Steps>
+	<Step>
+		<strong>Create the configuration.</strong> Add `monoline-docs.yml`.
+	</Step>
+	<Step>
+		<strong>Write the homepage.</strong> Add `content/index.md` or `index.mdx`.
+	</Step>
+	<Step>
+		<strong>Build static output.</strong> Run `monoline-docs build`.
+	</Step>
+</Steps>
+
+## Link cards
+
+`LinkCard` accepts `title`, optional `description`, and `href`. Root-relative
+documentation routes automatically include the configured deployment base.
+
+<LinkCard
+	href="/deployment"
+	title="Deploy the output"
+	description="Use the generated static directory on the host you already trust."
+/>
+
+## API tables
+
+`ApiTable` keeps prop references consistent and horizontally scrollable. Pass an
+array of `name`, `type`, optional `default`, and `description` values. Generated
+table text is included in search.
+
+<ApiTable
+	caption="Configuration example"
+	rows={[
+		{
+			name: "base",
+			type: "string",
+			default: "/",
+			description: "Deployment subpath.",
+		},
+		{
+			name: "react",
+			type: "boolean",
+			default: "false",
+			description: "Enable React islands in MDX.",
+		},
+	]}
+/>
+
+## Code filenames and highlights
+
+Markdown fences provide build-time syntax highlighting. Use `CodeBlock` when a
+filename or emphasized lines matter more than token coloring. `highlights` uses
+one-based line numbers and fails the build if a line does not exist.
+
+<CodeBlock
+	filename="monoline-docs.yml"
+	language="yaml"
+	code={`title: Product docs
+base: /docs/
+defaultMode: system`}
+	highlights={[2]}
+/>

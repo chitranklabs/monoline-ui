@@ -130,10 +130,11 @@ export async function buildAstroSite(
 					? { ...options.logo, src: assetUrl(options.logo.src) }
 					: undefined,
 				headerLinks: options.headerLinks,
+				footer: options.footer,
 				navigation,
 				noindex: options.environment === "development" || !options.indexing,
 			})};`,
-			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
+			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},editHref:${JSON.stringify(options.editLink ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
 		].join("\n")
 		const integration: AstroIntegration = {
 			name: "monoline-docs",

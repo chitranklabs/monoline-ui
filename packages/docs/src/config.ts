@@ -17,6 +17,11 @@ export interface MonolineDocsConfig {
 	defaultMode?: "light" | "dark" | "system"
 	logo?: { src: string; alt: string; width: number; height: number }
 	headerLinks?: Array<{ label: string; href: string }>
+	footer?: {
+		text?: string
+		links?: Array<{ label: string; href: string }>
+	}
+	editLink?: { href: string; label?: string }
 	/** Enable React components and explicit Astro client directives in MDX. */
 	react?: boolean
 	environment?: "production" | "development"
@@ -79,6 +84,8 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"defaultMode",
 		"logo",
 		"headerLinks",
+		"footer",
+		"editLink",
 		"react",
 		"environment",
 	])
@@ -139,15 +146,33 @@ export function defineConfig(config: MonolineDocsConfig) {
 			if (!Number.isInteger(config.logo[key]) || config.logo[key] <= 0)
 				throw new Error(`logo.${key} must be a positive integer`)
 	}
-	if (config.headerLinks !== undefined) {
-		if (!Array.isArray(config.headerLinks))
-			throw new Error("headerLinks must be an array")
-		for (const link of config.headerLinks) {
-			object(link, "headerLinks entry", ["label", "href"])
-			string(link.label, "headerLinks.label")
-			string(link.href, "headerLinks.href")
-			httpUrl(link.href, "headerLinks.href")
+	function links(value: unknown, path: string): void {
+		if (!Array.isArray(value)) throw new Error(`${path} must be an array`)
+		for (const link of value) {
+			object(link, `${path} entry`, ["label", "href"])
+			string(link.label, `${path}.label`)
+			string(link.href, `${path}.href`)
+			if (!safeRoute(link.href)) httpUrl(link.href, `${path}.href`)
 		}
+	}
+	if (config.headerLinks !== undefined) links(config.headerLinks, "headerLinks")
+	if (config.footer !== undefined) {
+		object(config.footer, "footer", ["text", "links"])
+		if (config.footer.text !== undefined)
+			string(config.footer.text, "footer.text")
+		if (config.footer.links !== undefined)
+			links(config.footer.links, "footer.links")
+		if (!config.footer.text && !config.footer.links?.length)
+			throw new Error("footer must contain text or at least one link")
+	}
+	if (config.editLink !== undefined) {
+		object(config.editLink, "editLink", ["href", "label"])
+		string(config.editLink.href, "editLink.href")
+		if (!config.editLink.href.includes("{path}"))
+			throw new Error("editLink.href must contain {path}")
+		httpUrl(config.editLink.href.replace("{path}", "page.md"), "editLink.href")
+		if (config.editLink.label !== undefined)
+			string(config.editLink.label, "editLink.label")
 	}
 	const seen = new Set<unknown>()
 	function navigation(items: unknown, depth = 0): void {

@@ -21,6 +21,9 @@ const description = page.metadata.description ?? site.description ?? ""
 const canonical = site.site
 	? new URL(href(page.route), site.site).href
 	: undefined
+const linkHref = (value) => (value.startsWith("/") ? href(value) : value)
+const showSidebar = page.metadata.sidebar !== false
+const showToc = page.metadata.toc !== false
 ---
 
 <!doctype html>
@@ -57,7 +60,7 @@ const canonical = site.site
 			{site.headerLinks?.length > 0 && (
 				<nav class="header-links" aria-label="Site links">
 					{site.headerLinks.map((link) => (
-						<a href={link.href}>{link.label}</a>
+						<a href={linkHref(link.href)}>{link.label}</a>
 					))}
 				</nav>
 			)}
@@ -101,25 +104,37 @@ const canonical = site.site
 			<ul class="search-results" aria-label="Search results"></ul>
 		</dialog>
 		<script type="module" src={`${site.base}search.js`}></script>
-		<div class="layout">
-			<aside class="sidebar" aria-label="Documentation sidebar">
-				<details open>
-					<summary>Navigation</summary>
-					<nav aria-label="Documentation">
-						<Navigation
-							items={site.navigation.items}
-							current={page.route}
-							base={site.base}
-						/>
-					</nav>
-				</details>
-			</aside>
+		<div
+			class:list={[
+				"layout",
+				{ "without-sidebar": !showSidebar, "without-toc": !showToc },
+			]}
+		>
+			{showSidebar && (
+				<aside class="sidebar" aria-label="Documentation sidebar">
+					<details open>
+						<summary>Navigation</summary>
+						<nav aria-label="Documentation">
+							<Navigation
+								items={site.navigation.items}
+								current={page.route}
+								base={site.base}
+							/>
+						</nav>
+					</details>
+				</aside>
+			)}
 			<main id="content" tabindex="-1">
 				<h1>{page.metadata.title}</h1>
 				{description && <p class="description">{description}</p>}
 				<article data-docs-article>
 					<Content />
 				</article>
+				{page.editHref && (
+					<a class="edit-link" href={page.editHref}>
+						{page.editLabel}
+					</a>
+				)}
 				<nav class="pager" aria-label="Page navigation">
 					{previous && (
 						<a rel="prev" href={href(previous.href)}>
@@ -133,7 +148,23 @@ const canonical = site.site
 					)}
 				</nav>
 			</main>
-			<aside class="toc" data-docs-toc></aside>
+			{showToc ? (
+				<aside class="toc" data-docs-toc></aside>
+			) : (
+				<template data-docs-toc></template>
+			)}
 		</div>
+		{site.footer && (
+			<footer>
+				{site.footer.text && <p>{site.footer.text}</p>}
+				{site.footer.links?.length > 0 && (
+					<nav aria-label="Footer links">
+						{site.footer.links.map((link) => (
+							<a href={linkHref(link.href)}>{link.label}</a>
+						))}
+					</nav>
+				)}
+			</footer>
+		)}
 	</body>
 </html>
