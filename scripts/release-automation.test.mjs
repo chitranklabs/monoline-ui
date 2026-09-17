@@ -229,15 +229,27 @@ test("release plan rejects unsupported packages, prereleases and missing intent"
 	}
 	assert.equal(selectLibraryRelease(plan), release)
 	assert.equal(selectLibraryRelease({ releases: [], changesets: [] }), null)
+	assert.equal(
+		selectLibraryRelease({
+			...plan,
+			releases: [{ ...release, name: "@chitrank2050/monoline-docs" }],
+		}),
+		null
+	)
 	assert.throws(() => selectLibraryRelease({}), /Invalid/)
 	for (const invalid of [
-		{ ...release, name: "@monoline/future" },
 		{ ...release, newVersion: "0.4.1-beta.1" },
 		{ ...release, newVersion: "0.4.0" },
 		{ ...release, changesets: [] },
 		{ ...release, changesets: ["../unsafe"] },
 	])
 		assert.throws(() => selectLibraryRelease({ ...plan, releases: [invalid] }))
+	assert.throws(() =>
+		selectLibraryRelease({
+			...plan,
+			releases: [release, { ...release, name: "@chitrank2050/monoline-docs" }],
+		})
+	)
 })
 
 test("release notes select only the exact version heading", () => {

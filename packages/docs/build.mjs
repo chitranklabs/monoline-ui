@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process"
-import { copyFile, mkdir, rm } from "node:fs/promises"
+import { chmod, copyFile, mkdir, rm } from "node:fs/promises"
 import { fileURLToPath } from "node:url"
 
 const directory = fileURLToPath(new URL(".", import.meta.url))
@@ -31,6 +31,7 @@ for (const name of [
 		new URL(`./dist/${name}`, import.meta.url)
 	)
 }
+await chmod(new URL("./dist/cli.js", import.meta.url), 0o755)
 for (const name of [
 	"ApiTable",
 	"CodeBlock",

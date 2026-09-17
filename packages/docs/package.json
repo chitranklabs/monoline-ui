@@ -1,8 +1,34 @@
 {
-	"name": "@monoline/docs",
+	"name": "@chitrank2050/monoline-docs",
 	"version": "0.0.0",
-	"private": true,
+	"description": "A fast, static documentation builder for Markdown and MDX with Monoline's accessible interface.",
 	"type": "module",
+	"author": {
+		"name": "Chitrank Agnihotri",
+		"email": "chitrank2050@gmail.com",
+		"url": "https://chitrankagnihotri.com"
+	},
+	"homepage": "https://github.com/chitranklabs/monoline-ui/tree/main/packages/docs",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chitranklabs/monoline-ui.git",
+		"directory": "packages/docs"
+	},
+	"bugs": {
+		"url": "https://github.com/chitranklabs/monoline-ui/issues"
+	},
+	"keywords": [
+		"documentation",
+		"static-site-generator",
+		"markdown",
+		"mdx",
+		"astro",
+		"docs"
+	],
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -19,11 +45,13 @@
 		"./components/*.astro": "./dist/components/*.astro"
 	},
 	"bin": {
-		"monoline-docs": "./dist/cli.js"
+		"monoline-docs": "dist/cli.js"
 	},
 	"files": [
 		"dist",
-		"templates"
+		"templates",
+		"README.md",
+		"LICENSE"
 	],
 	"engines": {
 		"node": ">=24.14.0"
@@ -44,6 +72,14 @@
 	"peerDependencies": {
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
+	},
+	"peerDependenciesMeta": {
+		"react": {
+			"optional": true
+		},
+		"react-dom": {
+			"optional": true
+		}
 	},
 	"scripts": {
 		"build": "node build.mjs",

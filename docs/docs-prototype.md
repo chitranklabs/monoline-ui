@@ -1,7 +1,7 @@
 # Monoline Docs prototype
 
-The private `@monoline/docs` package connects content discovery and navigation
-to a static Markdown and MDX site. The public builder and CLI now use the approved
+The unpublished `@chitrank2050/monoline-docs` package connects content discovery
+and navigation to a static Markdown and MDX site. The public builder and CLI now use the approved
 Astro engine; see the
 [integration design](./superpowers/specs/2026-09-14-docs-astro-engine-design.md)
 for the proposed migration boundaries and acceptance gates.
@@ -37,8 +37,8 @@ The public CLI and build API validate that output before promoting only files
 owned by Monoline Docs.
 
 ```sh
-pnpm --filter @monoline/docs test:engine
-pnpm --filter @monoline/docs test:consumer
+pnpm --filter @chitrank2050/monoline-docs test:engine
+pnpm --filter @chitrank2050/monoline-docs test:consumer
 ```
 
 The engine check renders Markdown and MDX with a local static component, verifies
@@ -84,9 +84,10 @@ It validates configuration at runtime, including unknown keys, URL protocols,
 navigation shape, language tags, and logo dimensions. Defaults apply without
 changing the supplied object. Only the title is required.
 
-The package remains private. Build it with `pnpm --filter @monoline/docs build`
-before using its compiled exports. The demo commands do this automatically.
-`pnpm --filter @monoline/docs test:consumer` packs it and installs the artifact
+The package is prepared for its first release but remains unpublished. Build it
+with `pnpm --filter @chitrank2050/monoline-docs build` before using its compiled
+exports. The demo commands do this automatically.
+`pnpm --filter @chitrank2050/monoline-docs test:consumer` packs it and installs the artifact
 into a temporary project outside the workspace, then checks its CLI, declarations,
 static output, and preview. Installation requires registry access; lifecycle
 scripts are disabled. No publishing occurs.
@@ -107,7 +108,7 @@ stylesheet: /assets/custom.css
 For executable configuration, use `monoline-docs.config.mjs` instead:
 
 ```js
-import { defineConfig } from "@monoline/docs"
+import { defineConfig } from "@chitrank2050/monoline-docs"
 
 export default defineConfig({
 	title: "Team handbook",
@@ -164,9 +165,9 @@ labeled links. `editLink.href` is an absolute HTTP(S) template containing
 ## Package boundary
 
 The existing package entry exposes discovery, metadata, navigation, and lookup.
-The separate `@monoline/docs/build` entry exposes `buildDocs`. It takes a title,
+The separate `@chitrank2050/monoline-docs/build` entry exposes `buildDocs`. It takes a title,
 content directory, output directory, optional description, optional navigation,
-and an optional base directory such as `/project/`. The `@monoline/docs/dev`
+and an optional base directory such as `/project/`. The `@chitrank2050/monoline-docs/dev`
 entry exposes `startDevServer(options, port)`, using the same build options.
 
 The builder uses Astro for Markdown and MDX, with raw HTML in Markdown escaped.
@@ -191,7 +192,7 @@ remains the default. Preview serves both the extensionless URL and generated
 `.html` file while correctly returning 404 for `/route/`.
 
 Packaged Astro authoring components are available from
-`@monoline/docs/components/*.astro`: `Steps` with `Step`, `LinkCard`, `Tabs`,
+`@chitrank2050/monoline-docs/components/*.astro`: `Steps` with `Step`, `LinkCard`, `Tabs`,
 `ApiTable`, and `CodeBlock`. Static content and all tab panels remain readable without JavaScript;
 the existing shell script progressively enhances tabs. Link cards apply the
 configured base to documentation routes, and API-table text enters local search.
@@ -312,7 +313,16 @@ The output contains no VitePress or Vue runtime.
 ## Remaining work before release
 
 - Verify real static-host deployments and compatibility across target browsers.
-- Re-run the large-site performance fixtures against the release candidate.
+- Connect the Docs package to an independent release workflow; the existing
+  library workflow intentionally publishes only `@chitrank2050/monoline-ui`.
 
-This is a private prototype, not a publishable documentation framework. It needs
-no library Changeset and does not change the UI package's release contract.
+This remains unpublished and does not change the UI package's release contract.
+
+## Registry verification
+
+The npm artifact builds and installs through the isolated consumer checks. JSR is
+not a release target for this package: Deno 2.9.6 rejects required `.astro` files
+during `deno publish --dry-run`. Those files provide the internal page shell and
+public authoring components, so excluding them would publish an incomplete product.
+Reconsider JSR only if it supports Astro source files or the package no longer
+needs to distribute them.

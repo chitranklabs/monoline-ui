@@ -1,4 +1,4 @@
-import { loadConfig } from "@monoline/docs"
+import { loadConfig } from "@chitrank2050/monoline-docs"
 import { fileURLToPath } from "node:url"
 
 if (

@@ -198,7 +198,7 @@ designer, or client-side docs router is included.
 
 ## Packaging and distribution
 
-Keep `@monoline/docs` private until packed-consumer verification passes. Explicitly
+Keep `@chitrank2050/monoline-docs` private until packed-consumer verification passes. Explicitly
 package runtime Astro components, routes, styles, browser assets, CLI, and
 declarations. Static output must not require an adapter or deployed Node process.
 

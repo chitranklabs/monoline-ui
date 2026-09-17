@@ -3,10 +3,10 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "pnpm --filter @monoline/docs build && node dev.mjs",
-		"build": "pnpm --filter @monoline/docs build && node build.mjs"
+		"dev": "pnpm --filter @chitrank2050/monoline-docs build && node dev.mjs",
+		"build": "pnpm --filter @chitrank2050/monoline-docs build && node build.mjs"
 	},
 	"dependencies": {
-		"@monoline/docs": "workspace:*"
+		"@chitrank2050/monoline-docs": "workspace:*"
 	}
 }

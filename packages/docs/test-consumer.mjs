@@ -7,6 +7,7 @@ import {
 	readFile,
 	readdir,
 	rm,
+	stat,
 	writeFile,
 } from "node:fs/promises"
 import { tmpdir } from "node:os"
@@ -27,6 +28,7 @@ function run(command, args, cwd = root) {
 }
 try {
 	run("pnpm", ["build"], packageDirectory)
+	assert((await stat(join(packageDirectory, "dist/cli.js"))).mode & 0o111)
 	const packed = JSON.parse(
 		run(
 			"npm",
@@ -44,16 +46,21 @@ try {
 		JSON.stringify({
 			private: true,
 			type: "module",
-			dependencies: { "@monoline/docs": `file:${join(root, packed.filename)}` },
+			dependencies: {
+				"@chitrank2050/monoline-docs": `file:${join(root, packed.filename)}`,
+			},
 		})
 	)
 	run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund"])
-	await verifyEngine(join(root, "node_modules/@monoline/docs"), root)
+	await verifyEngine(
+		join(root, "node_modules/@chitrank2050/monoline-docs"),
+		root
+	)
 	await mkdir(join(root, "content"))
 	await mkdir(join(root, "assets"))
 	await writeFile(
 		join(root, "content/index.mdx"),
-		'---\ntitle: Start\n---\nimport Tabs from "@monoline/docs/components/Tabs.astro"\nimport LinkCard from "@monoline/docs/components/LinkCard.astro"\n\n## Install\n\n<Tabs id="install" labels={["npm", "pnpm"]}><pre slot="npm"><code>npm install</code></pre><pre slot="pnpm"><code>pnpm add</code></pre></Tabs>\n<LinkCard href="/" title="Introduction" description="Return home" />\n'
+		'---\ntitle: Start\n---\nimport Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro"\nimport LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"\n\n## Install\n\n<Tabs id="install" labels={["npm", "pnpm"]}><pre slot="npm"><code>npm install</code></pre><pre slot="pnpm"><code>pnpm add</code></pre></Tabs>\n<LinkCard href="/" title="Introduction" description="Return home" />\n'
 	)
 	await writeFile(
 		join(root, "content/draft.md"),
@@ -62,7 +69,7 @@ try {
 	await writeFile(join(root, "assets/custom.css"), ":root { --radius: 0; }")
 	await writeFile(
 		join(root, "monoline.config.mjs"),
-		`import { defineConfig } from '@monoline/docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark' });`
+		`import { defineConfig } from '@chitrank2050/monoline-docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark' });`
 	)
 	const cli = join(root, "node_modules/.bin/monoline-docs")
 	const askWidget = join(root, "ask-widget")
@@ -138,13 +145,17 @@ try {
 	)
 	await writeFile(
 		join(root, "monoline.config.mjs"),
-		`import { defineConfig } from '@monoline/docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark', react: true });`
+		`import { defineConfig } from '@chitrank2050/monoline-docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark', react: true });`
 	)
 	for (const recipe of ["vercel.json", "netlify.toml", "github-pages.yml"])
 		assert(
 			(
 				await readFile(
-					join(root, "node_modules/@monoline/docs/templates", recipe),
+					join(
+						root,
+						"node_modules/@chitrank2050/monoline-docs/templates",
+						recipe
+					),
 					"utf8"
 				)
 			).length > 0
@@ -175,7 +186,7 @@ try {
 	assert.throws(() => run(cli, ["dev", "--port", "70000"]))
 	await writeFile(
 		join(root, "contract.ts"),
-		`import { defineConfig } from '@monoline/docs'; import { buildDocs } from '@monoline/docs/build'; import { startDevServer } from '@monoline/docs/dev'; const config = defineConfig({ title: 'Docs', defaultMode: 'dark' }); void buildDocs(config); void startDevServer(config); // @ts-expect-error unsupported mode\ndefineConfig({ title: 'Docs', defaultMode: 'sepia' });`
+		`import { defineConfig } from '@chitrank2050/monoline-docs'; import { buildDocs } from '@chitrank2050/monoline-docs/build'; import { startDevServer } from '@chitrank2050/monoline-docs/dev'; const config = defineConfig({ title: 'Docs', defaultMode: 'dark' }); void buildDocs(config); void startDevServer(config); // @ts-expect-error unsupported mode\ndefineConfig({ title: 'Docs', defaultMode: 'sepia' });`
 	)
 	run("tsc", [
 		"--noEmit",
@@ -188,7 +199,7 @@ try {
 	])
 	await writeFile(
 		join(root, "preview.mjs"),
-		`import assert from 'node:assert/strict'; import { startDevServer } from '@monoline/docs/dev'; import config from './monoline.config.mjs'; const preview = await startDevServer(config, 0); try { const response = await fetch(preview.url + 'search-index.json'); assert.equal(response.status, 200); assert((await response.text()).includes('Unpublished')); assert.equal((await fetch(preview.url + 'missing/')).status, 404); } finally { await preview.close(); }`
+		`import assert from 'node:assert/strict'; import { startDevServer } from '@chitrank2050/monoline-docs/dev'; import config from './monoline.config.mjs'; const preview = await startDevServer(config, 0); try { const response = await fetch(preview.url + 'search-index.json'); assert.equal(response.status, 200); assert((await response.text()).includes('Unpublished')); assert.equal((await fetch(preview.url + 'missing/')).status, 404); } finally { await preview.close(); }`
 	)
 	run(process.execPath, ["preview.mjs"])
 	const pnpmRoot = join(root, "pnpm-consumer")
@@ -200,7 +211,7 @@ try {
 			private: true,
 			type: "module",
 			dependencies: {
-				"@monoline/docs": `file:${join(root, packed.filename)}`,
+				"@chitrank2050/monoline-docs": `file:${join(root, packed.filename)}`,
 				react: "19.3.0",
 				"react-dom": "19.3.0",
 			},

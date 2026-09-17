@@ -73,7 +73,7 @@ The package is not publicly released. After building it in this checkout, invoke
 the compiled CLI directly from the repository root:
 
 ```sh
-pnpm --filter @monoline/docs build
+pnpm --filter @chitrank2050/monoline-docs build
 node packages/docs/dist/cli.js build --config apps/docs-demo/monoline-docs.yml
 ```
 
@@ -87,11 +87,11 @@ node packages/docs/dist/cli.js dev --config apps/docs-demo/monoline-docs.yml --p
 
 ## Use the workspace API
 
-In a workspace project that already depends on `@monoline/docs`:
+In a workspace project that already depends on `@chitrank2050/monoline-docs`:
 
 ```javascript
-import { loadConfig } from "@monoline/docs"
-import { buildDocs } from "@monoline/docs/build"
+import { loadConfig } from "@chitrank2050/monoline-docs"
+import { buildDocs } from "@chitrank2050/monoline-docs/build"
 
 const config = await loadConfig({ config: "./monoline-docs.yml" })
 const result = await buildDocs(config)

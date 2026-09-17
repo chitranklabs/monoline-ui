@@ -10,9 +10,10 @@ real deployment verification before we claim end-to-end platform support.
 
 ## Consumer project
 
-The Docs package is currently private. Until an alpha is published, install a
-locally built tarball, not an assumed npm version. From this repository, build
-`@monoline/docs`, then pack it. Commit the consumer's package manifest and lockfile.
+The Docs package is prepared for npm but not published. Until the first release,
+install a locally built tarball, not an assumed registry version. From this repository,
+build `@chitrank2050/monoline-docs`, then pack it. Commit the consumer's package
+manifest and lockfile.
 
 Use Node 24.14 or newer and pnpm 11.18.0 for the supplied recipes. Configure these
 consumer package fields alongside the installed Docs dependency:

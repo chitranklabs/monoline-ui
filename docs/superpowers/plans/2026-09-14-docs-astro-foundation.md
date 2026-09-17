@@ -61,7 +61,7 @@ that installation for engine verification so CI does not add another install.
       direct execution verifies the local built package, while the consumer harness
       points it at the installed package and consumer root.
 - [x] Run it from the packed consumer, keeping internal imports diagnostic-only.
-- [x] Confirm `pnpm --filter @monoline/docs test:consumer` passes old CLI checks
+- [x] Confirm `pnpm --filter @chitrank2050/monoline-docs test:consumer` passes old CLI checks
       and the new staged-engine checks.
 - [x] Run `pnpm exec vitest run packages/docs`, package typecheck, focused ESLint,
       formatting/Markdown checks, and `git diff --check`.

@@ -11,8 +11,8 @@ headings, and page links come from the same content, so updating a page does not
 require editing the website layout.
 
 > [!NOTE]
-> `@monoline/docs` is a private, unreleased workspace package. These instructions
-> use this repository; there is no public npm or JSR installation to follow yet.
+> `@chitrank2050/monoline-docs` is prepared but not published yet. These
+> instructions use the workspace package until the first npm release.
 
 ## Run the documentation locally
 

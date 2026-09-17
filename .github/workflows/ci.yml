@@ -215,7 +215,7 @@ jobs:
           needs.changes.outputs.lint == 'true' ||
           needs.changes.outputs.workflows == 'true'
         run: |
-          pnpm --filter @monoline/docs typecheck
+          pnpm --filter @chitrank2050/monoline-docs typecheck
           pnpm test -- packages/docs
           pnpm --filter @monoline/docs-demo build
 
@@ -223,7 +223,7 @@ jobs:
         if: |
           needs.changes.outputs.docs_package == 'true' ||
           needs.changes.outputs.deps == 'true'
-        run: pnpm --filter @monoline/docs test:consumer
+        run: pnpm --filter @chitrank2050/monoline-docs test:consumer
 
       - name: Verify checks are read-only
         run: |
@@ -322,7 +322,7 @@ jobs:
       - name: Test Docs package in production browser
         if: needs.changes.outputs.docs_package == 'true' || needs.changes.outputs.deps == 'true'
         run: |
-          pnpm --filter @monoline/docs build
+          pnpm --filter @chitrank2050/monoline-docs build
           node packages/docs/test-browser.mjs
       - name: Upload browser diagnostics
         if: failure()

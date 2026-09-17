@@ -18,7 +18,8 @@ const packageManagerVersion = JSON.parse(
 test("standalone docs consumer stays in the existing job and runs only for package or dependency changes", () => {
 	const steps = Object.values(ci.jobs).flatMap((job) => job.steps ?? [])
 	const consumers = steps.filter(
-		(step) => step.run === "pnpm --filter @monoline/docs test:consumer"
+		(step) =>
+			step.run === "pnpm --filter @chitrank2050/monoline-docs test:consumer"
 	)
 	assert.equal(consumers.length, 1)
 	assert.equal(

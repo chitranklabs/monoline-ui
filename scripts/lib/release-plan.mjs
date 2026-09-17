@@ -1,25 +1,25 @@
 export const libraryName = "@chitrank2050/monoline-ui"
 
-export function selectLibraryRelease(plan) {
+function selectRelease(plan, name, label) {
 	if (!Array.isArray(plan.releases) || !Array.isArray(plan.changesets)) {
 		throw new Error("Invalid Changesets release plan")
 	}
 	const releases = plan.releases.filter((release) => release.type !== "none")
 	if (releases.length === 0) return null
-	if (releases.length !== 1 || releases[0].name !== libraryName) {
-		throw new Error("Release automation currently supports only the UI package")
-	}
-	const release = releases[0]
+	const release = releases.find((entry) => entry.name === name)
+	if (!release) return null
+	if (releases.length !== 1)
+		throw new Error(`${label} release cannot include another package`)
 	if (
 		!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(release.newVersion) ||
 		release.newVersion === release.oldVersion
 	) {
 		throw new Error(
-			"Expected a new stable library version; prereleases require a separate workflow"
+			`Expected a new stable ${label} version; prereleases require a separate workflow`
 		)
 	}
 	if (!release.changesets?.length)
-		throw new Error("Library release needs explicit changeset intent")
+		throw new Error(`${label} release needs explicit changeset intent`)
 	for (const id of release.changesets) {
 		if (
 			!/^[a-zA-Z0-9_-]+$/.test(id) ||
@@ -32,6 +32,9 @@ export function selectLibraryRelease(plan) {
 	}
 	return release
 }
+
+export const selectLibraryRelease = (plan) =>
+	selectRelease(plan, libraryName, "library")
 
 export function releaseNotes(changelog, version) {
 	if (!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(version))

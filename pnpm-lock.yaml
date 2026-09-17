@@ -113,7 +113,7 @@ importers:
 
   apps/docs-demo:
     dependencies:
-      '@monoline/docs':
+      '@chitrank2050/monoline-docs':
         specifier: workspace:*
         version: link:../../packages/docs
 
