@@ -209,6 +209,29 @@ it("builds a browsable site under a base with matching sidebar, anchors, and CSS
 	).resolves.toBeUndefined()
 })
 
+it("emits flat files and extensionless links when clean URLs are enabled", async () => {
+	const options = {
+		...(await fixture()),
+		base: "/project/",
+		site: "https://example.com",
+		cleanUrls: true,
+	}
+	await buildDocs(options)
+	const home = await readFile(join(options.outDirectory, "index.html"), "utf8")
+	const guide = await readFile(join(options.outDirectory, "guide.html"), "utf8")
+	expect(home).toContain('href="/project/guide#install"')
+	expect(guide).toContain('href="/project/"')
+	expect(
+		await readFile(join(options.outDirectory, "sitemap.xml"), "utf8")
+	).toContain("<loc>https://example.com/project/guide</loc>")
+	await expect(
+		access(join(options.outDirectory, "guide/index.html"))
+	).rejects.toMatchObject({ code: "ENOENT" })
+	expect(
+		await readFile(join(options.outDirectory, "search-index.json"), "utf8")
+	).toContain('"url":"/project/guide#install"')
+})
+
 it("removes a previously generated page when it becomes a draft", async () => {
 	const options = await fixture()
 	await buildDocs(options)

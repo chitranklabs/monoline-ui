@@ -1,13 +1,15 @@
 import { dirname, resolve } from "node:path"
 
 import type { DocumentationPage } from "./content.ts"
+import { routeHref } from "./urls.ts"
 
 /** Resolve author links against discovered pages, before any output is published. */
 export function createPageLinks(
 	pages: DocumentationPage[],
 	content: string,
 	base: string,
-	assetUrl: (link: string) => string
+	assetUrl: (link: string) => string,
+	cleanUrls = false
 ) {
 	const byRoute = new Map(pages.map((page) => [page.route as string, page]))
 	const byFile = new Map(pages.map((page) => [resolve(page.filePath), page]))
@@ -39,12 +41,7 @@ export function createPageLinks(
 				route: target.route,
 				hash: decodeURIComponent(url.hash.slice(1)),
 			})
-			return (
-				base +
-				(target.route === "/" ? "" : target.route.slice(1) + "/") +
-				url.search +
-				url.hash
-			)
+			return routeHref(target.route, base, cleanUrls) + url.search + url.hash
 		},
 	}
 }

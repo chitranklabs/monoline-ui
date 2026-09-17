@@ -8,6 +8,8 @@ export interface MonolineDocsConfig {
 	/** Disable indexing for hosted previews without including development drafts. */
 	indexing?: boolean
 	base?: string
+	/** Emit extensionless links backed by flat .html files. */
+	cleanUrls?: boolean
 	lang?: string
 	contentDirectory?: string
 	outDirectory?: string
@@ -75,6 +77,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"site",
 		"indexing",
 		"base",
+		"cleanUrls",
 		"lang",
 		"contentDirectory",
 		"outDirectory",
@@ -92,6 +95,8 @@ export function defineConfig(config: MonolineDocsConfig) {
 	string(config.title, "title")
 	if (config.indexing !== undefined && typeof config.indexing !== "boolean")
 		throw new Error("indexing must be a boolean")
+	if (config.cleanUrls !== undefined && typeof config.cleanUrls !== "boolean")
+		throw new Error("cleanUrls must be a boolean")
 	if (config.react !== undefined && typeof config.react !== "boolean")
 		throw new Error("react must be a boolean")
 	for (const key of [
@@ -201,6 +206,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		indexing: config.indexing ?? true,
 		site,
 		base,
+		cleanUrls: config.cleanUrls ?? false,
 		lang,
 		defaultMode,
 		react: config.react ?? false,

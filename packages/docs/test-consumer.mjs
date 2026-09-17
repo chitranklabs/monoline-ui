@@ -1,6 +1,14 @@
 import assert from "node:assert/strict"
 import { execFileSync } from "node:child_process"
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
+import {
+	cp,
+	mkdir,
+	mkdtemp,
+	readFile,
+	readdir,
+	rm,
+	writeFile,
+} from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -57,6 +65,48 @@ try {
 		`import { defineConfig } from '@monoline/docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark' });`
 	)
 	const cli = join(root, "node_modules/.bin/monoline-docs")
+	const askWidget = join(root, "ask-widget")
+	await cp(join(packageDirectory, "fixtures/ask-widget"), askWidget, {
+		recursive: true,
+	})
+	run(cli, ["build"], askWidget)
+	const askOutput = join(askWidget, "dist")
+	const expectedAskWidgetPages = [
+		"index.html",
+		"getting-started.html",
+		"api.html",
+		"theming.html",
+		"hooks.html",
+		"architecture.html",
+		"changelog.html",
+		"code-of-conduct.html",
+	]
+	for (const page of expectedAskWidgetPages)
+		assert((await readFile(join(askOutput, page), "utf8")).includes("<main"))
+	const askApi = await readFile(join(askOutput, "api.html"), "utf8")
+	assert.equal((askApi.match(/<tr>/g) ?? []).length, 13)
+	assert(askApi.includes("ChatStreamHandler"))
+	assert(
+		askApi.includes('href="https://chitranklabs.github.io/ask-widget/api"')
+	)
+	const askHome = await readFile(join(askOutput, "index.html"), "utf8")
+	assert(askHome.includes('href="/ask-widget/getting-started"'))
+	assert(!askHome.includes("vitepress"))
+	assert(!askHome.includes("vue"))
+	assert.deepEqual(
+		(await readdir(askOutput))
+			.filter((name) => name.endsWith(".html") && name !== "404.html")
+			.sort(),
+		expectedAskWidgetPages.sort()
+	)
+	await writeFile(
+		join(askWidget, "data/api-props.mjs"),
+		'export const apiRows = [{ name: "newOption", type: "boolean", default: "false", description: "Generated API change." }]\n'
+	)
+	run(cli, ["build"], askWidget)
+	assert(
+		(await readFile(join(askOutput, "api.html"), "utf8")).includes("newOption")
+	)
 	await writeFile(
 		join(root, "monoline-docs.yml"),
 		"title: YAML consumer\nsite: https://example.com\nbase: /handbook/\nassetsDirectory: ./assets\nstylesheet: /assets/custom.css\ndefaultMode: dark\n"
@@ -180,7 +230,7 @@ try {
 		)
 	)
 	console.log(
-		"Docs consumer passed: npm and strict pnpm installs, CLI, React island, declarations, subpath build, drafts, search and preview."
+		"Docs consumer passed: npm and strict pnpm installs, Ask Widget clean routes, generated API data, CLI, React island, declarations, drafts, search and preview."
 	)
 } finally {
 	await rm(root, { recursive: true, force: true })

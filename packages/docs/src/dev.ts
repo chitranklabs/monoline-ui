@@ -32,6 +32,7 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 		)
 	)
 	const base = options.base ?? "/"
+	const cleanUrls = options.cleanUrls ?? false
 	const clients = new Set<ServerResponse>()
 	const watchers: FSWatcher[] = []
 	const dependencyWatchers = new Map<string, FSWatcher>()
@@ -183,7 +184,9 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 		const name =
 			relative.endsWith("/") || relative === ""
 				? `${relative}index.html`
-				: relative
+				: cleanUrls && !extname(relative)
+					? `${relative}.html`
+					: relative
 		const found = path.startsWith(base) && knownFiles.has(name)
 		const file = found ? name : "404.html"
 		let body = await readFile(join(result.outDirectory, file))

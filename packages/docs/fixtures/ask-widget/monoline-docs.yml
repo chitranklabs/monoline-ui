@@ -1,0 +1,45 @@
+title: ask-widget
+description: Add a streaming AI chat widget to a React application.
+site: https://chitranklabs.github.io
+base: /ask-widget/
+cleanUrls: true
+contentDirectory: ./content
+outDirectory: ./dist
+defaultMode: system
+headerLinks:
+  - label: Getting started
+    href: /getting-started
+  - label: API
+    href: /api
+  - label: GitHub
+    href: https://github.com/chitranklabs/ask-widget
+footer:
+  text: Released under the MIT License.
+  links:
+    - label: GitHub
+      href: https://github.com/chitranklabs/ask-widget
+editLink:
+  href: https://github.com/chitranklabs/ask-widget/edit/main/docs/{path}
+navigation:
+  - label: Guide
+    items:
+      - label: Introduction
+        href: /
+      - label: Getting started
+        href: /getting-started
+      - label: Theming
+        href: /theming
+  - label: Reference
+    items:
+      - label: API
+        href: /api
+      - label: Hooks
+        href: /hooks
+      - label: Architecture
+        href: /architecture
+  - label: Project
+    items:
+      - label: Changelog
+        href: /changelog
+      - label: Code of conduct
+        href: /code-of-conduct

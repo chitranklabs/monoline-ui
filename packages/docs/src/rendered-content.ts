@@ -2,6 +2,7 @@ import { type DefaultTreeAdapterTypes, parse } from "parse5"
 
 import type { DocumentationPage } from "./content.ts"
 import { type Heading, escapeHtml } from "./render.ts"
+import { routeHref } from "./urls.ts"
 
 type Node = DefaultTreeAdapterTypes.Node
 type Element = DefaultTreeAdapterTypes.Element
@@ -164,20 +165,20 @@ export function validateRenderedLinks(
 	documents: Map<string, RenderedPage>,
 	files: Set<string>,
 	base: string,
-	site = "https://docs.invalid"
+	site = "https://docs.invalid",
+	cleanUrls = false
 ): void {
 	const origin = new URL(site).origin
 	const targets = new Map<string, RenderedPage>()
 	for (const [route, document] of documents) {
-		const path = base + (route === "/" ? "" : route.slice(1) + "/")
-		for (const alias of [path, path.slice(0, -1), path + "index.html"])
-			targets.set(alias, document)
+		const path = routeHref(route, base, cleanUrls)
+		const aliases = cleanUrls
+			? [path, `${path}.html`]
+			: [path, path.slice(0, -1), path + "index.html"]
+		for (const alias of aliases) targets.set(alias, document)
 	}
 	for (const [route, document] of documents) {
-		const current = new URL(
-			base + (route === "/" ? "" : route.slice(1) + "/"),
-			origin
-		)
+		const current = new URL(routeHref(route, base, cleanUrls), origin)
 		for (const reference of document.references) {
 			const fail = (message: string): never => {
 				throw new Error(`${document.filePath}: ${message} "${reference.value}"`)

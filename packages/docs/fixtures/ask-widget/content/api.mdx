@@ -1,0 +1,28 @@
+---
+title: API reference
+description: ChatWidget props and custom streaming contracts.
+order: 3
+---
+
+import ApiTable from "@monoline/docs/components/ApiTable.astro"
+
+import { apiRows } from "../data/api-props.mjs"
+
+## ChatWidget props
+
+<ApiTable caption="ChatWidget props" rows={apiRows} />
+
+## Custom streaming
+
+```ts
+export type ChatStreamResult =
+	string | AsyncIterable<string> | Promise<string | AsyncIterable<string>>
+
+export type ChatStreamHandler = (
+	message: string,
+	history: ChatMessage[]
+) => ChatStreamResult
+```
+
+When `streamResponse` is set, it owns request and streaming behavior; `apiUrl`
+and `apiToken` are ignored.

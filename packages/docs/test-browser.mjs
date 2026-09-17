@@ -52,13 +52,18 @@ try {
 		`---\ntitle: Installation\n---\n## Installation\nFind the unique narwhal instructions here.\n\n> [!NOTE]\n> Keep your configuration safe.\n\n## ${"LongHeading".repeat(30)}\n\n| Name | Value |\n| --- | --- |\n| Wide | ${"TableContent".repeat(40)} |\n\n\`\`\`js\nconst example = "${"CodeContent".repeat(50)}"\n\`\`\`\n`
 	)
 	const outputs = new Map()
-	for (const base of ["/", "/handbook/"]) {
-		const output = join(temporary, base === "/" ? "root" : "handbook")
+	for (const [base, cleanUrls] of [
+		["/", false],
+		["/handbook/", false],
+		["/ask-widget/", true],
+	]) {
+		const output = join(temporary, base === "/" ? "root" : base.slice(1, -1))
 		await buildAstroDocs({
 			title: "Browser fixture",
 			contentDirectory: content,
 			outDirectory: output,
 			base,
+			cleanUrls,
 			react: true,
 			headerLinks: [{ label: "Guide", href: "/guide/install" }],
 			footer: {
@@ -79,13 +84,16 @@ try {
 				},
 			],
 		})
-		outputs.set(base, output)
+		outputs.set(base, { output, cleanUrls })
 		assert(
 			!(await readFile(join(output, "search-index.json"), "utf8")).includes(
 				"platypus"
 			)
 		)
-		const wide = await readFile(join(output, "wide/index.html"), "utf8")
+		const wide = await readFile(
+			join(output, cleanUrls ? "wide.html" : "wide/index.html"),
+			"utf8"
+		)
 		assert(!wide.includes('class="sidebar"'))
 		assert(wide.includes("<template data-docs-toc"))
 	}
@@ -95,7 +103,11 @@ try {
 			const pathname = decodeURIComponent(
 				new URL(request.url, "http://localhost").pathname
 			)
-			const base = pathname.startsWith("/handbook/") ? "/handbook/" : "/"
+			const base =
+				[...outputs.keys()]
+					.filter((entry) => entry !== "/" && pathname.startsWith(entry))
+					.sort((left, right) => right.length - left.length)[0] ?? "/"
+			const target = outputs.get(base)
 			const relative = pathname.slice(base.length)
 			if (
 				relative.split("/").some((part) => part === "..") ||
@@ -105,15 +117,19 @@ try {
 				return
 			}
 			const filename =
-				relative.endsWith("/") || !relative ? `${relative}index.html` : relative
+				relative.endsWith("/") || !relative
+					? `${relative}index.html`
+					: target.cleanUrls && !extname(relative)
+						? `${relative}.html`
+						: relative
 			let data
 			let status = 200
 			try {
-				data = await readFile(join(outputs.get(base), filename))
+				data = await readFile(join(target.output, filename))
 			} catch (error) {
 				if (error.code !== "ENOENT" && error.code !== "EISDIR") throw error
 				status = 404
-				data = await readFile(join(outputs.get(base), "404.html"))
+				data = await readFile(join(target.output, "404.html"))
 			}
 			response
 				.writeHead(status, {
@@ -138,7 +154,7 @@ try {
 	browser = await chromium.launch({
 		channel: process.env.DOCS_BROWSER_CHANNEL || undefined,
 	})
-	for (const base of outputs.keys()) {
+	for (const [base, { cleanUrls }] of outputs) {
 		const context = await browser.newContext()
 		const page = await context.newPage()
 		const errors = []
@@ -149,7 +165,12 @@ try {
 		).toBeVisible()
 		await expect(
 			page.getByRole("link", { name: "Guide", exact: true })
-		).toHaveAttribute("href", `${base}guide/install/`)
+		).toHaveAttribute("href", `${base}guide/install${cleanUrls ? "" : "/"}`)
+		await expect(
+			page
+				.getByRole("navigation", { name: "Documentation" })
+				.getByRole("link", { name: "Installation", exact: true })
+		).toHaveAttribute("href", `${base}guide/install${cleanUrls ? "" : "/"}`)
 		await expect(page.getByText("Released under MIT.")).toBeVisible()
 		await expect(
 			page.getByRole("link", { name: "Edit this page" })
@@ -171,11 +192,13 @@ try {
 		await counter.click()
 		await expect(page.getByRole("button", { name: "Count 1" })).toBeVisible()
 		await page.getByRole("link", { name: "nested guide", exact: true }).click()
-		await expect(page).toHaveURL(`${origin}${base}guide/install/#installation`)
+		await expect(page).toHaveURL(
+			`${origin}${base}guide/install${cleanUrls ? "" : "/"}#installation`
+		)
 		await expect(
 			page.locator('nav[aria-label="Documentation"] [aria-current="page"]')
 		).toHaveText("Installation")
-		await page.goto(`${origin}${base}guide/install/`)
+		await page.goto(`${origin}${base}guide/install${cleanUrls ? "" : "/"}`)
 		await page
 			.locator('nav[aria-label="On this page"] a[href="#installation"]')
 			.click()
@@ -262,7 +285,9 @@ try {
 			[],
 			`${base} mobile accessibility`
 		)
-		for (const route of ["missing/", "draft/"]) {
+		for (const route of cleanUrls
+			? ["missing", "draft"]
+			: ["missing/", "draft/"]) {
 			assert.equal((await page.goto(origin + base + route)).status(), 404)
 			await expect(
 				page.getByRole("heading", { name: "Page not found" })

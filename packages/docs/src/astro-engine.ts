@@ -27,6 +27,7 @@ import {
 	inspectRenderedPage,
 	validateRenderedLinks,
 } from "./rendered-content.ts"
+import { pageFile, routeHref } from "./urls.ts"
 
 export interface StagedAstroSite {
 	directory: string
@@ -90,7 +91,13 @@ export async function buildAstroSite(
 	})
 	const assets = await collectAssets(options.assetsDirectory)
 	const assetUrl = createAssetUrl(assets, options.base)
-	const links = createPageLinks(pages, content, options.base, assetUrl)
+	const links = createPageLinks(
+		pages,
+		content,
+		options.base,
+		assetUrl,
+		options.cleanUrls
+	)
 	if (!pages.some((page) => page.route === "/"))
 		throw new Error("Documentation requires an index.md or index.mdx home page")
 	for (const page of pages) {
@@ -121,6 +128,7 @@ export async function buildAstroSite(
 				description: options.description,
 				site: options.site,
 				base: options.base,
+				cleanUrls: options.cleanUrls,
 				lang: options.lang,
 				defaultMode: options.defaultMode,
 				stylesheet: options.stylesheet
@@ -202,11 +210,14 @@ export async function buildAstroSite(
 			srcDir: "./source/",
 			publicDir: "./public/",
 			outDir: directory,
-			build: { server: "./.server/" },
+			build: {
+				format: options.cleanUrls ? "file" : "directory",
+				server: "./.server/",
+			},
 			cacheDir: "./cache/",
 			output: "static",
 			base: options.base,
-			trailingSlash: "always",
+			trailingSlash: options.cleanUrls ? "never" : "always",
 			logLevel: "silent",
 			markdown: {
 				syntaxHighlight: { type: "prism", excludeLangs: ["mdx"] },
@@ -431,11 +442,9 @@ export async function buildAstroSite(
 			options.indexing &&
 			options.environment === "production"
 		) {
-			const href = (route: string) =>
-				options.base + (route === "/" ? "" : route.slice(1) + "/")
 			await writeFile(
 				join(directory, "sitemap.xml"),
-				`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${new URL(href(page.route), options.site).href}</loc></url>`).join("")}</urlset>`
+				`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${new URL(routeHref(page.route, options.base, options.cleanUrls), options.site).href}</loc></url>`).join("")}</urlset>`
 			)
 			if (options.base === "/")
 				await writeFile(
@@ -458,19 +467,29 @@ export async function buildAstroSite(
 				)
 		}
 		const documents = new Map<string, RenderedPage>()
-		const pageFile = (route: string) =>
-			join(
-				directory,
-				route === "/" ? "index.html" : `${route.slice(1)}/index.html`
-			)
 		for (const page of pages)
 			documents.set(
 				page.route,
-				inspectRenderedPage(await readFile(pageFile(page.route), "utf8"), page)
+				inspectRenderedPage(
+					await readFile(
+						join(directory, pageFile(page.route, options.cleanUrls)),
+						"utf8"
+					),
+					page
+				)
 			)
-		validateRenderedLinks(documents, files, options.base, options.site)
+		validateRenderedLinks(
+			documents,
+			files,
+			options.base,
+			options.site,
+			options.cleanUrls
+		)
 		for (const [route, document] of documents)
-			await writeFile(pageFile(route), document.html)
+			await writeFile(
+				join(directory, pageFile(route, options.cleanUrls)),
+				document.html
+			)
 		await writeFile(
 			join(directory, "search-index.json"),
 			JSON.stringify(
@@ -480,8 +499,7 @@ export async function buildAstroSite(
 						heading: section.heading,
 						text: section.text,
 						url:
-							options.base +
-							(page.route === "/" ? "" : page.route.slice(1) + "/") +
+							routeHref(page.route, options.base, options.cleanUrls) +
 							(section.id ? `#${encodeURIComponent(section.id)}` : ""),
 					}))
 				)

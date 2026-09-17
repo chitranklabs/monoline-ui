@@ -5,11 +5,12 @@ interface Props {
 	items: NavigationItem[]
 	current: string
 	base: string
+	cleanUrls: boolean
 }
 
-const { items, current, base } = Astro.props
+const { items, current, base, cleanUrls } = Astro.props
 const href = (route: string) =>
-	base + (route === "/" ? "" : route.slice(1) + "/")
+	base + (route === "/" ? "" : route.slice(1) + (cleanUrls ? "" : "/"))
 const containsCurrent = (item: NavigationItem): boolean =>
 	"href" in item ? item.href === current : item.items.some(containsCurrent)
 ---
@@ -27,7 +28,12 @@ const containsCurrent = (item: NavigationItem): boolean =>
 			) : (
 				<details class="nav-group" open={containsCurrent(item)}>
 					<summary>{item.label}</summary>
-					<Astro.self items={item.items} current={current} base={base} />
+					<Astro.self
+						items={item.items}
+						current={current}
+						base={base}
+						cleanUrls={cleanUrls}
+					/>
 				</details>
 			)}
 		</li>

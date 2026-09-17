@@ -11,7 +11,7 @@ const cleanups: Array<() => Promise<void>> = []
 afterEach(async () => {
 	for (const cleanup of cleanups.splice(0).reverse()) await cleanup()
 })
-async function fixture() {
+async function fixture(cleanUrls = false) {
 	const root = await mkdtemp(join(tmpdir(), "docs-preview-"))
 	cleanups.push(() => rm(root, { force: true, recursive: true }))
 	const contentDirectory = join(root, "content")
@@ -38,12 +38,22 @@ async function fixture() {
 			assetsDirectory,
 			outDirectory: join(root, "dist"),
 			base: "/project/",
+			cleanUrls,
 		},
 		0
 	)
 	cleanups.push(server.close)
 	return { ...server, contentDirectory, assetsDirectory, component }
 }
+
+it("serves extensionless clean URLs from flat HTML files", async () => {
+	const server = await fixture(true)
+	const clean = await fetch(server.url + "draft")
+	expect(clean.status).toBe(200)
+	expect(await clean.text()).toContain("Preview only")
+	expect((await fetch(server.url + "draft.html")).status).toBe(200)
+	expect((await fetch(server.url + "draft/")).status).toBe(404)
+})
 
 async function* updates(response: Response) {
 	const reader = response.body!.getReader()

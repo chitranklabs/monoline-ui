@@ -34,6 +34,7 @@ keys fail validation, so a misspelled option does not silently do nothing.
 | `assetsDirectory`  | Unset        | Folder copied into the site's `/assets/` path.                                      |
 | `stylesheet`       | Unset        | Local `/assets/*.css` file loaded after default styles.                             |
 | `base`             | `/`          | Deployment path beginning and ending with `/`, such as `/handbook/`.                |
+| `cleanUrls`        | `false`      | Emit flat `.html` files with extensionless internal links.                          |
 | `site`             | Unset        | HTTP(S) origin, such as `https://docs.example.com`; no subpath, query, or fragment. |
 | `indexing`         | `true`       | Whether production output permits indexing and emits a sitemap when `site` is set.  |
 | `lang`             | `en`         | Valid BCP 47 language tag for the HTML document.                                    |

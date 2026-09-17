@@ -1,4 +1,6 @@
 ---
+import { site } from "virtual:monoline-docs/pages"
+
 interface Props {
 	href: string
 	title: string
@@ -10,9 +12,9 @@ const internal = value.startsWith("/")
 	? new URL(value, "https://docs.invalid")
 	: undefined
 const href = internal
-	? import.meta.env.BASE_URL +
+	? site.base +
 		internal.pathname.slice(1).replace(/\/$/, "") +
-		(internal.pathname === "/" ? "" : "/") +
+		(internal.pathname === "/" || site.cleanUrls ? "" : "/") +
 		internal.search +
 		internal.hash
 	: value

@@ -11,7 +11,9 @@ export function getStaticPaths() {
 
 const { page } = Astro.props
 const Content = page.Content
-const href = (route) => site.base + (route === "/" ? "" : route.slice(1) + "/")
+const href = (route) =>
+	site.base +
+	(route === "/" ? "" : route.slice(1) + (site.cleanUrls ? "" : "/"))
 const index = site.navigation.sequence.findIndex(
 	(entry) => entry.href === page.route
 )
@@ -119,6 +121,7 @@ const showToc = page.metadata.toc !== false
 								items={site.navigation.items}
 								current={page.route}
 								base={site.base}
+								cleanUrls={site.cleanUrls}
 							/>
 						</nav>
 					</details>

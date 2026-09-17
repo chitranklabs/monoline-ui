@@ -114,6 +114,7 @@ export default defineConfig({
 	description: "How our team builds and operates its services.",
 	site: "https://docs.example.com",
 	base: "/",
+	cleanUrls: false,
 	lang: "en",
 	contentDirectory: "./content",
 	outDirectory: "./dist",
@@ -182,6 +183,12 @@ can set `sidebar: false` or `toc: false` without changing navigation, search, or
 the previous/next sequence. React 19 components are available only when
 `react: true`; explicit Astro client directives control hydration, and ordinary
 pages do not load React.
+
+Set `cleanUrls: true` when a host serves extensionless routes from flat HTML
+files. Non-home routes then emit as `route.html`, while navigation, canonical,
+sitemap, and search URLs use `/route` without a trailing slash. Directory output
+remains the default. Preview serves both the extensionless URL and generated
+`.html` file while correctly returning 404 for `/route/`.
 
 Packaged Astro authoring components are available from
 `@monoline/docs/components/*.astro`: `Steps` with `Step`, `LinkCard`, `Tabs`,
@@ -292,9 +299,18 @@ noindex/nofollow and have no sitemap. Indexing does not control draft filtering.
 `lang` sets the HTML language tag; built-in controls remain English. It is not
 full interface localization.
 
+## Ask Widget migration rehearsal
+
+The packed-consumer test builds an isolated Ask Widget documentation fixture at
+`/ask-widget/`. It accounts for the eight routes currently published by GitHub
+Pages: the homepage, getting started, API, theming, hooks, architecture,
+changelog, and code of conduct. Clean output preserves the existing flat HTML
+files and extensionless links. The API page imports generated prop rows, and the
+test changes that data and rebuilds to prove API updates reach the rendered page.
+The output contains no VitePress or Vue runtime.
+
 ## Remaining work before release
 
-- Rehearse the Ask Widget migration and account for every published route.
 - Verify real static-host deployments and compatibility across target browsers.
 - Re-run the large-site performance fixtures against the release candidate.
 

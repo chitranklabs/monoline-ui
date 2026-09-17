@@ -1,0 +1,32 @@
+---
+title: Getting started
+description: Install Ask Widget and connect it to a streaming chat endpoint.
+order: 2
+---
+
+import Tabs from "@monoline/docs/components/Tabs.astro"
+
+## Install
+
+<Tabs id="package-manager" labels={["npm", "pnpm"]}>
+	<pre slot="npm">
+		<code>npm install @chitrank2050/ask-widget</code>
+	</pre>
+	<pre slot="pnpm">
+		<code>pnpm add @chitrank2050/ask-widget</code>
+	</pre>
+</Tabs>
+
+## Render the widget
+
+```tsx
+import { ChatWidget } from "@chitrank2050/ask-widget"
+import "@chitrank2050/ask-widget/style.css"
+
+export function App() {
+	return <ChatWidget apiUrl="https://api.example.com" />
+}
+```
+
+Without `apiUrl` or `streamResponse`, the component uses its demo response.
+Production integrations should provide an SSE endpoint or a custom handler.

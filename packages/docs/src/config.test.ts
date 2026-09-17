@@ -11,6 +11,7 @@ it("resolves defaults and canonicalizes origin and language without mutating inp
 	}
 	expect(defineConfig(input)).toMatchObject({
 		base: "/",
+		cleanUrls: false,
 		defaultMode: "system",
 		lang: "en-US",
 		site: "https://example.com",
@@ -36,6 +37,7 @@ it.each([
 	[{ lang: "not_a_language" }, "BCP 47"],
 	[{ defaultMode: "sepia" }, "defaultMode"],
 	[{ environment: "prod" }, "environment"],
+	[{ cleanUrls: "yes" }, "cleanUrls"],
 	[{ react: "yes" }, "react"],
 	[{ stylesheet: "https://example.com/style.css" }, "stylesheet"],
 	[{ headerLinks: [{ label: "Unsafe", href: "//example.com" }] }, "HTTP(S)"],
