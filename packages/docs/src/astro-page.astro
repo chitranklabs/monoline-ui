@@ -26,6 +26,10 @@ const canonical = site.site
 const linkHref = (value) => (value.startsWith("/") ? href(value) : value)
 const showSidebar = page.metadata.sidebar !== false
 const showToc = page.metadata.toc !== false
+const pageTitle = site.titleTemplate.replace(
+	"%s",
+	page.metadata.seoTitle ?? page.metadata.title
+)
 ---
 
 <!doctype html>
@@ -34,10 +38,12 @@ const showToc = page.metadata.toc !== false
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="color-scheme" content="light dark" />
-		<title>{page.metadata.title} | {site.title}</title>
+		<title>{pageTitle}</title>
 		<meta name="description" content={description} />
 		{canonical && <link rel="canonical" href={canonical} />}
-		{site.noindex && <meta name="robots" content="noindex, nofollow" />}
+		{(site.noindex || page.metadata.noindex) && (
+			<meta name="robots" content="noindex, nofollow" />
+		)}
 		<script is:inline src={`${site.base}theme.js`}></script>
 		<link rel="stylesheet" href={`${site.base}docs.css`} />
 		{site.stylesheet && <link rel="stylesheet" href={site.stylesheet} />}
@@ -75,37 +81,43 @@ const showToc = page.metadata.toc !== false
 				</select>
 			</label>
 		</header>
-		<button class="search-trigger" type="button" hidden>
-			Search
-		</button>
-		<dialog
-			class="search-dialog"
-			aria-labelledby="search-title"
-			data-index={`${site.base}search-index.json`}
-		>
-			<div class="search-heading">
-				<h2 id="search-title">Search documentation</h2>
-				<button type="button" class="search-close" aria-label="Close search">
-					Close
-				</button>
-			</div>
-			<label>
-				Search pages and headings
-				<input
-					id="docs-query"
-					type="search"
-					maxlength="200"
-					autocomplete="off"
-					autofocus
-					aria-describedby="search-status"
-				/>
-			</label>
-			<p id="search-status" role="status">
-				Type to search.
-			</p>
-			<ul class="search-results" aria-label="Search results"></ul>
-		</dialog>
-		<script type="module" src={`${site.base}search.js`}></script>
+		{site.searchEnabled && (
+			<button class="search-trigger" type="button" hidden>
+				Search
+			</button>
+		)}
+		{site.searchEnabled && (
+			<dialog
+				class="search-dialog"
+				aria-labelledby="search-title"
+				data-index={`${site.base}search-index.json`}
+			>
+				<div class="search-heading">
+					<h2 id="search-title">Search documentation</h2>
+					<button type="button" class="search-close" aria-label="Close search">
+						Close
+					</button>
+				</div>
+				<label>
+					Search pages and headings
+					<input
+						id="docs-query"
+						type="search"
+						maxlength="200"
+						autocomplete="off"
+						autofocus
+						aria-describedby="search-status"
+					/>
+				</label>
+				<p id="search-status" role="status">
+					Type to search.
+				</p>
+				<ul class="search-results" aria-label="Search results"></ul>
+			</dialog>
+		)}
+		{site.searchEnabled && (
+			<script type="module" src={`${site.base}search.js`}></script>
+		)}
 		<div
 			class:list={[
 				"layout",
@@ -127,7 +139,11 @@ const showToc = page.metadata.toc !== false
 					</details>
 				</aside>
 			)}
-			<main id="content" tabindex="-1">
+			<main
+				id="content"
+				tabindex="-1"
+				data-layout={page.metadata.layout ?? "docs"}
+			>
 				<h1>{page.metadata.title}</h1>
 				{description && <p class="description">{description}</p>}
 				<article data-docs-article>

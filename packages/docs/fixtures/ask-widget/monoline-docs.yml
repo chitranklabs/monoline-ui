@@ -5,21 +5,24 @@ base: /ask-widget/
 cleanUrls: true
 contentDirectory: ./content
 outDirectory: ./dist
-defaultMode: system
-headerLinks:
-  - label: Getting started
-    href: /getting-started
-  - label: API
-    href: /api
-  - label: GitHub
-    href: https://github.com/chitranklabs/ask-widget
+appearance:
+  defaultMode: system
+header:
+  links:
+    - label: Getting started
+      href: /getting-started
+    - label: API
+      href: /api
+    - label: GitHub
+      href: https://github.com/chitranklabs/ask-widget
 footer:
   text: Released under the MIT License.
   links:
     - label: GitHub
       href: https://github.com/chitranklabs/ask-widget
-editLink:
-  href: https://github.com/chitranklabs/ask-widget/edit/main/docs/{path}
+content:
+  editLink:
+    href: https://github.com/chitranklabs/ask-widget/edit/main/docs/{path}
 navigation:
   - label: Guide
     items:

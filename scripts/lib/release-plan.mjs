@@ -1,4 +1,5 @@
 export const libraryName = "@chitrank2050/monoline-ui"
+export const docsName = "@chitrank2050/monoline-docs"
 
 function selectRelease(plan, name, label) {
 	if (!Array.isArray(plan.releases) || !Array.isArray(plan.changesets)) {
@@ -35,6 +36,7 @@ function selectRelease(plan, name, label) {
 
 export const selectLibraryRelease = (plan) =>
 	selectRelease(plan, libraryName, "library")
+export const selectDocsRelease = (plan) => selectRelease(plan, docsName, "Docs")
 
 export function releaseNotes(changelog, version) {
 	if (!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(version))

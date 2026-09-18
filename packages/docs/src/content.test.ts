@@ -150,6 +150,56 @@ describe("discoverPages", () => {
 		)
 	})
 
+	it("supports stable slugs and the release frontmatter contract", async () => {
+		const directory = await contentDirectory()
+		await writeFile(
+			join(directory, "renamed-file.md"),
+			[
+				"---",
+				"title: Public API",
+				"navTitle: API",
+				"seoTitle: Acme API reference",
+				"slug: reference/api",
+				"search: false",
+				"noindex: true",
+				"updatedAt: 2026-09-18",
+				"tags: [api, reference]",
+				"badge: Beta",
+				"layout: reference",
+				"---",
+				"Body",
+			].join("\n")
+		)
+
+		expect((await discoverPages(directory))[0]).toMatchObject({
+			route: "/reference/api",
+			metadata: {
+				navTitle: "API",
+				seoTitle: "Acme API reference",
+				search: false,
+				noindex: true,
+				updatedAt: "2026-09-18",
+				tags: ["api", "reference"],
+				badge: "Beta",
+				layout: "reference",
+			},
+		})
+	})
+
+	it.each([
+		["slug: ../escape", "slug"],
+		["updatedAt: yesterday", "updatedAt"],
+		["layout: marketing", "layout"],
+		["unknown: true", "unknown option unknown"],
+	])("rejects invalid release metadata %s", async (entry, error) => {
+		const directory = await contentDirectory()
+		await writeFile(
+			join(directory, "invalid.md"),
+			`---\ntitle: Invalid\n${entry}\n---\nBody`
+		)
+		await expect(discoverPages(directory)).rejects.toThrow(error)
+	})
+
 	it("returns undefined when a route does not exist", async () => {
 		const directory = await contentDirectory()
 		await writeFile(join(directory, "index.md"), "---\ntitle: Home\n---\n")

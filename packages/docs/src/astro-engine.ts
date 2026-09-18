@@ -141,6 +141,8 @@ export async function buildAstroSite(
 				footer: options.footer,
 				navigation,
 				noindex: options.environment === "development" || !options.indexing,
+				searchEnabled: options.search.enabled,
+				titleTemplate: options.seo.titleTemplate,
 			})};`,
 			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},editHref:${JSON.stringify(options.editLink ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
 		].join("\n")
@@ -374,8 +376,10 @@ export async function buildAstroSite(
 										fileURLToPath(context.fileURL).replaceAll("\\", "/")
 									)
 								// Astro reads Markdown directly; filter metadata in its processor before layout resolution.
-								if (page && context.data.astro)
-									context.data.astro.frontmatter = { ...page.metadata }
+								if (page && context.data.astro) {
+									const { layout: _layout, ...frontmatter } = page.metadata
+									context.data.astro.frontmatter = frontmatter
+								}
 							},
 							html(node) {
 								return { type: "text", value: node.value }
@@ -493,16 +497,18 @@ export async function buildAstroSite(
 		await writeFile(
 			join(directory, "search-index.json"),
 			JSON.stringify(
-				pages.flatMap((page) =>
-					documents.get(page.route)!.sections.map((section) => ({
-						title: page.metadata.title,
-						heading: section.heading,
-						text: section.text,
-						url:
-							routeHref(page.route, options.base, options.cleanUrls) +
-							(section.id ? `#${encodeURIComponent(section.id)}` : ""),
-					}))
-				)
+				pages
+					.filter((page) => page.metadata.search !== false)
+					.flatMap((page) =>
+						documents.get(page.route)!.sections.map((section) => ({
+							title: page.metadata.title,
+							heading: section.heading,
+							text: section.text,
+							url:
+								routeHref(page.route, options.base, options.cleanUrls) +
+								(section.id ? `#${encodeURIComponent(section.id)}` : ""),
+						}))
+					)
 			)
 		)
 		return { directory, pages, dependencies: [...dependencies].sort(), dispose }

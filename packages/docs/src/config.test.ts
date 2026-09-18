@@ -13,6 +13,9 @@ it("resolves defaults and canonicalizes origin and language without mutating inp
 		base: "/",
 		cleanUrls: false,
 		defaultMode: "system",
+		appearance: { defaultMode: "system" },
+		search: { enabled: true },
+		seo: { titleTemplate: "%s | Handbook" },
 		lang: "en-US",
 		site: "https://example.com",
 		contentDirectory: "./content",
@@ -35,7 +38,7 @@ it.each([
 	[{ site: "https://user:password@example.com" }, "credentials"],
 	[{ site: "https://example.com/docs/" }, "origin"],
 	[{ lang: "not_a_language" }, "BCP 47"],
-	[{ defaultMode: "sepia" }, "defaultMode"],
+	[{ defaultMode: "sepia" }, "appearance.defaultMode"],
 	[{ environment: "prod" }, "environment"],
 	[{ cleanUrls: "yes" }, "cleanUrls"],
 	[{ react: "yes" }, "react"],
@@ -111,6 +114,48 @@ it.each([
 		"{path}",
 	],
 ])("rejects invalid site chrome %j", (input, error) => {
+	expect(() =>
+		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
+	).toThrow(error)
+})
+
+it("normalizes the nested product configuration for existing renderers", () => {
+	const config = defineConfig({
+		title: "Docs",
+		branding: {
+			logo: {
+				src: "/assets/logo.svg",
+				alt: "Docs",
+				width: 24,
+				height: 24,
+			},
+		},
+		header: { links: [{ label: "Guide", href: "/guide" }] },
+		appearance: { defaultMode: "dark" },
+		content: {
+			editLink: {
+				href: "https://github.com/example/docs/edit/main/{path}",
+			},
+		},
+		search: { enabled: false },
+		seo: { titleTemplate: "%s · Documentation" },
+	})
+
+	expect(config).toMatchObject({
+		defaultMode: "dark",
+		headerLinks: [{ label: "Guide", href: "/guide" }],
+		search: { enabled: false },
+		seo: { titleTemplate: "%s · Documentation" },
+	})
+	expect(config.logo).toBe(config.branding.logo)
+	expect(config.editLink).toBe(config.content.editLink)
+})
+
+it.each([
+	[{ branding: { typo: true } }, "branding.typo"],
+	[{ search: { enabled: "yes" } }, "search.enabled"],
+	[{ seo: { titleTemplate: "Documentation" } }, "contain %s"],
+])("rejects invalid nested configuration %j", (input, error) => {
 	expect(() =>
 		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
 	).toThrow(error)

@@ -1,14 +1,23 @@
-import { load } from "js-yaml"
+import { JSON_SCHEMA, load } from "js-yaml"
 import { readFile, readdir } from "node:fs/promises"
 import { basename, dirname, extname, join, relative, sep } from "node:path"
 
 export interface DocumentationMetadata {
 	title: string
+	navTitle?: string
+	seoTitle?: string
 	description?: string
+	slug?: string
 	order?: number
 	draft?: boolean
 	sidebar?: boolean
 	toc?: boolean
+	search?: boolean
+	noindex?: boolean
+	updatedAt?: string
+	tags?: string[]
+	badge?: string
+	layout?: "docs" | "reference"
 }
 
 export interface DocumentationPage {
@@ -38,7 +47,7 @@ function parseDocument(
 
 	let value: unknown
 	try {
-		value = load(frontmatter[1] ?? "")
+		value = load(frontmatter[1] ?? "", { schema: JSON_SCHEMA })
 	} catch (error) {
 		throw metadataError(
 			filePath,
@@ -51,15 +60,49 @@ function parseDocument(
 	}
 
 	const metadata = value as Record<string, unknown>
+	const supported = new Set([
+		"title",
+		"navTitle",
+		"seoTitle",
+		"description",
+		"slug",
+		"order",
+		"draft",
+		"sidebar",
+		"toc",
+		"search",
+		"noindex",
+		"updatedAt",
+		"tags",
+		"badge",
+		"layout",
+	])
+	for (const key of Object.keys(metadata))
+		if (!supported.has(key))
+			throw metadataError(filePath, `unknown option ${key}`)
 	if (typeof metadata.title !== "string" || !metadata.title.trim()) {
 		throw metadataError(filePath, "title must be a non-empty string")
 	}
-	if (
-		metadata.description !== undefined &&
-		typeof metadata.description !== "string"
-	) {
-		throw metadataError(filePath, "description must be a string")
+	for (const key of [
+		"navTitle",
+		"seoTitle",
+		"description",
+		"slug",
+		"updatedAt",
+		"badge",
+	] as const) {
+		if (
+			metadata[key] !== undefined &&
+			(typeof metadata[key] !== "string" || !metadata[key].trim())
+		)
+			throw metadataError(filePath, `${key} must be a non-empty string`)
 	}
+	if (
+		typeof metadata.slug === "string" &&
+		(metadata.slug === "/" ||
+			!/^\/?(?:[\p{L}\p{N}_-]+\/)*[\p{L}\p{N}_-]+$/u.test(metadata.slug))
+	)
+		throw metadataError(filePath, "slug must be a safe non-root route")
 	if (
 		metadata.order !== undefined &&
 		(typeof metadata.order !== "number" || !Number.isFinite(metadata.order))
@@ -69,23 +112,54 @@ function parseDocument(
 	if (metadata.draft !== undefined && typeof metadata.draft !== "boolean") {
 		throw metadataError(filePath, "draft must be a boolean")
 	}
-	for (const key of ["sidebar", "toc"] as const) {
+	for (const key of ["sidebar", "toc", "search", "noindex"] as const) {
 		if (metadata[key] !== undefined && typeof metadata[key] !== "boolean")
 			throw metadataError(filePath, `${key} must be a boolean`)
 	}
+	if (
+		metadata.tags !== undefined &&
+		(!Array.isArray(metadata.tags) ||
+			metadata.tags.length === 0 ||
+			metadata.tags.some((tag) => typeof tag !== "string" || !tag.trim()))
+	)
+		throw metadataError(filePath, "tags must be a non-empty string array")
+	if (
+		metadata.updatedAt !== undefined &&
+		!/^\d{4}-\d{2}-\d{2}$/.test(metadata.updatedAt as string)
+	)
+		throw metadataError(filePath, "updatedAt must use YYYY-MM-DD")
+	if (
+		metadata.layout !== undefined &&
+		!["docs", "reference"].includes(metadata.layout as string)
+	)
+		throw metadataError(filePath, "layout must be docs or reference")
 
 	return {
 		metadata: {
 			title: metadata.title.trim(),
-			...(metadata.description === undefined
-				? {}
-				: { description: metadata.description }),
+			...Object.fromEntries(
+				["navTitle", "seoTitle", "description", "slug", "updatedAt", "badge"]
+					.filter((key) => metadata[key] !== undefined)
+					.map((key) => [key, (metadata[key] as string).trim()])
+			),
 			...(metadata.order === undefined ? {} : { order: metadata.order }),
 			...(metadata.draft === undefined ? {} : { draft: metadata.draft }),
 			...(metadata.sidebar === undefined
 				? {}
 				: { sidebar: metadata.sidebar as boolean }),
 			...(metadata.toc === undefined ? {} : { toc: metadata.toc as boolean }),
+			...(metadata.search === undefined
+				? {}
+				: { search: metadata.search as boolean }),
+			...(metadata.noindex === undefined
+				? {}
+				: { noindex: metadata.noindex as boolean }),
+			...(metadata.tags === undefined
+				? {}
+				: { tags: (metadata.tags as string[]).map((tag) => tag.trim()) }),
+			...(metadata.layout === undefined
+				? {}
+				: { layout: metadata.layout as "docs" | "reference" }),
 		},
 		source: source.slice(frontmatter[0].length).replaceAll("\r\n", "\n"),
 	}
@@ -130,7 +204,9 @@ export async function discoverPages(
 					filePath,
 					format: extname(filePath) === ".mdx" ? "mdx" : "md",
 					metadata: document.metadata,
-					route: routeFromFile(contentDirectory, filePath),
+					route: document.metadata.slug
+						? (`/${document.metadata.slug.replace(/^\//, "")}` as const)
+						: routeFromFile(contentDirectory, filePath),
 					source: document.source,
 				})
 			}

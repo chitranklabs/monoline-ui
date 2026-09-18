@@ -12,5 +12,17 @@ export {
 	type ResolvedNavigation,
 } from "./navigation.ts"
 
-export { defineConfig, type MonolineDocsConfig } from "./config.ts"
+export {
+	defineConfig,
+	type DocsAppearanceConfig,
+	type DocsBrandingConfig,
+	type DocsContentConfig,
+	type DocsEditLink,
+	type DocsHeaderConfig,
+	type DocsLink,
+	type DocsLogo,
+	type DocsSearchConfig,
+	type DocsSeoConfig,
+	type MonolineDocsConfig,
+} from "./config.ts"
 export { loadConfig, type LoadConfigOptions } from "./load-config.ts"

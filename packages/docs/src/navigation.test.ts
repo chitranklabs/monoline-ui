@@ -34,6 +34,15 @@ describe("buildNavigation", () => {
 		expect(result.sequence).toEqual(result.items)
 	})
 
+	it("uses navTitle without changing the page title", () => {
+		const api = page("/reference/api", "Acme API reference")
+		api.metadata.navTitle = "API"
+
+		expect(buildNavigation([api]).items).toEqual([
+			{ label: "API", href: "/reference/api" },
+		])
+	})
+
 	it("preserves explicit groups and uses their links for page order", () => {
 		const result = buildNavigation(
 			[

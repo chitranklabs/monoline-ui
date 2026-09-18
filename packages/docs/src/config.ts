@@ -1,5 +1,47 @@
 import type { NavigationItem } from "./navigation.ts"
 
+export interface DocsLink {
+	label: string
+	href: string
+}
+
+export interface DocsLogo {
+	src: string
+	alt: string
+	width: number
+	height: number
+}
+
+export interface DocsEditLink {
+	href: string
+	label?: string
+}
+
+export interface DocsBrandingConfig {
+	logo?: DocsLogo
+}
+
+export interface DocsHeaderConfig {
+	links?: DocsLink[]
+}
+
+export interface DocsAppearanceConfig {
+	defaultMode?: "light" | "dark" | "system"
+}
+
+export interface DocsContentConfig {
+	editLink?: DocsEditLink
+}
+
+export interface DocsSearchConfig {
+	enabled?: boolean
+}
+
+export interface DocsSeoConfig {
+	/** `%s` is replaced with the page SEO title. */
+	titleTemplate?: string
+}
+
 export interface MonolineDocsConfig {
 	title: string
 	description?: string
@@ -16,14 +58,24 @@ export interface MonolineDocsConfig {
 	assetsDirectory?: string
 	stylesheet?: string
 	navigation?: NavigationItem[]
+	branding?: DocsBrandingConfig
+	header?: DocsHeaderConfig
+	appearance?: DocsAppearanceConfig
+	content?: DocsContentConfig
+	search?: DocsSearchConfig
+	seo?: DocsSeoConfig
+	/** @deprecated Use appearance.defaultMode. */
 	defaultMode?: "light" | "dark" | "system"
-	logo?: { src: string; alt: string; width: number; height: number }
-	headerLinks?: Array<{ label: string; href: string }>
+	/** @deprecated Use branding.logo. */
+	logo?: DocsLogo
+	/** @deprecated Use header.links. */
+	headerLinks?: DocsLink[]
 	footer?: {
 		text?: string
 		links?: Array<{ label: string; href: string }>
 	}
-	editLink?: { href: string; label?: string }
+	/** @deprecated Use content.editLink. */
+	editLink?: DocsEditLink
 	/** Enable React components and explicit Astro client directives in MDX. */
 	react?: boolean
 	environment?: "production" | "development"
@@ -84,6 +136,12 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"assetsDirectory",
 		"stylesheet",
 		"navigation",
+		"branding",
+		"header",
+		"appearance",
+		"content",
+		"search",
+		"seo",
 		"defaultMode",
 		"logo",
 		"headerLinks",
@@ -129,9 +187,26 @@ export function defineConfig(config: MonolineDocsConfig) {
 	} catch {
 		throw new Error("lang must be a valid BCP 47 language tag")
 	}
-	const defaultMode = config.defaultMode ?? "system"
+	if (config.branding !== undefined)
+		object(config.branding as unknown, "branding", ["logo"])
+	if (config.header !== undefined)
+		object(config.header as unknown, "header", ["links"])
+	if (config.appearance !== undefined)
+		object(config.appearance as unknown, "appearance", ["defaultMode"])
+	if (config.content !== undefined)
+		object(config.content as unknown, "content", ["editLink"])
+	if (config.search !== undefined)
+		object(config.search as unknown, "search", ["enabled"])
+	if (config.seo !== undefined)
+		object(config.seo as unknown, "seo", ["titleTemplate"])
+
+	const logo = config.branding?.logo ?? config.logo
+	const headerLinks = config.header?.links ?? config.headerLinks
+	const editLink = config.content?.editLink ?? config.editLink
+	const defaultMode =
+		config.appearance?.defaultMode ?? config.defaultMode ?? "system"
 	if (!["light", "dark", "system"].includes(defaultMode))
-		throw new Error("defaultMode must be light, dark, or system")
+		throw new Error("appearance.defaultMode must be light, dark, or system")
 	const environment = config.environment ?? "production"
 	if (!["production", "development"].includes(environment))
 		throw new Error("environment must be production or development")
@@ -141,15 +216,15 @@ export function defineConfig(config: MonolineDocsConfig) {
 			!config.stylesheet.endsWith(".css"))
 	)
 		throw new Error("stylesheet must name a local /assets/*.css file")
-	if (config.logo !== undefined) {
-		object(config.logo, "logo", ["src", "alt", "width", "height"])
-		string(config.logo.src, "logo.src")
-		string(config.logo.alt, "logo.alt")
-		if (!/^\/assets\/.+\.(svg|png|jpe?g|webp|avif|gif)$/i.test(config.logo.src))
-			throw new Error("logo.src must name a local /assets/ image")
+	if (logo !== undefined) {
+		object(logo as unknown, "branding.logo", ["src", "alt", "width", "height"])
+		string(logo.src, "branding.logo.src")
+		string(logo.alt, "branding.logo.alt")
+		if (!/^\/assets\/.+\.(svg|png|jpe?g|webp|avif|gif)$/i.test(logo.src))
+			throw new Error("branding.logo.src must name a local /assets/ image")
 		for (const key of ["width", "height"] as const)
-			if (!Number.isInteger(config.logo[key]) || config.logo[key] <= 0)
-				throw new Error(`logo.${key} must be a positive integer`)
+			if (!Number.isInteger(logo[key]) || logo[key] <= 0)
+				throw new Error(`branding.logo.${key} must be a positive integer`)
 	}
 	function links(value: unknown, path: string): void {
 		if (!Array.isArray(value)) throw new Error(`${path} must be an array`)
@@ -160,7 +235,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 			if (!safeRoute(link.href)) httpUrl(link.href, `${path}.href`)
 		}
 	}
-	if (config.headerLinks !== undefined) links(config.headerLinks, "headerLinks")
+	if (headerLinks !== undefined) links(headerLinks, "header.links")
 	if (config.footer !== undefined) {
 		object(config.footer, "footer", ["text", "links"])
 		if (config.footer.text !== undefined)
@@ -170,15 +245,22 @@ export function defineConfig(config: MonolineDocsConfig) {
 		if (!config.footer.text && !config.footer.links?.length)
 			throw new Error("footer must contain text or at least one link")
 	}
-	if (config.editLink !== undefined) {
-		object(config.editLink, "editLink", ["href", "label"])
-		string(config.editLink.href, "editLink.href")
-		if (!config.editLink.href.includes("{path}"))
-			throw new Error("editLink.href must contain {path}")
-		httpUrl(config.editLink.href.replace("{path}", "page.md"), "editLink.href")
-		if (config.editLink.label !== undefined)
-			string(config.editLink.label, "editLink.label")
+	if (editLink !== undefined) {
+		object(editLink, "content.editLink", ["href", "label"])
+		string(editLink.href, "content.editLink.href")
+		if (!editLink.href.includes("{path}"))
+			throw new Error("content.editLink.href must contain {path}")
+		httpUrl(editLink.href.replace("{path}", "page.md"), "content.editLink.href")
+		if (editLink.label !== undefined)
+			string(editLink.label, "content.editLink.label")
 	}
+	const searchEnabled = config.search?.enabled ?? true
+	if (typeof searchEnabled !== "boolean")
+		throw new Error("search.enabled must be a boolean")
+	const titleTemplate = config.seo?.titleTemplate ?? `%s | ${config.title}`
+	string(titleTemplate, "seo.titleTemplate")
+	if (!titleTemplate.includes("%s"))
+		throw new Error("seo.titleTemplate must contain %s")
 	const seen = new Set<unknown>()
 	function navigation(items: unknown, depth = 0): void {
 		if (!Array.isArray(items)) throw new Error("navigation must be an array")
@@ -208,7 +290,19 @@ export function defineConfig(config: MonolineDocsConfig) {
 		base,
 		cleanUrls: config.cleanUrls ?? false,
 		lang,
+		branding: { ...config.branding, ...(logo ? { logo } : {}) },
+		header: {
+			...config.header,
+			...(headerLinks ? { links: headerLinks } : {}),
+		},
+		appearance: { ...config.appearance, defaultMode },
+		content: { ...config.content, ...(editLink ? { editLink } : {}) },
+		search: { ...config.search, enabled: searchEnabled },
+		seo: { ...config.seo, titleTemplate },
 		defaultMode,
+		logo,
+		headerLinks,
+		editLink,
 		react: config.react ?? false,
 		environment,
 		contentDirectory: config.contentDirectory ?? "./content",

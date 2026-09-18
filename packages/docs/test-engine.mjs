@@ -62,7 +62,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		await writeFile(join(project, "assets/custom.css"), ":root{--test:1}")
 		await writeFile(
 			join(contentDirectory, "guide/index.md"),
-			'---\ntitle: Guide\nlayout: ./missing-layout.astro\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n\n> [!NOTE]\n> Keep this safe.\n\n```js\nconst ready = true\n```\n\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
+			'---\ntitle: Installation guide\nnavTitle: Guide\nseoTitle: Install the SDK\nslug: guide\nlayout: reference\nsearch: false\nnoindex: true\nupdatedAt: 2026-09-18\ntags: [guide, sdk]\nbadge: Beta\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n\n> [!NOTE]\n> Keep this safe.\n\n```js\nconst ready = true\n```\n\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
 		)
 		await writeFile(
 			join(contentDirectory, "draft.mdx"),
@@ -77,13 +77,20 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			base: "/ask-widget/",
 			assetsDirectory: join(project, "assets"),
 			stylesheet: "/assets/custom.css",
-			logo: {
-				src: "/assets/logo.svg",
-				alt: "Fixture logo",
-				width: 24,
-				height: 24,
+			branding: {
+				logo: {
+					src: "/assets/logo.svg",
+					alt: "Fixture logo",
+					width: 24,
+					height: 24,
+				},
 			},
-			headerLinks: [{ label: "GitHub", href: "https://github.com/example" }],
+			header: {
+				links: [{ label: "GitHub", href: "https://github.com/example" }],
+			},
+			appearance: { defaultMode: "system" },
+			search: { enabled: true },
+			seo: { titleTemplate: "%s · Engine fixture" },
 		}
 		for (const name of ["index.mdx", "guide/index.md"]) {
 			const path = join(contentDirectory, name)
@@ -100,6 +107,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		assert.notEqual(result.directory, outDirectory)
 		const home = await readFile(join(result.directory, "index.html"), "utf8")
 		assert.match(home, /<h1[^>]*>Home<\/h1>/)
+		assert.match(home, /<title>Home · Engine fixture<\/title>/)
 		assert.match(home, /<table>/)
 		assert.match(home, /class="docs-api-table"/)
 		assert.match(home, /class="docs-code-filename">config.yml/)
@@ -144,6 +152,13 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			"utf8"
 		)
 		assert.match(guide, /<h2[^>]*>Installation/)
+		assert.match(guide, /<title>Install the SDK · Engine fixture<\/title>/)
+		assert.match(guide, /<meta name="robots" content="noindex, nofollow"/)
+		assert.match(guide, /data-layout="reference"/)
+		assert.doesNotMatch(
+			JSON.stringify(index),
+			/Installation guide|Preview only/
+		)
 		assert.doesNotMatch(guide, /<script>throw new Error/)
 		assert.doesNotMatch(guide, /_astro|astro-island|react/i)
 		assert.match(guide, /&lt;script&gt;/)

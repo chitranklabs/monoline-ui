@@ -29,7 +29,10 @@ export function buildNavigation(
 						(right.metadata.order ?? Number.POSITIVE_INFINITY) ||
 					left.route.localeCompare(right.route)
 			)
-			.map((page) => ({ label: page.metadata.title, href: page.route }))
+			.map((page) => ({
+				label: page.metadata.navTitle ?? page.metadata.title,
+				href: page.route,
+			}))
 	const sequence: ResolvedNavigation["sequence"] = []
 	const seenRoutes = new Set<string>()
 

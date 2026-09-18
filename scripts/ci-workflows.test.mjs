@@ -29,7 +29,13 @@ test("standalone docs consumer stays in the existing job and runs only for packa
 })
 
 test("workflows install one exact pnpm version without implicit dependency installs", () => {
-	for (const name of ["ci", "release-prepare", "release-finalize"]) {
+	for (const name of [
+		"ci",
+		"release-prepare",
+		"release-finalize",
+		"docs-release-prepare",
+		"docs-release-finalize",
+	]) {
 		for (const job of Object.values(readWorkflow(name).jobs)) {
 			for (const step of job.steps.filter((entry) =>
 				entry.uses?.startsWith("pnpm/action-setup@")
@@ -161,6 +167,29 @@ function classify(paths) {
 		])
 	)
 }
+
+test("Docs release automation stays npm-only and isolated from UI tags", () => {
+	const prepare = readWorkflow("docs-release-prepare")
+	const finalize = readWorkflow("docs-release-finalize")
+	const prepareSteps = prepare.jobs.prepare.steps
+	assert.equal(
+		prepareSteps.find((step) => step.id === "vars").run,
+		"node scripts/docs-release.mjs prepare"
+	)
+	assert.ok(
+		prepareSteps
+			.find((step) => step.uses?.startsWith("peter-evans/create-pull-request@"))
+			.with.branch.startsWith("chore/docs-release-")
+	)
+	assert.ok(finalize.jobs.build.if.includes("chore/docs-release-docs-v"))
+	assert.equal(JSON.stringify(finalize).includes("publish-jsr"), false)
+	assert.equal(JSON.stringify(finalize).includes("docs-v"), true)
+	assert.equal(finalize.concurrency["cancel-in-progress"], false)
+	assert.equal(
+		finalize.jobs["publish-npm"].steps.at(-1).run,
+		"node scripts/docs-release.mjs publish-npm"
+	)
+})
 
 function applicable(condition, changes) {
 	if (!condition) return true
