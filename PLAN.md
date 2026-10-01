@@ -21,12 +21,12 @@
 
 ## Current evidence — October 1, 2026
 
-| Batch        | State                                      | Evidence / remaining work                                                                                                                                                      |
-| ------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1            | Foundation implemented; follow-up required | Commit `a009d1c`; nested config, frontmatter and slugs implemented. Remaining contract gaps are assigned below.                                                                |
-| 2            | In progress                                | Shell changes remain uncommitted in four files. Prior browser checks passed root/subpath/clean URLs, themes, mobile, no-JS and axe. Visual review and missing controls remain. |
-| 3–7          | Pending                                    | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                             |
-| Release gate | Pending                                    | Publication stays blocked until all batches and release checks pass.                                                                                                           |
+| Batch        | State       | Evidence / remaining work                                                                                                                                                      |
+| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1            | Complete    | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                |
+| 2            | In progress | Shell changes remain uncommitted in four files. Prior browser checks passed root/subpath/clean URLs, themes, mobile, no-JS and axe. Visual review and missing controls remain. |
+| 3–7          | Pending     | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                             |
+| Release gate | Pending     | Publication stays blocked until all batches and release checks pass.                                                                                                           |
 
 ## Batch 1 — Product configuration and stable content contract
 
@@ -40,8 +40,14 @@
 - [x] Wire title templates, navigation titles, search exclusions and page indexing controls into rendering.
 - [x] Prevent Astro from interpreting Monoline's `layout` value as a component import.
 - [x] Verify package regressions, production demo and packed consumers; prior run reported 115 package tests passing.
-- [ ] Finish boundary review: real calendar-date validation, conflicting aliases, invalid slugs and safe file-derived routes. Add only the missing regression assertions.
-- [ ] Allocate remaining configuration to its consumer batch: appearance/header/sidebar/content controls in Batch 2; sections/tabs in Batch 3; social metadata in Batch 6. Do not accept silent no-op options.
+- [x] Finish boundary review: real calendar-date validation, conflicting aliases, invalid slugs and safe file-derived routes. Add only the missing regression assertions.
+- [x] Allocate remaining configuration to its consumer batch: appearance/header/sidebar/content controls in Batch 2; sections/tabs in Batch 3; social metadata in Batch 6. Do not accept silent no-op options.
+
+**Verification — October 1, 2026:** All 146 Docs package tests pass, including regression assertions observed failing before the boundary fixes. Package typecheck, targeted ESLint, package build, production engine fixture, nine-page demo and packed npm/strict pnpm consumers pass. Formatting and whitespace checks pass. Tests use the installed Node CLI entrypoints where appropriate; local-server tests require execution outside the sandbox.
+
+**Contract decisions:** Reject differing nested/flat aliases with both option names; matching values remain valid, including repeated normalization by `loadConfig` and the engine. Reuse `safeRoute` for slugs and filename-derived routes; unsafe filenames require renaming or an explicit safe slug. Validate calendar dates by ISO round-trip, including leap years.
+
+**Remaining configuration ownership:** Batch 2 introduces appearance, header, sidebar and content controls together with their shell consumers. Batch 3 introduces sections/tabs with navigation consumers. Batch 6 introduces social metadata with generated head tags. These unimplemented options remain validation errors today; focused assertions cover representative options in each group. Existing accepted configuration retains its working consumers. No Batch 1 blocker remains.
 
 **Done when:** existing consumer configuration still works and every accepted option has a working consumer or an explicit validation error.
 

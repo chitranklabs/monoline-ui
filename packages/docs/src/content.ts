@@ -2,6 +2,8 @@ import { JSON_SCHEMA, load } from "js-yaml"
 import { readFile, readdir } from "node:fs/promises"
 import { basename, dirname, extname, join, relative, sep } from "node:path"
 
+import { safeRoute } from "./config.ts"
+
 export interface DocumentationMetadata {
 	title: string
 	navTitle?: string
@@ -100,7 +102,7 @@ function parseDocument(
 	if (
 		typeof metadata.slug === "string" &&
 		(metadata.slug === "/" ||
-			!/^\/?(?:[\p{L}\p{N}_-]+\/)*[\p{L}\p{N}_-]+$/u.test(metadata.slug))
+			!safeRoute(`/${metadata.slug.replace(/^\//, "")}`))
 	)
 		throw metadataError(filePath, "slug must be a safe non-root route")
 	if (
@@ -125,9 +127,15 @@ function parseDocument(
 		throw metadataError(filePath, "tags must be a non-empty string array")
 	if (
 		metadata.updatedAt !== undefined &&
-		!/^\d{4}-\d{2}-\d{2}$/.test(metadata.updatedAt as string)
+		(!/^\d{4}-\d{2}-\d{2}$/.test(metadata.updatedAt as string) ||
+			!Number.isFinite(Date.parse(metadata.updatedAt as string)) ||
+			new Date(metadata.updatedAt as string).toISOString().slice(0, 10) !==
+				metadata.updatedAt)
 	)
-		throw metadataError(filePath, "updatedAt must use YYYY-MM-DD")
+		throw metadataError(
+			filePath,
+			"updatedAt must be a real calendar date using YYYY-MM-DD"
+		)
 	if (
 		metadata.layout !== undefined &&
 		!["docs", "reference"].includes(metadata.layout as string)
@@ -177,7 +185,13 @@ function routeFromFile(
 	const routePath =
 		basename(relativePath) === "index" ? dirname(relativePath) : relativePath
 	const normalized = routePath === "." ? "" : routePath.split(sep).join("/")
-	return `/${normalized}`
+	const route = `/${normalized}` as const
+	if (!safeRoute(route))
+		throw metadataError(
+			filePath,
+			"filename must produce a safe route; rename the file or set slug"
+		)
+	return route
 }
 
 export async function discoverPages(

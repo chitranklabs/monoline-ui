@@ -1,3 +1,5 @@
+import { isDeepStrictEqual } from "node:util"
+
 import type { NavigationItem } from "./navigation.ts"
 
 export interface DocsLink {
@@ -199,6 +201,21 @@ export function defineConfig(config: MonolineDocsConfig) {
 		object(config.search as unknown, "search", ["enabled"])
 	if (config.seo !== undefined)
 		object(config.seo as unknown, "seo", ["titleTemplate"])
+	for (const [path, nested, alias] of [
+		["branding.logo", config.branding?.logo, "logo"],
+		["header.links", config.header?.links, "headerLinks"],
+		["content.editLink", config.content?.editLink, "editLink"],
+		["appearance.defaultMode", config.appearance?.defaultMode, "defaultMode"],
+	] as const) {
+		if (
+			nested !== undefined &&
+			config[alias] !== undefined &&
+			!isDeepStrictEqual(nested, config[alias])
+		)
+			throw new Error(
+				`${path} conflicts with ${alias}; use one option or matching values`
+			)
+	}
 
 	const logo = config.branding?.logo ?? config.logo
 	const headerLinks = config.header?.links ?? config.headerLinks

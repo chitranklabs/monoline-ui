@@ -153,10 +153,47 @@ it("normalizes the nested product configuration for existing renderers", () => {
 
 it.each([
 	[{ branding: { typo: true } }, "branding.typo"],
+	[{ appearance: { density: "compact" } }, "appearance.density"],
+	[
+		{ header: { primaryAction: { label: "Start", href: "/" } } },
+		"header.primaryAction",
+	],
+	[{ sidebar: { enabled: false } }, "config.sidebar"],
+	[{ content: { showLastUpdated: false } }, "content.showLastUpdated"],
+	[{ navigation: [{ label: "Guides", tabs: [] }] }, "navigation entry.tabs"],
+	[{ seo: { socialImage: "/assets/social.png" } }, "seo.socialImage"],
 	[{ search: { enabled: "yes" } }, "search.enabled"],
 	[{ seo: { titleTemplate: "Documentation" } }, "contain %s"],
 ])("rejects invalid nested configuration %j", (input, error) => {
 	expect(() =>
 		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
 	).toThrow(error)
+})
+
+it.each([
+	{ appearance: { defaultMode: "dark" }, defaultMode: "light" },
+	{ header: { links: [] }, headerLinks: [{ label: "Home", href: "/" }] },
+	{
+		branding: {
+			logo: { src: "/assets/new.svg", alt: "New", width: 24, height: 24 },
+		},
+		logo: { src: "/assets/old.svg", alt: "Old", width: 24, height: 24 },
+	},
+	{
+		content: { editLink: { href: "https://example.com/new/{path}" } },
+		editLink: { href: "https://example.com/old/{path}" },
+	},
+])("rejects conflicting flat and nested aliases %j", (input) => {
+	expect(() =>
+		defineConfig({ title: "Docs", ...input } as MonolineDocsConfig)
+	).toThrow("conflicts with")
+})
+
+it("accepts equivalent aliases and remains safe to normalize twice", () => {
+	const config = defineConfig({
+		title: "Docs",
+		header: { links: [{ label: "Home", href: "/" }] },
+		headerLinks: [{ href: "/", label: "Home" }],
+	})
+	expect(defineConfig(config)).toEqual(config)
 })
