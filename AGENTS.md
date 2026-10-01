@@ -1,0 +1,24 @@
+# Monoline — Agent and Developer Guidelines
+
+## Working scope
+
+- Inspect the current branch and working tree before changes. Preserve unrelated edits.
+- Monoline Docs work follows [PLAN.md](PLAN.md). Update its status with verification evidence.
+- Follow [packages/docs/AGENTS.md](packages/docs/AGENTS.md) for the Docs package, demo and related build/consumer work.
+- Keep changes in the current branch unless the user requests another branch.
+- The user handles commits and PRs. Provide materials; do not commit, push, create PRs, publish or deploy without authorization.
+- Keep temporary batch/milestone numbers in plans and PR descriptions, never source comments or test headers.
+
+## Efficient discovery
+
+<!-- BEGIN KEDVIO MANAGED -->
+
+Prefix verbose CLI checks with `rtk` when supported. Use raw commands when exact source text or whitespace diagnostics are needed.
+
+Before source reads use codebase-memory or Serena symbol/call-site discovery when available. If no index exists, use narrow `rg` searches rather than indexing the whole repository solely for a small task.
+
+For files over 150 lines, run `kedvio outline <path>` before inspecting explicit line slices. If Kedvio is unavailable, use an available symbol outline or scoped search. Avoid broad repository scans and unbounded output.
+<!-- END KEDVIO MANAGED -->
+
+- Reuse existing commands and dependencies. Avoid adding scripts for simple commands, speculative helpers or repeated test setup.
+- Run checks relevant to the change; broaden only when failures or unresolved concerns justify it.

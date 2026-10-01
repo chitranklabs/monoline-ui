@@ -13,6 +13,95 @@ if (themeSelect) {
 	})
 }
 
+const navToggle = document.querySelector(".nav-toggle")
+const navClose = document.querySelector(".nav-close")
+const navBackdrop = document.querySelector(".nav-backdrop")
+const sidebar = document.querySelector(".sidebar")
+if (navToggle && navClose && navBackdrop && sidebar) {
+	const mobile = matchMedia("(max-width: 48rem)")
+	const closeNavigation = (restoreFocus = true) => {
+		delete document.body.dataset.navOpen
+		navToggle.ariaExpanded = "false"
+		navBackdrop.hidden = true
+		if (mobile.matches) {
+			sidebar.inert = true
+			sidebar.setAttribute("aria-hidden", "true")
+		}
+		if (restoreFocus) navToggle.focus()
+	}
+	const openNavigation = () => {
+		document.body.dataset.navOpen = "true"
+		navToggle.ariaExpanded = "true"
+		navBackdrop.hidden = false
+		sidebar.inert = false
+		sidebar.removeAttribute("aria-hidden")
+		navClose.focus()
+	}
+	const synchronize = () => {
+		navToggle.hidden = !mobile.matches
+		navClose.hidden = !mobile.matches
+		if (mobile.matches) closeNavigation(false)
+		else {
+			delete document.body.dataset.navOpen
+			navBackdrop.hidden = true
+			sidebar.inert = false
+			sidebar.removeAttribute("aria-hidden")
+		}
+	}
+	navToggle.addEventListener("click", openNavigation)
+	navClose.addEventListener("click", () => closeNavigation())
+	navBackdrop.addEventListener("click", () => closeNavigation())
+	sidebar.addEventListener("click", (event) => {
+		if (mobile.matches && event.target.closest("a")) closeNavigation(false)
+	})
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && document.body.dataset.navOpen)
+			closeNavigation()
+	})
+	mobile.addEventListener("change", synchronize)
+	synchronize()
+}
+
+const copyPageLink = document.querySelector(".copy-page-link")
+if (copyPageLink && navigator.clipboard?.writeText) {
+	const status = document.querySelector(".copy-page-status")
+	copyPageLink.hidden = false
+	copyPageLink.addEventListener("click", async () => {
+		try {
+			await navigator.clipboard.writeText(location.href)
+			status.textContent = "Copied"
+		} catch {
+			status.textContent = "Copy failed"
+		}
+	})
+}
+
+const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')]
+if (tocLinks.length && "IntersectionObserver" in globalThis) {
+	const links = new Map(
+		tocLinks.map((link) => [decodeURIComponent(link.hash.slice(1)), link])
+	)
+	const visible = new Set()
+	const observer = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) visible.add(entry.target.id)
+				else visible.delete(entry.target.id)
+			}
+			const active = [...links.keys()].find((id) => visible.has(id))
+			for (const [id, link] of links) {
+				if (id === active) link.setAttribute("aria-current", "location")
+				else link.removeAttribute("aria-current")
+			}
+		},
+		{ rootMargin: "-15% 0px -70%" }
+	)
+	for (const id of links.keys()) {
+		const heading = document.getElementById(id)
+		if (heading) observer.observe(heading)
+	}
+}
+
 if (navigator.clipboard?.writeText) {
 	for (const button of document.querySelectorAll(".copy-code")) {
 		button.hidden = false

@@ -33,7 +33,6 @@ export function setupSearch(root = document) {
 	const dialog = root.querySelector(".search-dialog")
 	const trigger = root.querySelector(".search-trigger")
 	if (!dialog || !trigger || typeof dialog.showModal !== "function") return
-	root.querySelector("header").append(trigger)
 	trigger.hidden = false
 	const input = dialog.querySelector("input")
 	const status = dialog.querySelector('[role="status"]')
@@ -100,6 +99,12 @@ export function setupSearch(root = document) {
 			loading = undefined
 			status.textContent =
 				"Search could not load. Close and reopen to retry, or use the navigation."
+		}
+	})
+	root.addEventListener("keydown", (event) => {
+		if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+			event.preventDefault()
+			trigger.click()
 		}
 	})
 	dialog
