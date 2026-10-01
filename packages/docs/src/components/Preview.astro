@@ -1,0 +1,28 @@
+---
+interface Props {
+	title: string
+	mode?: "static" | "interactive"
+}
+const { title, mode = "static" } = Astro.props
+if (typeof title !== "string" || !title.trim())
+	throw new Error("Preview title must be nonempty")
+if (!["static", "interactive"].includes(mode))
+	throw new Error("Preview mode must be static or interactive")
+---
+
+<figure class="docs-preview">
+	<figcaption>
+		<strong>{title}</strong>
+		<span>
+			{mode === "interactive" ? "Interactive example" : "Static example"}
+		</span>
+	</figcaption>
+	<div class="docs-preview-content">
+		<slot />
+	</div>
+	{Astro.slots.has("code") && (
+		<div class="docs-preview-code">
+			<slot name="code" />
+		</div>
+	)}
+</figure>

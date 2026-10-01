@@ -1,0 +1,36 @@
+---
+import Tabs from "./Tabs.astro"
+import CodeBlock from "./CodeBlock.astro"
+interface Props {
+	id: string
+	commands: Partial<Record<"npm" | "pnpm" | "yarn" | "bun", string>>
+}
+const { id, commands } = Astro.props
+const supported = ["npm", "pnpm", "yarn", "bun"] as const
+if (
+	!commands ||
+	typeof commands !== "object" ||
+	Array.isArray(commands) ||
+	Object.keys(commands).some(
+		(key) => !supported.includes(key as (typeof supported)[number])
+	) ||
+	Object.values(commands).some(
+		(value) => typeof value !== "string" || !value.trim()
+	)
+)
+	throw new Error(
+		"CodeGroup commands must contain nonempty npm, pnpm, yarn or bun commands"
+	)
+const labels = supported.filter((manager) => commands[manager] !== undefined)
+if (labels.length < 2)
+	throw new Error("CodeGroup requires at least two package-manager commands")
+---
+
+<div class="docs-code-group">
+	<Tabs id={id} labels={labels} label="Package manager" sync="package-manager">
+		<CodeBlock slot="npm" code={commands.npm ?? ""} language="sh" />
+		<CodeBlock slot="pnpm" code={commands.pnpm ?? ""} language="sh" />
+		<CodeBlock slot="yarn" code={commands.yarn ?? ""} language="sh" />
+		<CodeBlock slot="bun" code={commands.bun ?? ""} language="sh" />
+	</Tabs>
+</div>

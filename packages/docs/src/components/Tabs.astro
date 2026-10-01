@@ -2,15 +2,21 @@
 interface Props {
 	id: string
 	labels: string[]
+	label?: string
+	sync?: "package-manager"
 }
 
-const { id, labels } = Astro.props
+const { id, labels, label = "Options", sync } = Astro.props
 if (!/^[A-Za-z][\w-]*$/.test(id))
 	throw new Error(
 		"Tabs id must start with a letter and contain only letters, numbers, underscores, or hyphens"
 	)
 if (labels.length < 2 || new Set(labels).size !== labels.length)
 	throw new Error("Tabs labels must contain at least two unique entries")
+if (typeof label !== "string" || !label.trim())
+	throw new Error("Tabs label must be nonempty")
+if (sync !== undefined && sync !== "package-manager")
+	throw new Error("Tabs sync must be package-manager")
 const key = (label: string) =>
 	label
 		.toLowerCase()
@@ -21,12 +27,13 @@ if (keys.some((value) => !value) || new Set(keys).size !== keys.length)
 	throw new Error("Tabs labels must produce unique identifiers")
 ---
 
-<div class="docs-tabs" data-docs-tabs>
+<div class="docs-tabs" data-docs-tabs data-sync={sync} data-label={label}>
 	<div class="docs-tab-list" data-tab-list hidden>
 		{labels.map((label, index) => (
 			<button
 				type="button"
 				data-tab-id={`${id}-tab-${keys[index]}`}
+				data-tab-key={keys[index]}
 				data-tab-panel={`${id}-panel-${keys[index]}`}
 			>
 				{label}

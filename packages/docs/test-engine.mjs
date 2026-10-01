@@ -50,9 +50,34 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			join(project, "components/Table.astro"),
 			'---\nconst rows = [{ name: "theme", type: "light | dark" }]\n---\n<h3 id="properties">Properties</h3><table><caption>Generated API</caption><tbody>{rows.map(row => <tr><th>{row.name}</th><td>{row.type}</td></tr>)}</tbody></table><a href={import.meta.env.BASE_URL + "guide/#installation"}>Installation</a><div data-docs-search="exclude"><h2>Example noise</h2></div>'
 		)
+		const authoringImports = [
+			"Accordion",
+			"Badge",
+			"Callout",
+			"FileTree",
+			"Figure",
+			"Preview",
+			"TypeTable",
+			"CodeGroup",
+		]
+			.map(
+				(name) =>
+					`import ${name} from ${JSON.stringify(join(packageDirectory, `dist/components/${name}.astro`))}`
+			)
+			.join("\n")
+		const authoringMarkup = `
+<CodeGroup id="engine-install" commands={{ npm: "npm install sdk", pnpm: "pnpm add sdk", yarn: "yarn add sdk", bun: "bun add sdk" }} />
+<Badge variant="accent">Stable</Badge>
+<Accordion title="Configuration details"><p>Set your documentation base.</p></Accordion>
+<Callout type="tip" title="Keep routes stable"><p>Set an explicit slug.</p></Callout>
+<FileTree items={[{ name: "content", children: [{ name: "index.md", highlight: true }, { name: "guide", expanded: false, children: [{ name: "install.md" }] }] }, { name: "monoline-docs.yml" }]} />
+<Figure src="/assets/logo.svg" alt="SDK diagram" width={640} height={320} caption="Local figure with reserved dimensions." />
+<TypeTable caption="SDK options" rows={[{ name: "base", type: "string", required: true, description: "Documentation path." }]} />
+<Preview title="Static button"><button type="button">Read documentation</button><CodeBlock slot="code" code={'<button>Read documentation</button>'} language="html" /></Preview>
+`
 		await writeFile(
 			join(contentDirectory, "index.mdx"),
-			`---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\nimport ApiTable from ${JSON.stringify(join(packageDirectory, "dist/components/ApiTable.astro"))}\nimport CodeBlock from ${JSON.stringify(join(packageDirectory, "dist/components/CodeBlock.astro"))}\nimport LinkCard from ${JSON.stringify(join(packageDirectory, "dist/components/LinkCard.astro"))}\nimport Steps from ${JSON.stringify(join(packageDirectory, "dist/components/Steps.astro"))}\nimport Step from ${JSON.stringify(join(packageDirectory, "dist/components/Step.astro"))}\n\n## API\n\n<Table />\n<ApiTable caption="Options" rows={[{ name: "position", type: "string", default: "right", description: "Widget placement" }]} />\n<CodeBlock filename="config.yml" code={"title: Docs\\nbase: /docs/"} highlights={[2]} />\n<LinkCard href="/guide" title="Read the guide" description="Install the package." />\n<Steps><Step><strong>Install</strong></Step><Step><strong>Configure</strong></Step></Steps>\n# Content\n\n## Café \`API\`\n\n## Café API\n\n## !!!\n`
+			`---\ntitle: Home\n---\n${authoringImports}\nimport CardGrid from ${JSON.stringify(join(packageDirectory, "dist/components/CardGrid.astro"))}\nimport Card from ${JSON.stringify(join(packageDirectory, "dist/components/Card.astro"))}\nimport Table from "../components/Table.astro"\nimport ApiTable from ${JSON.stringify(join(packageDirectory, "dist/components/ApiTable.astro"))}\nimport CodeBlock from ${JSON.stringify(join(packageDirectory, "dist/components/CodeBlock.astro"))}\nimport LinkCard from ${JSON.stringify(join(packageDirectory, "dist/components/LinkCard.astro"))}\nimport Steps from ${JSON.stringify(join(packageDirectory, "dist/components/Steps.astro"))}\nimport Step from ${JSON.stringify(join(packageDirectory, "dist/components/Step.astro"))}\n\n## API\n\n<Table />\n<ApiTable caption="Options" rows={[{ name: "position", type: "string", default: "right", description: "Widget placement" }]} />\n<CodeBlock filename="config.yml" code={"title: Docs\\nbase: /docs/"} highlights={[2]} />\n<LinkCard href="/guide" title="Read the guide" description="Install the package." />\n<Steps><Step><strong>Install</strong></Step><Step><strong>Configure</strong></Step></Steps>\n${authoringMarkup}\n<CardGrid columns={2}><Card title="Configuration" href="/guide" description="Set up the SDK." /><Card title="Static example"><p>No client runtime required.</p></Card></CardGrid>\n\n# Content\n\n## Café \`API\`\n\n## Café API\n\n## !!!\n`
 		)
 		await mkdir(join(contentDirectory, "guide"))
 		await mkdir(join(project, "assets"))
@@ -173,6 +198,23 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			join(result.directory, "guide/index.html"),
 			"utf8"
 		)
+		for (const className of [
+			"docs-accordion",
+			"docs-badge",
+			"docs-file-tree",
+			"docs-figure",
+			"docs-preview",
+		])
+			assert(home.includes(`class="${className}"`), `Missing ${className}`)
+		assert.match(home, /<figcaption>Local figure with reserved dimensions/)
+		assert.match(home, /alt="SDK diagram" width="640" height="320"/)
+		assert.match(home, /scope="col">Required/)
+		assert.match(home, /callout callout-tip/)
+		assert.match(home, /data-sync="package-manager"/)
+		assert.match(home, /pnpm add sdk/)
+		assert.match(home, /class="docs-card-grid"/)
+		assert.match(home, /Set up the SDK/)
+		assert.match(home, /class="docs-link-card" href="\/ask-widget\/guide\/"/)
 		assert.match(guide, /<h2[^>]*>Installation/)
 		assert.match(guide, /<title>Install the SDK · Engine fixture<\/title>/)
 		assert.match(guide, /<meta name="robots" content="noindex, nofollow"/)
@@ -277,6 +319,67 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			/CodeBlock highlights must reference existing positive line numbers/
 		)
 		await rm(join(contentDirectory, "invalid-code.mdx"))
+		const invalidComponent = join(contentDirectory, "invalid-component.mdx")
+		for (const [component, markup, message] of [
+			["CardGrid", "<CardGrid columns={4} />", /CardGrid columns/],
+			[
+				"Accordion",
+				'<Accordion title="Details" open="yes" />',
+				/Accordion open/,
+			],
+			["Badge", '<Badge variant="unknown">Status</Badge>', /Badge variant/],
+			["Callout", '<Callout type="unknown">Note</Callout>', /Callout type/],
+			[
+				"Figure",
+				'<Figure src="/assets/logo.svg" alt="Diagram" width={0} height={80} />',
+				/Figure width and height/,
+			],
+			[
+				"Figure",
+				'<Figure src="/assets/logo.svg" width={160} height={80} />',
+				/Figure alt/,
+			],
+			["FileTree", '<FileTree items={[{name: ""}]} />', /FileTree names/],
+			[
+				"FileTree",
+				'export const entries = []\n\nexport const added = entries.push({name: "loop", children: entries})\n\n<FileTree items={entries} />',
+				/FileTree items/,
+			],
+			[
+				"TypeTable",
+				'<TypeTable rows={[{name: "base", type: "string", description: "Path", required: "yes"}]} />',
+				/TypeTable rows/,
+			],
+			[
+				"CodeGroup",
+				'<CodeGroup id="invalid" commands={{npm: "npm install"}} />',
+				/CodeGroup requires at least two/,
+			],
+			[
+				"CodeGroup",
+				'<CodeGroup id="invalid" commands={{npm: "npm install", pnpm: ""}} />',
+				/CodeGroup commands/,
+			],
+			[
+				"CodeGroup",
+				'<CodeGroup id="invalid" commands={{npm: "npm install", pip: "pip install"}} />',
+				/CodeGroup commands/,
+			],
+			[
+				"CodeGroup",
+				'<CodeGroup id="123" commands={{npm: "npm install", pnpm: "pnpm add"}} />',
+				/Tabs id/,
+			],
+		]) {
+			await writeFile(
+				invalidComponent,
+				`---\ntitle: Invalid component\n---\nimport ${component} from ${JSON.stringify(join(packageDirectory, `dist/components/${component}.astro`))}\n\n${markup}\n`
+			)
+			await assert.rejects(buildAstroSite(options), message)
+			assert.deepEqual(await readdir(outDirectory), ["keep.txt"])
+		}
+		await rm(invalidComponent)
+
 		await writeFile(
 			join(contentDirectory, "broken.md"),
 			"---\ntitle: Broken link\n---\n[Missing](missing.md)"

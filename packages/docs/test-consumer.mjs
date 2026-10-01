@@ -56,6 +56,14 @@ try {
 		join(root, "node_modules/@chitrank2050/monoline-docs"),
 		root
 	)
+	const authoringSource = (
+		await readFile(
+			new URL("../../apps/docs-demo/content/components.mdx", import.meta.url),
+			"utf8"
+		)
+	)
+		.replaceAll('href="/deployment"', 'href="/"')
+		.replaceAll('href="/configuration"', 'href="/"')
 	await mkdir(join(root, "content"))
 	await mkdir(join(root, "assets"))
 	await writeFile(
@@ -65,6 +73,13 @@ try {
 	await writeFile(
 		join(root, "content/draft.md"),
 		"---\ntitle: Draft\ndraft: true\n---\nUnpublished"
+	)
+	await writeFile(join(root, "content/components.mdx"), authoringSource)
+	await writeFile(
+		join(root, "assets/build-flow.svg"),
+		await readFile(
+			new URL("../../apps/docs-demo/assets/build-flow.svg", import.meta.url)
+		)
 	)
 	await writeFile(join(root, "assets/custom.css"), ":root { --radius: 0; }")
 	await writeFile(
@@ -205,6 +220,14 @@ try {
 	const pnpmRoot = join(root, "pnpm-consumer")
 	await mkdir(join(pnpmRoot, "content"), { recursive: true })
 	await mkdir(join(pnpmRoot, "components"))
+	await mkdir(join(pnpmRoot, "assets"))
+	await writeFile(join(pnpmRoot, "content/components.mdx"), authoringSource)
+	await writeFile(
+		join(pnpmRoot, "assets/build-flow.svg"),
+		await readFile(
+			new URL("../../apps/docs-demo/assets/build-flow.svg", import.meta.url)
+		)
+	)
 	await writeFile(
 		join(pnpmRoot, "package.json"),
 		JSON.stringify({
@@ -227,7 +250,7 @@ try {
 	)
 	await writeFile(
 		join(pnpmRoot, "monoline-docs.yml"),
-		"title: pnpm consumer\nbase: /reference/\nreact: true\n"
+		"title: pnpm consumer\nbase: /reference/\nassetsDirectory: ./assets\nreact: true\n"
 	)
 	run(
 		"pnpm",
@@ -240,6 +263,29 @@ try {
 			"astro-island"
 		)
 	)
+	for (const directory of [root, pnpmRoot]) {
+		const components = await readFile(
+			join(directory, "dist/components/index.html"),
+			"utf8"
+		)
+		for (const expected of [
+			'class="docs-card-grid"',
+			'class="docs-accordion"',
+			'class="docs-file-tree"',
+			'class="docs-figure"',
+			'class="docs-preview"',
+			'data-sync="package-manager"',
+			"Documentation options",
+		])
+			assert(
+				components.includes(expected),
+				`Packed authoring fixture missing ${expected}`
+			)
+		assert(
+			!components.includes("astro-island"),
+			"static authoring components must not hydrate"
+		)
+	}
 	console.log(
 		"Docs consumer passed: npm and strict pnpm installs, Ask Widget clean routes, generated API data, CLI, React island, declarations, drafts, search and preview."
 	)

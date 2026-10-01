@@ -214,13 +214,23 @@ if (navigator.clipboard?.writeText) {
 	}
 }
 
+const packageManagerGroups = []
+const managerStorageKey = `monoline-docs-package-manager:${document.documentElement.dataset.base}`
+let packageManager
+if (document.querySelector('[data-sync="package-manager"]')) {
+	try {
+		packageManager = localStorage.getItem(managerStorageKey)
+	} catch {
+		/* Optional preference. */
+	}
+}
 for (const tabs of document.querySelectorAll("[data-docs-tabs]")) {
-	const list = tabs.querySelector("[data-tab-list]")
-	const buttons = [...list.querySelectorAll("button")]
-	const panels = [...tabs.querySelectorAll("section[data-tab-panel]")]
+	const list = tabs.querySelector(":scope > [data-tab-list]")
+	const buttons = [...list.querySelectorAll(":scope > button")]
+	const panels = [...tabs.querySelectorAll(":scope > section[data-tab-panel]")]
 	list.hidden = false
 	list.role = "tablist"
-	list.ariaLabel = "Options"
+	list.ariaLabel = tabs.dataset.label ?? "Options"
 	buttons.forEach((button) => {
 		button.role = "tab"
 		button.id = button.dataset.tabId
@@ -228,6 +238,7 @@ for (const tabs of document.querySelectorAll("[data-docs-tabs]")) {
 	})
 	panels.forEach((panel, index) => {
 		panel.role = "tabpanel"
+		panel.tabIndex = 0
 		panel.setAttribute("aria-labelledby", buttons[index].id)
 		panel.querySelector(".docs-tab-label").hidden = true
 	})
@@ -239,8 +250,27 @@ for (const tabs of document.querySelectorAll("[data-docs-tabs]")) {
 		panels.forEach((panel, item) => (panel.hidden = item !== index))
 		if (focus) buttons[index]?.focus()
 	}
+	const synced = tabs.dataset.sync === "package-manager"
+	const selectManager = (manager) => {
+		const index = buttons.findIndex(
+			(button) => button.dataset.tabKey === manager
+		)
+		if (index >= 0) select(index)
+	}
+	if (synced) packageManagerGroups.push(selectManager)
+	const activate = (index, focus = false) => {
+		select(index, focus)
+		if (!synced) return
+		packageManager = buttons[index].dataset.tabKey
+		for (const selectGroup of packageManagerGroups) selectGroup(packageManager)
+		try {
+			localStorage.setItem(managerStorageKey, packageManager)
+		} catch {
+			/* In-page synchronization still works. */
+		}
+	}
 	buttons.forEach((button, index) => {
-		button.addEventListener("click", () => select(index))
+		button.addEventListener("click", () => activate(index))
 		button.addEventListener("keydown", (event) => {
 			if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key))
 				return
@@ -252,9 +282,10 @@ for (const tabs of document.querySelectorAll("[data-docs-tabs]")) {
 						? buttons.length - 1
 						: (index + (event.key === "ArrowRight" ? 1 : -1) + buttons.length) %
 							buttons.length
-			select(next, true)
+			activate(next, true)
 		})
 	})
 	tabs.dataset.ready = "true"
 	select(0)
+	if (synced && packageManager) selectManager(packageManager)
 }

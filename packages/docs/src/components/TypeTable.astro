@@ -1,0 +1,36 @@
+---
+import ApiTable from "./ApiTable.astro"
+interface Row {
+	name: string
+	type: string
+	required?: boolean
+	description: string
+}
+interface Props {
+	rows: Row[]
+	caption?: string
+}
+const { rows, caption = "Type reference" } = Astro.props
+if (
+	!Array.isArray(rows) ||
+	rows.some(
+		(row) =>
+			!row ||
+			typeof row.name !== "string" ||
+			!row.name.trim() ||
+			typeof row.type !== "string" ||
+			!row.type.trim() ||
+			typeof row.description !== "string" ||
+			(row.required !== undefined && typeof row.required !== "boolean")
+	)
+)
+	throw new Error(
+		"TypeTable rows require name, type, description and an optional boolean required"
+	)
+const entries = rows.map((row) => ({
+	...row,
+	default: row.required === undefined ? undefined : row.required ? "Yes" : "No",
+}))
+---
+
+<ApiTable rows={entries} caption={caption} defaultLabel="Required" />

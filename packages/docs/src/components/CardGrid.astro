@@ -1,0 +1,12 @@
+---
+interface Props {
+	columns?: 1 | 2 | 3
+}
+const { columns = 2 } = Astro.props
+if (![1, 2, 3].includes(columns))
+	throw new Error("CardGrid columns must be 1, 2 or 3")
+---
+
+<div class="docs-card-grid" style={`--card-columns: ${columns}`}>
+	<slot />
+</div>

@@ -9,9 +9,14 @@ interface Row {
 interface Props {
 	rows: Row[]
 	caption?: string
+	defaultLabel?: string
 }
 
-const { rows, caption = "API reference" } = Astro.props
+const {
+	rows,
+	caption = "API reference",
+	defaultLabel = "Default",
+} = Astro.props
 ---
 
 {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- keyboard-scrollable overflow region */}
@@ -21,7 +26,7 @@ const { rows, caption = "API reference" } = Astro.props
 		<tr>
 			<th scope="col">Name</th>
 			<th scope="col">Type</th>
-			<th scope="col">Default</th>
+			<th scope="col">{defaultLabel}</th>
 			<th scope="col">Description</th>
 		</tr>
 	</thead>

@@ -21,13 +21,14 @@
 
 ## Current evidence — October 1, 2026
 
-| Batch        | State    | Evidence / remaining work                                                                                                                                                              |
-| ------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1            | Complete | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                        |
-| 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01.         |
-| 3            | Complete | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation. |
-| 4–7          | Pending  | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                                     |
-| Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                                   |
+| Batch        | State    | Evidence / remaining work                                                                                                                                                                               |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1            | Complete | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                                         |
+| 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01.                          |
+| 3            | Complete | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation.                  |
+| 4            | Complete | Static authoring components and synchronized CodeGroup verified: 171 package tests, engine/demo, packed npm/strict pnpm public imports, keyboard/no-JS/print and Chrome/axe at root/subpath/clean URLs. |
+| 5–7          | Pending  | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                                                      |
+| Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                                                    |
 
 ## Batch 1 — Product configuration and stable content contract
 
@@ -95,14 +96,16 @@
 
 **Owns:** `src/components`, authoring styles and existing client enhancement; `build.mjs`/package exports only when required to ship components.
 
-- [ ] Audit and reuse Steps, Tabs, Callouts, ApiTable, CodeBlock and LinkCard before creating replacements.
-- [ ] Add CardGrid/Card, Accordion, FileTree, Badge and Figure/caption using static HTML where possible.
-- [ ] Add CodeGroup with synchronized package-manager selection and keyboard operation.
-- [ ] Add TypeTable and Preview with clear semantics for static examples and optional interactive islands.
-- [ ] Make imports available from the packed package; keep plain Markdown independent of component imports.
-- [ ] Render one component fixture in both themes, with keyboard and no-JS checks for interactive components.
+- [x] Audit and reuse Steps, Tabs, Callouts, ApiTable, CodeBlock and LinkCard before creating replacements.
+- [x] Add CardGrid/Card, Accordion, FileTree, Badge and Figure/caption using static HTML where possible.
+- [x] Add CodeGroup with synchronized package-manager selection and keyboard operation.
+- [x] Add TypeTable and Preview with clear semantics for static examples and optional interactive islands.
+- [x] Make imports available from the packed package; keep plain Markdown independent of component imports.
+- [x] Render one component fixture in both themes, with keyboard and no-JS checks for interactive components.
 
 **Done when:** every component can be imported by an external consumer and follows the same Monoline design and accessibility conventions.
+
+**Verification:** Reused Steps/Step, Tabs, Markdown callouts, ApiTable, CodeBlock and LinkCard. Ten added Astro components (CardGrid/Card, Accordion, FileTree, Badge, Figure, CodeGroup, TypeTable, Preview and the MDX Callout wrapper) ship through the existing wildcard export; both packed npm and strict pnpm consumers import and render the complete public fixture. Plain Markdown still builds without imports, and static component output has no islands. Typecheck, targeted lint/format, 171 package tests, engine fixture with thirteen invalid-input checks, nine-page demo and packed consumers pass. Astro lint uses the existing TypeScript parser via CLI parser-options because the repository's default Astro configuration does not select it. Production Chrome verifies root/subpath/clean URLs, synchronized and unsupported manager selections, independent ordinary tabs, keyboard focus, stored preferences and blocked storage, native disclosures, decoded local figures, explicit React previews, no-JS, print, mobile overflow and axe in both themes. Desktop/mobile screenshots were inspected in both densities. Saved-manager component CLS measured 0 on mobile and 0.00715–0.00845 on desktop; command panels retain equal height when switching. Combined shell JS grew from 4,561 to 4,831 gzip bytes (+270), with no dependency added. Independent review found no production blocker; its misplaced performance-measurement observation was corrected before final verification. Figure URL validation remains in the shared rendered-link boundary, unsupported managers leave that group's selection unchanged, and Preview hydration remains explicitly authored.
 
 ## Batch 5 — Library and OpenAPI documentation
 

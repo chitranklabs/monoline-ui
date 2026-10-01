@@ -34,7 +34,17 @@ for (const name of [
 await chmod(new URL("./dist/cli.js", import.meta.url), 0o755)
 for (const name of [
 	"ApiTable",
+	"Card",
+	"CardGrid",
+	"Accordion",
+	"Badge",
+	"Callout",
+	"FileTree",
+	"Figure",
+	"Preview",
+	"TypeTable",
 	"CodeBlock",
+	"CodeGroup",
 	"LinkCard",
 	"Step",
 	"Steps",

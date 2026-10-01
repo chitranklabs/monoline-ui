@@ -56,11 +56,36 @@ try {
 		join(content, "api.md"),
 		"---\ntitle: API reference\n---\n## Methods\nRead the [installation guide](/guide/install#installation).\n"
 	)
+	let componentSource = await readFile(
+		new URL("../../apps/docs-demo/content/components.mdx", import.meta.url),
+		"utf8"
+	)
+	componentSource = componentSource
+		.replace(
+			/from "@chitrank2050\/monoline-docs\/components\/([^"]+)"/g,
+			(_, name) =>
+				`from ${JSON.stringify(fileURLToPath(new URL(`./dist/components/${name}`, import.meta.url)))}`
+		)
+		.replaceAll('href="/deployment"', 'href="/guide/install"')
+		.replaceAll('href="/configuration"', 'href="/guide/install"')
+		.replace(
+			"import ApiTable",
+			'import Counter from "../Counter.jsx"\nimport ApiTable'
+		)
+	componentSource +=
+		'\n## Interactive preview\n\n<Preview title="Interactive counter" mode="interactive"><Counter client:load /></Preview>\n'
+	await writeFile(join(content, "components.mdx"), componentSource)
 	const assets = join(temporary, "assets")
 	await mkdir(assets)
 	await writeFile(
 		join(assets, "icon.svg"),
 		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2 14V2l6 8 6-8v12" fill="none" stroke="currentColor"/></svg>'
+	)
+	await writeFile(
+		join(assets, "build-flow.svg"),
+		await readFile(
+			new URL("../../apps/docs-demo/assets/build-flow.svg", import.meta.url)
+		)
 	)
 	const outputs = new Map()
 	for (const [base, cleanUrls] of [
@@ -120,6 +145,11 @@ try {
 									{ label: "Welcome", href: "/", order: 1 },
 									{ label: "Installation", href: "/guide/install", order: 2 },
 									{ label: "Wide page", href: "/wide", order: 3 },
+									{
+										label: "Authoring components",
+										href: "/components",
+										order: 4,
+									},
 								],
 							},
 						],
@@ -209,6 +239,7 @@ try {
 									".css": "text/css",
 									".js": "text/javascript",
 									".json": "application/json",
+									".svg": "image/svg+xml",
 								}[extname(filename)] ?? "application/octet-stream"),
 				})
 				.end(data)
@@ -535,6 +566,21 @@ try {
 		// Keep a real overflowing sidebar across a full document navigation.
 		await page.setViewportSize({ width: 1440, height: 240 })
 		await page.goto(`${origin}${base}guide/install${cleanUrls ? "" : "/"}`)
+		await expect
+			.poll(() =>
+				page.evaluate(() =>
+					Math.abs(
+						parseFloat(
+							getComputedStyle(document.documentElement).getPropertyValue(
+								"--header-offset"
+							)
+						) -
+							document.querySelector(".site-header").getBoundingClientRect()
+								.height
+					)
+				)
+			)
+			.toBeLessThan(1)
 		const sidebarScroll = await page.locator(".sidebar").evaluate((element) => {
 			element.scrollTop = 100000
 			return element.scrollTop
@@ -582,6 +628,201 @@ try {
 				page.getByRole("heading", { name: "Page not found" })
 			).toBeVisible()
 		}
+		await page.goto(`${origin}${base}components${cleanUrls ? "" : "/"}`)
+		const groups = page.locator(".docs-code-group")
+		await expect(groups).toHaveCount(3)
+		const initialGroupHeight = await groups
+			.nth(1)
+			.evaluate((element) => element.getBoundingClientRect().height)
+		const firstPnpm = groups
+			.first()
+			.getByRole("tab", { name: "pnpm", exact: true })
+		await firstPnpm.focus()
+		await firstPnpm.press("Enter")
+		await expect(
+			groups.nth(1).getByRole("tab", { name: "pnpm", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		await expect(firstPnpm).toBeFocused()
+		await expect(
+			groups.nth(2).getByRole("tab", { name: "npm", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		await expect(
+			page
+				.locator(".docs-tabs:not([data-sync])")
+				.getByRole("tab", { name: "npm", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		await firstPnpm.press("ArrowRight")
+		await expect(
+			groups.first().getByRole("tab", { name: "yarn", exact: true })
+		).toBeFocused()
+		await expect(
+			groups.nth(1).getByRole("tab", { name: "yarn", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		await groups
+			.first()
+			.getByRole("tab", { name: "yarn", exact: true })
+			.press("End")
+		await expect(
+			groups.nth(2).getByRole("tab", { name: "bun", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		assert.equal(
+			await groups
+				.nth(1)
+				.evaluate((element) => element.getBoundingClientRect().height),
+			initialGroupHeight,
+			"synchronization must preserve panel height"
+		)
+		for (const width of [375, 1440]) {
+			await page.setViewportSize({ width, height: 1000 })
+			await page.reload()
+			await expect(page).toHaveURL(
+				`${origin}${base}components${cleanUrls ? "" : "/"}`
+			)
+			await expect(
+				groups.first().getByRole("tab", { name: "bun", exact: true })
+			).toHaveAttribute("aria-selected", "true")
+			await page.evaluate(async () => {
+				await document.fonts.ready
+				await new Promise((resolve) =>
+					requestAnimationFrame(() => requestAnimationFrame(resolve))
+				)
+			})
+			const componentShift = await page.evaluate(() => window.docsLayoutShift)
+			assert(
+				componentShift < 0.01,
+				`${base} ${width}px saved manager component CLS must stay below 0.01; got ${componentShift}`
+			)
+			console.log(
+				`${base} ${width}px saved manager component CLS: ${componentShift}`
+			)
+		}
+		await expect(
+			groups.first().getByRole("tab", { name: "bun", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		await expect(
+			groups.nth(1).getByRole("tab", { name: "bun", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		await groups
+			.first()
+			.getByRole("tab", { name: "bun", exact: true })
+			.press("Home")
+		await expect(
+			groups.first().getByRole("tab", { name: "npm", exact: true })
+		).toBeFocused()
+		await expect(
+			groups.nth(2).getByRole("tab", { name: "npm", exact: true })
+		).toHaveAttribute("aria-selected", "true")
+		const accordion = page.locator(".docs-accordion")
+		await accordion.locator("summary").focus()
+		await accordion.locator("summary").press("Enter")
+		await expect(
+			accordion.getByText(
+				"Yes. Markdown pages do not need to import any components."
+			)
+		).toBeVisible()
+		await accordion.locator("summary").press("Space")
+		await expect(accordion).not.toHaveAttribute("open")
+		const folder = page
+			.locator(".docs-file-tree summary")
+			.filter({ hasText: "guide/" })
+		await folder.focus()
+		await folder.press("Enter")
+		await expect(
+			page
+				.locator(".docs-file-tree")
+				.first()
+				.getByText("install.md", { exact: true })
+		).toBeVisible()
+		await expect(page.locator(".docs-figure img")).toHaveAttribute(
+			"src",
+			`${base}assets/build-flow.svg`
+		)
+		await expect(page.locator(".docs-figure img")).toHaveAttribute(
+			"width",
+			"640"
+		)
+		await expect(page.locator(".docs-figure img")).toHaveAttribute(
+			"height",
+			"180"
+		)
+		await page.locator(".docs-figure img").scrollIntoViewIfNeeded()
+		await expect
+			.poll(() =>
+				page
+					.locator(".docs-figure img")
+					.evaluate((image) => image.complete && image.naturalWidth > 0)
+			)
+			.toBe(true)
+
+		await page
+			.locator(".docs-preview")
+			.last()
+			.getByRole("button", { name: "Count 0" })
+			.click()
+		await expect(
+			page
+				.locator(".docs-preview")
+				.last()
+				.getByRole("button", { name: "Count 1" })
+		).toBeVisible()
+		for (const theme of ["light", "dark"]) {
+			await page
+				.getByRole("combobox", { name: "Color theme" })
+				.selectOption(theme)
+			const componentAxe = await page.evaluate(async (source) => {
+				;(0, eval)(source)
+				return axe.run(document, {
+					runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa"] },
+				})
+			}, axe.source)
+			assert.deepEqual(
+				componentAxe.violations.map((issue) => issue.id),
+				[],
+				`${base} ${theme} component accessibility`
+			)
+			for (const width of [375, 1440]) {
+				await page.setViewportSize({ width, height: 1000 })
+				assert(
+					await page.evaluate(
+						() => document.documentElement.scrollWidth <= innerWidth
+					),
+					"components must not overflow"
+				)
+				if (process.env.DOCS_SCREENSHOT_DIR) {
+					await page
+						.locator("#synchronized-code-groups")
+						.scrollIntoViewIfNeeded()
+					await page.screenshot({
+						path: join(
+							process.env.DOCS_SCREENSHOT_DIR,
+							`components-${base === "/" ? "root" : base.slice(1, -1)}-${theme}-${width}.png`
+						),
+					})
+					await page.locator("#cards-and-grids").scrollIntoViewIfNeeded()
+					await page.screenshot({
+						path: join(
+							process.env.DOCS_SCREENSHOT_DIR,
+							`cards-${base === "/" ? "root" : base.slice(1, -1)}-${theme}-${width}.png`
+						),
+					})
+					await page.locator("#figures-and-previews").scrollIntoViewIfNeeded()
+					await page.screenshot({
+						path: join(
+							process.env.DOCS_SCREENSHOT_DIR,
+							`figures-${base === "/" ? "root" : base.slice(1, -1)}-${theme}-${width}.png`
+						),
+					})
+				}
+			}
+		}
+		await page.emulateMedia({ media: "print" })
+		await expect(
+			groups.first().getByText("bun add example-sdk", { exact: true })
+		).toBeVisible()
+		await expect(
+			groups.first().getByText("npm install example-sdk", { exact: true })
+		).toBeVisible()
+		await page.emulateMedia({ media: "screen" })
 		assert.deepEqual(errors, [], `${base} browser errors`)
 		const mobilePage = await context.newPage()
 		await mobilePage.setViewportSize({ width: 375, height: 812 })
@@ -651,14 +892,35 @@ try {
 		await expect(
 			plain.locator('.section-links [aria-current="true"]')
 		).toContainText("API")
+		await plain.goto(`${origin}${base}components${cleanUrls ? "" : "/"}`)
+		await expect(plain.getByRole("tab")).toHaveCount(0)
+		await expect(
+			plain.getByText("npm install example-sdk", { exact: true })
+		).toBeVisible()
+		await expect(
+			plain.getByText("pnpm add example-sdk", { exact: true })
+		).toBeVisible()
+		await expect(
+			plain.getByText("bun add example-sdk", { exact: true })
+		).toBeVisible()
+		await plain.locator(".docs-accordion summary").focus()
+		await plain.locator(".docs-accordion summary").press("Enter")
+		await expect(plain.locator(".docs-accordion")).toHaveAttribute("open", "")
+		await expect(
+			plain
+				.locator(".docs-preview")
+				.last()
+				.getByRole("button", { name: "Count 0" })
+		).toBeVisible()
 		await noJS.close()
 		const blockedStorage = await browser.newContext()
 		await blockedStorage.addInitScript(() => {
-			Object.defineProperty(window, "sessionStorage", {
-				get() {
-					throw new Error("Storage disabled")
-				},
-			})
+			for (const storage of ["sessionStorage", "localStorage"])
+				Object.defineProperty(window, storage, {
+					get() {
+						throw new Error("Storage disabled")
+					},
+				})
 		})
 		const fallback = await blockedStorage.newPage()
 		const fallbackErrors = []
@@ -670,6 +932,18 @@ try {
 		await expect(
 			fallback.getByRole("heading", { name: "Installation", exact: true })
 		).toBeVisible()
+		await fallback.goto(`${origin}${base}components${cleanUrls ? "" : "/"}`)
+		await fallback
+			.locator(".docs-code-group")
+			.first()
+			.getByRole("tab", { name: "pnpm", exact: true })
+			.click()
+		await expect(
+			fallback
+				.locator(".docs-code-group")
+				.nth(1)
+				.getByRole("tab", { name: "pnpm", exact: true })
+		).toHaveAttribute("aria-selected", "true")
 		assert.deepEqual(fallbackErrors, [])
 		await blockedStorage.close()
 		console.log(
