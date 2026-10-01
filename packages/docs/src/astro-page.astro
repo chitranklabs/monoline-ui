@@ -24,8 +24,9 @@ const description = page.metadata.description ?? site.description ?? ""
 const canonical = site.site
 	? new URL(href(page.route), site.site).href
 	: undefined
-const showSidebar = page.metadata.sidebar !== false
+const showSidebar = site.sidebarEnabled && page.metadata.sidebar !== false
 const showToc = page.metadata.toc !== false
+const showUpdatedAt = site.showLastUpdated && page.metadata.updatedAt
 const pageTitle = site.titleTemplate.replace(
 	"%s",
 	page.metadata.seoTitle ?? page.metadata.title
@@ -52,19 +53,29 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 ---
 
 <!doctype html>
-<html lang={site.lang} data-theme={site.defaultMode}>
+<html
+	lang={site.lang}
+	data-theme={site.defaultMode}
+	data-density={site.density}
+>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="color-scheme" content="light dark" />
 		<title>{pageTitle}</title>
 		<meta name="description" content={description} />
+		{site.favicon && <link rel="icon" href={site.favicon} />}
 		{canonical && <link rel="canonical" href={canonical} />}
 		{(site.noindex || page.metadata.noindex) && (
 			<meta name="robots" content="noindex, nofollow" />
 		)}
 		<script is:inline>
 			document.documentElement.classList.add("has-js")
+			if (
+				typeof HTMLDialogElement !== "undefined" &&
+				"showModal" in HTMLDialogElement.prototype
+			)
+				document.documentElement.classList.add("has-dialog")
 		</script>
 		<script is:inline src={`${site.base}theme.js`}></script>
 		<link rel="stylesheet" href={`${site.base}docs.css`} />
@@ -76,13 +87,24 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 			Skip to content
 		</a>
 		<header class="site-header">
+			{site.announcement && (
+				<div class="announcement">
+					{site.announcement.href ? (
+						<a href={linkHref(site.announcement.href)}>
+							{site.announcement.text}
+						</a>
+					) : (
+						<p>{site.announcement.text}</p>
+					)}
+				</div>
+			)}
 			<div class="header-inner">
 				{showSidebar && (
 					<button
 						class="nav-toggle"
 						type="button"
 						aria-label="Open navigation"
-						aria-controls="docs-sidebar"
+						aria-controls="docs-navigation"
 						aria-expanded="false"
 						hidden
 					>
@@ -110,6 +132,11 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 					</nav>
 				)}
 				<div class="header-actions">
+					{site.primaryAction && (
+						<a class="primary-action" href={linkHref(site.primaryAction.href)}>
+							{site.primaryAction.label}
+						</a>
+					)}
 					{site.searchEnabled && (
 						<button
 							class="search-trigger"
@@ -169,12 +196,13 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 		{site.searchEnabled && (
 			<script type="module" src={`${site.base}search.js`}></script>
 		)}
-		<button
-			class="nav-backdrop"
-			type="button"
-			aria-label="Close navigation"
-			hidden
-		></button>
+		{showSidebar && (
+			<dialog
+				id="docs-navigation"
+				class="nav-dialog"
+				aria-label="Documentation navigation"
+			></dialog>
+		)}
 		<div
 			class:list={[
 				"layout",
@@ -244,9 +272,9 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 					<p class="page-kind">{pageKind}</p>
 					<h1>{page.metadata.title}</h1>
 					{description && <p class="description">{description}</p>}
-					{(page.metadata.updatedAt || page.metadata.tags?.length) && (
+					{(showUpdatedAt || page.metadata.tags?.length) && (
 						<div class="page-meta">
-							{page.metadata.updatedAt && (
+							{showUpdatedAt && (
 								<time datetime={page.metadata.updatedAt}>
 									Updated {page.metadata.updatedAt}
 								</time>
@@ -262,10 +290,14 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 				</article>
 				<div class="page-actions">
 					{page.editHref && <a href={page.editHref}>{page.editLabel}</a>}
-					<button class="copy-page-link" type="button" hidden>
-						Copy page link
-					</button>
-					<span class="copy-page-status" role="status"></span>
+					{site.copyPageLink && (
+						<button class="copy-page-link" type="button" hidden>
+							Copy page link
+						</button>
+					)}
+					{site.copyPageLink && (
+						<span class="copy-page-status" role="status"></span>
+					)}
 				</div>
 				<nav class="pager" aria-label="Page navigation">
 					{previous ? (

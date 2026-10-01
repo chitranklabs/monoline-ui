@@ -20,6 +20,31 @@ copied without changing their contents. Child symlinks are rejected.
 
 ## Fonts and custom CSS
 
+Use configuration for local fonts, density and corners without writing CSS:
+
+```yaml
+appearance:
+  density: compact # comfortable is the default
+  radius: 0.375 # rem, from 0 to 1
+  accent:
+    light: "#753c22"
+    dark: "#e9b894"
+  fonts:
+    body:
+      family: Georgia
+    code:
+      family: Local Code
+      src: /assets/code.woff2
+branding:
+  favicon: /assets/favicon.svg
+```
+
+Font sources must be local WOFF2, WOFF, TTF or OTF files. Monoline resolves them
+against `assetsDirectory` and adds your deployment base. Local fonts use
+`font-display: optional` to avoid late font swaps; a slow first visit can use
+the fallback. A family without `src` selects an installed font, with a system
+fallback. Favicon files accept SVG, PNG or ICO. No remote font request is added.
+
 Set `stylesheet: "/assets/site.css"` in the shared configuration to load your
 own stylesheet after the default styles. For example, put `body.woff2` in the
 assets folder's `fonts` directory and use a relative URL:
@@ -41,7 +66,7 @@ inside custom CSS. Relative URLs keep font loading independent of the site base.
 
 ## Theme selection
 
-Set `defaultMode` in the configuration to `light`, `dark`, or `system`.
+Set `appearance.defaultMode` in the configuration to `light`, `dark`, or `system`.
 The default applies before JavaScript runs; a saved visitor preference takes
 precedence. This demo uses `system`.
 

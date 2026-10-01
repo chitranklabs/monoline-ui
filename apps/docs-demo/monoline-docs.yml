@@ -6,9 +6,19 @@ outDirectory: ./dist
 base: /
 appearance:
   defaultMode: system
+  density: comfortable
+  radius: 0.375
+branding:
+  favicon: /assets/favicon.svg
 lang: en
 stylesheet: /assets/custom.css
 header:
+  primaryAction:
+    label: Get started
+    href: /configuration
+  announcement:
+    text: Monoline Docs preview — Markdown, MDX and static output.
+    href: /writing
   links:
     - label: Writing
       href: /writing
@@ -22,5 +32,7 @@ footer:
     - label: GitHub
       href: https://github.com/chitranklabs/monoline-ui
 content:
+  showLastUpdated: true
+  copyPageLink: true
   editLink:
     href: https://github.com/chitranklabs/monoline-ui/edit/main/apps/docs-demo/content/{path}

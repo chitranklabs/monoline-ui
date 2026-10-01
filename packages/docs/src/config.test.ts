@@ -153,13 +153,6 @@ it("normalizes the nested product configuration for existing renderers", () => {
 
 it.each([
 	[{ branding: { typo: true } }, "branding.typo"],
-	[{ appearance: { density: "compact" } }, "appearance.density"],
-	[
-		{ header: { primaryAction: { label: "Start", href: "/" } } },
-		"header.primaryAction",
-	],
-	[{ sidebar: { enabled: false } }, "config.sidebar"],
-	[{ content: { showLastUpdated: false } }, "content.showLastUpdated"],
 	[{ navigation: [{ label: "Guides", tabs: [] }] }, "navigation entry.tabs"],
 	[{ seo: { socialImage: "/assets/social.png" } }, "seo.socialImage"],
 	[{ search: { enabled: "yes" } }, "search.enabled"],
@@ -196,4 +189,93 @@ it("accepts equivalent aliases and remains safe to normalize twice", () => {
 		headerLinks: [{ href: "/", label: "Home" }],
 	})
 	expect(defineConfig(config)).toEqual(config)
+})
+
+it("normalizes shell controls without mutating input", () => {
+	const input = {
+		title: "Docs",
+		appearance: {
+			density: "compact",
+			radius: 0,
+			accent: { light: "#753c22", dark: "#e9b894" },
+			fonts: {
+				body: { family: "Georgia" },
+				code: { family: "Local Code", src: "/assets/code.woff2" },
+			},
+		},
+		branding: { favicon: "/assets/icon.svg" },
+		header: {
+			primaryAction: { label: "Start", href: "/guide" },
+			announcement: { text: "SDK 1.0", href: "https://example.com/release" },
+		},
+		sidebar: { enabled: false },
+		content: { showLastUpdated: false, copyPageLink: false },
+	} as const
+	const config = defineConfig(input)
+	expect(config.appearance).toMatchObject(input.appearance)
+	expect(config.header).toEqual(input.header)
+	expect(config.branding).toEqual(input.branding)
+	expect(config.sidebar.enabled).toBe(false)
+	expect(config.content).toEqual(input.content)
+	expect(defineConfig(config)).toEqual(config)
+	expect(defineConfig({ title: "Docs" })).toMatchObject({
+		appearance: { density: "comfortable" },
+		sidebar: { enabled: true },
+		content: { showLastUpdated: true, copyPageLink: true },
+	})
+})
+
+it.each([
+	[{ appearance: { density: "dense" } }, "appearance.density"],
+	[{ appearance: { density: null } }, "appearance.density"],
+	[{ appearance: { radius: -1 } }, "appearance.radius"],
+	[{ appearance: { radius: 2 } }, "appearance.radius"],
+	[{ appearance: { radius: "0; color:red" } }, "appearance.radius"],
+	[
+		{ appearance: { accent: { light: "red", dark: "#ffffff" } } },
+		"appearance.accent.light",
+	],
+	[
+		{ appearance: { fonts: { body: { family: "</style><script>" } } } },
+		"appearance.fonts.body.family",
+	],
+	[
+		{
+			appearance: {
+				fonts: {
+					code: { family: "Code", src: "https://example.com/code.woff2" },
+				},
+			},
+		},
+		"appearance.fonts.code.src",
+	],
+	[
+		{
+			appearance: {
+				fonts: { code: { family: "Code", src: "/assets/../code.woff2" } },
+			},
+		},
+		"appearance.fonts.code.src",
+	],
+	[{ branding: { favicon: "/assets/../icon.svg" } }, "branding.favicon"],
+	[
+		{
+			header: {
+				primaryAction: { label: "Start", href: "javascript:alert(1)" },
+			},
+		},
+		"header.primaryAction.href",
+	],
+	[
+		{ header: { announcement: { text: "News", href: "//example.com" } } },
+		"header.announcement.href",
+	],
+	[{ header: { announcement: { text: " " } } }, "header.announcement.text"],
+	[{ sidebar: { enabled: "yes" } }, "sidebar.enabled"],
+	[{ content: { copyPageLink: "yes" } }, "content.copyPageLink"],
+	[{ content: { showLastUpdated: "yes" } }, "content.showLastUpdated"],
+])("rejects invalid shell controls %j", (input, error) => {
+	expect(() =>
+		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
+	).toThrow(error)
 })

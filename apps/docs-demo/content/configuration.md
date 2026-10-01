@@ -67,6 +67,29 @@ editLink:
   label: Improve this page
 ```
 
+## Shell controls
+
+```yaml
+header:
+  primaryAction:
+    label: Get started
+    href: /writing
+  announcement:
+    text: Documentation preview is available.
+    href: /writing
+sidebar:
+  enabled: true
+content:
+  showLastUpdated: true
+  copyPageLink: true
+```
+
+The primary action uses the same safe links as header links. An announcement
+can omit `href` to show plain text. Sidebar, last-updated and copy-link controls
+default to enabled. A page's `sidebar: false` still hides its sidebar.
+Last-updated dates require `updatedAt: YYYY-MM-DD` frontmatter. Copy page link
+copies the current URL, including its fragment; it does not export Markdown.
+
 ## Invoke the local CLI
 
 The package is not publicly released. After building it in this checkout, invoke

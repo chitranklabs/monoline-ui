@@ -68,6 +68,8 @@ export function setupSearch(root = document) {
 		}
 	}
 	trigger.addEventListener("click", async () => {
+		if (dialog.open) return
+		root.querySelector(".nav-dialog[open]")?.close()
 		dialog.showModal()
 		input.focus()
 		if (entries) return render()

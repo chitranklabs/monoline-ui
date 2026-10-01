@@ -1,5 +1,6 @@
 import { isDeepStrictEqual } from "node:util"
 
+import { isAssetName } from "./assets.ts"
 import type { NavigationItem } from "./navigation.ts"
 
 export interface DocsLink {
@@ -21,18 +22,38 @@ export interface DocsEditLink {
 
 export interface DocsBrandingConfig {
 	logo?: DocsLogo
+	favicon?: string
 }
 
 export interface DocsHeaderConfig {
 	links?: DocsLink[]
+	primaryAction?: DocsLink
+	announcement?: { text: string; href?: string }
+}
+
+export interface DocsFont {
+	family: string
+	/** Optional local font file in assetsDirectory. No remote fetch. */
+	src?: string
 }
 
 export interface DocsAppearanceConfig {
 	defaultMode?: "light" | "dark" | "system"
+	density?: "comfortable" | "compact"
+	/** Corner radius in rem, from 0 to 1. */
+	radius?: number
+	accent?: { light: string; dark: string }
+	fonts?: { body?: DocsFont; code?: DocsFont }
 }
 
 export interface DocsContentConfig {
 	editLink?: DocsEditLink
+	showLastUpdated?: boolean
+	copyPageLink?: boolean
+}
+
+export interface DocsSidebarConfig {
+	enabled?: boolean
 }
 
 export interface DocsSearchConfig {
@@ -62,6 +83,7 @@ export interface MonolineDocsConfig {
 	navigation?: NavigationItem[]
 	branding?: DocsBrandingConfig
 	header?: DocsHeaderConfig
+	sidebar?: DocsSidebarConfig
 	appearance?: DocsAppearanceConfig
 	content?: DocsContentConfig
 	search?: DocsSearchConfig
@@ -140,6 +162,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"navigation",
 		"branding",
 		"header",
+		"sidebar",
 		"appearance",
 		"content",
 		"search",
@@ -190,17 +213,90 @@ export function defineConfig(config: MonolineDocsConfig) {
 		throw new Error("lang must be a valid BCP 47 language tag")
 	}
 	if (config.branding !== undefined)
-		object(config.branding as unknown, "branding", ["logo"])
+		object(config.branding as unknown, "branding", ["logo", "favicon"])
 	if (config.header !== undefined)
-		object(config.header as unknown, "header", ["links"])
+		object(config.header as unknown, "header", [
+			"links",
+			"primaryAction",
+			"announcement",
+		])
+	if (config.sidebar !== undefined)
+		object(config.sidebar as unknown, "sidebar", ["enabled"])
 	if (config.appearance !== undefined)
-		object(config.appearance as unknown, "appearance", ["defaultMode"])
+		object(config.appearance as unknown, "appearance", [
+			"defaultMode",
+			"density",
+			"radius",
+			"accent",
+			"fonts",
+		])
 	if (config.content !== undefined)
-		object(config.content as unknown, "content", ["editLink"])
+		object(config.content as unknown, "content", [
+			"editLink",
+			"showLastUpdated",
+			"copyPageLink",
+		])
 	if (config.search !== undefined)
 		object(config.search as unknown, "search", ["enabled"])
 	if (config.seo !== undefined)
 		object(config.seo as unknown, "seo", ["titleTemplate"])
+	for (const [path, value] of [
+		["sidebar.enabled", config.sidebar?.enabled],
+		["content.showLastUpdated", config.content?.showLastUpdated],
+		["content.copyPageLink", config.content?.copyPageLink],
+	] as const)
+		if (value !== undefined && typeof value !== "boolean")
+			throw new Error(`${path} must be a boolean`)
+	const density =
+		config.appearance?.density === undefined
+			? "comfortable"
+			: config.appearance.density
+	if (!["comfortable", "compact"].includes(density))
+		throw new Error("appearance.density must be comfortable or compact")
+	const radius = config.appearance?.radius
+	if (
+		radius !== undefined &&
+		(!Number.isFinite(radius) || radius < 0 || radius > 1)
+	)
+		throw new Error("appearance.radius must be a number from 0 to 1 rem")
+	if (config.appearance?.accent !== undefined) {
+		object(config.appearance.accent, "appearance.accent", ["light", "dark"])
+		for (const mode of ["light", "dark"] as const)
+			if (
+				typeof config.appearance.accent[mode] !== "string" ||
+				!/^#[\da-f]{6}$/i.test(config.appearance.accent[mode])
+			)
+				throw new Error(
+					`appearance.accent.${mode} must be a six-digit hex color`
+				)
+	}
+	function localAsset(value: unknown, path: string, extension: RegExp): void {
+		string(value, path)
+		if (
+			!value.startsWith("/assets/") ||
+			!isAssetName(value.slice(1)) ||
+			!extension.test(value)
+		)
+			throw new Error(`${path} must name a safe local /assets/ file`)
+	}
+	if (config.branding?.favicon !== undefined)
+		localAsset(config.branding.favicon, "branding.favicon", /\.(svg|png|ico)$/)
+	if (config.appearance?.fonts !== undefined) {
+		object(config.appearance.fonts, "appearance.fonts", ["body", "code"])
+		for (const role of ["body", "code"] as const) {
+			const font = config.appearance.fonts[role]
+			if (font === undefined) continue
+			const path = `appearance.fonts.${role}`
+			object(font, path, ["family", "src"])
+			string(font.family, `${path}.family`)
+			if (!/^[a-z][a-z\d -]{0,79}$/i.test(font.family))
+				throw new Error(
+					`${path}.family must be a font family name using letters, numbers, spaces or hyphens`
+				)
+			if (font.src !== undefined)
+				localAsset(font.src, `${path}.src`, /\.(woff2?|ttf|otf)$/)
+		}
+	}
 	for (const [path, nested, alias] of [
 		["branding.logo", config.branding?.logo, "logo"],
 		["header.links", config.header?.links, "headerLinks"],
@@ -253,6 +349,18 @@ export function defineConfig(config: MonolineDocsConfig) {
 		}
 	}
 	if (headerLinks !== undefined) links(headerLinks, "header.links")
+	if (config.header?.primaryAction !== undefined)
+		links([config.header.primaryAction], "header.primaryAction")
+	if (config.header?.announcement !== undefined) {
+		const announcement = config.header.announcement
+		object(announcement, "header.announcement", ["text", "href"])
+		string(announcement.text, "header.announcement.text")
+		if (announcement.href !== undefined) {
+			string(announcement.href, "header.announcement.href")
+			if (!safeRoute(announcement.href))
+				httpUrl(announcement.href, "header.announcement.href")
+		}
+	}
 	if (config.footer !== undefined) {
 		object(config.footer, "footer", ["text", "links"])
 		if (config.footer.text !== undefined)
@@ -312,8 +420,14 @@ export function defineConfig(config: MonolineDocsConfig) {
 			...config.header,
 			...(headerLinks ? { links: headerLinks } : {}),
 		},
-		appearance: { ...config.appearance, defaultMode },
-		content: { ...config.content, ...(editLink ? { editLink } : {}) },
+		sidebar: { ...config.sidebar, enabled: config.sidebar?.enabled ?? true },
+		appearance: { ...config.appearance, defaultMode, density },
+		content: {
+			...config.content,
+			...(editLink ? { editLink } : {}),
+			showLastUpdated: config.content?.showLastUpdated ?? true,
+			copyPageLink: config.content?.copyPageLink ?? true,
+		},
 		search: { ...config.search, enabled: searchEnabled },
 		seo: { ...config.seo, titleTemplate },
 		defaultMode,

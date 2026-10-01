@@ -91,6 +91,28 @@ export async function buildAstroSite(
 	})
 	const assets = await collectAssets(options.assetsDirectory)
 	const assetUrl = createAssetUrl(assets, options.base)
+	const appearance = options.appearance
+	const fontRules: string[] = []
+	const tokens: string[] = []
+	if (appearance.radius !== undefined)
+		tokens.push(`--radius:${appearance.radius}rem`)
+	if (appearance.accent)
+		tokens.push(
+			`--accent:light-dark(${appearance.accent.light},${appearance.accent.dark})`
+		)
+	for (const role of ["body", "code"] as const) {
+		const font = appearance.fonts?.[role]
+		if (!font) continue
+		const family = JSON.stringify(font.family)
+		if (font.src)
+			fontRules.push(
+				`@font-face{font-family:${family};src:url(${JSON.stringify(assetUrl(font.src))});font-display:optional}`
+			)
+		tokens.push(
+			`--font-${role}:${family},${role === "body" ? "system-ui,sans-serif" : "ui-monospace,monospace"}`
+		)
+	}
+	const appearanceCss = `${fontRules.join("\n")}\n:root{${tokens.join(";")}}`
 	const links = createPageLinks(
 		pages,
 		content,
@@ -131,6 +153,15 @@ export async function buildAstroSite(
 				cleanUrls: options.cleanUrls,
 				lang: options.lang,
 				defaultMode: options.defaultMode,
+				density: appearance.density,
+				sidebarEnabled: options.sidebar.enabled,
+				showLastUpdated: options.content.showLastUpdated,
+				copyPageLink: options.content.copyPageLink,
+				primaryAction: options.header.primaryAction,
+				announcement: options.header.announcement,
+				favicon: options.branding.favicon
+					? assetUrl(options.branding.favicon)
+					: undefined,
 				stylesheet: options.stylesheet
 					? assetUrl(options.stylesheet)
 					: undefined,
@@ -429,7 +460,9 @@ export async function buildAstroSite(
 		await writeFile(
 			join(directory, "docs.css"),
 			(await readFile(new URL("./theme-tokens.css", import.meta.url), "utf8")) +
-				(await readFile(new URL("./docs.css", import.meta.url), "utf8"))
+				(await readFile(new URL("./docs.css", import.meta.url), "utf8")) +
+				"\n" +
+				appearanceCss
 		)
 		for (const name of ["theme.js", "client.js", "search.js"])
 			await writeFile(

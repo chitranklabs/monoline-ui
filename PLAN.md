@@ -21,12 +21,12 @@
 
 ## Current evidence — October 1, 2026
 
-| Batch        | State       | Evidence / remaining work                                                                                                                                                      |
-| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1            | Complete    | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                |
-| 2            | In progress | Shell changes remain uncommitted in four files. Prior browser checks passed root/subpath/clean URLs, themes, mobile, no-JS and axe. Visual review and missing controls remain. |
-| 3–7          | Pending     | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                             |
-| Release gate | Pending     | Publication stays blocked until all batches and release checks pass.                                                                                                           |
+| Batch        | State    | Evidence / remaining work                                                                                                                                                      |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1            | Complete | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                |
+| 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01. |
+| 3–7          | Pending  | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                             |
+| Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                           |
 
 ## Batch 1 — Product configuration and stable content contract
 
@@ -57,14 +57,20 @@
 
 - [x] Implement sticky header, reading column, sidebar active rail, breadcrumbs, page metadata and previous/next cards.
 - [x] Add search shortcut, theme control, mobile drawer, copy-page-link action and TOC observation.
-- [ ] Finish keyboard behavior: drawer focus containment, background interaction exclusion, Escape, focus restoration and viewport changes. Prefer native dialog behavior where practical.
-- [ ] Add validated comfortable/compact density and use it in layout spacing.
-- [ ] Add configurable header primary action and announcement banner, with safe internal/external links.
-- [ ] Add explicit content controls for last-updated visibility and page-copy action; define whether copying means link or Markdown rather than mixing the actions.
-- [ ] Add branding favicon, body/code font controls and radius/accent customization through validated tokens and local assets. No remote font fetch by default.
-- [ ] Verify sticky offsets, heading scroll margins, very long titles, header wrapping and reference-page width.
-- [ ] Inspect production screenshots on desktop/mobile in light/dark; correct spacing, contrast and visual hierarchy.
-- [ ] Run the existing browser fixture with focused assertions for drawer and shortcut behavior; check print and reduced-motion presentation.
+- [x] Finish keyboard behavior: drawer focus containment, background interaction exclusion, Escape, focus restoration and viewport changes. Prefer native dialog behavior where practical.
+- [x] Add validated comfortable/compact density and use it in layout spacing.
+- [x] Add configurable header primary action and announcement banner, with safe internal/external links.
+- [x] Add explicit content controls for last-updated visibility and page-copy action; define whether copying means link or Markdown rather than mixing the actions.
+- [x] Add branding favicon, body/code font controls and radius/accent customization through validated tokens and local assets. No remote font fetch by default.
+- [x] Verify sticky offsets, heading scroll margins, very long titles, header wrapping and reference-page width.
+- [x] Inspect production screenshots on desktop/mobile in light/dark; correct spacing, contrast and visual hierarchy.
+- [x] Run the existing browser fixture with focused assertions for drawer and shortcut behavior; check print and reduced-motion presentation.
+
+**Verification — October 1, 2026:** All 159 Docs tests pass; new configuration assertions and the missing native-drawer browser assertion were observed failing before implementation. Package typecheck, targeted ESLint/Markdownlint, formatting, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass. Production Chrome fixture passes root, subpath and clean URLs, both themes, no-JS reading/navigation, axe, modal keyboard/background exclusion, Escape/focus restoration, resize and backdrop dismissal, repeated search shortcuts, print and reduced motion. Inspected comfortable/compact screenshots at 375px and 1440px, plus the actual demo in both themes at both widths. Screenshot artifacts: `/private/tmp/monoline-batch2-screenshots`.
+
+**Performance evidence:** Customization is generated into the existing CSS at build time. No dependencies, runtime font loader, scroll/resize polling or duplicate sidebar markup added. Search fetches once on demand and reuses its index. `client.js` gzip changes from 1,822 to 1,951 bytes; `search.js` from 1,753 to 1,777 bytes (153 additional gzip bytes combined). Reserving enhanced controls and tab layout reduces measured desktop initial CLS from 0.027–0.033 to 0.0012–0.0015; measured mobile CLS is 0.0043–0.0047. The existing fixture asserts both below 0.01. These are local fixture measurements, not field Web Vitals or large-site benchmarks; broader performance campaigns stay in the release gate.
+
+**Contract decisions and limits:** Native modal navigation reuses the static sidebar; the browser handles focus containment and background exclusion. Tab can reach browser chrome, but cannot focus background page content. Header offsets follow its observed size; with no JavaScript the header remains in normal flow. `content.copyPageLink` copies the current URL including its fragment; Markdown copying belongs to Batch 6. Fonts use local assets and `font-display: optional`; a slow first visit can keep the fallback. Existing custom CSS remains last and can override generated tokens. Independent production-diff review found no blocking issue. No Batch 2 blocker remains.
 
 **Done when:** both themes and densities look intentional, the mobile drawer is accessible and all shell controls work with a no-JS reading/navigation fallback.
 

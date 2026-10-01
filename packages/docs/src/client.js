@@ -15,51 +15,57 @@ if (themeSelect) {
 
 const navToggle = document.querySelector(".nav-toggle")
 const navClose = document.querySelector(".nav-close")
-const navBackdrop = document.querySelector(".nav-backdrop")
+const navDialog = document.querySelector(".nav-dialog")
 const sidebar = document.querySelector(".sidebar")
-if (navToggle && navClose && navBackdrop && sidebar) {
+if (
+	navToggle &&
+	navClose &&
+	sidebar &&
+	typeof navDialog?.showModal === "function"
+) {
 	const mobile = matchMedia("(max-width: 48rem)")
-	const closeNavigation = (restoreFocus = true) => {
+	const layout = sidebar.parentElement
+	const closeNavigation = () => navDialog.close()
+	navDialog.addEventListener("close", () => {
 		delete document.body.dataset.navOpen
 		navToggle.ariaExpanded = "false"
-		navBackdrop.hidden = true
-		if (mobile.matches) {
-			sidebar.inert = true
-			sidebar.setAttribute("aria-hidden", "true")
-		}
-		if (restoreFocus) navToggle.focus()
-	}
+		if (mobile.matches) navToggle.focus()
+	})
 	const openNavigation = () => {
+		if (!mobile.matches || navDialog.open) return
+		navDialog.showModal()
 		document.body.dataset.navOpen = "true"
 		navToggle.ariaExpanded = "true"
-		navBackdrop.hidden = false
-		sidebar.inert = false
-		sidebar.removeAttribute("aria-hidden")
 		navClose.focus()
 	}
 	const synchronize = () => {
+		const wasOpen = navDialog.open
+		if (wasOpen) closeNavigation()
 		navToggle.hidden = !mobile.matches
 		navClose.hidden = !mobile.matches
-		if (mobile.matches) closeNavigation(false)
-		else {
-			delete document.body.dataset.navOpen
-			navBackdrop.hidden = true
-			sidebar.inert = false
-			sidebar.removeAttribute("aria-hidden")
-		}
+		if (mobile.matches) navDialog.append(sidebar)
+		else layout.prepend(sidebar)
+		if (wasOpen && !mobile.matches)
+			sidebar.querySelector('[aria-current="page"]')?.focus()
 	}
 	navToggle.addEventListener("click", openNavigation)
-	navClose.addEventListener("click", () => closeNavigation())
-	navBackdrop.addEventListener("click", () => closeNavigation())
-	sidebar.addEventListener("click", (event) => {
-		if (mobile.matches && event.target.closest("a")) closeNavigation(false)
+	navClose.addEventListener("click", closeNavigation)
+	navDialog.addEventListener("click", (event) => {
+		if (event.target === navDialog) closeNavigation()
 	})
-	document.addEventListener("keydown", (event) => {
-		if (event.key === "Escape" && document.body.dataset.navOpen)
-			closeNavigation()
+	sidebar.addEventListener("click", (event) => {
+		if (mobile.matches && event.target.closest("a")) closeNavigation()
 	})
 	mobile.addEventListener("change", synchronize)
 	synchronize()
+}
+
+const header = document.querySelector(".site-header")
+if (header && "ResizeObserver" in globalThis) {
+	new ResizeObserver((entries) => {
+		const height = entries[0].borderBoxSize[0].blockSize
+		document.documentElement.style.setProperty("--header-offset", `${height}px`)
+	}).observe(header)
 }
 
 const copyPageLink = document.querySelector(".copy-page-link")

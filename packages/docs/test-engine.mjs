@@ -60,6 +60,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			'<svg xmlns="http://www.w3.org/2000/svg"/>'
 		)
 		await writeFile(join(project, "assets/custom.css"), ":root{--test:1}")
+		await writeFile(join(project, "assets/code.woff2"), "Fixture font bytes")
 		await writeFile(
 			join(contentDirectory, "guide/index.md"),
 			'---\ntitle: Installation guide\nnavTitle: Guide\nseoTitle: Install the SDK\nslug: guide\nlayout: reference\nsearch: false\nnoindex: true\nupdatedAt: 2026-09-18\ntags: [guide, sdk]\nbadge: Beta\n---\n# Installation\n\n<script>throw new Error("must be text")</script>\n\n> [!NOTE]\n> Keep this safe.\n\n```js\nconst ready = true\n```\n\n# Content\n\n## Café `API`\n\n## Café API\n\n## !!!\n'
@@ -78,6 +79,7 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			assetsDirectory: join(project, "assets"),
 			stylesheet: "/assets/custom.css",
 			branding: {
+				favicon: "/assets/logo.svg",
 				logo: {
 					src: "/assets/logo.svg",
 					alt: "Fixture logo",
@@ -88,7 +90,13 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			header: {
 				links: [{ label: "GitHub", href: "https://github.com/example" }],
 			},
-			appearance: { defaultMode: "system" },
+			appearance: {
+				defaultMode: "system",
+				density: "compact",
+				radius: 0.25,
+				accent: { light: "#753c22", dark: "#e9b894" },
+				fonts: { code: { family: "Local Code", src: "/assets/code.woff2" } },
+			},
 			search: { enabled: true },
 			seo: { titleTemplate: "%s · Engine fixture" },
 		}
@@ -116,6 +124,19 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		assert.match(home, /class="docs-steps"/)
 		assert.match(home, /light \| dark/)
 		assert.match(home, /data-theme="system"/)
+		assert.match(home, /data-density="compact"/)
+		assert.match(home, /rel="icon" href="\/ask-widget\/assets\/logo.svg"/)
+		const css = await readFile(join(result.directory, "docs.css"), "utf8")
+		assert.match(css, /--radius:0.25rem/)
+		assert.match(css, /--accent:light-dark\(#753c22,#e9b894\)/)
+		assert.match(
+			css,
+			/src:url\("\/ask-widget\/assets\/code.woff2"\);font-display:optional/
+		)
+		assert.equal(
+			await readFile(join(result.directory, "assets/code.woff2"), "utf8"),
+			"Fixture font bytes"
+		)
 		assert.match(home, /href="\/ask-widget\/docs\.css"/)
 		assert.match(home, /src="\/ask-widget\/theme\.js"/)
 		assert.match(home, /src="\/ask-widget\/client\.js"/)

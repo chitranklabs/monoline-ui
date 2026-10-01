@@ -16,6 +16,7 @@ import { dirname, extname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { buildAstroDocs } from "./dist/astro-engine.js"
+import { loadConfig } from "./dist/index.js"
 
 const temporary = await mkdtemp(join(tmpdir(), "monoline-docs-browser-"))
 let browser
@@ -45,11 +46,17 @@ try {
 	)
 	await writeFile(
 		join(content, "wide.md"),
-		"---\ntitle: Wide page\nsidebar: false\ntoc: false\n---\n## Wide content\n"
+		`---\ntitle: ${"LongReferenceTitle".repeat(8)}\nnavTitle: Wide page\nsidebar: false\ntoc: false\nlayout: reference\n---\n## Wide content\n`
 	)
 	await writeFile(
 		join(content, "guide/install.md"),
-		`---\ntitle: Installation\n---\n## Installation\nFind the unique narwhal instructions here.\n\n> [!NOTE]\n> Keep your configuration safe.\n\n## ${"LongHeading".repeat(30)}\n\n| Name | Value |\n| --- | --- |\n| Wide | ${"TableContent".repeat(40)} |\n\n\`\`\`js\nconst example = "${"CodeContent".repeat(50)}"\n\`\`\`\n`
+		`---\ntitle: Installation\nupdatedAt: 2026-10-01\n---\n## Installation\nFind the unique narwhal instructions here.\n\n> [!NOTE]\n> Keep your configuration safe.\n\n## ${"LongHeading".repeat(30)}\n\n| Name | Value |\n| --- | --- |\n| Wide | ${"TableContent".repeat(40)} |\n\n\`\`\`js\nconst example = "${"CodeContent".repeat(50)}"\n\`\`\`\n`
+	)
+	const assets = join(temporary, "assets")
+	await mkdir(assets)
+	await writeFile(
+		join(assets, "icon.svg"),
+		'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2 14V2l6 8 6-8v12" fill="none" stroke="currentColor"/></svg>'
 	)
 	const outputs = new Map()
 	for (const [base, cleanUrls] of [
@@ -59,12 +66,34 @@ try {
 	]) {
 		const output = join(temporary, base === "/" ? "root" : base.slice(1, -1))
 		await buildAstroDocs({
-			title: "Browser fixture",
+			title:
+				base === "/ask-widget/"
+					? "Documentation for the Example SDK and its complete API reference"
+					: "Browser fixture",
 			contentDirectory: content,
 			outDirectory: output,
 			base,
 			cleanUrls,
 			react: true,
+			assetsDirectory: assets,
+			branding: { favicon: "/assets/icon.svg" },
+			appearance: {
+				density: base === "/handbook/" ? "compact" : "comfortable",
+				radius: 0.375,
+				accent: { light: "#753c22", dark: "#e9b894" },
+				fonts: { body: { family: "Arial" }, code: { family: "Courier New" } },
+			},
+			header: {
+				primaryAction: { label: "Get started", href: "/guide/install" },
+				announcement: {
+					text: "SDK 1.0 is available. Read the installation guide.",
+					href: "/guide/install",
+				},
+			},
+			content: {
+				showLastUpdated: base !== "/handbook/",
+				copyPageLink: base !== "/handbook/",
+			},
 			headerLinks: [{ label: "Guide", href: "/guide/install" }],
 			footer: {
 				text: "Released under MIT.",
@@ -96,6 +125,19 @@ try {
 		)
 		assert(!wide.includes('class="sidebar"'))
 		assert(wide.includes("<template data-docs-toc"))
+		const html = await readFile(
+			join(
+				output,
+				cleanUrls ? "guide/install.html" : "guide/install/index.html"
+			),
+			"utf8"
+		)
+		assert.equal(
+			html.includes('<time datetime="2026-10-01"'),
+			base !== "/handbook/"
+		)
+		assert.equal(html.includes('class="copy-page-link"'), base !== "/handbook/")
+		assert(html.includes(`rel="icon" href="${base}assets/icon.svg"`))
 	}
 	// Serve only generated files: development mode intentionally exposes drafts.
 	server = createServer(async (request, response) => {
@@ -156,10 +198,33 @@ try {
 	})
 	for (const [base, { cleanUrls }] of outputs) {
 		const context = await browser.newContext()
+		await context.addInitScript(() => {
+			window.docsLayoutShift = 0
+			new PerformanceObserver((list) => {
+				for (const entry of list.getEntries())
+					if (!entry.hadRecentInput) window.docsLayoutShift += entry.value
+			}).observe({ type: "layout-shift", buffered: true })
+		})
 		const page = await context.newPage()
 		const errors = []
 		page.on("pageerror", (error) => errors.push(error.message))
 		await page.goto(origin + base)
+		let searchRequests = 0
+		page.on("request", (request) => {
+			if (request.url().endsWith("search-index.json")) searchRequests++
+			assert(
+				new URL(request.url()).origin === origin,
+				`unexpected remote request: ${request.url()}`
+			)
+		})
+		assert.equal(searchRequests, 0, "search should load only on request")
+		await expect(page.locator("html")).toHaveAttribute(
+			"data-density",
+			base === "/handbook/" ? "compact" : "comfortable"
+		)
+		await expect(
+			page.getByRole("link", { name: "Get started", exact: true })
+		).toHaveAttribute("href", `${base}guide/install${cleanUrls ? "" : "/"}`)
 		await expect(
 			page.getByRole("heading", { name: "Welcome", exact: true })
 		).toBeVisible()
@@ -191,6 +256,12 @@ try {
 		const counter = page.getByRole("button", { name: "Count 0" })
 		await counter.click()
 		await expect(page.getByRole("button", { name: "Count 1" })).toBeVisible()
+		const layoutShift = await page.evaluate(() => window.docsLayoutShift)
+		assert(
+			layoutShift < 0.01,
+			`${base} initial CLS must stay below 0.01; got ${layoutShift}`
+		)
+		console.log(`${base} initial CLS: ${layoutShift}`)
 		await page.getByRole("link", { name: "nested guide", exact: true }).click()
 		await expect(page).toHaveURL(
 			`${origin}${base}guide/install${cleanUrls ? "" : "/"}#installation`
@@ -199,10 +270,41 @@ try {
 			page.locator('nav[aria-label="Documentation"] [aria-current="page"]')
 		).toHaveText("Installation")
 		await page.goto(`${origin}${base}guide/install${cleanUrls ? "" : "/"}`)
+		await expect
+			.poll(() =>
+				page
+					.locator(".sidebar")
+					.evaluate((element) =>
+						Math.abs(
+							element.getBoundingClientRect().top -
+								document.querySelector(".site-header").getBoundingClientRect()
+									.bottom
+						)
+					)
+			)
+			.toBeLessThan(2)
+		await expect(page.locator("time")).toHaveCount(
+			base === "/handbook/" ? 0 : 1
+		)
+		await expect(page.locator(".copy-page-link")).toHaveCount(
+			base === "/handbook/" ? 0 : 1
+		)
 		await page
 			.locator('nav[aria-label="On this page"] a[href="#installation"]')
 			.click()
 		await expect(page).toHaveURL(/#installation$/)
+		assert(
+			await page
+				.locator("h2#installation")
+				.evaluate(
+					(heading) =>
+						heading.getBoundingClientRect().top >=
+						document.querySelector(".site-header").getBoundingClientRect()
+							.bottom -
+							2
+				),
+			"heading anchor must clear the sticky header"
+		)
 		await expect(
 			page.locator("h2#installation .heading-anchor")
 		).toHaveAttribute("href", "#installation")
@@ -210,8 +312,10 @@ try {
 			"Keep your configuration safe."
 		)
 		const search = page.getByRole("button", { name: "Search", exact: true })
-		await search.click()
+		await page.keyboard.press("Control+k")
 		const input = page.getByRole("searchbox")
+		await expect(input).toBeFocused()
+		await page.keyboard.press("Control+k")
 		await expect(input).toBeFocused()
 		await input.fill("narwhal")
 		await expect(page.locator(".search-results a")).toHaveCount(1)
@@ -227,6 +331,11 @@ try {
 		await input.press("Escape")
 		await expect(page.getByRole("dialog")).not.toBeVisible()
 		await expect(search).toBeFocused()
+		assert.equal(
+			searchRequests,
+			1,
+			"reopening search must reuse its loaded index"
+		)
 		for (const theme of ["light", "dark", "system"]) {
 			await page
 				.getByRole("combobox", { name: "Color theme" })
@@ -263,6 +372,66 @@ try {
 			)
 		}
 		await page.setViewportSize({ width: 375, height: 812 })
+		const toggle = page.getByRole("button", { name: "Open navigation" })
+		await toggle.click()
+		const drawer = page.getByRole("dialog", {
+			name: "Documentation navigation",
+		})
+		await expect(drawer).toBeVisible()
+		await expect(
+			page.getByRole("button", { name: "Close navigation", exact: true })
+		).toBeFocused()
+		for (let step = 0; step < 8; step++) {
+			await page.keyboard.press("Tab")
+			// Native dialogs may tab to browser chrome, but never background content.
+			assert(
+				await drawer.evaluate(
+					(element) =>
+						!document.hasFocus() || element.contains(document.activeElement)
+				),
+				"drawer must exclude background keyboard focus"
+			)
+		}
+		await page.locator(".brand").evaluate((element) => element.focus())
+		assert(
+			await drawer.evaluate(
+				(element) =>
+					!document.hasFocus() || element.contains(document.activeElement)
+			),
+			"background must be inert"
+		)
+		await page
+			.getByRole("button", { name: "Close navigation", exact: true })
+			.focus()
+		await page.keyboard.press("Escape")
+		await expect(drawer).not.toBeVisible()
+		await expect(toggle).toBeFocused()
+		await toggle.click()
+		await page.keyboard.press("Control+k")
+		await expect(drawer).not.toBeVisible()
+		await expect(input).toBeFocused()
+		await input.press("Escape")
+		await toggle.click()
+		await page.setViewportSize({ width: 1440, height: 1000 })
+		await expect(drawer).not.toBeVisible()
+		await expect(toggle).toBeHidden()
+		await expect(page.locator(".layout > .sidebar")).toBeVisible()
+		await page.setViewportSize({ width: 375, height: 812 })
+		await toggle.click()
+		await page.mouse.click(350, 400)
+		await expect(drawer).not.toBeVisible()
+		await expect(toggle).toBeFocused()
+		await page.emulateMedia({ reducedMotion: "reduce" })
+		assert.equal(
+			await page
+				.locator(".sidebar")
+				.evaluate((element) => getComputedStyle(element).transitionDuration),
+			"0s"
+		)
+		await page.emulateMedia({ media: "print" })
+		await expect(page.locator(".site-header")).toBeHidden()
+		await expect(page.locator("article")).toBeVisible()
+		await page.emulateMedia({ media: "screen" })
 		await expect
 			.poll(() =>
 				page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
@@ -285,6 +454,40 @@ try {
 			[],
 			`${base} mobile accessibility`
 		)
+		if (process.env.DOCS_SCREENSHOT_DIR) {
+			await mkdir(process.env.DOCS_SCREENSHOT_DIR, { recursive: true })
+			await page.evaluate(() => scrollTo(0, 0))
+			for (const theme of ["light", "dark"]) {
+				await page
+					.getByRole("combobox", { name: "Color theme" })
+					.selectOption(theme)
+				for (const width of [375, 1440]) {
+					await page.setViewportSize({ width, height: 1000 })
+					await page.screenshot({
+						path: join(
+							process.env.DOCS_SCREENSHOT_DIR,
+							`${base.replaceAll("/", "") || "root"}-${theme}-${width}.png`
+						),
+						fullPage: false,
+					})
+				}
+			}
+		}
+		await page.goto(`${origin}${base}wide${cleanUrls ? "" : "/"}`)
+		assert(
+			await page.evaluate(
+				() => document.documentElement.scrollWidth <= innerWidth
+			),
+			"long reference title must not overflow"
+		)
+		assert.equal(
+			await page
+				.locator("main")
+				.evaluate((element) =>
+					getComputedStyle(element).getPropertyValue("--content-width")
+				),
+			"60rem"
+		)
 		for (const route of cleanUrls
 			? ["missing", "draft"]
 			: ["missing/", "draft/"]) {
@@ -294,6 +497,24 @@ try {
 			).toBeVisible()
 		}
 		assert.deepEqual(errors, [], `${base} browser errors`)
+		const mobilePage = await context.newPage()
+		await mobilePage.setViewportSize({ width: 375, height: 812 })
+		await mobilePage.goto(origin + base)
+		await expect(
+			mobilePage.getByRole("button", { name: "Open navigation" })
+		).toBeVisible()
+		await mobilePage.evaluate(async () => {
+			await document.fonts.ready
+			await new Promise((resolve) =>
+				requestAnimationFrame(() => requestAnimationFrame(resolve))
+			)
+		})
+		const mobileShift = await mobilePage.evaluate(() => window.docsLayoutShift)
+		assert(
+			mobileShift < 0.01,
+			`${base} initial mobile CLS must stay below 0.01; got ${mobileShift}`
+		)
+		console.log(`${base} initial mobile CLS: ${mobileShift}`)
 		await context.close()
 		const noJS = await browser.newContext({
 			javaScriptEnabled: false,
@@ -315,6 +536,32 @@ try {
 		console.log(
 			`PASS ${base}: production routes, navigation, search, themes, no-JS, mobile, axe`
 		)
+	}
+	if (process.env.DOCS_SCREENSHOT_DIR) {
+		const demoOutput = join(temporary, "demo")
+		const config = await loadConfig({
+			cwd: fileURLToPath(new URL("../../apps/docs-demo/", import.meta.url)),
+			overrides: { base: "/demo/" },
+		})
+		await buildAstroDocs({ ...config, outDirectory: demoOutput })
+		outputs.set("/demo/", { output: demoOutput, cleanUrls: false })
+		const demo = await browser.newPage()
+		await demo.goto(origin + "/demo/")
+		for (const theme of ["light", "dark"]) {
+			await demo
+				.getByRole("combobox", { name: "Color theme" })
+				.selectOption(theme)
+			for (const width of [375, 1440]) {
+				await demo.setViewportSize({ width, height: 1000 })
+				await demo.screenshot({
+					path: join(
+						process.env.DOCS_SCREENSHOT_DIR,
+						`demo-${theme}-${width}.png`
+					),
+				})
+			}
+		}
+		await demo.close()
 	}
 } finally {
 	await browser?.close()
