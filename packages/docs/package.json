@@ -25,11 +25,11 @@
 		"templates"
 	],
 	"engines": {
-		"node": ">=24.14.0"
+		"node": ">=24.21.0"
 	},
 	"dependencies": {
-		"js-yaml": "5.4.1",
-		"markdown-it": "15.0.1",
+		"js-yaml": "5.4.2",
+		"markdown-it": "15.0.2",
 		"prismjs": "1.30.0"
 	},
 	"devDependencies": {
