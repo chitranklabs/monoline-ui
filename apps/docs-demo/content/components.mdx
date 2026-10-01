@@ -15,6 +15,8 @@ import CodeGroup from "@chitrank2050/monoline-docs/components/CodeGroup.astro"
 import Figure from "@chitrank2050/monoline-docs/components/Figure.astro"
 import FileTree from "@chitrank2050/monoline-docs/components/FileTree.astro"
 import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import PackageInstall from "@chitrank2050/monoline-docs/components/PackageInstall.astro"
+import PackageReference from "@chitrank2050/monoline-docs/components/PackageReference.astro"
 import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
 import Step from "@chitrank2050/monoline-docs/components/Step.astro"
 import Steps from "@chitrank2050/monoline-docs/components/Steps.astro"
@@ -128,15 +130,7 @@ base; blocked storage still permits synchronization on the current page.
 Ordinary `Tabs` stay independent. All commands remain readable without JavaScript
 and when printing; the largest panel reserves space to avoid layout shifts.
 
-<CodeGroup
-	id="sdk-install"
-	commands={{
-		npm: "npm install example-sdk",
-		pnpm: "pnpm add example-sdk",
-		yarn: "yarn add example-sdk",
-		bun: "bun add example-sdk",
-	}}
-/>
+<PackageInstall id="install-commands" name="example-sdk" />
 
 <CodeGroup
 	id="sdk-run"
@@ -283,3 +277,28 @@ import Counter from "../components/Counter.jsx"
 	<Counter client:load />
 </Preview>
 ```
+
+## Library reference
+
+`PackageInstall` generates npm, pnpm, Yarn and Bun commands through `CodeGroup`.
+Use a page-unique `id`, an npm package `name`, an optional exact `version` or
+distribution tag, and `dev={true}` for a development dependency. Version ranges
+and arbitrary shell fragments are rejected.
+
+`PackageReference` displays declared compatibility, exports, package/source links
+and slotted copyable examples. Compatibility comes from the author; Monoline
+does not infer it from package metadata. Use `layout: reference` in frontmatter
+for the wider reference layout. Add `TypeTable` for detailed option types.
+
+<PackageReference
+	name="example-sdk"
+	version="1.0.0"
+	packageHref={"<https://www.npmjs.com/package/example-sdk"}>
+	sourceHref={"<https://github.com/example/sdk"}>
+	compatibility={["Example: Node.js 22", "Example: ES modules"]}
+	exports={[
+		{ name: "Client", type: "class", description: "Example API client." },
+	]}
+>
+<CodeBlock language="js" code={"import { Client } from 'example-sdk'"} />
+</PackageReference>

@@ -27,7 +27,8 @@
 | 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01.                          |
 | 3            | Complete | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation.                  |
 | 4            | Complete | Static authoring components and synchronized CodeGroup verified: 171 package tests, engine/demo, packed npm/strict pnpm public imports, keyboard/no-JS/print and Chrome/axe at root/subpath/clean URLs. |
-| 5–7          | Pending  | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                                                      |
+| 5            | Complete | Library references and local OpenAPI verified: 193 tests, typecheck/lint, package/demo builds, packed npm/strict pnpm and Chrome/axe at root/subpath/clean URLs.                                        |
+| 6–7          | Pending  | Search/SEO/integration and remaining release work follow.                                                                                                                                               |
 | Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                                                    |
 
 ## Batch 1 — Product configuration and stable content contract
@@ -111,17 +112,21 @@
 
 **Owns:** existing reference components and content/route pipeline; add a focused OpenAPI module only where existing responsibilities do not fit.
 
-- [ ] Add package installation UI and npm/pnpm/Yarn/Bun examples using CodeGroup.
-- [ ] Finish reference layout for types, exports, compatibility, package/source links and copyable examples.
-- [ ] Accept local OpenAPI 3.0/3.1 files and validate unsupported/invalid input with the source path.
-- [ ] Generate deterministic endpoint routes, tag navigation and operation/schema deep links in the existing manifest; reject collisions with authored pages.
-- [ ] Render parameters, request bodies, response schemas and examples, including local references and recursive schemas without infinite expansion.
-- [ ] Generate copyable request examples with explicit placeholders for credentials.
-- [ ] Verify one packed library fixture and one OpenAPI fixture, including invalid spec and duplicate-operation cases.
+- [x] Add package installation UI and npm/pnpm/Yarn/Bun examples using CodeGroup.
+- [x] Finish reference layout for types, exports, compatibility, package/source links and copyable examples.
+- [x] Accept local OpenAPI 3.0/3.1 files and validate unsupported/invalid input with the source path.
+- [x] Generate deterministic endpoint routes, tag navigation and operation/schema deep links in the existing manifest; reject collisions with authored pages.
+- [x] Render parameters, request bodies, response schemas and examples, including local references and recursive schemas without infinite expansion.
+- [x] Generate copyable request examples with explicit placeholders for credentials.
+- [x] Verify one packed library fixture and one OpenAPI fixture, including invalid spec and duplicate-operation cases.
 
 **Done when:** a library and an API can produce useful static reference pages without hand-authoring every endpoint.
 
 **Deferred:** interactive API requests, credential storage, proxy services and AsyncAPI. Remote reference loading is opt-in only after fetch policy is designed.
+
+**Verification:** PackageInstall reuses CodeGroup for four package managers; PackageReference reuses TypeTable, explicit compatibility declarations, package/source links and slotted CodeBlock examples. Both components render through public imports in packed npm and strict pnpm consumers. Local JSON/YAML OpenAPI 3.0/3.1 files generate overview, operation and component-schema pages in the existing manifest, with default first-tag navigation and authored-route collision checks. Specifications are read once; pointer targets and validated schema objects are cached. Schema validation is independent of the six-level display bound; file/object/nesting/expansion limits and cycle detection prevent unbounded processing. Generated Markdown stays inside owned temporary staging, uses the existing renderer, and adds no client script or dependency. Preview tracks the specification dependency. Source/output overlap is rejected; invalid versions, duplicate operation IDs and authored collisions preserve last-good output and unrelated files. Independent review findings around examples, named dictionaries, boolean schemas, deep validation and security alternatives were fixed with regressions; focused re-review found no remaining important defect. All 193 package tests, typecheck, targeted lint/format, package build, engine fixture, nine-page demo and packed consumers pass. Production Chrome verifies copied request placeholders, schema links without JavaScript, both themes and 375/1440px widths across root/subpath/clean routes, with no axe violations or viewport overflow. API and library screenshots were inspected; saved-manager CLS remains 0 on mobile and 0.00715–0.00853 on desktop.
+
+**Rulings and limits:** Explicit navigation remains authoritative; otherwise generated operations group by their first tag. Local JSON-pointer references are supported; external files, URLs and anchors are rejected. This renderer validates consumed structures rather than full OpenAPI conformance. Requests use explicit URL/value/body/authentication placeholders, while supplied documentation examples are published as escaped code and must contain fictitious data. No metadata fetching or compatibility inference is introduced.
 
 ## Batch 6 — Search, SEO and integration
 

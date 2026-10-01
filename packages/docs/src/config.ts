@@ -80,6 +80,8 @@ export interface MonolineDocsConfig {
 	outDirectory?: string
 	assetsDirectory?: string
 	stylesheet?: string
+	/** Local OpenAPI 3.0/3.1 document; routes live below the given prefix. */
+	openapi?: { file: string; route: `/${string}` }
 	navigation?: NavigationConfig
 	branding?: DocsBrandingConfig
 	header?: DocsHeaderConfig
@@ -159,6 +161,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"outDirectory",
 		"assetsDirectory",
 		"stylesheet",
+		"openapi",
 		"navigation",
 		"branding",
 		"header",
@@ -176,6 +179,15 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"environment",
 	])
 	string(config.title, "title")
+	if (config.openapi !== undefined) {
+		object(config.openapi, "openapi", ["file", "route"])
+		string(config.openapi.file, "openapi.file")
+		string(config.openapi.route, "openapi.route")
+		if (!safeRoute(config.openapi.route) || config.openapi.route === "/")
+			throw new Error("openapi.route must be a non-root documentation route")
+		if (/^[a-z]+:\/\//i.test(config.openapi.file))
+			throw new Error("openapi.file must be a local file")
+	}
 	if (config.indexing !== undefined && typeof config.indexing !== "boolean")
 		throw new Error("indexing must be a boolean")
 	if (config.cleanUrls !== undefined && typeof config.cleanUrls !== "boolean")

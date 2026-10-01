@@ -45,6 +45,8 @@ for (const name of [
 	"TypeTable",
 	"CodeBlock",
 	"CodeGroup",
+	"PackageInstall",
+	"PackageReference",
 	"LinkCard",
 	"Step",
 	"Steps",

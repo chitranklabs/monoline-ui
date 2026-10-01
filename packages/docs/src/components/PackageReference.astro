@@ -1,0 +1,77 @@
+---
+import TypeTable from "./TypeTable.astro"
+interface Props {
+	name: string
+	version?: string
+	packageHref: string
+	sourceHref?: string
+	compatibility: string[]
+	exports: Array<{
+		name: string
+		type: string
+		description: string
+		required?: boolean
+	}>
+}
+const {
+	name,
+	version,
+	packageHref,
+	sourceHref,
+	compatibility,
+	exports: rows,
+} = Astro.props
+if (typeof name !== "string" || !name.trim())
+	throw new Error("PackageReference name is required")
+for (const href of [packageHref, sourceHref].filter(
+	(value) => value !== undefined
+)) {
+	let url: URL
+	try {
+		url = new URL(href!)
+	} catch {
+		throw new Error("PackageReference links must be absolute HTTP(S) URLs")
+	}
+	if (
+		!["http:", "https:"].includes(url.protocol) ||
+		url.username ||
+		url.password
+	)
+		throw new Error(
+			"PackageReference links must be absolute HTTP(S) URLs without credentials"
+		)
+}
+if (typeof packageHref !== "string")
+	throw new Error("PackageReference packageHref is required")
+if (version !== undefined && (typeof version !== "string" || !version.trim()))
+	throw new Error("PackageReference version must be nonempty")
+if (
+	!Array.isArray(compatibility) ||
+	!compatibility.length ||
+	compatibility.some((value) => typeof value !== "string" || !value.trim())
+)
+	throw new Error(
+		"PackageReference compatibility must contain explicit supported environments"
+	)
+---
+
+<section aria-label={`${name} package reference`}>
+	<p>
+		<strong>{name}</strong>
+		{version && ` · ${version}`}
+	</p>
+	<p>
+		<a href={packageHref}>Package</a>
+		{sourceHref && (
+			<>
+				{" "}
+				· <a href={sourceHref}>Source</a>
+			</>
+		)}
+	</p>
+	<p>
+		<strong>Compatibility:</strong> {compatibility.join(" · ")}
+	</p>
+	<TypeTable rows={rows} caption="Package exports" />
+	<slot />
+</section>

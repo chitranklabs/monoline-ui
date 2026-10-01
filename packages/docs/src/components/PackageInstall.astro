@@ -1,0 +1,34 @@
+---
+import CodeGroup from "./CodeGroup.astro"
+interface Props {
+	id: string
+	name: string
+	version?: string
+	dev?: boolean
+}
+const { id, name, version, dev = false } = Astro.props
+if (
+	typeof name !== "string" ||
+	!/^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/.test(name)
+)
+	throw new Error("PackageInstall name must be an npm package name")
+if (
+	version !== undefined &&
+	(typeof version !== "string" ||
+		!/^[a-zA-Z0-9][a-zA-Z0-9.+_-]*$/.test(version))
+)
+	throw new Error(
+		"PackageInstall version must be a version or distribution tag"
+	)
+if (typeof dev !== "boolean")
+	throw new Error("PackageInstall dev must be a boolean")
+const target = name + (version ? `@${version}` : "")
+const commands = {
+	npm: `npm install${dev ? " --save-dev" : ""} ${target}`,
+	pnpm: `pnpm add${dev ? " --save-dev" : ""} ${target}`,
+	yarn: `yarn add${dev ? " --dev" : ""} ${target}`,
+	bun: `bun add${dev ? " --dev" : ""} ${target}`,
+}
+---
+
+<CodeGroup id={id} commands={commands} />

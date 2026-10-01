@@ -59,6 +59,8 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			"Preview",
 			"TypeTable",
 			"CodeGroup",
+			"PackageInstall",
+			"PackageReference",
 		]
 			.map(
 				(name) =>
@@ -66,6 +68,8 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			)
 			.join("\n")
 		const authoringMarkup = `
+<PackageInstall id="sdk-install" name="@example/sdk" version="1.0.0" />
+<PackageReference name="@example/sdk" packageHref="https://www.npmjs.com/package/example-sdk" sourceHref="https://github.com/example/sdk" compatibility={["Node.js 22", "ES modules"]} exports={[{ name: "Client", type: "class", description: "API client" }]}><CodeBlock code={"import { Client } from '@example/sdk'"} language="js" /></PackageReference>
 <CodeGroup id="engine-install" commands={{ npm: "npm install sdk", pnpm: "pnpm add sdk", yarn: "yarn add sdk", bun: "bun add sdk" }} />
 <Badge variant="accent">Stable</Badge>
 <Accordion title="Configuration details"><p>Set your documentation base.</p></Accordion>
@@ -323,6 +327,21 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 		for (const [component, markup, message] of [
 			["CardGrid", "<CardGrid columns={4} />", /CardGrid columns/],
 			[
+				"PackageInstall",
+				'<PackageInstall id="unsafe" name="sdk; echo secret" />',
+				/npm package name/,
+			],
+			[
+				"PackageInstall",
+				'<PackageInstall id="unsafe" name="sdk" version="$(echo secret)" />',
+				/version or distribution tag/,
+			],
+			[
+				"PackageReference",
+				'<PackageReference name="sdk" packageHref="javascript:alert(1)" compatibility={["Node"]} exports={[]} />',
+				/HTTP\(S\)/,
+			],
+			[
 				"Accordion",
 				'<Accordion title="Details" open="yes" />',
 				/Accordion open/,
@@ -500,6 +519,129 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			"published-safe",
 			"src",
 		])
+		assert.deepEqual(
+			(await readdir(packageDirectory, { recursive: true })).sort(),
+			packageFiles
+		)
+		await writeFile(
+			join(contentDirectory, "index.mdx"),
+			"---\ntitle: Home\n---\n# Home\n\n## API"
+		)
+		const specFile = join(project, "api.json")
+		const spec = {
+			openapi: "3.1.0",
+			info: { title: "Pets", version: "1" },
+			paths: {
+				"/pets/{id}": {
+					get: {
+						operationId: "getPet",
+						tags: ["Pets"],
+						parameters: [
+							{
+								name: "id",
+								in: "path",
+								required: true,
+								schema: { type: "string" },
+							},
+						],
+						responses: {
+							200: {
+								description: "Found",
+								content: {
+									"application/json": {
+										schema: { $ref: "#/components/schemas/Pet" },
+										example: { id: "one" },
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			components: {
+				schemas: {
+					Pet: {
+						type: "object",
+						properties: {
+							id: { type: "string" },
+							parent: { $ref: "#/components/schemas/Pet" },
+						},
+					},
+				},
+			},
+		}
+		await writeFile(specFile, JSON.stringify(spec))
+		const apiOptions = {
+			...options,
+			navigation: undefined,
+			openapi: { file: specFile, route: "/reference" },
+		}
+		for (const cleanUrls of [false, true]) {
+			const apiOutput = await buildAstroSite({ ...apiOptions, cleanUrls })
+			outputs.push(apiOutput)
+			assert(apiOutput.dependencies.includes(specFile))
+			const apiHtml = await readFile(
+				join(
+					apiOutput.directory,
+					cleanUrls
+						? "reference/operations/getpet.html"
+						: "reference/operations/getpet/index.html"
+				),
+				"utf8"
+			)
+			assert(apiHtml.includes("&lt;ID&gt;"))
+			assert(apiHtml.includes("Responses"))
+			assert(apiHtml.includes("reference/schemas/pet"))
+			assert(!apiHtml.includes("astro-island"))
+		}
+		const apiPublished = {
+			...apiOptions,
+			outDirectory: join(project, "published-api"),
+		}
+		await buildAstroDocs(apiPublished)
+		const operationFile = join(
+			apiPublished.outDirectory,
+			"reference/operations/getpet/index.html"
+		)
+		const apiLastGood = await readFile(operationFile, "utf8")
+		await writeFile(specFile, JSON.stringify({ ...spec, openapi: "2.0" }))
+		await assert.rejects(
+			buildAstroDocs(apiPublished),
+			/api.json.*OpenAPI 3.0 or 3.1/
+		)
+		assert.equal(await readFile(operationFile, "utf8"), apiLastGood)
+		assert.equal(
+			await readFile(join(outDirectory, "keep.txt"), "utf8"),
+			"Previous output is not the engine staging directory"
+		)
+		await writeFile(specFile, JSON.stringify(spec))
+		await writeFile(
+			join(contentDirectory, "collision.md"),
+			"---\ntitle: Collision\nslug: reference/operations/getpet\n---"
+		)
+		await assert.rejects(
+			buildAstroSite(apiOptions),
+			/duplicate documentation route/
+		)
+		await writeFile(
+			specFile,
+			JSON.stringify({
+				...spec,
+				paths: {
+					"/one": spec.paths["/pets/{id}"],
+					"/two": spec.paths["/pets/{id}"],
+				},
+			})
+		)
+		await assert.rejects(buildAstroDocs(apiPublished), /Duplicate operationId/)
+		assert.equal(await readFile(operationFile, "utf8"), apiLastGood)
+		await assert.rejects(
+			buildAstroDocs({
+				...apiOptions,
+				openapi: { file: join(outDirectory, "keep.txt"), route: "/reference" },
+			}),
+			/OpenAPI source must not be inside/
+		)
 		assert.deepEqual(
 			(await readdir(packageDirectory, { recursive: true })).sort(),
 			packageFiles

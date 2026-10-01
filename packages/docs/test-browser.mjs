@@ -88,6 +88,55 @@ try {
 		)
 	)
 	const outputs = new Map()
+	const specFile = join(temporary, "openapi.json")
+	await writeFile(
+		specFile,
+		JSON.stringify({
+			openapi: "3.1.0",
+			info: { title: "Pets API", version: "1" },
+			paths: {
+				"/pets/{id}": {
+					get: {
+						operationId: "getPet",
+						tags: ["Pets"],
+						summary: "Retrieve a pet",
+						parameters: [
+							{
+								name: "id",
+								in: "path",
+								required: true,
+								schema: { type: "string" },
+							},
+						],
+						security: [{ token: [] }],
+						responses: {
+							200: {
+								description: "The pet",
+								content: {
+									"application/json": {
+										schema: { $ref: "#/components/schemas/Pet" },
+										example: { id: "one" },
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			components: {
+				securitySchemes: { token: { type: "http", scheme: "bearer" } },
+				schemas: {
+					Pet: {
+						type: "object",
+						properties: {
+							id: { type: "string" },
+							parent: { $ref: "#/components/schemas/Pet" },
+						},
+					},
+				},
+			},
+		})
+	)
 	for (const [base, cleanUrls] of [
 		["/", false],
 		["/handbook/", false],
@@ -103,6 +152,7 @@ try {
 			outDirectory: output,
 			base,
 			cleanUrls,
+			openapi: { file: specFile, route: "/reference" },
 			react: true,
 			assetsDirectory: assets,
 			branding: { favicon: "/assets/icon.svg" },
@@ -162,7 +212,15 @@ try {
 							{
 								label: "Reference",
 								expanded: true,
-								items: [{ label: "API reference", href: "/api" }],
+								items: [
+									{ label: "API reference", href: "/api" },
+									{ label: "Pets API", href: "/reference" },
+									{
+										label: "Retrieve a pet",
+										href: "/reference/operations/getpet",
+									},
+									{ label: "Pet schema", href: "/reference/schemas/pet" },
+								],
 							},
 						],
 					},
@@ -562,7 +620,11 @@ try {
 		).toContainText("API")
 		await expect(page.locator(".sidebar")).toContainText("API reference")
 		await expect(page.locator(".sidebar")).not.toContainText("Installation")
-		await expect(page.locator(".pager a")).toHaveCount(0)
+		await expect(page.locator(".pager a")).toHaveCount(1)
+		await expect(page.locator(".pager a")).toHaveAttribute(
+			"href",
+			`${base}reference${cleanUrls ? "" : "/"}`
+		)
 		// Keep a real overflowing sidebar across a full document navigation.
 		await page.setViewportSize({ width: 1440, height: 240 })
 		await page.goto(`${origin}${base}guide/install${cleanUrls ? "" : "/"}`)
@@ -812,6 +874,13 @@ try {
 							`figures-${base === "/" ? "root" : base.slice(1, -1)}-${theme}-${width}.png`
 						),
 					})
+					await page.locator("#library-reference").scrollIntoViewIfNeeded()
+					await page.screenshot({
+						path: join(
+							process.env.DOCS_SCREENSHOT_DIR,
+							`library-${base === "/" ? "root" : base.slice(1, -1)}-${theme}-${width}.png`
+						),
+					})
 				}
 			}
 		}
@@ -868,12 +937,78 @@ try {
 			)
 			.toBeLessThanOrEqual(2)
 
+		for (const theme of ["light", "dark"]) {
+			for (const width of [375, 1440]) {
+				await page.setViewportSize({ width, height: 1000 })
+				await page.goto(
+					`${origin}${base}reference/operations/getpet${cleanUrls ? "" : "/"}`
+				)
+				await page
+					.getByRole("combobox", { name: "Color theme" })
+					.selectOption(theme)
+				await expect(
+					page.getByRole("heading", { name: "Retrieve a pet", level: 1 })
+				).toBeVisible()
+				await expect(page.locator("main pre").last()).toContainText("<TOKEN>")
+				await page.evaluate(() => {
+					Object.defineProperty(navigator, "clipboard", {
+						configurable: true,
+						value: {
+							writeText: async (text) => {
+								window.copiedRequest = text
+							},
+						},
+					})
+				})
+				await page.locator("main .copy-code").last().click()
+				await expect
+					.poll(() => page.evaluate(() => window.copiedRequest))
+					.toContain("Bearer <TOKEN>")
+				assert(
+					await page.evaluate(
+						() => document.documentElement.scrollWidth <= innerWidth
+					),
+					"API reference must not overflow"
+				)
+				const result = await page.evaluate(async (source) => {
+					;(0, eval)(source)
+					return axe.run(document, {
+						runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa"] },
+					})
+				}, axe.source)
+				assert.deepEqual(
+					result.violations.map((issue) => issue.id),
+					[]
+				)
+				if (process.env.DOCS_SCREENSHOT_DIR)
+					await page.screenshot({
+						path: join(
+							process.env.DOCS_SCREENSHOT_DIR,
+							`api-${base === "/" ? "root" : base.slice(1, -1)}-${theme}-${width}.png`
+						),
+					})
+			}
+		}
 		await context.close()
 		const noJS = await browser.newContext({
 			javaScriptEnabled: false,
 			viewport: { width: 375, height: 812 },
 		})
 		const plain = await noJS.newPage()
+		await plain.goto(
+			`${origin}${base}reference/operations/getpet${cleanUrls ? "" : "/"}`
+		)
+		await expect(plain.locator("main pre").last()).toContainText("<TOKEN>")
+		await expect(
+			plain.getByRole("heading", { name: /^Responses/, level: 2 })
+		).toBeVisible()
+		await plain
+			.locator("main")
+			.getByRole("link", { name: "Pet", exact: true })
+			.click()
+		await expect(
+			plain.getByRole("heading", { name: "Pet", level: 1 })
+		).toBeVisible()
 		await plain.goto(origin + base)
 		await expect(plain.getByRole("tab")).toHaveCount(0)
 		await expect(plain.locator(".docs-tab-list")).not.toBeVisible()

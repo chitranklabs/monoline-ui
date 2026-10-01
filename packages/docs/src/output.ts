@@ -49,6 +49,11 @@ export async function resolveOutput(
 		if (inside(assets, output) || inside(output, assets))
 			throw new Error("Assets and output directories must not overlap")
 	}
+	if (config.openapi) {
+		const source = await realpath(resolve(config.openapi.file))
+		if (inside(output, source))
+			throw new Error("OpenAPI source must not be inside the output directory")
+	}
 	return output
 }
 

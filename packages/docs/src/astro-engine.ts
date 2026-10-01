@@ -21,6 +21,7 @@ import { type DocumentationPage, discoverPages } from "./content.ts"
 import { createHeadingId } from "./heading-id.ts"
 import { createPageLinks } from "./links.ts"
 import { buildNavigation } from "./navigation.ts"
+import { loadOpenApi } from "./openapi.ts"
 import { publishFiles, resolveOutput } from "./output.ts"
 import {
 	type RenderedPage,
@@ -89,6 +90,20 @@ export async function buildAstroSite(
 	const pages = await discoverPages(content, {
 		environment: options.environment,
 	})
+	const generated = options.openapi
+		? await loadOpenApi(options.openapi.file, options.openapi.route)
+		: undefined
+	if (generated) {
+		const routes = new Set(pages.map((page) => page.route))
+		for (const page of generated.pages) {
+			if (routes.has(page.route))
+				throw new Error(
+					`${generated.dependency}: duplicate documentation route ${page.route}`
+				)
+			pages.push(page)
+		}
+		pages.sort((a, b) => a.route.localeCompare(b.route))
+	}
 	const assets = await collectAssets(options.assetsDirectory)
 	const assetUrl = createAssetUrl(assets, options.base)
 	const appearance = options.appearance
@@ -126,14 +141,36 @@ export async function buildAstroSite(
 		if (!safeRoute(page.route))
 			throw new Error(`Unsupported documentation route: ${page.route}`)
 	}
-	const navigation = buildNavigation(pages, options.navigation)
-	const workspace = await mkdtemp(join(tmpdir(), "monoline-astro-"))
+	const navigationConfig =
+		options.navigation ??
+		(generated
+			? [
+					...pages
+						.filter((page) => !generated.pages.includes(page))
+						.map((page) => ({
+							label: page.metadata.navTitle ?? page.metadata.title,
+							href: page.route,
+						})),
+					...generated.navigation,
+				]
+			: undefined)
+	const navigation = buildNavigation(pages, navigationConfig)
+	const workspace = await realpath(
+		await mkdtemp(join(tmpdir(), "monoline-astro-"))
+	)
 	const directory = join(workspace, "output")
 	const dependencies = new Set<string>()
+	if (generated) dependencies.add(generated.dependency)
 	const runtime = dirname(fileURLToPath(import.meta.url))
 	const dispose = () => rm(workspace, { recursive: true, force: true })
 	try {
 		await mkdir(join(workspace, "source"))
+		if (generated) {
+			for (const [index, page] of generated.pages.entries()) {
+				page.filePath = join(workspace, "source", `openapi-${index}.md`)
+				await writeFile(page.filePath, page.source)
+			}
+		}
 		const virtualId = "virtual:monoline-docs/pages"
 		const resolvedId = `\0${virtualId}`
 		const sources = new Map(
@@ -175,7 +212,7 @@ export async function buildAstroSite(
 				searchEnabled: options.search.enabled,
 				titleTemplate: options.seo.titleTemplate,
 			})};`,
-			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},editHref:${JSON.stringify(options.editLink ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
+			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},editHref:${JSON.stringify(options.editLink && !generated?.pages.includes(page) ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
 		].join("\n")
 		const integration: AstroIntegration = {
 			name: "monoline-docs",
