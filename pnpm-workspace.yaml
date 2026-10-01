@@ -17,7 +17,7 @@ minimumReleaseAgeExclude:
 overrides:
   postcss: ">=8.5.23"
   esbuild: ">=0.28.1"
-  js-yaml: ">=5.2.2"
+  js-yaml: ">=5.4.1"
   markdown-it: ">=14.3.0"
   brace-expansion@^1: "^1.1.18"
   brace-expansion@^2: "^2.1.4"
