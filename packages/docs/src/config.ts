@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from "node:util"
 
 import { isAssetName } from "./assets.ts"
-import type { NavigationItem } from "./navigation.ts"
+import type { NavigationConfig } from "./navigation.ts"
 
 export interface DocsLink {
 	label: string
@@ -80,7 +80,7 @@ export interface MonolineDocsConfig {
 	outDirectory?: string
 	assetsDirectory?: string
 	stylesheet?: string
-	navigation?: NavigationItem[]
+	navigation?: NavigationConfig
 	branding?: DocsBrandingConfig
 	header?: DocsHeaderConfig
 	sidebar?: DocsSidebarConfig
@@ -393,21 +393,73 @@ export function defineConfig(config: MonolineDocsConfig) {
 			throw new Error("navigation is cyclic or exceeds 20 nested groups")
 		seen.add(items)
 		for (const item of items) {
-			object(item, "navigation entry", ["label", "href", "items"])
+			object(item, "navigation entry", [
+				"label",
+				"href",
+				"items",
+				"icon",
+				"badge",
+				"order",
+				"expanded",
+			])
+			decoration(item)
 			string(item.label, "navigation.label")
 			if ((item.href !== undefined) === (item.items !== undefined))
 				throw new Error(
 					"navigation entry must have exactly one of href or items"
 				)
 			if (item.href !== undefined) {
+				if (item.expanded !== undefined)
+					throw new Error("navigation.expanded is only valid on groups")
 				string(item.href, "navigation.href")
 				if (!safeRoute(item.href))
 					throw new Error("navigation.href must be a documentation route")
-			} else navigation(item.items, depth + 1)
+			} else {
+				if (item.expanded !== undefined && typeof item.expanded !== "boolean")
+					throw new Error("navigation.expanded must be a boolean")
+				navigation(item.items, depth + 1)
+			}
 		}
 		seen.delete(items)
 	}
-	if (config.navigation !== undefined) navigation(config.navigation)
+	function decoration(item: Record<string, unknown>): void {
+		if (item.icon !== undefined) {
+			string(item.icon, "navigation.icon")
+			if ([...item.icon].length > 8 || /[\r\n]/.test(item.icon))
+				throw new Error("navigation.icon must be a short text glyph")
+		}
+		if (item.badge !== undefined) string(item.badge, "navigation.badge")
+		if (
+			item.order !== undefined &&
+			(typeof item.order !== "number" || !Number.isFinite(item.order))
+		)
+			throw new Error("navigation.order must be a finite number")
+	}
+	if (config.navigation !== undefined) {
+		if (Array.isArray(config.navigation)) navigation(config.navigation)
+		else {
+			object(config.navigation, "navigation", ["sections"])
+			const sections = config.navigation.sections
+			if (!Array.isArray(sections) || !sections.length)
+				throw new Error("navigation.sections must be a non-empty array")
+			for (const section of sections) {
+				object(section, "navigation section", [
+					"label",
+					"href",
+					"items",
+					"icon",
+					"badge",
+					"order",
+				])
+				string(section.label, "navigation.label")
+				decoration(section)
+				string(section.href, "navigation.href")
+				if (!safeRoute(section.href))
+					throw new Error("navigation.href must be a documentation route")
+				navigation(section.items)
+			}
+		}
+	}
 	return {
 		...config,
 		indexing: config.indexing ?? true,

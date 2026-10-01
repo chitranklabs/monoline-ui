@@ -15,16 +15,25 @@ const href = (route) =>
 	site.base +
 	(route === "/" ? "" : route.slice(1) + (site.cleanUrls ? "" : "/"))
 const linkHref = (value) => (value.startsWith("/") ? href(value) : value)
-const index = site.navigation.sequence.findIndex(
-	(entry) => entry.href === page.route
-)
-const previous = index > 0 ? site.navigation.sequence[index - 1] : undefined
-const next = index >= 0 ? site.navigation.sequence[index + 1] : undefined
+const activeSection =
+	site.navigation.sections[site.navigation.sectionByRoute[page.route]]
+const navigationItems =
+	activeSection?.items ??
+	(site.navigation.sections.length ? [] : site.navigation.items)
+const sequence =
+	activeSection?.sequence ??
+	(site.navigation.sections.length ? [] : site.navigation.sequence)
+const index = sequence.findIndex((entry) => entry.href === page.route)
+const previous = index > 0 ? sequence[index - 1] : undefined
+const next = index >= 0 ? sequence[index + 1] : undefined
 const description = page.metadata.description ?? site.description ?? ""
 const canonical = site.site
 	? new URL(href(page.route), site.site).href
 	: undefined
-const showSidebar = site.sidebarEnabled && page.metadata.sidebar !== false
+const showSidebar =
+	site.sidebarEnabled &&
+	page.metadata.sidebar !== false &&
+	navigationItems.length > 0
 const showToc = page.metadata.toc !== false
 const showUpdatedAt = site.showLastUpdated && page.metadata.updatedAt
 const pageTitle = site.titleTemplate.replace(
@@ -47,7 +56,7 @@ const findTrail = (items, route, trail = []) => {
 		}
 	}
 }
-const trail = findTrail(site.navigation.items, page.route) ?? [
+const trail = findTrail(navigationItems, page.route) ?? [
 	{ label: page.metadata.navTitle ?? page.metadata.title, href: page.route },
 ]
 ---
@@ -57,6 +66,7 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 	lang={site.lang}
 	data-theme={site.defaultMode}
 	data-density={site.density}
+	data-base={site.base}
 >
 	<head>
 		<meta charset="utf-8" />
@@ -162,6 +172,24 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 					</label>
 				</div>
 			</div>
+			{site.navigation.sections.length > 0 && (
+				<nav class="section-links" aria-label="Documentation sections">
+					{site.navigation.sections.map((section) => (
+						<a
+							href={href(section.href)}
+							aria-current={section === activeSection ? "true" : undefined}
+						>
+							{section.icon && (
+								<span class="nav-icon" aria-hidden="true">
+									{section.icon}
+								</span>
+							)}
+							{section.label}
+							{section.badge && <span class="nav-badge">{section.badge}</span>}
+						</a>
+					))}
+				</nav>
+			)}
 		</header>
 		{site.searchEnabled && (
 			<dialog
@@ -213,10 +241,11 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 				<aside
 					id="docs-sidebar"
 					class="sidebar"
+					data-section={activeSection?.href ?? ""}
 					aria-label="Documentation sidebar"
 				>
 					<div class="sidebar-heading">
-						<span>Documentation</span>
+						<span>{activeSection?.label ?? "Documentation"}</span>
 						<button
 							class="nav-close"
 							type="button"
@@ -230,7 +259,7 @@ const trail = findTrail(site.navigation.items, page.route) ?? [
 					</div>
 					<nav aria-label="Documentation">
 						<Navigation
-							items={site.navigation.items}
+							items={navigationItems}
 							current={page.route}
 							base={site.base}
 							cleanUrls={site.cleanUrls}

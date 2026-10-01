@@ -38,7 +38,7 @@ try {
 	)
 	await writeFile(
 		join(content, "index.mdx"),
-		`---\ntitle: Welcome\n---\nimport Counter from "../Counter.jsx"\nimport Tabs from ${JSON.stringify(fileURLToPath(new URL("./dist/components/Tabs.astro", import.meta.url)))}\n\n## Getting started\nRead the [nested guide](./guide/install.md#installation).\n\n<Tabs id="install" labels={["npm", "pnpm"]}><p slot="npm">npm install package</p><p slot="pnpm">pnpm add package</p></Tabs>\n\n<Counter client:load />\n`
+		`---\ntitle: Welcome\n---\nimport Counter from "../Counter.jsx"\nimport Tabs from ${JSON.stringify(fileURLToPath(new URL("./dist/components/Tabs.astro", import.meta.url)))}\n\n## Getting started\nRead the [nested guide](./guide/source.md#installation).\n\n<Tabs id="install" labels={["npm", "pnpm"]}><p slot="npm">npm install package</p><p slot="pnpm">pnpm add package</p></Tabs>\n\n<Counter client:load />\n`
 	)
 	await writeFile(
 		join(content, "draft.md"),
@@ -49,8 +49,12 @@ try {
 		`---\ntitle: ${"LongReferenceTitle".repeat(8)}\nnavTitle: Wide page\nsidebar: false\ntoc: false\nlayout: reference\n---\n## Wide content\n`
 	)
 	await writeFile(
-		join(content, "guide/install.md"),
-		`---\ntitle: Installation\nupdatedAt: 2026-10-01\n---\n## Installation\nFind the unique narwhal instructions here.\n\n> [!NOTE]\n> Keep your configuration safe.\n\n## ${"LongHeading".repeat(30)}\n\n| Name | Value |\n| --- | --- |\n| Wide | ${"TableContent".repeat(40)} |\n\n\`\`\`js\nconst example = "${"CodeContent".repeat(50)}"\n\`\`\`\n`
+		join(content, "guide/source.md"),
+		`---\ntitle: Installation\nslug: guide/install\nupdatedAt: 2026-10-01\n---\n## Installation\nFind the unique narwhal instructions here.\n\n${"A long section keeps the current heading active between anchors. ".repeat(150)}\n\n> [!NOTE]\n> Keep your configuration safe.\n\n## ${"LongHeading".repeat(30)}\n\n| Name | Value |\n| --- | --- |\n| Wide | ${"TableContent".repeat(40)} |\n\n\`\`\`js\nconst example = "${"CodeContent".repeat(50)}"\n\`\`\`\n`
+	)
+	await writeFile(
+		join(content, "api.md"),
+		"---\ntitle: API reference\n---\n## Methods\nRead the [installation guide](/guide/install#installation).\n"
 	)
 	const assets = join(temporary, "assets")
 	await mkdir(assets)
@@ -102,16 +106,38 @@ try {
 			editLink: {
 				href: "https://github.com/example/docs/edit/main/{path}",
 			},
-			navigation: [
-				{
-					label: "Guide",
-					items: [
-						{ label: "Welcome", href: "/" },
-						{ label: "Installation", href: "/guide/install" },
-						{ label: "Wide page", href: "/wide" },
-					],
-				},
-			],
+			navigation: {
+				sections: [
+					{
+						label: "Guides",
+						href: "/",
+						icon: "◇",
+						items: [
+							{
+								label: "Guide",
+								expanded: true,
+								items: [
+									{ label: "Welcome", href: "/", order: 1 },
+									{ label: "Installation", href: "/guide/install", order: 2 },
+									{ label: "Wide page", href: "/wide", order: 3 },
+								],
+							},
+						],
+					},
+					{
+						label: "API",
+						href: "/api",
+						badge: "Beta",
+						items: [
+							{
+								label: "Reference",
+								expanded: true,
+								items: [{ label: "API reference", href: "/api" }],
+							},
+						],
+					},
+				],
+			},
 		})
 		outputs.set(base, { output, cleanUrls })
 		assert(
@@ -269,6 +295,25 @@ try {
 		await expect(
 			page.locator('nav[aria-label="Documentation"] [aria-current="page"]')
 		).toHaveText("Installation")
+		await expect(
+			page.locator('.section-links [aria-current="true"]')
+		).toContainText("Guides")
+		await expect(page.locator(".pager a").last()).toHaveAttribute(
+			"href",
+			`${base}wide${cleanUrls ? "" : "/"}`
+		)
+		await expect
+			.poll(() =>
+				page
+					.locator("h2#installation")
+					.evaluate(
+						(heading) =>
+							heading.getBoundingClientRect().top -
+							document.querySelector(".site-header").getBoundingClientRect()
+								.bottom
+					)
+			)
+			.toBeGreaterThanOrEqual(0)
 		await page.goto(`${origin}${base}guide/install${cleanUrls ? "" : "/"}`)
 		await expect
 			.poll(() =>
@@ -283,6 +328,13 @@ try {
 					)
 			)
 			.toBeLessThan(2)
+		await page.evaluate(() =>
+			scrollTo(0, document.getElementById("installation").offsetTop + 400)
+		)
+		await expect(
+			page.locator('.toc [aria-current="location"]')
+		).toHaveAttribute("href", "#installation")
+		await page.evaluate(() => scrollTo(0, 0))
 		await expect(page.locator("time")).toHaveCount(
 			base === "/handbook/" ? 0 : 1
 		)
@@ -473,6 +525,40 @@ try {
 				}
 			}
 		}
+		await page.goto(`${origin}${base}api${cleanUrls ? "" : "/"}`)
+		await expect(
+			page.locator('.section-links [aria-current="true"]')
+		).toContainText("API")
+		await expect(page.locator(".sidebar")).toContainText("API reference")
+		await expect(page.locator(".sidebar")).not.toContainText("Installation")
+		await expect(page.locator(".pager a")).toHaveCount(0)
+		// Keep a real overflowing sidebar across a full document navigation.
+		await page.setViewportSize({ width: 1440, height: 240 })
+		await page.goto(`${origin}${base}guide/install${cleanUrls ? "" : "/"}`)
+		const sidebarScroll = await page.locator(".sidebar").evaluate((element) => {
+			element.scrollTop = 100000
+			return element.scrollTop
+		})
+		assert(sidebarScroll > 0, "fixture sidebar must overflow")
+		await page.goto(origin + base)
+		await expect
+			.poll(() =>
+				page
+					.locator(".sidebar")
+					.evaluate(
+						(element, expected) =>
+							Math.abs(
+								element.scrollTop -
+									Math.min(
+										expected,
+										element.scrollHeight - element.clientHeight
+									)
+							),
+						sidebarScroll
+					)
+			)
+			.toBeLessThanOrEqual(2)
+		await page.setViewportSize({ width: 1440, height: 900 })
 		await page.goto(`${origin}${base}wide${cleanUrls ? "" : "/"}`)
 		assert(
 			await page.evaluate(
@@ -515,6 +601,32 @@ try {
 			`${base} initial mobile CLS must stay below 0.01; got ${mobileShift}`
 		)
 		console.log(`${base} initial mobile CLS: ${mobileShift}`)
+		await mobilePage.setViewportSize({ width: 375, height: 140 })
+		await mobilePage.getByRole("button", { name: "Open navigation" }).click()
+		const drawerScroll = await mobilePage
+			.locator(".nav-dialog")
+			.evaluate((element) => {
+				element.scrollTop = 30
+				return element.scrollTop
+			})
+		assert(drawerScroll > 0, "mobile drawer must overflow")
+		await mobilePage.keyboard.press("Escape")
+		await expect(mobilePage.locator(".nav-dialog")).not.toBeVisible()
+		await mobilePage.goto(
+			`${origin}${base}guide/install${cleanUrls ? "" : "/"}`
+		)
+		await mobilePage.getByRole("button", { name: "Open navigation" }).click()
+		await expect
+			.poll(() =>
+				mobilePage
+					.locator(".nav-dialog")
+					.evaluate(
+						(element, expected) => Math.abs(element.scrollTop - expected),
+						drawerScroll
+					)
+			)
+			.toBeLessThanOrEqual(2)
+
 		await context.close()
 		const noJS = await browser.newContext({
 			javaScriptEnabled: false,
@@ -532,7 +644,34 @@ try {
 		await plain.getByRole("link", { name: "nested guide", exact: true }).click()
 		await expect(plain.locator("article")).toContainText("narwhal")
 		await expect(plain.locator("pre")).toBeVisible()
+		await plain.getByRole("link", { name: "API Beta", exact: true }).click()
+		await expect(
+			plain.getByRole("heading", { name: "API reference", exact: true })
+		).toBeVisible()
+		await expect(
+			plain.locator('.section-links [aria-current="true"]')
+		).toContainText("API")
 		await noJS.close()
+		const blockedStorage = await browser.newContext()
+		await blockedStorage.addInitScript(() => {
+			Object.defineProperty(window, "sessionStorage", {
+				get() {
+					throw new Error("Storage disabled")
+				},
+			})
+		})
+		const fallback = await blockedStorage.newPage()
+		const fallbackErrors = []
+		fallback.on("pageerror", (error) => fallbackErrors.push(error.message))
+		await fallback.goto(origin + base)
+		await fallback
+			.getByRole("link", { name: "nested guide", exact: true })
+			.click()
+		await expect(
+			fallback.getByRole("heading", { name: "Installation", exact: true })
+		).toBeVisible()
+		assert.deepEqual(fallbackErrors, [])
+		await blockedStorage.close()
 		console.log(
 			`PASS ${base}: production routes, navigation, search, themes, no-JS, mobile, axe`
 		)

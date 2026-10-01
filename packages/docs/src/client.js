@@ -17,6 +17,37 @@ const navToggle = document.querySelector(".nav-toggle")
 const navClose = document.querySelector(".nav-close")
 const navDialog = document.querySelector(".nav-dialog")
 const sidebar = document.querySelector(".sidebar")
+let restoreSidebarScroll = () => {}
+let saveSidebarScroll = () => {}
+if (sidebar) {
+	const storageKey = `monoline-docs-sidebar:${document.documentElement.dataset.base}:${sidebar.dataset.section}`
+	let saved = 0
+	try {
+		const value = Number(sessionStorage.getItem(storageKey))
+		if (Number.isFinite(value) && value >= 0) saved = value
+	} catch {
+		/* Navigation remains usable when storage is unavailable. */
+	}
+	restoreSidebarScroll = () => {
+		;(sidebar.closest(".nav-dialog") ?? sidebar).scrollTop = saved
+	}
+	restoreSidebarScroll()
+	saveSidebarScroll = () => {
+		const scroller = sidebar.closest(".nav-dialog") ?? sidebar
+		if (!scroller.offsetHeight) return
+		saved = scroller.scrollTop
+		try {
+			sessionStorage.setItem(storageKey, String(saved))
+		} catch {
+			/* Optional persistence. */
+		}
+	}
+	addEventListener("pagehide", saveSidebarScroll)
+	sidebar.addEventListener("click", (event) => {
+		if (event.target.closest("a")) saveSidebarScroll()
+	})
+}
+
 if (
 	navToggle &&
 	navClose &&
@@ -25,7 +56,11 @@ if (
 ) {
 	const mobile = matchMedia("(max-width: 48rem)")
 	const layout = sidebar.parentElement
-	const closeNavigation = () => navDialog.close()
+	const closeNavigation = () => {
+		saveSidebarScroll()
+		navDialog.close()
+	}
+	navDialog.addEventListener("cancel", saveSidebarScroll)
 	navDialog.addEventListener("close", () => {
 		delete document.body.dataset.navOpen
 		navToggle.ariaExpanded = "false"
@@ -37,14 +72,21 @@ if (
 		document.body.dataset.navOpen = "true"
 		navToggle.ariaExpanded = "true"
 		navClose.focus()
+		restoreSidebarScroll()
 	}
+	let synchronized = false
 	const synchronize = () => {
+		if (synchronized) saveSidebarScroll()
+		synchronized = true
 		const wasOpen = navDialog.open
 		if (wasOpen) closeNavigation()
 		navToggle.hidden = !mobile.matches
 		navClose.hidden = !mobile.matches
 		if (mobile.matches) navDialog.append(sidebar)
-		else layout.prepend(sidebar)
+		else {
+			layout.prepend(sidebar)
+			restoreSidebarScroll()
+		}
 		if (wasOpen && !mobile.matches)
 			sidebar.querySelector('[aria-current="page"]')?.focus()
 	}
@@ -60,11 +102,27 @@ if (
 	synchronize()
 }
 
+let invalidateToc
+let headerHeight = 0
+let initialAnchorAligned = false
 const header = document.querySelector(".site-header")
 if (header && "ResizeObserver" in globalThis) {
 	new ResizeObserver((entries) => {
 		const height = entries[0].borderBoxSize[0].blockSize
+		headerHeight = height
 		document.documentElement.style.setProperty("--header-offset", `${height}px`)
+		invalidateToc?.()
+		if (!initialAnchorAligned) {
+			initialAnchorAligned = true
+			restoreSidebarScroll()
+			try {
+				document
+					.getElementById(decodeURIComponent(location.hash.slice(1)))
+					?.scrollIntoView()
+			} catch {
+				/* Malformed fragments have no target. */
+			}
+		}
 	}).observe(header)
 }
 
@@ -83,29 +141,51 @@ if (copyPageLink && navigator.clipboard?.writeText) {
 }
 
 const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')]
-if (tocLinks.length && "IntersectionObserver" in globalThis) {
-	const links = new Map(
-		tocLinks.map((link) => [decodeURIComponent(link.hash.slice(1)), link])
+if (tocLinks.length) {
+	const headings = tocLinks.map((link) =>
+		document.getElementById(decodeURIComponent(link.hash.slice(1)))
 	)
-	const visible = new Set()
-	const observer = new IntersectionObserver(
-		(entries) => {
-			for (const entry of entries) {
-				if (entry.isIntersecting) visible.add(entry.target.id)
-				else visible.delete(entry.target.id)
-			}
-			const active = [...links.keys()].find((id) => visible.has(id))
-			for (const [id, link] of links) {
-				if (id === active) link.setAttribute("aria-current", "location")
-				else link.removeAttribute("aria-current")
-			}
-		},
-		{ rootMargin: "-15% 0px -70%" }
-	)
-	for (const id of links.keys()) {
-		const heading = document.getElementById(id)
-		if (heading) observer.observe(heading)
+	let positions = []
+	let needsMeasure = true
+	let frame = 0
+	let active = -1
+	const update = () => {
+		frame = 0
+		if (needsMeasure) {
+			positions = headings.map((heading) =>
+				heading ? heading.getBoundingClientRect().top + scrollY : Infinity
+			)
+			needsMeasure = false
+		}
+		const threshold = scrollY + headerHeight + 20
+		let low = 0
+		let high = positions.length
+		while (low < high) {
+			const middle = (low + high) >>> 1
+			if (positions[middle] <= threshold) low = middle + 1
+			else high = middle
+		}
+		const next = low - 1
+		if (next !== active) {
+			tocLinks[active]?.removeAttribute("aria-current")
+			tocLinks[next]?.setAttribute("aria-current", "location")
+			active = next
+		}
 	}
+	const schedule = () => {
+		if (!frame) frame = requestAnimationFrame(update)
+	}
+	invalidateToc = () => {
+		needsMeasure = true
+		schedule()
+	}
+	addEventListener("scroll", schedule, { passive: true })
+	addEventListener("resize", invalidateToc, { passive: true })
+	const article = document.querySelector("article")
+	if (article && "ResizeObserver" in globalThis)
+		new ResizeObserver(invalidateToc).observe(article)
+	document.fonts?.ready.then(invalidateToc)
+	schedule()
 }
 
 if (navigator.clipboard?.writeText) {

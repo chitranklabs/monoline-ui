@@ -225,6 +225,58 @@ it("normalizes shell controls without mutating input", () => {
 	})
 })
 
+it("accepts section navigation and preserves repeated normalization", () => {
+	const config = defineConfig({
+		title: "Docs",
+		navigation: {
+			sections: [
+				{
+					label: "Guides",
+					href: "/",
+					icon: "◇",
+					badge: "New",
+					order: 1,
+					items: [
+						{
+							label: "Getting started",
+							expanded: true,
+							items: [{ label: "Home", href: "/", order: 1 }],
+						},
+					],
+				},
+			],
+		},
+	})
+	expect(defineConfig(config)).toEqual(config)
+})
+
+it.each([
+	[{ navigation: { sections: [] } }, "non-empty"],
+	[
+		{
+			navigation: {
+				sections: [{ label: "Guide", href: "/", items: [], typo: true }],
+			},
+		},
+		"typo",
+	],
+	[{ navigation: [{ label: "Home", href: "/", expanded: true }] }, "expanded"],
+	[
+		{ navigation: [{ label: "Home", href: "/", icon: "/assets/icon.svg" }] },
+		"icon",
+	],
+	[{ navigation: [{ label: "Home", href: "/", badge: " " }] }, "badge"],
+	[{ navigation: [{ label: "Home", href: "/", order: NaN }] }, "order"],
+	[
+		{ navigation: [{ label: "Guides", items: [], expanded: "yes" }] },
+		"expanded",
+	],
+])("rejects invalid navigation options %j", (input, error) => {
+	expect(() =>
+		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
+	).toThrow(error)
+})
+
 it.each([
 	[{ appearance: { density: "dense" } }, "appearance.density"],
 	[{ appearance: { density: null } }, "appearance.density"],

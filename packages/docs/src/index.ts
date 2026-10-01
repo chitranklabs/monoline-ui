@@ -9,6 +9,8 @@ export {
 export {
 	buildNavigation,
 	type NavigationItem,
+	type NavigationConfig,
+	type NavigationSection,
 	type ResolvedNavigation,
 } from "./navigation.ts"
 

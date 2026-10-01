@@ -6,6 +6,7 @@ import {
 	readFile,
 	readdir,
 	realpath,
+	rename,
 	rm,
 	writeFile,
 } from "node:fs/promises"
@@ -312,10 +313,41 @@ export async function verifyEngine(packageDirectory, fixtureParent = tmpdir()) {
 			join(contentDirectory, "index.mdx"),
 			'---\ntitle: Home\n---\nimport Table from "../components/Table.astro"\n\n## API\n\n<Table />\n'
 		)
+		// The route remains stable when its source file moves with an explicit slug.
+		await rename(
+			join(contentDirectory, "guide/index.md"),
+			join(contentDirectory, "guide/renamed.md")
+		)
+		await writeFile(
+			join(contentDirectory, "guide/renamed.md"),
+			(
+				await readFile(join(contentDirectory, "guide/renamed.md"), "utf8")
+			).replace("/guide/index.md?", "/guide?")
+		)
 		const published = join(project, "published-safe")
-		const publishedOptions = { ...options, outDirectory: published }
+		const publishedOptions = {
+			...options,
+			outDirectory: published,
+			navigation: {
+				sections: [
+					{ label: "API", href: "/", items: [{ label: "Home", href: "/" }] },
+					{
+						label: "Guides",
+						href: "/guide",
+						items: [{ label: "Guide", href: "/guide" }],
+					},
+				],
+			},
+		}
 		const publishedResult = await buildAstroDocs(publishedOptions)
 		assert.equal(publishedResult.pages, 2)
+		const movedGuide = await readFile(
+			join(published, "guide/index.html"),
+			"utf8"
+		)
+		assert.match(movedGuide, /aria-current="true">Guides/)
+		assert.match(movedGuide, /href="\/ask-widget\/guide\/" aria-current="page"/)
+		await assert.rejects(access(join(published, "guide/renamed/index.html")))
 		assert.equal(publishedResult.outDirectory, await realpath(published))
 		assert.equal("dependencies" in publishedResult, false)
 		await writeFile(join(published, "keep.txt"), "unrelated")

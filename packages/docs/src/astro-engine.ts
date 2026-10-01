@@ -472,7 +472,7 @@ export async function buildAstroSite(
 		const home = options.base
 		await writeFile(
 			join(directory, "404.html"),
-			`<!doctype html><html lang="${options.lang}" data-theme="${options.defaultMode}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><title>Page not found</title><script src="${options.base}theme.js"></script><link rel="stylesheet" href="${options.base}docs.css">${options.stylesheet ? `<link rel="stylesheet" href="${assetUrl(options.stylesheet)}">` : ""}</head><body><main><h1>Page not found</h1><p>Check the address or <a href="${home}">browse the documentation</a>.</p></main></body></html>`
+			`<!doctype html><html lang="${options.lang}" data-theme="${options.defaultMode}" data-density="${options.appearance.density}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="robots" content="noindex"><title>Page not found</title><script src="${options.base}theme.js"></script><link rel="stylesheet" href="${options.base}docs.css">${options.stylesheet ? `<link rel="stylesheet" href="${assetUrl(options.stylesheet)}">` : ""}</head><body><main class="not-found"><p>404</p><h1>Page not found</h1><p>Check the address or return to the documentation.</p><a class="primary-action" href="${home}">Browse documentation</a></main></body></html>`
 		)
 		if (
 			options.site &&

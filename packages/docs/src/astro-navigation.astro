@@ -23,11 +23,32 @@ const containsCurrent = (item: NavigationItem): boolean =>
 					href={href(item.href)}
 					aria-current={item.href === current ? "page" : undefined}
 				>
-					{item.label}
+					<span>
+						{item.icon && (
+							<span class="nav-icon" aria-hidden="true">
+								{item.icon}
+							</span>
+						)}
+						{item.label}
+					</span>
+					{item.badge && <span class="nav-badge">{item.badge}</span>}
 				</a>
 			) : (
-				<details class="nav-group" open={containsCurrent(item)}>
-					<summary>{item.label}</summary>
+				<details
+					class="nav-group"
+					open={containsCurrent(item) || item.expanded === true}
+				>
+					<summary>
+						<span>
+							{item.icon && (
+								<span class="nav-icon" aria-hidden="true">
+									{item.icon}
+								</span>
+							)}
+							{item.label}
+						</span>
+						{item.badge && <span class="nav-badge">{item.badge}</span>}
+					</summary>
 					<Astro.self
 						items={item.items}
 						current={current}

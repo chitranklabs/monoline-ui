@@ -21,12 +21,13 @@
 
 ## Current evidence — October 1, 2026
 
-| Batch        | State    | Evidence / remaining work                                                                                                                                                      |
-| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1            | Complete | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                |
-| 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01. |
-| 3–7          | Pending  | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                             |
-| Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                           |
+| Batch        | State    | Evidence / remaining work                                                                                                                                                              |
+| ------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1            | Complete | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                        |
+| 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01.         |
+| 3            | Complete | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation. |
+| 4–7          | Pending  | Existing primitives may be reused; no whole batch is accepted yet.                                                                                                                     |
+| Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                                   |
 
 ## Batch 1 — Product configuration and stable content contract
 
@@ -47,7 +48,7 @@
 
 **Contract decisions:** Reject differing nested/flat aliases with both option names; matching values remain valid, including repeated normalization by `loadConfig` and the engine. Reuse `safeRoute` for slugs and filename-derived routes; unsafe filenames require renaming or an explicit safe slug. Validate calendar dates by ISO round-trip, including leap years.
 
-**Remaining configuration ownership:** Batch 2 introduces appearance, header, sidebar and content controls together with their shell consumers. Batch 3 introduces sections/tabs with navigation consumers. Batch 6 introduces social metadata with generated head tags. These unimplemented options remain validation errors today; focused assertions cover representative options in each group. Existing accepted configuration retains its working consumers. No Batch 1 blocker remains.
+**Remaining configuration ownership:** Batch 2 introduces appearance, header, sidebar and content controls together with their shell consumers. Batch 3 introduces sections/tabs with navigation consumers. Batch 6 introduces social metadata with generated head tags. Social metadata remains a validation error until its consumer is implemented; shell controls and sections now have working consumers. Focused assertions cover representative options in each group. Existing accepted configuration retains its working consumers. No Batch 1 blocker remains.
 
 **Done when:** existing consumer configuration still works and every accepted option has a working consumer or an explicit validation error.
 
@@ -78,15 +79,17 @@
 
 **Owns:** `navigation.ts`, `config.ts`, `astro-navigation.astro`, `astro-page.astro`, `rendered-content.ts`, `links.ts`, `urls.ts`, `client.js`.
 
-- [ ] Extend navigation to top-level sections/tabs while preserving existing link/group arrays.
-- [ ] Resolve active section, sidebar and previous/next sequence from the same route manifest. Keep sections URL-driven.
-- [ ] Support nested groups, ordering, optional icons/badges and configurable initial group expansion.
-- [ ] Preserve sidebar scroll position per site base with storage failure fallback.
-- [ ] Complete heading anchors, active TOC behavior and deep-link scrolling under the sticky header.
-- [ ] Polish responsive tables/code overflow and the 404 experience without changing output URL semantics.
-- [ ] Verify one nested site at root and subpath, an explicit slug, a missing route and a broken fragment.
+- [x] Extend navigation to top-level sections/tabs while preserving existing link/group arrays.
+- [x] Resolve active section, sidebar and previous/next sequence from the same route manifest. Keep sections URL-driven.
+- [x] Support nested groups, ordering, optional icons/badges and configurable initial group expansion.
+- [x] Preserve sidebar scroll position per site base with storage failure fallback.
+- [x] Complete heading anchors, active TOC behavior and deep-link scrolling under the sticky header.
+- [x] Polish responsive tables/code overflow and the 404 experience without changing output URL semantics.
+- [x] Verify one nested site at root and subpath, an explicit slug, a missing route and a broken fragment.
 
 **Done when:** guides and API sections navigate correctly, moving a source file with a retained slug preserves its public URL and no duplicate route source exists.
+
+**Verification:** Ordered guides/API sections use manifest routes for active header links, nested sidebar entries and section-local pagers. Legacy arrays remain supported. Package tests (171), typecheck, targeted lint/format, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass. The engine moves a source file with a retained explicit slug, checks its unchanged public route and rejects missing targets/fragments without replacing prior output. Production Chrome covers root, subpath and clean URLs, native groups, deep links below the measured sticky header, active TOC through long content, sidebar restoration at the bottom and inside a mobile drawer, blocked storage, keyboard/search, axe, no-JS, print and reduced motion. Desktop/mobile light/dark screenshots were inspected. Initial CLS was 0.00103–0.00106 desktop and 0.00309–0.00369 mobile. Combined shell scripts grew from 3,953 to 4,561 gzip bytes (+608); section navigation adds no client code or dependency, and TOC scroll updates use cached positions, binary search and only two link mutations. Independent review's mobile scroll-owner and early restoration findings were fixed and verified.
 
 ## Batch 4 — Essential authoring components
 

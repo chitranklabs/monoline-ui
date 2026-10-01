@@ -37,7 +37,9 @@ the home route `/`. Do not put Markdown filenames, deployment prefixes,
 fragments, or external URLs in sidebar `href` values.
 
 The builder verifies that every linked page exists and that no route appears
-twice. The order of explicit entries replaces frontmatter ordering.
+twice. Explicit entries replace frontmatter ordering. Optional numeric `order` values
+sort siblings with lower values first; unspecified values come last, and ties
+retain their configured order.
 
 ## Pages outside the sidebar
 
@@ -60,4 +62,53 @@ more horizontal space. These options hide shell regions only; they do not change
 the navigation sequence, previous/next links, search, or access to the page.
 
 Named sidebar groups use native disclosure controls. The group containing the
-current page opens by default and remains usable without JavaScript.
+current page always opens initially and remains usable without JavaScript.
+Set `expanded: true` on other groups to open them initially. `expanded: false`
+keeps inactive groups closed. Links cannot accept `expanded`.
+
+## Sections
+
+Use sections for separate documentation areas. Header links navigate to each
+section's landing page; its sidebar and previous/next links follow only that
+section's entries. These ordinary links work without JavaScript.
+
+```yaml
+navigation:
+  sections:
+    - label: Guides
+      href: /
+      order: 1
+      items:
+        - label: Getting started
+          expanded: true
+          items:
+            - label: Introduction
+              href: /
+            - label: Configuration
+              href: /configuration
+    - label: Authoring
+      href: /writing
+      order: 2
+      items:
+        - label: Writing pages
+          href: /writing
+          icon: "◇"
+          badge: MDX
+```
+
+Each landing `href` must appear in its own section's items. A route can belong
+to only one section. Groups, links and sections accept `order`, an optional
+short text `icon` (up to eight Unicode characters) and a nonempty `badge`.
+Icons are decorative; badges remain readable text. The array form above is
+still supported. Section ordering and membership come from this configuration,
+not URL prefixes or source folders. Pages omitted from sections retain header
+links but have no section sidebar or previous/next links.
+
+Sidebar scroll positions are remembered for each site base and section in the
+current browser tab. If browser storage is unavailable, navigation still works.
+TOC tracking follows the last heading above the sticky header, including long
+sections between headings. Heading links clear the header on direct arrival.
+
+Use explicit `slug` frontmatter to keep a public route stable when moving a
+source file. Update relative Markdown links to its new source location; route
+links and navigation entries keep their existing public `href`.
