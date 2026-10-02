@@ -19,7 +19,7 @@
 - A batch finishes when its user-facing behavior works, its focused check passes and remaining limitations are recorded here.
 - Preserve unrelated changes. Do not mix parked release automation into product batches.
 
-## Current evidence — October 1, 2026
+## Current evidence — October 2, 2026
 
 | Batch        | State    | Evidence / remaining work                                                                                                                                                                               |
 | ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@
 | 4            | Complete | Static authoring components and synchronized CodeGroup verified: 171 package tests, engine/demo, packed npm/strict pnpm public imports, keyboard/no-JS/print and Chrome/axe at root/subpath/clean URLs. |
 | 5            | Complete | Library references and local OpenAPI verified: 193 tests, typecheck/lint, package/demo builds, packed npm/strict pnpm and Chrome/axe at root/subpath/clean URLs.                                        |
 | 6            | Complete | Search/SEO/exports verified: 202 package tests, typecheck/lint, package/engine/demo builds and production Chrome at root/subpath/clean URLs.                                                            |
-| 7            | Pending  | Adoption and real-product migration follow.                                                                                                                                                             |
+| 7            | Complete | Safe init, isolated packed npm/strict pnpm starts, own docs and Ask Widget migration verified. Root/subpath browser checks pass; host deployments remain release-gate work.                             |
 | Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                                                    |
 
 ## Batch 1 — Product configuration and stable content contract
@@ -152,14 +152,18 @@
 
 **Owns:** `cli.js`, existing build/dev entry points, `apps/docs-demo`, Ask Widget fixture and packed-consumer verification.
 
-- [ ] Implement `monoline-docs init` to create minimal config, content and scripts; refuse to overwrite existing files silently.
-- [ ] Test an empty-directory start using a packed package with npm and strict pnpm resolution.
-- [ ] Make Monoline Docs' own documentation use the completed product; keep repository maintainer documents outside published content unless explicitly selected.
-- [ ] Complete Ask Widget migration in a fixture first, including all existing reference links and interactive examples. External repository edits require user authorization.
-- [ ] Prepare portable static deployment configuration for Vercel, Netlify, GitHub Pages and Cloudflare Pages at root/subpath.
-- [ ] Verify production output from all representative fixtures and record unresolved limitations.
+- [x] Implement `monoline-docs init` to create minimal config, content and scripts; refuse to overwrite existing files silently.
+- [x] Test an empty-directory start using a packed package with npm and strict pnpm resolution.
+- [x] Make Monoline Docs' own documentation use the completed product; keep repository maintainer documents outside published content unless explicitly selected.
+- [x] Complete Ask Widget migration in a fixture first, including all existing reference links and interactive examples. External repository edits require user authorization.
+- [x] Prepare portable static deployment configuration for Vercel, Netlify, GitHub Pages and Cloudflare Pages at root/subpath.
+- [x] Verify production output from all representative fixtures and record unresolved limitations.
 
 **Done when:** a new consumer can initialize/build the site and real library/API documentation uses only the packed package's public surface.
+
+**Verification — October 2, 2026:** The full project graph was indexed (3,547 nodes, 9,343 edges initially; seven partially parsed files reported, with no skipped files). Safe initialization passes six focused checks, including refusal/preservation and write-failure rollback; the complete package suite passes 209 tests. Package typecheck, targeted ESLint/Prettier/Markdownlint, package build, engine fixture and nine-page demo pass. Packed npm and strict pnpm consumers initialize and build from independent temporary roots, verify missing imports before installation, and render the actual own-docs content through public imports. Both packed managers build the Ask Widget 0.6.1 rehearsal, with all eight published pages, legacy reference anchors, updated API data and an explicit React 19 island. Production Chrome verifies root/subpath/clean routes, no-JS navigation, keyboard/search, themes, mobile overflow and axe; the actual widget opens, streams a local response and closes at root and `/ask-widget/`, at 375px and 1440px in both themes. Final screenshots were inspected in `/private/tmp/monoline-adoption-screenshots`. Independent review found ancestor dependency resolution weakening the initial consumer fixture; sibling temporary roots now isolate each install, and packed/browser checks pass after the correction.
+
+**Rulings and limits:** `init` has no network/install side effects and no force overwrite mode. It adds only missing scripts/dependency declarations, retains existing dependency sources, writes new files exclusively and stages existing-manifest replacement; failures clean up operation-owned files. Initialization expects a local directory with no concurrent filesystem mutation. The unpublished `0.0.0` starter dependency requires a local tarball until release. The Ask Widget source repository was inspected read-only; this batch completes the repository-owned rehearsal, not an external migration. API rows remain a checked-in docgen snapshot with rebuild verification, and the demo stream is local rather than an authenticated backend. Root/subpath Vercel/Netlify templates and a Cloudflare Pages recipe supplement the existing SHA-pinned Pages workflow; URL `base` alone does not relocate output files. Real-host deployments, broader accessibility/scale checks and publishing remain in the release gate. No Batch 7 blocker remains.
 
 ## Release gate — after seven batches
 

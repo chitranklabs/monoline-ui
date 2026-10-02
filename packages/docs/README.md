@@ -9,16 +9,23 @@ island integration.
 
 ```sh
 pnpm add @chitrank2050/monoline-docs
+pnpm exec monoline-docs init
+pnpm dev
 ```
 
-Create `monoline-docs.yml`:
+The package is not published yet. Until its first release, install a locally
+packed tarball instead of the registry name. `init` creates `monoline-docs.yml`,
+`content/index.md` and build/dev scripts; it preserves existing package metadata
+and dependencies and refuses conflicts. It does not install dependencies.
+
+Set your publishing origin in the generated `monoline-docs.yml`:
 
 ```yaml
 title: Team handbook
 site: https://docs.example.com
 ```
 
-Add `content/index.md`, then define the package commands:
+The generated package commands are:
 
 ```json
 {
@@ -30,7 +37,9 @@ Add `content/index.md`, then define the package commands:
 ```
 
 Run `pnpm dev` while writing. Run `pnpm build` to create the static `dist`
-directory for Vercel, Netlify, GitHub Pages, or another static host.
+directory for Vercel, Netlify, GitHub Pages, Cloudflare Pages or another static host.
+Optional root/subpath recipes ship in `templates`. A URL `base` does not move files
+into a subdirectory; use the recipe's output layout or a host-provided mount.
 
 ## Shell configuration
 

@@ -5,6 +5,7 @@ base: /ask-widget/
 cleanUrls: true
 contentDirectory: ./content
 outDirectory: ./dist
+react: true
 appearance:
   defaultMode: system
 header:

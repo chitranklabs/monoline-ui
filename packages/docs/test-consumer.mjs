@@ -18,6 +18,7 @@ import { verifyEngine } from "./test-engine.mjs"
 
 const packageDirectory = fileURLToPath(new URL(".", import.meta.url))
 const root = await mkdtemp(join(tmpdir(), "monoline-docs-consumer-"))
+const ownedRoots = [root]
 function run(command, args, cwd = root) {
 	return execFileSync(command, args, {
 		cwd,
@@ -48,10 +49,72 @@ try {
 			type: "module",
 			dependencies: {
 				"@chitrank2050/monoline-docs": `file:${join(root, packed.filename)}`,
+				"@chitrank2050/ask-widget": "0.6.1",
+				react: "19.3.0",
+				"react-dom": "19.3.0",
 			},
 		})
 	)
 	run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund"])
+	const cli = join(root, "node_modules/.bin/monoline-docs")
+	for (const manager of ["npm", "pnpm"]) {
+		const starter = await mkdtemp(
+			join(tmpdir(), `monoline-docs-${manager}-starter-`)
+		)
+		ownedRoots.push(starter)
+		assert.throws(
+			() =>
+				run(
+					process.execPath,
+					["--input-type=module", "-e", "import '@chitrank2050/monoline-docs'"],
+					starter
+				),
+			/ERR_MODULE_NOT_FOUND/
+		)
+		run(cli, ["init"], starter)
+		const originalConfig = await readFile(
+			join(starter, "monoline-docs.yml"),
+			"utf8"
+		)
+		assert.throws(() => run(cli, ["init"], starter), /already exists/)
+		assert.equal(
+			await readFile(join(starter, "monoline-docs.yml"), "utf8"),
+			originalConfig
+		)
+		assert.throws(
+			() => run(cli, ["init", "--base", "/docs/"], starter),
+			/does not accept/
+		)
+		run(
+			manager,
+			manager === "npm"
+				? [
+						"install",
+						join(root, packed.filename),
+						"--ignore-scripts",
+						"--no-audit",
+						"--no-fund",
+					]
+				: [
+						"add",
+						join(root, packed.filename),
+						"--ignore-scripts",
+						"--strict-peer-dependencies",
+					],
+			starter
+		)
+		run(manager, ["run", "build"], starter)
+		assert(
+			(await readFile(join(starter, "dist/index.html"), "utf8")).includes(
+				"Getting started"
+			)
+		)
+		assert(
+			!(await readFile(join(starter, "dist/index.html"), "utf8")).includes(
+				"astro-island"
+			)
+		)
+	}
 	await verifyEngine(
 		join(root, "node_modules/@chitrank2050/monoline-docs"),
 		root
@@ -86,9 +149,12 @@ try {
 		join(root, "monoline.config.mjs"),
 		`import { defineConfig } from '@chitrank2050/monoline-docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark' });`
 	)
-	const cli = join(root, "node_modules/.bin/monoline-docs")
 	const askWidget = join(root, "ask-widget")
 	await cp(join(packageDirectory, "fixtures/ask-widget"), askWidget, {
+		recursive: true,
+	})
+	run(cli, ["build", "--base", "/"], askWidget)
+	await cp(join(askWidget, "dist"), join(askWidget, "dist-root"), {
 		recursive: true,
 	})
 	run(cli, ["build"], askWidget)
@@ -115,6 +181,26 @@ try {
 	assert(askHome.includes('href="/ask-widget/getting-started"'))
 	assert(!askHome.includes("vitepress"))
 	assert(!askHome.includes("vue"))
+	assert(
+		(await readFile(join(askOutput, "getting-started.html"), "utf8")).includes(
+			"astro-island"
+		)
+	)
+	for (const [page, anchors] of Object.entries({
+		"getting-started": ["installation", "basic-usage", "prerequisites"],
+		api: ["chatwidget-props", "chatstreamhandler-type", "example-usage"],
+		theming: ["built-in-themes", "custom-colors", "note-on-custom-colors"],
+		hooks: ["usechat", "usessestream", "usesession"],
+		architecture: [
+			"component-layer",
+			"state-hooks-layer-headless-api",
+			"style-presentation-layer",
+		],
+	})) {
+		const html = await readFile(join(askOutput, `${page}.html`), "utf8")
+		for (const anchor of anchors)
+			assert(html.includes(`id="${anchor}"`), `${page} lost #${anchor}`)
+	}
 	assert.deepEqual(
 		(await readdir(askOutput))
 			.filter((name) => name.endsWith(".html") && name !== "404.html")
@@ -162,7 +248,12 @@ try {
 		join(root, "monoline.config.mjs"),
 		`import { defineConfig } from '@chitrank2050/monoline-docs'; export default defineConfig({ title: 'Consumer', site: 'https://example.com', base: '/handbook/', assetsDirectory: './assets', stylesheet: '/assets/custom.css', defaultMode: 'dark', react: true });`
 	)
-	for (const recipe of ["vercel.json", "netlify.toml", "github-pages.yml"])
+	for (const recipe of [
+		"vercel.json",
+		"netlify.toml",
+		"github-pages.yml",
+		"cloudflare-pages.md",
+	])
 		assert(
 			(
 				await readFile(
@@ -217,7 +308,8 @@ try {
 		`import assert from 'node:assert/strict'; import { startDevServer } from '@chitrank2050/monoline-docs/dev'; import config from './monoline.config.mjs'; const preview = await startDevServer(config, 0); try { const response = await fetch(preview.url + 'search-index.json'); assert.equal(response.status, 200); assert((await response.text()).includes('Unpublished')); assert.equal((await fetch(preview.url + 'missing/')).status, 404); } finally { await preview.close(); }`
 	)
 	run(process.execPath, ["preview.mjs"])
-	const pnpmRoot = join(root, "pnpm-consumer")
+	const pnpmRoot = await mkdtemp(join(tmpdir(), "monoline-docs-pnpm-consumer-"))
+	ownedRoots.push(pnpmRoot)
 	await mkdir(join(pnpmRoot, "content"), { recursive: true })
 	await mkdir(join(pnpmRoot, "components"))
 	await mkdir(join(pnpmRoot, "assets"))
@@ -235,6 +327,7 @@ try {
 			type: "module",
 			dependencies: {
 				"@chitrank2050/monoline-docs": `file:${join(root, packed.filename)}`,
+				"@chitrank2050/ask-widget": "0.6.1",
 				react: "19.3.0",
 				"react-dom": "19.3.0",
 			},
@@ -258,12 +351,38 @@ try {
 		pnpmRoot
 	)
 	run(join(pnpmRoot, "node_modules/.bin/monoline-docs"), ["build"], pnpmRoot)
+	const pnpmAskWidget = join(pnpmRoot, "ask-widget")
+	await cp(join(packageDirectory, "fixtures/ask-widget"), pnpmAskWidget, {
+		recursive: true,
+	})
+	run(
+		join(pnpmRoot, "node_modules/.bin/monoline-docs"),
+		["build"],
+		pnpmAskWidget
+	)
+	assert(
+		(
+			await readFile(join(pnpmAskWidget, "dist/getting-started.html"), "utf8")
+		).includes("astro-island")
+	)
 	assert(
 		(await readFile(join(pnpmRoot, "dist/index.html"), "utf8")).includes(
 			"astro-island"
 		)
 	)
 	for (const directory of [root, pnpmRoot]) {
+		const ownDocs = join(directory, "monoline-docs-site")
+		await mkdir(ownDocs)
+		const demo = fileURLToPath(
+			new URL("../../apps/docs-demo/", import.meta.url)
+		)
+		for (const name of ["content", "assets", "monoline-docs.yml"])
+			await cp(join(demo, name), join(ownDocs, name), { recursive: true })
+		run(join(directory, "node_modules/.bin/monoline-docs"), ["build"], ownDocs)
+		const docsHome = await readFile(join(ownDocs, "dist/index.html"), "utf8")
+		assert(docsHome.includes("Initialize a standalone site"))
+		assert(docsHome.includes("Reference"))
+		await assert.rejects(readFile(join(ownDocs, "dist/maintenance/index.html")))
 		const components = await readFile(
 			join(directory, "dist/components/index.html"),
 			"utf8"
@@ -286,9 +405,25 @@ try {
 			"static authoring components must not hydrate"
 		)
 	}
+	if (process.env.DOCS_BROWSER_CHANNEL) {
+		execFileSync(
+			process.execPath,
+			[join(packageDirectory, "test-browser.mjs")],
+			{
+				cwd: packageDirectory,
+				env: { ...process.env, DOCS_ASK_WIDGET_DIRECTORY: askWidget },
+				timeout: 240000,
+				stdio: "inherit",
+			}
+		)
+	}
 	console.log(
 		"Docs consumer passed: npm and strict pnpm installs, Ask Widget clean routes, generated API data, CLI, React island, declarations, drafts, search and preview."
 	)
 } finally {
-	await rm(root, { recursive: true, force: true })
+	await Promise.all(
+		ownedRoots.map((directory) =>
+			rm(directory, { recursive: true, force: true })
+		)
+	)
 }

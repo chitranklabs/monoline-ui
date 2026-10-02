@@ -1108,6 +1108,90 @@ try {
 			`PASS ${base}: production routes, navigation, search, themes, no-JS, mobile, axe`
 		)
 	}
+	if (process.env.DOCS_ASK_WIDGET_DIRECTORY) {
+		const fixture = process.env.DOCS_ASK_WIDGET_DIRECTORY
+		outputs.set("/", { output: join(fixture, "dist-root"), cleanUrls: true })
+		outputs.set("/ask-widget/", {
+			output: join(fixture, "dist"),
+			cleanUrls: true,
+		})
+		for (const base of ["/", "/ask-widget/"]) {
+			const context = await browser.newContext()
+			const page = await context.newPage()
+			const errors = []
+			page.on("pageerror", (error) => errors.push(error.message))
+			await page.goto(`${origin}${base}getting-started`)
+			await expect(
+				page.getByRole("button", { name: "Open Ask Widget example" })
+			).toBeVisible()
+			for (const theme of ["light", "dark"]) {
+				await page
+					.getByRole("combobox", { name: "Color theme" })
+					.selectOption(theme)
+				await expect(page.locator(".chat-widget")).toHaveAttribute(
+					"data-theme",
+					theme
+				)
+				for (const width of [375, 1440]) {
+					await page.setViewportSize({ width, height: 1000 })
+					await page
+						.getByRole("button", { name: "Open Ask Widget example" })
+						.click()
+					await page
+						.getByRole("textbox", { name: "Message input" })
+						.fill(`Streaming ${theme} ${width}`)
+					await page.getByRole("button", { name: "Send message" }).click()
+					await expect(
+						page.getByText(
+							`Local example: Streaming ${theme} ${width}. No request was sent.`,
+							{ exact: true }
+						)
+					).toBeVisible()
+					await expect(page.locator(".chat-widget__panel")).toHaveCSS(
+						"opacity",
+						"1"
+					)
+					assert(
+						await page.evaluate(
+							() => document.documentElement.scrollWidth <= innerWidth
+						)
+					)
+					if (process.env.DOCS_SCREENSHOT_DIR)
+						await page.screenshot({
+							animations: "disabled",
+							path: join(
+								process.env.DOCS_SCREENSHOT_DIR,
+								`widget-${base === "/" ? "root" : "subpath"}-${theme}-${width}.png`
+							),
+						})
+					await page.getByRole("button", { name: "Close panel" }).click()
+				}
+			}
+			assert.deepEqual(errors, [])
+			await context.close()
+			const noJS = await browser.newContext({ javaScriptEnabled: false })
+			const plain = await noJS.newPage()
+			await plain.goto(`${origin}${base}getting-started`)
+			await expect(
+				plain.getByRole("heading", { name: "Basic Usage" })
+			).toBeVisible()
+			await plain
+				.locator(".sidebar summary")
+				.filter({ hasText: "Reference" })
+				.click()
+			await plain
+				.locator(".sidebar")
+				.getByRole("link", { name: "API", exact: true })
+				.click()
+			await expect(
+				plain.getByRole("heading", { name: "Custom streaming" })
+			).toBeVisible()
+			await noJS.close()
+			console.log(
+				`PASS Ask Widget ${base}: streaming, open/close, themes, mobile, no-JS reference`
+			)
+		}
+	}
 	if (process.env.DOCS_SCREENSHOT_DIR) {
 		const demoOutput = join(temporary, "demo")
 		const config = await loadConfig({

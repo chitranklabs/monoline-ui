@@ -14,7 +14,27 @@ require editing the website layout.
 > `@chitrank2050/monoline-docs` is prepared but not published yet. These
 > instructions use the workspace package until the first npm release.
 
-## Run the documentation locally
+## Initialize a standalone site
+
+Install the package from a locally packed tarball while it is unpublished:
+
+```sh
+npm install /path/to/monoline-docs.tgz
+npx monoline-docs init
+npm run dev
+```
+
+With pnpm, use `pnpm add /path/to/monoline-docs.tgz`, `pnpm exec monoline-docs init`
+and `pnpm dev`. The initializer adds `monoline-docs.yml`, `content/index.md` and
+`build`/`dev` scripts. It preserves existing package metadata and dependencies,
+and refuses conflicting scripts, configuration files or homepages. It never
+installs packages or fetches content itself.
+
+For an empty directory, run the installed CLI's `init` command from that directory,
+then install the package before using the generated scripts. Until publication,
+replace its registry dependency with the local tarball.
+
+## Run this documentation locally
 
 Use Node.js 24.14.0 or newer and the pnpm version declared in the repository's
 `packageManager` field. From the repository root:
@@ -49,8 +69,8 @@ documents are not automatically included in your site.
 
 ## What works today
 
-- YAML frontmatter with a required title and optional description, order, and draft.
-- Generated navigation or explicit groups with previous and next links.
+- YAML frontmatter with titles, stable slugs, drafts and per-page visibility controls.
+- Generated navigation, nested groups or sections with previous and next links.
 - Tables, code fences, links, and a heading-based table of contents.
 - Note, tip, warning, and caution callouts.
 - Local images, downloads, fonts, and optional custom CSS.
@@ -60,11 +80,14 @@ documents are not automatically included in your site.
 - Static MDX components, with opt-in React 19 islands for interactive examples.
 - Static builds for a root domain or a repository subpath.
 - [Local search](search.md) across published page titles, headings, and text.
+- [Authoring components](components.mdx), synchronized package commands and library references.
+- [Local OpenAPI references](configuration.md#local-openapi-reference).
+- Canonical/social metadata, structured data, Markdown exports and AI indexes.
 
 ## Current boundaries
 
 Use Markdown for ordinary pages and MDX when a page imports a component. React
-hydration is opt-in; interactive tabs and a component catalog are not built in.
+hydration is opt-in. Tabs and package-manager groups enhance static content.
 Raw HTML in `.md` files is displayed as text. There is one built-in design with
 CSS customization, not a theme marketplace.
 

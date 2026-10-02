@@ -20,6 +20,26 @@ draft: false
 
 ## Links and routes
 
+Additional metadata separates navigation and search-engine titles from the page
+heading. `slug` retains the public URL when a source file moves:
+
+```yaml
+navTitle: Install
+seoTitle: Install the SDK
+slug: guides/install
+updatedAt: 2026-10-02
+tags: [setup, sdk]
+badge: New
+layout: reference
+search: true
+noindex: false
+```
+
+`updatedAt` must be a real calendar date. `layout: reference` widens reference
+content; it is not an Astro component import. `search: false` omits a page from
+search. `noindex: true` also omits it from sitemap, Markdown and AI exports, but
+the HTML page remains publicly accessible. Drafts are excluded from production.
+
 Use Markdown file links such as `[Introduction](index.md)`, or root-relative
 documentation routes such as `[Introduction](/)`. The builder checks page and
 heading targets, then adds the configured deployment base.

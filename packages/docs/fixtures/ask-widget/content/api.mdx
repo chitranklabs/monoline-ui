@@ -14,6 +14,8 @@ import { apiRows } from "../data/api-props.mjs"
 
 ## Custom streaming
 
+<span id="chatstreamhandler-type" />
+
 ```ts
 export type ChatStreamResult =
 	string | AsyncIterable<string> | Promise<string | AsyncIterable<string>>
@@ -26,3 +28,13 @@ export type ChatStreamHandler = (
 
 When `streamResponse` is set, it owns request and streaming behavior; `apiUrl`
 and `apiToken` are ignored.
+
+### Example Usage
+
+```tsx
+const streamResponse = async function* (message) {
+	yield `Local response: ${message}`
+}
+
+<ChatWidget streamResponse={streamResponse} />
+```

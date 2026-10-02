@@ -4,7 +4,7 @@ description: Select a preset or override individual widget colors.
 order: 4
 ---
 
-## Presets
+## Built-in Themes
 
 Set `theme` to `light` or `dark`:
 
@@ -12,7 +12,7 @@ Set `theme` to `light` or `dark`:
 <ChatWidget theme="light" />
 ```
 
-## Product colors
+## Custom Colors
 
 Use the `colors` prop for deliberate overrides rather than editing package CSS.
 The values become scoped CSS variables on the widget.
@@ -27,3 +27,8 @@ The values become scoped CSS variables on the widget.
 	}}
 />
 ```
+
+### Note on Custom Colors
+
+Explicit overrides apply in both presets. Omit overrides when using the built-in
+light and dark palettes.

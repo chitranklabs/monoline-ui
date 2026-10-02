@@ -6,7 +6,9 @@ order: 2
 
 import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro"
 
-## Install
+import WidgetDemo from "../components/WidgetDemo.jsx"
+
+## Installation
 
 <Tabs id="package-manager" labels={["npm", "pnpm"]}>
 	<pre slot="npm">
@@ -17,7 +19,7 @@ import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro"
 	</pre>
 </Tabs>
 
-## Render the widget
+## Basic Usage
 
 ```tsx
 import { ChatWidget } from "@chitrank2050/ask-widget"
@@ -30,3 +32,16 @@ export function App() {
 
 Without `apiUrl` or `streamResponse`, the component uses its demo response.
 Production integrations should provide an SSE endpoint or a custom handler.
+
+## Prerequisites
+
+This fixture uses React 19 with React DOM 19, matching Monoline's optional island
+integration. Ask Widget declares React 18 or newer; this rehearsal verifies React
+19 only.
+
+## Local streaming example
+
+<WidgetDemo client:load />
+
+The example uses a local response handler without an API endpoint or credentials.
+Without JavaScript, the installation commands and reference remain readable.

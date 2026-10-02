@@ -100,7 +100,13 @@ pnpm --filter @chitrank2050/monoline-docs build
 node packages/docs/dist/cli.js build --config apps/docs-demo/monoline-docs.yml
 ```
 
-The commands are `build` and `dev`. Both accept `--config`, `--site`, `--base`,
+Use `monoline-docs init` in a new consumer to create config, content and scripts.
+It rejects existing discovery candidates and homepages, symbolic-link targets,
+and conflicting `build`/`dev` scripts before writing. Existing package metadata
+and dependency declarations are preserved; dependencies are not installed.
+Initialization takes no build or preview flags.
+
+The rendering commands are `build` and `dev`. Both accept `--config`, `--site`, `--base`,
 and `--indexing true|false`; these deployment flags override the file. Only `dev`
 accepts `--port`, which defaults to `4321` and must be an integer from 1 to 65535.
 

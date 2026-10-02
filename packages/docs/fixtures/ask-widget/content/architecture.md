@@ -9,12 +9,12 @@ order: 6
 `ChatWidget` renders the launcher, panel, message list, and input. It delegates
 conversation behavior to the headless hooks.
 
-## State and transport
+## State & Hooks Layer (Headless API)
 
 - `useChat` coordinates messages and streaming state.
 - `useSSEStream` converts an SSE response into tokens.
 - `useSession` persists history in browser storage.
 
-## Styles
+## Style & Presentation Layer
 
 Cascade layers and scoped variables keep styles inside the widget.

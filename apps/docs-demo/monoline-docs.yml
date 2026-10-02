@@ -36,3 +36,29 @@ content:
   copyPageLink: true
   editLink:
     href: https://github.com/chitranklabs/monoline-ui/edit/main/apps/docs-demo/content/{path}
+navigation:
+  sections:
+    - label: Guides
+      href: /
+      items:
+        - label: Introduction
+          href: /
+        - label: Writing pages
+          href: /writing
+        - label: Navigation
+          href: /navigation
+        - label: Appearance
+          href: /appearance
+        - label: Search
+          href: /search
+        - label: Deployment
+          href: /deployment
+        - label: Troubleshooting
+          href: /troubleshooting
+    - label: Reference
+      href: /configuration
+      items:
+        - label: Configuration
+          href: /configuration
+        - label: Authoring components
+          href: /components

@@ -1,0 +1,15 @@
+# Set base: /handbook/ and outDirectory: ./public/handbook in monoline-docs.yml.
+[build]
+command = "pnpm build && cp public/handbook/404.html public/404.html"
+publish = "public"
+
+[build.environment]
+NODE_VERSION = "24.14.0"
+PNPM_VERSION = "11.18.0"
+PNPM_FLAGS = "--frozen-lockfile"
+
+[context.deploy-preview]
+command = "pnpm build --indexing false && cp public/handbook/404.html public/404.html"
+
+[context.branch-deploy]
+command = "pnpm build --indexing false && cp public/handbook/404.html public/404.html"
