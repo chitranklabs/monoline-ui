@@ -207,3 +207,41 @@ it("reports fetch and unsafe-index errors and retries on reopening", async () =>
 	expect(dialog.querySelector("img")).toBeNull()
 	expect(dialog.querySelector("a")!.textContent).toContain("<img")
 })
+
+it("preserves correct highlighting offsets with Unicode ligatures and combining marks", async () => {
+	vi.stubGlobal(
+		"fetch",
+		vi.fn().mockResolvedValue({
+			ok: true,
+			json: async () => [
+				{
+					title: "ﬃ setup",
+					heading: "",
+					text: "e\u0301 deployment",
+					url: "/unicode/",
+				},
+			],
+		})
+	)
+	const { dialog, input, trigger } = mount()
+	trigger.click()
+	await vi.waitFor(() =>
+		expect(dialog.querySelectorAll("ul a")).toHaveLength(0)
+	)
+
+	input.value = "setup"
+	input.dispatchEvent(new Event("input", { bubbles: true }))
+	await vi.waitFor(() =>
+		expect(dialog.querySelectorAll("ul a")).toHaveLength(1)
+	)
+	const mark = dialog.querySelector("ul a mark")
+	expect(mark?.textContent).toBe("setup")
+
+	input.value = "deployment"
+	input.dispatchEvent(new Event("input", { bubbles: true }))
+	await vi.waitFor(() =>
+		expect(dialog.querySelectorAll("ul a")).toHaveLength(1)
+	)
+	const textMark = dialog.querySelector("ul p mark")
+	expect(textMark?.textContent).toBe("deployment")
+})

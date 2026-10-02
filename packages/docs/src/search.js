@@ -65,32 +65,59 @@ export function setupSearch(root = document) {
 			/* Storage may be disabled. */
 		}
 	}
+	function buildIndexMap(text) {
+		if (!/[^\x20-\x7E\t\r\n]/.test(text)) {
+			return (start, end) => [start, end]
+		}
+		const map = []
+		for (let i = 1; i <= text.length; i++) {
+			const norm = normalize(text.slice(0, i))
+			while (map.length < norm.length) {
+				map.push(i)
+			}
+			if (norm.length > 0) {
+				map[norm.length - 1] = i
+			}
+		}
+		return (normStart, normEnd) => [
+			normStart === 0 ? 0 : (map[normStart - 1] ?? 0),
+			map[normEnd - 1] ?? text.length,
+		]
+	}
 	function highlight(container, value, query) {
 		const terms = [
 			...new Set(normalize(query).trim().split(/\s+/).filter(Boolean)),
 		]
 		if (!terms.length) return container.append(value)
 		const normalized = normalize(value)
-		let cursor = 0
-		while (cursor < value.length) {
-			let position = value.length
-			let length = 0
+		const toOrig = buildIndexMap(value)
+		let normCursor = 0
+		let origCursor = 0
+		while (normCursor < normalized.length) {
+			let matchPos = normalized.length
+			let matchLen = 0
 			for (const term of terms) {
-				const found = normalized.indexOf(term, cursor)
-				if (found >= 0 && found < position) {
-					position = found
-					length = term.length
+				const found = normalized.indexOf(term, normCursor)
+				if (found >= 0 && found < matchPos) {
+					matchPos = found
+					matchLen = term.length
 				}
 			}
-			if (!length) {
-				container.append(value.slice(cursor))
-				break
+			if (!matchLen) break
+			const [origStart, origEnd] = toOrig(matchPos, matchPos + matchLen)
+			if (origStart > origCursor) {
+				container.append(value.slice(origCursor, origStart))
 			}
-			container.append(value.slice(cursor, position))
-			const mark = root.createElement("mark")
-			mark.textContent = value.slice(position, position + length)
-			container.append(mark)
-			cursor = position + length
+			if (origEnd > origStart) {
+				const mark = root.createElement("mark")
+				mark.textContent = value.slice(Math.max(origCursor, origStart), origEnd)
+				container.append(mark)
+				origCursor = Math.max(origCursor, origEnd)
+			}
+			normCursor = matchPos + matchLen
+		}
+		if (origCursor < value.length) {
+			container.append(value.slice(origCursor))
 		}
 	}
 	function render() {

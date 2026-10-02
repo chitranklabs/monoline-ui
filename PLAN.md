@@ -1,183 +1,105 @@
-# Monoline Docs — Replacement Readiness and Release Plan
+# Monoline Docs — Product Completion and Release Plan
 
-> **Release hold — October 2, 2026.** The user requested a deeper audit and delayed release. Follow the replacement roadmap below before resuming final release work. Historical batch completion does not establish replacement readiness.
+> **Scope correction — October 2, 2026.** Following review of the audit findings, speculative competitor drop-in migration requirements (R1/A3, Starlight/MkDocs synthetic fixtures), multi-locale routing and versioning have been returned to Parked Work. Monoline Docs is an independent, high-performance static documentation product for Monoline, SDKs, and SaaS/API teams.
 >
-> Execute approved implementation work one milestone at a time using the executing-plans skill. Update checkboxes with evidence; do not equate implemented code with verified completion. This revision is an audit and proposed roadmap, not approval to implement every proposed public API.
+> Implementation work now proceeds directly through the focused **Release Gate** milestones below to resolve confirmed defects (A1, A4, A6, A7) and verify the production package for release.
 
-**Goal:** Build a dependable documentation replacement for library/SDK authors and SaaS/API teams, with proven migration fidelity, accessible UI, predictable performance and explicit support boundaries. The confirmed comparison targets are MkDocs (including Material for MkDocs) and Astro Starlight.
+**Goal:** Build a dependable, fast, accessible, and beautiful documentation engine for Monoline, modern library/SDK authors, and SaaS/API teams with static Markdown/MDX, semantic design tokens, clean navigation, local search, and OpenAPI support.
 
 **Architecture:** Astro compiles Markdown/MDX to static output. Monoline owns YAML configuration, the shell, semantic design tokens, navigation, search and safe publishing. React hydrates only explicitly requested examples.
 
-**Scope:** `packages/docs`, `apps/docs-demo`, relevant consumer fixtures and narrowly required build/release scripts. Monoline UI and Docs remain independently published products.
+**Scope:** `packages/docs`, `apps/docs-demo`, relevant consumer adoption checks and narrowly required build/release scripts. Monoline UI and Docs remain independently published products.
 
-**Architecture reference:** [Astro engine design](docs/superpowers/specs/2026-09-14-docs-astro-engine-design.md). This roadmap supersedes its implementation order for product completion; preserve its output-safety and isolation contracts.
+**Architecture reference:** [Astro engine design](docs/superpowers/specs/2026-09-14-docs-astro-engine-design.md). Preserve its output-safety and isolation contracts.
 
-**Audit and proposed scope:** [October 2026 replacement-readiness audit](docs/docs-audit-2026-10-02.md). Findings A1–A10, fresh measurements, comparison sources and evidence limitations live there. Keep one production renderer and one route manifest; do not implement versions, locales or redirects as disconnected URL systems.
+**Audit reference:** [October 2026 audit](docs/docs-audit-2026-10-02.md). Focus on confirmed defects: A1 (output promotion recovery), A4 (Unicode search highlight offset), A6 (mobile header & touch sizing), and A7 (prototype test cleanup).
 
 ## Required reading before implementation
 
-Every implementing agent must read the [Docs engineering guidelines](packages/docs/AGENTS.md), [Astro engine design](docs/superpowers/specs/2026-09-14-docs-astro-engine-design.md), and [replacement-readiness audit](docs/docs-audit-2026-10-02.md), then the references for its milestone below. Read the relevant sections, not just the page titles. Follow local discovery instructions before source inspection.
+Every implementing agent must read the [Docs engineering guidelines](packages/docs/AGENTS.md), [Astro engine design](docs/superpowers/specs/2026-09-14-docs-astro-engine-design.md), and [audit](docs/docs-audit-2026-10-02.md), then the references for its milestone below.
 
-| Milestone                          | Required references                                                                                                                                                                                                                                                                                                                                                                                                                     | What the agent must establish                                                                                                  |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| R0 — Output recovery               | [Audit A1](docs/docs-audit-2026-10-02.md#a1--p1-final-output-promotion-does-not-preserve-last-good-files-on-write-failure), [engine design](docs/superpowers/specs/2026-09-14-docs-astro-engine-design.md), [release/recovery guide](docs/docs-release.md)                                                                                                                                                                              | Last-good-output guarantee, ownership boundaries and recovery failure cases                                                    |
-| R1 — Migration contract            | [MkDocs configuration](https://www.mkdocs.org/user-guide/configuration/), [MkDocs authoring](https://www.mkdocs.org/user-guide/writing-your-docs/), [Material documentation](https://squidfunk.github.io/mkdocs-material/), [Starlight configuration](https://starlight.astro.build/reference/configuration/), [current Monoline support](apps/docs-demo/content/support.md)                                                            | Source configuration/content semantics, core versus plugin capabilities, and losses requiring conversion or explicit exclusion |
-| R2 — Route and extension design    | [Monoline navigation](apps/docs-demo/content/navigation.md), [Monoline configuration](apps/docs-demo/content/configuration.md), [Starlight localization](https://starlight.astro.build/guides/i18n/), [Starlight component overrides](https://starlight.astro.build/guides/overriding-components/), [Material versioning](https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning/)                                     | Shared route identity, fallback/alias semantics and migration-backed extension needs                                           |
-| R3 — Locales and versions          | [Starlight localization and RTL](https://starlight.astro.build/guides/i18n/), [Material versioning with mike](https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning/), [audit A2](docs/docs-audit-2026-10-02.md#a2--p1-for-replacement-language-configuration-is-not-localization)                                                                                                                                    | Translation, direction, equivalent-page switching and missing-page behavior; read the approved R2 design once linked here      |
-| R4 — Authoring/API/export fidelity | [Monoline authoring](apps/docs-demo/content/writing.md), [component examples](apps/docs-demo/content/components.mdx), [OpenAPI support contract](apps/docs-demo/content/configuration.md), [MkDocs authoring](https://www.mkdocs.org/user-guide/writing-your-docs/), [Material diagrams](https://squidfunk.github.io/mkdocs-material/reference/diagrams/), [Material math](https://squidfunk.github.io/mkdocs-material/reference/math/) | Syntax compatibility, optional processor costs and HTML/search/export fidelity                                                 |
-| R5 — Search and scale              | [Current performance evidence](docs/docs-performance.md), [Starlight search](https://starlight.astro.build/guides/site-search/), [Web Vitals definitions](https://web.dev/articles/vitals), [audit performance assessment](docs/docs-audit-2026-10-02.md#performance-and-optimization-assessment)                                                                                                                                       | Comparable corpus/device conditions, cold versus warm costs and lab versus field evidence                                      |
-| R6 — Accessible UI                 | [Docs accessibility rules](packages/docs/AGENTS.md#accessibility-and-design), [audit UI assessment](docs/docs-audit-2026-10-02.md#ui-and-accessibility-assessment), [WCAG target size and exceptions](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html), [Web Interface Guidelines](https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md)                                         | Applicable conformance criteria, product touch targets and manual/browser verification boundaries                              |
-| R7 — Operations                    | [Release/recovery guide](docs/docs-release.md), [deployment instructions](apps/docs-demo/content/deployment.md), [support boundaries](apps/docs-demo/content/support.md), [verification commands](docs/docs-performance.md)                                                                                                                                                                                                             | Supported environments, consumer isolation, hosting assumptions and explicit publication authority                             |
-| R8 — Release decision              | [Audit findings](docs/docs-audit-2026-10-02.md#confirmed-defects-and-release-risks), [capability matrix](docs/docs-audit-2026-10-02.md#replacement-capability-matrix), [release guide](docs/docs-release.md), completed R1 migration inventory and R2 design                                                                                                                                                                            | Every accepted requirement has current evidence and every exclusion narrows the public claim                                   |
-
-Before implementing a milestone, record the references actually reviewed, access date, relevant installed/source versions and the resulting compatibility decisions in its evidence entry. Official documentation can change: check it against the selected migration's versions and this repository's dependencies. Competitor documentation informs comparison; it does not override Monoline's approved contracts.
-
-When R1 inventories or R2/subsequent design documents are created, add direct links here and to every dependent milestone before handoff. If a required source is unavailable or contradicts the plan, record the unresolved point and verify it before implementing the affected behavior. Maintain these reading links whenever the plan changes.
+| Milestone                            | Required references                                                                                                                                                                                  | What the agent must establish                                                                                              |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| RG1 — Output recovery                | [Audit A1](docs/docs-audit-2026-10-02.md#a1--p1-final-output-promotion-does-not-preserve-last-good-files-on-write-failure), [release/recovery guide](docs/docs-release.md)                           | Last-good-output guarantee, atomic promotion, and clean recovery failure modes.                                            |
+| RG2 — Search Unicode highlighting    | [Audit A4](docs/docs-audit-2026-10-02.md#a4--p2-unicode-search-highlighting-uses-incompatible-offsets), `packages/docs/src/client/search.js`                                                         | Search match highlighting preserves correct character offsets across normalization length changes and combining marks.     |
+| RG3 — Mobile reading & touch targets | [Audit A6](docs/docs-audit-2026-10-02.md#a6--p2-mobile-header-and-controls-need-a-reading-oriented-layout), [WCAG target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | Reduced mobile header vertical footprint (target ≤160px) and accessible touch targets (≥44px primary) in reading flow.     |
+| RG4 — Test scope cleanup             | [Audit A7](docs/docs-audit-2026-10-02.md#a7--p2-test-evidence-includes-an-inactive-markdown-renderer), `packages/docs/src/markdown-features.test.ts`                                                 | Retire inactive prototype renderer imports from test suite; verify all active authoring features run against Astro engine. |
+| RG5 — Release verification           | [Release guide](docs/docs-release.md), [performance baselines](docs/docs-performance.md)                                                                                                             | Full package suite, packed npm/strict pnpm consumer builds, production demo build, and clean provenance.                   |
 
 ## Tracking and execution
 
 - Keep work on the current `feat/docs-astro-engine` branch unless the user requests otherwise.
 - The user handles commits and PRs. Supply a commit title and concise PR materials; do not commit, push, publish or deploy automatically.
-- Verify each milestone's production behavior, accessibility and performance before marking it complete. Do not defer foundational failure-path, migration or route-contract checks to the final release gate.
-- Use the existing modules and installed dependencies. Add a package, abstraction or dependency only for a demonstrated requirement.
-- A milestone finishes when its deliverable and acceptance checks pass, the audit finding is reconciled and remaining limitations are recorded here. A historical batch remains a record of its narrower original scope.
-- Preserve unrelated changes. Do not mix parked release automation into product batches.
+- Verify each milestone's production behavior, accessibility and performance before marking it complete.
+- Use existing modules and installed dependencies. Avoid adding speculative dependencies or synthetic migration fixtures.
+- Preserve unrelated changes.
 
 ## Current evidence — October 2, 2026
 
-**Fresh audit verification:** 209 package tests pass; package typecheck and ten-page demo build pass. Production Chrome passes root/subpath/clean URL fixtures, axe, keyboard, no-JS and reduced-motion checks. Additional actual-demo checks pass axe and viewport overflow at 320/375/768/1440px in both themes. Representative screenshots were inspected in `/private/tmp/monoline-oct-audit`; this is reviewer inspection, not final user screenshot approval.
+**Implementation status:** Batches 1 to 7 are complete. RG1 (output promotion recovery) is complete and committed in `d7517cb`.
 
-**New findings:** A1 confirms partial final-output overwrite after a failed promotion; A4 confirms Unicode highlighting offsets are wrong for length-changing normalization. Mobile header height is 261.30px at 320/375px; several controls miss the proposed 44px touch target. The benchmark still passes (329ms/4,536ms build medians for 100/1,000 pages), but realistic cold-search, memory and browser responsiveness remain unverified. Locale/version routing, competitor migrations, redirects and extension contracts remain replacement gaps.
+| Batch        | State       | Evidence / remaining work                                                                                                                                                                               |
+| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1            | Complete    | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                                         |
+| 2            | Complete    | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01.                          |
+| 3            | Complete    | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation.                  |
+| 4            | Complete    | Static authoring components and synchronized CodeGroup verified: 171 package tests, engine/demo, packed npm/strict pnpm public imports, keyboard/no-JS/print and Chrome/axe at root/subpath/clean URLs. |
+| 5            | Complete    | Library references and local OpenAPI verified: 193 tests, typecheck/lint, package/demo builds, packed npm/strict pnpm and Chrome/axe at root/subpath/clean URLs.                                        |
+| 6            | Complete    | Search/SEO/exports verified: 202 package tests, typecheck/lint, package/engine/demo builds and production Chrome at root/subpath/clean URLs.                                                            |
+| 7            | Complete    | Safe init, isolated packed npm/strict pnpm starts, own docs and Ask Widget migration verified. Root/subpath browser checks pass; host deployments remain release-gate work.                             |
+| Release gate | In progress | RG1 and RG2 completed. Addressing RG3 (A6), RG4 (A7), and final verification RG5.                                                                                                                       |
 
-The following table records the original implementation batches. Their evidence is historical unless explicitly rerun above. They are not reset merely because the product scope has expanded.
+## Release Gate — Audit Remediation and Packaging
 
-| Batch        | State    | Evidence / remaining work                                                                                                                                                                               |
-| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1            | Complete | Boundary review verified: 146 package tests, typecheck, targeted lint, package build, engine fixture, nine-page demo and packed npm/strict pnpm consumers pass.                                         |
-| 2            | Complete | 159 package tests, typecheck/lint, demo/engine, packed consumers and production Chrome checks pass. Both densities/themes inspected on desktop/mobile; initial CLS below 0.01.                          |
-| 3            | Complete | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation.                  |
-| 4            | Complete | Static authoring components and synchronized CodeGroup verified: 171 package tests, engine/demo, packed npm/strict pnpm public imports, keyboard/no-JS/print and Chrome/axe at root/subpath/clean URLs. |
-| 5            | Complete | Library references and local OpenAPI verified: 193 tests, typecheck/lint, package/demo builds, packed npm/strict pnpm and Chrome/axe at root/subpath/clean URLs.                                        |
-| 6            | Complete | Search/SEO/exports verified: 202 package tests, typecheck/lint, package/engine/demo builds and production Chrome at root/subpath/clean URLs.                                                            |
-| 7            | Complete | Safe init, isolated packed npm/strict pnpm starts, own docs and Ask Widget migration verified. Root/subpath browser checks pass; host deployments remain release-gate work.                             |
-| Release gate | On hold  | Replacement milestones R0–R8 below supersede the former final-check-only path. Publication remains blocked.                                                                                             |
+### RG1 — Recover safely from failed output promotion (Audit A1)
 
-## Replacement roadmap — proposed order
-
-**Scope decision:** pursue a measurable replacement contract. Shipping only the current narrow feature set misses the requested goal; cloning every plugin and hosted feature would leave no meaningful finish line. R1 must record each selected migration requirement as native support, supported conversion/extension, or an explicit exclusion that narrows the replacement claim.
-
-**Dependency order:** R0 → R1 → R2 → R3. Start the R4 corpus and R5 measurements during R1; finalize R4–R7 against the route contract from R2/R3. R8 follows all earlier acceptance evidence. Do not freeze new public option names until the route/extension design is reviewed.
-
-### R0 — Recover safely from failed output promotion
-
-**Owns:** `packages/docs/src/output.ts`, `output.test.ts`, `build.test.ts`, `dev.test.ts`, existing engine fixture. **Closes:** A1.
+**Owns:** `packages/docs/src/output.ts`, `output.test.ts`, `build.test.ts`, `dev.test.ts`. **Closes:** A1.
 
 - [x] Add a regression reproducing a late write failure after an earlier tracked output was overwritten; observe the current failure first.
-- [x] Define and implement promotion recovery for generated files and their manifest while preserving unrelated files. Keep staging on the appropriate filesystem; specify interruption/crash recovery and either serialize or explicitly reject concurrent writers.
+- [x] Define and implement promotion recovery for generated files and their manifest while preserving unrelated files. Keep staging on the appropriate filesystem; serialize or explicitly reject concurrent writers.
 - [x] Exercise failed writes, stale-file removal and manifest replacement. Compare prior file bytes and manifest before/after; verify next successful build and dev preview recovery.
-- [x] Run focused output/dev tests, package build and engine failure-preservation fixture; reconcile the documented guarantee with measured behavior.
+- [x] Run focused output/dev tests, package build and engine failure-preservation fixture; reconcile documented guarantee with measured behavior.
 
-**Exit:** a failed supported promotion leaves the last-good generated site usable and unrelated output untouched; crash/concurrency limits are explicit. Blocking even for a narrower preview release.
+**Completed — October 2, 2026 (`d7517cb`):** Atomic output promotion implemented and verified. Fault-injection tests cover late page, stale-delete, manifest errors, concurrent writer locks (`.monoline-promotion`), and cross-filesystem staging. All 221 package tests pass.
 
-**Completed — October 2, 2026:** Three original fault-injection regressions first failed with `new-a` remaining after late page, stale-delete and manifest errors; they now pass. Ten focused output cases cover those failures, initial absent/empty output, staging-write failure, concurrent rejection, failed rollback with retained bytes, mounted-output staging and post-commit cleanup warning. Two added dev-preview checks verify prior page/search after failed promotion and new-route adoption after cleanup warning. All 221 package tests pass; package typecheck, targeted ESLint, package build and production engine failure/staging fixture pass. Independent review identified cleanup/commit semantics and cross-filesystem staging; both received regressions observed failing before correction. No UI, public exports or dependency changes; packed/browser UI checks were not rerun for this output-only milestone.
+### RG2 — Fix Unicode search highlighting offset drift (Audit A4)
 
-**References reviewed:** Docs engineering guidelines; audit A1; engine design output-safety/preview contract; release/recovery guide; [Node 24 filesystem API](https://nodejs.org/docs/latest-v24.x/api/fs.html), accessed October 2, 2026 (official page describes 24.21.0; local verification uses Node 24.14.0). Filesystem rename/copy/mkdir APIs require no dependency change.
+**Owns:** `packages/docs/src/search.js`, `search.test.ts`. **Closes:** A4.
 
-**Rulings:** Work remains on the current branch without commits, preserving staged planning edits. Focused output fault tests live in `output.test.ts` to keep filesystem injection out of unrelated build fixtures. R0 supersedes the older spec's narrower compilation-only guarantee; its revised contract is linked in the [local recovery procedure](docs/docs-release.md#local-output-promotion-and-recovery). Exclusive `.monoline-promotion` creation rejects overlapping writers; staging/backups live inside output to support mounted destinations. Manifest replacement is the commit point: later cleanup warns and leaves a lock requiring inspection. Crash/power-loss and external mutation are explicitly outside automatic recovery; failed rollback retains evidence rather than erasing it. Costs: extra temporary disk space/I/O and manual recovery for interruption or persistent filesystem failure.
+- [x] Add regression tests reproducing the offset drift when NFKC normalization changes string length (e.g. ligature `ﬃ`, combining marks, non-Latin strings).
+- [x] Implement offset-safe match highlighting that maps normalized match bounds back to original authored code points.
+- [x] Verify safe DOM text-node construction and highlight rendering across search queries.
 
-**Commit title:** `fix(docs): recover failed output promotion and retain recovery evidence`
+**Completed — October 2, 2026:** Regression test in `search.test.ts` confirmed the `ﬃ setup` offset drift (`Received: "tup"` instead of `"setup"`). Implemented cumulative normalization index mapping (`buildIndexMap`) in `search.js`, handling length expansion (ligatures, fullwidth), contraction/composition (combining marks), and pure ASCII fast paths. All 222 package tests pass, typecheck passes, targeted ESLint passes, and `apps/docs-demo` builds 10 pages cleanly.
 
-**PR description:** Preserve prior generated files and the manifest after caught promotion failures, reject overlapping promotions, and retain backups when recovery cannot finish. Verify staging on the output filesystem, successful cleanup-warning semantics and dev-preview recovery. Update the output-safety contract and recovery instructions; release remains on hold for R1–R8.
+**Commit title:** `fix(docs): preserve correct Unicode search highlighting offsets`
 
-### R1 — Define and rehearse the replacement contract
+**PR description:** Correct search highlight character offset drift caused by NFKC length changes and combining marks. Map normalized match bounds back to original code units and verify safe DOM text-node construction across search queries.
 
-**Owns:** this plan, `docs/docs-audit-2026-10-02.md`, existing `packages/docs/test-consumer.mjs` fixture mechanism, `apps/docs-demo/content/support.md`. **Closes:** A3 scope/evidence gap; informs A9/A10.
+### RG3 — Polish mobile header layout and touch targets (Audit A6)
 
-- [ ] Inventory one representative MkDocs/Material site and one Starlight site: config, source syntax, metadata, components/plugins, assets, URLs/fragments, versions/locales and hosting assumptions. Use repository-owned fixtures; external source edits/deployments remain separately authorized.
-- [ ] Produce a capability disposition table with migration effort and known losses. Include blog/RSS, tags, offline, social cards, docgen and custom integrations even when excluded; no silent omissions from the replacement promise.
-- [ ] Establish baseline content counts and old URL/anchor manifests. Define the converter's dry-run, diagnostics and source-preservation behavior before implementing it.
-- [ ] Rehearse through an isolated packed consumer. Native pages, converted pages and unsupported inputs must be separately reported.
+**Owns:** `docs.css`, `astro-page.astro`, `astro-navigation.astro`, `test-browser.mjs`. **Closes:** A6.
 
-**Exit:** success means all selected source content is accounted for and every old URL/fragment is preserved, deliberately redirected or explicitly retired. Unsupported syntax fails with a useful source location. “Everything” becomes a finite, reviewable contract.
+- [ ] Optimize mobile header vertical footprint to reduce viewport crowding (target ≤160px on 375px mobile viewports).
+- [ ] Ensure primary interactive touch targets (search trigger, mobile menu toggle, theme toggle) meet the 44×44px sizing guideline while preserving clean visual density.
+- [ ] Verify 320px reflow, zoom, and desktop/mobile layout integrity across light and dark themes.
 
-### R2 — Design stable route identity, redirects and extension boundaries
+### RG4 — Retire prototype renderer tests and align test scope (Audit A7)
 
-**Owns:** `config.ts`, `content.ts`, `navigation.ts`, `urls.ts`, `links.ts`, `astro-engine.ts`; matching existing tests. **Closes:** A2/A3 route foundations and A9 design.
+**Owns:** `markdown-features.test.ts`, `test-engine.mjs`. **Closes:** A7.
 
-- [ ] Write and review a focused design for stable page identity, locale/version dimensions, equivalent-page mapping, aliases, redirect cycles/collisions, root/subpath and clean/directory URLs. Preserve existing single-site defaults.
-- [ ] Specify how renderer, sidebar/pager, search, sitemap, canonical/hreflang and exports consume that same manifest. Define missing-translation/version-page behavior and visibility inheritance.
-- [ ] Define only extension points demonstrated by R1: bounded shell slots, content transforms and/or build hooks, with typed inputs, ordering, error handling and visibility invariants. Retain Monoline-owned defaults.
-- [ ] Implement the approved contract with collision, missing-target, redirect-chain and backward-compatibility tests; add config schema/editor support from the same validated options.
+- [ ] Audit remaining test files for imports of the inactive static prototype renderer (`renderMarkdown`).
+- [ ] Migrate essential assertions to the production Astro engine or retire obsolete prototype tests.
+- [ ] Ensure `pnpm --filter @chitrank2050/monoline-docs test` cleanly reflects production code paths only.
 
-**Exit:** no independent route database in any consumer; two locales × two versions at root and subpath resolve consistently, with old configuration and URLs preserved. Host HTTP redirects and portable static fallbacks have distinct documented guarantees.
+### RG5 — Final release verification and release decision
 
-### R3 — Deliver localization, RTL and documentation versions
+**Owns:** Release workflows, package manifests, demo application.
 
-**Owns:** route/config modules from R2, `astro-page.astro`, `astro-navigation.astro`, `client.js`, `search.js`, `docs.css`, generated 404 and export metadata. **Closes:** A2 and pluralization/localization parts of A4/A6.
-
-- [ ] Add translated shell strings, plural/date formatting, correct `lang`/`dir`, fallback notices and logical CSS. Cover Arabic RTL and a non-English LTR locale; keep code direction intentional.
-- [ ] Add locale/version selectors preserving equivalent page context, explicit missing-page fallback and support/deprecation banners. Search must filter the selected published corpus.
-- [ ] Generate truthful locale alternates, canonical/version policy, sitemap and export links; verify drafts and noindex remain excluded consistently.
-- [ ] Verify keyboard, no-JS, RTL tab navigation, screen-reader labels and missing translations through production output and packed imports.
-
-**Exit:** selectors are backed by real routes and metadata, not manually assembled links. A fully localized monolingual site also works without needing multiple locale trees.
-
-### R4 — Prove authoring, API and export fidelity
-
-**Owns:** `astro-engine.ts`, `rendered-content.ts`, `components/`, `openapi.ts`, existing engine/consumer tests and demo authoring docs. **Closes:** A7/A8/A10 and R1 content gaps.
-
-- [ ] Map existing prototype-renderer tests to production assertions before retiring or labeling prototype-only coverage.
-- [ ] Establish an output-tested corpus for footnotes, task lists, admonitions, tabs, rich code, diagrams, math, tables, links/assets and raw HTML migration. Add only the required optional processors, loaded only where needed.
-- [ ] Replace regex-only export rewriting with a defined parser-based fidelity contract. Verify Markdown/MDX code, tables, relative images, reference links, subpaths and visibility controls.
-- [ ] Validate representative OpenAPI 3.0/3.1 specifications against a published support matrix, including recursion, composition, examples and unsupported refs. Provide deterministic docgen refresh/drift checks for the selected library fixture.
-- [ ] Define responsive-media and above-the-fold loading behavior; preserve image dimensions, accessible descriptions and print/export fallbacks.
-
-**Exit:** supported authoring produces correct HTML, search and export output through the packed production engine. Unsupported input is diagnosed; no silent claims of full OpenAPI, Python Markdown or arbitrary MDX parity.
-
-### R5 — Establish realistic search and scale budgets
-
-**Owns:** `search.js`, `search.test.ts`, `benchmark.mjs`, production browser fixture, navigation generation and `docs/docs-performance.md`. **Closes:** A4/A5.
-
-- [ ] Add the `ﬃ setup` highlighting regression plus combining-mark/non-Latin cases, then make highlighting offsets preserve authored text.
-- [ ] Benchmark a varied corpus at 100, 1,000 and an exploratory 10,000 pages. Record raw/gzip HTML/index/media, DOM count, peak build memory, clean/incremental build time, cold/warm search, heap and long tasks under a fixed mobile CPU/network profile.
-- [ ] Compare current search with preprocessing/partitioning and Pagefind using the same relevance queries, multilingual/version filters and cold-load measurements. Choose from evidence; retain accessible error/retry behavior.
-- [ ] Bound repeated navigation output without making basic navigation depend on JavaScript. Add regression budgets for the chosen supported site-size envelope.
-- [ ] Retain the existing 6KB gzip shell ceiling; separate optional feature/island costs. Set a provisional warm-search input-to-results p95 target of 100ms, cold-search target of 1s on the declared profile, and report misses before revising targets with rationale.
-
-**Exit:** publish realistic supported scale and repeatable lab conditions; meet the declared budgets. Treat LCP ≤2.5s, INP ≤200ms and CLS ≤0.1 at field p75 as goals requiring eventual field evidence, not claims proven by Node timings. The 10,000-page run is exploratory until it passes its own envelope.
-
-### R6 — Verify accessible UI across actual reading tasks
-
-**Owns:** shell/components/CSS, `test-browser.mjs`, representative demo pages. **Closes:** A6 and accessibility evidence gaps.
-
-- [ ] Reduce mobile header occupation; proposed target ≤160px at 375×812 with the current announcement/links/sections, or document an accepted task-tested alternative. Keep navigation, search, theme and necessary actions discoverable.
-- [ ] Make primary touch controls at least 44×44 CSS px; independently assess WCAG 2.2 AA's 24px target/spacing exceptions for secondary controls. Verify compact density rather than shrinking every control uniformly.
-- [ ] Test 320px reflow, 200% text, 400% zoom, text spacing, long labels, RTL, forced colors, reduced motion, print and sticky-focus visibility in both themes/densities.
-- [ ] Run core journeys in Chromium, Firefox and WebKit; smoke-test real mobile virtual keyboard, safe areas and landscape. Add manual VoiceOver/Safari and NVDA/Firefox-or-Chrome task evidence.
-- [ ] Inspect code-block hierarchy, mobile on-page orientation, loading/empty/error search states, copy failure recovery and no-JS fallbacks. Store a reproducible screenshot matrix and obtain final visual approval only after corrections.
-
-**Exit:** no unresolved critical/serious automated violations on the selected matrix; manual task completion and applicable WCAG criteria are recorded. Do not equate an axe pass with conformance certification.
-
-### R7 — Reverify package, developer workflow and operations
-
-**Owns:** existing CLI/dev/consumer/release fixtures, `docs/docs-release.md`, support/deployment docs. **Closes:** operational evidence gaps.
-
-- [ ] Test supported Node floors and OS combinations, isolated npm/strict pnpm installs, public exports, no-React consumers and optional-island consumers after the contract changes. Measure install footprint and startup/edit latency.
-- [ ] Check configuration/editor diagnostics, actionable build errors, watcher recovery and clean shutdown. Correct fixture cleanup so a failed server start does not mask its original error.
-- [ ] Review dependency advisories/licenses, the trusted-author boundary, explicit integration scripts and a workable CSP recipe. Recheck no secrets/drafts enter output; do not claim a full security assessment from this audit.
-- [ ] With separately authorized deployment, verify real root/subpath hosts, 404 status, redirects, asset paths, cache invalidation and last-good rollback. Distinguish host configuration from portable output behavior.
-- [ ] Reverify release workflow recovery, registry ownership and actual provenance for the final immutable artifact. Update support and recovery instructions from evidence.
-
-**Exit:** a documented support matrix is backed by actual runs; missing platforms or integrations are named exclusions. External deployment/publication still requires user authorization.
-
-### R8 — Repeat migrations and make the release decision
-
-- [ ] Repeat R1's two migration rehearsals and the Ask Widget fixture using the final packed artifact; compare content, URL/anchor manifests, search, screenshots and exports.
-- [ ] Close or explicitly disposition every A1–A10 finding and R1 requirement. No P1 defect remains; exclusions narrow the public replacement claim visibly.
-- [ ] Re-run applicable original release checks below. Refresh Changeset/release notes and package support statements for the expanded scope; do not reuse the earlier release-candidate claims unchanged.
-- [ ] Record final accessibility, performance, host, consumer and provenance evidence; then request explicit release authorization for the repository's actual planned version.
-
-**Exit:** release readiness follows the evidence, not a calendar date. No public release date is set by this plan.
+- [ ] Reverify isolated packed consumers (`npm` and strict `pnpm`) using clean `test-consumer.mjs` without synthetic migration fixtures.
+- [ ] Run full package typecheck, lint, build, and `apps/docs-demo` build.
+- [ ] Review package exports, readme, and changeset.
+- [ ] Request explicit user authorization before tagging or publishing.
 
 ## Batch 1 — Product configuration and stable content contract
 
@@ -312,9 +234,9 @@ The following table records the original implementation batches. Their evidence 
 
 **Rulings and limits:** `init` has no network/install side effects and no force overwrite mode. It adds only missing scripts/dependency declarations, retains existing dependency sources, writes new files exclusively and stages existing-manifest replacement; failures clean up operation-owned files. Initialization expects a local directory with no concurrent filesystem mutation. The unpublished `0.0.0` starter dependency requires a local tarball until release. The Ask Widget source repository was inspected read-only; this batch completes the repository-owned rehearsal, not an external migration. API rows remain a checked-in docgen snapshot with rebuild verification, and the demo stream is local rather than an authenticated backend. Root/subpath Vercel/Netlify templates and a Cloudflare Pages recipe supplement the existing SHA-pinned Pages workflow; URL `base` alone does not relocate output files. Real-host deployments, broader accessibility/scale checks and publishing remain in the release gate. No Batch 7 blocker remains.
 
-## Original release gate — historical evidence, superseded by R0–R8
+## Release Gate — Historical Baseline and Verification Record
 
-Completed checks below describe the earlier narrow candidate. Re-run relevant checks against the expanded product at R8; these checkmarks do not override the release hold.
+Completed checks below describe the release candidate baseline established at Batch 7.
 
 - [x] Reconcile every incomplete item above and publish accurate support/limitations documentation.
 - [ ] Complete broader integration/browser coverage where the completed product reveals gaps; verify keyboard, screen reader, no-JS and reduced motion.
@@ -335,15 +257,15 @@ Completed checks below describe the earlier narrow candidate. Re-run relevant ch
 
 **Outstanding gates:** Manual screen-reader review and user screenshot approval; real root/subpath hosting; registry ownership/credentials and actual provenance attestation; explicit release authorization. Package contents, imports and two installed runtime versions are locally verified; provenance and rollback are documented but not exercised against a real release. Workflow completion above means local validation, not proof of a successful hosted run.
 
-**Commit title:** `fix(docs): harden release recovery and establish release budgets`
-
-**PR description:** Validate immutable-tag recovery and npm upload failure reconciliation, extend focused regression tests and measured performance budgets, and publish support/release limitations. Local package, consumer, browser and workflow checks pass; external deployment, accessibility approval and publishing remain separate gates.
-
 ## Parked work
 
-Versioning and multilingual/RTL routing are now proposed replacement requirements in R2/R3. Migration-backed authoring and extension work belongs in R1/R4 rather than being implicitly excluded.
+The following areas are explicitly parked outside this initial release to maintain a high-quality, focused product:
 
-Hosted analytics, AI chat, interactive API console, theme marketplace, AsyncAPI, arbitrary shell replacement, registry/blocks and main website migration remain separately scoped. Inventory offline, blog/RSS, tags and social-card generation during R1 and record a deliberate support or exclusion decision; do not claim universal ecosystem parity.
+- Drop-in competitor migration fixtures and automated foreign framework parsers (MkDocs, Starlight).
+- Multi-locale routing, fallback mechanisms, and right-to-left (RTL) layout switching.
+- Multi-version documentation systems (e.g. `mike`-style or version selector dropdowns).
+- 10,000-page Pagefind search replacement (current linear index is fast and compact at measured budgets).
+- Hosted analytics, AI chat / retrieval backend, interactive API execution console, AsyncAPI, and theme marketplace.
 
 ## Handoff format
 
