@@ -40,6 +40,20 @@ const pageTitle = site.titleTemplate.replace(
 	"%s",
 	page.metadata.seoTitle ?? page.metadata.title
 )
+const structuredData =
+	canonical && !site.noindex && !page.metadata.noindex
+		? {
+				"@context": "https://schema.org",
+				"@type":
+					page.metadata.layout === "reference" ? "TechArticle" : "Article",
+				headline: page.metadata.seoTitle ?? page.metadata.title,
+				url: canonical,
+				...(description ? { description } : {}),
+				...(page.metadata.updatedAt
+					? { dateModified: page.metadata.updatedAt }
+					: {}),
+			}
+		: undefined
 const pageKind =
 	page.metadata.badge ??
 	(page.metadata.layout === "reference" ? "Reference" : "Guide")
@@ -59,6 +73,29 @@ const findTrail = (items, route, trail = []) => {
 const trail = findTrail(navigationItems, page.route) ?? [
 	{ label: page.metadata.navTitle ?? page.metadata.title, href: page.route },
 ]
+const breadcrumbData =
+	structuredData && page.route !== "/"
+		? {
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				itemListElement: [
+					{
+						"@type": "ListItem",
+						position: 1,
+						name: "Docs",
+						item: new URL(href("/"), site.site).href,
+					},
+					...trail
+						.filter((item) => "href" in item)
+						.map((item, index) => ({
+							"@type": "ListItem",
+							position: index + 2,
+							name: item.label,
+							item: new URL(href(item.href), site.site).href,
+						})),
+				],
+			}
+		: undefined
 ---
 
 <!doctype html>
@@ -76,6 +113,32 @@ const trail = findTrail(navigationItems, page.route) ?? [
 		<meta name="description" content={description} />
 		{site.favicon && <link rel="icon" href={site.favicon} />}
 		{canonical && <link rel="canonical" href={canonical} />}
+		<meta property="og:title" content={pageTitle} />
+		{description && <meta property="og:description" content={description} />}
+		{canonical && <meta property="og:url" content={canonical} />}
+		<meta property="og:type" content="article" />
+		<meta
+			name="twitter:card"
+			content={site.socialImage ? "summary_large_image" : "summary"}
+		/>
+		{site.socialImage && (
+			<meta property="og:image" content={site.socialImage} />
+		)}
+		{site.socialImage && (
+			<meta name="twitter:image" content={site.socialImage} />
+		)}
+		{structuredData && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify(structuredData).replaceAll("<", "\\u003c")}
+			></script>
+		)}
+		{breadcrumbData && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify(breadcrumbData).replaceAll("<", "\\u003c")}
+			></script>
+		)}
 		{(site.noindex || page.metadata.noindex) && (
 			<meta name="robots" content="noindex, nofollow" />
 		)}
@@ -90,6 +153,9 @@ const trail = findTrail(navigationItems, page.route) ?? [
 		<script is:inline src={`${site.base}theme.js`}></script>
 		<link rel="stylesheet" href={`${site.base}docs.css`} />
 		{site.stylesheet && <link rel="stylesheet" href={site.stylesheet} />}
+		{site.integrationScripts.map((src) => (
+			<script is:inline src={src} defer></script>
+		))}
 		<script src={`${site.base}client.js`} defer></script>
 	</head>
 	<body>
@@ -215,6 +281,17 @@ const trail = findTrail(navigationItems, page.route) ?? [
 						aria-describedby="search-status"
 					/>
 				</label>
+				<div class="search-scopes" role="group" aria-label="Search scope">
+					<button type="button" data-search-scope="all" aria-pressed="true">
+						All
+					</button>
+					<button type="button" data-search-scope="guide" aria-pressed="false">
+						Guides
+					</button>
+					<button type="button" data-search-scope="api" aria-pressed="false">
+						API
+					</button>
+				</div>
 				<p id="search-status" role="status">
 					Type to search.
 				</p>
@@ -318,6 +395,17 @@ const trail = findTrail(navigationItems, page.route) ?? [
 					<Content />
 				</article>
 				<div class="page-actions">
+					{page.markdownHref && (
+						<button
+							class="copy-markdown"
+							type="button"
+							data-markdown-url={page.markdownHref}
+							hidden
+						>
+							Copy Markdown
+						</button>
+					)}
+					<span class="copy-markdown-status" role="status"></span>
 					{page.editHref && <a href={page.editHref}>{page.editLabel}</a>}
 					{site.copyPageLink && (
 						<button class="copy-page-link" type="button" hidden>

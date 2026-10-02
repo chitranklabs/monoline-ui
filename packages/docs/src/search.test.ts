@@ -29,6 +29,7 @@ function run() {
 afterEach(() => {
 	vi.unstubAllGlobals()
 	document.body.replaceChildren()
+	localStorage.clear()
 })
 
 it("ranks titles and headings, matches all terms, and handles empty/unicode queries", () => {
@@ -38,6 +39,16 @@ it("ranks titles and headings, matches all terms, and handles empty/unicode quer
 	expect(searchEntries(entries, "missing")).toEqual([])
 	expect(searchEntries(entries, "install missing")).toEqual([])
 	expect(searchEntries(entries, "ｐｎｐｍ")).toHaveLength(1)
+	expect(
+		searchEntries(
+			[
+				{ ...entries[0], scope: "guide" },
+				{ ...entries[1], scope: "api" },
+			],
+			"packages",
+			"api"
+		)
+	).toHaveLength(1)
 })
 
 it("closes on the first Escape even when the search input has a query", () => {
@@ -61,7 +72,7 @@ it("closes on the first Escape even when the search input has a query", () => {
 
 function mount() {
 	document.body.innerHTML =
-		'<header></header><button class="search-trigger" hidden>Search</button><dialog class="search-dialog" data-index="/handbook/search-index.json"><button class="search-close">Close</button><input><p role="status"></p><ul></ul></dialog>'
+		'<header></header><button class="search-trigger" hidden>Search</button><dialog class="search-dialog" data-index="/handbook/search-index.json"><button class="search-close">Close</button><input><button data-search-scope="all" aria-pressed="true">All</button><button data-search-scope="api" aria-pressed="false">API</button><p role="status"></p><ul></ul></dialog>'
 	const dialog = document.querySelector("dialog")!
 	dialog.showModal = () => {
 		dialog.open = true
@@ -105,6 +116,65 @@ it("loads once on demand, renders text safely, supports arrows and restores focu
 	input.value = "nothing"
 	input.dispatchEvent(new Event("input"))
 	expect(dialog.textContent).toContain("No results")
+})
+
+it("filters guide and API results and highlights the match safely", async () => {
+	vi.stubGlobal(
+		"fetch",
+		vi.fn().mockResolvedValue({
+			ok: true,
+			json: async () => [
+				{ ...entries[0], scope: "guide" },
+				{ ...entries[1], scope: "api" },
+			],
+		})
+	)
+	const { dialog, input, trigger } = mount()
+	input.value = "packages"
+	trigger.click()
+	await vi.waitFor(() =>
+		expect(dialog.querySelectorAll("ul a")).toHaveLength(2)
+	)
+	dialog.querySelector<HTMLButtonElement>('[data-search-scope="api"]')!.click()
+	expect(dialog.querySelectorAll("ul a")).toHaveLength(1)
+	expect(dialog.querySelector("ul mark")?.textContent?.toLowerCase()).toBe(
+		"packages"
+	)
+	expect(
+		dialog
+			.querySelector('[data-search-scope="api"]')
+			?.getAttribute("aria-pressed")
+	).toBe("true")
+})
+
+it("revisits recent queries with arrow keys", async () => {
+	vi.stubGlobal(
+		"fetch",
+		vi.fn().mockResolvedValue({ ok: true, json: async () => entries })
+	)
+	const { dialog, input, trigger } = mount()
+	trigger.click()
+	await vi.waitFor(() =>
+		expect(dialog.querySelectorAll("ul a")).toHaveLength(0)
+	)
+	input.value = "packages"
+	input.dispatchEvent(new Event("input", { bubbles: true }))
+	await vi.waitFor(() =>
+		expect(dialog.querySelectorAll("ul a")).toHaveLength(2)
+	)
+	dialog
+		.querySelector<HTMLAnchorElement>("ul a")!
+		.addEventListener("click", (event) => event.preventDefault())
+	dialog.querySelector<HTMLAnchorElement>("ul a")!.click()
+	dialog.close()
+	trigger.click()
+	input.value = ""
+	input.dispatchEvent(new Event("input", { bubbles: true }))
+	input.focus()
+	dialog.dispatchEvent(
+		new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true })
+	)
+	expect(dialog.querySelector("ul button")).toBe(document.activeElement)
 })
 
 it("reports fetch and unsafe-index errors and retries on reopening", async () => {

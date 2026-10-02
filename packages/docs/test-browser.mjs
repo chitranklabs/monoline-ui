@@ -430,6 +430,20 @@ try {
 		await expect(page.locator(".copy-page-link")).toHaveCount(
 			base === "/handbook/" ? 0 : 1
 		)
+		await page.evaluate(() => {
+			Object.defineProperty(navigator, "clipboard", {
+				configurable: true,
+				value: {
+					writeText: async (text) => {
+						window.copiedMarkdown = text
+					},
+				},
+			})
+		})
+		await page.locator(".copy-markdown").click()
+		await expect
+			.poll(() => page.evaluate(() => window.copiedMarkdown))
+			.toContain("narwhal instructions")
 		await page
 			.locator('nav[aria-label="On this page"] a[href="#installation"]')
 			.click()
@@ -460,6 +474,15 @@ try {
 		await expect(input).toBeFocused()
 		await input.fill("narwhal")
 		await expect(page.locator(".search-results a")).toHaveCount(1)
+		await page.getByRole("button", { name: "API", exact: true }).click()
+		await expect(page.locator(".search-results a")).toHaveCount(0)
+		await page.getByRole("button", { name: "Guides", exact: true }).click()
+		await expect(page.locator(".search-results a")).toHaveCount(1)
+		if (process.env.DOCS_SCREENSHOT_DIR && base === "/")
+			await page.screenshot({
+				path: join(process.env.DOCS_SCREENSHOT_DIR, "search-guides.png"),
+			})
+		await page.getByRole("button", { name: "All", exact: true }).click()
 		await input.press("ArrowDown")
 		await expect(page.locator(".search-results a")).toBeFocused()
 		await page.keyboard.press("Enter")

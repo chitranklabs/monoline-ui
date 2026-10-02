@@ -127,6 +127,21 @@ if (header && "ResizeObserver" in globalThis) {
 }
 
 const copyPageLink = document.querySelector(".copy-page-link")
+const copyMarkdown = document.querySelector(".copy-markdown")
+if (copyMarkdown && navigator.clipboard?.writeText) {
+	copyMarkdown.hidden = false
+	copyMarkdown.addEventListener("click", async () => {
+		const status = document.querySelector(".copy-markdown-status")
+		try {
+			const response = await fetch(copyMarkdown.dataset.markdownUrl)
+			if (!response.ok) throw new Error("Markdown unavailable")
+			await navigator.clipboard.writeText(await response.text())
+			status.textContent = "Markdown copied"
+		} catch {
+			status.textContent = "Copy failed"
+		}
+	})
+}
 if (copyPageLink && navigator.clipboard?.writeText) {
 	const status = document.querySelector(".copy-page-status")
 	copyPageLink.hidden = false

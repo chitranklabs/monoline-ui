@@ -28,7 +28,8 @@
 | 3            | Complete | 171 package tests, typecheck/lint, engine/demo and packed consumers pass; production Chrome verifies sections, sticky anchors, desktop/mobile scroll restoration and no-JS navigation.                  |
 | 4            | Complete | Static authoring components and synchronized CodeGroup verified: 171 package tests, engine/demo, packed npm/strict pnpm public imports, keyboard/no-JS/print and Chrome/axe at root/subpath/clean URLs. |
 | 5            | Complete | Library references and local OpenAPI verified: 193 tests, typecheck/lint, package/demo builds, packed npm/strict pnpm and Chrome/axe at root/subpath/clean URLs.                                        |
-| 6–7          | Pending  | Search/SEO/integration and remaining release work follow.                                                                                                                                               |
+| 6            | Complete | Search/SEO/exports verified: 202 package tests, typecheck/lint, package/engine/demo builds and production Chrome at root/subpath/clean URLs.                                                            |
+| 7            | Pending  | Adoption and real-product migration follow.                                                                                                                                                             |
 | Release gate | Pending  | Publication stays blocked until all batches and release checks pass.                                                                                                                                    |
 
 ## Batch 1 — Product configuration and stable content contract
@@ -132,16 +133,20 @@
 
 **Owns:** `search.js`, `astro-engine.ts`, `astro-page.astro`, configuration and the existing rendered-content inspection.
 
-- [ ] Add guide/API search scopes, highlighted matches, local recent searches and useful empty results.
-- [ ] Honor site/page search controls without exposing drafts or excluded content. Preserve keyboard navigation and retry behavior.
-- [ ] Measure current search on a representative large fixture; adopt Pagefind only if results justify the added dependency and migration.
-- [ ] Complete canonical URLs, title templates, social images/cards, favicon, robots and sitemap exclusions for `noindex` pages.
-- [ ] Add appropriate breadcrumb/technical-page structured data from the existing manifest; do not invent authors, dates or claims.
-- [ ] Add filtered Markdown export, copy-as-Markdown and `llms.txt`/`llms-full.txt` using published content only.
-- [ ] Add explicit optional analytics/custom-script configuration with no bundled provider or tracking by default.
-- [ ] Verify one searchable guide/API pair, excluded content, subpath metadata and unsafe integration input.
+- [x] Add guide/API search scopes, highlighted matches, local recent searches and useful empty results.
+- [x] Honor site/page search controls without exposing drafts or excluded content. Preserve keyboard navigation and retry behavior.
+- [x] Measure current search on a representative large fixture; adopt Pagefind only if results justify the added dependency and migration.
+- [x] Complete canonical URLs, title templates, social images/cards, favicon, robots and sitemap exclusions for `noindex` pages.
+- [x] Add appropriate breadcrumb/technical-page structured data from the existing manifest; do not invent authors, dates or claims.
+- [x] Add filtered Markdown export, copy-as-Markdown and `llms.txt`/`llms-full.txt` using published content only.
+- [x] Add explicit optional analytics/custom-script configuration with no bundled provider or tracking by default.
+- [x] Verify one searchable guide/API pair, excluded content, subpath metadata and unsafe integration input.
 
 **Done when:** discovery features agree on published routes and visibility rules, with stable metadata and useful search.
+
+**Verification — October 1, 2026:** All 202 Docs package tests pass, including regressions observed failing for noindex search exposure, slugged Markdown links, disabled-index AI files, recent-search keyboard access and social-image configuration. Typecheck, targeted ESLint/Prettier/Markdownlint, package build, engine fixture, nine-page demo and whitespace checks pass. Production Chrome verifies guide/API search scopes, highlighted results, keyboard behavior, Markdown copy, no-JS reading/navigation and axe at root, subpath and clean URLs. Desktop/mobile light/dark screenshots were inspected; the search dialog was inspected at desktop width. A synthetic 5,000-section index (about 1,000 five-section pages; 829 KB JSON) measured 1.34 ms median and 1.98 ms p95 across 100 in-memory queries locally. This does not measure fetch or parsing on a slow device; Pagefind is deferred pending release-gate scale checks.
+
+**Limits:** MDX exports contain readable rendered text and omit interactive island content and code-block formatting. Markdown exports keep authored Markdown and resolve common inline/reference page links to public routes; uncommon Markdown URL syntax and source-relative image paths need a dedicated export parser before claiming complete fidelity. `noindex` pages are absent from search, sitemap, Markdown and AI indexes; disabling site indexing removes AI indexes. `robots.txt` is emitted only for root deployment because a subpath build does not own the host root. External scripts remain explicit trusted author configuration, with no bundled tracking.
 
 ## Batch 7 — Adoption and real-product migration
 

@@ -84,7 +84,8 @@ summary:focus-visible {
 	visibility: hidden;
 }
 .has-js .copy-code[hidden],
-.has-js .copy-page-link[hidden] {
+.has-js .copy-page-link[hidden],
+.has-js .copy-markdown[hidden] {
 	display: inline-block !important;
 	visibility: hidden;
 }
@@ -95,7 +96,8 @@ summary:focus-visible {
 .copy-code,
 .nav-toggle,
 .nav-close,
-.copy-page-link {
+.copy-page-link,
+.copy-markdown {
 	font: inherit;
 	color: var(--foreground);
 	background: var(--control-surface);
@@ -113,7 +115,8 @@ summary:focus-visible {
 .search-trigger,
 .nav-toggle,
 .nav-close,
-.copy-page-link {
+.copy-page-link,
+.copy-markdown {
 	cursor: pointer;
 }
 .nav-toggle,
@@ -151,7 +154,8 @@ summary:focus-visible {
 .theme-control select:hover,
 .nav-toggle:hover,
 .nav-close:hover,
-.copy-page-link:hover {
+.copy-page-link:hover,
+.copy-markdown:hover {
 	border-color: color-mix(in srgb, var(--foreground) 22%, transparent);
 }
 .search-dialog {
@@ -188,6 +192,28 @@ summary:focus-visible {
 	min-height: 2.75rem;
 	font-size: 1rem;
 	background: var(--background);
+}
+.search-scopes {
+	display: flex;
+	gap: 0.35rem;
+	padding: 0 1rem 0.75rem;
+}
+.search-scopes button {
+	font: inherit;
+	color: var(--muted-foreground);
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.3rem 0.75rem;
+}
+.search-scopes button[aria-pressed="true"] {
+	color: var(--foreground);
+	background: var(--background);
+	border-color: var(--accent);
+}
+.search-results mark {
+	color: inherit;
+	background: color-mix(in srgb, var(--accent) 24%, transparent);
 }
 #search-status,
 .search-results p {
@@ -642,10 +668,12 @@ td {
 	font-size: 0.875rem;
 }
 .page-actions a,
-.copy-page-link {
+.copy-page-link,
+.copy-markdown {
 	color: var(--muted-foreground);
 }
-.copy-page-link {
+.copy-page-link,
+.copy-markdown {
 	padding: 0;
 	border: 0;
 	background: transparent;

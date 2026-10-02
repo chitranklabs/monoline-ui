@@ -154,7 +154,22 @@ it("normalizes the nested product configuration for existing renderers", () => {
 it.each([
 	[{ branding: { typo: true } }, "branding.typo"],
 	[{ navigation: [{ label: "Guides", tabs: [] }] }, "navigation entry.tabs"],
-	[{ seo: { socialImage: "/assets/social.png" } }, "seo.socialImage"],
+	[
+		{ seo: { socialImage: "https://example.com/social.png" } },
+		"seo.socialImage",
+	],
+	[
+		{ seo: { socialImage: "/assets/social.png" } },
+		"seo.socialImage requires site",
+	],
+	[
+		{ integrations: { scripts: ["javascript:alert(1)"] } },
+		"integrations.scripts entry",
+	],
+	[
+		{ integrations: { scripts: ["http://example.com/a.js"] } },
+		"must use HTTPS",
+	],
 	[{ search: { enabled: "yes" } }, "search.enabled"],
 	[{ seo: { titleTemplate: "Documentation" } }, "contain %s"],
 ])("rejects invalid nested configuration %j", (input, error) => {

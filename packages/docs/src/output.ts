@@ -73,9 +73,11 @@ function safeName(name: unknown): name is string {
 			isAssetName(name) ||
 			/^(?:[\p{L}\p{N}_-]+\/)*index\.html$/u.test(name) ||
 			/^(?:[\p{L}\p{N}_-]+\/)*[\p{L}\p{N}_-]+\.html$/u.test(name) ||
+			/^(?:[\p{L}\p{N}_-]+\/)*[\p{L}\p{N}_-]+\.md$/u.test(name) ||
 			/^(?:404\.html|docs\.css|theme\.js|client\.js|search\.js|search-index\.json|sitemap\.xml|robots\.txt)$/.test(
 				name
 			) ||
+			/^(?:llms\.txt|llms-full\.txt)$/.test(name) ||
 			/^_astro\/[\p{L}\p{N}_.@/-]+$/u.test(name)
 		)
 	return false

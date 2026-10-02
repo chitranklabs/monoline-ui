@@ -56,6 +56,10 @@ it("keeps hosted previews noindex without exposing drafts and restores productio
 	expect(
 		await readFile(join(options.outDirectory, "search-index.json"), "utf8")
 	).not.toContain("Secret content")
+	await expect(access(join(options.outDirectory, "llms.txt"))).rejects.toThrow()
+	await expect(
+		access(join(options.outDirectory, "llms-full.txt"))
+	).rejects.toThrow()
 	await expect(
 		access(join(options.outDirectory, "draft/index.html"))
 	).rejects.toThrow()
@@ -72,6 +76,113 @@ it("keeps hosted previews noindex without exposing drafts and restores productio
 	await expect(
 		access(join(options.outDirectory, "sitemap.xml"))
 	).resolves.toBeUndefined()
+	expect(
+		await readFile(join(options.outDirectory, "llms-full.txt"), "utf8")
+	).not.toContain("Secret content")
+})
+
+it("keeps noindex routes out of the sitemap while preserving their pages", async () => {
+	const options = { ...(await fixture()), site: "https://example.com" }
+	await writeFile(
+		join(options.contentDirectory, "guide.md"),
+		"---\ntitle: Private guide\nnoindex: true\n---\n# Install\n"
+	)
+	await buildDocs(options)
+	const sitemap = await readFile(
+		join(options.outDirectory, "sitemap.xml"),
+		"utf8"
+	)
+	expect(sitemap).toContain("https://example.com/")
+	expect(sitemap).not.toContain("/guide/")
+	expect(
+		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
+	).toContain('name="robots" content="noindex, nofollow"')
+	expect(
+		await readFile(join(options.outDirectory, "llms.txt"), "utf8")
+	).not.toContain("Private guide")
+	expect(
+		await readFile(join(options.outDirectory, "llms-full.txt"), "utf8")
+	).not.toContain("Private guide")
+	expect(
+		await readFile(join(options.outDirectory, "search-index.json"), "utf8")
+	).not.toContain("Private guide")
+	await expect(
+		access(join(options.outDirectory, "guide/index.md"))
+	).rejects.toThrow()
+})
+
+it("rewrites relative links in Markdown exports for slugged routes", async () => {
+	const options = { ...(await fixture()), base: "/handbook/" }
+	await mkdir(join(options.contentDirectory, "manual"))
+	await writeFile(
+		join(options.contentDirectory, "manual/start.md"),
+		"---\ntitle: Start\nslug: getting-started\n---\n# Start\n[Next](next.md) and `[Sample](next.md)`\n[More][next]\n\n[next]: next.md\n\n```md\n[Example](next.md)\n```\n"
+	)
+	await writeFile(
+		join(options.contentDirectory, "manual/next.md"),
+		"---\ntitle: Next\n---\n# Next\n"
+	)
+	await buildDocs(options)
+	const exported = await readFile(
+		join(options.outDirectory, "getting-started/index.md"),
+		"utf8"
+	)
+	expect(exported).toContain("[Next](/handbook/manual/next/)")
+	expect(exported).toContain("`[Sample](next.md)`")
+	expect(exported).toContain("[next]: /handbook/manual/next/")
+	expect(exported).toContain("```md\n[Example](next.md)\n```")
+})
+
+it("exports published Markdown and emits configured social and integration metadata", async () => {
+	const options = {
+		...(await fixture()),
+		site: "https://example.com",
+		base: "/docs/",
+	}
+	const assetsDirectory = join(options.contentDirectory, "../assets")
+	await mkdir(assetsDirectory)
+	await writeFile(join(assetsDirectory, "social.png"), "image")
+	await writeFile(
+		join(assetsDirectory, "analytics.js"),
+		"window.__analyticsLoaded = true"
+	)
+	await buildDocs({
+		...options,
+		assetsDirectory,
+		seo: { socialImage: "/assets/social.png" },
+		integrations: { scripts: ["/assets/analytics.js"] },
+	})
+	const html = await readFile(join(options.outDirectory, "index.html"), "utf8")
+	expect(html).toContain('content="https://example.com/docs/assets/social.png"')
+	expect(html).toContain('src="/docs/assets/analytics.js"')
+	expect(html).toContain('data-markdown-url="/docs/index.md"')
+	expect(
+		await readFile(join(options.outDirectory, "guide/index.md"), "utf8")
+	).toContain("# Install")
+	expect(
+		await readFile(join(options.outDirectory, "llms.txt"), "utf8")
+	).toContain("/docs/guide/index.md")
+	expect(
+		await readFile(join(options.outDirectory, "llms-full.txt"), "utf8")
+	).toContain("# Install")
+	expect(
+		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
+	).toContain("BreadcrumbList")
+})
+
+it("removes search artifacts when site search is disabled on rebuild", async () => {
+	const options = await fixture()
+	await buildDocs(options)
+	await buildDocs({ ...options, search: { enabled: false } })
+	await expect(
+		access(join(options.outDirectory, "search-index.json"))
+	).rejects.toThrow()
+	await expect(
+		access(join(options.outDirectory, "search.js"))
+	).rejects.toThrow()
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).not.toContain("search-dialog")
 })
 
 it("applies branding, stylesheet order, default mode, language and production URLs", async () => {
@@ -169,6 +280,7 @@ it("indexes readable sections with stable anchors and removes production drafts 
 	expect(raw).not.toContain("Secret draft")
 	expect(raw).not.toContain("excluded fence noise")
 	expect(index).toContainEqual({
+		scope: "guide",
 		title: "Guide",
 		heading: "Install",
 		text: "Install Use packages and pnpm.",

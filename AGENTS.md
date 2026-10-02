@@ -11,14 +11,5 @@
 
 ## Efficient discovery
 
-<!-- BEGIN KEDVIO MANAGED -->
-
-Prefix verbose CLI checks with `rtk` when supported. Use raw commands when exact source text or whitespace diagnostics are needed.
-
-Before source reads use codebase-memory or Serena symbol/call-site discovery when available. If no index exists, use narrow `rg` searches rather than indexing the whole repository solely for a small task.
-
-For files over 150 lines, run `kedvio outline <path>` before inspecting explicit line slices. If Kedvio is unavailable, use an available symbol outline or scoped search. Avoid broad repository scans and unbounded output.
-<!-- END KEDVIO MANAGED -->
-
 - Reuse existing commands and dependencies. Avoid adding scripts for simple commands, speculative helpers or repeated test setup.
 - Run checks relevant to the change; broaden only when failures or unresolved concerns justify it.

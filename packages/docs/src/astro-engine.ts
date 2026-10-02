@@ -42,6 +42,53 @@ const inside = (parent: string, child: string) => {
 	return path === "" || (!path.startsWith("..") && !isAbsolute(path))
 }
 
+function resolveExportLinks(
+	source: string,
+	resolveLink: (link: string) => string,
+	resolveAsset: (link: string) => string
+): string {
+	let fence: string | undefined
+	const rewrite = (text: string) =>
+		text.replace(
+			/(!?\[[^\]\n]*\]\()([^\s)]+)(\))/g,
+			(_match, opening: string, link: string, closing: string) =>
+				`${opening}${opening.startsWith("!") ? (link.startsWith("/assets/") ? resolveAsset(link) : link) : resolveLink(link)}${closing}`
+		)
+	return source.replace(/^.*$/gm, (line) => {
+		const marker = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/)
+		if (fence) {
+			if (
+				marker &&
+				marker[1]![0] === fence[0] &&
+				marker[1]!.length >= fence.length &&
+				!marker[2]!.trim()
+			)
+				fence = undefined
+			return line
+		}
+		if (marker) {
+			fence = marker[1]
+			return line
+		}
+		const reference = line.match(/^( {0,3}\[[^\]]+\]:\s*)(\S+)(.*)$/)
+		if (reference)
+			return `${reference[1]}${resolveLink(reference[2]!)}${reference[3]}`
+		let result = ""
+		let cursor = 0
+		while (cursor < line.length) {
+			const start = line.indexOf("`", cursor)
+			if (start < 0) return result + rewrite(line.slice(cursor))
+			result += rewrite(line.slice(cursor, start))
+			const marker = line.slice(start).match(/^`+/)![0]
+			const end = line.indexOf(marker, start + marker.length)
+			if (end < 0) return result + line.slice(start)
+			result += line.slice(start, end + marker.length)
+			cursor = end + marker.length
+		}
+		return result
+	})
+}
+
 /** Internal parity path: stage, validate, then update only managed output files. */
 export async function buildAstroDocsWithDependencies(
 	config: MonolineDocsConfig
@@ -199,6 +246,15 @@ export async function buildAstroSite(
 				favicon: options.branding.favicon
 					? assetUrl(options.branding.favicon)
 					: undefined,
+				socialImage: options.seo.socialImage
+					? options.site
+						? new URL(assetUrl(options.seo.socialImage), options.site).href
+						: undefined
+					: undefined,
+				integrationScripts:
+					options.integrations?.scripts?.map((script) =>
+						script.startsWith("/assets/") ? assetUrl(script) : script
+					) ?? [],
 				stylesheet: options.stylesheet
 					? assetUrl(options.stylesheet)
 					: undefined,
@@ -210,9 +266,10 @@ export async function buildAstroSite(
 				navigation,
 				noindex: options.environment === "development" || !options.indexing,
 				searchEnabled: options.search.enabled,
+				markdownEnabled: true,
 				titleTemplate: options.seo.titleTemplate,
 			})};`,
-			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},editHref:${JSON.stringify(options.editLink && !generated?.pages.includes(page) ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
+			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},markdownHref:${JSON.stringify(!page.metadata.noindex ? options.base + (page.route === "/" ? "index.md" : page.route.slice(1) + (options.cleanUrls ? ".md" : "/index.md")) : undefined)},editHref:${JSON.stringify(options.editLink && !generated?.pages.includes(page) ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
 		].join("\n")
 		const integration: AstroIntegration = {
 			name: "monoline-docs",
@@ -501,7 +558,11 @@ export async function buildAstroSite(
 				"\n" +
 				appearanceCss
 		)
-		for (const name of ["theme.js", "client.js", "search.js"])
+		for (const name of [
+			"theme.js",
+			"client.js",
+			...(options.search.enabled ? ["search.js"] : []),
+		])
 			await writeFile(
 				join(directory, name),
 				await readFile(new URL(`./${name}`, import.meta.url), "utf8")
@@ -518,7 +579,13 @@ export async function buildAstroSite(
 		) {
 			await writeFile(
 				join(directory, "sitemap.xml"),
-				`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map((page) => `<url><loc>${new URL(routeHref(page.route, options.base, options.cleanUrls), options.site).href}</loc></url>`).join("")}</urlset>`
+				`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages
+					.filter((page) => !page.metadata.noindex)
+					.map(
+						(page) =>
+							`<url><loc>${new URL(routeHref(page.route, options.base, options.cleanUrls), options.site).href}</loc></url>`
+					)
+					.join("")}</urlset>`
 			)
 			if (options.base === "/")
 				await writeFile(
@@ -564,23 +631,81 @@ export async function buildAstroSite(
 				join(directory, pageFile(route, options.cleanUrls)),
 				document.html
 			)
-		await writeFile(
-			join(directory, "search-index.json"),
-			JSON.stringify(
-				pages
-					.filter((page) => page.metadata.search !== false)
-					.flatMap((page) =>
-						documents.get(page.route)!.sections.map((section) => ({
-							title: page.metadata.title,
-							heading: section.heading,
-							text: section.text,
-							url:
-								routeHref(page.route, options.base, options.cleanUrls) +
-								(section.id ? `#${encodeURIComponent(section.id)}` : ""),
-						}))
-					)
+		const published = pages.filter((page) => !page.metadata.noindex)
+		const markdownPages = published.map((page) => {
+			const markdown =
+				page.format === "md"
+					? resolveExportLinks(
+							page.source,
+							(link) => links.resolve(page, link),
+							assetUrl
+						)
+					: documents
+							.get(page.route)!
+							.sections.map((section, index) =>
+								index === 0
+									? section.text
+									: `## ${section.heading}\n\n${section.text.slice(section.heading.length).trim()}`
+							)
+							.filter(Boolean)
+							.join("\n\n")
+			const path =
+				page.route === "/"
+					? "index.md"
+					: `${page.route.slice(1)}${options.cleanUrls ? ".md" : "/index.md"}`
+			return {
+				page,
+				path,
+				markdown:
+					page.format === "md"
+						? `${markdown.trim()}\n`
+						: `# ${page.metadata.title}\n\n${markdown.trim()}\n`,
+			}
+		})
+		for (const entry of markdownPages) {
+			await mkdir(dirname(join(directory, entry.path)), { recursive: true })
+			await writeFile(join(directory, entry.path), entry.markdown)
+		}
+		if (options.indexing && options.environment === "production") {
+			await writeFile(
+				join(directory, "llms.txt"),
+				`# ${options.title}\n\n${options.description ?? ""}\n\n${markdownPages.map(({ page, path }) => `- [${page.metadata.title}](${options.base}${path})${page.metadata.description ? `: ${page.metadata.description}` : ""}`).join("\n")}\n`
 			)
-		)
+			await writeFile(
+				join(directory, "llms-full.txt"),
+				markdownPages
+					.map(
+						({ page, markdown }) =>
+							`<!-- ${routeHref(page.route, options.base, options.cleanUrls)} -->\n${markdown}`
+					)
+					.join("\n---\n\n")
+			)
+		}
+		if (options.search.enabled)
+			await writeFile(
+				join(directory, "search-index.json"),
+				JSON.stringify(
+					pages
+						.filter(
+							(page) => page.metadata.search !== false && !page.metadata.noindex
+						)
+						.flatMap((page) =>
+							documents.get(page.route)!.sections.map((section) => ({
+								scope:
+									page.metadata.layout === "reference" ||
+									generated?.pages.includes(page)
+										? "api"
+										: "guide",
+								title: page.metadata.title,
+								heading: section.heading,
+								text: section.text,
+								url:
+									routeHref(page.route, options.base, options.cleanUrls) +
+									(section.id ? `#${encodeURIComponent(section.id)}` : ""),
+							}))
+						)
+				)
+			)
 		return { directory, pages, dependencies: [...dependencies].sort(), dispose }
 	} catch (error) {
 		await dispose()

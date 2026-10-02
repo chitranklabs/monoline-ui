@@ -66,8 +66,8 @@ content:
 
 Density defaults to `comfortable`; sidebar, last-updated dates and copy-link
 controls default to enabled. Page `sidebar: false` still hides its sidebar.
-Dates require `updatedAt` frontmatter. Copying means the current page URL,
-including its fragment; Markdown export is separate work.
+Dates require `updatedAt` frontmatter. Copying the page link uses the current
+URL, including its fragment. Copy Markdown reads the generated export.
 
 Header links accept documentation routes or absolute HTTP(S) URLs. Favicon
 files accept SVG, PNG or ICO. Fonts accept local WOFF2, WOFF, TTF or OTF assets;
@@ -75,6 +75,36 @@ font family names use letters, numbers, spaces or hyphens. Local fonts use
 `font-display: optional` to avoid late font swaps; a slow first visit may use
 the fallback. Fonts are never fetched remotely by configuration. Custom CSS
 loads after generated tokens, so existing stylesheet overrides still work.
+
+## Discovery and integrations
+
+Search loads its local index when opened. Readers can scope results to guides or
+API references; recent queries stay in local browser storage when available.
+`search: false` in page frontmatter removes that page from search, while
+`noindex: true` removes it from search, the sitemap, Markdown export and AI indexes.
+Production drafts are absent from all generated output. Published pages include
+a Markdown copy action, and the build emits `llms.txt` and `llms-full.txt`.
+The AI indexes are omitted when site indexing is disabled or in development.
+Markdown pages export their authored body; MDX pages export readable rendered
+text, without interactive island content or code block formatting.
+
+Set `site` to emit canonical URLs and a sitemap. Optional metadata and scripts
+are explicit:
+
+```yaml
+site: https://docs.example.com
+seo:
+  titleTemplate: "%s | Team handbook"
+  socialImage: /assets/social.png
+integrations:
+  scripts:
+    - /assets/analytics.js
+```
+
+The social image must be a local PNG, JPEG or WebP asset; without `site`, no
+absolute social image URL is emitted. Integration scripts must be local
+`/assets/*.js` files or HTTPS URLs. They load only when configured. Script
+content and external providers are trusted author choices.
 
 ## Requirements
 

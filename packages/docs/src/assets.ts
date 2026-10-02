@@ -37,6 +37,8 @@ export const assetTypes: Record<string, string> = {
 	".ttf": "font/ttf",
 	".otf": "font/otf",
 	".css": "text/css; charset=utf-8",
+	".js": "text/javascript; charset=utf-8",
+	".md": "text/markdown; charset=utf-8",
 	".pdf": "application/pdf",
 	".txt": "text/plain; charset=utf-8",
 	".json": "application/json",
@@ -44,7 +46,7 @@ export const assetTypes: Record<string, string> = {
 }
 
 export function isAssetName(name: string): boolean {
-	return /^assets\/(?:[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)*\/)*[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)*\.(svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf|css|pdf|txt|json)$/u.test(
+	return /^assets\/(?:[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)*\/)*[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)*\.(svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf|css|js|pdf|txt|json)$/u.test(
 		name
 	)
 }

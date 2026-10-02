@@ -63,6 +63,8 @@ export interface DocsSearchConfig {
 export interface DocsSeoConfig {
 	/** `%s` is replaced with the page SEO title. */
 	titleTemplate?: string
+	/** Local image from assetsDirectory. */
+	socialImage?: string
 }
 
 export interface MonolineDocsConfig {
@@ -90,6 +92,8 @@ export interface MonolineDocsConfig {
 	content?: DocsContentConfig
 	search?: DocsSearchConfig
 	seo?: DocsSeoConfig
+	/** Explicit script URLs for optional analytics or other integrations. */
+	integrations?: { scripts?: string[] }
 	/** @deprecated Use appearance.defaultMode. */
 	defaultMode?: "light" | "dark" | "system"
 	/** @deprecated Use branding.logo. */
@@ -170,6 +174,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"content",
 		"search",
 		"seo",
+		"integrations",
 		"defaultMode",
 		"logo",
 		"headerLinks",
@@ -251,7 +256,26 @@ export function defineConfig(config: MonolineDocsConfig) {
 	if (config.search !== undefined)
 		object(config.search as unknown, "search", ["enabled"])
 	if (config.seo !== undefined)
-		object(config.seo as unknown, "seo", ["titleTemplate"])
+		object(config.seo as unknown, "seo", ["titleTemplate", "socialImage"])
+	if (config.integrations !== undefined) {
+		object(config.integrations as unknown, "integrations", ["scripts"])
+		if (config.integrations.scripts !== undefined) {
+			if (!Array.isArray(config.integrations.scripts))
+				throw new Error("integrations.scripts must be an array")
+			for (const script of config.integrations.scripts) {
+				string(script, "integrations.scripts entry")
+				if (script.startsWith("/assets/"))
+					localAsset(script, "integrations.scripts entry", /\.js$/)
+				else {
+					const url = httpUrl(script, "integrations.scripts entry")
+					if (url.protocol !== "https:")
+						throw new Error(
+							"integrations.scripts entry must use HTTPS or a local /assets/*.js file"
+						)
+				}
+			}
+		}
+	}
 	for (const [path, value] of [
 		["sidebar.enabled", config.sidebar?.enabled],
 		["content.showLastUpdated", config.content?.showLastUpdated],
@@ -293,6 +317,15 @@ export function defineConfig(config: MonolineDocsConfig) {
 	}
 	if (config.branding?.favicon !== undefined)
 		localAsset(config.branding.favicon, "branding.favicon", /\.(svg|png|ico)$/)
+	if (config.seo?.socialImage !== undefined) {
+		localAsset(
+			config.seo.socialImage,
+			"seo.socialImage",
+			/\.(png|jpe?g|webp)$/i
+		)
+		if (!site)
+			throw new Error("seo.socialImage requires site for an absolute URL")
+	}
 	if (config.appearance?.fonts !== undefined) {
 		object(config.appearance.fonts, "appearance.fonts", ["body", "code"])
 		for (const role of ["body", "code"] as const) {
