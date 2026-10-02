@@ -1,7 +1,9 @@
 import { load } from "js-yaml"
 import assert from "node:assert/strict"
-import { spawnSync } from "node:child_process"
-import { readFileSync } from "node:fs"
+import { execFileSync, spawnSync } from "node:child_process"
+import { mkdtempSync, readFileSync, rmSync } from "node:fs"
+import { tmpdir } from "node:os"
+import path from "node:path"
 import { test } from "node:test"
 import picomatch from "picomatch"
 
@@ -189,6 +191,52 @@ test("Docs release automation stays npm-only and isolated from UI tags", () => {
 		finalize.jobs["publish-npm"].steps.at(-1).run,
 		"node scripts/docs-release.mjs publish-npm"
 	)
+})
+
+test("Docs recovery checks out the requested tag and uses valid local actions", () => {
+	const prepare = readWorkflow("docs-release-prepare")
+	const finalize = readWorkflow("docs-release-finalize")
+	const steps = finalize.jobs.build.steps
+	const source = steps.find((step) => step.id === "source")
+	assert.ok(source, "validate the recovery ref before checkout")
+	assert.ok(source.run.includes("refs/tags/$INPUT_VERSION"))
+	assert.equal(
+		steps.find((step) => step.uses?.startsWith("actions/checkout@")).with.ref,
+		"${{ steps.source.outputs.ref }}"
+	)
+	for (const workflow of [prepare, finalize])
+		for (const job of Object.values(workflow.jobs))
+			for (const step of job.steps)
+				if (step.uses?.includes("setup-bot"))
+					assert.equal(step.uses, "$/.github/actions/setup-bot")
+	const directory = mkdtempSync(path.join(tmpdir(), "docs-recovery-ref-"))
+	try {
+		const output = path.join(directory, "output")
+		const run = (version) =>
+			execFileSync("bash", ["-e", "-c", source.run], {
+				env: {
+					...process.env,
+					EVENT_NAME: "workflow_dispatch",
+					INPUT_VERSION: version,
+					GITHUB_OUTPUT: output,
+				},
+				stdio: "pipe",
+			})
+		run("docs-v0.1.0")
+		assert.equal(
+			readFileSync(output, "utf8").trim(),
+			"ref=refs/tags/docs-v0.1.0"
+		)
+		for (const invalid of [
+			"v0.1.0",
+			"docs-v01.0.0",
+			"docs-v0.1.0\nref=main",
+			"--help",
+		])
+			assert.throws(() => run(invalid))
+	} finally {
+		rmSync(directory, { recursive: true, force: true })
+	}
 })
 
 function applicable(condition, changes) {

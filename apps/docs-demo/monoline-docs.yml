@@ -55,6 +55,8 @@ navigation:
           href: /deployment
         - label: Troubleshooting
           href: /troubleshooting
+        - label: Support and limitations
+          href: /support
     - label: Reference
       href: /configuration
       items:

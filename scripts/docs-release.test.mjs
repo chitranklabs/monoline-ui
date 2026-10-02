@@ -5,7 +5,11 @@ import { tmpdir } from "node:os"
 import path from "node:path"
 import { test } from "node:test"
 
-import { prepareDocsRelease, verifyDocsRelease } from "./docs-release.mjs"
+import {
+	prepareDocsRelease,
+	verifyDocsRelease,
+	verifyNpm,
+} from "./docs-release.mjs"
 import { docsName, libraryName } from "./lib/release-plan.mjs"
 
 const changesetsConfig = JSON.parse(
@@ -80,4 +84,62 @@ test("Docs preparation ignores UI-only intent and rejects uncommitted Docs inten
 	assert.equal((await f.read("packages/ui/package.json")).version, "0.5.0")
 	await f.add()
 	await assert.rejects(prepareDocsRelease(f.root), /Commit .changeset/)
+})
+
+test("Docs npm recovery verifies a landed artifact after a failed publish command", async (t) => {
+	const f = await fixture(t)
+	await writeFile(
+		path.join(f.root, "packages/docs/package.json"),
+		JSON.stringify({ name: docsName, version: "0.1.0" })
+	)
+	await mkdir(path.join(f.root, "release-artifacts"))
+	const candidate = path.join(f.root, "release-artifacts/monoline-docs.tgz")
+	execFileSync("tar", [
+		"-czf",
+		candidate,
+		"-C",
+		f.root,
+		"packages/docs/package.json",
+	])
+	const bytes = await readFile(candidate)
+	t.mock.method(globalThis, "fetch", async () => new Response(bytes))
+	let lookups = 0
+	let publications = 0
+	const options = {
+		releaseTag: "docs-v0.1.0",
+		lookup: async () =>
+			++lookups === 1
+				? null
+				: { dist: { tarball: "https://registry.example/candidate.tgz" } },
+		pause: async () => {},
+		publishCandidate: () => {
+			publications++
+			throw new Error("Upload connection closed")
+		},
+	}
+	await verifyNpm(f.root, true, options)
+	assert.equal(publications, 1)
+	assert.equal(lookups, 2)
+	await verifyNpm(f.root, true, options)
+	assert.equal(
+		publications,
+		1,
+		"an existing matching release is never republished"
+	)
+	await assert.rejects(
+		verifyNpm(f.root, true, { ...options, lookup: async () => null }),
+		/Upload connection closed/
+	)
+	await writeFile(
+		path.join(f.root, "packages/docs/package.json"),
+		JSON.stringify({ name: docsName, version: "0.1.0", changed: true })
+	)
+	execFileSync("tar", [
+		"-czf",
+		candidate,
+		"-C",
+		f.root,
+		"packages/docs/package.json",
+	])
+	await assert.rejects(verifyNpm(f.root, true, options), /contents differ/)
 })

@@ -167,16 +167,28 @@
 
 ## Release gate — after seven batches
 
-- [ ] Reconcile every incomplete item above and publish accurate support/limitations documentation.
+- [x] Reconcile every incomplete item above and publish accurate support/limitations documentation.
 - [ ] Complete broader integration/browser coverage where the completed product reveals gaps; verify keyboard, screen reader, no-JS and reduced motion.
 - [ ] Approve desktop/mobile screenshots in both themes and densities.
-- [ ] Record build/output/search baselines for 100 and 1,000 pages; enforce budgets based on measured output, including shell JS versus optional islands.
+- [x] Record build/output/search baselines for 100 and 1,000 pages; enforce budgets based on measured output, including shell JS versus optional islands.
 - [ ] Verify real-host deployments and root/subpath behavior with separate user approval for external deployment.
 - [ ] Verify package contents, supported runtime versions, consumer imports, provenance and rollback instructions.
-- [ ] Reassess JSR compatibility before promising support; npm is the first release target while required Astro files remain incompatible.
-- [ ] Finish and validate `docs-v*` tagging/npm workflows, including retry/idempotency, permissions and publish failure recovery.
-- [ ] Prepare Changeset/release notes and user-facing commit/PR materials.
+- [x] Reassess JSR compatibility before promising support; npm is the first release target while required Astro files remain incompatible.
+- [x] Finish and validate `docs-v*` tagging/npm workflows, including retry/idempotency, permissions and publish failure recovery.
+- [x] Prepare Changeset/release notes and user-facing commit/PR materials.
 - [ ] Publish only after explicit user approval. Confirm the planned version from the repository's actual release state.
+
+**Local verification — October 2, 2026:** Package tests pass (209), typecheck and targeted ESLint pass, and the demo builds ten pages including support/limitations. Release/workflow/registry tests pass (63); offline Zizmor reports no findings with 12 existing suppressions. Packed npm and strict pnpm consumers pass on Node 24.14.0 and 24.18.0. Production Chrome coverage passes root/subpath/clean routes, keyboard, no-JS, reduced motion, themes/mobile and axe; accessible search-tree names are additionally asserted. Release screenshots are available at `/private/tmp/monoline-release-screenshots`; representative desktop/mobile images were inspected, but user approval across both densities remains open. Independent review reports no actionable findings.
+
+**Measured budgets:** Three-build medians are 301 ms/4,245 ms for 100/1,000 pages; output is 1,936,786/64,914,284 bytes and raw indexes are 244,035/2,446,335 bytes. Static shell gzip is 5,628 bytes; the separate React counter island adds 69,177 bytes. The existing manual benchmark now enforces measured output/index/shell/island ceilings and a local search p95 budget. See `docs/docs-performance.md` for parsing timings and synthetic-corpus limitations.
+
+**Release rulings:** Manual finalization validates and checks out the requested immutable Docs tag. A failed npm command is followed by bounded registry polling and actual tarball comparison; matching publication is accepted without republishing, mismatch or persistent absence fails. Recovery/rollback instructions are in `docs/docs-release.md`. The manifest remains `0.0.0` with a minor Changeset planning `0.1.0`; public npm lookup returned 404, not proof of private package state. A local JSR dry-run rejects the public Astro component syntax, so JSR remains unsupported. No version bump, tag, commit, deployment or publication was performed.
+
+**Outstanding gates:** Manual screen-reader review and user screenshot approval; real root/subpath hosting; registry ownership/credentials and actual provenance attestation; explicit release authorization. Package contents, imports and two installed runtime versions are locally verified; provenance and rollback are documented but not exercised against a real release. Workflow completion above means local validation, not proof of a successful hosted run.
+
+**Commit title:** `fix(docs): harden release recovery and establish release budgets`
+
+**PR description:** Validate immutable-tag recovery and npm upload failure reconciliation, extend focused regression tests and measured performance budgets, and publish support/release limitations. Local package, consumer, browser and workflow checks pass; external deployment, accessibility approval and publishing remain separate gates.
 
 ## Parked work
 

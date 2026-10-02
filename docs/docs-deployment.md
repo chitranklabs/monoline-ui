@@ -5,7 +5,7 @@ not run the local preview server. The recipes use one build contract so changes
 to hosting do not require changes to the content or renderer.
 
 These are opt-in recipes, not active deployments. Local build and package tests
-cover their configuration contracts. Vercel, Netlify, and GitHub Pages still need
+cover their configuration contracts. Vercel, Netlify, Cloudflare Pages and GitHub Pages still need
 real deployment verification before we claim end-to-end platform support.
 
 ## Consumer project
@@ -133,7 +133,7 @@ Reference: [GitHub Pages custom workflows](https://docs.github.com/en/pages/gett
 
 The templates above target a standalone consumer, not `apps/website`. Do not copy
 them over the existing website's deployment configuration. The demo still builds
-the private Docs workspace first and uses `apps/docs-demo/monoline-docs.yml`.
+the Docs workspace first and uses `apps/docs-demo/monoline-docs.yml`.
 Its small `config.mjs` bridge exposes explicit deployment overrides:
 
 ```sh
@@ -167,8 +167,8 @@ before enabling this workflow; a repository has one Pages site, not one per app.
 
 Publish the successful build output, preserve its directory structure, and configure
 directory index serving. Map missing paths to `404.html` with status 404. Never run
-the loopback development server as the production web server. Builds write files
-directly; deploy immutable artifacts only after a successful exit, not a live folder
+the loopback development server as the production web server. Builds stage and
+validate output before promotion; deploy immutable artifacts only after a successful exit, not a live folder
 while it is being rebuilt.
 
 Before calling a host supported, verify:

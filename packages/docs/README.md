@@ -117,6 +117,10 @@ content and external providers are trusted author choices.
 
 ## Requirements
 
+See [support and limitations](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/support.md)
+and the [release/recovery guide](https://github.com/chitranklabs/monoline-ui/blob/main/docs/docs-release.md)
+for the verified release boundaries.
+
 - Node.js 24.14 or newer.
 - React 19 and React DOM 19 only when using hydrated React examples.
 - A published `content/index.md` or `content/index.mdx` homepage.

@@ -105,30 +105,47 @@ export async function verifyDocsRelease(root, requested) {
 	return release
 }
 
-async function verifyNpm(root, publish) {
+export async function verifyNpm(
+	root,
+	publish,
+	{
+		releaseTag = process.env.RELEASE_TAG,
+		lookup = registryJson,
+		pause = delay,
+		publishCandidate = (candidate) =>
+			execFileSync(
+				"npm",
+				[
+					"publish",
+					candidate,
+					"--access",
+					"public",
+					"--provenance",
+					"--ignore-scripts",
+				],
+				{ cwd: root, stdio: "inherit" }
+			),
+	} = {}
+) {
 	const manifest = await readJson(root, manifestFile)
 	assert.equal(manifest.name, docsName)
-	assert.equal(process.env.RELEASE_TAG, `docs-v${manifest.version}`)
+	assert.equal(releaseTag, `docs-v${manifest.version}`)
 	const candidate = path.join(root, candidateFile)
 	const url = `https://registry.npmjs.org/${encodeURIComponent(docsName)}/${manifest.version}`
-	let metadata = await registryJson(url)
+	let metadata = await lookup(url)
 	if (!metadata && publish) {
-		execFileSync(
-			"npm",
-			[
-				"publish",
-				candidate,
-				"--access",
-				"public",
-				"--provenance",
-				"--ignore-scripts",
-			],
-			{ cwd: root, stdio: "inherit" }
-		)
-		for (let attempt = 0; attempt < 10 && !metadata; attempt++) {
-			await delay(2_000)
-			metadata = await registryJson(url)
+		let publishError
+		try {
+			await publishCandidate(candidate)
+		} catch (error) {
+			publishError = error
 		}
+		// An upload can land before the CLI loses its connection; verify before retrying.
+		for (let attempt = 0; attempt < 10 && !metadata; attempt++) {
+			await pause(2_000 + Math.random() * 200)
+			metadata = await lookup(url)
+		}
+		if (!metadata && publishError) throw publishError
 	}
 	assert(metadata, `Missing npm release ${docsName}@${manifest.version}`)
 	const temporary = await mkdtemp(joinTemporary("monoline-docs-published-"))
