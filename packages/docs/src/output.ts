@@ -1,9 +1,13 @@
 import {
+	copyFile,
 	lstat,
 	mkdir,
 	readFile,
 	readdir,
 	realpath,
+	rename,
+	rm,
+	rmdir,
 	unlink,
 	writeFile,
 } from "node:fs/promises"
@@ -90,9 +94,71 @@ export async function publishFiles(
 ): Promise<void> {
 	if ([...files.keys()].some((name) => !safeName(name)))
 		throw new Error("Invalid generated output path")
+	output = await canonicalPath(resolve(output))
+	const firstCreated = await mkdir(output, { recursive: true })
+	const lock = join(output, ".monoline-promotion")
+	try {
+		await mkdir(lock)
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code === "EEXIST")
+			throw new Error(
+				`Output promotion is locked: ${lock}. Another build may be running; inspect retained recovery files before removing a stale lock.`,
+				{ cause: error }
+			)
+		throw error
+	}
+	let retainRecovery = false
+	let failed = false
+	let promotionError: unknown
+	try {
+		await promoteFiles(output, files, lock, () => {
+			retainRecovery = true
+		})
+	} catch (error) {
+		failed = true
+		promotionError = error
+	}
+	if (!retainRecovery) {
+		try {
+			await rm(lock, { recursive: true })
+			if (failed && firstCreated) {
+				let directory = output
+				while (true) {
+					await rmdir(directory)
+					if (directory === firstCreated) break
+					directory = dirname(directory)
+				}
+			}
+		} catch (error) {
+			if (failed)
+				throw new AggregateError(
+					[promotionError, error],
+					`Output was preserved but cleanup failed at ${lock}. Inspect before retrying.`,
+					{ cause: error }
+				)
+			// The manifest committed successfully: callers must adopt the new site.
+			process.emitWarning(
+				new Error(
+					`Output promotion succeeded, but cleanup failed at ${lock}. Inspect before retrying.`,
+					{ cause: error }
+				)
+			)
+		}
+	}
+	if (failed) throw promotionError
+}
+
+async function promoteFiles(
+	output: string,
+	files: Map<string, string | Uint8Array>,
+	lock: string,
+	retainRecovery: () => void
+): Promise<void> {
 	let previousFiles: string[] = []
 	try {
-		const entries = await readdir(output)
+		const entries = (await readdir(output)).filter(
+			(name) => name !== ".monoline-promotion"
+		)
 		if (entries.length && !entries.includes(manifest))
 			throw new Error("Output directory is not managed by Monoline Docs")
 		if (entries.includes(manifest)) {
@@ -116,6 +182,8 @@ export async function publishFiles(
 					throw new Error(
 						`Refusing generated path through a symbolic link: ${target}`
 					)
+				if (length === segments.length ? !stat.isFile() : !stat.isDirectory())
+					throw new Error(`Invalid generated path type: ${target}`)
 				if (
 					length === segments.length &&
 					files.has(name) &&
@@ -129,14 +197,92 @@ export async function publishFiles(
 			}
 		}
 	}
-	for (const [name, value] of files) {
-		await mkdir(dirname(join(output, name)), { recursive: true })
-		await writeFile(join(output, name), value)
+	const next = new Map(files)
+	next.set(manifest, JSON.stringify([...files.keys()]))
+	const names = [...new Set([...next.keys(), ...previousFiles])]
+	const backups = new Map<string, string | undefined>()
+	const staged = new Map<string, string>()
+	// Snapshot and prepare all bytes on the destination filesystem before mutation.
+	for (const [index, name] of names.entries()) {
+		const backup = join(lock, `old-${index}`)
+		try {
+			await copyFile(join(output, name), backup)
+			backups.set(name, backup)
+		} catch (error) {
+			if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error
+			backups.set(name, undefined)
+		}
+		if (next.has(name)) {
+			const file = join(lock, `new-${index}`)
+			await writeFile(file, next.get(name)!)
+			staged.set(name, file)
+		}
 	}
-	for (const name of previousFiles)
-		if (!files.has(name))
-			await unlink(join(output, name)).catch((error: NodeJS.ErrnoException) => {
-				if (error.code !== "ENOENT") throw error
-			})
-	await writeFile(join(output, manifest), JSON.stringify([...files.keys()]))
+	await writeFile(
+		join(lock, "recovery.json"),
+		JSON.stringify({
+			output,
+			files: names.map((name) => ({ name, backup: backups.get(name) ?? null })),
+		})
+	)
+	const changed: string[] = []
+	const createdDirectories: string[] = []
+	async function ensureDirectory(directory: string): Promise<void> {
+		try {
+			await mkdir(directory)
+			createdDirectories.push(directory)
+		} catch (error) {
+			if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+				await ensureDirectory(dirname(directory))
+				await ensureDirectory(directory)
+			} else if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error
+		}
+	}
+	try {
+		for (const name of names.filter((name) => name !== manifest)) {
+			if (next.has(name)) {
+				await ensureDirectory(dirname(join(output, name)))
+				changed.push(name)
+				await rename(staged.get(name)!, join(output, name))
+			} else if (backups.get(name)) {
+				changed.push(name)
+				await unlink(join(output, name))
+			}
+		}
+		await ensureDirectory(output)
+		changed.push(manifest)
+		await rename(staged.get(manifest)!, join(output, manifest))
+	} catch (error) {
+		const recoveryErrors: unknown[] = []
+		for (const name of changed.reverse()) {
+			try {
+				const backup = backups.get(name)
+				if (backup) await rename(backup, join(output, name))
+				else
+					await unlink(join(output, name)).catch(
+						(failure: NodeJS.ErrnoException) => {
+							if (failure.code !== "ENOENT") throw failure
+						}
+					)
+			} catch (failure) {
+				recoveryErrors.push(failure)
+			}
+		}
+		for (const directory of createdDirectories.reverse()) {
+			try {
+				await rmdir(directory)
+			} catch (failure) {
+				recoveryErrors.push(failure)
+			}
+		}
+		if (recoveryErrors.length) {
+			retainRecovery()
+			throw new AggregateError(
+				[error, ...recoveryErrors],
+				`Output promotion and recovery failed. Recovery files retained at ${lock}; do not deploy this output.`,
+				{ cause: error }
+			)
+		}
+		throw error
+	}
 }

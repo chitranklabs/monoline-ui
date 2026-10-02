@@ -32,6 +32,16 @@ Inspect exported links and images before treating exports as a portable source.
 
 ## Scale and hosting
 
+Build output promotion restores the previous generated files and manifest after
+caught filesystem errors when rollback is possible. Overlapping promotions are
+rejected. Interrupted processes or failed rollback retain an owned
+`.monoline-promotion` directory for manual recovery; do not deploy failed output
+or remove a lock while another build is running. A cleanup warning after manifest
+commit means the new site built successfully, but its remaining promotion
+directory needs inspection before another build. Promotion is not an atomic
+deployment or a power-loss durability guarantee. See the repository's
+`docs/docs-release.md` recovery guide for the procedure.
+
 The local benchmark covers synthetic 100- and 1,000-page sites. Full generated
 navigation repeats on every page; use curated navigation for larger sites and
 measure your own corpus, index downloads and slower devices.

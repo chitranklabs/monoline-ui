@@ -166,8 +166,16 @@ existing sites rebuild without deleting output manually. Remove only previously
 recorded stale files.
 
 Compilation or validation failure leaves the previous final output unchanged.
-Promotion is not an atomic deployment transaction: filesystem errors must fail
-visibly, and documentation must still say to deploy only successful builds.
+The October 2026 R0 revision extends this to caught promotion errors: prepare
+replacement bytes and backups on the output filesystem, lock promotions, and
+restore prior managed files and the manifest when rollback remains possible.
+Failed rollback or process interruption retains recovery material and blocks
+further promotion pending inspection. Successful manifest replacement commits the
+site; subsequent cleanup failure warns without reporting a failed build.
+Promotion is not an atomic deployment transaction or power-loss guarantee.
+Readers can observe intermediate files. External filesystem mutation is
+unsupported, and only successful builds may be deployed. See the
+[local recovery procedure](../../docs-release.md#local-output-promotion-and-recovery).
 
 Initially keep the existing loopback-only production-output preview and its
 error/reload behavior. Rebuild through Astro; do not create another HMR system.
