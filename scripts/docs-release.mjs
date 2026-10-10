@@ -104,6 +104,37 @@ This PR versions only Monoline Docs and consumes its pending Changesets. Monolin
 Merging triggers release finalization: candidate verification, the \`${release.tag}\` tag, npm publication with provenance and a GitHub release. Verify the published artifact and provenance after completion.
 `
 
+export const docsReleaseNotes = (release, minimumNode) => {
+	const reference = `https://github.com/chitranklabs/monoline-ui/blob/${release.tag}`
+	return `## Monoline Docs ${release.version}
+
+Static documentation from Markdown and MDX for libraries, SDKs and API products.
+
+### Install
+
+\`\`\`sh
+npm install ${docsName}@${release.version}
+npx monoline-docs init
+npm run dev
+\`\`\`
+
+Requires Node.js \`${minimumNode}\`. React 19 is optional and needed only for hydrated React islands. npm is supported; JSR is not.
+
+### Changes
+
+${release.notes.trim()}
+
+### Reference and artifact
+
+- [Package guide](${reference}/packages/docs/README.md)
+- [Changelog](${reference}/packages/docs/CHANGELOG.md)
+- [Release and recovery](${reference}/docs/docs-release.md)
+- [npm package](https://www.npmjs.com/package/${docsName}/v/${release.version})
+
+The attached \`monoline-docs.tgz\` is the verified release candidate. Provenance is available through npm and the workflow's artifact attestation.
+`
+}
+
 export async function verifyDocsRelease(root, requested) {
 	if ((await pendingPackageChangesets(root, docsName)).length)
 		throw new Error("Unconsumed changesets remain; refresh the release PR")
@@ -214,7 +245,10 @@ async function main(command) {
 		if (process.env.RUNNER_TEMP)
 			await writeFile(
 				path.join(process.env.RUNNER_TEMP, "docs-release-notes.md"),
-				release.notes + "\n"
+				docsReleaseNotes(
+					release,
+					(await readJson(root, manifestFile)).engines.node
+				)
 			)
 		console.log(`Verified ${release.tag}`)
 		return

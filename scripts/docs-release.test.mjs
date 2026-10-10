@@ -7,6 +7,7 @@ import { test } from "node:test"
 
 import {
 	docsReleaseBody,
+	docsReleaseNotes,
 	prepareDocsRelease,
 	verifyDocsRelease,
 	verifyNpm,
@@ -16,6 +17,20 @@ import {
 	libraryName,
 	pendingPackageChangesets,
 } from "./lib/release-plan.mjs"
+
+test("public Docs notes derive installation and immutable links from release identity", () => {
+	const release = {
+		version: "2.3.4",
+		tag: "docs-v2.3.4",
+		notes: "### Patch Changes\n\n- Preserve `code`.",
+	}
+	const notes = docsReleaseNotes(release, ">=24.14.0")
+	assert.ok(notes.includes(release.notes))
+	assert.ok(notes.includes("npm install @chitrank2050/monoline-docs@2.3.4"))
+	assert.ok(notes.includes("blob/docs-v2.3.4/packages/docs/README.md"))
+	assert.ok(notes.includes("`>=24.14.0`"))
+	assert.equal(notes.includes("blob/main/"), false)
+})
 
 test("Docs PR description includes exact release notes and publication intent", () => {
 	const body = docsReleaseBody({
