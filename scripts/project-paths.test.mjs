@@ -161,6 +161,36 @@ test("cleanup removes generated files from every workspace and preserves reprodu
 	}
 })
 
+test("Vercel upload retains UI package build metadata", () => {
+	const root = mkdtempSync(path.join(tmpdir(), "monoline-vercel-ignore-"))
+	try {
+		spawnSync("git", ["init", "--quiet"], { cwd: root })
+		writeFileSync(
+			path.join(root, ".gitignore"),
+			readFileSync(path.join(projectPaths.repositoryRoot, ".vercelignore"))
+		)
+		const required = [
+			"packages/ui/README.md",
+			"packages/ui/CHANGELOG.md",
+			"LICENSE",
+			"CONTRIBUTING.md",
+			"CODE_OF_CONDUCT.md",
+			"SECURITY.md",
+			"assets/logo.png",
+			"scripts/vercel-ignore.sh",
+		]
+		for (const file of required) {
+			const result = spawnSync("git", ["check-ignore", "--no-index", file], {
+				cwd: root,
+				encoding: "utf8",
+			})
+			assert.equal(result.status, 1, `Build input excluded: ${file}`)
+		}
+	} finally {
+		rmSync(root, { recursive: true, force: true })
+	}
+})
+
 test("Vercel skips only unrelated commits from either working directory", () => {
 	const root = mkdtempSync(path.join(tmpdir(), "monoline vercel "))
 	const command = JSON.parse(
