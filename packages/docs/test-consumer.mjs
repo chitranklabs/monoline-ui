@@ -112,22 +112,22 @@ try {
 			() => run(cli, ["init", "--base", "/docs/"], starter),
 			/does not accept/
 		)
+		// Resolve the unpublished candidate before either manager reads the manifest.
+		const starterManifestPath = join(starter, "package.json")
+		const starterManifest = JSON.parse(
+			await readFile(starterManifestPath, "utf8")
+		)
+		starterManifest.dependencies["@chitrank2050/monoline-docs"] =
+			`file:${join(root, packed.filename)}`
+		await writeFile(
+			starterManifestPath,
+			JSON.stringify(starterManifest, null, 2)
+		)
 		run(
 			manager,
 			manager === "npm"
-				? [
-						"install",
-						join(root, packed.filename),
-						"--ignore-scripts",
-						"--no-audit",
-						"--no-fund",
-					]
-				: [
-						"add",
-						join(root, packed.filename),
-						"--ignore-scripts",
-						"--strict-peer-dependencies",
-					],
+				? ["install", "--ignore-scripts", "--no-audit", "--no-fund"]
+				: ["install", "--ignore-scripts", "--strict-peer-dependencies"],
 			starter
 		)
 		if (manager === "pnpm")
