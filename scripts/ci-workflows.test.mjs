@@ -5,12 +5,50 @@ import { mkdtempSync, readFileSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { test } from "node:test"
+import { runInNewContext } from "node:vm"
 import picomatch from "picomatch"
 
 const root = new URL("../", import.meta.url)
 const readWorkflow = (name) =>
 	load(readFileSync(new URL(`.github/workflows/${name}.yml`, root), "utf8"))
 const ci = readWorkflow("ci")
+
+test("release finalizers accept merged package branches and reject unrelated PRs", () => {
+	for (const [workflow, branch, legacy, other] of [
+		[
+			"docs-release-finalize",
+			"release/docs-v1.2.3",
+			"chore/docs-release-docs-v1.2.3",
+			"release/v1.2.3",
+		],
+		[
+			"release-finalize",
+			"release/v1.2.3",
+			"chore/release-v1.2.3",
+			"release/docs-v1.2.3",
+		],
+	]) {
+		const condition = readWorkflow(workflow).jobs.build.if.replace(
+			"github.event.pull_request.labels.*.name",
+			"labels"
+		)
+		const accepts = (ref, merged = true) =>
+			runInNewContext(condition, {
+				github: {
+					event_name: "pull_request",
+					event: { pull_request: { merged, head: { ref } } },
+				},
+				labels: ["release"],
+				startsWith: (value, prefix) => value.startsWith(prefix),
+				contains: (values, value) => values.includes(value),
+			})
+		assert.equal(accepts(branch), true)
+		assert.equal(accepts(legacy), true)
+		assert.equal(accepts(branch, false), false)
+		assert.equal(accepts(other), false)
+		assert.equal(accepts("feat/unrelated"), false)
+	}
+})
 const filterStep = ci.jobs.changes.steps.find((step) => step.id === "filter")
 const filters = load(filterStep.with.filters)
 const packageManagerVersion = JSON.parse(
@@ -223,9 +261,10 @@ test("Docs release automation stays npm-only and isolated from UI tags", () => {
 	assert.ok(
 		prepareSteps
 			.find((step) => step.uses?.startsWith("peter-evans/create-pull-request@"))
-			.with.branch.startsWith("chore/docs-release-")
+			.with.branch.startsWith("release/")
 	)
 	assert.ok(finalize.jobs.build.if.includes("chore/docs-release-docs-v"))
+	assert.ok(finalize.jobs.build.if.includes("'release/docs-v'"))
 	assert.equal(JSON.stringify(finalize).includes("publish-jsr"), false)
 	assert.equal(JSON.stringify(finalize).includes("docs-v"), true)
 	assert.equal(finalize.concurrency["cancel-in-progress"], false)

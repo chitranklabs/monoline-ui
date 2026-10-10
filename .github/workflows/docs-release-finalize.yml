@@ -32,7 +32,8 @@ jobs:
     if: |
       (github.event_name == 'pull_request' &&
       github.event.pull_request.merged == true &&
-      startsWith(github.event.pull_request.head.ref, 'chore/docs-release-docs-v')) ||
+      (startsWith(github.event.pull_request.head.ref, 'release/docs-v') ||
+      startsWith(github.event.pull_request.head.ref, 'chore/docs-release-docs-v'))) ||
       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.actor == 'chitrank2050')
     runs-on: ubuntu-latest
     timeout-minutes: 20

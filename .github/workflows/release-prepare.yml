@@ -1,4 +1,4 @@
-name: Release 1 - Prepare PR 📝
+name: UI Release 1 - Prepare PR 📝
 
 on:
   workflow_dispatch:
@@ -75,7 +75,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           commit-message: "chore(release): bump version to ${{ steps.vars.outputs.tag_name }}"
           title: "chore(release): 🚀 ${{ steps.vars.outputs.tag_name }}"
-          branch: "chore/release-${{ steps.vars.outputs.tag_name }}"
+          branch: "release/${{ steps.vars.outputs.tag_name }}"
           body: |
             ## Library release ${{ steps.vars.outputs.tag_name }}
 

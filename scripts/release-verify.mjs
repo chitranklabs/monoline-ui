@@ -54,7 +54,7 @@ if (
 ) {
 	const requested =
 		process.env.INPUT_VERSION ||
-		process.env.BRANCH_NAME?.replace(/^chore\/release-/, "")
+		process.env.BRANCH_NAME?.replace(/^(?:release\/|chore\/release-)/, "")
 	const release = await verifyRelease(projectPaths.repositoryRoot, requested)
 	if (process.env.GITHUB_OUTPUT)
 		await appendFile(

@@ -208,7 +208,10 @@ async function main(command) {
 	if (command === "verify") {
 		const requested =
 			process.env.INPUT_VERSION ||
-			process.env.BRANCH_NAME?.replace(/^chore\/docs-release-/, "")
+			process.env.BRANCH_NAME?.replace(
+				/^(?:release\/|chore\/docs-release-)/,
+				""
+			)
 		const release = await verifyDocsRelease(root, requested)
 		if (process.env.GITHUB_OUTPUT)
 			await appendFile(

@@ -1,4 +1,4 @@
-name: Release 2 - Finalize Tag 🏷️
+name: UI Release 2 - Finalize Tag 🏷️
 
 # Builds one verified release candidate, publishes npm and JSR independently,
 # and exposes targeted recovery without republishing successful registries.
@@ -44,7 +44,9 @@ jobs:
     if: |
       (github.event_name == 'pull_request' &&
       github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'release')) ||
+      (startsWith(github.event.pull_request.head.ref, 'release/v') ||
+      (startsWith(github.event.pull_request.head.ref, 'chore/release-v') &&
+      contains(github.event.pull_request.labels.*.name, 'release')))) ||
       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.actor == 'chitrank2050')
     runs-on: ubuntu-latest
     timeout-minutes: 30

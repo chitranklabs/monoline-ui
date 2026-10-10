@@ -178,6 +178,16 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 		writeFileSync(path.join(root, "README.md"), "initial")
 		git("add", ".")
 		git("commit", "--quiet", "-m", "initial")
+		for (const previous of ["", "5ac45464e26822de83c6dd28d082c75fa7ea98a8"]) {
+			for (const cwd of [root, path.join(root, "apps/website")]) {
+				const result = spawnSync("bash", ["-c", command], {
+					cwd,
+					env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: previous },
+					encoding: "utf8",
+				})
+				assert.equal(result.status, 1, "Missing history must allow the build")
+			}
+		}
 		for (const [file, expected] of [
 			["apps/website/page.tsx", 1],
 			["packages/ui/src/index.ts", 1],

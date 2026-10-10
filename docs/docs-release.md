@@ -10,6 +10,9 @@ package availability. No publication or deployment was performed.
 
 The prepare workflow opens a Docs-only version PR with the exact generated
 changelog notes, release acceptance checklist and publication trigger notice.
+New branches use `release/docs-v<version>`; the finalizer also accepts existing
+`chore/docs-release-docs-v<version>` PRs during migration. UI releases use
+`release/v<version>` and their own finalizer.
 Finalization runs after the
 approved PR merges, verifies its release intent and publishes an immutable
 `docs-v<version>` tag and npm artifact. Independent UI Changesets remain pending and do not block Docs preparation or

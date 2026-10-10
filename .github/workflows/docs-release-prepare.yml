@@ -63,7 +63,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           commit-message: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
           title: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
-          branch: "chore/docs-release-${{ steps.vars.outputs.tag_name }}"
+          branch: "release/${{ steps.vars.outputs.tag_name }}"
           body-path: ${{ runner.temp }}/docs-release-pr.md
           base: main
           delete-branch: true

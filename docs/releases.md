@@ -53,11 +53,11 @@ flowchart LR
     G --> H[Create GitHub release]
 ```
 
-1. Dispatch **Release 1 - Prepare PR** on `main`. No pending library changes means
+1. Dispatch **UI Release 1 - Prepare PR** on `main`. No pending library changes means
    no release PR and no version mutation. Stable releases only are supported.
 2. Review the consumed changesets, package version/changelog, synchronized JSR
    version, lockfile, and new website entry. Root historical notes are not regenerated.
-3. Merge the generated `chore/release-vX.Y.Z` PR after required checks pass.
+3. Merge the generated `release/vX.Y.Z` PR after required checks pass.
    Finalize checks out its exact merge commit for every source-consuming job.
    The requested tag, npm manifest, JSR manifest, and prepared release notes must agree.
    If newer changesets land, rerun Prepare and review its updated PR before merging;
@@ -106,7 +106,7 @@ rejected version mismatches. They do not publish to either registry.
 ## Independent package releases
 
 UI and Docs can have separate pending Changesets at the same time. Dispatch the
-prepare workflow for the package you want to release: **Release 1 - Prepare PR**
+prepare workflow for the package you want to release: **UI Release 1 - Prepare PR**
 for UI, or **Docs Release 1 - Prepare PR** for Docs. Preparation uses Changesets
 `version --ignore` to leave the other package's version, changelog and Changesets
 untouched. Finalization checks only the selected package's unconsumed intent.
