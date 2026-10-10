@@ -166,6 +166,7 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 	const command = JSON.parse(
 		readFileSync(path.join(projectPaths.websiteRoot, "vercel.json"), "utf8")
 	).ignoreCommand
+	assert.ok(command.length <= 256, "Vercel ignore command schema limit")
 	const git = (...args) =>
 		spawnSync("git", args, { cwd: root, encoding: "utf8" })
 	try {
@@ -175,6 +176,13 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 		git("config", "commit.gpgsign", "false")
 		git("config", "core.hooksPath", "/dev/null")
 		mkdirSync(path.join(root, "apps/website"), { recursive: true })
+		mkdirSync(path.join(root, "scripts"))
+		writeFileSync(
+			path.join(root, "scripts/vercel-ignore.sh"),
+			readFileSync(
+				path.join(projectPaths.repositoryRoot, "scripts/vercel-ignore.sh")
+			)
+		)
 		writeFileSync(path.join(root, "README.md"), "initial")
 		git("add", ".")
 		git("commit", "--quiet", "-m", "initial")

@@ -3,5 +3,5 @@
 	"framework": "nextjs",
 	"installCommand": "pnpm --dir ../.. install --frozen-lockfile",
 	"buildCommand": "pnpm --dir ../.. build",
-	"ignoreCommand": "git rev-parse --verify \"${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}^{commit}\" >/dev/null 2>&1 || exit 1; git diff --quiet \"${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}\" HEAD -- ':(top)apps/website' ':(top)packages/ui' ':(top)scripts' ':(top)pnpm-lock.yaml' ':(top)pnpm-workspace.yaml' ':(top)package.json' ':(top)tsconfig*.json' || exit 1"
+	"ignoreCommand": "sh \"$(git rev-parse --show-toplevel)/scripts/vercel-ignore.sh\""
 }
