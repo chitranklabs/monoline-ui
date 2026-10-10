@@ -13,6 +13,9 @@ changelog notes and publication trigger notice.
 New branches use `release/docs-v<version>`; the finalizer also accepts existing
 `chore/docs-release-docs-v<version>` PRs during migration. UI releases use
 `release/v<version>` and their own finalizer.
+Automatic finalization is filtered to PRs changing that package's changelog;
+ordinary PR closures and the other package's releases do not start it. A closed
+unmerged PR changing the changelog can create a skipped run, but cannot publish.
 Finalization runs after the
 approved PR merges, verifies its release intent and publishes an immutable
 `docs-v<version>` tag and npm artifact. Independent UI Changesets remain pending and do not block Docs preparation or

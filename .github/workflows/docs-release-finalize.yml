@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
+    paths: [packages/docs/CHANGELOG.md]
   workflow_dispatch:
     inputs:
       version:

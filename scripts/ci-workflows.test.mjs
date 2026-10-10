@@ -14,6 +14,39 @@ const readWorkflow = (name) =>
 	load(readFileSync(new URL(`.github/workflows/${name}.yml`, root), "utf8"))
 const ci = readWorkflow("ci")
 
+test("release trigger paths exclude other packages and ordinary PR closures", () => {
+	for (const [workflow, own, other] of [
+		[
+			"docs-release-finalize",
+			"packages/docs/CHANGELOG.md",
+			"packages/ui/CHANGELOG.md",
+		],
+		[
+			"release-finalize",
+			"packages/ui/CHANGELOG.md",
+			"packages/docs/CHANGELOG.md",
+		],
+	]) {
+		const trigger = readWorkflow(workflow).on
+		assert.deepEqual(trigger.pull_request.branches, ["main"])
+		assert.deepEqual(trigger.pull_request.types, ["closed"])
+		assert.deepEqual(trigger.pull_request.paths, [own])
+		assert.ok(Object.hasOwn(trigger, "workflow_dispatch"))
+		const matches = picomatch(trigger.pull_request.paths)
+		assert.equal(matches(own), true)
+		for (const file of [
+			other,
+			"pnpm-lock.yaml",
+			"packages/docs/package.json",
+			"packages/ui/package.json",
+			"README.md",
+			".github/workflows/ci.yml",
+		]) {
+			assert.equal(matches(file), false, `${workflow}: ${file}`)
+		}
+	}
+})
+
 test("release branches use package configuration and receive release labels", () => {
 	const steps = readWorkflow("hygiene").jobs["branch-name"].steps
 	const branch = steps.find((step) => step.name === "Validate Branch Name 🌿")
