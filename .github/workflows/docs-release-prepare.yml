@@ -64,10 +64,7 @@ jobs:
           commit-message: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
           title: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
           branch: "chore/docs-release-${{ steps.vars.outputs.tag_name }}"
-          body: |
-            ## Monoline Docs ${{ steps.vars.outputs.tag_name }}
-
-            Review the package version and generated changelog before merging.
+          body-path: ${{ runner.temp }}/docs-release-pr.md
           base: main
           delete-branch: true
           assignees: chitrank2050

@@ -91,6 +91,26 @@ const releaseIdentity = (version, changelog) => ({
 	notes: releaseNotes(changelog, version),
 })
 
+export const docsReleaseBody = (release) => `## Monoline Docs ${release.version}
+
+Release of \`${docsName}@${release.version}\`.
+
+### Release notes
+
+${release.notes}
+
+This PR versions only Monoline Docs and consumes its pending Changesets. Monoline UI releases independently.
+
+### Before merging
+
+- [ ] Required CI checks pass.
+- [ ] Package version and generated changelog are reviewed.
+- [ ] Real hosting, screen-reader and iOS acceptance checks are complete.
+- [ ] Publishing credentials and bot permissions are confirmed.
+
+Merging triggers release finalization: candidate verification, the \`${release.tag}\` tag, npm publication with provenance and a GitHub release. Verify the published artifact and provenance after completion.
+`
+
 export async function verifyDocsRelease(root, requested) {
 	if ((await pendingPackageChangesets(root, docsName)).length)
 		throw new Error("Unconsumed changesets remain; refresh the release PR")
@@ -172,6 +192,11 @@ async function main(command) {
 	const root = projectPaths.repositoryRoot
 	if (command === "prepare") {
 		const release = await prepareDocsRelease(root)
+		if (release && process.env.RUNNER_TEMP)
+			await writeFile(
+				path.join(process.env.RUNNER_TEMP, "docs-release-pr.md"),
+				docsReleaseBody(release)
+			)
 		if (process.env.GITHUB_OUTPUT)
 			await appendFile(
 				process.env.GITHUB_OUTPUT,

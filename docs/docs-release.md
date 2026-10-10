@@ -8,7 +8,9 @@ derive the version from the repository's actual Changesets state, not this note.
 An October 2, 2026 public npm lookup returned 404; it does not prove private
 package availability. No publication or deployment was performed.
 
-The prepare workflow opens a Docs-only version PR. Finalization runs after the
+The prepare workflow opens a Docs-only version PR with the exact generated
+changelog notes, release acceptance checklist and publication trigger notice.
+Finalization runs after the
 approved PR merges, verifies its release intent and publishes an immutable
 `docs-v<version>` tag and npm artifact. Independent UI Changesets remain pending and do not block Docs preparation or
 finalization. A single Changeset naming both packages is rejected; split it into

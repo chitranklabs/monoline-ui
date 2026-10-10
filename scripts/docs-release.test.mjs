@@ -6,6 +6,7 @@ import path from "node:path"
 import { test } from "node:test"
 
 import {
+	docsReleaseBody,
 	prepareDocsRelease,
 	verifyDocsRelease,
 	verifyNpm,
@@ -15,6 +16,19 @@ import {
 	libraryName,
 	pendingPackageChangesets,
 } from "./lib/release-plan.mjs"
+
+test("Docs PR description includes exact release notes and publication intent", () => {
+	const body = docsReleaseBody({
+		version: "2.3.4",
+		tag: "docs-v2.3.4",
+		notes: "### Minor Changes\n\n- Preserve `code` and links.\n",
+	})
+	assert.match(body, /^## Monoline Docs 2\.3\.4/)
+	assert.ok(body.includes("### Minor Changes\n\n- Preserve `code` and links."))
+	assert.ok(body.includes("`docs-v2.3.4`"))
+	assert.match(body, /Merging triggers release finalization/)
+	assert.match(body, /npm publication with provenance/)
+})
 
 const changesetsConfig = JSON.parse(
 	await readFile(new URL("../.changeset/config.json", import.meta.url))
