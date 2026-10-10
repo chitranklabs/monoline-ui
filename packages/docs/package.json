@@ -1,6 +1,6 @@
 {
 	"name": "@chitrank2050/monoline-docs",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "A fast, static documentation builder for Markdown and MDX with Monoline's accessible interface.",
 	"type": "module",
 	"author": {
