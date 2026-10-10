@@ -101,13 +101,6 @@ ${release.notes}
 
 This PR versions only Monoline Docs and consumes its pending Changesets. Monoline UI releases independently.
 
-### Before merging
-
-- [ ] Required CI checks pass.
-- [ ] Package version and generated changelog are reviewed.
-- [ ] Real hosting, screen-reader and iOS acceptance checks are complete.
-- [ ] Publishing credentials and bot permissions are confirmed.
-
 Merging triggers release finalization: candidate verification, the \`${release.tag}\` tag, npm publication with provenance and a GitHub release. Verify the published artifact and provenance after completion.
 `
 
