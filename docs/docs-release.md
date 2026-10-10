@@ -9,7 +9,7 @@ An October 2, 2026 public npm lookup returned 404; it does not prove private
 package availability. No publication or deployment was performed.
 
 The prepare workflow opens a Docs-only version PR with the exact generated
-changelog notes, release acceptance checklist and publication trigger notice.
+changelog notes and publication trigger notice.
 New branches use `release/docs-v<version>`; the finalizer also accepts existing
 `chore/docs-release-docs-v<version>` PRs during migration. UI releases use
 `release/v<version>` and their own finalizer.
