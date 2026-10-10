@@ -1,12 +1,13 @@
 const normalize = (text) => text.normalize("NFKC").toLowerCase()
 
-export function searchEntries(entries, query) {
+export function searchEntries(entries, query, scope = "all") {
 	const terms = [
 		...new Set(normalize(query).trim().split(/\s+/).filter(Boolean)),
 	]
 	if (!terms.length) return []
 	// ponytail: linear scan suits small docs sites; use a dedicated index when measured search latency warrants it.
 	return entries
+		.filter((entry) => scope === "all" || entry.scope === scope)
 		.map((entry) => {
 			const title = normalize(entry.title)
 			const heading = normalize(entry.heading)
@@ -33,42 +34,150 @@ export function setupSearch(root = document) {
 	const dialog = root.querySelector(".search-dialog")
 	const trigger = root.querySelector(".search-trigger")
 	if (!dialog || !trigger || typeof dialog.showModal !== "function") return
-	root.querySelector("header").append(trigger)
 	trigger.hidden = false
 	const input = dialog.querySelector("input")
 	const status = dialog.querySelector('[role="status"]')
 	const results = dialog.querySelector("ul")
+	const scopeButtons = [...dialog.querySelectorAll("[data-search-scope]")]
+	let scope = "all"
 	let entries
 	let loading
+	const recentKey = `monoline:recent-searches:${dialog.dataset.index}`
+	function recent() {
+		try {
+			const value = JSON.parse(localStorage.getItem(recentKey) || "[]")
+			return Array.isArray(value)
+				? value.filter((item) => typeof item === "string").slice(0, 5)
+				: []
+		} catch {
+			return []
+		}
+	}
+	function remember(query) {
+		try {
+			localStorage.setItem(
+				recentKey,
+				JSON.stringify(
+					[query, ...recent().filter((item) => item !== query)].slice(0, 5)
+				)
+			)
+		} catch {
+			/* Storage may be disabled. */
+		}
+	}
+	function buildIndexMap(text) {
+		if (!/[^\x20-\x7E\t\r\n]/.test(text)) {
+			return (start, end) => [start, end]
+		}
+		const map = []
+		for (let i = 1; i <= text.length; i++) {
+			const norm = normalize(text.slice(0, i))
+			while (map.length < norm.length) {
+				map.push(i)
+			}
+			if (norm.length > 0) {
+				map[norm.length - 1] = i
+			}
+		}
+		return (normStart, normEnd) => [
+			normStart === 0 ? 0 : (map[normStart - 1] ?? 0),
+			map[normEnd - 1] ?? text.length,
+		]
+	}
+	function highlight(container, value, query) {
+		const terms = [
+			...new Set(normalize(query).trim().split(/\s+/).filter(Boolean)),
+		]
+		if (!terms.length) return container.append(value)
+		const normalized = normalize(value)
+		const toOrig = buildIndexMap(value)
+		let normCursor = 0
+		let origCursor = 0
+		while (normCursor < normalized.length) {
+			let matchPos = normalized.length
+			let matchLen = 0
+			for (const term of terms) {
+				const found = normalized.indexOf(term, normCursor)
+				if (found >= 0 && found < matchPos) {
+					matchPos = found
+					matchLen = term.length
+				}
+			}
+			if (!matchLen) break
+			const [origStart, origEnd] = toOrig(matchPos, matchPos + matchLen)
+			if (origStart > origCursor) {
+				container.append(value.slice(origCursor, origStart))
+			}
+			if (origEnd > origStart) {
+				const mark = root.createElement("mark")
+				mark.textContent = value.slice(Math.max(origCursor, origStart), origEnd)
+				container.append(mark)
+				origCursor = Math.max(origCursor, origEnd)
+			}
+			normCursor = matchPos + matchLen
+		}
+		if (origCursor < value.length) {
+			container.append(value.slice(origCursor))
+		}
+	}
 	function render() {
 		results.replaceChildren()
 		if (!entries) return
-		const matches = searchEntries(entries, input.value)
+		const matches = searchEntries(entries, input.value, scope)
 		status.textContent = !input.value.trim()
-			? "Type to search."
+			? recent().length
+				? "Recent searches."
+				: "Type to search."
 			: matches.length
 				? `${matches.length} results${matches.length > 20 ? "; showing the first 20" : ""}.`
 				: "No results. Try a different term."
+		if (!input.value.trim())
+			for (const query of recent()) {
+				const item = root.createElement("li")
+				const button = root.createElement("button")
+				button.type = "button"
+				button.textContent = query
+				button.addEventListener("click", () => {
+					input.value = query
+					render()
+					input.focus()
+				})
+				item.append(button)
+				results.append(item)
+			}
 		for (const entry of matches.slice(0, 20)) {
 			const item = root.createElement("li")
 			const link = root.createElement("a")
 			link.href = entry.url
-			link.textContent = entry.heading
-				? `${entry.title} / ${entry.heading}`
-				: entry.title
+			if (entry.heading) {
+				const context = root.createElement("span")
+				context.className = "search-context"
+				highlight(context, entry.title, input.value)
+				link.append(context)
+			}
+			const title = root.createElement("span")
+			title.className = "search-title"
+			highlight(title, entry.heading || entry.title, input.value)
+			link.append(title)
 			const snippet = root.createElement("p")
 			const term = normalize(input.value).trim().split(/\s+/)[0]
 			const start = Math.max(0, normalize(entry.text).indexOf(term) - 45)
-			snippet.textContent =
+			highlight(
+				snippet,
 				(start ? "…" : "") +
-				entry.text.slice(start, start + 180) +
-				(entry.text.length > start + 180 ? "…" : "")
+					entry.text.slice(start, start + 180) +
+					(entry.text.length > start + 180 ? "…" : ""),
+				input.value
+			)
+			link.addEventListener("click", () => remember(input.value.trim()))
 			link.append(snippet)
 			item.append(link)
 			results.append(item)
 		}
 	}
 	trigger.addEventListener("click", async () => {
+		if (dialog.open) return
+		root.querySelector(".nav-dialog[open]")?.close()
 		dialog.showModal()
 		input.focus()
 		if (entries) return render()
@@ -85,6 +194,8 @@ export function setupSearch(root = document) {
 							!["title", "heading", "text", "url"].every(
 								(key) => typeof entry[key] === "string"
 							) ||
+							(entry.scope !== undefined &&
+								!["guide", "api"].includes(entry.scope)) ||
 							!entry.url.startsWith("/") ||
 							entry.url.startsWith("//") ||
 							entry.url.includes("\\") ||
@@ -102,6 +213,12 @@ export function setupSearch(root = document) {
 				"Search could not load. Close and reopen to retry, or use the navigation."
 		}
 	})
+	root.addEventListener("keydown", (event) => {
+		if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+			event.preventDefault()
+			trigger.click()
+		}
+	})
 	dialog
 		.querySelector(".search-close")
 		.addEventListener("click", () => dialog.close())
@@ -110,6 +227,13 @@ export function setupSearch(root = document) {
 		if (event.target.closest("a")) dialog.close()
 	})
 	input.addEventListener("input", render)
+	for (const button of scopeButtons)
+		button.addEventListener("click", () => {
+			scope = button.dataset.searchScope
+			for (const choice of scopeButtons)
+				choice.setAttribute("aria-pressed", String(choice === button))
+			render()
+		})
 	dialog.addEventListener("keydown", (event) => {
 		// Native search inputs otherwise consume Escape to clear their value first.
 		if (event.key === "Escape") {
@@ -118,7 +242,7 @@ export function setupSearch(root = document) {
 			return
 		}
 		if (!["ArrowDown", "ArrowUp"].includes(event.key)) return
-		const targets = [input, ...results.querySelectorAll("a")]
+		const targets = [input, ...results.querySelectorAll("a, button")]
 		const index = targets.indexOf(root.activeElement)
 		if (index < 0) return
 		event.preventDefault()

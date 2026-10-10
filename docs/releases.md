@@ -61,7 +61,8 @@ flowchart LR
    Finalize checks out its exact merge commit for every source-consuming job.
    The requested tag, npm manifest, JSR manifest, and prepared release notes must agree.
    If newer changesets land, rerun Prepare and review its updated PR before merging;
-   Finalize refuses to publish with unconsumed changesets.
+   Finalize refuses to publish with unconsumed UI changesets; independent Docs
+   changesets remain pending.
 4. Finalize validates static checks, package consumers, and the production website
    build before tagging. GitHub release creation waits for both registries and uses
    only the prepared package notes, not a new Git history scan.
@@ -84,14 +85,14 @@ intended for the Prepare workflow; running it locally consumes pending changeset
 - These recovery guards apply to releases containing this workflow and its helper
   scripts. Older tags may require a separately reviewed recovery procedure.
 - Preparation requires committed changesets for attribution. It rejects prerelease
-  mode, JSR version drift, duplicate timeline versions, and additional publishable
-  packages before versioning. A failed local generation may leave partial generated
+  mode, JSR version drift, duplicate timeline versions, unsupported publishable
+  packages and cross-package Changesets before versioning. A failed local generation may leave partial generated
   files; inspect the diff rather than committing it blindly.
 - Existing bot permissions, npm credentials, and JSR authentication remain unchanged.
   No secrets, remote settings, tags, or packages are changed by this migration itself.
 - New public packages need explicit publishing and tag policies before this adapter
   accepts them. Changesets supports a larger workspace; our current publisher supports
-  only the UI package. Changelog UI redesign, registry, and blocks remain separate work.
+  only the UI package; Docs has its own npm-only workflow. Changelog UI redesign, registry, and blocks remain separate work.
 
 CI tests exercise the real Changesets CLI in temporary Git workspaces, including
 no-release work, attribution, historical preservation, duplicate summaries, and
@@ -101,3 +102,29 @@ rejected version mismatches. They do not publish to either registry.
 
 - [Changesets configuration](https://changesets.dev/guide/config)
 - [Changesets CLI](https://changesets.dev/guide/cli)
+
+## Independent package releases
+
+UI and Docs can have separate pending Changesets at the same time. Dispatch the
+prepare workflow for the package you want to release: **Release 1 - Prepare PR**
+for UI, or **Docs Release 1 - Prepare PR** for Docs. Preparation uses Changesets
+`version --ignore` to leave the other package's version, changelog and Changesets
+untouched. Finalization checks only the selected package's unconsumed intent.
+Split a Changeset that names both packages into separate files before preparing;
+shared release intent cannot be consumed by only one package.
+
+UI uses `vX.Y.Z` tags and supports npm, JSR and GitHub release recovery targets.
+Docs uses `docs-vX.Y.Z` tags and supports npm and GitHub release targets. Both
+manual recovery workflows validate the requested stable tag before checkout and
+use its exact commit throughout. Missing tags fail; recovery does not create an
+old version from current main. These are package release workflows, not hosting
+provider deployments.
+
+JSR recovery treats missing version metadata as absence, but missing manifests,
+lookup failures and checksum mismatches as errors. A mismatch must stop the run
+without attempting to publish over the existing version.
+
+JSR publishing requires provenance by default for automatic releases and manual
+recovery. Select `disabled-for-recovery` only when recovering a confirmed upstream
+provenance outage; normal retries keep `required`. Registry identity and checksum
+verification still apply in recovery mode.

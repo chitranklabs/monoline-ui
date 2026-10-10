@@ -1,0 +1,100 @@
+---
+title: Card
+description: Present a short topic or destination.
+---
+
+import Card from "@chitrank2050/monoline-docs/components/Card.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Card from "@chitrank2050/monoline-docs/components/Card.astro";\n\n<Card\n  title="Writing pages"\n  description="Author content in Markdown or MDX."\n/>'
+export const variationCode =
+	'import Card from "@chitrank2050/monoline-docs/components/Card.astro";\n\n<Card\n  title="Deployment"\n  href="/deployment"\n  description="Publish the generated static files."\n/>'
+
+<Preview
+	title="Card example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<Card
+		title="Writing pages"
+		description="Author content in Markdown or MDX."
+	/>
+</Preview>
+
+## Usage
+
+Use the default slot for supporting content. Linked cards must not contain nested interactive controls.
+
+## Linked card
+
+<Preview
+	title="Card example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<Card
+		title="Deployment"
+		href="/deployment"
+		description="Publish the generated static files."
+	/>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Card props"
+	rows={[
+		{
+			name: "title",
+			type: "string",
+			default: "Required",
+			description: "Card heading.",
+		},
+		{
+			name: "description",
+			type: "string",
+			default: "\u2014",
+			description: "Supporting text.",
+		},
+		{
+			name: "href",
+			type: "string",
+			default: "\u2014",
+			description: "Turns the card into a LinkCard.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+A linked card is one link. Do not place other links or buttons inside it. Use a descriptive title that explains the destination.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

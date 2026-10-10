@@ -1,0 +1,131 @@
+---
+title: PackageReference
+description: Document a library and its declared compatibility.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import PackageReference from "@chitrank2050/monoline-docs/components/PackageReference.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import PackageReference from "@chitrank2050/monoline-docs/components/PackageReference.astro";\n\n<PackageReference\n  name="example-sdk"\n  packageHref="<https://example.com/package"\n>  compatibility={["Example: ES modules"]}\n  exports={[\n    {\n      name: "Client",\n      type: "class",\n      description: "Example client.",\n    },\n  ]}\n/>'
+export const variationCode =
+	'import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro";\nimport PackageReference from "@chitrank2050/monoline-docs/components/PackageReference.astro";\n\n<PackageReference\n  name="example-sdk"\n  version="1.0.0"\n  packageHref="<https://example.com/package"\n>  sourceHref="<https://example.com/source"\n>  compatibility={["Example: Node.js"]}\n  exports={[\n    {\n      name: "Client",\n      type: "class",\n      description: "Example client.",\n    },\n  ]}\n>\n  <CodeBlock\n    code="import { Client } from \'example-sdk\'"\n    language="js"\n  />\n</PackageReference>'
+
+<Preview
+	title="PackageReference example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<PackageReference
+		name="example-sdk"
+		packageHref="https://example.com/package"
+		compatibility={["Example: ES modules"]}
+		exports={[
+			{ name: "Client", type: "class", description: "Example client." },
+		]}
+	/>
+</Preview>
+
+## Usage
+
+Compatibility is authored by you and is not inferred from package metadata. The default slot holds examples or supporting content.
+
+## Source link and example
+
+<Preview
+	title="PackageReference example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<PackageReference
+		name="example-sdk"
+		version="1.0.0"
+		packageHref="https://example.com/package"
+		sourceHref="https://example.com/source"
+		compatibility={["Example: Node.js"]}
+		exports={[
+			{ name: "Client", type: "class", description: "Example client." },
+		]}
+	>
+		<CodeBlock code="import { Client } from 'example-sdk'" language="js" />
+	</PackageReference>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="PackageReference props"
+	rows={[
+		{
+			name: "name",
+			type: "string",
+			default: "Required",
+			description: "Library name.",
+		},
+		{
+			name: "version",
+			type: "string",
+			default: "\u2014",
+			description: "Displayed version.",
+		},
+		{
+			name: "packageHref",
+			type: "string",
+			default: "Required",
+			description: "Absolute HTTP(S) URL without credentials.",
+		},
+		{
+			name: "sourceHref",
+			type: "string",
+			default: "\u2014",
+			description: "Optional absolute source URL.",
+		},
+		{
+			name: "compatibility",
+			type: "string[]",
+			default: "Required",
+			description: "Nonempty explicitly authored environments.",
+		},
+		{
+			name: "exports",
+			type: "Row[]",
+			default: "Required",
+			description:
+				"Export rows with name, type, description and optional required.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Compatibility is declared by the author. Verify package links and supported environments before publishing the reference.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

@@ -10,6 +10,7 @@ import {
 	packageDigest,
 	registryJson,
 	verifyJsrManifest,
+	verifyPublishedJsrVersion,
 } from "./release-registry.mjs"
 
 test("registry absence is distinct from authorization failure and transient outage", async (t) => {
@@ -62,4 +63,54 @@ test("release verification compares actual package and JSR contents", async (t) 
 	await writeFile(file, "export const value = 2;")
 	execFileSync("tar", ["-czf", tarball, "-C", directory, "index.ts"])
 	assert.notEqual(packageDigest(tarball), before)
+})
+
+test("published JSR lookup fails on missing or mismatched artifact identity", async (t) => {
+	const directory = await mkdtemp(path.join(tmpdir(), "monoline-jsr-identity-"))
+	t.after(() => rm(directory, { recursive: true, force: true }))
+	await writeFile(path.join(directory, "index.ts"), "verified source")
+	let manifest = { "/index.ts": { checksum: "different" } }
+	t.mock.method(globalThis, "fetch", async (url) =>
+		Response.json(
+			url.endsWith("/meta.json") ? { versions: { "0.5.0": {} } } : { manifest }
+		)
+	)
+	await assert.rejects(
+		verifyPublishedJsrVersion(
+			"https://jsr.example/meta.json",
+			"0.5.0",
+			directory
+		),
+		/Published JSR file differs/
+	)
+	manifest = undefined
+	await assert.rejects(
+		verifyPublishedJsrVersion(
+			"https://jsr.example/meta.json",
+			"0.5.0",
+			directory
+		),
+		/manifest is unavailable/
+	)
+	manifest = {
+		"/index.ts": {
+			checksum: `sha256-${createHash("sha256").update("verified source").digest("hex")}`,
+		},
+	}
+	assert.equal(
+		await verifyPublishedJsrVersion(
+			"https://jsr.example/meta.json",
+			"0.5.0",
+			directory
+		),
+		true
+	)
+	assert.equal(
+		await verifyPublishedJsrVersion(
+			"https://jsr.example/meta.json",
+			"0.4.0",
+			directory
+		),
+		false
+	)
 })

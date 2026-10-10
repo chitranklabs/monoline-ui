@@ -108,3 +108,16 @@ it("applies only explicit build overrides and does not reinterpret YAML strings"
 		loadConfig({ cwd: root, config: "config.json" })
 	).rejects.toThrow("Supported config extensions")
 })
+
+it("resolves local OpenAPI paths relative to the config file", async () => {
+	const root = await fixture()
+	await mkdir(join(root, "nested"))
+	await writeFile(
+		join(root, "nested/monoline-docs.yml"),
+		"title: Docs\nopenapi:\n  file: ../spec.yml\n  route: /api\n"
+	)
+	expect(
+		(await loadConfig({ cwd: root, config: "nested/monoline-docs.yml" }))
+			.openapi
+	).toEqual({ file: join(root, "spec.yml"), route: "/api" })
+})

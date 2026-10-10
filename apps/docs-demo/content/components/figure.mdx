@@ -1,0 +1,116 @@
+---
+title: Figure
+description: Show an image with stable dimensions and an optional caption.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import Figure from "@chitrank2050/monoline-docs/components/Figure.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Figure from "@chitrank2050/monoline-docs/components/Figure.astro";\n\n<Figure\n  src="/assets/build-flow.svg"\n  alt="Content and configuration become a static documentation site"\n  width={360}\n  height={288}\n/>'
+export const variationCode =
+	'import Figure from "@chitrank2050/monoline-docs/components/Figure.astro";\n\n<Figure\n  src="/assets/build-flow.svg"\n  alt="Documentation build flow"\n  width={360}\n  height={288}\n  caption="The build produces portable static output."\n/>'
+
+<Preview
+	title="Figure example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<Figure
+		src="/assets/build-flow.svg"
+		alt="Content and configuration become a static documentation site"
+		width={360}
+		height={288}
+	/>
+</Preview>
+
+## Usage
+
+Supply accurate dimensions to reserve space. Images load lazily; use meaningful alt text for informative diagrams.
+
+## Captioned image
+
+<Preview
+	title="Figure example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<Figure
+		src="/assets/build-flow.svg"
+		alt="Documentation build flow"
+		width={360}
+		height={288}
+		caption="The build produces portable static output."
+	/>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Figure props"
+	rows={[
+		{
+			name: "src",
+			type: "string",
+			default: "Required",
+			description: "Image source; local /assets paths honor the base.",
+		},
+		{
+			name: "alt",
+			type: "string",
+			default: "Required",
+			description: "Image description; empty only for decorative images.",
+		},
+		{
+			name: "width",
+			type: "number",
+			default: "Required",
+			description: "Positive integer intrinsic width.",
+		},
+		{
+			name: "height",
+			type: "number",
+			default: "Required",
+			description: "Positive integer intrinsic height.",
+		},
+		{
+			name: "caption",
+			type: "string",
+			default: "\u2014",
+			description: "Optional visible caption.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Provide accurate image dimensions and useful alternative text. Captions explain the image in context; decorative images may use an explicitly empty alt value.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

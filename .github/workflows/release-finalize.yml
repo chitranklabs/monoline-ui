@@ -24,7 +24,7 @@ on:
         description: "Disable only to recover from a confirmed upstream provenance outage."
         type: choice
         required: true
-        default: disabled-for-recovery
+        default: required
         options: [required, disabled-for-recovery]
 
 concurrency:
@@ -61,12 +61,32 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Select immutable release source
+        id: source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [[ ! "$INPUT_VERSION" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+              echo "::error::Recovery requires an existing stable v tag."
+              exit 1
+            fi
+            echo "ref=refs/tags/$INPUT_VERSION" >> "$GITHUB_OUTPUT"
+          else
+            if [[ ! "$MERGE_SHA" =~ ^[a-f0-9]{40}$ ]]; then
+              echo "::error::Missing release merge commit."
+              exit 1
+            fi
+            echo "ref=$MERGE_SHA" >> "$GITHUB_OUTPUT"
+          fi
       - name: Checkout repository 📥
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.merge_commit_sha }}
+          ref: ${{ steps.source.outputs.ref }}
 
       - name: Create Bot Token 🤖🔑
         id: generate_token
@@ -311,10 +331,10 @@ jobs:
       - name: Publish to JSR 📦
         env:
           RELEASE_TAG: ${{ needs.build.outputs.tag_name }}
-          JSR_PROVENANCE: ${{ inputs.jsr_provenance || 'disabled-for-recovery' }}
+          JSR_PROVENANCE: ${{ inputs.jsr_provenance || 'required' }}
         run: |
           PUBLISH_ARGS=(--config packages/ui/jsr.json --allow-slow-types)
-          if [ "$JSR_PROVENANCE" != "required" ]; then
+          if [ "$JSR_PROVENANCE" = "disabled-for-recovery" ]; then
             PUBLISH_ARGS+=(--no-provenance)
             echo "Publishing to JSR with --no-provenance"
           fi
@@ -373,10 +393,19 @@ jobs:
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: write
 
+      - name: Setup pnpm 📦
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          version: 11.18.0
+          run_install: false
+
       - name: Setup Node.js 🟢
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install release helper dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Create GitHub Release ✨
         env:

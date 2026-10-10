@@ -1,0 +1,128 @@
+# Docs release and recovery
+
+## Release state
+
+Docs releases independently from Monoline UI. The current Docs manifest is
+`0.0.0`; the existing minor Changeset plans `0.1.0`. Release preparation must
+derive the version from the repository's actual Changesets state, not this note.
+An October 2, 2026 public npm lookup returned 404; it does not prove private
+package availability. No publication or deployment was performed.
+
+The prepare workflow opens a Docs-only version PR. Finalization runs after the
+approved PR merges, verifies its release intent and publishes an immutable
+`docs-v<version>` tag and npm artifact. Independent UI Changesets remain pending and do not block Docs preparation or
+finalization. A single Changeset naming both packages is rejected; split it into
+separate package Changesets.
+The user owns commits, PRs and explicit publication authorization.
+
+## Verification and provenance
+
+Visual acceptance includes reviewing representative baselines in both themes and
+viewport sizes; the project owner may delegate this review to an agent. Real iOS
+keyboard/safe-area checks and manual screen-reader flows remain required before
+release. Remaining priorities are tracked in the
+[roadmap](../packages/docs/ROADMAP.md#before-the-first-release).
+
+Run the existing package build, packed-consumer fixture, browser checks and
+release-script tests before approving the release. The packed fixture checks
+public imports, declarations, CLI and Astro/React consumers without ancestor
+dependency resolution. npm is the initial target; a JSR dry-run probe rejects
+public `.astro` exports.
+
+The npm workflow requests provenance and requires its configured registry
+credentials and permissions. Local tests do not establish that production OIDC,
+registry authorization or provenance attestation is configured correctly. Verify
+the published artifact and attestation before declaring release complete. See
+[npm provenance](https://docs.npmjs.com/generating-provenance-statements/) and
+[trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+
+## Visual regression checks
+
+After building the Docs package, run `pnpm test:docs:visual`. The focused fixture
+checks the documentation shell, filename/code highlighting, reference table,
+short/collapsed/expanded Preview states and search results. Both themes are tested
+at 375px and 1440px. Baselines live in `packages/docs/visual/baselines/`, separated
+by operating system; they are repository test assets, excluded from the npm pack.
+
+CI compares Linux baselines in the pinned Playwright container from `ci.yml`.
+Browser or container upgrades require reviewing fresh baselines in that same
+environment. Local macOS baselines support native developer runs. Fonts and
+rendering differ across operating systems; do not copy baselines between them.
+
+Comparisons never update baselines by default. For an intentional visual change,
+run `pnpm test:docs:visual --update-snapshots=all`, inspect the changed images in both
+themes and sizes, then rerun without the update flag. Failure diagnostics include
+actual/expected/diff images and traces under `test-results/docs-visual/`; CI uploads
+that directory. Missing baselines and changed layouts fail rather than silently
+becoming the new reference. Keep this small fixture independent of demo copy.
+
+These comparisons and agent visual review cover browser rendering, not physical
+iOS behavior or the experience of a person using a real screen reader. Automated
+accessibility and keyboard checks remain complementary checks.
+
+## Failure recovery
+
+Use the finalize workflow's manual dispatch with the exact stable tag, for
+example `docs-v0.1.0`. Manual recovery checks out that immutable tag rather than
+current main. Malformed tags are rejected before checkout.
+
+If an npm upload succeeds but the client reports an error, finalization polls
+registry metadata and compares the downloaded tarball with the candidate. A
+matching artifact is accepted without another upload; mismatched contents fail.
+Persistent absence retains the upload error. Fix credentials or infrastructure
+before retrying; never overwrite or silently accept a different artifact.
+
+After any failed run, inspect the tag, npm metadata, tarball identity and GitHub
+release independently. Recovery may complete missing steps but must not rebuild
+an old release from a newer branch. Never log registry credentials.
+
+## Local output promotion and recovery
+
+Builds prepare replacement bytes and backups in the output directory's owned
+`.monoline-promotion` directory. Its exclusive creation locks promotion across
+processes and path aliases. Another writer receives an actionable lock error;
+builds do not wait indefinitely or automatically remove a stale lock. Staging on
+the output filesystem also supports output roots mounted on separate volumes.
+
+Preflight rejects unmanaged destinations, untracked-file collisions, symlinks and
+invalid generated path types. Before changing final files, Monoline saves their
+prior bytes and prepares all replacements. Caught promotion errors restore prior
+managed files and the manifest, remove newly added files and owned empty
+directories, and preserve unrelated files. A successful manifest replacement is
+the commit point. If subsequent cleanup fails, the build succeeds with a warning;
+the new site is committed and dev preview adopts its new routes. Inspect the
+remaining promotion directory before another build.
+
+If rollback also fails, the error contains the original and recovery failures,
+and backups plus `recovery.json` remain under `.monoline-promotion`. Do not deploy
+that output. After confirming no process is building, copy the recovery directory
+to a separate safe location and inspect its mapping: each `name` identifies an
+output-relative file; `backup` identifies its prior bytes, or is null for a file
+that did not previously exist. Remaining backups can restore prior files;
+backups consumed by successful rollback renames are already restored. Restore the
+prior manifest along with its files and remove only operation-created files.
+Preserve unrelated files. Remove the stale promotion directory only after
+reconciling the output or restoring a separately saved successful build.
+
+This recovery protects caught filesystem failures when rollback remains possible.
+It is not an atomic whole-site deployment or a power-loss durability guarantee:
+readers can observe intermediate files while promotion runs. Process termination
+can leave a lock and a mixed site; use the retained mapping for manual recovery.
+If termination happened before a complete mapping was written, final mutation
+has not begun. External filesystem mutation during a build is unsupported.
+Allow disk space for replacement files and prior generated bytes. Deploy only
+completed successful builds; hosting rollback remains a separate operation.
+
+## Rollback and external gates
+
+Published npm versions are immutable. Prefer a new corrective release; for an
+existing previous known-good version, a separately authorized operator may move
+the `latest` dist-tag back after verifying compatibility. Do not unpublish as an
+automatic rollback. Site rollback uses the hosting provider's prior deployment;
+local builds recover last-good output from caught promotion errors as described
+above, subject to rollback availability and interruption limits.
+
+Before publication, approve screenshots in both themes/densities, complete
+manual screen-reader review, verify real root/subpath hosting, confirm package
+ownership and credentials, and explicitly authorize the planned version. Local
+workflow tests and dry runs cannot substitute for these external checks.

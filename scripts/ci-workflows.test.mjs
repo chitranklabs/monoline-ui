@@ -1,7 +1,9 @@
 import { load } from "js-yaml"
 import assert from "node:assert/strict"
-import { spawnSync } from "node:child_process"
-import { readFileSync } from "node:fs"
+import { execFileSync, spawnSync } from "node:child_process"
+import { mkdtempSync, readFileSync, rmSync } from "node:fs"
+import { tmpdir } from "node:os"
+import path from "node:path"
 import { test } from "node:test"
 import picomatch from "picomatch"
 
@@ -15,10 +17,29 @@ const packageManagerVersion = JSON.parse(
 	readFileSync(new URL("package.json", root), "utf8")
 ).packageManager.split("@")[1]
 
+test("JSR requires provenance unless manually recovering a confirmed outage", () => {
+	const finalize = readWorkflow("release-finalize")
+	assert.equal(
+		finalize.on.workflow_dispatch.inputs.jsr_provenance.default,
+		"required"
+	)
+	const publish = finalize.jobs["publish-jsr"].steps.find((step) =>
+		step.run?.includes("jsr-exists")
+	)
+	assert.equal(
+		publish.env.JSR_PROVENANCE,
+		"${{ inputs.jsr_provenance || 'required' }}"
+	)
+	assert.ok(
+		publish.run.includes('[ "$JSR_PROVENANCE" = "disabled-for-recovery" ]')
+	)
+})
+
 test("standalone docs consumer stays in the existing job and runs only for package or dependency changes", () => {
 	const steps = Object.values(ci.jobs).flatMap((job) => job.steps ?? [])
 	const consumers = steps.filter(
-		(step) => step.run === "pnpm --filter @monoline/docs test:consumer"
+		(step) =>
+			step.run === "pnpm --filter @chitrank2050/monoline-docs test:consumer"
 	)
 	assert.equal(consumers.length, 1)
 	assert.equal(
@@ -28,7 +49,13 @@ test("standalone docs consumer stays in the existing job and runs only for packa
 })
 
 test("workflows install one exact pnpm version without implicit dependency installs", () => {
-	for (const name of ["ci", "release-prepare", "release-finalize"]) {
+	for (const name of [
+		"ci",
+		"release-prepare",
+		"release-finalize",
+		"docs-release-prepare",
+		"docs-release-finalize",
+	]) {
 		for (const job of Object.values(readWorkflow(name).jobs)) {
 			for (const step of job.steps.filter((entry) =>
 				entry.uses?.startsWith("pnpm/action-setup@")
@@ -86,7 +113,7 @@ test("release finalization uses the same immutable commit and exact prepared tag
 			assert.equal(
 				step.with.ref,
 				name === "build"
-					? "${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.merge_commit_sha }}"
+					? "${{ steps.source.outputs.ref }}"
 					: "${{ needs.build.outputs.release_sha }}"
 			)
 			assert.equal(step.with["persist-credentials"], false)
@@ -107,6 +134,18 @@ test("release finalization uses the same immutable commit and exact prepared tag
 	assert.ok(create.run.includes("--verify-tag"))
 	assert.ok(create.run.includes("node scripts/release-verify.mjs"))
 	assert.equal(JSON.stringify(finalize).includes("git-cliff"), false)
+})
+
+test("Docs release automation changes select package integration", () => {
+	for (const file of [
+		"scripts/docs-release.mjs",
+		"scripts/docs-release.test.mjs",
+		"scripts/lib/release-plan.mjs",
+		"scripts/release-registry.mjs",
+		".github/workflows/docs-release-prepare.yml",
+		".github/workflows/docs-release-finalize.yml",
+	])
+		assert.equal(classify([file]).docs_package, true, file)
 })
 
 test("release artifacts, registry publication, and generated history use workspace paths", () => {
@@ -160,6 +199,87 @@ function classify(paths) {
 		])
 	)
 }
+
+test("Docs release automation stays npm-only and isolated from UI tags", () => {
+	const prepare = readWorkflow("docs-release-prepare")
+	const finalize = readWorkflow("docs-release-finalize")
+	assert.ok(
+		finalize.jobs.build.steps.some(
+			(step) =>
+				step.run ===
+				"pnpm exec playwright install --with-deps --only-shell chromium"
+		)
+	)
+	assert.ok(
+		finalize.jobs.build.steps.some(
+			(step) => step.run === "node packages/docs/test-browser.mjs"
+		)
+	)
+	const prepareSteps = prepare.jobs.prepare.steps
+	assert.equal(
+		prepareSteps.find((step) => step.id === "vars").run,
+		"node scripts/docs-release.mjs prepare"
+	)
+	assert.ok(
+		prepareSteps
+			.find((step) => step.uses?.startsWith("peter-evans/create-pull-request@"))
+			.with.branch.startsWith("chore/docs-release-")
+	)
+	assert.ok(finalize.jobs.build.if.includes("chore/docs-release-docs-v"))
+	assert.equal(JSON.stringify(finalize).includes("publish-jsr"), false)
+	assert.equal(JSON.stringify(finalize).includes("docs-v"), true)
+	assert.equal(finalize.concurrency["cancel-in-progress"], false)
+	assert.equal(
+		finalize.jobs["publish-npm"].steps.at(-1).run,
+		"node scripts/docs-release.mjs publish-npm"
+	)
+})
+
+test("Docs recovery checks out the requested tag and uses valid local actions", () => {
+	const prepare = readWorkflow("docs-release-prepare")
+	const finalize = readWorkflow("docs-release-finalize")
+	const steps = finalize.jobs.build.steps
+	const source = steps.find((step) => step.id === "source")
+	assert.ok(source, "validate the recovery ref before checkout")
+	assert.ok(source.run.includes("refs/tags/$INPUT_VERSION"))
+	assert.equal(
+		steps.find((step) => step.uses?.startsWith("actions/checkout@")).with.ref,
+		"${{ steps.source.outputs.ref }}"
+	)
+	for (const workflow of [prepare, finalize])
+		for (const job of Object.values(workflow.jobs))
+			for (const step of job.steps)
+				if (step.uses?.includes("setup-bot"))
+					assert.equal(step.uses, "$/.github/actions/setup-bot")
+	const directory = mkdtempSync(path.join(tmpdir(), "docs-recovery-ref-"))
+	try {
+		const output = path.join(directory, "output")
+		const run = (version) =>
+			execFileSync("bash", ["-e", "-c", source.run], {
+				env: {
+					...process.env,
+					EVENT_NAME: "workflow_dispatch",
+					INPUT_VERSION: version,
+					GITHUB_OUTPUT: output,
+				},
+				stdio: "pipe",
+			})
+		run("docs-v0.1.0")
+		assert.equal(
+			readFileSync(output, "utf8").trim(),
+			"ref=refs/tags/docs-v0.1.0"
+		)
+		for (const invalid of [
+			"v0.1.0",
+			"docs-v01.0.0",
+			"docs-v0.1.0\nref=main",
+			"--help",
+		])
+			assert.throws(() => run(invalid))
+	} finally {
+		rmSync(directory, { recursive: true, force: true })
+	}
+})
 
 function applicable(condition, changes) {
 	if (!condition) return true
@@ -499,3 +619,74 @@ for (const [results, expected] of [
 		assert.equal(result.status, expected, result.stderr)
 	})
 }
+
+test("UI recovery validates an immutable tag before checkout and rejects invalid sources", () => {
+	const steps = readWorkflow("release-finalize").jobs.build.steps
+	const source = steps.find((step) => step.id === "source")
+	const directory = mkdtempSync(path.join(tmpdir(), "ui-recovery-ref-"))
+	try {
+		const output = path.join(directory, "output")
+		const run = (event, version, sha = "") => {
+			rmSync(output, { force: true })
+			execFileSync("bash", ["-e", "-c", source.run], {
+				env: {
+					...process.env,
+					EVENT_NAME: event,
+					INPUT_VERSION: version,
+					MERGE_SHA: sha,
+					GITHUB_OUTPUT: output,
+				},
+				stdio: "pipe",
+			})
+			return readFileSync(output, "utf8").trim()
+		}
+		assert.equal(run("workflow_dispatch", "v0.5.0"), "ref=refs/tags/v0.5.0")
+		for (const invalid of [
+			"main",
+			"docs-v0.5.0",
+			"v01.5.0",
+			"v0.5.0\nref=main",
+			"--help",
+		])
+			assert.throws(() => run("workflow_dispatch", invalid))
+		const sha = "a".repeat(40)
+		assert.equal(run("pull_request", "", sha), `ref=${sha}`)
+		assert.throws(() => run("pull_request", "", "main"))
+	} finally {
+		rmSync(directory, { recursive: true, force: true })
+	}
+	const publish = readWorkflow("release-finalize").jobs[
+		"publish-jsr"
+	].steps.find((step) => step.run?.includes("jsr-exists"))
+	assert.ok(publish.run.includes('[ "$status" -eq 1 ] || exit "$status"'))
+})
+
+test("fresh registry and GitHub release jobs install helper dependencies before running them", () => {
+	for (const [workflow, job] of [
+		["docs-release-finalize", "publish-npm"],
+		["docs-release-finalize", "create-release"],
+		["release-finalize", "create-release"],
+	]) {
+		const steps = readWorkflow(workflow).jobs[job].steps
+		const install = steps.findIndex(
+			(step) =>
+				step.run ===
+				"pnpm install --frozen-lockfile --prefer-offline --ignore-scripts"
+		)
+		const helper = steps.findIndex((step) =>
+			/node scripts\/(docs-release|release-verify)\.mjs/.test(step.run ?? "")
+		)
+		assert.ok(
+			install >= 0 && install < helper,
+			`${workflow}/${job} needs dependencies before helper startup`
+		)
+		assert.ok(
+			steps.findIndex((step) => step.uses?.startsWith("pnpm/action-setup@")) >=
+				0
+		)
+		assert.ok(
+			steps.findIndex((step) => step.uses?.startsWith("actions/setup-node@")) >=
+				0
+		)
+	}
+})

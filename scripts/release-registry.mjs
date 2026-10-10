@@ -64,6 +64,16 @@ export async function verifyJsrManifest(manifest, directory) {
 	}
 }
 
+export async function verifyPublishedJsrVersion(url, version, directory) {
+	if (!(await registryJson(url))?.versions?.[version]) return false
+	const published = await registryJson(
+		url.replace(/meta\.json$/, `${version}_meta.json`)
+	)
+	assert(published?.manifest, "JSR version manifest is unavailable")
+	await verifyJsrManifest(published.manifest, directory)
+	return true
+}
+
 async function main(command) {
 	const manifest = JSON.parse(
 		await readFile("packages/ui/package.json", "utf8")
@@ -73,21 +83,9 @@ async function main(command) {
 	assert.equal(process.env.RELEASE_TAG, `v${version}`)
 	const npmUrl = `https://registry.npmjs.org/${encodeURIComponent(name)}/${version}`
 	const jsrUrl = `https://jsr.io/${name}/meta.json`
-	const jsrExists = async () => {
-		if (!(await registryJson(jsrUrl))?.versions?.[version]) return false
-		const published = await registryJson(
-			`https://jsr.io/${name}/${version}_meta.json`
-		)
-		assert(published?.manifest, "JSR version manifest is unavailable")
-		try {
-			await verifyJsrManifest(published.manifest, "packages/ui")
-		} catch (error) {
-			console.warn(
-				`Warning: JSR version ${version} manifest verification: ${error.message}`
-			)
-		}
-		return true
-	}
+	const jsrExists = () =>
+		verifyPublishedJsrVersion(jsrUrl, version, "packages/ui")
+
 	if (command === "jsr-exists") {
 		if (!(await jsrExists())) process.exitCode = 1
 		return

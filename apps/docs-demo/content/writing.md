@@ -18,7 +18,29 @@ draft: false
 ---
 ```
 
+For the complete field list, see [Frontmatter reference](/frontmatter).
+
 ## Links and routes
+
+Additional metadata separates navigation and search-engine titles from the page
+heading. `slug` retains the public URL when a source file moves:
+
+```yaml
+navTitle: Install
+seoTitle: Install the SDK
+slug: guides/install
+updatedAt: 2026-10-02
+tags: [setup, sdk]
+badge: New
+layout: reference
+search: true
+noindex: false
+```
+
+`updatedAt` must be a real calendar date. `layout: reference` widens reference
+content; it is not an Astro component import. `search: false` omits a page from
+search. `noindex: true` also omits it from sitemap, Markdown and AI exports, but
+the HTML page remains publicly accessible. Drafts are excluded from production.
 
 Use Markdown file links such as `[Introduction](index.md)`, or root-relative
 documentation routes such as `[Introduction](/)`. The builder checks page and
@@ -38,6 +60,27 @@ IDs, and headings inside code fences never enter the table of contents.
 
 Raw HTML is displayed as text. Use normal Markdown for prose, lists, code, and
 tables.
+
+## MDX and React
+
+Use `.mdx` for trusted project content that imports local or installed
+components. Static Astro components need no configuration. For React 19, install
+`react` and `react-dom`, set `react: true`, and add a client directive only when
+the component needs browser interaction:
+
+```mdx
+import Counter from "../components/Counter.jsx"
+
+<Counter client:visible />
+```
+
+Without `client:load`, `client:idle`, or `client:visible`, a React component is
+rendered as static HTML. Ordinary pages do not receive the React runtime. MDX and
+module configuration execute trusted project code during the build; do not use
+them for untrusted or remotely supplied content.
+
+Inside authored JSX, use `import.meta.env.BASE_URL` for local site URLs so links
+work at both `/` and a deployment subpath.
 
 ## Drafts
 
@@ -61,3 +104,9 @@ Callouts support Markdown paragraphs, links, and lists. Other markers remain ord
 ## Heading permalinks
 
 Each section heading has a keyboard-accessible `#` link to its section. Heading IDs are generated from the heading text; duplicate headings receive distinct IDs. Renaming a heading changes its link, so update references when editing it.
+
+## Structured authoring
+
+Use [authoring components](components.mdx) in MDX for steps, link cards, tabs,
+package-manager commands, and API references. These components are static by
+default; only tabs add a small progressive-enhancement script.

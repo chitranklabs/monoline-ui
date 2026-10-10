@@ -1,0 +1,26 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	width="360"
+	height="288"
+	viewBox="0 0 360 288"
+>
+	<g fill="none" stroke="#737373" stroke-width="2">
+		<rect x="12" y="12" width="336" height="64" rx="8" fill="#f5f5f5" />
+		<rect x="12" y="112" width="336" height="64" rx="8" fill="#f5f5f5" />
+		<rect x="12" y="212" width="336" height="64" rx="8" fill="#f5f5f5" />
+		<path d="M180 76v36m-6-8 6 8 6-8M180 176v36m-6-8 6 8 6-8" />
+	</g>
+	<g
+		fill="#525252"
+		font-family="system-ui,sans-serif"
+		font-size="17"
+		text-anchor="middle"
+	>
+		<text x="180" y="38">Markdown / MDX</text>
+		<text x="180" y="62">Content</text>
+		<text x="180" y="138">Monoline Docs</text>
+		<text x="180" y="162">Build</text>
+		<text x="180" y="238">HTML + assets</text>
+		<text x="180" y="262">Static output</text>
+	</g>
+</svg>

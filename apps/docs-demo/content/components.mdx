@@ -1,0 +1,93 @@
+---
+title: Using components
+description: Compose documentation pages with structured authoring components.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Step from "@chitrank2050/monoline-docs/components/Step.astro"
+import Steps from "@chitrank2050/monoline-docs/components/Steps.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+Use Markdown for prose, headings, lists, links, tables and fenced code. Choose MDX when a page needs reusable structure such as installation steps, topic cards or package-manager tabs.
+
+## Import into MDX
+
+```mdx
+---
+title: Install your project
+---
+
+import PackageInstall from "@chitrank2050/monoline-docs/components/PackageInstall.astro"
+
+<PackageInstall id="install-project" name="your-package" />
+```
+
+Component names and paths match the public imports. The `id` identifies a group within the page; keep it unique.
+
+## Choose by documentation task
+
+<Table
+	caption="Authoring patterns"
+	columns={[
+		{ key: "task", label: "Task" },
+		{ key: "components", label: "Components", format: "code" },
+	]}
+	rows={[
+		{ task: "Guide readers through a procedure", components: "Steps + Step" },
+		{ task: "Offer related topics", components: "CardGrid + Card or LinkCard" },
+		{
+			task: "Show commands for multiple package managers",
+			components: "PackageInstall or CodeGroup",
+		},
+		{ task: "Document structured settings", components: "Table" },
+		{ task: "Explain a project structure", components: "FileTree" },
+		{
+			task: "Show example output with source",
+			components: "Preview + CodeBlock",
+		},
+	]}
+/>
+
+## Compose a guide
+
+<Steps>
+	<Step>Write a Markdown page with a clear title and a single purpose.</Step>
+	<Step>
+		Add a component only when its structure helps readers complete the task.
+	</Step>
+	<Step>Preview the page, check its links and build production output.</Step>
+</Steps>
+
+Read [Getting started](/getting-started) for a complete procedure using these components in context.
+
+## Explore authoring tools
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Installation instructions"
+		description="Package-manager commands and ordered steps."
+		href="/components/package-install"
+	/>
+	<LinkCard
+		title="Guide landing pages"
+		description="Compose cards and topic grids."
+		href="/components/card-grid"
+	/>
+	<LinkCard
+		title="Code examples"
+		description="Syntax highlighting, filenames and line highlights."
+		href="/components/code-block"
+	/>
+	<LinkCard
+		title="SDK references"
+		description="Package links, compatibility and exported types."
+		href="/components/package-reference"
+	/>
+</CardGrid>
+
+## Static content and interactions
+
+Astro components render as HTML. Native disclosures work without JavaScript; tabs and copy controls enhance the page through the shared script. React is optional for custom hydrated examples—see [Writing pages](/writing).
+
+Preview examples keep link activation and form submission on the current page when JavaScript is available. This protects the demonstration; ordinary links outside previews navigate normally.

@@ -60,6 +60,10 @@ jobs:
             docs_package:
               - 'packages/docs/**'
               - 'apps/docs-demo/**'
+              - 'scripts/docs-release*.mjs'
+              - 'scripts/lib/release-plan.mjs'
+              - 'scripts/release-registry*.mjs'
+              - '.github/workflows/docs-release-*.yml'
               - 'packages/ui/src/foundations/theme/tokens.css'
             library:
               # Shared build settings and pipeline edits must exercise the jobs they affect.
@@ -215,7 +219,7 @@ jobs:
           needs.changes.outputs.lint == 'true' ||
           needs.changes.outputs.workflows == 'true'
         run: |
-          pnpm --filter @monoline/docs typecheck
+          pnpm --filter @chitrank2050/monoline-docs typecheck
           pnpm test -- packages/docs
           pnpm --filter @monoline/docs-demo build
 
@@ -223,7 +227,7 @@ jobs:
         if: |
           needs.changes.outputs.docs_package == 'true' ||
           needs.changes.outputs.deps == 'true'
-        run: pnpm --filter @monoline/docs test:consumer
+        run: pnpm --filter @chitrank2050/monoline-docs test:consumer
 
       - name: Verify checks are read-only
         run: |
@@ -318,12 +322,22 @@ jobs:
         run: pnpm build
       - name: Test production documentation
         if: needs.changes.outputs.docs == 'true' || needs.changes.outputs.library == 'true' || needs.changes.outputs.deps == 'true'
-        run: pnpm test:docs:built
+        run: pnpm test:website:built
       - name: Test Docs package in production browser
         if: needs.changes.outputs.docs_package == 'true' || needs.changes.outputs.deps == 'true'
         run: |
-          pnpm --filter @monoline/docs build
+          pnpm --filter @chitrank2050/monoline-docs build
           node packages/docs/test-browser.mjs
+      - name: Compare Docs visual baselines
+        if: needs.changes.outputs.docs_package == 'true' || needs.changes.outputs.deps == 'true'
+        run: |
+          docker run --rm --ipc=host --user "$(id -u):$(id -g)" \
+            --env CI=true --env ASTRO_TELEMETRY_DISABLED=1 \
+            --env XDG_CONFIG_HOME=/tmp/monoline-docs-visual-config \
+            --mount type=bind,source="$GITHUB_WORKSPACE",target=/workspace \
+            -w /workspace \
+            mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27 \
+            node node_modules/@playwright/test/cli.js test --config packages/docs/visual/playwright.config.ts
       - name: Upload browser diagnostics
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

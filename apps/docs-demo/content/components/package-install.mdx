@@ -1,0 +1,99 @@
+---
+title: PackageInstall
+description: Generate installation commands for a package.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import PackageInstall from "@chitrank2050/monoline-docs/components/PackageInstall.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import PackageInstall from "@chitrank2050/monoline-docs/components/PackageInstall.astro";\n\n<PackageInstall id="sdk-install" name="example-sdk" />'
+export const variationCode =
+	'import PackageInstall from "@chitrank2050/monoline-docs/components/PackageInstall.astro";\n\n<PackageInstall\n  id="sdk-dev"\n  name="example-sdk"\n  version="1.0.0"\n  dev\n/>'
+
+<Preview
+	title="PackageInstall example"
+	mode="interactive"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<PackageInstall id="sdk-install" name="example-sdk" />
+</Preview>
+
+## Usage
+
+Commands are generated for npm, pnpm, Yarn and Bun. Samples use an illustrative package name; replace it with your actual dependency.
+
+## Versioned development dependency
+
+<Preview
+	title="PackageInstall example"
+	mode="interactive"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<PackageInstall id="sdk-dev" name="example-sdk" version="1.0.0" dev />
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="PackageInstall props"
+	rows={[
+		{
+			name: "id",
+			type: "string",
+			default: "Required",
+			description: "Unique command group identifier.",
+		},
+		{
+			name: "name",
+			type: "string",
+			default: "Required",
+			description: "Valid npm package name.",
+		},
+		{
+			name: "version",
+			type: "string",
+			default: "\u2014",
+			description: "Exact version or distribution tag; ranges are rejected.",
+		},
+		{
+			name: "dev",
+			type: "boolean",
+			default: "false",
+			description: "Generate development-dependency flags.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Replace illustrative package names with your actual dependency. The generated commands are text for readers to copy; the component does not install packages.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

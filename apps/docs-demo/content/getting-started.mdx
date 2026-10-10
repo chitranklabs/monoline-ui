@@ -1,0 +1,83 @@
+---
+title: Getting started
+description: Create your first documentation site, write a page and publish static output.
+---
+
+import FileTree from "@chitrank2050/monoline-docs/components/FileTree.astro"
+import Step from "@chitrank2050/monoline-docs/components/Step.astro"
+import Steps from "@chitrank2050/monoline-docs/components/Steps.astro"
+
+Use Node.js 24.14 or newer. Monoline Docs is not published to npm yet; install a locally packed package while evaluating it.
+
+## Create a site
+
+<Steps>
+<Step>
+Install the package in your project and initialize the site:
+
+```sh
+npm install /path/to/monoline-docs.tgz
+npx monoline-docs init
+```
+
+For pnpm, use `pnpm add /path/to/monoline-docs.tgz` followed by `pnpm exec monoline-docs init`.
+
+</Step>
+<Step>
+Start the local preview:
+
+```sh
+npm run dev
+```
+
+Open the address printed in your terminal.
+
+</Step>
+<Step>
+Edit `content/index.md`. Changes to content and assets rebuild the preview automatically; restart it after changing configuration.
+</Step>
+</Steps>
+
+## Your project
+
+<FileTree
+	items={[
+		{ name: "content", children: [{ name: "index.md", highlight: true }] },
+		{ name: "monoline-docs.yml" },
+		{ name: "package.json" },
+	]}
+/>
+
+The initializer creates the configuration, homepage and build/dev scripts. Existing conflicting configuration, homepages or scripts are rejected rather than overwritten. It does not install dependencies.
+
+## Write a page
+
+Create `content/installation.md`:
+
+```markdown
+---
+title: Installation
+description: Set up your project.
+---
+
+## Install
+
+Follow the installation instructions for your project.
+```
+
+With generated navigation, the page appears in the sidebar. Read [Writing pages](/writing) for links, headings and MDX.
+
+## Build and publish
+
+```sh
+npm run build
+```
+
+Your static site is written to `dist`. Deploy this directory to a static host; follow [Deployment](/deployment) for base paths and hosting recipes.
+
+## Next steps
+
+- [Arrange the navigation](/navigation).
+- [Add your branding](/appearance).
+- [Use authoring components](/components).
+- [Look up configuration options](/configuration).

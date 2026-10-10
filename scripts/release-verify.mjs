@@ -1,15 +1,17 @@
 import { execFileSync } from "node:child_process"
-import { appendFile, readFile, readdir, writeFile } from "node:fs/promises"
+import { appendFile, readFile, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 
 import { projectPaths } from "./lib/project-paths.mjs"
-import { libraryName, releaseNotes } from "./lib/release-plan.mjs"
+import {
+	libraryName,
+	pendingPackageChangesets,
+	releaseNotes,
+} from "./lib/release-plan.mjs"
 
 export async function verifyRelease(root, requested) {
-	const pending = (await readdir(path.join(root, ".changeset"))).filter(
-		(file) => file.endsWith(".md") && file !== "README.md"
-	)
+	const pending = await pendingPackageChangesets(root, libraryName)
 	if (pending.length)
 		throw new Error(
 			"Unconsumed changesets remain; refresh the release PR before publishing"

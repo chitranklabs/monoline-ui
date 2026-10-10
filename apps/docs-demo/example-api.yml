@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: Notes API
+  version: 1.0.0
+  description: >-
+    A small fictional API for tracking documentation tasks. List notes with
+    pagination or create a note with a title and optional body. The examples
+    demonstrate generated parameters, request bodies, response examples and
+    linked schemas. No live service is connected.
+paths:
+  /notes:
+    get:
+      operationId: listNotes
+      summary: List notes
+      description: >-
+        Retrieve notes in creation order. Use limit to choose the page size and
+        pass the nextCursor from a response to retrieve the following page.
+        An absent nextCursor means there are no more results.
+      tags: [Notes]
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of notes to return. Defaults to 20.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: cursor
+          in: query
+          description: Opaque pagination cursor from the previous response.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A page of notes and an optional continuation cursor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotePage"
+              example:
+                items:
+                  - id: note-1
+                    title: Write the getting-started guide
+                    body: Cover installation and the first build.
+                    status: open
+                    createdAt: "2026-10-04T10:00:00Z"
+                nextCursor: note-1
+        "400":
+          description: The page size or cursor is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                code: invalid_parameter
+                message: limit must be between 1 and 100.
+    post:
+      operationId: createNote
+      summary: Create a note
+      description: >-
+        Create a documentation task. Supply a title and an optional body.
+        New notes start with open status; the service assigns the identifier
+        and creation timestamp.
+      tags: [Notes]
+      requestBody:
+        required: true
+        description: The title and optional details of the new task.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNote"
+            example:
+              title: Document the deployment workflow
+              body: Explain the build output and hosting configuration.
+      responses:
+        "201":
+          description: The note was created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+              example:
+                id: note-2
+                title: Document the deployment workflow
+                body: Explain the build output and hosting configuration.
+                status: open
+                createdAt: "2026-10-04T10:05:00Z"
+        "422":
+          description: The request body failed validation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                code: validation_error
+                message: title must contain between 1 and 120 characters.
+components:
+  schemas:
+    Note:
+      type: object
+      description: A documentation task returned by the API.
+      required: [id, title, status, createdAt]
+      properties:
+        id:
+          type: string
+          description: Stable identifier assigned when the note is created.
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: Short task title, between 1 and 120 characters.
+        body:
+          type: string
+          description: Optional details describing the work to complete.
+        status:
+          type: string
+          enum: [open, complete]
+          description: Whether the documentation task is still open or complete.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp in ISO 8601 format.
+    CreateNote:
+      type: object
+      description: Input for creating a task. Identifiers, status and timestamps are assigned by the service.
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: Short task title, between 1 and 120 characters.
+        body:
+          type: string
+          description: Optional details describing the work to complete.
+    NotePage:
+      type: object
+      description: One page of notes. Pass nextCursor to the next list request when present.
+      required: [items]
+      properties:
+        items:
+          type: array
+          description: Notes in creation order; the array may be empty.
+          items:
+            $ref: "#/components/schemas/Note"
+        nextCursor:
+          type: string
+          description: Continuation cursor. Omitted when there are no more notes.
+    Error:
+      type: object
+      description: A structured error response shared by invalid list and create requests.
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, such as invalid_parameter or validation_error.
+        message:
+          type: string
+          description: A readable explanation of the invalid input.

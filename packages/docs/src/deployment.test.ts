@@ -77,3 +77,18 @@ it("pins Pages actions and deploys only a successful build with limited permissi
 	expect(steps[build]!.run).toContain('--base "${DOCS_BASE_PATH%/}/"')
 	expect(steps[upload]!.with?.path).toBe("dist")
 })
+
+it("packages subpath layouts and Cloudflare routing without a homepage fallback", async () => {
+	const vercel = JSON.parse(await template("vercel-subpath.json"))
+	expect(vercel.outputDirectory).toBe("public")
+	expect(vercel.trailingSlash).toBe(true)
+	expect(vercel.rewrites).toBeUndefined()
+	const netlify = await template("netlify-subpath.toml")
+	expect(netlify).toContain('publish = "public"')
+	expect(netlify).toContain("cp public/handbook/404.html public/404.html")
+	expect(netlify).toContain("pnpm build --indexing false")
+	expect(netlify).not.toContain("[[redirects]]")
+	const cloudflare = await template("cloudflare-pages.md")
+	expect(cloudflare).toContain("outDirectory: ./public/handbook")
+	expect(cloudflare).toContain("public/404.html")
+})

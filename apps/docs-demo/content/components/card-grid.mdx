@@ -1,0 +1,88 @@
+---
+title: CardGrid
+description: Arrange related cards in a responsive grid.
+---
+
+import Card from "@chitrank2050/monoline-docs/components/Card.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Card from "@chitrank2050/monoline-docs/components/Card.astro";\nimport CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro";\n\n<CardGrid>\n  <Card title="Write" description="Create content." />\n  <Card title="Publish" description="Build the site." />\n</CardGrid>'
+export const variationCode =
+	'import Card from "@chitrank2050/monoline-docs/components/Card.astro";\nimport CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro";\n\n<CardGrid columns={3}>\n  <Card title="Write" />\n  <Card title="Review" />\n  <Card title="Publish" />\n</CardGrid>'
+
+<Preview
+	title="CardGrid example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<CardGrid>
+		<Card title="Write" description="Create content." />
+		<Card title="Publish" description="Build the site." />
+	</CardGrid>
+</Preview>
+
+## Usage
+
+Compose Card or LinkCard children in the default slot. Keep descriptions similar in length.
+
+## Three columns
+
+<Preview
+	title="CardGrid example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<CardGrid columns={3}>
+		<Card title="Write" />
+		<Card title="Review" />
+		<Card title="Publish" />
+	</CardGrid>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="CardGrid props"
+	rows={[
+		{
+			name: "columns",
+			type: "1 | 2 | 3",
+			default: "2",
+			description: "Preferred desktop column count; narrow layouts adapt.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Use grids to organize related documentation topics. Columns collapse on smaller screens; keep card descriptions concise.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

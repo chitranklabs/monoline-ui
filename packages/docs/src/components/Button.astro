@@ -1,0 +1,85 @@
+---
+import type { HTMLAttributes } from "astro/types"
+import { site } from "virtual:monoline-docs/pages"
+
+type Props = Omit<
+	HTMLAttributes<"button"> & Omit<HTMLAttributes<"a">, "type">,
+	"class" | "disabled"
+> & {
+	variant?: "primary" | "outline" | "ghost"
+	size?: "default" | "icon"
+	href?: string
+	class?: string
+}
+const {
+	variant = "primary",
+	size = "default",
+	href: value,
+	class: className,
+	type = "button",
+	...attributes
+} = Astro.props
+if (!["primary", "outline", "ghost"].includes(variant))
+	throw new Error("Button variant must be primary, outline or ghost")
+if (!["default", "icon"].includes(size))
+	throw new Error("Button size must be default or icon")
+if (size === "icon" && !attributes["aria-label"]?.trim())
+	throw new Error("Icon Button requires an aria-label")
+if (
+	value !== undefined &&
+	(typeof value !== "string" ||
+		!value.trim() ||
+		!/^(\/[^/]|\/$|#|https?:\/\/|mailto:|tel:)/i.test(value))
+)
+	throw new Error(
+		"Button href must be an internal path, fragment, HTTP(S), mailto or tel link"
+	)
+if (Object.hasOwn(Astro.props, "disabled"))
+	throw new Error("Button does not support disabled")
+const internal = value?.startsWith("/")
+	? new URL(value, "https://docs.invalid")
+	: undefined
+const href = internal
+	? site.base +
+		internal.pathname.slice(1).replace(/\/$/, "") +
+		(internal.pathname === "/" || site.cleanUrls ? "" : "/") +
+		internal.search +
+		internal.hash
+	: value
+const classes = [
+	"docs-button",
+	`docs-button-${variant}`,
+	{ "docs-button-icon": size === "icon" },
+	className,
+]
+---
+
+{href !== undefined ? (
+	<a class:list={classes} href={href} {...attributes}>
+		{Astro.slots.has("leadingIcon") && (
+			<span class="docs-button-leading" aria-hidden="true">
+				<slot name="leadingIcon" />
+			</span>
+		)}
+		<slot />
+		{Astro.slots.has("trailingIcon") && (
+			<span class="docs-button-trailing" aria-hidden="true">
+				<slot name="trailingIcon" />
+			</span>
+		)}
+	</a>
+) : (
+	<button class:list={classes} type={type} {...attributes}>
+		{Astro.slots.has("leadingIcon") && (
+			<span class="docs-button-leading" aria-hidden="true">
+				<slot name="leadingIcon" />
+			</span>
+		)}
+		<slot />
+		{Astro.slots.has("trailingIcon") && (
+			<span class="docs-button-trailing" aria-hidden="true">
+				<slot name="trailingIcon" />
+			</span>
+		)}
+	</button>
+)}

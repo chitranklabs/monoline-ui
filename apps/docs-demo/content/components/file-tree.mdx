@@ -1,0 +1,108 @@
+---
+title: FileTree
+description: Show a project structure with expandable folders.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import FileTree from "@chitrank2050/monoline-docs/components/FileTree.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import FileTree from "@chitrank2050/monoline-docs/components/FileTree.astro";\n\n<FileTree\n  items={[\n    {\n      name: "content",\n      children: [\n        { name: "index.md" },\n        { name: "writing.md", highlight: true },\n      ],\n    },\n    { name: "monoline-docs.yml" },\n  ]}\n/>'
+export const variationCode =
+	'import FileTree from "@chitrank2050/monoline-docs/components/FileTree.astro";\n\n<FileTree\n  label="Assets"\n  items={[\n    {\n      name: "assets",\n      expanded: false,\n      children: [{ name: "favicon.svg" }],\n    },\n  ]}\n/>'
+
+<Preview
+	title="FileTree example"
+	mode="interactive"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<FileTree
+		items={[
+			{
+				name: "content",
+				children: [
+					{ name: "index.md" },
+					{ name: "writing.md", highlight: true },
+				],
+			},
+			{ name: "monoline-docs.yml" },
+		]}
+	/>
+</Preview>
+
+## Usage
+
+Folders use native disclosures and default to expanded. expanded applies only to folders; highlight marks a file or folder. Cycles and more than 20 nested folders are rejected.
+
+## Initially collapsed folder
+
+<Preview
+	title="FileTree example"
+	mode="interactive"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<FileTree
+		label="Assets"
+		items={[
+			{
+				name: "assets",
+				expanded: false,
+				children: [{ name: "favicon.svg" }],
+			},
+		]}
+	/>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="FileTree props"
+	rows={[
+		{
+			name: "items",
+			type: "Entry[]",
+			default: "Required",
+			description:
+				"Entries have name and optional children, expanded and highlight.",
+		},
+		{
+			name: "label",
+			type: "string",
+			default: "Project files",
+			description: "Accessible group label.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Folders use native details controls. Enter or Space toggles the focused folder; file labels remain readable without JavaScript.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

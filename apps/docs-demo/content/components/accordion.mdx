@@ -1,0 +1,179 @@
+---
+title: Accordion
+description: Keep supporting details close without interrupting the main reading flow.
+order: 4
+---
+
+import Accordion from "@chitrank2050/monoline-docs/components/Accordion.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Accordion from "@chitrank2050/monoline-docs/components/Accordion.astro";\n\n<Accordion title="Does this need JavaScript?">\n  <p>\n    No. Opening and closing use the browser\'s native details\n    element.\n  </p>\n</Accordion>'
+export const openCode =
+	'<Accordion title="Before you publish" open>\n  <p>\n    Run a production build and check the generated pages before\n    deploying.\n  </p>\n</Accordion>'
+export const richCode =
+	'<Accordion title="What should I verify?">\n  <p>Check the pages your readers will use most:</p>\n  <ul>\n    <li>Follow links and heading anchors.</li>\n    <li>Try search and copy controls.</li>\n    <li>Read the site on a narrow screen.</li>\n  </ul>\n  <p>\n    See the <a href="/deployment/">deployment guide</a> for\n    hosting details.\n  </p>\n</Accordion>'
+export const groupCode =
+	'<Accordion title="Can I use Markdown?">\n  <p>\n    Yes. Use Markdown for ordinary pages and MDX when you import\n    components.\n  </p>\n</Accordion>\n<Accordion title="Can both items stay open?">\n  <p>\n    Yes. Each Accordion is independent; opening one does not\n    close another.\n  </p>\n</Accordion>'
+
+<Preview
+	title="Basic disclosure"
+	mode="interactive"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<div class="docs-preview-stack">
+		<Accordion title="Does this need JavaScript?">
+			<p>No. Opening and closing use the browser's native details element.</p>
+		</Accordion>
+	</div>
+</Preview>
+
+Use Accordion for optional explanations, FAQs and troubleshooting details.
+Keep essential instructions visible in the article so readers can find them
+without opening a disclosure.
+
+## Usage
+
+Import the component in an MDX page or an Astro component. It is included in
+Monoline Docs; no additional UI library or React setup is required.
+
+`"astro\nimport Accordion from \"@chitrank2050/monoline-docs/components/Accordion.astro\"\n\n<Accordion title=\"More details\">\n  <p>Place supporting content here.</p>\n</Accordion>"`
+
+In MDX, put imports after the page's frontmatter. Inside an `.astro` component,
+put the import in its frontmatter script and the markup in its template.
+Plain `.md` pages cannot import components.
+
+## Initially open
+
+Use `open` to reveal the content on first arrival. Readers can still close it.
+
+<Preview
+	title="Initially open"
+	mode="interactive"
+	source={openCode}
+	language="astro"
+	showCaption={false}
+>
+	<div class="docs-preview-stack">
+		<Accordion title="Before you publish" open>
+			<p>
+				Run a production build and check the generated pages before deploying.
+			</p>
+		</Accordion>
+	</div>
+</Preview>
+
+## Rich content
+
+The default slot accepts paragraphs, lists, links and other static content.
+Keep interactive controls inside the content, away from the title.
+
+<Preview
+	title="Lists and links"
+	mode="interactive"
+	source={richCode}
+	language="astro"
+	showCaption={false}
+>
+	<div class="docs-preview-stack">
+		<Accordion title="What should I verify?">
+			<p>Check the pages your readers will use most:</p>
+			<ul>
+				<li>Follow links and heading anchors.</li>
+				<li>Try search and copy controls.</li>
+				<li>Read the site on a narrow screen.</li>
+			</ul>
+			<p>
+				See the <a href="/deployment/">deployment guide</a> for hosting details.
+			</p>
+		</Accordion>
+	</div>
+</Preview>
+
+## Multiple items
+
+Place multiple Accordions together for a short FAQ. Each item opens and closes
+independently, so readers can keep several answers visible. Exclusive opening,
+disabled items and controlled React state are not part of this component's API.
+
+<Preview
+	title="Independent items"
+	mode="interactive"
+	source={groupCode}
+	language="astro"
+	showCaption={false}
+>
+	<div class="docs-preview-stack">
+		<Accordion title="Can I use Markdown?">
+			<p>
+				Yes. Use Markdown for ordinary pages and MDX when you import components.
+			</p>
+		</Accordion>
+		<Accordion title="Can both items stay open?">
+			<p>
+				Yes. Each Accordion is independent; opening one does not close another.
+			</p>
+		</Accordion>
+	</div>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Accordion props"
+	rows={[
+		{
+			name: "title",
+			type: "string",
+			description: "Required. Nonempty text for the disclosure control.",
+		},
+		{
+			name: "open",
+			type: "boolean",
+			default: "false",
+			description: "Whether the content starts expanded. Must be a boolean.",
+		},
+	]}
+/>
+
+The **default slot** holds the disclosure content. There are no named slots.
+An empty title or a non-boolean `open` value fails the build with a validation error.
+
+## Accessibility and behavior
+
+- **Keyboard:** Tab focuses the title; Enter or Space toggles its content. Links
+  and controls inside the content enter the tab order when the item is open.
+- **Semantics:** Native `details` and `summary` communicate the expanded state.
+  No additional ARIA roles or client directives are needed.
+- **Without JavaScript:** Opening, closing and reading work with scripts disabled.
+- **Motion:** The disclosure uses the native browser behavior and has no animated
+  height transition. The focus indicator remains visible.
+- **Page contents:** Accordion titles are controls, not article headings, and do
+  not appear in the page's table of contents.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

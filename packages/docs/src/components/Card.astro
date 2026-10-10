@@ -1,0 +1,23 @@
+---
+import LinkCard from "./LinkCard.astro"
+interface Props {
+	title: string
+	description?: string
+	href?: string
+}
+const { title, description, href } = Astro.props
+if (typeof title !== "string" || !title.trim())
+	throw new Error("Card title must be nonempty")
+---
+
+{href !== undefined ? (
+	<LinkCard title={title} description={description} href={href}>
+		<slot />
+	</LinkCard>
+) : (
+	<div class="docs-card">
+		<strong>{title}</strong>
+		{description && <p>{description}</p>}
+		<slot />
+	</div>
+)}

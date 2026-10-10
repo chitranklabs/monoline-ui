@@ -1,0 +1,18 @@
+---
+interface Props {
+	title: string
+	open?: boolean
+}
+const { title, open = false } = Astro.props
+if (typeof title !== "string" || !title.trim())
+	throw new Error("Accordion title must be nonempty")
+if (typeof open !== "boolean")
+	throw new Error("Accordion open must be a boolean")
+---
+
+<details class="docs-accordion" open={open}>
+	<summary>{title}</summary>
+	<div>
+		<slot />
+	</div>
+</details>

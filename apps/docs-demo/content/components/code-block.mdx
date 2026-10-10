@@ -1,0 +1,104 @@
+---
+title: CodeBlock
+description: Display syntax-highlighted, copyable source.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro";\n\n<CodeBlock code="const ready = true" language="js" />'
+export const variationCode =
+	'import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro";\n\n<CodeBlock\n  code={"const ready = true\\nconsole.log(ready)"}\n  language="js"\n  filename="example.js"\n  highlights={[2]}\n/>'
+
+<Preview
+	title="CodeBlock example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<CodeBlock code="const ready = true" language="js" />
+</Preview>
+
+## Usage
+
+The copy action copies raw source. Overflow is keyboard-scrollable. Without JavaScript the source remains readable and the copy control stays hidden.
+
+## Filename and highlighted line
+
+<Preview
+	title="CodeBlock example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<CodeBlock
+		code={"const ready = true\nconsole.log(ready)"}
+		language="js"
+		filename="example.js"
+		highlights={[2]}
+	/>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="CodeBlock props"
+	rows={[
+		{
+			name: "code",
+			type: "string",
+			default: "Required",
+			description: "Raw source text.",
+		},
+		{
+			name: "language",
+			type: "string",
+			default: "\u2014",
+			description: "Syntax language; unknown languages remain readable.",
+		},
+		{
+			name: "filename",
+			type: "string",
+			default: "\u2014",
+			description: "Optional filename header.",
+		},
+		{
+			name: "highlights",
+			type: "number[]",
+			default: "[]",
+			description: "One-based existing line numbers.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+The copy control copies source without line numbers. Code can be selected manually without JavaScript; long lines remain horizontally scrollable.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

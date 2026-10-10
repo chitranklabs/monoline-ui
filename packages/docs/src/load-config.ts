@@ -60,6 +60,11 @@ export async function loadConfig(options: LoadConfigOptions = {}) {
 		] as const) {
 			if (config[key]) config[key] = resolve(dirname(file), config[key])
 		}
+		if (config.openapi)
+			config.openapi = {
+				...config.openapi,
+				file: resolve(dirname(file), config.openapi.file),
+			}
 		return config
 	} catch (error) {
 		throw new Error(

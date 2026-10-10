@@ -1,0 +1,27 @@
+---
+import { site } from "virtual:monoline-docs/pages"
+
+interface Props {
+	href: string
+	title: string
+	description?: string
+}
+
+const { href: value, title, description } = Astro.props
+const internal = value.startsWith("/")
+	? new URL(value, "https://docs.invalid")
+	: undefined
+const href = internal
+	? site.base +
+		internal.pathname.slice(1).replace(/\/$/, "") +
+		(internal.pathname === "/" || site.cleanUrls ? "" : "/") +
+		internal.search +
+		internal.hash
+	: value
+---
+
+<a class="docs-link-card" href={href}>
+	<strong>{title}</strong>
+	{description && <span>{description}</span>}
+	<slot />
+</a>

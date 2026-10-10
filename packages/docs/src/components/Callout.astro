@@ -1,0 +1,19 @@
+---
+interface Props {
+	type?: "note" | "tip" | "important" | "warning" | "caution"
+	title?: string
+}
+const { type = "note", title } = Astro.props
+if (!["note", "tip", "important", "warning", "caution"].includes(type))
+	throw new Error(
+		"Callout type must be note, tip, important, warning or caution"
+	)
+if (title !== undefined && (typeof title !== "string" || !title.trim()))
+	throw new Error("Callout title must be nonempty")
+const label = title ?? type[0].toUpperCase() + type.slice(1)
+---
+
+<aside class={`callout callout-${type}`} aria-label={label}>
+	{title && <p class="callout-title">{title}</p>}
+	<slot />
+</aside>

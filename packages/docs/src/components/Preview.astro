@@ -1,0 +1,80 @@
+---
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex -- The scrollable preview region needs native keyboard access. */
+import CodeBlock from "./CodeBlock.astro"
+
+interface Props {
+	title: string
+	mode?: "static" | "interactive"
+	/** Show a faded, expandable source preview without author CSS. Short source is shown in full. */
+	source?: string
+	language?: string
+	showCaption?: boolean
+}
+const {
+	title,
+	mode = "static",
+	source,
+	language,
+	showCaption = true,
+} = Astro.props
+if (source !== undefined && typeof source !== "string")
+	throw new Error("Preview source must be a string")
+if (typeof showCaption !== "boolean")
+	throw new Error("Preview showCaption must be a boolean")
+if (source !== undefined && Astro.slots.has("code"))
+	throw new Error("Preview accepts source or a code slot, not both")
+if (typeof title !== "string" || !title.trim())
+	throw new Error("Preview title must be nonempty")
+if (!["static", "interactive"].includes(mode))
+	throw new Error("Preview mode must be static or interactive")
+const shortSource =
+	source !== undefined && source.trimEnd().split(/\r?\n/).length <= 4
+---
+
+<figure
+	class:list={["docs-preview", { "docs-preview-source": source !== undefined }]}
+	aria-label={showCaption ? undefined : title}
+>
+	{showCaption && (
+		<figcaption>
+			<strong>{title}</strong>
+			<span>
+				{mode === "interactive" ? "Interactive example" : "Static example"}
+			</span>
+		</figcaption>
+	)}
+	<div class="docs-preview-content" data-not-typeset>
+		<div
+			class="docs-preview-example"
+			tabindex="0"
+			role="group"
+			aria-label={`${title} content`}
+		>
+			<slot />
+		</div>
+	</div>
+	{source !== undefined && (
+		<div class="docs-preview-code docs-source-preview">
+			{shortSource ? (
+				<div class="docs-source-complete">
+					<CodeBlock code={source} language={language} />
+				</div>
+			) : (
+				<>
+					<div class="docs-source-teaser" aria-hidden="true" inert>
+						<CodeBlock code={source} language={language} />
+					</div>
+					<details class="docs-example-source">
+						<summary>View code</summary>
+						<CodeBlock code={source} language={language} />
+					</details>
+				</>
+			)}
+		</div>
+	)}
+	{Astro.slots.has("code") && (
+		<div class="docs-preview-code">
+			<slot name="code" />
+		</div>
+	)}
+</figure>

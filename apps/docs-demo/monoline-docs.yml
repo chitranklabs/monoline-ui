@@ -4,9 +4,134 @@ contentDirectory: ./content
 assetsDirectory: ./assets
 outDirectory: ./dist
 base: /
-defaultMode: system
+appearance:
+  defaultMode: system
+  density: comfortable
+  radius: 0.375
+branding:
+  logo:
+    src: /assets/favicon.svg
+    alt: Monoline mark
+    width: 24
+    height: 24
+  favicon: /assets/favicon.svg
 lang: en
-stylesheet: /assets/custom.css
-headerLinks:
-  - label: GitHub
-    href: https://github.com/chitranklabs/monoline-ui
+header:
+  primaryAction:
+    label: Get started
+    href: /getting-started
+  announcement:
+    text: Built with Monoline Docs — Markdown, MDX and static output.
+    href: /writing
+  links:
+    - label: GitHub
+      href: https://github.com/chitranklabs/monoline-ui
+footer:
+  text: Released under the MIT License.
+  links:
+    - label: GitHub
+      href: https://github.com/chitranklabs/monoline-ui
+    - label: Support
+      href: /support
+content:
+  showLastUpdated: true
+  copyPageLink: false
+navigation:
+  sections:
+    - label: Docs
+      href: /
+      items:
+        - label: Introduction
+          href: /
+        - label: Getting started
+          href: /getting-started
+        - label: Writing pages
+          href: /writing
+        - label: Navigation
+          href: /navigation
+        - label: Appearance
+          href: /appearance
+        - label: Search
+          href: /search
+        - label: Markdown and AI exports
+          href: /exports
+        - label: Using with AI agents
+          href: /using-with-ai-agents
+        - label: OpenAPI documentation
+          href: /openapi
+        - label: Deployment
+          href: /deployment
+        - label: Troubleshooting
+          href: /troubleshooting
+        - label: Using components
+          href: /components
+        - label: Components
+          style: plain
+          items:
+            - label: Accordion
+              href: /components/accordion
+            - label: Badge
+              href: /components/badge
+            - label: Button
+              href: /components/button
+            - label: Callout
+              href: /components/callout
+            - label: Card
+              href: /components/card
+            - label: Card grid
+              href: /components/card-grid
+            - label: Code block
+              href: /components/code-block
+            - label: Code group
+              href: /components/code-group
+            - label: Figure
+              href: /components/figure
+            - label: File tree
+              href: /components/file-tree
+            - label: Link card
+              href: /components/link-card
+            - label: Package install
+              href: /components/package-install
+            - label: Package reference
+              href: /components/package-reference
+            - label: Preview
+              href: /components/preview
+            - label: Steps
+              href: /components/steps
+            - label: Table
+              href: /components/table
+            - label: Tabs
+              href: /components/tabs
+    - label: Reference
+      href: /configuration
+      items:
+        - label: Configuration
+          href: /configuration
+        - label: Frontmatter
+          href: /frontmatter
+        - label: CLI
+          href: /cli
+        - label: Programmatic API
+          href: /programmatic-api
+        - label: Support and limitations
+          href: /support
+        - label: Example API
+          style: plain
+          items:
+            - label: Overview
+              href: /example-api
+            - label: List notes
+              href: /example-api/operations/listnotes
+            - label: Create a note
+              href: /example-api/operations/createnote
+            - label: Note schema
+              href: /example-api/schemas/note
+            - label: Create note input
+              href: /example-api/schemas/createnote
+            - label: Paginated notes
+              href: /example-api/schemas/notepage
+            - label: Error schema
+              href: /example-api/schemas/error
+openapi:
+  file: ./example-api.yml
+  route: /example-api

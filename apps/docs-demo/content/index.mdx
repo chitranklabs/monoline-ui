@@ -1,0 +1,50 @@
+---
+title: Introduction
+description: Write documentation in Markdown and publish a complete static site.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+
+Monoline Docs turns Markdown and MDX into a static documentation site with navigation, search, highlighted code and a table of contents. Configure your site in YAML and focus on the content.
+
+This site is built with Monoline Docs using its packaged styles and authoring components.
+
+## Start building
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Create your first site"
+		description="Install, write a page and build static output."
+		href="/getting-started"
+	/>
+	<LinkCard
+		title="Write documentation"
+		description="Use Markdown, links, callouts and structured examples."
+		href="/writing"
+	/>
+	<LinkCard
+		title="Make it yours"
+		description="Configure navigation, branding and appearance."
+		href="/appearance"
+	/>
+	<LinkCard
+		title="Publish your site"
+		description="Deploy portable output to a static host."
+		href="/deployment"
+	/>
+</CardGrid>
+
+## Grow with your project
+
+Start with ordinary Markdown. Use [authoring components](/components) for installation steps, guide cards, code tabs and reference tables. Add [generated OpenAPI documentation](/openapi) when your project has an API specification.
+
+The same published content powers [local search](/search) and [Markdown and AI exports](/exports).
+
+## What to expect
+
+Basic reading and navigation work without JavaScript. Search, copying and enhanced tabs use the shared client script; React is optional for explicitly hydrated custom examples.
+
+There is one built-in design, configurable through branding and appearance settings. See [supported environments and limitations](/support) before adopting it.
+
+The package is not published yet. [Getting started](/getting-started) explains how to evaluate a locally packed build.

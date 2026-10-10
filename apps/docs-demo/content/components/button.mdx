@@ -1,0 +1,177 @@
+---
+title: Button
+description: Consistent controls for primary actions, secondary actions and icon shortcuts.
+---
+
+import Button from "@chitrank2050/monoline-docs/components/Button.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const primaryCode =
+	'import Button from "@chitrank2050/monoline-docs/components/Button.astro";\n\n<Button href="/">Get started</Button>'
+export const outlineCode =
+	'import Button from "@chitrank2050/monoline-docs/components/Button.astro";\n\n<Button variant="outline">\n  <svg\n    slot="leadingIcon"\n    viewBox="0 0 24 24"\n    fill="none"\n    stroke="currentColor"\n    aria-hidden="true"\n  >\n    <rect x="8" y="8" width="12" height="12" rx="2" />\n    <path d="M16 8V4H4v12h4" />\n  </svg>\n  Copy page\n</Button>'
+export const ghostCode =
+	'import Button from "@chitrank2050/monoline-docs/components/Button.astro";\n\n<Button\n  variant="ghost"\n  size="icon"\n  aria-label="Open GitHub"\n  href="<https://github.com/chitranklabs/monoline-ui"\n>\n>  <svg\n    viewBox="0 0 16 16"\n    fill="currentColor"\n    aria-hidden="true"\n  >\n    <path d="\n      M 6.766 11.328 c -2.063 -.25 -3.516 -1.734 -3.516\n      -3.656 0 -.781 .281 -1.625 .75 -2.188 -.203 -.515\n      -.172 -1.609 .063 -2.062 .625 -.078 1.468 .25 1.968\n      .703 .594 -.187 1.219 -.281 1.985 -.281 .765 0 1.39\n      .094 1.953 .265 .484 -.437 1.344 -.765 1.969 -.687\n      .218 .422 .25 1.515 .046 2.047 .5 .593 .766 1.39 .766\n      2.203 0 1.922 -1.453 3.375 -3.547 3.64 .531 .344 .89\n      1.094 .89 1.954 v 1.625 c 0 .468 .391 .734 .86 .547 C\n      13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984\n      0 3.563 0 0 3.61 0 8.031 a 7.88 7.88 0 0 0 5.172 7.422\n      c .422 .156 .828 -.125 .828 -.547 v -1.25 c -.219 .094\n      -.5 .156 -.75 .156 -1.031 0 -1.64 -.562 -2.078 -1.609\n      -.172 -.422 -.36 -.672 -.719 -.719 -.187 -.015 -.25\n      -.093 -.25 -.187 0 -.188 .313 -.328 .625 -.328 .453 0\n      .844 .281 1.25 .86 .313 .452 .64 .655 1.031 .655 s\n      .641 -.14 1 -.5 c .266 -.265 .47 -.5 .657 -.656\n    " />\n  </svg>\n</Button>'
+
+<Preview
+	title="Primary action"
+	source={primaryCode}
+	language="astro"
+	showCaption={false}
+>
+	<Button href="/">Get started</Button>
+</Preview>
+
+## Outline
+
+For secondary actions, use the same surface and border treatment as Copy page.
+The label alone does not add clipboard behavior; attach your action in the consuming application.
+
+<Preview
+	title="Outline action"
+	source={outlineCode}
+	language="astro"
+	showCaption={false}
+>
+	<Button variant="outline">
+		<svg
+			slot="leadingIcon"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			aria-hidden="true"
+		>
+			<rect x="8" y="8" width="12" height="12" rx="2" />
+			<path d="M16 8V4H4v12h4" />
+		</svg>
+		Copy page
+	</Button>
+</Preview>
+
+## Ghost and icon
+
+Ghost buttons use a transparent surface. Icon-only controls require an accessible label.
+
+<Preview
+	title="Ghost icon action"
+	source={ghostCode}
+	language="astro"
+	showCaption={false}
+>
+	<Button
+		variant="ghost"
+		size="icon"
+		aria-label="Open GitHub"
+		href="https://github.com/chitranklabs/monoline-ui"
+	>
+		<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+			<path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656" />
+		</svg>
+	</Button>
+</Preview>
+
+## Previous and next
+
+Use a leading icon for Previous and a trailing icon for Next. Supply `href` and
+`rel="prev"` or `rel="next"` for page navigation.
+
+<Preview
+	title="Navigation buttons"
+	source={
+		"import Button from \"@chitrank2050/monoline-docs/components/Button.astro\";\n\n<nav\n  class=\"docs-button-navigation\"\n  aria-label=\"Example page navigation\"\n>\n  <Button variant=\"outline\" href=\"/\" rel=\"prev\">\n    <svg\n      slot=\"leadingIcon\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      aria-hidden=\"true\"\n    >\n      <path d=\"M19 12H5m7-7-7 7 7 7\" />\n    </svg>\n    Previous\n  </Button>\n  <Button variant=\"outline\" href=\"/writing/\" rel=\"next\">\n    Next\n    <svg\n      slot=\"trailingIcon\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      aria-hidden=\"true\"\n    >\n      <path d=\"M5 12h14m-7-7 7 7-7 7\" />\n    </svg>\n  </Button>\n</nav>"
+	}
+	language="astro"
+	showCaption={false}
+>
+	<nav class="docs-button-navigation" aria-label="Example page navigation">
+	<Button variant="outline" href="/" rel="prev">
+		<svg
+			slot="leadingIcon"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			aria-hidden="true"
+		>
+			<path d="M19 12H5m7-7-7 7 7 7" />
+		</svg>
+		Previous
+	</Button>
+	<Button variant="outline" href="/writing/" rel="next">
+		Next
+		<svg
+			slot="trailingIcon"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			aria-hidden="true"
+		>
+			<path d="M5 12h14m-7-7 7 7-7 7" />
+		</svg>
+	</Button>
+
+    </nav>
+
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Button props"
+	rows={[
+		{
+			name: "variant",
+			type: "primary | outline | ghost",
+			default: "primary",
+			description: "Visual treatment.",
+		},
+		{
+			name: "size",
+			type: "default | icon",
+			default: "default",
+			description: "Text or square icon control.",
+		},
+		{
+			name: "href",
+			type: "string",
+			default: "—",
+			description: "Renders a link; internal routes honor the site base.",
+		},
+		{
+			name: "type",
+			type: "button | submit | reset",
+			default: "button",
+			description: "Native button behavior.",
+		},
+	]}
+/>
+
+## Accessibility and behavior
+
+Use the `leadingIcon` and `trailingIcon` slots for decorative icons in any variant.
+
+Uses native buttons and links. Standard HTML attributes pass through, including accessible labels and form attributes. Keyboard focus remains visible, mobile controls have 44px tap targets, and transitions respect reduced motion. No JavaScript is needed to render the component.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

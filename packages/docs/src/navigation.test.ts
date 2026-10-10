@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest"
 
 import type { DocumentationPage } from "./content"
-import { buildNavigation } from "./navigation"
+import { type NavigationConfig, buildNavigation } from "./navigation"
 
 function page(
 	route: `/${string}`,
@@ -32,6 +32,15 @@ describe("buildNavigation", () => {
 			{ label: "Reference", href: "/reference" },
 		])
 		expect(result.sequence).toEqual(result.items)
+	})
+
+	it("uses navTitle without changing the page title", () => {
+		const api = page("/reference/api", "Acme API reference")
+		api.metadata.navTitle = "API"
+
+		expect(buildNavigation([api]).items).toEqual([
+			{ label: "API", href: "/reference/api" },
+		])
 	})
 
 	it("preserves explicit groups and uses their links for page order", () => {
@@ -82,5 +91,89 @@ describe("buildNavigation", () => {
 				]
 			)
 		).toThrow('Duplicate documentation route "/" in navigation')
+	})
+
+	it("resolves ordered sections, nested sidebars and local sequences from stable routes", () => {
+		const config: NavigationConfig = {
+			sections: [
+				{
+					label: "API",
+					href: "/api",
+					order: 2,
+					items: [{ label: "API", href: "/api", icon: "◇", badge: "Beta" }],
+				},
+				{
+					label: "Guides",
+					href: "/",
+					order: 1,
+					items: [
+						{
+							label: "Setup",
+							expanded: true,
+							items: [
+								{ label: "Install", href: "/install", order: 2 },
+								{ label: "Home", href: "/", order: 1 },
+							],
+						},
+					],
+				},
+			],
+		}
+		const install = page("/install", "Install")
+		install.filePath = "/content/renamed.md"
+		install.metadata.slug = "install"
+		const result = buildNavigation(
+			[
+				page("/api", "API"),
+				install,
+				page("/", "Home"),
+				page("/omitted", "Omitted"),
+			],
+			config
+		)
+		expect(result.sections.map((section) => section.label)).toEqual([
+			"Guides",
+			"API",
+		])
+		expect(result.sections[0]?.sequence.map((link) => link.href)).toEqual([
+			"/",
+			"/install",
+		])
+		expect(result.sections[1]?.sequence).toEqual([
+			{ label: "API", href: "/api", icon: "◇", badge: "Beta" },
+		])
+		expect(result.sectionByRoute).toEqual({ "/": 0, "/install": 0, "/api": 1 })
+		expect(config.sections[0]?.label).toBe("API")
+	})
+
+	it.each([
+		[
+			{
+				label: "Missing",
+				href: "/missing",
+				items: [{ label: "Home", href: "/" }],
+			},
+			"section landing route",
+		],
+		[{ label: "Empty", href: "/", items: [] }, "section landing route"],
+	])("rejects a section without a published landing link", (section, error) => {
+		expect(() =>
+			buildNavigation([page("/", "Home")], {
+				sections: [section],
+			} as NavigationConfig)
+		).toThrow(error)
+	})
+
+	it("rejects routes belonging to more than one section", () => {
+		const section = {
+			label: "Guides",
+			href: "/" as const,
+			items: [{ label: "Home", href: "/" as const }],
+		}
+		expect(() =>
+			buildNavigation([page("/", "Home")], {
+				sections: [section, { ...section, label: "API" }],
+			})
+		).toThrow("Duplicate documentation route")
 	})
 })

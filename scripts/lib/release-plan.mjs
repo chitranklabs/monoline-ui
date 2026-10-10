@@ -1,25 +1,40 @@
-export const libraryName = "@chitrank2050/monoline-ui"
+import { load } from "js-yaml"
+import { readFile, readdir } from "node:fs/promises"
+import path from "node:path"
 
-export function selectLibraryRelease(plan) {
+export const libraryName = "@chitrank2050/monoline-ui"
+export const docsName = "@chitrank2050/monoline-docs"
+
+function selectRelease(plan, name, label) {
 	if (!Array.isArray(plan.releases) || !Array.isArray(plan.changesets)) {
 		throw new Error("Invalid Changesets release plan")
 	}
 	const releases = plan.releases.filter((release) => release.type !== "none")
 	if (releases.length === 0) return null
-	if (releases.length !== 1 || releases[0].name !== libraryName) {
-		throw new Error("Release automation currently supports only the UI package")
-	}
-	const release = releases[0]
+	const release = releases.find((entry) => entry.name === name)
+	if (!release) return null
+	if (releases.some((entry) => ![libraryName, docsName].includes(entry.name)))
+		throw new Error(`${label} release cannot include an unsupported package`)
+	if (
+		plan.changesets.some(
+			(change) =>
+				change.releases?.some((entry) => entry.name === name) &&
+				change.releases.some((entry) => entry.name !== name)
+		)
+	)
+		throw new Error(
+			"Split cross-package changesets before preparing an independent release"
+		)
 	if (
 		!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(release.newVersion) ||
 		release.newVersion === release.oldVersion
 	) {
 		throw new Error(
-			"Expected a new stable library version; prereleases require a separate workflow"
+			`Expected a new stable ${label} version; prereleases require a separate workflow`
 		)
 	}
 	if (!release.changesets?.length)
-		throw new Error("Library release needs explicit changeset intent")
+		throw new Error(`${label} release needs explicit changeset intent`)
 	for (const id of release.changesets) {
 		if (
 			!/^[a-zA-Z0-9_-]+$/.test(id) ||
@@ -32,6 +47,10 @@ export function selectLibraryRelease(plan) {
 	}
 	return release
 }
+
+export const selectLibraryRelease = (plan) =>
+	selectRelease(plan, libraryName, "library")
+export const selectDocsRelease = (plan) => selectRelease(plan, docsName, "Docs")
 
 export function releaseNotes(changelog, version) {
 	if (!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(version))
@@ -99,4 +118,24 @@ export function mergeTimelineEntries(entries) {
 		if (previous.scope !== entry.scope) previous.scope = null
 	}
 	return [...result.values()]
+}
+
+export async function pendingPackageChangesets(root, name) {
+	const directory = path.join(root, ".changeset")
+	const files = (await readdir(directory)).filter(
+		(file) => file.endsWith(".md") && file !== "README.md"
+	)
+	const pending = []
+	for (const file of files) {
+		const content = await readFile(path.join(directory, file), "utf8")
+		const frontmatter = /^---\r?\n([\s\S]*?)^---[ \t]*(?:\r?\n|$)/m.exec(
+			content
+		)
+		if (!frontmatter) throw new Error(`Invalid changeset frontmatter: ${file}`)
+		const releases = frontmatter[1].trim() ? load(frontmatter[1]) : {}
+		if (releases && (typeof releases !== "object" || Array.isArray(releases)))
+			throw new Error(`Invalid changeset releases: ${file}`)
+		if (releases && Object.hasOwn(releases, name)) pending.push(file)
+	}
+	return pending
 }

@@ -1,0 +1,3 @@
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+reason = "Transitive devDependency (braces via fast-glob); no upstream fix released yet for CVE-2026-93687"

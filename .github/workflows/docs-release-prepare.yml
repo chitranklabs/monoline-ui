@@ -1,0 +1,78 @@
+name: Docs Release 1 - Prepare PR 📝
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: docs-release-prepare
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Prepare Docs Release PR 🚀
+    if: github.ref == 'refs/heads/main' && (github.actor == github.repository_owner || github.actor == 'chitrank2050')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner 🛡️
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - name: Checkout repository 📥
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup pnpm 📦
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          version: 11.18.0
+          run_install: false
+      - name: Setup Node.js 🟢
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies 📥
+        run: pnpm install --frozen-lockfile --prefer-offline
+      - name: Prepare Docs Changesets release
+        id: vars
+        run: node scripts/docs-release.mjs prepare
+      - name: Format release files
+        if: steps.vars.outputs.release_ready == 'true'
+        run: |
+          pnpm install --lockfile-only --ignore-scripts --prefer-offline
+          pnpm exec prettier --write packages/docs/package.json packages/docs/CHANGELOG.md
+      - name: Create Bot Token 🤖🔑
+        id: generate_token
+        if: steps.vars.outputs.release_ready == 'true'
+        uses: $/.github/actions/setup-bot
+        with:
+          client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - name: Create Docs Release PR 🔀
+        if: steps.vars.outputs.release_ready == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          commit-message: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
+          title: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
+          branch: "chore/docs-release-${{ steps.vars.outputs.tag_name }}"
+          body: |
+            ## Monoline Docs ${{ steps.vars.outputs.tag_name }}
+
+            Review the package version and generated changelog before merging.
+          base: main
+          delete-branch: true
+          assignees: chitrank2050
+          add-paths: |
+            .changeset/*.md
+            packages/docs/package.json
+            packages/docs/CHANGELOG.md
+            pnpm-lock.yaml

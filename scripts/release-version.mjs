@@ -15,6 +15,7 @@ import { promisify } from "node:util"
 
 import { projectPaths } from "./lib/project-paths.mjs"
 import {
+	docsName,
 	libraryName,
 	mergeTimelineEntries,
 	releaseNotes,
@@ -105,7 +106,7 @@ export async function versionRelease(root = projectPaths.repositoryRoot) {
 				})
 			)
 		}
-		await run(process.execPath, [cli, "version"])
+		await run(process.execPath, [cli, "version", "--ignore", docsName])
 		if ((await readJson(manifestPath)).version !== release.newVersion)
 			throw new Error("Changesets produced an unexpected library version")
 		const notes = releaseNotes(

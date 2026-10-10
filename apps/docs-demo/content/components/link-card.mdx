@@ -1,0 +1,98 @@
+---
+title: LinkCard
+description: Make a related documentation destination easy to find.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro";\n\n<LinkCard\n  title="Deployment"\n  href="/deployment"\n  description="Publish your documentation."\n/>'
+export const variationCode =
+	'import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro";\n\n<LinkCard title="Writing pages" href="/writing">\n  Markdown and MDX authoring guidance.\n</LinkCard>'
+
+<Preview
+	title="LinkCard example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<LinkCard
+		title="Deployment"
+		href="/deployment"
+		description="Publish your documentation."
+	/>
+</Preview>
+
+## Usage
+
+The entire card is one link. Keep its slot free of buttons and other links.
+
+## Supporting slot content
+
+<Preview
+	title="LinkCard example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<LinkCard title="Writing pages" href="/writing">
+		Markdown and MDX authoring guidance.
+	</LinkCard>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="LinkCard props"
+	rows={[
+		{
+			name: "title",
+			type: "string",
+			default: "Required",
+			description: "Visible link title.",
+		},
+		{
+			name: "href",
+			type: "string",
+			default: "Required",
+			description: "Destination; local routes honor the site base.",
+		},
+		{
+			name: "description",
+			type: "string",
+			default: "\u2014",
+			description: "Optional summary.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Use a clear destination title. The card is one link; avoid nested links and buttons in its supporting content.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

@@ -13,6 +13,7 @@ import path from "node:path"
 import { test } from "node:test"
 
 import {
+	docsName,
 	libraryName,
 	releaseNotes,
 	selectLibraryRelease,
@@ -61,6 +62,10 @@ async function fixture(t) {
 	await write("packages/ui/package.json", {
 		name: libraryName,
 		version: "0.4.0",
+	})
+	await write("packages/docs/package.json", {
+		name: docsName,
+		version: "0.0.0",
 	})
 	await write("packages/ui/jsr.json", {
 		name: libraryName,
@@ -229,15 +234,36 @@ test("release plan rejects unsupported packages, prereleases and missing intent"
 	}
 	assert.equal(selectLibraryRelease(plan), release)
 	assert.equal(selectLibraryRelease({ releases: [], changesets: [] }), null)
+	assert.equal(
+		selectLibraryRelease({
+			...plan,
+			releases: [{ ...release, name: "@chitrank2050/monoline-docs" }],
+		}),
+		null
+	)
 	assert.throws(() => selectLibraryRelease({}), /Invalid/)
+	assert.throws(
+		() =>
+			selectLibraryRelease({
+				...plan,
+				releases: [release, { ...release, name: "unsupported-package" }],
+			}),
+		/unsupported package/
+	)
 	for (const invalid of [
-		{ ...release, name: "@monoline/future" },
 		{ ...release, newVersion: "0.4.1-beta.1" },
 		{ ...release, newVersion: "0.4.0" },
 		{ ...release, changesets: [] },
 		{ ...release, changesets: ["../unsafe"] },
 	])
 		assert.throws(() => selectLibraryRelease({ ...plan, releases: [invalid] }))
+	assert.equal(
+		selectLibraryRelease({
+			...plan,
+			releases: [release, { ...release, name: docsName }],
+		}),
+		release
+	)
 })
 
 test("release notes select only the exact version heading", () => {
@@ -267,4 +293,21 @@ test("timeline retains breaking intent without fabricating GitHub identities", (
 	assert.equal(entry.scope, "dialog")
 	assert.equal(entry.body, "Migration details.")
 	assert.equal(entry.remote, undefined)
+})
+
+test("UI release preserves pending Docs intent and finalizes independently", async (t) => {
+	const f = await fixture(t)
+	await f.write("packages/docs/package.json", {
+		name: docsName,
+		version: "0.0.0",
+	})
+	await f.add()
+	const other = path.join(f.root, ".changeset/docs-release.md")
+	const intent = `---\n"${docsName}": minor\n---\n\nRelease Docs.\n`
+	await f.write(".changeset/docs-release.md", intent)
+	f.commit()
+	const result = await versionRelease(f.root)
+	assert.equal((await f.read("packages/docs/package.json")).version, "0.0.0")
+	assert.equal(await readFile(other, "utf8"), intent)
+	assert.equal((await verifyRelease(f.root, result.tag)).tag, result.tag)
 })

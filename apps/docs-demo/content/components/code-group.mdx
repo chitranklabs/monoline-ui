@@ -1,0 +1,98 @@
+---
+title: CodeGroup
+description: Offer equivalent commands for multiple package managers.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import CodeGroup from "@chitrank2050/monoline-docs/components/CodeGroup.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import CodeGroup from "@chitrank2050/monoline-docs/components/CodeGroup.astro";\n\n<CodeGroup\n  id="install-example"\n  commands={{\n    npm: "npm install example-sdk",\n    pnpm: "pnpm add example-sdk",\n    yarn: "yarn add example-sdk",\n    bun: "bun add example-sdk",\n  }}\n/>'
+export const variationCode =
+	'import CodeGroup from "@chitrank2050/monoline-docs/components/CodeGroup.astro";\n\n<CodeGroup\n  id="run-example"\n  commands={{ npm: "npm run docs", bun: "bun run docs" }}\n/>'
+
+<Preview
+	title="CodeGroup example"
+	mode="interactive"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<CodeGroup
+		id="install-example"
+		commands={{
+			npm: "npm install example-sdk",
+			pnpm: "pnpm add example-sdk",
+			yarn: "yarn add example-sdk",
+			bun: "bun add example-sdk",
+		}}
+	/>
+</Preview>
+
+## Usage
+
+Manager selection synchronizes across supported command groups and is stored when storage is available. Without JavaScript all panels remain readable.
+
+## A supported subset of managers
+
+<Preview
+	title="CodeGroup example"
+	mode="interactive"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<CodeGroup
+		id="run-example"
+		commands={{ npm: "npm run docs", bun: "bun run docs" }}
+	/>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="CodeGroup props"
+	rows={[
+		{
+			name: "id",
+			type: "string",
+			default: "Required",
+			description: "Unique page identifier using Tabs rules.",
+		},
+		{
+			name: "commands",
+			type: "object",
+			default: "Required",
+			description: "At least two nonempty npm, pnpm, yarn or bun commands.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Package-manager choices synchronize across groups that support the chosen manager. Arrow keys navigate tabs; all commands remain readable without JavaScript.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

@@ -1,0 +1,29 @@
+---
+import { site } from "virtual:monoline-docs/pages"
+interface Props {
+	src: string
+	alt: string
+	width: number
+	height: number
+	caption?: string
+}
+const { src, alt, width, height, caption } = Astro.props
+if (typeof src !== "string" || !src.trim())
+	throw new Error("Figure src must be nonempty")
+if (typeof alt !== "string") throw new Error("Figure alt must be supplied")
+if (![width, height].every((value) => Number.isInteger(value) && value > 0))
+	throw new Error("Figure width and height must be positive integers")
+const source = src.startsWith("/assets/") ? site.base + src.slice(1) : src
+---
+
+<figure class="docs-figure">
+	<img
+		src={source}
+		alt={alt}
+		width={width}
+		height={height}
+		loading="lazy"
+		decoding="async"
+	/>
+	{caption && <figcaption>{caption}</figcaption>}
+</figure>

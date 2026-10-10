@@ -1,0 +1,319 @@
+---
+title: Authoring components
+description: Add structured documentation UI without hydrating the whole page.
+order: 3
+---
+
+import Accordion from "@chitrank2050/monoline-docs/components/Accordion.astro"
+import Badge from "@chitrank2050/monoline-docs/components/Badge.astro"
+import Callout from "@chitrank2050/monoline-docs/components/Callout.astro"
+import Card from "@chitrank2050/monoline-docs/components/Card.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro"
+import CodeGroup from "@chitrank2050/monoline-docs/components/CodeGroup.astro"
+import Figure from "@chitrank2050/monoline-docs/components/Figure.astro"
+import FileTree from "@chitrank2050/monoline-docs/components/FileTree.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import PackageInstall from "@chitrank2050/monoline-docs/components/PackageInstall.astro"
+import PackageReference from "@chitrank2050/monoline-docs/components/PackageReference.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Step from "@chitrank2050/monoline-docs/components/Step.astro"
+import Steps from "@chitrank2050/monoline-docs/components/Steps.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro"
+
+## Install commands and tabs
+
+Tabs progressively enhance static content. Every panel remains readable without
+JavaScript; the browser adds tab behavior when scripts are available. Give each
+group a page-unique `id`, at least two unique labels, and a named slot derived
+from each lowercase label.
+
+<Tabs id="package-manager" labels={["npm", "pnpm"]}>
+	<pre slot="npm">
+		<code>npm install @chitrank2050/monoline-docs</code>
+	</pre>
+	<pre slot="pnpm">
+		<code>pnpm add @chitrank2050/monoline-docs</code>
+	</pre>
+</Tabs>
+
+```mdx
+import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro"
+
+<Tabs id="package-manager" labels={["npm", "pnpm"]}>
+	<pre slot="npm">
+		<code>npm install @chitrank2050/monoline-docs</code>
+	</pre>
+	<pre slot="pnpm">
+		<code>pnpm add @chitrank2050/monoline-docs</code>
+	</pre>
+</Tabs>
+```
+
+## Steps
+
+Use `Steps` and `Step` for an ordered process. They render as a semantic ordered
+list and require no browser script.
+
+<Steps>
+	<Step>
+		<strong>Create the configuration.</strong> Add `monoline-docs.yml`.
+	</Step>
+	<Step>
+		<strong>Write the homepage.</strong> Add `content/index.md` or `index.mdx`.
+	</Step>
+	<Step>
+		<strong>Build static output.</strong> Run `monoline-docs build`.
+	</Step>
+</Steps>
+
+## Link cards
+
+`LinkCard` accepts `title`, optional `description`, and `href`. Root-relative
+documentation routes automatically include the configured deployment base.
+
+<LinkCard
+	href="/deployment"
+	title="Deploy the output"
+	description="Use the generated static directory on the host you already trust."
+/>
+
+## API tables
+
+`Table` keeps prop references consistent and horizontally scrollable. Pass an
+array of `name`, `type`, optional `default`, and `description` values. Generated
+table text is included in search. Optional `defaultLabel` changes the third
+column heading; it defaults to “Default”.
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Configuration example"
+	rows={[
+		{
+			name: "base",
+			type: "string",
+			default: "/",
+			description: "Deployment subpath.",
+		},
+		{
+			name: "react",
+			type: "boolean",
+			default: "false",
+			description: "Enable React islands in MDX.",
+		},
+	]}
+/>
+
+## Code filenames and highlights
+
+Markdown fences and `CodeBlock` share build-time syntax highlighting. Use
+`CodeBlock` to add a filename or emphasize particular lines. `highlights` uses
+one-based line numbers and fails the build if a line does not exist.
+
+<CodeBlock
+	filename="monoline-docs.yml"
+	language="yaml"
+	code={`title: Product docs
+base: /docs/
+defaultMode: system`}
+	highlights={[2]}
+/>
+
+## Synchronized code groups
+
+`CodeGroup` reuses Tabs and CodeBlock. Give each group a unique `id` and at least
+two commands from `npm`, `pnpm`, `yarn` and `bun`. Selecting a package manager
+updates other groups that support it, without moving keyboard focus. Arrow
+keys, Home and End navigate the tabs. The preference is remembered per site
+base; blocked storage still permits synchronization on the current page.
+Ordinary `Tabs` stay independent. All commands remain readable without JavaScript
+and when printing; the largest panel reserves space to avoid layout shifts.
+
+<PackageInstall id="install-commands" name="example-sdk" />
+
+<CodeGroup
+	id="sdk-run"
+	commands={{
+		npm: "npm run docs",
+		pnpm: "pnpm docs\n# Start the documentation preview",
+		yarn: "yarn docs",
+		bun: "bun run docs",
+	}}
+/>
+
+<CodeGroup
+	id="sdk-minimal"
+	commands={{ npm: "npm run build", bun: "bun run build" }}
+/>
+
+```mdx
+import CodeGroup from "@chitrank2050/monoline-docs/components/CodeGroup.astro"
+
+<CodeGroup
+	id="install-sdk"
+	commands={{ npm: "npm install example-sdk", pnpm: "pnpm add example-sdk" }}
+/>
+```
+
+## Cards and grids
+
+`CardGrid` accepts `columns={1}`, `2` (default) or `3`; it uses a single column on
+mobile. `Card` requires a `title`, accepts a `description`, and can wrap static
+content. Supply `href` for a link card. Keep linked card content free of nested
+links or buttons. Internal routes follow the deployment base and clean URL mode.
+
+<CardGrid columns={2}>
+	<Card
+		title="Configure the site"
+		href="/configuration"
+		description="Choose paths and publishing options."
+	/>
+	<Card title="Keep examples static">
+		<p>Static components add no browser runtime.</p>
+	</Card>
+</CardGrid>
+
+## Accordions, callouts and badges
+
+`Accordion` requires a `title`; `open` optionally expands it initially. Native
+disclosures work with Enter and Space without JavaScript. `Callout` shares the
+Markdown callout styles and accepts `note` (default), `tip`, `important`, `warning`
+or `caution`, with an optional `title`. Labels remain outside the page TOC.
+`Badge` renders inline content; `variant` is `neutral` (default) or `accent`.
+
+<Accordion title="Can I use plain Markdown?">
+	<p>Yes. Markdown pages do not need to import any components.</p>
+</Accordion>
+
+<Callout type="tip" title="Keep links stable">
+	<p>Set explicit slugs before moving documentation source files.</p>
+</Callout>
+
+<Badge>Static</Badge> <Badge variant="accent">MDX</Badge>
+
+## File trees
+
+`FileTree` accepts an `items` array of names. An entry with `children` is a
+folder; folders open by default and accept `expanded: false`. `highlight`
+emphasizes an entry. Nested lists and native disclosures keep this readable
+without JavaScript. `label` defaults to “Project files”. Invalid names, cycles
+and more than twenty folder levels fail the build.
+
+<FileTree
+	items={[
+		{
+			name: "content",
+			children: [
+				{ name: "index.md", highlight: true },
+				{ name: "guide", expanded: false, children: [{ name: "install.md" }] },
+			],
+		},
+		{ name: "monoline-docs.yml" },
+	]}
+/>
+
+## Type references
+
+`Table` uses configurable columns with a Required column. Rows contain `name`, `type`,
+`description` and optional boolean `required`; unspecified values display a dash.
+Both tables keep captions and column/row headers and support keyboard scrolling.
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "required", label: "Required", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Documentation options"
+	rows={[
+		{
+			name: "base",
+			type: "string",
+			required: "No",
+			description: "Deployment prefix.",
+		},
+		{
+			name: "title",
+			type: "string",
+			required: "Yes",
+			description: "Site name.",
+		},
+	]}
+/>
+
+## Figures and previews
+
+`Figure` requires `src`, `alt`, positive integer `width` and `height`, and accepts
+an optional text `caption`. Local `/assets/` URLs include the deployment base.
+The dimensions reserve image space; images load lazily. Use meaningful alt text,
+or explicitly supply an empty string for a decorative image.
+
+<Figure
+	src="/assets/build-flow.svg"
+	alt="Markdown and MDX compile into static HTML and assets."
+	width={360}
+	height={288}
+	caption="The documentation build produces portable static output."
+/>
+
+`Preview` requires a `title`, contains the example in its default slot, and
+accepts a `code` slot for the source. Its default `mode="static"` label describes
+a reading example. `mode="interactive"` labels an interactive example; it does
+not hydrate content automatically. Put an explicitly hydrated island inside it
+and enable `react: true` to add React interactions. Static examples need no React
+installation or browser script.
+
+<Preview title="Button appearance">
+	<button class="demo-button" type="button">
+		Example button
+	</button>
+	<CodeBlock
+		slot="code"
+		language="html"
+		code={'<button class="demo-button" type="button">Example button</button>'}
+	/>
+</Preview>
+
+```mdx
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+
+import Counter from "../components/Counter.jsx"
+
+<Preview title="Counter" mode="interactive">
+	<Counter client:load />
+</Preview>
+```
+
+## Library reference
+
+`PackageInstall` generates npm, pnpm, Yarn and Bun commands through `CodeGroup`.
+Use a page-unique `id`, an npm package `name`, an optional exact `version` or
+distribution tag, and `dev={true}` for a development dependency. Version ranges
+and arbitrary shell fragments are rejected.
+
+`PackageReference` displays declared compatibility, exports, package/source links
+and slotted copyable examples. Compatibility comes from the author; Monoline
+does not infer it from package metadata. Use `layout: reference` in frontmatter
+for the wider reference layout. Add `Table` for detailed option types.
+
+<PackageReference
+	name="example-sdk"
+	version="1.0.0"
+	packageHref={`https://www.npmjs.com/package/example-sdk`}
+	sourceHref={`https://github.com/example/sdk`}
+	compatibility={["Example: Node.js 22", "Example: ES modules"]}
+	exports={[
+		{ name: "Client", type: "class", description: "Example API client." },
+	]}
+>
+	<CodeBlock language="js" code={"import { Client } from 'example-sdk'"} />
+</PackageReference>

@@ -1,0 +1,110 @@
+---
+title: Tabs
+description: Group related alternatives in one reading area.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro"
+
+export const basicCode =
+	'import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro";\n\n<Tabs id="format-example" labels={["Markdown", "MDX"]}>\n  <p slot="markdown">Use Markdown for ordinary pages.</p>\n  <p slot="mdx">Use MDX to import components.</p>\n</Tabs>'
+export const variationCode =
+	'import Tabs from "@chitrank2050/monoline-docs/components/Tabs.astro";\n\n<Tabs\n  id="environment-example"\n  label="Environment"\n  labels={["Local", "Production"]}\n>\n  <p slot="local">Preview locally.</p>\n  <p slot="production">Build before publishing.</p>\n</Tabs>'
+
+<Preview
+	title="Tabs example"
+	mode="interactive"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<Tabs id="format-example" labels={["Markdown", "MDX"]}>
+		<p slot="markdown">Use Markdown for ordinary pages.</p>
+		<p slot="mdx">Use MDX to import components.</p>
+	</Tabs>
+</Preview>
+
+## Usage
+
+Named slots use lowercase label keys with punctuation replaced by hyphens. Arrow keys navigate tabs; all panels are readable without JavaScript.
+
+## Accessible group label
+
+<Preview
+	title="Tabs example"
+	mode="interactive"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<Tabs
+		id="environment-example"
+		label="Environment"
+		labels={["Local", "Production"]}
+	>
+		<p slot="local">Preview locally.</p>
+		<p slot="production">Build before publishing.</p>
+	</Tabs>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Tabs props"
+	rows={[
+		{
+			name: "id",
+			type: "string",
+			default: "Required",
+			description:
+				"Starts with a letter; letters, digits, underscores and hyphens only.",
+		},
+		{
+			name: "labels",
+			type: "string[]",
+			default: "Required",
+			description: "At least two unique labels with unique normalized keys.",
+		},
+		{
+			name: "label",
+			type: "string",
+			default: "Options",
+			description: "Accessible group name.",
+		},
+		{
+			name: "sync",
+			type: "package-manager",
+			default: "\u2014",
+			description: "Optional package-manager synchronization.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Use descriptive labels and unique page IDs. Arrow keys, Home and End move among tabs; all panels are readable without JavaScript.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

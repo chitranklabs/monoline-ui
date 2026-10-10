@@ -1,0 +1,12 @@
+---
+interface Props {
+	variant?: "neutral" | "accent"
+}
+const { variant = "neutral" } = Astro.props
+if (!["neutral", "accent"].includes(variant))
+	throw new Error("Badge variant must be neutral or accent")
+---
+
+<span class="docs-badge" data-variant={variant}>
+	<slot />
+</span>

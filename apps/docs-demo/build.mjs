@@ -1,4 +1,4 @@
-import { buildDocs } from "@monoline/docs/build"
+import { buildDocs } from "@chitrank2050/monoline-docs/build"
 
 import config from "./config.mjs"
 

@@ -1,61 +1,94 @@
 import type { DocumentationPage } from "./content.ts"
 
-export type NavigationItem =
-	| { label: string; href: `/${string}` }
-	| { label: string; items: NavigationItem[] }
-
+interface NavigationLabel {
+	label: string
+	icon?: string
+	badge?: string
+	order?: number
+}
+export type NavigationItem = NavigationLabel &
+	(
+		| { href: `/${string}` }
+		| {
+				items: NavigationItem[]
+				expanded?: boolean
+				style?: "collapsible" | "plain"
+		  }
+	)
+export interface NavigationSection extends NavigationLabel {
+	href: `/${string}`
+	items: NavigationItem[]
+}
+export type NavigationConfig =
+	NavigationItem[] | { sections: NavigationSection[] }
 export interface ResolvedNavigation {
 	items: NavigationItem[]
-	sequence: Array<{ label: string; href: `/${string}` }>
-}
-
-function isLink(
-	item: NavigationItem
-): item is { label: string; href: `/${string}` } {
-	return "href" in item
+	sequence: Array<NavigationLabel & { href: `/${string}` }>
+	sections: Array<
+		NavigationSection & { sequence: ResolvedNavigation["sequence"] }
+	>
+	sectionByRoute: Record<string, number>
 }
 
 export function buildNavigation(
 	pages: DocumentationPage[],
-	configuredItems?: NavigationItem[]
+	configured?: NavigationConfig
 ): ResolvedNavigation {
-	const pagesByRoute = new Map(pages.map((page) => [page.route, page]))
-	const items =
-		configuredItems ??
-		[...pages]
-			.sort(
-				(left, right) =>
-					(left.metadata.order ?? Number.POSITIVE_INFINITY) -
-						(right.metadata.order ?? Number.POSITIVE_INFINITY) ||
-					left.route.localeCompare(right.route)
-			)
-			.map((page) => ({ label: page.metadata.title, href: page.route }))
-	const sequence: ResolvedNavigation["sequence"] = []
-	const seenRoutes = new Set<string>()
-
-	function visit(navigationItems: NavigationItem[]): void {
-		for (const item of navigationItems) {
-			if (!isLink(item)) {
-				visit(item.items)
-				continue
-			}
-
-			if (!pagesByRoute.has(item.href)) {
+	const routes = new Set(pages.map((page) => page.route))
+	const seen = new Set<string>()
+	const ordered = <T extends NavigationLabel>(items: T[]): T[] =>
+		[...items].sort(
+			(a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || 0
+		)
+	function resolve(input: NavigationItem[]) {
+		const sequence: ResolvedNavigation["sequence"] = []
+		function visit(input: NavigationItem[]): NavigationItem[] {
+			return ordered(input).map((item) => {
+				if ("items" in item) return { ...item, items: visit(item.items) }
+				if (!routes.has(item.href))
+					throw new Error(
+						`Unknown documentation route "${item.href}" in navigation`
+					)
+				if (seen.has(item.href))
+					throw new Error(
+						`Duplicate documentation route "${item.href}" in navigation`
+					)
+				seen.add(item.href)
+				sequence.push(item)
+				return { ...item }
+			})
+		}
+		return { items: visit(input), sequence }
+	}
+	const sections: ResolvedNavigation["sections"] = []
+	const sectionByRoute: Record<string, number> = {}
+	if (configured && !Array.isArray(configured)) {
+		for (const section of ordered(configured.sections)) {
+			const resolved = resolve(section.items)
+			if (!resolved.sequence.some((item) => item.href === section.href))
 				throw new Error(
-					`Unknown documentation route "${item.href}" in navigation`
+					`Invalid section landing route "${section.href}" in navigation`
 				)
-			}
-			if (seenRoutes.has(item.href)) {
-				throw new Error(
-					`Duplicate documentation route "${item.href}" in navigation`
-				)
-			}
-
-			seenRoutes.add(item.href)
-			sequence.push(item)
+			for (const item of resolved.sequence)
+				sectionByRoute[item.href] = sections.length
+			sections.push({ ...section, ...resolved })
+		}
+		return {
+			items: sections.flatMap((section) => section.items),
+			sequence: sections.flatMap((section) => section.sequence),
+			sections,
+			sectionByRoute,
 		}
 	}
-
-	visit(items)
-	return { items, sequence }
+	const defaults = [...pages]
+		.sort(
+			(a, b) =>
+				(a.metadata.order ?? Infinity) - (b.metadata.order ?? Infinity) ||
+				a.route.localeCompare(b.route)
+		)
+		.map((page) => ({
+			label: page.metadata.navTitle ?? page.metadata.title,
+			href: page.route,
+		}))
+	return { ...resolve(configured ?? defaults), sections, sectionByRoute }
 }

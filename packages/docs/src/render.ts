@@ -3,6 +3,7 @@ import { createRequire } from "node:module"
 import Prism from "prismjs"
 
 import type { DocumentationPage } from "./content.ts"
+import { createHeadingId } from "./heading-id.ts"
 
 // Load only supported grammars at build time, never modules named by content.
 const loadLanguages = createRequire(import.meta.url)(
@@ -58,7 +59,7 @@ export function renderMarkdown(
 	for (const rule of ["fence", "code_block"]) {
 		const render = markdown.renderer.rules[rule]!
 		markdown.renderer.rules[rule] = (...arguments_) =>
-			`<div class="code-block">${render(...arguments_).replace("<pre>", '<pre tabindex="0">')}<button class="copy-code" type="button" aria-label="Copy code block" hidden>Copy</button><span class="copy-status" role="status"></span></div>`
+			`<div class="code-block"${!arguments_[0][arguments_[1]]!.content.replace(/\n$/, "").includes("\n") ? ' data-single-line="true"' : ""}>${render(...arguments_).replace("<pre>", '<pre tabindex="0">')}<button class="copy-code" type="button" aria-label="Copy code block" hidden>Copy</button><span class="copy-status" role="status"></span></div>`
 	}
 	const environment = {}
 	const tokens = markdown.parse(page.source, environment)
@@ -100,7 +101,7 @@ export function renderMarkdown(
 		opening.attrSet("class", `callout callout-${kind}`)
 		opening.attrSet("role", "note")
 		opening.attrSet("aria-label", label)
-		opening.meta = { calloutLabel: label }
+
 		inline.content = inline.content.slice(marker[0].length)
 		inline.children = markdown.parseInline(
 			inline.content,
@@ -120,7 +121,7 @@ export function renderMarkdown(
 	}
 	walkLinks(tokens)
 	const headings: Heading[] = []
-	const ids = new Set<string>(["content"])
+	const headingId = createHeadingId()
 	for (let index = 0; index < tokens.length; index += 1) {
 		const token = tokens[index]!
 		if (token.type === "table_open") token.attrSet("tabindex", "0")
@@ -135,17 +136,7 @@ export function renderMarkdown(
 					: ""
 			)
 			.join("")
-		const base =
-			text
-				.toLowerCase()
-				.normalize("NFC")
-				.replace(/[^\p{L}\p{N}\s-]/gu, "")
-				.trim()
-				.replace(/\s+/g, "-") || "section"
-		let id = base
-		let suffix = 1
-		while (ids.has(id)) id = `${base}-${suffix++}`
-		ids.add(id)
+		const id = headingId(text)
 		token.attrSet("id", id)
 		// The page title owns H1; preserve normal Markdown H2-H6 levels.
 		const level = Math.max(2, Number(token.tag.slice(1)))

@@ -1,0 +1,121 @@
+---
+title: Preview
+description: Frame a rendered example and optional source.
+---
+
+import Accordion from "@chitrank2050/monoline-docs/components/Accordion.astro"
+import Badge from "@chitrank2050/monoline-docs/components/Badge.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Badge from "@chitrank2050/monoline-docs/components/Badge.astro";\nimport Preview from "@chitrank2050/monoline-docs/components/Preview.astro";\n\n<Preview title="Static example">\n  <Badge>Stable</Badge>\n</Preview>'
+export const variationCode =
+	'import Accordion from "@chitrank2050/monoline-docs/components/Accordion.astro";\nimport CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro";\nimport Preview from "@chitrank2050/monoline-docs/components/Preview.astro";\n\n<Preview title="Disclosure example" mode="interactive">\n  <Accordion title="More details">\n    <p>A native disclosure.</p>\n  </Accordion>\n  <CodeBlock\n    slot="code"\n    code={\'<Accordion title="More details" />\'}\n    language="astro"\n  />\n</Preview>'
+
+<Preview
+	title="Preview example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<Preview title="Static example">
+		<Badge>Stable</Badge>
+	</Preview>
+</Preview>
+
+## Usage
+
+The default slot contains the rendered example. Use `source` and `language` for the faded, expandable code presentation, or the `code` slot for custom source content. Set `showCaption={false}` when the surrounding section already describes the example; the title remains its accessible name. Source and the code slot cannot be combined. Snippets of up to four lines show in full with no fade or View code control; longer snippets use the expandable preview. Consumer preview styles are excluded from article typography. React hydration is explicitly authored with Astro client directives.
+
+## Interactive content and source slot
+
+<Preview
+	title="Preview example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<Preview title="Disclosure example" mode="interactive">
+		<Accordion title="More details">
+			<p>A native disclosure.</p>
+		</Accordion>
+		<CodeBlock
+			slot="code"
+			code={
+				'import Accordion from "@chitrank2050/monoline-docs/components/Accordion.astro";\n\n<Accordion title="More details" />'
+			}
+			language="astro"
+		/>
+	</Preview>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Preview props"
+	rows={[
+		{
+			name: "title",
+			type: "string",
+			default: "Required",
+			description: "Example caption.",
+		},
+		{
+			name: "source",
+			type: "string",
+			default: "—",
+			description:
+				"Copyable source with a faded teaser and native View code disclosure.",
+		},
+		{
+			name: "language",
+			type: "string",
+			default: "—",
+			description: "Syntax language for source highlighting.",
+		},
+		{
+			name: "showCaption",
+			type: "boolean",
+			default: "true",
+			description: "Show the visible caption; title remains required.",
+		},
+		{
+			name: "mode",
+			type: "static | interactive",
+			default: "static",
+			description: "Describes the example; does not hydrate components.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Preview frames display authored content; mode labels do not hydrate it. Link activation and form submission inside rendered previews stay local when JavaScript is available.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

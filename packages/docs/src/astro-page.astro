@@ -1,0 +1,575 @@
+---
+import { pages, site } from "virtual:monoline-docs/pages"
+import Navigation from "./astro-navigation.astro"
+import Button from "./components/Button.astro"
+
+export function getStaticPaths() {
+	return pages.map((page) => ({
+		params: { slug: page.route === "/" ? undefined : page.route.slice(1) },
+		props: { page },
+	}))
+}
+
+const { page } = Astro.props
+const Content = page.Content
+const href = (route) =>
+	site.base +
+	(route === "/" ? "" : route.slice(1) + (site.cleanUrls ? "" : "/"))
+const linkHref = (value) => (value.startsWith("/") ? href(value) : value)
+const activeSection =
+	site.navigation.sections[site.navigation.sectionByRoute[page.route]]
+const navigationItems =
+	activeSection?.items ??
+	(site.navigation.sections.length ? [] : site.navigation.items)
+const sequence =
+	activeSection?.sequence ??
+	(site.navigation.sections.length ? [] : site.navigation.sequence)
+const index = sequence.findIndex((entry) => entry.href === page.route)
+const previous = index > 0 ? sequence[index - 1] : undefined
+const next = index >= 0 ? sequence[index + 1] : undefined
+const description = page.metadata.description ?? site.description ?? ""
+const canonical = site.site
+	? new URL(href(page.route), site.site).href
+	: undefined
+const showSidebar =
+	site.sidebarEnabled &&
+	page.metadata.sidebar !== false &&
+	navigationItems.length > 0
+const showToc = page.metadata.toc !== false
+const showUpdatedAt = site.showLastUpdated && page.metadata.updatedAt
+const pageTitle = site.titleTemplate.replace(
+	"%s",
+	page.metadata.seoTitle ?? page.metadata.title
+)
+const structuredData =
+	canonical && !site.noindex && !page.metadata.noindex
+		? {
+				"@context": "https://schema.org",
+				"@type":
+					page.metadata.layout === "reference" ? "TechArticle" : "Article",
+				headline: page.metadata.seoTitle ?? page.metadata.title,
+				url: canonical,
+				...(description ? { description } : {}),
+				...(page.metadata.updatedAt
+					? { dateModified: page.metadata.updatedAt }
+					: {}),
+			}
+		: undefined
+
+const findTrail = (items, route, trail = []) => {
+	for (const item of items) {
+		if ("href" in item && item.href === route) return [...trail, item]
+		if ("items" in item) {
+			const found = findTrail(item.items, route, [
+				...trail,
+				{ label: item.label },
+			])
+			if (found) return found
+		}
+	}
+}
+const trail = findTrail(navigationItems, page.route) ?? [
+	{ label: page.metadata.navTitle ?? page.metadata.title, href: page.route },
+]
+const breadcrumbData =
+	structuredData && page.route !== "/"
+		? {
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				itemListElement: [
+					{
+						"@type": "ListItem",
+						position: 1,
+						name: "Docs",
+						item: new URL(href("/"), site.site).href,
+					},
+					...trail
+						.filter((item) => "href" in item)
+						.map((item, index) => ({
+							"@type": "ListItem",
+							position: index + 2,
+							name: item.label,
+							item: new URL(href(item.href), site.site).href,
+						})),
+				],
+			}
+		: undefined
+---
+
+<!doctype html>
+<html
+	lang={site.lang}
+	data-theme={site.defaultMode}
+	data-density={site.density}
+	data-base={site.base}
+>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={description} />
+		{site.favicon && <link rel="icon" href={site.favicon} />}
+		{canonical && <link rel="canonical" href={canonical} />}
+		<meta property="og:title" content={pageTitle} />
+		{description && <meta property="og:description" content={description} />}
+		{canonical && <meta property="og:url" content={canonical} />}
+		<meta property="og:type" content="article" />
+		<meta
+			name="twitter:card"
+			content={site.socialImage ? "summary_large_image" : "summary"}
+		/>
+		{site.socialImage && (
+			<meta property="og:image" content={site.socialImage} />
+		)}
+		{site.socialImage && (
+			<meta name="twitter:image" content={site.socialImage} />
+		)}
+		{structuredData && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify(structuredData).replaceAll("<", "\\u003c")}
+			></script>
+		)}
+		{breadcrumbData && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify(breadcrumbData).replaceAll("<", "\\u003c")}
+			></script>
+		)}
+		{(site.noindex || page.metadata.noindex) && (
+			<meta name="robots" content="noindex, nofollow" />
+		)}
+		<script is:inline>
+			document.documentElement.classList.add("has-js")
+			if (
+				typeof HTMLDialogElement !== "undefined" &&
+				"showModal" in HTMLDialogElement.prototype
+			)
+				document.documentElement.classList.add("has-dialog")
+		</script>
+		<script is:inline src={`${site.base}theme.js`}></script>
+		<link rel="stylesheet" href={`${site.base}docs.css`} />
+		{site.stylesheet && <link rel="stylesheet" href={site.stylesheet} />}
+		{site.integrationScripts.map((src) => (
+			<script is:inline src={src} defer></script>
+		))}
+		<script src={`${site.base}client.js`} defer></script>
+	</head>
+	<body>
+		<a class="skip" href="#content">
+			Skip to content
+		</a>
+		<header class="site-header">
+			{site.announcement && (
+				<div class="announcement">
+					{site.announcement.href ? (
+						<a href={linkHref(site.announcement.href)}>
+							{site.announcement.text}
+						</a>
+					) : (
+						<p>{site.announcement.text}</p>
+					)}
+				</div>
+			)}
+			<div class="header-inner">
+				{showSidebar && (
+					<button
+						class="nav-toggle"
+						type="button"
+						aria-label="Open navigation"
+						aria-controls="docs-navigation"
+						aria-expanded="false"
+						hidden
+					>
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M4 7h16M4 12h16M4 17h16" />
+						</svg>
+					</button>
+				)}
+				<a class="brand" href={href("/")} translate="no">
+					{site.logo && (
+						<img
+							src={site.logo.src}
+							alt={site.logo.alt}
+							width={site.logo.width}
+							height={site.logo.height}
+						/>
+					)}
+					<span>{site.title}</span>
+				</a>
+				<div class="header-actions">
+					{site.primaryAction && (
+						<a class="primary-action" href={linkHref(site.primaryAction.href)}>
+							{site.primaryAction.label}
+						</a>
+					)}
+					{site.searchEnabled && (
+						<button
+							class="search-trigger"
+							type="button"
+							aria-label="Search"
+							hidden
+						>
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="11" cy="11" r="6.5" />
+								<path d="m16 16 4 4" />
+							</svg>
+							<span>Search</span>
+							<kbd aria-hidden="true">⌘K</kbd>
+						</button>
+					)}
+					{site.headerLinks?.length > 0 && (
+						<nav class="header-links" aria-label="Site links">
+							{site.headerLinks.map((link) => (
+								<a
+									href={linkHref(link.href)}
+									class:list={{
+										"repository-link": /^https:\/\/github\.com(?:\/|$)/i.test(
+											link.href
+										),
+									}}
+									aria-label={link.label}
+									title={link.label}
+								>
+									{/^https:\/\/github\.com(?:\/|$)/i.test(link.href) ? (
+										<>
+											<svg
+												class="github-brand-icon"
+												viewBox="0 0 16 16"
+												aria-hidden="true"
+											>
+												<path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656" />
+											</svg>
+											<span class="visually-hidden">{link.label}</span>
+										</>
+									) : (
+										link.label
+									)}
+								</a>
+							))}
+						</nav>
+					)}
+					<button
+						type="button"
+						class="theme-control"
+						aria-label="Toggle color theme"
+						hidden
+					>
+						<span>Theme</span>
+						<svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<circle cx="12" cy="12" r="4" />
+							<path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+						</svg>
+					</button>
+				</div>
+			</div>
+			{site.navigation.sections.length > 0 && (
+				<div class="section-bar">
+					<nav class="section-links" aria-label="Documentation sections">
+						{site.navigation.sections.map((section) => (
+							<a
+								href={href(section.href)}
+								aria-current={section === activeSection ? "true" : undefined}
+							>
+								{section.icon && (
+									<span class="nav-icon" aria-hidden="true">
+										{section.icon}
+									</span>
+								)}
+								{section.label}
+								{section.badge && (
+									<span class="nav-badge">{section.badge}</span>
+								)}
+							</a>
+						))}
+					</nav>
+				</div>
+			)}
+		</header>
+		{!showSidebar && (site.primaryAction || site.headerLinks?.length > 0) && (
+			<nav
+				class="mobile-site-links mobile-site-links-inline"
+				aria-label="Site links"
+			>
+				{site.primaryAction && (
+					<a class="primary-action" href={linkHref(site.primaryAction.href)}>
+						{site.primaryAction.label}
+					</a>
+				)}
+				{site.headerLinks?.map((link) => (
+					<a href={linkHref(link.href)}>{link.label}</a>
+				))}
+			</nav>
+		)}
+		{site.searchEnabled && (
+			<dialog
+				class="search-dialog"
+				aria-labelledby="search-title"
+				data-index={`${site.base}search-index.json`}
+			>
+				<div class="search-heading">
+					<h2 id="search-title">Search documentation</h2>
+					<button type="button" class="search-close" aria-label="Close search">
+						<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+							<path
+								d="m6 6 12 12M18 6 6 18"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.75"
+							/>
+						</svg>
+					</button>
+				</div>
+				<label>
+					<span class="visually-hidden">Search pages and headings</span>
+					<input
+						id="docs-query"
+						type="search"
+						placeholder="Search pages and headings"
+						maxlength="200"
+						autocomplete="off"
+						aria-describedby="search-status"
+					/>
+				</label>
+				<div class="search-scopes" role="group" aria-label="Search scope">
+					<button type="button" data-search-scope="all" aria-pressed="true">
+						All
+					</button>
+					<button type="button" data-search-scope="guide" aria-pressed="false">
+						Guides
+					</button>
+					<button type="button" data-search-scope="api" aria-pressed="false">
+						API
+					</button>
+				</div>
+				<p id="search-status" role="status">
+					Type to search.
+				</p>
+				<ul class="search-results" aria-label="Search results"></ul>
+				<p class="search-help">
+					<span aria-hidden="true">↑ ↓</span> Navigate · Enter to open · Esc to
+					close
+				</p>
+			</dialog>
+		)}
+		{site.searchEnabled && (
+			<script type="module" src={`${site.base}search.js`}></script>
+		)}
+		{showSidebar && (
+			<dialog
+				id="docs-navigation"
+				class="nav-dialog"
+				aria-label="Documentation navigation"
+			></dialog>
+		)}
+		<div
+			class:list={[
+				"layout",
+				{ "without-sidebar": !showSidebar, "without-toc": !showToc },
+			]}
+		>
+			{showSidebar && (
+				<aside
+					id="docs-sidebar"
+					class="sidebar"
+					data-section={activeSection?.href ?? ""}
+					aria-label="Documentation sidebar"
+				>
+					<div class="sidebar-heading">
+						<span>Documentation</span>
+						<button
+							class="nav-close"
+							type="button"
+							aria-label="Close navigation"
+							hidden
+						>
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="m6 6 12 12M18 6 6 18" />
+							</svg>
+						</button>
+					</div>
+					<nav aria-label="Documentation">
+						<Navigation
+							items={navigationItems}
+							current={page.route}
+							base={site.base}
+							cleanUrls={site.cleanUrls}
+						/>
+					</nav>
+					{(site.primaryAction || site.headerLinks?.length > 0) && (
+						<nav class="mobile-site-links" aria-label="Site links">
+							{site.primaryAction && (
+								<a
+									class="primary-action"
+									href={linkHref(site.primaryAction.href)}
+								>
+									{site.primaryAction.label}
+								</a>
+							)}
+							{site.headerLinks?.map((link) => (
+								<a href={linkHref(link.href)}>{link.label}</a>
+							))}
+						</nav>
+					)}
+				</aside>
+			)}
+			<main
+				id="content"
+				tabindex="-1"
+				data-layout={page.metadata.layout ?? "docs"}
+			>
+				<div class="page-content">
+					<nav class="breadcrumbs" aria-label="Breadcrumb">
+						<ol>
+							<li>
+								<a href={href("/")}>Docs</a>
+							</li>
+							{trail
+								.filter(
+									(item, itemIndex) =>
+										!(page.route === "/" && itemIndex === trail.length - 1)
+								)
+								.map((item, itemIndex) => (
+									<li
+										aria-current={
+											itemIndex === trail.length - 1 ? "page" : undefined
+										}
+									>
+										{"href" in item && item.href !== page.route ? (
+											<a href={href(item.href)}>{item.label}</a>
+										) : (
+											<span>{item.label}</span>
+										)}
+									</li>
+								))}
+						</ol>
+					</nav>
+					<header class="page-header">
+						{page.metadata.badge && (
+							<p class="page-kind">{page.metadata.badge}</p>
+						)}
+						<div class="page-title-row">
+							<h1>{page.metadata.title}</h1>
+							<div class="page-utility">
+								{page.markdownHref && (
+									<Button
+										variant="outline"
+										class="copy-markdown"
+										type="button"
+										data-markdown-url={page.markdownHref}
+										aria-label="Copy page as Markdown"
+										hidden
+									>
+										<svg
+											slot="leadingIcon"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.75"
+											aria-hidden="true"
+										>
+											<rect x="8" y="8" width="12" height="12" rx="2" />
+											<path d="M16 8V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4" />
+										</svg>
+										Copy Page
+									</Button>
+								)}
+								<span class="copy-markdown-status" role="status"></span>
+							</div>
+						</div>
+						{description && <p class="description">{description}</p>}
+						{(showUpdatedAt || page.metadata.tags?.length) && (
+							<div class="page-meta">
+								{showUpdatedAt && (
+									<time datetime={page.metadata.updatedAt}>
+										Updated {page.metadata.updatedAt}
+									</time>
+								)}
+								{page.metadata.tags?.map((tag) => (
+									<span>{tag}</span>
+								))}
+							</div>
+						)}
+					</header>
+					{showToc && (
+						<details class="mobile-toc">
+							<summary>On this page</summary>
+							<div data-docs-mobile-toc></div>
+						</details>
+					)}
+					<article data-docs-article>
+						<Content />
+					</article>
+					{(page.editHref || site.copyPageLink) && (
+						<div class="page-actions">
+							{page.editHref && <a href={page.editHref}>{page.editLabel}</a>}
+							{site.copyPageLink && (
+								<>
+									<Button variant="outline" class="copy-page-link" hidden>
+										Copy page link
+									</Button>
+									<span class="copy-page-status" role="status"></span>
+								</>
+							)}
+						</div>
+					)}
+					<nav class="pager" aria-label="Page navigation">
+						{previous ? (
+							<Button variant="outline" rel="prev" href={previous.href}>
+								<span class="pager-direction">Previous</span>
+								<svg slot="leadingIcon" viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M19 12H5m7-7-7 7 7 7" />
+								</svg>
+								<strong>{previous.label}</strong>
+							</Button>
+						) : (
+							<span></span>
+						)}
+						{next && (
+							<Button variant="outline" rel="next" href={next.href}>
+								<span class="pager-direction">Next</span>
+								<strong>{next.label}</strong>
+								<svg slot="trailingIcon" viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M5 12h14m-7-7 7 7-7 7" />
+								</svg>
+							</Button>
+						)}
+					</nav>
+				</div>
+			</main>
+			{showToc ? (
+				<aside class="toc" data-docs-toc></aside>
+			) : (
+				<template data-docs-toc></template>
+			)}
+		</div>
+		{site.footer &&
+			(site.footer.showBranding !== false ||
+				site.footer.text ||
+				site.footer.links?.length) && (
+				<footer>
+					<div class="footer-inner">
+						{site.footer.text && <p>{site.footer.text}</p>}
+						<div class="footer-utilities">
+							{site.footer.links?.length > 0 && (
+								<nav aria-label="Footer links">
+									{site.footer.links.map((link) => (
+										<a href={linkHref(link.href)}>{link.label}</a>
+									))}
+								</nav>
+							)}
+							{site.footer.showBranding !== false && (
+								<p class="footer-branding">
+									Built with{" "}
+									<a href="https://github.com/chitranklabs/monoline-ui/tree/main/packages/docs">
+										Monoline Docs
+									</a>
+								</p>
+							)}
+						</div>
+					</div>
+				</footer>
+			)}
+	</body>
+</html>

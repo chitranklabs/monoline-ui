@@ -1,0 +1,558 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Monoline Docs configuration",
+	"description": "Editor assistance for monoline-docs.yml. Runtime validation remains authoritative for paths, URLs, language tags, alias conflicts and content-dependent checks.",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"title": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"description": "Site name shown in the header and browser title."
+		},
+		"description": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"description": "Fallback description for pages without their own."
+		},
+		"site": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"description": "Absolute HTTP(S) origin without a subpath, query or fragment. Use base for the mount path."
+		},
+		"indexing": {
+			"type": "boolean",
+			"default": true,
+			"description": "Permit production indexing and sitemap output. Disable for hosted previews."
+		},
+		"base": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "^/.*/$|^/$",
+			"default": "/",
+			"description": "Deployment mount path. Safe path segments are checked at build time."
+		},
+		"cleanUrls": {
+			"type": "boolean",
+			"default": false,
+			"description": "Emit flat .html files with extensionless internal links."
+		},
+		"lang": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"default": "en",
+			"description": "BCP 47 language tag, validated by the CLI."
+		},
+		"contentDirectory": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"default": "./content",
+			"description": "Content directory, relative to the configuration file when loaded by the CLI."
+		},
+		"outDirectory": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"default": "./dist",
+			"description": "Dedicated generated output directory."
+		},
+		"assetsDirectory": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "\\S",
+			"description": "Local assets copied under /assets/."
+		},
+		"stylesheet": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "^/assets/.+\\.css$",
+			"description": "Local /assets/*.css stylesheet loaded after package styles."
+		},
+		"openapi": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"file": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S",
+					"description": "Local OpenAPI 3.0/3.1 file."
+				},
+				"route": {
+					"type": "string",
+					"minLength": 2,
+					"pattern": "^/",
+					"description": "Documentation route, beginning with /. Route existence and safe Unicode path segments are checked at build time."
+				}
+			},
+			"required": ["file", "route"],
+			"description": "Generate API reference pages from a local OpenAPI specification."
+		},
+		"navigation": {
+			"oneOf": [
+				{
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/navigationItem"
+					}
+				},
+				{
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"sections": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/navigationSection"
+							},
+							"minItems": 1
+						}
+					},
+					"required": ["sections"]
+				}
+			],
+			"description": "Sidebar items or top-level sections; groups can nest."
+		},
+		"branding": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"logo": {
+					"$ref": "#/definitions/logo"
+				},
+				"favicon": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				}
+			},
+			"description": "Local logo and favicon assets."
+		},
+		"header": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/link"
+					}
+				},
+				"primaryAction": {
+					"$ref": "#/definitions/link"
+				},
+				"announcement": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"text": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"href": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						}
+					},
+					"required": ["text"]
+				}
+			},
+			"description": "Header links, primary action and announcement."
+		},
+		"sidebar": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"enabled": {
+					"type": "boolean"
+				}
+			},
+			"description": "Site-wide sidebar visibility."
+		},
+		"appearance": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"defaultMode": {
+					"enum": ["light", "dark", "system"]
+				},
+				"density": {
+					"enum": ["comfortable", "compact"]
+				},
+				"radius": {
+					"type": "number",
+					"minimum": 0,
+					"maximum": 1
+				},
+				"accent": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"light": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{6}$"
+						},
+						"dark": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{6}$"
+						}
+					},
+					"required": ["light", "dark"]
+				},
+				"fonts": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"body": {
+							"$ref": "#/definitions/font"
+						},
+						"code": {
+							"$ref": "#/definitions/font"
+						}
+					}
+				}
+			},
+			"description": "Theme mode, density, radius, accents and local fonts."
+		},
+		"content": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"editLink": {
+					"$ref": "#/definitions/editLink"
+				},
+				"showLastUpdated": {
+					"type": "boolean"
+				},
+				"copyPageLink": {
+					"type": "boolean"
+				}
+			},
+			"description": "Edit links, update dates and page link controls."
+		},
+		"search": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"enabled": {
+					"type": "boolean"
+				}
+			},
+			"description": "Local documentation search controls."
+		},
+		"seo": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"titleTemplate": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "%s"
+				},
+				"socialImage": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				}
+			},
+			"description": "Page title template and local social image."
+		},
+		"integrations": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"scripts": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1,
+						"pattern": "\\S"
+					}
+				}
+			},
+			"description": "Explicit local or HTTPS script URLs; no automatic remote fetching."
+		},
+		"footer": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"showBranding": {
+					"type": "boolean"
+				},
+				"text": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/link"
+					}
+				}
+			},
+			"description": "Footer text, links and package attribution.",
+			"anyOf": [
+				{
+					"required": ["text"]
+				},
+				{
+					"required": ["links"],
+					"properties": {
+						"links": {
+							"minItems": 1
+						}
+					}
+				},
+				{
+					"required": ["showBranding"]
+				}
+			]
+		},
+		"react": {
+			"type": "boolean",
+			"default": false,
+			"description": "Enable explicitly hydrated React components in authored MDX."
+		},
+		"environment": {
+			"enum": ["production", "development"],
+			"default": "production",
+			"description": "Production or development rendering environment; CLI commands select their environment."
+		},
+		"defaultMode": {
+			"enum": ["light", "dark", "system"],
+			"description": "Legacy alias. Prefer appearance.defaultMode; runtime rejects conflicting values."
+		},
+		"logo": {
+			"$ref": "#/definitions/logo",
+			"description": "Legacy alias. Prefer branding.logo; runtime rejects conflicting values."
+		},
+		"headerLinks": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/link"
+			},
+			"description": "Legacy alias. Prefer header.links; runtime rejects conflicting values."
+		},
+		"editLink": {
+			"$ref": "#/definitions/editLink",
+			"description": "Legacy alias. Prefer content.editLink; runtime rejects conflicting values."
+		}
+	},
+	"required": ["title"],
+	"definitions": {
+		"link": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"label": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"href": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S",
+					"description": "Documentation route or absolute HTTP(S) URL."
+				}
+			},
+			"required": ["label", "href"]
+		},
+		"logo": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"src": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"alt": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"width": {
+					"type": "integer",
+					"minimum": 1
+				},
+				"height": {
+					"type": "integer",
+					"minimum": 1
+				}
+			},
+			"required": ["src", "alt", "width", "height"]
+		},
+		"editLink": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"href": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\{path\\}"
+				},
+				"label": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				}
+			},
+			"required": ["href"]
+		},
+		"font": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"family": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"src": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				}
+			},
+			"required": ["family"]
+		},
+		"navigationItem": {
+			"oneOf": [
+				{
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"label": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"icon": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "^[^\\r\\n]+$",
+							"maxLength": 8
+						},
+						"badge": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"order": {
+							"type": "number"
+						},
+						"href": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "^/",
+							"description": "Documentation route, beginning with /. Route existence and safe Unicode path segments are checked at build time."
+						}
+					},
+					"required": ["label", "href"]
+				},
+				{
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"label": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"icon": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "^[^\\r\\n]+$",
+							"maxLength": 8
+						},
+						"badge": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"order": {
+							"type": "number"
+						},
+						"items": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/navigationItem"
+							}
+						},
+						"style": {
+							"enum": ["collapsible", "plain"]
+						},
+						"expanded": {
+							"type": "boolean"
+						}
+					},
+					"required": ["label", "items"],
+					"allOf": [
+						{
+							"if": {
+								"required": ["style"],
+								"properties": {
+									"style": {
+										"const": "plain"
+									}
+								}
+							},
+							"then": {
+								"not": {
+									"required": ["expanded"]
+								}
+							}
+						}
+					]
+				}
+			]
+		},
+		"navigationSection": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"label": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"icon": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "^[^\\r\\n]+$",
+					"maxLength": 8
+				},
+				"badge": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"order": {
+					"type": "number"
+				},
+				"href": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "^/",
+					"description": "Documentation route, beginning with /. Route existence and safe Unicode path segments are checked at build time."
+				},
+				"items": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/navigationItem"
+					}
+				}
+			},
+			"required": ["label", "href", "items"]
+		}
+	}
+}

@@ -1,0 +1,92 @@
+---
+title: Callout
+description: Highlight guidance without interrupting the reading flow.
+---
+
+import Callout from "@chitrank2050/monoline-docs/components/Callout.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Callout from "@chitrank2050/monoline-docs/components/Callout.astro";\n\n<Callout>\n  <p>Read the deployment guide before publishing.</p>\n</Callout>'
+export const variationCode =
+	'import Callout from "@chitrank2050/monoline-docs/components/Callout.astro";\n\n<Callout type="tip" title="Before you publish">\n  <p>Check internal links and search.</p>\n</Callout>'
+
+<Preview
+	title="Callout example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<Callout>
+		<p>Read the deployment guide before publishing.</p>
+	</Callout>
+</Preview>
+
+## Usage
+
+Use note for context, tip for recommendations, important for essential information, warning for risk and caution for destructive consequences.
+
+## Explicit title and type
+
+<Preview
+	title="Callout example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<Callout type="tip" title="Before you publish">
+		<p>Check internal links and search.</p>
+	</Callout>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Callout props"
+	rows={[
+		{
+			name: "type",
+			type: "note | tip | important | warning | caution",
+			default: "note",
+			description: "Select the semantic color treatment.",
+		},
+		{
+			name: "title",
+			type: "string",
+			default: "\u2014",
+			description:
+				"Optional explicit heading; omitted titles render no header.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Use an explicit title only when it adds information. Keep essential instructions in the article; use callouts for contextual guidance or a relevant caution.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

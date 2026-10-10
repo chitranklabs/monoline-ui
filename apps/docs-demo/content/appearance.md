@@ -20,6 +20,36 @@ copied without changing their contents. Child symlinks are rejected.
 
 ## Fonts and custom CSS
 
+Use configuration for local fonts, density and corners without writing CSS:
+
+```yaml
+appearance:
+  density: compact # comfortable is the default
+  radius: 0.375 # rem, from 0 to 1
+  accent:
+    light: "#753c22"
+    dark: "#e9b894"
+  fonts:
+    body:
+      family: Georgia
+    code:
+      family: Local Code
+      src: /assets/code.woff2
+branding:
+  favicon: /assets/favicon.svg
+  logo:
+    src: /assets/favicon.svg
+    alt: Your documentation logo
+    width: 24
+    height: 24
+```
+
+Font sources must be local WOFF2, WOFF, TTF or OTF files. Monoline resolves them
+against `assetsDirectory` and adds your deployment base. Local fonts use
+`font-display: optional` to avoid late font swaps; a slow first visit can use
+the fallback. A family without `src` selects an installed font, with a system
+fallback. Favicon files accept SVG, PNG or ICO. No remote font request is added.
+
 Set `stylesheet: "/assets/site.css"` in the shared configuration to load your
 own stylesheet after the default styles. For example, put `body.woff2` in the
 assets folder's `fonts` directory and use a relative URL:
@@ -41,18 +71,18 @@ inside custom CSS. Relative URLs keep font loading independent of the site base.
 
 ## Theme selection
 
-Set `defaultMode` in the configuration to `light`, `dark`, or `system`.
+Set `appearance.defaultMode` in the configuration to `light`, `dark`, or `system`.
 The default applies before JavaScript runs; a saved visitor preference takes
 precedence. This demo uses `system`.
 
-Use the header's theme selector to choose light, dark, or system. Your explicit
-choice is remembered when browser storage is available. System follows your
-device preference, including changes made while a page is open.
+Use the header's theme button to toggle between light and dark. Your explicit
+choice is remembered when browser storage is available. Until you choose a mode,
+the configured `system` default follows your device preference, including changes
+made while a page is open.
 
-## Customizing the design
+## Advanced CSS customization
 
-The demo loads `assets/custom.css` after Monoline's defaults. Override variables
-instead of depending on internal HTML classes:
+This demo uses the package's default stylesheet without custom CSS. If your project needs additional styling, load your own file with `stylesheet` and override tokens rather than depending on internal HTML classes:
 
 ```css
 :root {
@@ -74,7 +104,7 @@ Monoline currently has one design, not a collection of theme presets.
 
 ## Code blocks
 
-Code is highlighted during the build. Use the copy button below each block to
+Code is highlighted during the build. Use the copy icon in each block to
 copy its source text without markup. If clipboard access fails, a message tells
 you to select and copy the code manually.
 
@@ -84,3 +114,14 @@ const configuration = {
 	base: "/handbook/",
 }
 ```
+
+## Footer attribution
+
+Sites show a linked “Built with Monoline Docs” credit by default. To hide the credit, set:
+
+```yaml
+footer:
+  showBranding: false
+```
+
+Custom footer text and links remain available independently.

@@ -1,6 +1,14 @@
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
-import { readFileSync } from "node:fs"
+import {
+	copyFileSync,
+	existsSync,
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs"
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { test } from "node:test"
@@ -99,4 +107,116 @@ test("install.sh and obliviate.sh enforce monorepo structure and clean workspace
 	assert.ok(obliviateSh.includes("packages/ui/dist"))
 	assert.ok(obliviateSh.includes("apps/website/.next"))
 	assert.ok(obliviateSh.includes("tsconfig.tsbuildinfo"))
+})
+
+test("cleanup removes generated files from every workspace and preserves reproducible inputs", () => {
+	const root = mkdtempSync(path.join(tmpdir(), "monoline cleanup "))
+	try {
+		for (const folder of [
+			"scripts",
+			"packages/ui",
+			"packages/docs",
+			"apps/website",
+			"apps/docs-demo",
+		]) {
+			mkdirSync(path.join(root, folder), { recursive: true })
+			writeFileSync(path.join(root, folder, "package.json"), "{}")
+		}
+		writeFileSync(path.join(root, "pnpm-workspace.yaml"), "packages: []")
+		writeFileSync(path.join(root, "pnpm-lock.yaml"), "locked inputs")
+		const generated = [
+			"node_modules",
+			"packages/ui/dist",
+			"packages/docs/dist",
+			"apps/website/.next",
+			"apps/docs-demo/dist",
+			...["packages/ui", "packages/docs", "apps/website", "apps/docs-demo"].map(
+				(folder) => `${folder}/node_modules`
+			),
+		]
+		for (const folder of generated)
+			mkdirSync(path.join(root, folder), { recursive: true })
+		copyFileSync(
+			path.join(projectPaths.repositoryRoot, "scripts/obliviate.sh"),
+			path.join(root, "scripts/obliviate.sh")
+		)
+		const result = spawnSync(
+			"bash",
+			[path.join(root, "scripts/obliviate.sh")],
+			{ cwd: tmpdir(), encoding: "utf8" }
+		)
+		assert.equal(result.status, 0, result.stderr)
+		for (const folder of generated)
+			assert.equal(existsSync(path.join(root, folder)), false, folder)
+		assert.equal(
+			readFileSync(path.join(root, "pnpm-lock.yaml"), "utf8"),
+			"locked inputs"
+		)
+		assert.equal(
+			existsSync(path.join(root, "packages/docs/package.json")),
+			true
+		)
+	} finally {
+		rmSync(root, { recursive: true, force: true })
+	}
+})
+
+test("Vercel skips only unrelated commits from either working directory", () => {
+	const root = mkdtempSync(path.join(tmpdir(), "monoline vercel "))
+	const command = JSON.parse(
+		readFileSync(path.join(projectPaths.websiteRoot, "vercel.json"), "utf8")
+	).ignoreCommand
+	const git = (...args) =>
+		spawnSync("git", args, { cwd: root, encoding: "utf8" })
+	try {
+		assert.equal(git("init", "--quiet").status, 0)
+		git("config", "user.name", "Test")
+		git("config", "user.email", "test@example.com")
+		git("config", "commit.gpgsign", "false")
+		git("config", "core.hooksPath", "/dev/null")
+		mkdirSync(path.join(root, "apps/website"), { recursive: true })
+		writeFileSync(path.join(root, "README.md"), "initial")
+		git("add", ".")
+		git("commit", "--quiet", "-m", "initial")
+		for (const [file, expected] of [
+			["apps/website/page.tsx", 1],
+			["packages/ui/src/index.ts", 1],
+			["pnpm-lock.yaml", 1],
+			["pnpm-workspace.yaml", 1],
+			["package.json", 1],
+			["scripts/build-lib.mjs", 1],
+			["tsconfig.json", 1],
+			["packages/docs/src/index.ts", 0],
+			["README.md", 0],
+		]) {
+			mkdirSync(path.dirname(path.join(root, file)), { recursive: true })
+			writeFileSync(path.join(root, file), file)
+			git("add", ".")
+			git("commit", "--quiet", "-m", file)
+			for (const cwd of [root, path.join(root, "apps/website")]) {
+				const result = spawnSync("bash", ["-c", command], {
+					cwd,
+					env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: "" },
+					encoding: "utf8",
+				})
+				assert.equal(
+					result.status,
+					expected,
+					`${file} from ${cwd}: ${result.stderr}`
+				)
+			}
+		}
+		const result = spawnSync("bash", ["-c", command], {
+			cwd: root,
+			env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: "HEAD~3" },
+			encoding: "utf8",
+		})
+		assert.equal(
+			result.status,
+			1,
+			"Changes since the previous deployment must trigger a build"
+		)
+	} finally {
+		rmSync(root, { recursive: true, force: true })
+	}
 })

@@ -1,0 +1,101 @@
+---
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex -- keyboard-scrollable overflow region */
+interface Column {
+	key: string
+	label: string
+	format?: "text" | "code"
+}
+type Cell = string | number | boolean | null | undefined
+interface Props {
+	columns: Column[]
+	rows: Record<string, Cell>[]
+	caption: string
+	variant?: "default" | "compact" | "reference"
+	class?: string
+}
+const {
+	columns,
+	rows,
+	caption,
+	variant = "default",
+	class: className,
+} = Astro.props
+if (typeof caption !== "string" || !caption.trim())
+	throw new Error("Table caption must be nonempty")
+if (!["default", "compact", "reference"].includes(variant))
+	throw new Error("Table variant must be default, compact or reference")
+if (
+	!Array.isArray(columns) ||
+	!columns.length ||
+	columns.some(
+		(column) =>
+			!column ||
+			typeof column.key !== "string" ||
+			!column.key.trim() ||
+			typeof column.label !== "string" ||
+			!column.label.trim() ||
+			(column.format !== undefined && !["text", "code"].includes(column.format))
+	) ||
+	new Set(columns.map((column) => column.key)).size !== columns.length
+)
+	throw new Error(
+		"Table columns require unique keys, nonempty labels and optional text/code format"
+	)
+if (
+	!Array.isArray(rows) ||
+	rows.some(
+		(row) =>
+			!row ||
+			typeof row !== "object" ||
+			Array.isArray(row) ||
+			columns.some(
+				(column) =>
+					row[column.key] != null &&
+					!["string", "number", "boolean"].includes(typeof row[column.key])
+			)
+	)
+)
+	throw new Error(
+		"Table rows must contain text, number, boolean or empty cells"
+	)
+const value = (row: Record<string, Cell>, key: string) =>
+	Object.hasOwn(row, key) && row[key] != null ? String(row[key]) : "—"
+---
+
+<div class="docs-table-scroll" tabindex="0" role="region" aria-label={caption}>
+	<table class:list={["docs-table", `docs-table-${variant}`, className]}>
+		<caption>{caption}</caption>
+		<thead>
+			<tr>
+				{columns.map((column) => (
+					<th scope="col">{column.label}</th>
+				))}
+			</tr>
+		</thead>
+		<tbody>
+			{rows.map((row) => (
+				<tr>
+					{columns.map((column, index) =>
+						index === 0 ? (
+							<th scope="row">
+								{column.format === "code" ? (
+									<code>{value(row, column.key)}</code>
+								) : (
+									value(row, column.key)
+								)}
+							</th>
+						) : (
+							<td>
+								{column.format === "code" ? (
+									<code>{value(row, column.key)}</code>
+								) : (
+									value(row, column.key)
+								)}
+							</td>
+						)
+					)}
+				</tr>
+			))}
+		</tbody>
+	</table>
+</div>

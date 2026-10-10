@@ -1,0 +1,81 @@
+---
+title: Badge
+description: Label small pieces of supporting information.
+---
+
+import Badge from "@chitrank2050/monoline-docs/components/Badge.astro"
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const basicCode =
+	'import Badge from "@chitrank2050/monoline-docs/components/Badge.astro";\n\n<Badge>Beta</Badge>'
+export const variationCode =
+	'import Badge from "@chitrank2050/monoline-docs/components/Badge.astro";\n\n<Badge variant="accent">Deprecated</Badge>'
+
+<Preview
+	title="Badge example"
+	mode="static"
+	source={basicCode}
+	language="astro"
+	showCaption={false}
+>
+	<Badge>Beta</Badge>
+</Preview>
+
+## Usage
+
+Keep labels short. Badge is informational and has no click behavior.
+
+## Accent label
+
+<Preview
+	title="Badge example"
+	mode="static"
+	source={variationCode}
+	language="astro"
+	showCaption={false}
+>
+	<Badge variant="accent">Deprecated</Badge>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "default", label: "Default", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	caption="Badge props"
+	rows={[
+		{
+			name: "variant",
+			type: "neutral | accent",
+			default: "neutral",
+			description: "Visual emphasis; the slot contains the label.",
+		},
+	]}
+/>
+
+## Behavior and accessibility
+
+Use concise status labels such as Beta or Deprecated. Explain their meaning in nearby text; color alone should not carry essential information.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

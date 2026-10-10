@@ -1,0 +1,196 @@
+---
+title: Table
+description: Display structured information with author-defined columns and rows.
+---
+
+import CardGrid from "@chitrank2050/monoline-docs/components/CardGrid.astro"
+import LinkCard from "@chitrank2050/monoline-docs/components/LinkCard.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+export const columns = [
+	{ key: "name", label: "Name", format: "code" },
+	{ key: "value", label: "Value" },
+	{ key: "description", label: "Description" },
+]
+export const rows = [
+	{
+		name: "timeout",
+		value: 3000,
+		description: "Request timeout in milliseconds.",
+	},
+	{ name: "retry", value: true, description: "Retry failed requests." },
+]
+export const source =
+	'import Table from "@chitrank2050/monoline-docs/components/Table.astro";\n\n<Table\n  caption="Settings"\n  columns={[\n    { key: "name", label: "Name", format: "code" },\n    { key: "value", label: "Value" },\n  ]}\n  rows={[\n    { name: "timeout", value: 3000 },\n    { name: "retry", value: true },\n  ]}\n/>'
+
+<Preview
+	title="Table example"
+	source={source}
+	language="astro"
+	showCaption={false}
+>
+	<Table caption="Settings" columns={columns.slice(0, 2)} rows={rows} />
+</Preview>
+
+## Usage
+
+Import `Table` from `@chitrank2050/monoline-docs/components/Table.astro`.
+Column keys read values from each row. Labels and content are supplied by the author;
+props, variables, queries and other structured data use the same component.
+Set `format: "code"` for code cells. Missing and null values display an em dash.
+
+## Compact
+
+Use `variant="compact"` when the content needs less cell padding. The default has the standard documentation spacing.
+
+<Preview
+	title="Compact table"
+	source={
+		'import Table from "@chitrank2050/monoline-docs/components/Table.astro";\n\n<Table\n  caption="Compact settings"\n  variant="compact"\n  columns={[\n    { key: "name", label: "Name", format: "code" },\n    { key: "value", label: "Value" },\n    { key: "description", label: "Description" },\n  ]}\n  rows={[\n    {\n      name: "timeout",\n      value: 3000,\n      description: "Request timeout in milliseconds.",\n    },\n    {\n      name: "retry",\n      value: true,\n      description: "Retry failed requests.",\n    },\n  ]}\n/>'
+	}
+	language="astro"
+	showCaption={false}
+>
+	<Table
+		caption="Compact settings"
+		variant="compact"
+		columns={columns}
+		rows={rows}
+	/>
+</Preview>
+
+## Props reference
+
+Use `variant="reference"` for technical fields. Define a Default column for props;
+use a Required column for type fields. Both use the same Table and visual variant.
+
+export const propsColumns = [
+	{ key: "name", label: "Name", format: "code" },
+	{ key: "type", label: "Type", format: "code" },
+	{ key: "default", label: "Default", format: "code" },
+	{ key: "description", label: "Description" },
+]
+export const propsRows = [
+	{
+		name: "open",
+		type: "boolean",
+		default: "false",
+		description: "Whether the disclosure starts expanded.",
+	},
+	{ name: "title", type: "string", description: "The disclosure label." },
+]
+export const propsSource =
+	'import Table from "@chitrank2050/monoline-docs/components/Table.astro";\n\n<Table\n  variant="reference"\n  caption="Disclosure props"\n  columns={[\n    { key: "name", label: "Name", format: "code" },\n    { key: "type", label: "Type", format: "code" },\n    { key: "default", label: "Default", format: "code" },\n    { key: "description", label: "Description" },\n  ]}\n  rows={[\n    {\n      name: "open",\n      type: "boolean",\n      default: "false",\n      description: "Whether the disclosure starts expanded.",\n    },\n  ]}\n/>'
+
+<Preview
+	title="Props reference table"
+	source={propsSource}
+	language="astro"
+	showCaption={false}
+>
+	<Table
+		variant="reference"
+		caption="Disclosure props"
+		columns={propsColumns}
+		rows={propsRows}
+	/>
+</Preview>
+
+## Type reference
+
+export const typeColumns = [
+	{ key: "name", label: "Name", format: "code" },
+	{ key: "type", label: "Type", format: "code" },
+	{ key: "required", label: "Required", format: "code" },
+	{ key: "description", label: "Description" },
+]
+export const typeRows = [
+	{
+		name: "id",
+		type: "string",
+		required: "Yes",
+		description: "Unique record identifier.",
+	},
+	{
+		name: "label",
+		type: "string",
+		required: "No",
+		description: "Optional display label.",
+	},
+]
+export const typeSource =
+	'import Table from "@chitrank2050/monoline-docs/components/Table.astro";\n\n<Table\n  variant="reference"\n  caption="Record fields"\n  columns={[\n    { key: "name", label: "Name", format: "code" },\n    { key: "type", label: "Type", format: "code" },\n    { key: "required", label: "Required", format: "code" },\n    { key: "description", label: "Description" },\n  ]}\n  rows={[\n    {\n      name: "id",\n      type: "string",\n      required: "Yes",\n      description: "Unique record identifier.",\n    },\n  ]}\n/>'
+
+<Preview
+	title="Type reference table"
+	source={typeSource}
+	language="astro"
+	showCaption={false}
+>
+	<Table
+		variant="reference"
+		caption="Record fields"
+		columns={typeColumns}
+		rows={typeRows}
+	/>
+</Preview>
+
+## API reference
+
+<Table
+	variant="reference"
+	caption="Table props"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	rows={[
+		{
+			name: "columns",
+			type: "{ key, label, format? }[]",
+			description:
+				"Required. Unique keys, display labels and optional text/code format.",
+		},
+		{
+			name: "rows",
+			type: "Record<string, Cell>[]",
+			description:
+				"Required. Cells accept strings, numbers, booleans, null or undefined.",
+		},
+		{
+			name: "caption",
+			type: "string",
+			description: "Required accessible table description.",
+		},
+		{
+			name: "variant",
+			type: "default | compact | reference",
+			description:
+				"Default, compact spacing, or reference layout for technical fields.",
+		},
+	]}
+/>
+
+## Accessibility
+
+The first column supplies row headings; column headings and captions use native table semantics.
+Overflow remains keyboard-scrollable. Cell content is escaped text.
+
+Use this same component for API props, type fields and other tabular data by supplying the appropriate columns.
+
+## Related
+
+<CardGrid columns={2}>
+	<LinkCard
+		title="Using components"
+		description="Learn how to compose documentation with authoring components."
+		href="/components/"
+	/>
+	<LinkCard
+		title="Writing pages"
+		description="Learn how to use components in Markdown and MDX."
+		href="/writing/"
+	/>
+</CardGrid>

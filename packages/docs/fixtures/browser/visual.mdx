@@ -1,0 +1,80 @@
+---
+title: Documentation
+description: Build, configure and publish your documentation.
+---
+
+import Badge from "@chitrank2050/monoline-docs/components/Badge.astro"
+import Button from "@chitrank2050/monoline-docs/components/Button.astro"
+import CodeBlock from "@chitrank2050/monoline-docs/components/CodeBlock.astro"
+import Preview from "@chitrank2050/monoline-docs/components/Preview.astro"
+import Table from "@chitrank2050/monoline-docs/components/Table.astro"
+
+## Start building
+
+Create a static documentation site with Markdown and MDX. Read the examples below
+for configuration, rendered content and reference information.
+
+## Code example
+
+<CodeBlock
+	filename="monoline.config.mjs"
+	language="js"
+	highlights={[3]}
+	code={'export default {\n  title: "Documentation",\n  base: "/handbook/",\n}'}
+/>
+
+Text after the code keeps the article's reading rhythm.
+
+## Reference table
+
+<Table
+	caption="Configuration options"
+	variant="reference"
+	columns={[
+		{ key: "name", label: "Name", format: "code" },
+		{ key: "type", label: "Type", format: "code" },
+		{ key: "description", label: "Description" },
+	]}
+	rows={[
+		{
+			name: "title",
+			type: "string",
+			description: "The documentation site name.",
+		},
+		{
+			name: "base",
+			type: "string",
+			description: "Deployment path beginning and ending with a slash.",
+		},
+	]}
+/>
+
+## Preview examples
+
+<Preview
+	title="Badge example"
+	showCaption={false}
+	source={
+		'import Badge from "@chitrank2050/monoline-docs/components/Badge.astro";\n\n<Badge variant="accent">Stable</Badge>'
+	}
+	language="astro"
+>
+	<Badge variant="accent">Stable</Badge>
+</Preview>
+
+<Preview
+	title="Button example"
+	showCaption={false}
+	source={
+		'import Button from "@chitrank2050/monoline-docs/components/Button.astro";\n\n<Button\n  variant="outline"\n  href="/"\n>\n  Read the guide\n</Button>'
+	}
+	language="astro"
+>
+	<Button variant="outline" href="/">
+		Read the guide
+	</Button>
+</Preview>
+
+## Publish your site
+
+Build the static output, then publish the successful artifact to your host.

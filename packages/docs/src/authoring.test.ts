@@ -13,7 +13,6 @@ import { join } from "node:path"
 import { afterEach, expect, it } from "vitest"
 
 import { buildDocs } from "./build"
-import { renderMarkdown } from "./render"
 
 const directories: string[] = []
 afterEach(async () => {
@@ -102,18 +101,16 @@ it("rejects overlapping asset/output paths and unsafe stylesheet paths", async (
 	).rejects.toThrow("stylesheet")
 })
 
-it("highlights known languages, escapes unknown code, and preserves copyable text", () => {
-	const page = {
-		filePath: "test.md",
-		route: "/" as const,
-		format: "md" as const,
-		metadata: { title: "Test" },
-		source:
-			'```typescript\nconst value: string = "<&>"\n```\n```unknown\n<script>alert(1)</script>\n```',
-	}
-	const result = renderMarkdown(page)
-	expect(result.html).toContain('class="token keyword"')
-	expect(result.html).toContain('aria-label="Copy code block"')
-	expect(result.html).toContain("&lt;script&gt;")
-	expect(result.html).not.toContain("<script>")
+it("highlights known languages, escapes unknown code, and preserves copyable text", async () => {
+	const options = await fixture()
+	await writeFile(
+		join(options.contentDirectory, "index.md"),
+		'---\ntitle: Code\n---\n```typescript\nconst value: string = "<&>"\n```\n```unknown\n<script>alert(1)</script>\n```'
+	)
+	await buildDocs(options)
+	const html = await readFile(join(options.outDirectory, "index.html"), "utf8")
+	expect(html).toContain('class="token keyword"')
+	expect(html).toContain('aria-label="Copy code block"')
+	expect(html).toContain("&lt;script&gt;")
+	expect(html).not.toContain("<script>alert(1)</script>")
 })

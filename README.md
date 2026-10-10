@@ -2,17 +2,17 @@
   <img src="./assets/logo_stroke.png" alt="monoline-ui logo" width="200" height="auto" style="background: #000; padding: 24px; border-radius: 32px;" />
   <br/>
   <br/>
-  <h1>monoline-ui</h1>
+  <h1>Monoline</h1>
 
-  <p>Monochrome React components for developer portfolios, documentation, and editorial interfaces.<br/>
-  Built with typed subpath exports and Tailwind CSS v4 design tokens.</p>
+  <p>React components and a static documentation builder.<br/>
+  Two independent packages with a shared Monoline design language.</p>
 
   <p>
     <a href="https://www.npmjs.com/package/@chitrank2050/monoline-ui">
-    <img src="https://img.shields.io/npm/v/@chitrank2050/monoline-ui" alt="npm" />
+    <img src="https://img.shields.io/npm/v/@chitrank2050/monoline-ui" alt="Monoline UI on npm" />
     </a>
     <a href="https://jsr.io/@chitrank2050/monoline-ui">
-    <img src="https://jsr.io/badges/@chitrank2050/monoline-ui" alt="JSR" />
+    <img src="https://jsr.io/badges/@chitrank2050/monoline-ui" alt="Monoline UI on JSR" />
     </a>
   </p>
 
@@ -43,286 +43,221 @@
   <br/>
 </div>
 
-Monoline UI is a monochrome component library for developer sites, editorial interfaces, and documentation playgrounds. Its small token set keeps the emphasis on type, spacing, and layout, and can be adapted without maintaining separate light and dark utility classes.
+Monoline contains two products: **Monoline UI** for React interfaces and
+**Monoline Docs** for static documentation sites. They share repository tooling
+and semantic colors, with separate APIs, consumers and releases.
 
----
+## Repository Workspaces
+
+| Workspace        | Use it for                                                       | Start here                                                                  |
+| :--------------- | :--------------------------------------------------------------- | :-------------------------------------------------------------------------- |
+| `packages/ui`    | React components and Tailwind CSS v4 foundations                 | [UI package guide](./packages/ui/README.md)                                 |
+| `apps/website`   | UI documentation, examples and playground                        | [Published UI documentation](https://monolineui.chitrankagnihotri.com/docs) |
+| `packages/docs`  | Markdown/MDX documentation builder, CLI and authoring components | [Docs package guide](./packages/docs/README.md)                             |
+| `apps/docs-demo` | A consumer demonstrating Docs features and authoring workflows   | [Run the Docs demo](./apps/docs-demo/README.md)                             |
+
+Choose **UI** when you are building a React application. Choose **Docs** when you
+want to write documentation and publish static HTML. You do not need the UI
+package to use Docs; its authoring components are Astro components, not React
+components from Monoline UI.
 
 ## Why Monoline UI
 
-> [!TIP]
-> Monoline UI focuses on the parts of developer portfolios and documentation sites that tend to be rebuilt from scratch: editorial layout, navigation, code examples, project summaries, and supporting metadata. The package exposes typed components through explicit server and client entrypoints.
-
----
+Monoline UI provides components for developer portfolios, documentation and
+editorial interfaces. Typed component subpaths distinguish static primitives
+from interactive client components, while CSS tokens keep light and dark styling
+consistent. See [compatibility](https://monolineui.chitrankagnihotri.com/docs/compatibility)
+for runtime boundaries and supported environments.
 
 ## Features <a id="features"></a>
 
-| Feature                              | Description                                                                   |
-| :----------------------------------- | :---------------------------------------------------------------------------- |
-| ⚫ **Monochrome-first**              | A compact grayscale token set shared by light and dark themes.                |
-| 🚀 **Server-safe static primitives** | Presentational entrypoints can render without a Monoline client boundary.     |
-| ⚡ **Explicit client components**    | Interactive entrypoints declare client runtime behavior in their source/docs. |
-| 🔗 **Link polymorphism**             | Configure routing globally, per link, or through `asChild`.                   |
-| 🌲 **Direct ESM subpaths**           | Import components through explicit package entries.                           |
-| 🎛️ **Token-driven**                  | Customize spacing, scale, and type via CSS custom properties.                 |
-| 📦 **47 components**                 | Each component has a live preview, typed API, and implementation notes.       |
-| 🌊 **Tailwind CSS v4**               | `@source` scanning includes utilities used by installed components.           |
-
----
+| Product           | Capabilities                                                                                 |
+| :---------------- | :------------------------------------------------------------------------------------------- |
+| UI                | React components, compound APIs, semantic themes, link composition and typed ESM subpaths    |
+| Docs              | Markdown/MDX builds, navigation, local search, syntax highlighting and light/dark themes     |
+| Docs authoring    | Installation steps, callouts, cards, tables, code tabs and interactive examples              |
+| Docs integrations | Local OpenAPI generation, optional React islands, Markdown/AI exports and an authoring skill |
 
 ## Quick Start <a id="quick-start"></a>
 
-```bash
+### Use Monoline UI in a React app
+
+Install into an existing React application with Tailwind CSS v4:
+
+```sh
 pnpm add @chitrank2050/monoline-ui
 ```
 
-```tsx
-import { Footer } from "@chitrank2050/monoline-ui/footer"
-import "@chitrank2050/monoline-ui/theme.css"
-
-export default function Page() {
-	return (
-		<Footer size="md">
-			<Footer.Status>Available for contracts</Footer.Status>
-			<Footer.Subscribe action={subscribeAction} />
-		</Footer>
-	)
-}
-```
-
----
-
-## Documentation & Links
-
-| Resource          | URL                                                                                                          |
-| :---------------- | :----------------------------------------------------------------------------------------------------------- |
-| **Docs**          | [monolineui.chitrankagnihotri.com](https://monolineui.chitrankagnihotri.com)                                 |
-| **Components**    | [47 interactive React references](https://monolineui.chitrankagnihotri.com/docs/components)                  |
-| **Foundations**   | [Tailwind CSS v4 design tokens](https://monolineui.chitrankagnihotri.com/docs/foundations)                   |
-| **Patterns**      | [Component composition recipes](https://monolineui.chitrankagnihotri.com/docs/patterns)                      |
-| **Accessibility** | [Behavior and consumer responsibilities](https://monolineui.chitrankagnihotri.com/docs/accessibility)        |
-| **Theming**       | [Light, dark, system, and token overrides](https://monolineui.chitrankagnihotri.com/docs/theming)            |
-| **Compatibility** | [React, Next.js, Tailwind, and browser support](https://monolineui.chitrankagnihotri.com/docs/compatibility) |
-| **Installation**  | [React and Tailwind CSS v4 setup](https://monolineui.chitrankagnihotri.com/docs/installation)                |
-| **npm**           | [npmjs.com/package/@chitrank2050/monoline-ui](https://www.npmjs.com/package/@chitrank2050/monoline-ui)       |
-| **JSR**           | [jsr.io/@chitrank2050/monoline-ui](https://jsr.io/@chitrank2050/monoline-ui)                                 |
-| **Repository**    | [github.com/chitranklabs/monoline-ui](https://github.com/chitranklabs/monoline-ui)                           |
-| **Case study**    | [Architecture and project outcomes](https://chitrankagnihotri.com/project/monoline-ui)                       |
-| **Changelog**     | [CHANGELOG.md](./CHANGELOG.md)                                                                               |
-
----
-
-## Tech Stack
-
-| Layer               | Technology             | Version     |
-| :------------------ | :--------------------- | :---------- |
-| **Runtime**         | Node.js                | `>=24.14.0` |
-| **Package Manager** | pnpm                   | `11.18.0`   |
-| **Framework**       | Next.js (App Router)   | `^16`       |
-| **UI Runtime**      | React                  | `^19`       |
-| **Compiler**        | TypeScript             | `^6.0`      |
-| **Styling**         | Tailwind CSS + PostCSS | `^4`        |
-| **Bundler**         | tsup (ESM)             | `^8`        |
-
----
-
-## Technical Specification
-
-- **Module format**: ESM-only (`"type": "module"`)
-- **Target**: ES2022 / Bundler module resolution
-- **Peer dependencies**: `react ^18.2 || ^19`, `react-dom ^18.2 || ^19`, optional `tailwindcss >=4`
-- **Runtime dependencies**:
-  - Radix UI primitives - dialog, popover, menu, tooltip, and form-control behavior
-  - `@radix-ui/react-slot` - polymorphic render delegation
-  - `clsx` + `tailwind-merge` - class composition
-  - `cmdk` - command palette interaction model
-- **Performance invariant**: Static component subpaths do not introduce a Monoline client boundary. The mixed root barrel is client-safe because it also exports interactive components; use documented component subpaths for RSC optimization.
-
----
-
-## Architecture <a id="architecture"></a>
-
-```mermaid
-graph TD
-    A[Consumer App] -->|import| B["@chitrank2050/monoline-ui"]
-    B --> C["Static primitives (server-safe)"]
-    B --> D["Interactive Subcomponents (Client)"]
-    C --> E["CSS Foundations / Token Layer"]
-    D --> E
-    F["Tailwind v4 @source scan"] --> B
-```
-
-The pnpm workspace separates the published UI package from its Next.js website.
-The website consumes built package exports, just as an installed consumer does.
-`pnpm check:package` also installs the real npm tarball in temporary React 18
-and React 19 projects outside the workspace, including a Next.js/Tailwind build.
-
-The [workspace migration safeguards](https://github.com/chitranklabs/monoline-ui/blob/main/docs/workspace-migration.md) describe the
-package boundaries and the contracts that must remain unchanged.
-
-```text
-monoline-ui/
-├── apps/website/           ← Next.js playground & documentation
-├── packages/ui/
-│   ├── src/components/     ← 47 UI components (Avatar, Button, Footer…)
-│   ├── src/foundations/    ← CSS layers, design tokens, breakpoints
-│   └── package.json        ← Published library identity and dependencies
-├── scripts/
-│   └── build-lib.mjs       ← ESM bundling script
-├── package.json            ← Shared tooling and repository commands
-└── pnpm-workspace.yaml
-```
-
-> [!IMPORTANT]
-> Run `pnpm dev` or `pnpm build` from the repository root. Both build the UI
-> package before starting the website. After editing library code, run
-> `pnpm build:lib` again; website source edits retain Next.js fast refresh.
-
----
-
-## Setup & Integration
-
-### 1. Tailwind CSS v4
-
-In your root stylesheet, point Tailwind's compiler at the compiled Monoline outputs so only used utilities ship:
+Import the theme once in your global stylesheet:
 
 ```css
 @import "tailwindcss";
 @import "@chitrank2050/monoline-ui/theme.css";
 ```
 
-The published theme registers Monoline's compiled component sources with Tailwind, so consumers do not need to maintain a package-specific `@source` path.
+Then import a component through its subpath:
 
----
+```tsx
+import { Button } from "@chitrank2050/monoline-ui/button"
 
-### 2. Server and client runtime boundaries
+export function Example() {
+	return <Button>View projects</Button>
+}
+```
+
+Follow the [installation guide](https://monolineui.chitrankagnihotri.com/docs/installation)
+for application setup and the [component catalog](https://monolineui.chitrankagnihotri.com/docs/components)
+for examples and API details. The theme registers compiled component sources with
+Tailwind; a package-specific `@source` path is not required.
+
+### Try Monoline Docs
 
 > [!IMPORTANT]
-> Static primitives can render without a Monoline client boundary. `Checkbox`, `CodeBlock`, `CommandSearch`, `Dialog`, `DropdownMenu`, `Label`, `Popover`, `Progress`, `RadioGroup`, `SegmentedControl`, `Select`, `Separator`, `ThemeSwitcher`, `Toc`, `Toggle`, and `Tooltip` require client JavaScript. The final bundle also depends on your application and passed children.
+> Monoline Docs is not published yet. To create a separate documentation project,
+> use the [package guide's local tarball workflow](./packages/docs/README.md#installation).
+> Registry installation becomes available after the first release.
 
-Import static primitives from their component subpaths to preserve that boundary. The root package export intentionally remains client-safe because it mixes static and interactive exports.
+To explore the demo from a repository checkout, use Node.js 24.14 or newer and
+the pnpm version declared in the root `packageManager` field:
 
-```tsx
-import { Footer } from "@chitrank2050/monoline-ui/footer"
-
-export default function MyFooter() {
-	return (
-		<Footer size="md">
-			<Footer.Status>Available for contracts</Footer.Status>
-			<Footer.Subscribe action={subscribeFormAction} />
-		</Footer>
-	)
-}
+```sh
+pnpm install
+pnpm --filter @monoline/docs-demo dev
 ```
 
----
+Open the address printed by the preview server. Edit
+`apps/docs-demo/content/index.mdx` to see content changes reload. The demo builds
+the Docs package first; restart the preview after configuration changes.
 
-### 3. React 19 Server Actions
+Use the [getting started guide](./apps/docs-demo/content/getting-started.mdx) to
+create a site, then [writing pages](./apps/docs-demo/content/writing.md) to author
+content and [deployment](./docs/docs-deployment.md) to publish static output.
 
-Pass a standard async Server Action to the `action` prop. No client JavaScript required:
+## Documentation & Links
 
-```typescript
-// app/actions.ts
-"use server"
+The [documentation index](./docs/README.md) routes readers to consumer guides,
+repository architecture and maintainer operations.
 
-export async function subscribeFormAction(formData: FormData) {
-	const email = formData.get("email")
-	await db.newsletter.create({ data: { email } })
-}
+| Audience                 | Resources                                                                                                                                                                                                                                                                                          |
+| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI consumers             | [Installation](https://monolineui.chitrankagnihotri.com/docs/installation), [components](https://monolineui.chitrankagnihotri.com/docs/components), [theming](https://monolineui.chitrankagnihotri.com/docs/theming), [accessibility](https://monolineui.chitrankagnihotri.com/docs/accessibility) |
+| Docs consumers           | [Getting started](./apps/docs-demo/content/getting-started.mdx), [configuration](./apps/docs-demo/content/configuration.md), [CLI](./apps/docs-demo/content/cli.md), [support](./apps/docs-demo/content/support.md)                                                                                |
+| AI-assisted Docs authors | [Agent guide](./apps/docs-demo/content/using-with-ai-agents.md) and [maintained skill](./packages/docs/skills/monoline-docs/SKILL.md)                                                                                                                                                              |
+| Contributors             | [Local setup and change workflow](./CONTRIBUTING.md)                                                                                                                                                                                                                                               |
+| Maintainers              | [UI releases](./docs/releases.md), [Docs releases and recovery](./docs/docs-release.md), [Docs roadmap](./packages/docs/ROADMAP.md)                                                                                                                                                                |
+
+## Tech Stack
+
+Repository requirements are declared in [package.json](./package.json); use its
+Node.js engine and pinned pnpm version. Package manifests are authoritative for
+dependencies and peer ranges.
+
+| Workspace    | Runtime and build                                          |
+| :----------- | :--------------------------------------------------------- |
+| UI package   | React, TypeScript, Tailwind CSS v4 and tsup                |
+| UI website   | Next.js App Router, consuming built UI exports             |
+| Docs package | Node.js CLI, Astro and MDX compilation, static HTML output |
+| Docs demo    | Markdown/MDX content and configuration consumed by Docs    |
+
+## Technical Specification
+
+- **UI:** ESM, TypeScript declarations and a separate theme CSS import. React and
+  React DOM 18.2 or 19 are supported. Static subpaths remain server-safe;
+  interactive subpaths declare client behavior. The mixed root barrel is a
+  client boundary.
+- **Docs:** Node.js 24.14 or newer. Generated sites are static; React 19 and React
+  DOM 19 are optional for explicitly hydrated islands. Configuration and MDX are
+  trusted executable author input, not a sandbox for untrusted content.
+- **Publication:** UI targets npm and JSR. Docs targets npm. Fixtures, visual
+  baselines and consumer sites are repository assets, not published package APIs.
+
+See the [UI package guide](./packages/ui/README.md) and
+[Docs support boundaries](./apps/docs-demo/content/support.md) for details.
+
+## Architecture <a id="architecture"></a>
+
+```text
+monoline-ui/
+├── apps/
+│   ├── website/           # UI documentation and playground
+│   └── docs-demo/         # Docs consumer and documentation site
+├── packages/
+│   ├── ui/                # React components and CSS foundations
+│   └── docs/              # Static documentation builder
+├── scripts/               # Build, verification and release tooling
+└── docs/                  # Documentation index, architecture and operations
 ```
 
----
+The [architecture guide](./docs/architecture.md) explains package boundaries,
+shared colors, site generation, verification and independent release paths.
 
-### 4. Link Polymorphism
+## Setup & Integration
 
-Monoline supports three levels of client-router control:
+<a id="1-tailwind-css-v4"></a>
+<a id="2-server-and-client-runtime-boundaries"></a>
+<a id="3-react-19-server-actions"></a>
+<a id="4-link-polymorphism"></a>
 
-**A. Global** - pass your router's `Link` once to override all internal links:
+Application integration belongs in the consumer documentation:
 
-```tsx
-import Link from "next/link"
-
-export default function MyFooter() {
-	return <Footer linkComponent={Link} columns={myColumns} />
-}
-```
-
-**B. Per-link** - override individual links in the config array:
-
-```tsx
-import Link from "next/link"
-
-const columns = [
-	{
-		title: "Navigate",
-		links: [
-			{ label: "Blog", href: "/blog", as: Link },
-			{ label: "Twitter", href: "https://x.com", external: true },
-		],
-	},
-]
-```
-
-**C. `asChild`** - composable override using the Radix slot pattern:
-
-```tsx
-import Link from "next/link"
-
-;<Footer.Link asChild>
-	<Link href="/about">About</Link>
-</Footer.Link>
-```
-
----
+- **UI:** [Installation](https://monolineui.chitrankagnihotri.com/docs/installation),
+  [server/client boundaries](https://monolineui.chitrankagnihotri.com/docs/compatibility),
+  [theming](https://monolineui.chitrankagnihotri.com/docs/theming) and
+  [composition patterns](https://monolineui.chitrankagnihotri.com/docs/patterns).
+- **Docs:** [Configuration](./apps/docs-demo/content/configuration.md),
+  [authoring components](./apps/docs-demo/content/components.mdx),
+  [programmatic builds](./apps/docs-demo/content/programmatic-api.md) and
+  [deployment recipes](./docs/docs-deployment.md).
 
 ## Development Commands
 
-```bash
-pnpm install           # Install dependencies
-pnpm dev               # Launch Next.js dev server (HMR)
-pnpm build             # Build the Next.js playground
-pnpm build:lib         # Bundle the component library into /dist
-pnpm build:all         # Both builds in sequence
-pnpm test              # Run Vitest test suite
-pnpm typecheck         # TypeScript type check (no emit)
-pnpm lint              # ESLint + Markdownlint
-pnpm format            # Prettier
-```
+Run commands from the repository root. Site commands build their owning package
+first; the UI website needs `pnpm build:lib` again after library source edits.
 
----
+| Task                         | Command                                 |
+| :--------------------------- | :-------------------------------------- |
+| UI website                   | `pnpm dev`                              |
+| Docs demo                    | `pnpm --filter @monoline/docs-demo dev` |
+| Both packages and sites      | `pnpm build:all`                        |
+| UI package consumers         | `pnpm check:package`                    |
+| UI production website        | `pnpm check:website`                    |
+| Docs package and demo        | `pnpm check:docs`                       |
+| All local verification gates | `pnpm check:all`                        |
+
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) for prerequisites, focused checks,
+component changes and CI selection. Browser checks require Chromium; install it
+with `pnpm test:browser:install`.
 
 ## Release Process
 
-Monoline uses Changesets for library version intent and keeps a two-phase release pipeline:
+Monoline uses Changesets and independent prepare/finalize workflows. Keep
+changesets for the two packages separate; site-only edits do not require a
+package version bump. UI tags use `vX.Y.Z`; Docs tags use `docs-vX.Y.Z`.
 
-1. **Prepare** - contributors add a changeset for library changes. Run `Release 1 - Prepare PR` on `main` to consume pending changesets and open a release PR.
-2. **Finalize** - merge the release PR. `Release 2 - Finalize Tag` verifies the prepared version, tags the verified commit, publishes to npm and JSR, then creates the GitHub release.
-
-Future notes live in `packages/ui/CHANGELOG.md`; the root changelog remains a historical archive. Website-only work does not bump the library. See the [release guide](./docs/releases.md).
-
----
+Read the [UI release guide](./docs/releases.md) or
+[Docs release and recovery guide](./docs/docs-release.md) before preparing or
+retrying publication. UI release history lives in
+[packages/ui/CHANGELOG.md](./packages/ui/CHANGELOG.md); the
+[root changelog](./CHANGELOG.md) is historical.
 
 ## Contributing <a id="contributing"></a>
 
-Contributions are welcome. Please read the [Contributing Guide](./CONTRIBUTING.md) before opening a PR. All commits are validated by [git-hygiene](https://github.com/chitranklabs/git-hygiene) and must follow the [Conventional Commits](https://www.conventionalcommits.org) spec.
-
----
+Start with the [contributor guide](./CONTRIBUTING.md). Select the workspace that
+owns the change and update its consumer documentation when public behavior
+changes. Repository and site documentation ownership is explained in the
+[documentation index](./docs/README.md#where-documentation-lives).
 
 ## Community & Support
 
-- **Security**: See [SECURITY.md](./SECURITY.md) for reporting vulnerabilities.
-- **Conduct**: We follow the [Contributor Covenant](./CODE_OF_CONDUCT.md).
-- **Support**: If you use Monoline UI in your project, a star or credit is appreciated. ✨
-
----
+Use [GitHub issues](https://github.com/chitranklabs/monoline-ui/issues) for
+reproducible bugs and [discussions](https://github.com/chitranklabs/monoline-ui/discussions)
+for questions. Follow the [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## Security & Quality
 
-- **Secret Scanning**: Gitleaks prevents credential leaks in every commit.
-- **Workflow Auditing**: Zizmor ensures GitHub Actions follow security best practices.
-- **Supply Chain**: All GitHub Actions are pinned to secure commit SHAs.
+Report vulnerabilities through [SECURITY.md](./SECURITY.md). Local hooks and CI
+cover secret scanning, dependency checks and workflow analysis; automated checks
+do not replace the external release acceptance gates recorded in the
+[Docs roadmap](./packages/docs/ROADMAP.md).
 
----
-
-<p align="center">
-  Developed with ❤️ by <b><a href="https://chitrankagnihotri.com">Chitrank Agnihotri</a></b>
-</p>
+<p align="center">❤️ Developed by <a href="https://chitrankagnihotri.com">Chitrank Agnihotri</a></p>

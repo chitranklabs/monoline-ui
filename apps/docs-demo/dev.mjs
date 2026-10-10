@@ -1,4 +1,4 @@
-import { startDevServer } from "@monoline/docs/dev"
+import { startDevServer } from "@chitrank2050/monoline-docs/dev"
 
 import config from "./config.mjs"
 

@@ -24,9 +24,17 @@ The index is rebuilt with the content. Production builds exclude drafts;
 development preview includes them. Pages omitted from explicit sidebar navigation
 remain searchable.
 
+Choose guide or API scope to narrow results. Matching words are highlighted;
+recent searches remain in local browser storage and can be cleared in the dialog.
+Use `search: false` in frontmatter to exclude a published page from the index.
+`noindex: true` also excludes it from the sitemap, Markdown exports and AI indexes.
+Set `search.enabled: false` in configuration to omit the search control and index.
+
 > [!CAUTION]
 > Search data is a public static file. Neither hiding a navigation link nor
 > disabling search in your browser protects published content.
+
+Read [Markdown and AI exports](/exports) for Copy Page and downloadable reading formats.
 
 ## Limits and failures
 
@@ -37,6 +45,6 @@ This is a small-site search, not typo correction, stemming, or a hosted indexing
 service. There is no configuration for replacing the search provider.
 
 If the index cannot load, check that `search-index.json` was deployed alongside
-the HTML and that the configured [base path](deployment.md#repository-subpaths)
+the HTML and that the configured [base path](deployment.md#deployment-subpaths)
 matches the published URL. Serve the output over HTTP(S), not by opening an HTML
 file directly from disk.

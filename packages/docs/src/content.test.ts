@@ -130,6 +130,125 @@ describe("discoverPages", () => {
 		})
 	})
 
+	it("keeps validated per-page shell visibility", async () => {
+		const directory = await contentDirectory()
+		await writeFile(
+			join(directory, "index.md"),
+			"---\ntitle: Home\nsidebar: false\ntoc: false\n---\nBody"
+		)
+
+		expect((await discoverPages(directory))[0]?.metadata).toMatchObject({
+			sidebar: false,
+			toc: false,
+		})
+		await writeFile(
+			join(directory, "invalid.md"),
+			"---\ntitle: Invalid\ntoc: yes\n---\nBody"
+		)
+		await expect(discoverPages(directory)).rejects.toThrow(
+			"toc must be a boolean"
+		)
+	})
+
+	it("supports stable slugs and the release frontmatter contract", async () => {
+		const directory = await contentDirectory()
+		await writeFile(
+			join(directory, "renamed-file.md"),
+			[
+				"---",
+				"title: Public API",
+				"navTitle: API",
+				"seoTitle: Acme API reference",
+				"slug: reference/api",
+				"search: false",
+				"noindex: true",
+				"updatedAt: 2026-09-18",
+				"tags: [api, reference]",
+				"badge: Beta",
+				"layout: reference",
+				"---",
+				"Body",
+			].join("\n")
+		)
+
+		expect((await discoverPages(directory))[0]).toMatchObject({
+			route: "/reference/api",
+			metadata: {
+				navTitle: "API",
+				seoTitle: "Acme API reference",
+				search: false,
+				noindex: true,
+				updatedAt: "2026-09-18",
+				tags: ["api", "reference"],
+				badge: "Beta",
+				layout: "reference",
+			},
+		})
+	})
+
+	it.each([
+		["slug: ../escape", "slug"],
+		["slug: /", "slug"],
+		["slug: //external", "slug"],
+		["slug: guide/", "slug"],
+		["slug: guide?query", "slug"],
+		["slug: guide#fragment", "slug"],
+		["slug: '%2e%2e/escape'", "slug"],
+		["updatedAt: yesterday", "updatedAt"],
+		["updatedAt: 2026-02-29", "updatedAt"],
+		["updatedAt: 1900-02-29", "updatedAt"],
+		["updatedAt: 2026-04-31", "updatedAt"],
+		["updatedAt: 2026-13-01", "updatedAt"],
+		["layout: marketing", "layout"],
+		["unknown: true", "unknown option unknown"],
+	])("rejects invalid release metadata %s", async (entry, error) => {
+		const directory = await contentDirectory()
+		await writeFile(
+			join(directory, "invalid.md"),
+			`---\ntitle: Invalid\n${entry}\n---\nBody`
+		)
+		await expect(discoverPages(directory)).rejects.toThrow(error)
+	})
+
+	it.each(["2000-02-29", "2024-02-29", "2026-04-30", "0099-01-01"])(
+		"accepts real calendar date %s",
+		async (date) => {
+			const directory = await contentDirectory()
+			await writeFile(
+				join(directory, "index.md"),
+				`---\ntitle: Home\nupdatedAt: ${date}\n---\nBody`
+			)
+			expect((await discoverPages(directory))[0]?.metadata.updatedAt).toBe(date)
+		}
+	)
+
+	it.each([
+		"bad name.md",
+		"bad%20name.md",
+		"bad#name.md",
+		"bad?name.md",
+		"bad.name.md",
+	])("rejects unsafe file-derived route from %s", async (name) => {
+		const directory = await contentDirectory()
+		const file = join(directory, name)
+		await writeFile(file, "---\ntitle: Invalid\n---\nBody")
+		await expect(discoverPages(directory)).rejects.toThrow(file)
+		await writeFile(file, "---\ntitle: Valid\nslug: /safe-route\n---\nBody")
+		expect((await discoverPages(directory))[0]?.route).toBe("/safe-route")
+	})
+
+	it("rejects collisions between explicit and file-derived routes", async () => {
+		const directory = await contentDirectory()
+		await writeFile(join(directory, "guide.md"), "---\ntitle: Guide\n---\nBody")
+		await writeFile(
+			join(directory, "other.md"),
+			"---\ntitle: Other\nslug: /guide\n---\nBody"
+		)
+		await expect(discoverPages(directory)).rejects.toThrow(
+			'Duplicate documentation route "/guide"'
+		)
+	})
+
 	it("returns undefined when a route does not exist", async () => {
 		const directory = await contentDirectory()
 		await writeFile(join(directory, "index.md"), "---\ntitle: Home\n---\n")
