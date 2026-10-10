@@ -65,6 +65,9 @@ jobs:
           title: "chore(docs): prepare ${{ steps.vars.outputs.tag_name }}"
           branch: "release/${{ steps.vars.outputs.tag_name }}"
           body-path: ${{ runner.temp }}/docs-release-pr.md
+          labels: |
+            release
+            pkg/docs
           base: main
           delete-branch: true
           assignees: chitrank2050

@@ -34,13 +34,18 @@
           - "lefthook.yml"
 
 "area/deps":
-  - changed-files:
-      - any-glob-to-any-file:
-          - "package.json"
-          - "packages/*/package.json"
-          - "apps/*/package.json"
-          - "pnpm-lock.yaml"
-          - "pnpm-workspace.yaml"
+  - all:
+      - head-branch: ["^(?!release/|chore/(docs-)?release-).*"]
+      - changed-files:
+          - any-glob-to-any-file:
+              - "package.json"
+              - "packages/*/package.json"
+              - "apps/*/package.json"
+              - "pnpm-lock.yaml"
+              - "pnpm-workspace.yaml"
+
+"release":
+  - head-branch: ["^release/(docs-)?v[0-9]+\\.[0-9]+\\.[0-9]+$"]
 
 "area/security":
   - changed-files:

@@ -5,6 +5,7 @@ import { mkdtempSync, readFileSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { test } from "node:test"
+import { fileURLToPath } from "node:url"
 import { runInNewContext } from "node:vm"
 import picomatch from "picomatch"
 
@@ -12,6 +13,49 @@ const root = new URL("../", import.meta.url)
 const readWorkflow = (name) =>
 	load(readFileSync(new URL(`.github/workflows/${name}.yml`, root), "utf8"))
 const ci = readWorkflow("ci")
+
+test("release branches use package configuration and receive release labels", () => {
+	const steps = readWorkflow("hygiene").jobs["branch-name"].steps
+	const branch = steps.find((step) => step.name === "Validate Branch Name 🌿")
+	assert.equal(branch.if, undefined)
+	assert.equal(
+		steps.some((step) => step.name === "Validate Release Branch 🌿"),
+		false
+	)
+	const config = JSON.parse(readFileSync(new URL("package.json", root), "utf8"))
+	assert.ok(config["git-hygiene"].types.includes("release"))
+	for (const name of [
+		"release/docs-v0.1.0",
+		"release/v2.3.4",
+		"unsupported/example",
+	]) {
+		const result = spawnSync(
+			process.execPath,
+			["node_modules/@chitrank2050/git-hygiene/dist/cli.js", "branch", name],
+			{
+				cwd: fileURLToPath(root),
+				encoding: "utf8",
+			}
+		)
+		assert.equal(
+			result.status,
+			name.startsWith("release/") ? 0 : 1,
+			result.stderr || result.stdout
+		)
+	}
+
+	const labels = load(
+		readFileSync(new URL(".github/labeler.yml", root), "utf8")
+	)
+	const dependencyBranch = new RegExp(
+		labels["area/deps"][0].all[0]["head-branch"][0]
+	)
+	assert.equal(dependencyBranch.test("release/docs-v0.1.0"), false)
+	assert.equal(dependencyBranch.test("renovate/astro"), true)
+	assert.ok(
+		new RegExp(labels.release[0]["head-branch"][0]).test("release/docs-v0.1.0")
+	)
+})
 
 test("release finalizers accept merged package branches and reject unrelated PRs", () => {
 	for (const [workflow, branch, legacy, other] of [

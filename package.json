@@ -110,6 +110,7 @@
 			"ci",
 			"revert",
 			"maintenance",
+			"release",
 			"renovate"
 		],
 		"ignoreBranches": [
