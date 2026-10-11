@@ -193,10 +193,19 @@ test("Vercel upload retains UI package build metadata", () => {
 
 test("Vercel skips only unrelated commits from either working directory", () => {
 	const root = mkdtempSync(path.join(tmpdir(), "monoline vercel "))
-	const command = JSON.parse(
-		readFileSync(path.join(projectPaths.websiteRoot, "vercel.json"), "utf8")
-	).ignoreCommand
-	assert.ok(command.length <= 256, "Vercel ignore command schema limit")
+	const commands = [
+		JSON.parse(
+			readFileSync(path.join(projectPaths.websiteRoot, "vercel.json"), "utf8")
+		).ignoreCommand,
+		JSON.parse(
+			readFileSync(
+				path.join(projectPaths.repositoryRoot, "apps/docs-demo/vercel.json"),
+				"utf8"
+			)
+		).ignoreCommand,
+	]
+	for (const command of commands)
+		assert.ok(command.length <= 256, "Vercel ignore command schema limit")
 	const git = (...args) =>
 		spawnSync("git", args, { cwd: root, encoding: "utf8" })
 	try {
@@ -206,6 +215,7 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 		git("config", "commit.gpgsign", "false")
 		git("config", "core.hooksPath", "/dev/null")
 		mkdirSync(path.join(root, "apps/website"), { recursive: true })
+		mkdirSync(path.join(root, "apps/docs-demo"), { recursive: true })
 		mkdirSync(path.join(root, "scripts"))
 		writeFileSync(
 			path.join(root, "scripts/vercel-ignore.sh"),
@@ -217,44 +227,56 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 		git("add", ".")
 		git("commit", "--quiet", "-m", "initial")
 		for (const previous of ["", "5ac45464e26822de83c6dd28d082c75fa7ea98a8"]) {
-			for (const cwd of [root, path.join(root, "apps/website")]) {
-				const result = spawnSync("bash", ["-c", command], {
-					cwd,
-					env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: previous },
-					encoding: "utf8",
-				})
-				assert.equal(result.status, 1, "Missing history must allow the build")
-			}
+			for (const command of commands)
+				for (const cwd of [
+					root,
+					path.join(root, "apps/website"),
+					path.join(root, "apps/docs-demo"),
+				]) {
+					const result = spawnSync("bash", ["-c", command], {
+						cwd,
+						env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: previous },
+						encoding: "utf8",
+					})
+					assert.equal(result.status, 1, "Missing history must allow the build")
+				}
 		}
-		for (const [file, expected] of [
-			["apps/website/page.tsx", 1],
-			["packages/ui/src/index.ts", 1],
-			["pnpm-lock.yaml", 1],
-			["pnpm-workspace.yaml", 1],
-			["package.json", 1],
-			["scripts/build-lib.mjs", 1],
-			["tsconfig.json", 1],
-			["packages/docs/src/index.ts", 0],
-			["README.md", 0],
+		for (const [file, uiExpected, docsExpected] of [
+			["apps/website/page.tsx", 1, 0],
+			["packages/ui/src/index.ts", 1, 0],
+			["pnpm-lock.yaml", 1, 1],
+			["pnpm-workspace.yaml", 1, 1],
+			["package.json", 1, 1],
+			["scripts/build-lib.mjs", 1, 1],
+			["tsconfig.json", 1, 1],
+			["packages/docs/src/index.ts", 0, 1],
+			["README.md", 0, 0],
+			["apps/docs-demo/content/index.mdx", 0, 1],
+			["packages/ui/src/foundations/theme/tokens.css", 1, 1],
 		]) {
 			mkdirSync(path.dirname(path.join(root, file)), { recursive: true })
 			writeFileSync(path.join(root, file), file)
 			git("add", ".")
 			git("commit", "--quiet", "-m", file)
-			for (const cwd of [root, path.join(root, "apps/website")]) {
-				const result = spawnSync("bash", ["-c", command], {
-					cwd,
-					env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: "" },
-					encoding: "utf8",
-				})
-				assert.equal(
-					result.status,
-					expected,
-					`${file} from ${cwd}: ${result.stderr}`
-				)
-			}
+			for (const command of commands)
+				for (const cwd of [
+					root,
+					path.join(root, "apps/website"),
+					path.join(root, "apps/docs-demo"),
+				]) {
+					const result = spawnSync("bash", ["-c", command], {
+						cwd,
+						env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: "" },
+						encoding: "utf8",
+					})
+					assert.equal(
+						result.status,
+						command === commands[0] ? uiExpected : docsExpected,
+						`${file} from ${cwd}: ${result.stderr}`
+					)
+				}
 		}
-		const result = spawnSync("bash", ["-c", command], {
+		const result = spawnSync("bash", ["-c", commands[0]], {
 			cwd: root,
 			env: { ...process.env, VERCEL_GIT_PREVIOUS_SHA: "HEAD~3" },
 			encoding: "utf8",

@@ -8,7 +8,7 @@ independently.
 ## Release acceptance
 
 - [ ] Complete manual screen-reader and real iOS keyboard/safe-area checks.
-- [ ] Verify root and subpath deployments on a real static host.
+- [ ] Verify a subpath deployment on a real static host.
       The first npm release is published. Recheck package verification, publishing
       credentials and provenance for each release candidate; publication does not
       establish hosted deployment or manual device acceptance.

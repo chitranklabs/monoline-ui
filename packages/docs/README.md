@@ -50,16 +50,16 @@ when replacing an existing site.
 
 ## Guides and reference
 
-- [Getting started](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/getting-started.mdx)
-  and [writing pages](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/writing.md).
-- [Configuration](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/configuration.md)
-  and [appearance](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/appearance.md).
-- [Authoring components](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/components.mdx)
+- [Getting started](https://monolinedocs.chitrankagnihotri.com/getting-started/)
+  and [writing pages](https://monolinedocs.chitrankagnihotri.com/writing/).
+- [Configuration](https://monolinedocs.chitrankagnihotri.com/configuration/)
+  and [appearance](https://monolinedocs.chitrankagnihotri.com/appearance/).
+- [Authoring components](https://monolinedocs.chitrankagnihotri.com/components/)
   for steps, callouts, tables, code examples and guide cards.
-- [OpenAPI documentation](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/openapi.md)
-  and [Markdown/AI exports](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/exports.md).
-- [Troubleshooting](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/troubleshooting.md)
-  and [support boundaries](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/support.md).
+- [OpenAPI documentation](https://monolinedocs.chitrankagnihotri.com/openapi/)
+  and [Markdown/AI exports](https://monolinedocs.chitrankagnihotri.com/exports/).
+- [Troubleshooting](https://monolinedocs.chitrankagnihotri.com/troubleshooting/)
+  and [support boundaries](https://monolinedocs.chitrankagnihotri.com/support/).
 
 ## Using with AI agents
 
@@ -69,7 +69,7 @@ Installation does not automatically enable the skill; keep copied instructions
 aligned with the installed package version.
 
 Use generated page Markdown exports, `llms.txt` or `llms-full.txt` as reference.
-See [the agent guide](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/using-with-ai-agents.md)
+See [the agent guide](https://monolinedocs.chitrankagnihotri.com/using-with-ai-agents/)
 and [maintained skill](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/skills/monoline-docs/SKILL.md).
 
 ## Requirements
@@ -90,7 +90,7 @@ interactive examples use browser scripts.
 - `@chitrank2050/monoline-docs/components/*.astro`: authoring components.
 - `@chitrank2050/monoline-docs/schema.json`: configuration editor schema.
 
-See the [programmatic API](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/content/programmatic-api.md)
+See the [programmatic API](https://monolinedocs.chitrankagnihotri.com/programmatic-api/)
 for usage and [contributor guide](https://github.com/chitranklabs/monoline-ui/blob/main/CONTRIBUTING.md)
 for repository development.
 

@@ -81,7 +81,8 @@ ordinary pages, then add authoring components for installation steps, code tabs
 and reference tables. Navigation, local search and Markdown exports use the same
 content; an OpenAPI specification can supply generated API reference pages.
 
-The [Docs demo](./apps/docs-demo/README.md) demonstrates the package as a consumer.
+The [Monoline Docs documentation](https://monolinedocs.chitrankagnihotri.com) demonstrates the package as a consumer.
+See [running the Docs demo locally](./apps/docs-demo/README.md) for repository development.
 The [Docs package guide](./packages/docs/README.md) covers creating your own site
 and deploying its static output.
 

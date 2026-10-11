@@ -1,0 +1,15 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"framework": null,
+	"git": {
+		"deploymentEnabled": {
+			"**": false,
+			"main": true
+		}
+	},
+	"installCommand": "pnpm --dir ../.. install --frozen-lockfile",
+	"buildCommand": "pnpm --dir ../.. --filter @monoline/docs-demo build",
+	"outputDirectory": "dist",
+	"trailingSlash": true,
+	"ignoreCommand": "sh \"$(git rev-parse --show-toplevel)/scripts/vercel-ignore.sh\" docs"
+}

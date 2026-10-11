@@ -139,13 +139,26 @@ Its small `config.mjs` bridge exposes explicit deployment overrides:
 DOCS_SITE=https://docs.example.com DOCS_BASE=/ DOCS_INDEXING=true pnpm --filter @monoline/docs-demo build
 ```
 
-For a separate Vercel demo project, use the repository root with the Other preset,
-install with `pnpm install --frozen-lockfile`, and publish `apps/docs-demo/dist`.
-Use this build command and set `DOCS_SITE` in the project settings:
+The public documentation uses a separate Vercel project, `monoline-docs`, at
+<https://monolinedocs.chitrankagnihotri.com>. Its root directory is
+`apps/docs-demo`, with sources outside the root enabled and Node.js 24.x.
+[The committed configuration](../apps/docs-demo/vercel.json) selects the Other
+preset, installs from the repository root, builds the Docs workspace first and
+publishes `dist`. Git deployments target `main` only; preview deployments are
+also disabled in project settings. The UI website remains a separate project.
+
+Set these environment variables for production:
 
 ```sh
-if [ "$VERCEL_ENV" = "production" ]; then pnpm --filter @monoline/docs-demo build; else DOCS_INDEXING=false pnpm --filter @monoline/docs-demo build; fi
+DOCS_SITE=https://monolinedocs.chitrankagnihotri.com
+DOCS_BASE=/
+DOCS_INDEXING=true
 ```
+
+The shared ignore command checks Docs/demo files, build tooling, root dependency
+files and the shared theme tokens. Unrelated UI changes skip the Docs build;
+unavailable deployment history allows a build. Vercel's Git integration handles
+deployment, so no second deployment workflow is needed.
 
 For Netlify, likewise use the repository root, publish `apps/docs-demo/dist`, and
 replace the production command with `pnpm --filter @monoline/docs-demo build`.

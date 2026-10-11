@@ -1,6 +1,7 @@
 # Monoline Docs demo
 
-This consumer demonstrates the Docs package with packaged styles, Markdown/MDX content and configuration.
+This consumer powers the [Monoline Docs documentation](https://monolinedocs.chitrankagnihotri.com)
+with packaged styles, Markdown/MDX content and configuration.
 
 ## Run locally
 
@@ -30,3 +31,11 @@ site, or [Configuration](content/configuration.md) to explore this demo. The
 [documentation index](../../docs/README.md) links both products and repository
 guides. Repository recovery and release verification belong in
 [the release guide](../../docs/docs-release.md).
+
+## Production hosting
+
+The separate `monoline-docs` Vercel project deploys `main` only; previews are
+disabled. Its root is `apps/docs-demo`, with access to workspace sources outside
+that directory. [Deployment settings](vercel.json) build the Docs package first
+and publish `dist`. See [deployment guidance](../../docs/docs-deployment.md#this-monorepos-demo)
+for the production environment and hosting checks.
