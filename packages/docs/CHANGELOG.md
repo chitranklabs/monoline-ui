@@ -1,5 +1,11 @@
 # @chitrank2050/monoline-docs
 
+## 0.1.4
+
+### Patch Changes
+
+- a4b2642: Include the page name in structured data and document configuring SEO, social sharing, sitemap generation and staging indexation. Update the bundled authoring skill with publishing and SEO verification guidance.
+
 ## 0.1.3
 
 ### Patch Changes
