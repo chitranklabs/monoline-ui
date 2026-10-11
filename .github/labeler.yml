@@ -19,6 +19,11 @@
       - any-glob-to-any-file:
           - "apps/website/**"
 
+"app/docs-demo":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "apps/docs-demo/**"
+
 # 🌐 Cross-Cutting Areas
 "area/docs":
   - changed-files:

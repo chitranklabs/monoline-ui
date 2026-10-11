@@ -66,8 +66,10 @@ jobs:
           # Define labels as "name:color:description"
           labels=(
             "pkg/ui:C2F2D0:UI component library package and design foundations"
-            "pkg/docs:7FE3D6:Documentation parsing package and content utilities"
+            "pkg/docs:7FE3D6:Static documentation builder, CLI and authoring components"
             "app/website:F9E8B3:Website, documentation app, and component playground"
+            "app/docs-demo:F9E8B3:Documentation builder demo and consumer guides"
+            "release:C5DEF5:Prepared package version and publication changes"
             "area/docs:8FD6E8:Documentation files, guides, and markdown files"
             "area/ci:F9D0C4:CI/CD workflows and actions configuration"
             "area/deps:D2D2D2:Dependency upgrades and lockfile updates"
