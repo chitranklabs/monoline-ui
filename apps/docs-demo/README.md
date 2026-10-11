@@ -40,6 +40,14 @@ that directory. [Deployment settings](vercel.json) build the Docs package first
 and publish `dist`. See [deployment guidance](../../docs/docs-deployment.md#this-monorepos-demo)
 for the production environment and hosting checks.
 
+## Creator identity
+
+The demo's production structured data identifies Chitrank Agnihotri as the
+creator and publisher, using the identity snapshot in
+`apps/website/public/identity.json` and the portfolio's person ID. Its footer
+links to the portfolio. These additions are demo-specific and require no network
+fetch during builds; staging builds omit the identity structured data.
+
 ## Site analytics
 
 The production build adds Cloudflare Web Analytics when `VERCEL_ENV=production`

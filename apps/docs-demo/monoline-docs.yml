@@ -32,6 +32,8 @@ header:
 footer:
   text: Released under the MIT License.
   links:
+    - label: Created by Chitrank Agnihotri
+      href: https://chitrankagnihotri.com
     - label: GitHub
       href: https://github.com/chitranklabs/monoline-ui
     - label: Support

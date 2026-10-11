@@ -63,6 +63,7 @@ jobs:
               - 'tsconfig.json'
               - 'packages/docs/**'
               - 'apps/docs-demo/**'
+              - 'apps/website/public/identity.json'
               - 'scripts/docs-release*.mjs'
               - 'scripts/lib/release-plan.mjs'
               - 'scripts/release-registry*.mjs'

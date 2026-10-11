@@ -243,6 +243,7 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 		}
 		for (const [file, uiExpected, docsExpected] of [
 			["apps/website/page.tsx", 1, 0],
+			["apps/website/public/identity.json", 1, 1],
 			["packages/ui/src/index.ts", 1, 0],
 			["pnpm-lock.yaml", 1, 1],
 			["pnpm-workspace.yaml", 1, 1],
