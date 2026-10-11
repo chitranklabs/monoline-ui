@@ -11,6 +11,9 @@ inputs:
   permission-contents:
     description: "Repository contents permission for the generated token"
     required: true
+  permission-workflows:
+    description: "Workflow permission needed when anchoring release tags"
+    required: false
   permission-issues:
     description: "Repository issues permission for the generated token"
     required: false
@@ -31,5 +34,6 @@ runs:
         client-id: ${{ inputs.client-id }}
         private-key: ${{ inputs.private-key }}
         permission-contents: ${{ inputs.permission-contents }}
+        permission-workflows: ${{ inputs.permission-workflows }}
         permission-issues: ${{ inputs.permission-issues }}
         permission-pull-requests: ${{ inputs.permission-pull-requests }}

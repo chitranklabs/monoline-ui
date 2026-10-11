@@ -155,6 +155,7 @@ jobs:
           client-id: ${{ secrets.CHITRANK_BOT_CLIENT_ID }}
           private-key: ${{ secrets.CHITRANK_BOT_PRIVATE_KEY }}
           permission-contents: write
+          permission-workflows: write
       - name: Push verified tag
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
