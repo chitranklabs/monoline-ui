@@ -1,6 +1,6 @@
 ---
 title: Markdown and AI exports
-description: Make published documentation available as Markdown and AI reading indexes.
+description: Export published documentation as Markdown, llms.txt and llms-full.txt. Use Copy Page and AI reading indexes, with production drafts and noindex pages excluded.
 ---
 
 ## Markdown and AI exports

@@ -1,6 +1,6 @@
 ---
 title: Support and limitations
-description: Supported environments and boundaries of the first Docs release.
+description: Check Monoline Docs requirements and limitations for Node.js, optional React, trusted MDX, OpenAPI, static hosting, search and Markdown exports.
 ---
 
 ## Environments

@@ -1,6 +1,7 @@
 ---
 title: Frontmatter
-description: Reference for page metadata, routes and visibility.
+seoTitle: Page frontmatter reference
+description: Reference Markdown and MDX frontmatter fields for titles, descriptions, navigation labels, SEO titles, stable routes, drafts and indexing controls.
 ---
 
 Each Markdown or MDX file begins with YAML frontmatter. `title` is required.

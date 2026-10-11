@@ -1,6 +1,7 @@
 ---
 title: Deployment
-description: Build static files for your chosen host.
+seoTitle: Deploying static documentation
+description: Build and deploy Monoline Docs to a static host. Configure root or subpath URLs, canonical metadata, preview indexing and HTTP 404 responses.
 order: 3
 ---
 

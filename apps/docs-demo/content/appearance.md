@@ -1,6 +1,7 @@
 ---
 title: Assets and appearance
-description: Add local files and choose how your documentation looks.
+seoTitle: Documentation branding and appearance
+description: Customize Monoline Docs with local images, logos, fonts, light and dark modes, accent colors and CSS. Configure branding and appearance in YAML.
 order: 2
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Search
-description: Find pages and sections without an external search service.
+seoTitle: Local documentation search
+description: Search documentation titles, headings and text in the browser with a generated static index. Configure search exclusions without an external search service.
 order: 5
 ---
 

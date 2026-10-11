@@ -1,6 +1,7 @@
 ---
 title: CLI
-description: Initialize, preview and build documentation from the command line.
+seoTitle: Documentation CLI reference
+description: Use the monoline-docs CLI to initialize a site, preview content and build static documentation. Reference configuration, site, base path and indexing options.
 ---
 
 ## Initialize

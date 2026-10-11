@@ -1,6 +1,7 @@
 ---
 title: Using with AI agents
-description: Give an agent the Monoline Docs authoring workflow and relevant documentation references.
+seoTitle: Authoring documentation with AI agents
+description: Give AI agents the Monoline Docs authoring skill and Markdown references. Use llms.txt exports and verify generated documentation against your project.
 ---
 
 ## Use the authoring skill
@@ -34,8 +35,8 @@ separate implementation.
 
 ## Supply relevant reference pages
 
-- [llms.txt](/llms.txt) lists this demo's exported documentation pages.
-- [llms-full.txt](/llms-full.txt) combines those pages for tasks needing the full
+- `llms.txt` lists the production demo's exported documentation pages.
+- `llms-full.txt` combines those pages for tasks needing the full
   reference.
 - [Getting started as Markdown](/getting-started/index.md) provides the setup
   workflow without the page interface.
@@ -44,6 +45,10 @@ separate implementation.
 For a small task, provide the specific page exports the agent needs. For example,
 give it [Configuration](configuration.md), [Navigation](navigation.md) and
 [Using components](components.mdx) when adding a section with MDX examples.
+
+Open these files at the production site root, for example
+`https://monolinedocs.chitrankagnihotri.com/llms.txt`. They are intentionally absent
+from non-indexable staging builds.
 
 `llms.txt` helps discover reference material; `SKILL.md` provides an authoring
 workflow. Neither file automatically grants execution or deployment permission.

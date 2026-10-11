@@ -1,6 +1,7 @@
 ---
 title: Configuration
-description: Set paths, publishing metadata, and site options in one file.
+seoTitle: YAML configuration reference
+description: Configure Monoline Docs in YAML or JavaScript. Reference site paths, navigation, branding, search, publishing metadata and validated configuration options.
 order: 1
 ---
 
@@ -125,7 +126,10 @@ Use `appearance` for `defaultMode`, `density`, `radius`, `accent` and local font
 ### Social images and scripts
 
 Set `site` before configuring `seo.socialImage`: it supplies the origin for the
-absolute social image URL. Images must be local `/assets/` PNG, JPEG or WebP
+absolute social image URL. The renderer includes Open Graph and Twitter titles,
+descriptions and sharing images. Indexable pages also emit website, page and
+breadcrumb structured data using the configured site URL and language.
+Images must be local `/assets/` PNG, JPEG or WebP
 files, resolved from `assetsDirectory`.
 
 ```yaml

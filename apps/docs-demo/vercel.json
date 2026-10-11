@@ -8,8 +8,15 @@
 		}
 	},
 	"installCommand": "pnpm --dir ../.. install --frozen-lockfile",
-	"buildCommand": "pnpm --dir ../.. --filter @monoline/docs-demo build",
+	"buildCommand": "if [ \"$VERCEL_ENV\" = \"production\" ]; then pnpm --dir ../.. --filter @monoline/docs-demo build; else DOCS_INDEXING=false pnpm --dir ../.. --filter @monoline/docs-demo build; fi",
 	"outputDirectory": "dist",
 	"trailingSlash": true,
+	"headers": [
+		{
+			"source": "/:path*",
+			"has": [{ "type": "host", "value": ".*\\.vercel\\.app" }],
+			"headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+		}
+	],
 	"ignoreCommand": "sh \"$(git rev-parse --show-toplevel)/scripts/vercel-ignore.sh\" docs"
 }

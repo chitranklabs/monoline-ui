@@ -98,6 +98,9 @@ it("keeps noindex routes out of the sitemap while preserving their pages", async
 		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
 	).toContain('name="robots" content="noindex, nofollow"')
 	expect(
+		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
+	).not.toContain("application/ld+json")
+	expect(
 		await readFile(join(options.outDirectory, "llms.txt"), "utf8")
 	).not.toContain("Private guide")
 	expect(
@@ -170,6 +173,26 @@ it("exports published Markdown and emits configured social and integration metad
 	})
 	const html = await readFile(join(options.outDirectory, "index.html"), "utf8")
 	expect(html).toContain('content="https://example.com/docs/assets/social.png"')
+	expect(html).toContain('property="og:site_name" content="Monoline"')
+	expect(html).toContain('name="twitter:title" content="Home | Monoline"')
+	expect(html).toContain('property="og:type" content="website"')
+	const entities = [
+		...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs),
+	].map((match) => JSON.parse(match[1]))
+	expect(entities).toContainEqual(
+		expect.objectContaining({
+			"@type": "WebSite",
+			"@id": "https://example.com/docs/#website",
+			url: "https://example.com/docs/",
+			name: "Monoline",
+		})
+	)
+	expect(entities).toContainEqual(
+		expect.objectContaining({
+			"@type": "WebPage",
+			isPartOf: { "@id": "https://example.com/docs/#website" },
+		})
+	)
 	expect(html).toContain('src="/docs/assets/analytics.js"')
 	expect(html).toContain('data-markdown-url="/docs/index.md"')
 	expect(
@@ -184,6 +207,26 @@ it("exports published Markdown and emits configured social and integration metad
 	expect(
 		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
 	).toContain("BreadcrumbList")
+	const guideHtml = await readFile(
+		join(options.outDirectory, "guide/index.html"),
+		"utf8"
+	)
+	expect(guideHtml).toContain('"@type":"Article"')
+	expect(guideHtml).toContain(
+		'"isPartOf":{"@id":"https://example.com/docs/#website"}'
+	)
+	await writeFile(
+		join(options.contentDirectory, "guide.md"),
+		"---\ntitle: Guide\nlayout: reference\n---\n# Install\n"
+	)
+	await buildDocs({ ...options, assetsDirectory })
+	expect(
+		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
+	).toContain('"@type":"TechArticle"')
+	await buildDocs({ ...options, assetsDirectory, indexing: false })
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).not.toContain("application/ld+json")
 })
 
 it("removes search artifacts when site search is disabled on rebuild", async () => {

@@ -1,6 +1,7 @@
 ---
 title: Navigation
-description: Choose page order or organize the sidebar into named groups.
+seoTitle: Documentation sidebar navigation
+description: Organize documentation with generated page order, explicit sidebar links, named groups and sections. Configure navigation and the page table of contents.
 order: 2
 ---
 

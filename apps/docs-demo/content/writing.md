@@ -1,6 +1,7 @@
 ---
 title: Writing pages
-description: Keep titles and navigation metadata beside your content.
+seoTitle: Writing Markdown and MDX pages
+description: Write documentation in Markdown and MDX with frontmatter, validated links, headings, callouts and optional React examples. Control routes and draft visibility.
 order: 1
 ---
 

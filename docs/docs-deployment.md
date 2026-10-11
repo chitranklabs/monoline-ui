@@ -133,7 +133,8 @@ Reference: [GitHub Pages custom workflows](https://docs.github.com/en/pages/gett
 The templates above target a standalone consumer, not `apps/website`. Do not copy
 them over the existing website's deployment configuration. The demo still builds
 the Docs workspace first and uses `apps/docs-demo/monoline-docs.yml`.
-Its small `config.mjs` bridge exposes explicit deployment overrides:
+The demo configuration defaults to its public production origin and sharing
+image. Its small `config.mjs` bridge exposes explicit deployment overrides:
 
 ```sh
 DOCS_SITE=https://docs.example.com DOCS_BASE=/ DOCS_INDEXING=true pnpm --filter @monoline/docs-demo build
@@ -146,6 +147,20 @@ The public documentation uses a separate Vercel project, `monoline-docs`, at
 preset, installs from the repository root, builds the Docs workspace first and
 publishes `dist`. Git deployments target `main` only; preview deployments are
 also disabled in project settings. The UI website remains a separate project.
+
+The build command also forces `DOCS_INDEXING=false` outside Vercel's production
+environment, including manually requested previews. Requests on `*.vercel.app`
+receive `X-Robots-Tag: noindex`, including production aliases and export files;
+the custom production domain retains the generated indexing policy. Canonicals
+continue to use `DOCS_SITE`. Other staging domains require a separate build with
+indexing disabled or a host-level noindex header.
+
+Verify the actual project aliases and custom domain after an approved deployment.
+The committed configuration cannot prove which domains are assigned in project
+settings. Check that production HTML has no noindex response header, that every
+Vercel alias has one, and that canonicals remain on the custom production origin.
+See [Vercel conditional response headers](https://vercel.com/docs/project-configuration/vercel-json#headers)
+and [Vercel's generated noindex headers](https://vercel.com/docs/headers/response-headers#x-robots-tag).
 
 Set these environment variables for production:
 
@@ -190,7 +205,12 @@ Before calling a host supported, verify:
 - Missing URLs return 404, not homepage HTML with status 200.
 - Scripts, styles, images, fonts, search, and heading links work at the actual base.
 - Canonicals and sitemap locations match the production address.
+- Query variants retain the page's canonical without query parameters.
+- Alternate production hosts redirect to the canonical host or send a noindex
+  response header; inspect actual domain settings and HTTP responses.
 - Hosted previews are noindex and contain no draft pages or draft search entries.
+- Export URLs remain fetchable at their exact paths without HTML fallback or
+  unwanted slash redirects; preview and alternate-host headers also cover them.
 - A deliberately invalid page fails the build and leaves the previous deployment active.
 
 Keep host credentials and actual deployment approval outside package tests. The

@@ -1,6 +1,6 @@
 ---
 title: OpenAPI documentation
-description: Generate static API documentation from a local specification.
+description: Generate static API reference pages from local OpenAPI 3.0 and 3.1 specifications. Document operations, parameters, responses and linked component schemas.
 ---
 
 ## See the generated result

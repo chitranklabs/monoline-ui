@@ -1,6 +1,7 @@
 ---
 title: Troubleshooting
-description: Resolve configuration, content, and deployment errors.
+seoTitle: Documentation build troubleshooting
+description: Resolve Monoline Docs configuration, frontmatter, link, asset, MDX and deployment errors. Check output directories, base paths and static hosting behavior.
 order: 7
 ---
 

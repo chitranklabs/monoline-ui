@@ -1,9 +1,12 @@
 title: Monoline Docs
+site: https://monolinedocs.chitrankagnihotri.com
 description: Write documentation in Markdown and publish a static site.
 contentDirectory: ./content
 assetsDirectory: ./assets
 outDirectory: ./dist
 base: /
+seo:
+  socialImage: /assets/social.jpg
 appearance:
   defaultMode: system
   density: comfortable

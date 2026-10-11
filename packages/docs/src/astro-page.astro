@@ -41,12 +41,33 @@ const pageTitle = site.titleTemplate.replace(
 	"%s",
 	page.metadata.seoTitle ?? page.metadata.title
 )
+const websiteUrl = site.site ? new URL(href("/"), site.site).href : undefined
+const websiteId = websiteUrl ? `${websiteUrl}#website` : undefined
+const websiteData =
+	websiteUrl && !site.noindex && !page.metadata.noindex
+		? {
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"@id": websiteId,
+				url: websiteUrl,
+				name: site.title,
+				inLanguage: site.lang,
+				...(site.description ? { description: site.description } : {}),
+			}
+		: undefined
 const structuredData =
 	canonical && !site.noindex && !page.metadata.noindex
 		? {
 				"@context": "https://schema.org",
 				"@type":
-					page.metadata.layout === "reference" ? "TechArticle" : "Article",
+					page.route === "/"
+						? "WebPage"
+						: page.metadata.layout === "reference"
+							? "TechArticle"
+							: "Article",
+				"@id": `${canonical}#page`,
+				isPartOf: { "@id": websiteId },
+				inLanguage: site.lang,
 				headline: page.metadata.seoTitle ?? page.metadata.title,
 				url: canonical,
 				...(description ? { description } : {}),
@@ -114,16 +135,34 @@ const breadcrumbData =
 		<meta property="og:title" content={pageTitle} />
 		{description && <meta property="og:description" content={description} />}
 		{canonical && <meta property="og:url" content={canonical} />}
-		<meta property="og:type" content="article" />
+		<meta
+			property="og:type"
+			content={page.route === "/" ? "website" : "article"}
+		/>
+		<meta property="og:site_name" content={site.title} />
+		<meta name="twitter:title" content={pageTitle} />
+		{description && <meta name="twitter:description" content={description} />}
 		<meta
 			name="twitter:card"
 			content={site.socialImage ? "summary_large_image" : "summary"}
 		/>
 		{site.socialImage && (
-			<meta property="og:image" content={site.socialImage} />
+			<>
+				<meta property="og:image" content={site.socialImage} />
+				<meta property="og:image:alt" content={site.title} />
+			</>
 		)}
 		{site.socialImage && (
-			<meta name="twitter:image" content={site.socialImage} />
+			<>
+				<meta name="twitter:image" content={site.socialImage} />
+				<meta name="twitter:image:alt" content={site.title} />
+			</>
+		)}
+		{websiteData && (
+			<script
+				type="application/ld+json"
+				set:html={JSON.stringify(websiteData).replaceAll("<", "\\u003c")}
+			></script>
 		)}
 		{structuredData && (
 			<script

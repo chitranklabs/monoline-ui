@@ -1,6 +1,7 @@
 ---
 title: Programmatic API
-description: Load configuration, build documentation and start a local preview from Node.js.
+seoTitle: Node.js programmatic API
+description: Use the Monoline Docs Node.js API to load configuration, build static documentation and manage a local preview server with rebuild and cleanup methods.
 ---
 
 ## Build from a script
