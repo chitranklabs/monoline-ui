@@ -28,8 +28,8 @@ their existing product facts, documentation structure and package-manager choice
 
 Monoline Docs requires Node.js 24.14 or newer. For a new site, install the package
 using the project's package manager and run its local `monoline-docs init` CLI.
-The package is not published yet: use a supplied or locally packed tarball until
-the first release. Do not assume a registry installation is available.
+Install `@chitrank2050/monoline-docs` from npm. Use a supplied or locally packed
+tarball only when the task requires testing unpublished changes.
 
 Initialization creates `monoline-docs.yml`, `content/index.md` and build/dev
 scripts. It does not install dependencies and refuses conflicting files or

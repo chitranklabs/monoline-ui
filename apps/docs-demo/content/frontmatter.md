@@ -32,4 +32,4 @@ slug: guides/install
 | `badge`       | Short page badge.                                      |
 | `layout`      | Use reference for wider content.                       |
 
-Discovery settings do not restrict access to built HTML. Keep draft routes out of production navigation and links. Read [Writing pages](/writing) for practical examples.
+Discovery settings do not restrict access to built HTML. Keep draft routes out of production navigation and links. Read [Writing pages](writing.md) for practical examples.

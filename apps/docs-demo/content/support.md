@@ -33,10 +33,10 @@ Inspect exported links and images before treating exports as a portable source.
 
 ## Hosting and larger sites
 
-Deploy the complete static output to a host supporting the configured routes. The local preview is not a production server. Follow [Deployment](/deployment) for root and subpath hosting.
+Deploy the complete static output to a host supporting the configured routes. The local preview is not a production server. Follow [Deployment](deployment.md) for root and subpath hosting.
 
 Use curated navigation for larger sites and measure your own content and search-index size. If a build fails, retain the last successful output and follow the error message before deploying.
 
 ## Get help
 
-Start with [Troubleshooting](/troubleshooting). For reproducible package issues, include your configuration, error message and a small content example in a [GitHub issue](https://github.com/chitranklabs/monoline-ui/issues).
+Start with [Troubleshooting](troubleshooting.md). For reproducible package issues, include your configuration, error message and a small content example in a [GitHub issue](https://github.com/chitranklabs/monoline-ui/issues).

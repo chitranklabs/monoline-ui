@@ -18,7 +18,7 @@ draft: false
 ---
 ```
 
-For the complete field list, see [Frontmatter reference](/frontmatter).
+For the complete field list, see [Frontmatter reference](frontmatter.md).
 
 ## Links and routes
 
@@ -43,7 +43,7 @@ search. `noindex: true` also omits it from sitemap, Markdown and AI exports, but
 the HTML page remains publicly accessible. Drafts are excluded from production.
 
 Use Markdown file links such as `[Introduction](index.md)`, or root-relative
-documentation routes such as `[Introduction](/)`. The builder checks page and
+documentation routes such as `[Introduction](index.mdx)`. The builder checks page and
 heading targets, then adds the configured deployment base.
 
 | File              | Route       |

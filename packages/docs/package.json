@@ -23,7 +23,9 @@
 		"markdown",
 		"mdx",
 		"astro",
-		"docs"
+		"docs",
+		"openapi",
+		"documentation-generator"
 	],
 	"license": "MIT",
 	"publishConfig": {

@@ -132,7 +132,7 @@ links and navigation entries keep their existing public `href`.
 ## Moving an existing site
 
 Keep published routes stable when moving source files: set frontmatter `slug` to
-the old route, independently of the new filename. See [writing pages](/writing).
+the old route, independently of the new filename. See [writing pages](writing.md).
 Set `base` to the actual hosting mount and check both direct page visits and links.
 
 When a public URL must change, configure permanent redirects on your static host

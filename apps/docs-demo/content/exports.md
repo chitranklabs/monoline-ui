@@ -14,13 +14,14 @@ uncommon Markdown link syntax and source-relative images is limited.
 
 `llms.txt` lists eligible pages and `llms-full.txt` combines their exports.
 Production drafts, `noindex` pages and their content are absent. Disabling site
-indexing removes AI indexes; `search: false` affects search only.
+indexing removes AI indexes; `search: false` affects search only. AI indexes are
+also omitted in development previews. Use a production build to inspect them.
 
 ## Try it on this site
 
-Read [Using with AI agents](/using-with-ai-agents) for the maintained authoring
+Read [Using with AI agents](using-with-ai-agents.md) for the maintained authoring
 skill and an example workflow using these exports.
 
-Use **Copy Page** beside a page title to copy its Markdown. Inspect `llms.txt` or `llms-full.txt` for this demo.
+Use **Copy Page** beside a page title to copy its Markdown. Inspect `llms.txt` or `llms-full.txt` in the production output for this demo.
 
 These exports are reading formats, not an exact round-trip replacement for authored MDX. Published content remains public even when discovery is disabled.

@@ -2,11 +2,10 @@
 
 ## Release state
 
-Docs releases independently from Monoline UI. The current Docs manifest is
-`0.0.0`; the existing minor Changeset plans `0.1.0`. Release preparation must
-derive the version from the repository's actual Changesets state, not this note.
-An October 2, 2026 public npm lookup returned 404; it does not prove private
-package availability. No publication or deployment was performed.
+Docs releases independently from Monoline UI. The first release, `docs-v0.1.0`,
+is published on npm with provenance and a GitHub release artifact. Derive future
+versions from the manifest and pending Changesets rather than this historical
+release identifier.
 
 The prepare workflow opens a Docs-only version PR with the exact generated
 changelog notes and publication trigger notice.
@@ -27,9 +26,9 @@ The user owns commits, PRs and explicit publication authorization.
 
 Visual acceptance includes reviewing representative baselines in both themes and
 viewport sizes; the project owner may delegate this review to an agent. Real iOS
-keyboard/safe-area checks and manual screen-reader flows remain required before
-release. Remaining priorities are tracked in the
-[roadmap](../packages/docs/ROADMAP.md#before-the-first-release).
+keyboard/safe-area checks and manual screen-reader flows remain outstanding acceptance work. Publication does not establish those checks
+as complete. Remaining priorities are tracked in the
+[roadmap](../packages/docs/ROADMAP.md#release-acceptance).
 
 Run the existing package build, packed-consumer fixture, browser checks and
 release-script tests before approving the release. The packed fixture checks

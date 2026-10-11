@@ -43,8 +43,9 @@ By participating in this project, you agree to abide by our [Code of Conduct](./
    pnpm --filter @monoline/docs-demo dev  # Docs demo
    ```
 
-   Both commands build their package before starting the site. The Docs preview
-   watches content and assets; restart it after configuration changes.
+   Both commands build their package before starting the site. After editing UI
+   library source while the website is running, rerun `pnpm build:lib`. The Docs
+   preview watches content and assets; restart it after configuration changes.
 
 4. **Build the relevant package or site**:
 
@@ -54,6 +55,28 @@ By participating in this project, you agree to abide by our [Code of Conduct](./
    pnpm build:docs                        # Docs package and demo
    pnpm build:all                         # Both packages and sites
    ```
+
+### Test Docs changes locally
+
+Build and pack from the repository root:
+
+```sh
+pnpm --filter @chitrank2050/monoline-docs build
+npm pack ./packages/docs --ignore-scripts
+```
+
+In a separate project outside this repository, install the generated tarball
+using its actual filename (printed by `npm pack`):
+
+```sh
+npm install /absolute/path/to/the-generated-package.tgz
+npx monoline-docs init
+npm run dev
+```
+
+Use this for manual evaluation of unpublished changes. The existing
+`test:consumer` command verifies the packed package in isolated consumers;
+normal users should install the published npm package.
 
 ## Development Workflow
 

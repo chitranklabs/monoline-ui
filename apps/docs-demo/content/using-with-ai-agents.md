@@ -42,8 +42,8 @@ separate implementation.
 - **Copy Page** beside an eligible page title copies its Markdown export.
 
 For a small task, provide the specific page exports the agent needs. For example,
-give it [Configuration](/configuration), [Navigation](/navigation) and
-[Using components](/components) when adding a section with MDX examples.
+give it [Configuration](configuration.md), [Navigation](navigation.md) and
+[Using components](components.mdx) when adding a section with MDX examples.
 
 `llms.txt` helps discover reference material; `SKILL.md` provides an authoring
 workflow. Neither file automatically grants execution or deployment permission.
@@ -59,4 +59,4 @@ or private data before publishing.
 Markdown and MDX exports preserve static reading content, including code fences,
 links and tables. Interactive islands and interface controls are omitted. Drafts
 and `noindex` pages are excluded from exports, but discovery settings do not make
-published HTML private. See [Markdown and AI exports](/exports) for details.
+published HTML private. See [Markdown and AI exports](exports.md) for details.

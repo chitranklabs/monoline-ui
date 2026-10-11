@@ -10,10 +10,9 @@ real deployment verification before we claim end-to-end platform support.
 
 ## Consumer project
 
-The Docs package is prepared for npm but not published. Until the first release,
-install a locally built tarball, not an assumed registry version. From this repository,
-build `@chitrank2050/monoline-docs`, then pack it. Commit the consumer's package
-manifest and lockfile.
+Install `@chitrank2050/monoline-docs` from npm in your consumer project.
+Commit the consumer's package manifest and lockfile. Use a locally built tarball
+only when verifying unpublished package changes.
 
 Use Node 24.14 or newer and pnpm 11.18.0 for the supplied recipes. Configure these
 consumer package fields alongside the installed Docs dependency:

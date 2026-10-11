@@ -13,9 +13,8 @@ repository development and operations; each topic has one owning location.
 | Explore the Docs package in use  | [Run the demo](../apps/docs-demo/README.md)                               | [Authoring components](../apps/docs-demo/content/components.mdx)                                                                                             |
 | Generate Docs with an agent      | [Using with AI agents](../apps/docs-demo/content/using-with-ai-agents.md) | [Maintained Docs skill](../packages/docs/skills/monoline-docs/SKILL.md)                                                                                      |
 
-The UI package is published. Docs is awaiting its first release; its package
-guide explains local tarball installation. The repository demo is an ordinary
-Docs consumer, not an additional package API.
+Both packages are available on npm. The repository demo is an ordinary Docs
+consumer, not an additional package API.
 
 ## Consumer guides and reference
 
@@ -58,7 +57,7 @@ Docs consumer, not an additional package API.
 - [Docs performance](docs-performance.md): benchmark commands, measured scope and
   regression budgets.
 - [Docs roadmap](../packages/docs/ROADMAP.md): remaining package priorities and
-  first-release gates.
+  release acceptance gates.
 
 ## Where documentation lives
 

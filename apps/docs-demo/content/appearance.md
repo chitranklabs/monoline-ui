@@ -44,6 +44,7 @@ branding:
     height: 24
 ```
 
+Font family names use letters, numbers, spaces or hyphens.
 Font sources must be local WOFF2, WOFF, TTF or OTF files. Monoline resolves them
 against `assetsDirectory` and adds your deployment base. Local fonts use
 `font-display: optional` to avoid late font swaps; a slow first visit can use

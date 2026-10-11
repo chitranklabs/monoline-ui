@@ -32,4 +32,4 @@ npx monoline-docs build
 | `--indexing true\|false` | build, dev | Override indexing.              |
 | `--port <number>`        | dev        | Preview port; default 4321.     |
 
-`init` accepts no build or preview flags. Ports must be integers from 1 to 65535. See [Configuration](/configuration) for file discovery and [Deployment](/deployment) for production hosting.
+`init` accepts no build or preview flags. Ports must be integers from 1 to 65535. See [Configuration](configuration.md) for file discovery and [Deployment](deployment.md) for production hosting.

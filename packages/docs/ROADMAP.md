@@ -5,17 +5,13 @@ The initial release focuses on Markdown/MDX authoring, navigation, local search,
 OpenAPI reference pages and Markdown/AI exports. Docs and Monoline UI release
 independently.
 
-## Before the first release
+## Release acceptance
 
 - [ ] Complete manual screen-reader and real iOS keyboard/safe-area checks.
 - [ ] Verify root and subpath deployments on a real static host.
-- [ ] Confirm npm ownership, publishing credentials, GitHub bot permissions and
-      provenance/attestation in the hosted release workflow.
-- [ ] Review the prepared version and changelog, then authorize publication.
-
-Local package, packed-consumer and browser checks pass. Run the relevant checks
-again against the prepared release candidate; local results do not establish
-hosted publication or manual device acceptance.
+      The first npm release is published. Recheck package verification, publishing
+      credentials and provenance for each release candidate; publication does not
+      establish hosted deployment or manual device acceptance.
 
 Use the [Docs release and recovery guide](../../docs/docs-release.md) and
 [deployment guide](../../docs/docs-deployment.md) for these gates.

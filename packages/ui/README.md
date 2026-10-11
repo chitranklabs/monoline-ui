@@ -9,9 +9,13 @@ The library provides 47 components and a shared Tailwind CSS v4 token layer.
 
 ## Installation
 
-```bash
-pnpm add @chitrank2050/monoline-ui
+Use an existing React 18.2 or React 19 application with Tailwind CSS v4.
+
+```sh
+npm install @chitrank2050/monoline-ui
 ```
+
+For pnpm, use `pnpm add @chitrank2050/monoline-ui`.
 
 Import the stylesheet once in your application's global CSS:
 
@@ -19,6 +23,9 @@ Import the stylesheet once in your application's global CSS:
 @import "tailwindcss";
 @import "@chitrank2050/monoline-ui/theme.css";
 ```
+
+The theme defines the shared tokens and registers the package's compiled sources
+with Tailwind; no manual package `@source` directive is needed.
 
 Import components through their documented subpaths:
 
@@ -41,7 +48,9 @@ export function Example() {
 
 See [installation](https://monolineui.chitrankagnihotri.com/docs/installation)
 for framework setup and [compatibility](https://monolineui.chitrankagnihotri.com/docs/compatibility)
-for supported environments.
+for supported environments. See [theming](https://monolineui.chitrankagnihotri.com/docs/theming)
+for customization and [accessibility](https://monolineui.chitrankagnihotri.com/docs/accessibility)
+for component behavior and consumer responsibilities.
 
 ## Contributing
 

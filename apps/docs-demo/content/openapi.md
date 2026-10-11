@@ -51,7 +51,7 @@ an empty requirement permits anonymous access. Replace placeholders before
 running a command. Supplied schema and response examples are published verbatim
 as escaped code: use fictitious data and never include credentials in examples.
 
-For an SDK reference, use [PackageInstall and PackageReference](/components/package-reference)
+For an SDK reference, use [PackageInstall and PackageReference](components/package-reference.mdx)
 with `layout: reference` frontmatter and explicit compatibility declarations.
 
 ## Minimal specification

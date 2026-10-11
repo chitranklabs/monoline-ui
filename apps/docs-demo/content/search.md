@@ -34,7 +34,7 @@ Set `search.enabled: false` in configuration to omit the search control and inde
 > Search data is a public static file. Neither hiding a navigation link nor
 > disabling search in your browser protects published content.
 
-Read [Markdown and AI exports](/exports) for Copy Page and downloadable reading formats.
+Read [Markdown and AI exports](exports.md) for Copy Page and downloadable reading formats.
 
 ## Limits and failures
 

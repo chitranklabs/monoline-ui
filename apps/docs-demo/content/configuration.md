@@ -114,13 +114,33 @@ copies the current URL, including its fragment; it does not export Markdown.
 
 ## Appearance and branding
 
-Use `appearance` for `defaultMode`, `density`, `radius`, `accent` and local font declarations. `branding` contains `logo` and `favicon`. See [Appearance](/appearance) for working examples.
+Use `appearance` for `defaultMode`, `density`, `radius`, `accent` and local font declarations. `branding` contains `logo` and `favicon`. See [Appearance](appearance.md) for working examples.
 
 ## Search, exports and integrations
 
 `search.enabled` controls the search feature. `seo` accepts optional `titleTemplate` and `socialImage`. `integrations.scripts` adds explicitly authored local asset or HTTPS script URLs.
 
-`footer.showBranding` defaults to true; footer text and links can be configured independently. See [exports](/exports), [OpenAPI](/openapi), [CLI](/cli) and the [programmatic API](/programmatic-api) for their respective workflows.
+`footer.showBranding` defaults to true; footer text and links can be configured independently. See [exports](exports.md), [OpenAPI](openapi.md), [CLI](cli.md) and the [programmatic API](programmatic-api.md) for their respective workflows.
+
+### Social images and scripts
+
+Set `site` before configuring `seo.socialImage`: it supplies the origin for the
+absolute social image URL. Images must be local `/assets/` PNG, JPEG or WebP
+files, resolved from `assetsDirectory`.
+
+```yaml
+site: https://docs.example.com
+seo:
+  titleTemplate: "%s | Team handbook"
+  socialImage: /assets/social.png
+integrations:
+  scripts:
+    - /assets/analytics.js
+```
+
+Integration scripts must use local `/assets/*.js` files or HTTPS URLs. They load
+only when configured. Script code and external providers are trusted author
+choices; review them before adding them to your documentation site.
 
 ## Legacy aliases
 
