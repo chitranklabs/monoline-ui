@@ -1,4 +1,4 @@
-name: Docs Release 2 - Finalize Tag 🏷️
+name: Docs Release 2 - Finalize Tag
 
 on:
   pull_request:
@@ -181,7 +181,7 @@ jobs:
     needs: [build, tag]
     if: github.event_name != 'workflow_dispatch' || inputs.target == 'all' || inputs.target == 'npm'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
@@ -291,7 +291,7 @@ jobs:
   release-summary:
     name: Docs Release Summary 📋
     needs: [build, tag, publish-npm, create-release]
-    if: always()
+    if: always() && needs.build.result != 'skipped'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     permissions: {}

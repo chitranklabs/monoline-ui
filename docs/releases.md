@@ -73,17 +73,31 @@ intended for the Prepare workflow; running it locally consumes pending changeset
 
 ## Failure recovery and boundaries
 
+- npm scans uploads before versions become installable. After a successful
+  upload, the helper polls for roughly 20 minutes; the npm job has a 25-minute
+  timeout. A longer review can still time out. Check registry availability and
+  retry the same release rather than preparing another version.
 - If one registry fails after the other succeeds, use GitHub's **Re-run failed jobs**
   on that same run. Never move an existing tag. npm retries compare published package
-  contents with the attested candidate; JSR retries compare published file checksums
-  with the verified source. Lookup failures stop publishing instead of treating a
+  contents with the attested candidate; JSR retries compare the complete file set,
+  exports and checksums with the verified source after Deno's publication rewrites
+  (resolved imports, type comments and JSX pragmas). Lookup failures stop publishing instead of treating a
   registry outage as an absent version.
 - Manual Finalize dispatch runs from `main` but checks out the requested existing
   `vX.Y.Z` tag. All downstream jobs use the verified commit SHA. Recovery cannot
   publish current main under an older version. An existing GitHub release must
   contain the matching tarball; missing or conflicting assets require review.
-- These recovery guards apply to releases containing this workflow and its helper
-  scripts. Older tags may require a separately reviewed recovery procedure.
+- UI JSR verification loads tools from the immutable workflow commit, separately
+  from the tagged package source. Once a verifier fix lands on `main`, dispatch
+  **UI Release 2 - Finalize Tag** from `main` with the existing tag and target
+  `github-release` to verify both registries and create the missing release.
+  Re-running an old run uses its old workflow, so it cannot apply this fix.
+- JSR provenance is required by default, including for existing versions. If a
+  confirmed upstream failure left an already published version without provenance,
+  explicitly select `disabled-for-recovery`. Contents must still pass verification;
+  the workflow warns and adds the exception to the GitHub release notes. This does
+  not restore the missing attestation. Never move the tag or republish another
+  source tree under the same version.
 - Preparation requires committed changesets for attribution. It rejects prerelease
   mode, JSR version drift, duplicate timeline versions, unsupported publishable
   packages and cross-package Changesets before versioning. A failed local generation may leave partial generated

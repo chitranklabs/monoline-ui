@@ -79,6 +79,12 @@ matching artifact is accepted without another upload; mismatched contents fail.
 Persistent absence retains the upload error. Fix credentials or infrastructure
 before retrying; never overwrite or silently accept a different artifact.
 
+Successful uploads may remain unavailable while npm scans them. The helper polls
+for roughly 20 minutes, within a 25-minute npm job timeout. If processing or review
+takes longer, confirm registry availability before retrying the same release.
+An upload error uses a shorter verification window and retains the original
+error when no matching version appears.
+
 After any failed run, inspect the tag, npm metadata, tarball identity and GitHub
 release independently. Recovery may complete missing steps but must not rebuild
 an old release from a newer branch. Never log registry credentials.

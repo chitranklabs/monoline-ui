@@ -1,4 +1,4 @@
-name: Docs Release 1 - Prepare PR 📝
+name: Docs Release 1 - Prepare PR
 
 on:
   workflow_dispatch:

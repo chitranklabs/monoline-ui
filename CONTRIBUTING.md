@@ -164,6 +164,8 @@ running the separate UI unit or package-contract checks. UI package and shared
 dependency changes exercise both UI consumers and the website. Docs package or
 demo changes exercise Docs unit tests, the demo build, standalone consumers and
 production browser fixtures. Shared dependency changes exercise both products.
+Workspace manifest changes select their owning product and dependency scanning;
+root dependency policy or lockfile changes select both products.
 
 CI reports required checks for every PR, including skipped work. Repository-guide
 and formatting-only edits receive formatting, Markdown lint, CI selection tests
@@ -176,8 +178,8 @@ deleted paths, required checks, and maintenance triggers. `pnpm check:static`
 also includes these tests. The YAML parser and glob matcher are development
 dependencies, not library runtime dependencies.
 
-Main-branch push exclusions are retained, and code changes still receive
-post-merge verification. Zizmor runs when workflows or composite actions change.
+Main-branch pushes verify package and demo Markdown as well as code. Operational
+guides under `docs/` remain excluded from push runs. Zizmor runs when workflows or composite actions change.
 Production browser checks install only Chromium's headless shell; keep that
 installation command aligned if a browser project later adds a `channel`.
 
@@ -186,6 +188,12 @@ build-configuration pushes. Ordinary component changes can take until the next
 weekly scan to appear in its results. Label assignment still runs on PR updates;
 label colors and descriptions are synchronized only when label configuration
 merges into `main`, or through the Labeler workflow's manual run on `main`.
+
+Hygiene validates title and branch on PR updates, including edits; body edits can
+produce a separate run for the same commit. Keep title validation enabled so a
+skipped check cannot replace a failed required naming check. Release finalizers
+run only for their package changelog and verify merged release branches. Their
+summary jobs skip non-release closures. Stale cleanup exempts PRs labeled `release`.
 
 ## Adding a New Component
 

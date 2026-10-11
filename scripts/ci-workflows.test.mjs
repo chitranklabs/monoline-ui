@@ -14,6 +14,23 @@ const readWorkflow = (name) =>
 	load(readFileSync(new URL(`.github/workflows/${name}.yml`, root), "utf8"))
 const ci = readWorkflow("ci")
 
+test("release workflow names avoid the pinned Deno OIDC Base64 decoding bug", () => {
+	for (const workflow of [
+		"release-prepare",
+		"release-finalize",
+		"docs-release-prepare",
+		"docs-release-finalize",
+	])
+		assert.match(readWorkflow(workflow).name, /^[\x20-\x7e]+$/)
+})
+
+test("npm publication jobs allow the bounded registry scanning wait", () => {
+	for (const workflow of ["release-finalize", "docs-release-finalize"])
+		assert.ok(
+			readWorkflow(workflow).jobs["publish-npm"]["timeout-minutes"] >= 25
+		)
+})
+
 test("release trigger paths exclude other packages and ordinary PR closures", () => {
 	for (const [workflow, own, other] of [
 		[
@@ -159,7 +176,7 @@ test("standalone docs consumer stays in the existing job and runs only for packa
 	assert.equal(consumers.length, 1)
 	assert.equal(
 		consumers[0].if.trim(),
-		"needs.changes.outputs.docs_package == 'true' ||\nneeds.changes.outputs.deps == 'true'"
+		"needs.changes.outputs.docs_package == 'true' ||\nneeds.changes.outputs.shared_deps == 'true'"
 	)
 })
 
@@ -227,9 +244,11 @@ test("release finalization uses the same immutable commit and exact prepared tag
 		)) {
 			assert.equal(
 				step.with.ref,
-				name === "build"
-					? "${{ steps.source.outputs.ref }}"
-					: "${{ needs.build.outputs.release_sha }}"
+				step.with.path === ".release-tools"
+					? "${{ github.workflow_sha }}"
+					: name === "build"
+						? "${{ steps.source.outputs.ref }}"
+						: "${{ needs.build.outputs.release_sha }}"
 			)
 			assert.equal(step.with["persist-credentials"], false)
 		}
@@ -249,6 +268,36 @@ test("release finalization uses the same immutable commit and exact prepared tag
 	assert.ok(create.run.includes("--verify-tag"))
 	assert.ok(create.run.includes("node scripts/release-verify.mjs"))
 	assert.equal(JSON.stringify(finalize).includes("git-cliff"), false)
+})
+
+test("UI recovery uses workflow-pinned verifiers with immutable package source", () => {
+	const workflow = readWorkflow("release-finalize")
+	for (const job of ["publish-jsr", "create-release"]) {
+		const steps = workflow.jobs[job].steps
+		const tools = steps.find((step) => step.with?.path === ".release-tools")
+		assert.equal(tools.with.ref, "${{ github.workflow_sha }}")
+		assert.equal(tools.with["persist-credentials"], false)
+		assert.ok(
+			tools.with["sparse-checkout"].includes("scripts/lib/jsr-publication.mjs")
+		)
+		const verification = steps.findIndex((step) =>
+			step.run?.includes(
+				"node .release-tools/scripts/release-registry.mjs verify-jsr"
+			)
+		)
+		assert.ok(verification > steps.indexOf(tools))
+	}
+	const release = workflow.jobs["create-release"].steps.find((step) =>
+		step.run?.includes("gh release create")
+	)
+	assert.equal(
+		release.env.JSR_PROVENANCE,
+		"${{ inputs.jsr_provenance || 'required' }}"
+	)
+	assert.equal(
+		release.env.JSR_RECOVERY_NOTES,
+		"${{ runner.temp }}/release-notes.md"
+	)
 })
 
 test("Docs release automation changes select package integration", () => {
@@ -522,7 +571,17 @@ const cases = [
 	["dependency install policy", ["pnpm-workspace.yaml"], full],
 	["package scripts", ["package.json"], full],
 	["package manifest", ["packages/ui/package.json"], full],
-	["website manifest", ["apps/website/package.json"], full],
+	["website manifest", ["apps/website/package.json"], docs],
+	[
+		"Docs package manifest",
+		["packages/docs/package.json"],
+		{ ...prose, docs: true },
+	],
+	[
+		"Docs demo manifest",
+		["apps/docs-demo/package.json"],
+		{ ...prose, docs: true },
+	],
 	["library compiler settings", ["packages/ui/tsconfig.json"], full],
 	["website compiler settings", ["apps/website/tsconfig.json"], docs],
 	["website host and indexing proxy", ["apps/website/proxy.ts"], docs],
@@ -572,10 +631,16 @@ test("workflow and composite-action changes always select Zizmor", () => {
 	)
 })
 
-test("pull requests always report the required gate; push ignores remain", () => {
+test("pull requests report the required gate and main pushes verify Docs Markdown", () => {
 	assert.equal(ci.on.pull_request.paths, undefined)
 	assert.equal(ci.on.pull_request["paths-ignore"], undefined)
-	assert.ok(ci.on.push["paths-ignore"].includes("**.md"))
+	const ignored = picomatch(ci.on.push["paths-ignore"], { dot: true })
+	for (const file of [
+		"packages/docs/README.md",
+		"apps/docs-demo/content/index.md",
+		"apps/docs-demo/content/guide.mdx",
+	])
+		assert.equal(ignored(file), false, `${file} must trigger main CI`)
 	assert.equal(ci.jobs.ci_gate.name, "CI Gate 🚦")
 	assert.equal(ci.jobs.ci_gate.if, "always()")
 	for (const job of [
@@ -590,6 +655,69 @@ test("pull requests always report the required gate; push ignores remain", () =>
 		assert.ok(ci.jobs.ci_gate.needs.includes(job), `Gate must require ${job}`)
 	}
 	assert.equal(ci.jobs.secret_scan.if, undefined)
+})
+
+test("workspace manifest changes keep dependency scanning but avoid unrelated product checks", () => {
+	for (const file of [
+		"packages/docs/package.json",
+		"apps/docs-demo/package.json",
+		"apps/website/package.json",
+		"packages/ui/package.json",
+	]) {
+		const changes = classify([file])
+		assert.equal(applicable(ci.jobs.dependency_scan.if, changes), true)
+		assert.equal(changes.shared_deps, false)
+	}
+	for (const file of [
+		"package.json",
+		"pnpm-lock.yaml",
+		"pnpm-workspace.yaml",
+	]) {
+		assert.equal(classify([file]).shared_deps, true)
+		assert.deepEqual(selected([file]), full)
+	}
+})
+
+test("skipped finalizers do not allocate a release-summary runner", () => {
+	for (const workflow of ["release-finalize", "docs-release-finalize"]) {
+		const condition = readWorkflow(workflow).jobs["release-summary"].if
+		for (const result of ["skipped", "success", "failure", "cancelled"])
+			assert.equal(
+				runInNewContext(condition, {
+					always: () => true,
+					needs: { build: { result } },
+				}),
+				result !== "skipped"
+			)
+	}
+})
+
+test("stale cleanup exempts release PRs and serializes its runs", () => {
+	const workflow = readWorkflow("stale")
+	assert.equal(workflow.concurrency["cancel-in-progress"], false)
+	assert.ok(
+		workflow.jobs.stale.steps
+			.find((step) => step.uses?.startsWith("actions/stale@"))
+			.with["exempt-pr-labels"].split(",")
+			.includes("release")
+	)
+})
+
+test("hygiene keeps title validation on edits without fetching history", () => {
+	const workflow = readWorkflow("hygiene")
+	assert.ok(workflow.on.pull_request.types.includes("edited"))
+	const job = workflow.jobs["branch-name"]
+	assert.equal(job.if, undefined)
+	assert.equal(
+		job.steps.find((step) => step.name === "Validate PR Title 🏷️").if,
+		undefined
+	)
+	assert.equal(
+		job.steps.find((step) => step.uses?.startsWith("actions/checkout@")).with[
+			"fetch-depth"
+		],
+		1
+	)
 })
 
 test("prose changes keep cheap checks without running ESLint", () => {
