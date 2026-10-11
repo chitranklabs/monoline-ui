@@ -1,5 +1,11 @@
 # Monoline UI changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- 5bda098: Clarify React and Tailwind prerequisites, theme source registration and links to theming and accessibility guidance in the package README.
+
 ## 0.5.0
 
 ### Minor Changes
