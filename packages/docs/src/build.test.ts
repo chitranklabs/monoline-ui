@@ -10,6 +10,7 @@ import {
 } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
+import { type DefaultTreeAdapterTypes, parse } from "parse5"
 import { afterEach, expect, it } from "vitest"
 
 import { buildDocs } from "./build"
@@ -497,4 +498,131 @@ it("escapes raw HTML and gives repeated headings distinct IDs without including 
 	await expect(buildDocs(options)).rejects.toThrow(
 		/broken internal link "javascript:/
 	)
+})
+
+it.each([
+	{ base: "/", cleanUrls: false },
+	{ base: "/handbook/", cleanUrls: true },
+])(
+	"aligns escaped SEO metadata and indexing output for %j",
+	async ({ base, cleanUrls }) => {
+		const options = {
+			...(await fixture()),
+			site: "https://example.com",
+			base,
+			cleanUrls,
+			description: "Site fallback",
+		}
+		const title = 'API </script><script>alert("test")</script> & SDK'
+		const description = 'Use "quotes", <tags> & examples.'
+		await writeFile(
+			join(options.contentDirectory, "guide.md"),
+			`---
+title: Guide
+navTitle: Short guide
+seoTitle: '${title}'
+description: '${description}'
+updatedAt: 2026-10-11
+layout: reference
+---
+# Install
+[Home](/)
+`
+		)
+		await buildDocs({ ...options, seo: { titleTemplate: "%s — Handbook" } })
+		const html = await readFile(
+			join(options.outDirectory, cleanUrls ? "guide.html" : "guide/index.html"),
+			"utf8"
+		)
+		const document = parse(html)
+		const nodes: DefaultTreeAdapterTypes.Node[] = []
+		const visit = (node: DefaultTreeAdapterTypes.Node) => {
+			nodes.push(node)
+			if ("childNodes" in node) node.childNodes.forEach(visit)
+		}
+		visit(document)
+		const elements = nodes.filter(
+			(node): node is DefaultTreeAdapterTypes.Element => "tagName" in node
+		)
+		const attribute = (node: DefaultTreeAdapterTypes.Element, key: string) =>
+			node.attrs.find((entry) => entry.name === key)?.value
+		const text = (node: DefaultTreeAdapterTypes.Node): string =>
+			"value" in node
+				? node.value
+				: "childNodes" in node
+					? node.childNodes.map(text).join("")
+					: ""
+		const meta = (key: string) =>
+			elements.find(
+				(node) =>
+					node.tagName === "meta" &&
+					(attribute(node, "name") === key ||
+						attribute(node, "property") === key)
+			)
+		const canonical = `https://example.com${base}guide${cleanUrls ? "" : "/"}`
+		expect(text(elements.find((node) => node.tagName === "title")!)).toBe(
+			`${title} — Handbook`
+		)
+		expect(attribute(meta("description")!, "content")).toBe(description)
+		expect(attribute(meta("twitter:title")!, "content")).toBe(
+			`${title} — Handbook`
+		)
+		expect(attribute(meta("og:url")!, "content")).toBe(canonical)
+		expect(elements.filter((node) => node.tagName === "h1").map(text)).toEqual([
+			"Guide",
+		])
+		expect(
+			elements
+				.filter((node) => node.tagName === "script")
+				.some((node) => text(node) === 'alert("test")')
+		).toBe(false)
+		const entities = elements
+			.filter(
+				(node) =>
+					node.tagName === "script" &&
+					attribute(node, "type") === "application/ld+json"
+			)
+			.map((node) => JSON.parse(text(node)))
+		expect(entities).toContainEqual(
+			expect.objectContaining({
+				"@type": "TechArticle",
+				name: title,
+				headline: title,
+				description,
+				dateModified: "2026-10-11",
+				url: canonical,
+				isPartOf: { "@id": `https://example.com${base}#website` },
+			})
+		)
+		expect(
+			await readFile(join(options.outDirectory, "sitemap.xml"), "utf8")
+		).toContain(`<loc>${canonical}</loc>`)
+		if (base === "/")
+			expect(
+				await readFile(join(options.outDirectory, "robots.txt"), "utf8")
+			).toContain("Sitemap: https://example.com/sitemap.xml")
+		else
+			await expect(
+				access(join(options.outDirectory, "robots.txt"))
+			).rejects.toThrow()
+	}
+)
+
+it("uses site-description fallback without inventing an origin", async () => {
+	const options = await fixture()
+	await buildDocs({ ...options, description: "A helpful handbook." })
+	const html = await readFile(join(options.outDirectory, "index.html"), "utf8")
+	expect(html).toContain('name="description" content="A helpful handbook."')
+	expect(html).toContain(
+		'name="twitter:description" content="A helpful handbook."'
+	)
+	expect(html).not.toContain('rel="canonical"')
+	expect(html).not.toContain('property="og:url"')
+	expect(html).not.toContain("application/ld+json")
+	await expect(
+		access(join(options.outDirectory, "sitemap.xml"))
+	).rejects.toThrow()
+	await expect(
+		access(join(options.outDirectory, "robots.txt"))
+	).rejects.toThrow()
 })

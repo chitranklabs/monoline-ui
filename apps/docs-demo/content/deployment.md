@@ -57,6 +57,9 @@ With a site configured, production builds generate canonical links and a sitemap
 Root deployments also receive a robots file; an origin's owner manages that file
 when the docs live under a subpath. Set `site` explicitly; no production origin is assumed.
 
+Follow [SEO and social sharing](seo.md) for page metadata, generated-file checks and
+Google Search Console setup after deployment.
+
 Serve missing pages with an HTTP 404 response, using the generated `404.html`.
 Do not configure an SPA fallback that returns the homepage for every missing URL.
 

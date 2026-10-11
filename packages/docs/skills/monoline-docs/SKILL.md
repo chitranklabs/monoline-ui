@@ -63,6 +63,25 @@ Astro project configuration just to configure Monoline Docs.
   installed package. Keep credentials and private examples out of published
   content, including Markdown and AI exports.
 
+## Configure publishing and SEO
+
+For search or publishing work, follow the SEO guide linked from the installed
+README and confirm its options against the installed declarations. Set `site`
+to the real publishing origin and `base` to its mount path. Use page descriptions
+and `seoTitle` where appropriate, with the site's title template and social image;
+do not copy Monoline's branding, analytics or hosting configuration into a user's site.
+
+Use `indexing: false` for staging production builds. A development build can
+include drafts; `noindex` is not access control. Without `site`, the package cannot
+emit canonical URLs or sitemap/robots files. Root deployments generate
+`robots.txt`; subpath deployments require the origin owner to manage that file.
+
+Verify generated titles, descriptions, canonical URLs, social-image URLs and
+sitemap entries against the intended host and base path. Check that drafts and
+`noindex` pages stay out of discovery, and that the host serves missing pages with
+HTTP 404. Search Console ownership and sitemap submission require account access;
+do not report them complete based only on a local build.
+
 ## Verify the result
 
 Run the site's production build through its existing package script. Fix

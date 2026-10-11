@@ -69,7 +69,8 @@ does not replace a successful production build.
 | `environment`            | `production` | Build environment; the CLI build forces production and preview uses development.    |
 
 Use [appearance](appearance.md) for logo and stylesheet examples and
-[deployment](deployment.md) for `site`, `base`, and indexing behavior.
+[deployment](deployment.md) for host layouts. Follow [SEO and social sharing](seo.md)
+for `site`, `base`, title templates, social images and publishing checks.
 
 Internal header and footer routes automatically include `base`. The edit URL
 receives the content-relative Markdown or MDX path:

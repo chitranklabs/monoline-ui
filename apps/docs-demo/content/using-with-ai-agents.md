@@ -7,8 +7,8 @@ description: Give AI agents the Monoline Docs authoring skill and Markdown refer
 ## Use the authoring skill
 
 The maintained `monoline-docs` skill explains how to create a site, configure
-navigation, write Markdown and MDX, use documentation components and verify
-production output.
+navigation, write Markdown and MDX, use documentation components, configure
+[SEO and social sharing](/seo/) and verify production output.
 
 It ships at
 `node_modules/@chitrank2050/monoline-docs/skills/monoline-docs/SKILL.md` after

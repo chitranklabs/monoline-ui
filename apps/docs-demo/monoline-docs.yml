@@ -64,6 +64,8 @@ navigation:
           href: /openapi
         - label: Deployment
           href: /deployment
+        - label: SEO and sharing
+          href: /seo
         - label: Troubleshooting
           href: /troubleshooting
         - label: Using components

@@ -68,6 +68,7 @@ const structuredData =
 				"@id": `${canonical}#page`,
 				isPartOf: { "@id": websiteId },
 				inLanguage: site.lang,
+				name: page.metadata.seoTitle ?? page.metadata.title,
 				headline: page.metadata.seoTitle ?? page.metadata.title,
 				url: canonical,
 				...(description ? { description } : {}),

@@ -54,6 +54,8 @@ when replacing an existing site.
   and [writing pages](https://monolinedocs.chitrankagnihotri.com/writing/).
 - [Configuration](https://monolinedocs.chitrankagnihotri.com/configuration/)
   and [appearance](https://monolinedocs.chitrankagnihotri.com/appearance/).
+- [SEO and social sharing](https://monolinedocs.chitrankagnihotri.com/seo/)
+  for page metadata, canonical URLs, sitemaps and Search Console setup.
 - [Authoring components](https://monolinedocs.chitrankagnihotri.com/components/)
   for steps, callouts, tables, code examples and guide cards.
 - [OpenAPI documentation](https://monolinedocs.chitrankagnihotri.com/openapi/)
