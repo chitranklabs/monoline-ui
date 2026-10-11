@@ -39,3 +39,14 @@ disabled. Its root is `apps/docs-demo`, with access to workspace sources outside
 that directory. [Deployment settings](vercel.json) build the Docs package first
 and publish `dist`. See [deployment guidance](../../docs/docs-deployment.md#this-monorepos-demo)
 for the production environment and hosting checks.
+
+## Site analytics
+
+The production build adds Cloudflare Web Analytics when `VERCEL_ENV=production`
+and `CLOUDFLARE_WEB_ANALYTICS_TOKEN` contains this site's public beacon token.
+Create the site for `monolinedocs.chitrankagnihotri.com` in Cloudflare Web Analytics
+and set that token in the `monoline-docs` Vercel project's **Production** environment.
+Use the token from the tracking snippet, not a private Cloudflare API token.
+
+Local builds and previews omit the beacon. The integration is specific to this
+site; the published Docs package contains no tracking for our account.
