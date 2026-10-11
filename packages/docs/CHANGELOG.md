@@ -1,5 +1,11 @@
 # @chitrank2050/monoline-docs
 
+## 0.1.3
+
+### Patch Changes
+
+- 3124ea4: Add website structured data linked to documentation pages and complete social title, description and site-name metadata. Identify documentation homepages as web pages rather than articles.
+
 ## 0.1.2
 
 ### Patch Changes
