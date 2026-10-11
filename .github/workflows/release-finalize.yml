@@ -324,6 +324,17 @@ jobs:
         with:
           deno-version: 2.9.6
 
+      - name: Checkout registry verification tools
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ github.workflow_sha }}
+          path: .release-tools
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            scripts/release-registry.mjs
+            scripts/lib/jsr-publication.mjs
+
       - name: Verify JSR Version 🔄
         run: |
           PACKAGE_VERSION="$(jq -r .version packages/ui/package.json)"
@@ -343,14 +354,14 @@ jobs:
             PUBLISH_ARGS+=(--no-provenance)
             echo "Publishing to JSR with --no-provenance"
           fi
-          if node scripts/release-registry.mjs jsr-exists; then
+          if node .release-tools/scripts/release-registry.mjs jsr-exists; then
             echo "JSR version is already published."
           else
             status=$?
             [ "$status" -eq 1 ] || exit "$status"
             deno publish "${PUBLISH_ARGS[@]}"
           fi
-          node scripts/release-registry.mjs verify-jsr
+          node .release-tools/scripts/release-registry.mjs verify-jsr
 
   create-release:
     name: Create Verified GitHub Release ✨
@@ -412,16 +423,29 @@ jobs:
       - name: Install release helper dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
+      - name: Checkout registry verification tools
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ github.workflow_sha }}
+          path: .release-tools
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            scripts/release-registry.mjs
+            scripts/lib/jsr-publication.mjs
+
       - name: Create GitHub Release ✨
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          JSR_PROVENANCE: ${{ inputs.jsr_provenance || 'required' }}
+          JSR_RECOVERY_NOTES: ${{ runner.temp }}/release-notes.md
           TAG_NAME: ${{ needs.build.outputs.tag_name }}
           INPUT_VERSION: ${{ needs.build.outputs.tag_name }}
           RELEASE_TAG: ${{ needs.build.outputs.tag_name }}
         run: |
           node scripts/release-verify.mjs
-          node scripts/release-registry.mjs verify-npm
-          node scripts/release-registry.mjs verify-jsr
+          node .release-tools/scripts/release-registry.mjs verify-npm
+          node .release-tools/scripts/release-registry.mjs verify-jsr
           if gh release view "$TAG_NAME" >/dev/null 2>&1; then
             mkdir -p "$RUNNER_TEMP/published-assets"
             gh release download "$TAG_NAME" --pattern monoline.tgz --dir "$RUNNER_TEMP/published-assets"

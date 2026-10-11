@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { execFileSync } from "node:child_process"
 import { createHash } from "node:crypto"
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
+import { appendFile, mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { setTimeout as delay } from "node:timers/promises"
@@ -62,8 +62,18 @@ export function packageDigest(file) {
 	return hash.digest("hex")
 }
 
-export async function verifyJsrManifest(manifest, directory) {
+export async function verifyJsrManifest(manifest, directory, context = {}) {
 	assert(Object.keys(manifest).length > 0, "Empty JSR manifest")
+	if (context.files) {
+		assert.deepEqual(
+			Object.keys(manifest).sort(),
+			context.files,
+			"Published JSR file set differs"
+		)
+	}
+	const jsrSource = context.dependencies
+		? (await import("./lib/jsr-publication.mjs")).jsrSource
+		: undefined
 	for (const [name, entry] of Object.entries(manifest)) {
 		const file = path.resolve(directory, `.${name}`)
 		assert(
@@ -71,8 +81,17 @@ export async function verifyJsrManifest(manifest, directory) {
 				file.startsWith(`${path.resolve(directory)}${path.sep}`),
 			"Invalid JSR file path"
 		)
+		const original = await readFile(file)
+		const content = context.dependencies
+			? jsrSource(
+					original.toString("utf8"),
+					file,
+					context.dependencies,
+					context.typeDependencies
+				)
+			: original
 		const checksum = `sha256-${createHash("sha256")
-			.update(await readFile(file))
+			.update(content)
 			.digest("hex")}`
 		assert.equal(
 			checksum,
@@ -82,14 +101,42 @@ export async function verifyJsrManifest(manifest, directory) {
 	}
 }
 
-export async function verifyPublishedJsrVersion(url, version, directory) {
+export async function verifyPublishedJsrVersion(
+	url,
+	version,
+	directory,
+	context = {}
+) {
 	if (!(await registryJson(url))?.versions?.[version]) return false
 	const published = await registryJson(
 		url.replace(/meta\.json$/, `${version}_meta.json`)
 	)
 	assert(published?.manifest, "JSR version manifest is unavailable")
-	await verifyJsrManifest(published.manifest, directory)
+	if (context.exports) {
+		assert.deepEqual(
+			published.exports,
+			context.exports,
+			"Published JSR exports differ"
+		)
+	}
+	await verifyJsrManifest(published.manifest, directory, context)
 	return true
+}
+
+export function verifyJsrProvenance(metadata, policy = "required") {
+	assert(
+		["required", "disabled-for-recovery"].includes(policy),
+		"Invalid JSR provenance policy"
+	)
+	assert(metadata, "JSR provenance metadata is unavailable")
+	if (typeof metadata.rekorLogId === "string" && metadata.rekorLogId.length > 0)
+		return true
+	assert.equal(
+		policy,
+		"disabled-for-recovery",
+		"Published JSR version has no provenance. Recovery requires explicitly selecting disabled-for-recovery; this cannot restore the missing attestation."
+	)
+	return false
 }
 
 async function main(command) {
@@ -101,8 +148,34 @@ async function main(command) {
 	assert.equal(process.env.RELEASE_TAG, `v${version}`)
 	const npmUrl = `https://registry.npmjs.org/${encodeURIComponent(name)}/${version}`
 	const jsrUrl = `https://jsr.io/${name}/meta.json`
-	const jsrExists = () =>
-		verifyPublishedJsrVersion(jsrUrl, version, "packages/ui")
+	const jsrExists = async () => {
+		const { jsrPublicationContext } = await import("./lib/jsr-publication.mjs")
+		if (
+			!(await verifyPublishedJsrVersion(
+				jsrUrl,
+				version,
+				"packages/ui",
+				await jsrPublicationContext("packages/ui")
+			))
+		)
+			return false
+		const metadata = await registryJson(
+			`https://api.jsr.io/scopes/chitrank2050/packages/monoline-ui/versions/${version}`
+		)
+		assert.equal(metadata?.version, version, "JSR provenance version differs")
+		if (
+			!verifyJsrProvenance(metadata, process.env.JSR_PROVENANCE || "required")
+		) {
+			const warning = `JSR ${name}@${version} has verified contents but no registry provenance attestation. Recovery does not restore that attestation.`
+			console.warn(`::warning::${warning}`)
+			if (process.env.JSR_RECOVERY_NOTES)
+				await appendFile(
+					process.env.JSR_RECOVERY_NOTES,
+					`\n\n**Publication recovery:** ${warning}\n`
+				)
+		}
+		return true
+	}
 
 	if (command === "jsr-exists") {
 		if (!(await jsrExists())) process.exitCode = 1

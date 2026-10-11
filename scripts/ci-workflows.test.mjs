@@ -244,9 +244,11 @@ test("release finalization uses the same immutable commit and exact prepared tag
 		)) {
 			assert.equal(
 				step.with.ref,
-				name === "build"
-					? "${{ steps.source.outputs.ref }}"
-					: "${{ needs.build.outputs.release_sha }}"
+				step.with.path === ".release-tools"
+					? "${{ github.workflow_sha }}"
+					: name === "build"
+						? "${{ steps.source.outputs.ref }}"
+						: "${{ needs.build.outputs.release_sha }}"
 			)
 			assert.equal(step.with["persist-credentials"], false)
 		}
@@ -266,6 +268,36 @@ test("release finalization uses the same immutable commit and exact prepared tag
 	assert.ok(create.run.includes("--verify-tag"))
 	assert.ok(create.run.includes("node scripts/release-verify.mjs"))
 	assert.equal(JSON.stringify(finalize).includes("git-cliff"), false)
+})
+
+test("UI recovery uses workflow-pinned verifiers with immutable package source", () => {
+	const workflow = readWorkflow("release-finalize")
+	for (const job of ["publish-jsr", "create-release"]) {
+		const steps = workflow.jobs[job].steps
+		const tools = steps.find((step) => step.with?.path === ".release-tools")
+		assert.equal(tools.with.ref, "${{ github.workflow_sha }}")
+		assert.equal(tools.with["persist-credentials"], false)
+		assert.ok(
+			tools.with["sparse-checkout"].includes("scripts/lib/jsr-publication.mjs")
+		)
+		const verification = steps.findIndex((step) =>
+			step.run?.includes(
+				"node .release-tools/scripts/release-registry.mjs verify-jsr"
+			)
+		)
+		assert.ok(verification > steps.indexOf(tools))
+	}
+	const release = workflow.jobs["create-release"].steps.find((step) =>
+		step.run?.includes("gh release create")
+	)
+	assert.equal(
+		release.env.JSR_PROVENANCE,
+		"${{ inputs.jsr_provenance || 'required' }}"
+	)
+	assert.equal(
+		release.env.JSR_RECOVERY_NOTES,
+		"${{ runner.temp }}/release-notes.md"
+	)
 })
 
 test("Docs release automation changes select package integration", () => {
