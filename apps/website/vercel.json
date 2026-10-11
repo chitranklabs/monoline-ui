@@ -1,6 +1,12 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"framework": "nextjs",
+	"git": {
+		"deploymentEnabled": {
+			"**": false,
+			"main": true
+		}
+	},
 	"installCommand": "pnpm --dir ../.. install --frozen-lockfile",
 	"buildCommand": "pnpm --dir ../.. build",
 	"ignoreCommand": "sh \"$(git rev-parse --show-toplevel)/scripts/vercel-ignore.sh\""
