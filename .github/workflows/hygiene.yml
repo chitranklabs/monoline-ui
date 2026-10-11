@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          fetch-depth: 100
+          fetch-depth: 1
 
       - name: Validate PR Title 🏷️
         uses: chitranklabs/git-hygiene@48c2a75c76ae4b3ae0875d2bed55b8047188e66c # v0.5.1

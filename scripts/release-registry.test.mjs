@@ -11,7 +11,47 @@ import {
 	registryJson,
 	verifyJsrManifest,
 	verifyPublishedJsrVersion,
+	waitForNpmMetadata,
 } from "./release-registry.mjs"
+
+test("npm availability polling tolerates publish-time scanning and stays bounded", async () => {
+	let calls = 0
+	const pauses = []
+	const metadata = { version: "3.4.5" }
+	assert.deepEqual(
+		await waitForNpmMetadata("https://registry.example", {
+			lookup: async () => (++calls === 20 ? metadata : null),
+			pause: async (milliseconds) => pauses.push(milliseconds),
+		}),
+		metadata
+	)
+	assert.equal(calls, 20)
+	assert.equal(pauses.length, 19)
+	assert.ok(pauses.every((milliseconds) => milliseconds >= 20_000))
+	calls = 0
+	assert.equal(
+		await waitForNpmMetadata("https://registry.example", {
+			lookup: async () => {
+				calls++
+				return null
+			},
+			pause: async () => {},
+		}),
+		null
+	)
+	assert.equal(calls, 61)
+	await assert.rejects(
+		waitForNpmMetadata("https://registry.example", {
+			lookup: async () => {
+				throw new Error("Unauthorized")
+			},
+			pause: async () => {
+				throw new Error("Must not retry authorization failure")
+			},
+		}),
+		/Unauthorized/
+	)
+})
 
 test("registry absence is distinct from authorization failure and transient outage", async (t) => {
 	const request = t.mock.method(

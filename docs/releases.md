@@ -73,6 +73,10 @@ intended for the Prepare workflow; running it locally consumes pending changeset
 
 ## Failure recovery and boundaries
 
+- npm scans uploads before versions become installable. After a successful
+  upload, the helper polls for roughly 20 minutes; the npm job has a 25-minute
+  timeout. A longer review can still time out. Check registry availability and
+  retry the same release rather than preparing another version.
 - If one registry fails after the other succeeds, use GitHub's **Re-run failed jobs**
   on that same run. Never move an existing tag. npm retries compare published package
   contents with the attested candidate; JSR retries compare published file checksums

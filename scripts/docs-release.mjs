@@ -25,7 +25,11 @@ import {
 	releasePrBody,
 	selectDocsRelease,
 } from "./lib/release-plan.mjs"
-import { packageDigest, registryJson } from "./release-registry.mjs"
+import {
+	packageDigest,
+	registryJson,
+	waitForNpmMetadata,
+} from "./release-registry.mjs"
 
 const execute = promisify(execFile)
 const manifestFile = "packages/docs/package.json"
@@ -156,13 +160,18 @@ export async function verifyNpm(
 			publishError = error
 		}
 		// An upload can land before the CLI loses its connection; verify before retrying.
-		for (let attempt = 0; attempt < 10 && !metadata; attempt++) {
-			await pause(2_000 + Math.random() * 200)
-			metadata = await lookup(url)
-		}
+		metadata = await waitForNpmMetadata(url, {
+			lookup,
+			pause,
+			attempts: publishError ? 10 : 61,
+			interval: publishError ? 2_000 : 20_000,
+		})
 		if (!metadata && publishError) throw publishError
 	}
-	assert(metadata, `Missing npm release ${docsName}@${manifest.version}`)
+	assert(
+		metadata,
+		`npm has not exposed ${docsName}@${manifest.version}. It may still be processing or awaiting review; retry verification of the same release when available.`
+	)
 	const temporary = await mkdtemp(joinTemporary("monoline-docs-published-"))
 	try {
 		const response = await fetch(metadata.dist.tarball, {

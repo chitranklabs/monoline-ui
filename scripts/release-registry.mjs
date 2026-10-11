@@ -29,6 +29,24 @@ export async function registryJson(url) {
 	}
 }
 
+export async function waitForNpmMetadata(
+	url,
+	{
+		lookup = registryJson,
+		pause = delay,
+		attempts = 61,
+		interval = 20_000,
+	} = {}
+) {
+	// npm scans accepted uploads before exposing installable versions.
+	for (let attempt = 0; attempt < attempts; attempt++) {
+		const metadata = await lookup(url)
+		if (metadata) return metadata
+		if (attempt < attempts - 1) await pause(interval + Math.random() * 200)
+	}
+	return null
+}
+
 // npm can change gzip headers without changing package contents.
 export function packageDigest(file) {
 	const entries = execFileSync("tar", ["-tzf", file], { encoding: "utf8" })
@@ -116,12 +134,15 @@ async function main(command) {
 			],
 			{ stdio: "inherit" }
 		)
-		for (let attempt = 0; attempt < 10 && !metadata; attempt++) {
-			await delay(2_000)
-			metadata = await registryJson(npmUrl)
-		}
+		console.log(
+			"npm accepted the upload; waiting up to 20 minutes for registry availability."
+		)
+		metadata = await waitForNpmMetadata(npmUrl)
 	}
-	assert(metadata, `Missing npm release ${name}@${version}`)
+	assert(
+		metadata,
+		`npm has not exposed ${name}@${version}. It may still be processing or awaiting review; retry verification of the same release when available.`
+	)
 	const temporary = await mkdtemp(path.join(tmpdir(), "monoline-published-"))
 	try {
 		const response = await fetch(metadata.dist.tarball, {

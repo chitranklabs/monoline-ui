@@ -1,4 +1,4 @@
-name: UI Release 2 - Finalize Tag 🏷️
+name: UI Release 2 - Finalize Tag
 
 # Builds one verified release candidate, publishes npm and JSR independently,
 # and exposes targeted recovery without republishing successful registries.
@@ -232,7 +232,7 @@ jobs:
       inputs.target == 'all' ||
       inputs.target == 'npm'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
@@ -434,7 +434,7 @@ jobs:
   release-summary:
     name: Release Summary 📋
     needs: [build, tag, publish-npm, publish-jsr, create-release]
-    if: always()
+    if: always() && needs.build.result != 'skipped'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     permissions: {}
