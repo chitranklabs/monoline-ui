@@ -1,5 +1,24 @@
 [
 	{
+		"version": "v0.5.1",
+		"timestamp": 1791689872,
+		"commits": [
+			{
+				"id": "5bda098785879b42c98bcd2bee2a7df79d5edf87",
+				"message": "Clarify React and Tailwind prerequisites, theme source registration and links to theming and accessibility guidance in the package README.",
+				"body": null,
+				"group": "Maintenance",
+				"breaking": false,
+				"scope": null,
+				"author": {
+					"name": "chitrank2050",
+					"email": "",
+					"timestamp": 1791689762
+				}
+			}
+		]
+	},
+	{
 		"version": "v0.5.0",
 		"timestamp": 1789105317,
 		"commits": [
