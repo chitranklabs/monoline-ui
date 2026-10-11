@@ -73,8 +73,8 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate_token.outputs.token }}
-          commit-message: "chore(release): bump version to ${{ steps.vars.outputs.tag_name }}"
-          title: "chore(release): 🚀 ${{ steps.vars.outputs.tag_name }}"
+          commit-message: "release(monoline-ui): bump version to ${{ steps.vars.outputs.tag_name }}"
+          title: "release(monoline-ui): 🚀 ${{ steps.vars.outputs.tag_name }}"
           branch: "release/${{ steps.vars.outputs.tag_name }}"
           body: |
             ## Library release ${{ steps.vars.outputs.tag_name }}
