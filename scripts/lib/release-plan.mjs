@@ -5,6 +5,57 @@ import path from "node:path"
 export const libraryName = "@chitrank2050/monoline-ui"
 export const docsName = "@chitrank2050/monoline-docs"
 
+const releaseProduct = (name) => {
+	if (name === libraryName)
+		return { label: "Monoline UI", directory: "ui", registries: "npm and JSR" }
+	if (name === docsName)
+		return { label: "Monoline Docs", directory: "docs", registries: "npm" }
+	throw new Error("Unknown release package")
+}
+
+export function releasePrBody(release, name) {
+	const product = releaseProduct(name)
+	return `## ${product.label} ${release.version}
+
+Release of \`${name}@${release.version}\` to ${product.registries}.
+
+${release.notes.trim()}
+
+[Package changelog](https://github.com/chitranklabs/monoline-ui/blob/release/${release.tag}/packages/${product.directory}/CHANGELOG.md)
+`
+}
+
+export function publicReleaseNotes(
+	release,
+	name,
+	installation,
+	requirements,
+	artifact
+) {
+	const product = releaseProduct(name)
+	const reference = `https://github.com/chitranklabs/monoline-ui/blob/${release.tag}`
+	return `## ${product.label} ${release.version}
+
+${release.notes.trim()}
+
+### Install
+
+\`\`\`sh
+${installation}
+\`\`\`
+
+${requirements}
+
+### Links
+
+- [Package guide](${reference}/packages/${product.directory}/README.md)
+- [Changelog](${reference}/packages/${product.directory}/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/${name}/v/${release.version})
+
+The attached \`${artifact}\` is the verified release candidate. npm publication includes provenance.
+`
+}
+
 function selectRelease(plan, name, label) {
 	if (!Array.isArray(plan.releases) || !Array.isArray(plan.changesets)) {
 		throw new Error("Invalid Changesets release plan")

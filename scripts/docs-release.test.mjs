@@ -16,7 +16,46 @@ import {
 	docsName,
 	libraryName,
 	pendingPackageChangesets,
+	publicReleaseNotes,
+	releasePrBody,
 } from "./lib/release-plan.mjs"
+
+test("both packages share release presentation without mixing identities or duplicating changes", () => {
+	for (const [name, tag, directory] of [
+		[libraryName, "v8.9.10", "ui"],
+		[docsName, "docs-v8.9.10", "docs"],
+	]) {
+		const release = {
+			version: "8.9.10",
+			tag,
+			notes: "### Patch Changes\n\n- Fix `example`.",
+		}
+		const body = releasePrBody(release, name)
+		const notes = publicReleaseNotes(
+			release,
+			name,
+			`npm install ${name}@8.9.10`,
+			"Runtime requirement.",
+			"candidate.tgz"
+		)
+		for (const text of [body, notes]) {
+			assert.equal(text.split(release.notes).length, 2)
+			assert.equal(text.includes("### Changes\n"), false)
+			assert.equal(
+				text.includes(name === docsName ? libraryName : docsName),
+				false
+			)
+		}
+		assert.ok(notes.includes(`blob/${tag}/packages/${directory}/README.md`))
+		assert.ok(
+			body.includes(`blob/release/${tag}/packages/${directory}/CHANGELOG.md`)
+		)
+	}
+	assert.throws(
+		() => releasePrBody({ version: "1.2.3", notes: "example" }, "unknown"),
+		/Unknown/
+	)
+})
 
 test("public Docs notes derive installation and immutable links from release identity", () => {
 	const release = {
@@ -32,7 +71,7 @@ test("public Docs notes derive installation and immutable links from release ide
 	assert.equal(notes.includes("blob/main/"), false)
 })
 
-test("Docs PR description includes exact release notes and publication intent", () => {
+test("Docs PR description includes exact release notes and package identity", () => {
 	const body = docsReleaseBody({
 		version: "2.3.4",
 		tag: "docs-v2.3.4",
@@ -40,9 +79,11 @@ test("Docs PR description includes exact release notes and publication intent", 
 	})
 	assert.match(body, /^## Monoline Docs 2\.3\.4/)
 	assert.ok(body.includes("### Minor Changes\n\n- Preserve `code` and links."))
-	assert.ok(body.includes("`docs-v2.3.4`"))
-	assert.match(body, /Merging triggers release finalization/)
-	assert.match(body, /npm publication with provenance/)
+	assert.ok(
+		body.includes("blob/release/docs-v2.3.4/packages/docs/CHANGELOG.md")
+	)
+	assert.equal(body.includes("### Release notes"), false)
+	assert.match(body, /Release of `@chitrank2050\/monoline-docs@2\.3\.4` to npm/)
 })
 
 const changesetsConfig = JSON.parse(

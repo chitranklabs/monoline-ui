@@ -19,6 +19,7 @@ import {
 	libraryName,
 	mergeTimelineEntries,
 	releaseNotes,
+	releasePrBody,
 	selectLibraryRelease,
 	timelineEntry,
 } from "./lib/release-plan.mjs"
@@ -136,6 +137,11 @@ if (
 	import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
 ) {
 	const release = await versionRelease()
+	if (release && process.env.RUNNER_TEMP)
+		await writeFile(
+			path.join(process.env.RUNNER_TEMP, "ui-release-pr.md"),
+			releasePrBody(release, libraryName)
+		)
 	if (process.env.GITHUB_OUTPUT)
 		await appendFile(
 			process.env.GITHUB_OUTPUT,

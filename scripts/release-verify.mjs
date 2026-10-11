@@ -7,6 +7,7 @@ import { projectPaths } from "./lib/project-paths.mjs"
 import {
 	libraryName,
 	pendingPackageChangesets,
+	publicReleaseNotes,
 	releaseNotes,
 } from "./lib/release-plan.mjs"
 
@@ -56,6 +57,9 @@ if (
 		process.env.INPUT_VERSION ||
 		process.env.BRANCH_NAME?.replace(/^(?:release\/|chore\/release-)/, "")
 	const release = await verifyRelease(projectPaths.repositoryRoot, requested)
+	const manifest = JSON.parse(
+		await readFile(projectPaths.libraryManifest, "utf8")
+	)
 	if (process.env.GITHUB_OUTPUT)
 		await appendFile(
 			process.env.GITHUB_OUTPUT,
@@ -64,7 +68,13 @@ if (
 	if (process.env.RUNNER_TEMP)
 		await writeFile(
 			path.join(process.env.RUNNER_TEMP, "release-notes.md"),
-			release.notes + "\n"
+			publicReleaseNotes(
+				{ ...release, version: release.tag.slice(1) },
+				libraryName,
+				`npm install ${libraryName}@${release.tag.slice(1)}`,
+				`Requires React \`${manifest.peerDependencies.react}\`, React DOM \`${manifest.peerDependencies["react-dom"]}\` and Tailwind CSS \`${manifest.peerDependencies.tailwindcss}\`. Import the theme stylesheet as described in the package guide. Also available on JSR.`,
+				"monoline.tgz"
+			)
 		)
 	console.log(`Verified ${release.tag}`)
 }

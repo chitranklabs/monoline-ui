@@ -20,7 +20,9 @@ import {
 	docsName,
 	libraryName,
 	pendingPackageChangesets,
+	publicReleaseNotes,
 	releaseNotes,
+	releasePrBody,
 	selectDocsRelease,
 } from "./lib/release-plan.mjs"
 import { packageDigest, registryJson } from "./release-registry.mjs"
@@ -91,49 +93,16 @@ const releaseIdentity = (version, changelog) => ({
 	notes: releaseNotes(changelog, version),
 })
 
-export const docsReleaseBody = (release) => `## Monoline Docs ${release.version}
+export const docsReleaseBody = (release) => releasePrBody(release, docsName)
 
-Release of \`${docsName}@${release.version}\`.
-
-### Release notes
-
-${release.notes}
-
-This PR versions only Monoline Docs and consumes its pending Changesets. Monoline UI releases independently.
-
-Merging triggers release finalization: candidate verification, the \`${release.tag}\` tag, npm publication with provenance and a GitHub release. Verify the published artifact and provenance after completion.
-`
-
-export const docsReleaseNotes = (release, minimumNode) => {
-	const reference = `https://github.com/chitranklabs/monoline-ui/blob/${release.tag}`
-	return `## Monoline Docs ${release.version}
-
-Static documentation from Markdown and MDX for libraries, SDKs and API products.
-
-### Install
-
-\`\`\`sh
-npm install ${docsName}@${release.version}
-npx monoline-docs init
-npm run dev
-\`\`\`
-
-Requires Node.js \`${minimumNode}\`. React 19 is optional and needed only for hydrated React islands. npm is supported; JSR is not.
-
-### Changes
-
-${release.notes.trim()}
-
-### Reference and artifact
-
-- [Package guide](${reference}/packages/docs/README.md)
-- [Changelog](${reference}/packages/docs/CHANGELOG.md)
-- [Release and recovery](${reference}/docs/docs-release.md)
-- [npm package](https://www.npmjs.com/package/${docsName}/v/${release.version})
-
-The attached \`monoline-docs.tgz\` is the verified release candidate. Provenance is available through npm and the workflow's artifact attestation.
-`
-}
+export const docsReleaseNotes = (release, minimumNode) =>
+	publicReleaseNotes(
+		release,
+		docsName,
+		`npm install ${docsName}@${release.version}\nnpx monoline-docs init\nnpm run dev`,
+		`Requires Node.js \`${minimumNode}\`. React 19 is optional and needed only for hydrated React islands. npm is supported; JSR is not.`,
+		"monoline-docs.tgz"
+	)
 
 export async function verifyDocsRelease(root, requested) {
 	if ((await pendingPackageChangesets(root, docsName)).length)

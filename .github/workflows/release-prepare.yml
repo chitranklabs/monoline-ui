@@ -74,18 +74,12 @@ jobs:
         with:
           token: ${{ steps.generate_token.outputs.token }}
           commit-message: "release(monoline-ui): bump version to ${{ steps.vars.outputs.tag_name }}"
-          title: "release(monoline-ui): 🚀 ${{ steps.vars.outputs.tag_name }}"
+          title: "release(monoline-ui): prepare ${{ steps.vars.outputs.tag_name }}"
           branch: "release/${{ steps.vars.outputs.tag_name }}"
-          body: |
-            ## Library release ${{ steps.vars.outputs.tag_name }}
-
-            Changesets owns the version and package changelog. Review
-            packages/ui/CHANGELOG.md and the matching website timeline entries.
-            Historical mixed release notes remain archived at the repository root.
-
+          body-path: ${{ runner.temp }}/ui-release-pr.md
           labels: |
-            chore
             release
+            pkg/ui
           base: main
           delete-branch: true
           assignees: chitrank2050
