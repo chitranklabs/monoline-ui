@@ -162,6 +162,35 @@ it("keeps preview links and form submissions local without blocking controls or 
 	expect(dispatch("#real-link", "click")).toBe(false)
 })
 
+it.each(["", "#", "#section", "#%E0%A4%A"])(
+	"aligns the initial anchor safely for hash %j",
+	(hash) => {
+		document.body.innerHTML =
+			'<header class="site-header"></header><h2 id="section">Section</h2>'
+		vi.stubGlobal("location", { hash })
+		const lookup = vi.spyOn(document, "getElementById")
+		const scroll = vi.fn()
+		document.querySelector("h2")!.scrollIntoView = scroll
+		vi.stubGlobal(
+			"ResizeObserver",
+			class {
+				constructor(private callback: ResizeObserverCallback) {}
+				observe() {
+					this.callback(
+						[
+							{ borderBoxSize: [{ blockSize: 80 }] },
+						] as unknown as ResizeObserverEntry[],
+						this as unknown as ResizeObserver
+					)
+				}
+			}
+		)
+		expect(() => run(client)).not.toThrow()
+		expect(lookup).not.toHaveBeenCalledWith("")
+		expect(scroll).toHaveBeenCalledTimes(hash === "#section" ? 1 : 0)
+	}
+)
+
 it("selects the last section at the end, honors TOC clicks, and resumes on scroll input", () => {
 	document.body.innerHTML =
 		'<aside class="toc"><a href="#first">First</a><a href="#middle">Middle</a><a href="#last">Last</a></aside><article><h2 id="first">First</h2><h2 id="middle">Middle</h2><h2 id="last">Last</h2></article>'

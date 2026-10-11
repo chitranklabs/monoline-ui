@@ -129,9 +129,8 @@ if (header && "ResizeObserver" in globalThis) {
 			initialAnchorAligned = true
 			restoreSidebarScroll()
 			try {
-				document
-					.getElementById(decodeURIComponent(location.hash.slice(1)))
-					?.scrollIntoView()
+				const anchorId = decodeURIComponent(location.hash.slice(1))
+				if (anchorId) document.getElementById(anchorId)?.scrollIntoView()
 			} catch {
 				/* Invalid URI. */
 			}
