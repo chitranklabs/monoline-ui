@@ -1,3 +1,8 @@
+---
+title: "Docs release and recovery"
+description: "Prepare and verify Monoline Docs releases, recover failed publication and validate generated output."
+---
+
 # Docs release and recovery
 
 ## Release state
@@ -28,7 +33,7 @@ Visual acceptance includes reviewing representative baselines in both themes and
 viewport sizes; the project owner may delegate this review to an agent. Real iOS
 keyboard/safe-area checks and manual screen-reader flows remain outstanding acceptance work. Publication does not establish those checks
 as complete. Remaining priorities are tracked in the
-[roadmap](../packages/docs/ROADMAP.md#release-acceptance).
+[roadmap](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/ROADMAP.md#release-acceptance).
 
 Run the existing package build, packed-consumer fixture, browser checks and
 release-script tests before approving the release. The packed fixture checks

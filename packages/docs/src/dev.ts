@@ -62,6 +62,9 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 		const ignored = [
 			result.outDirectory,
 			resolve(buildOptions.contentDirectory),
+			...(buildOptions.contentMounts ?? []).map((mount) =>
+				resolve(mount.directory)
+			),
 			buildOptions.assetsDirectory && resolve(buildOptions.assetsDirectory),
 		].filter((path): path is string => Boolean(path))
 		for (const directory of new Set(paths.map(dirname))) {
@@ -233,6 +236,7 @@ export async function startDevServer(options: BuildOptions, port = 4321) {
 	try {
 		for (const directory of [
 			buildOptions.contentDirectory,
+			...(buildOptions.contentMounts ?? []).map((mount) => mount.directory),
 			buildOptions.assetsDirectory,
 		].filter((path): path is string => Boolean(path))) {
 			const watcher = watch(directory, { recursive: true }, scheduleRebuild)

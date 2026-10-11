@@ -1,5 +1,8 @@
 title: Monoline Docs
 site: https://monolinedocs.chitrankagnihotri.com
+contentMounts:
+  - directory: ../../docs
+    route: /repository
 description: Write documentation in Markdown and publish a static site.
 contentDirectory: ./content
 assetsDirectory: ./assets
@@ -139,6 +142,23 @@ navigation:
               href: /example-api/schemas/notepage
             - label: Error schema
               href: /example-api/schemas/error
+    - label: Contributing and maintenance
+      href: /repository
+      items:
+        - label: Repository guides
+          href: /repository
+        - label: Architecture
+          href: /repository/architecture
+        - label: UI releases
+          href: /repository/releases
+        - label: Docs releases
+          href: /repository/docs-release
+        - label: Deployment
+          href: /repository/docs-deployment
+        - label: Migration
+          href: /repository/docs-migration
+        - label: Performance checks
+          href: /repository/docs-performance
 openapi:
   file: ./example-api.yml
   route: /example-api

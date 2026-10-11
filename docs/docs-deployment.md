@@ -1,3 +1,8 @@
+---
+title: "Deploying Monoline Docs"
+description: "Deploy Monoline Docs at root or subpath URLs with Vercel, Netlify or GitHub Pages and verify hosting behavior."
+---
+
 # Deploying Monoline Docs
 
 Monoline builds static files. Hosts run the build and publish its output; they do
@@ -78,7 +83,7 @@ The generated files contain their configured base path. Rebuild when moving from
 
 ## Vercel
 
-Copy [the Vercel template](../packages/docs/templates/vercel.json) to the consumer
+Copy [the Vercel template](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/templates/vercel.json) to the consumer
 project root as `vercel.json`. Import that repository, select the **Other** preset,
 and select Node 24.x in the project's build settings. Verify the supplied Node
 version meets the package's 24.14 minimum in the first build log.
@@ -95,7 +100,7 @@ Reference: [Vercel build configuration](https://vercel.com/docs/builds/configure
 
 ## Netlify
 
-Copy [the Netlify template](../packages/docs/templates/netlify.toml) to the consumer
+Copy [the Netlify template](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/templates/netlify.toml) to the consumer
 project root as `netlify.toml`, then import the repository. The template declares
 the build command, publish directory, Node/pnpm versions, and frozen installation.
 Deploy previews and branch deployments disable indexing while using production
@@ -108,7 +113,7 @@ Reference: [Netlify file-based configuration](https://docs.netlify.com/build/con
 
 ## GitHub Actions and GitHub Pages
 
-Copy [the Pages workflow](../packages/docs/templates/github-pages.yml) to the
+Copy [the Pages workflow](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/templates/github-pages.yml) to the
 consumer's `.github/workflows/docs-pages.yml`. In repository settings, select
 **Pages → Build and deployment → GitHub Actions**. Configure any custom domain in
 Pages settings before building. Protect the `github-pages` environment for the
@@ -143,7 +148,7 @@ DOCS_SITE=https://docs.example.com DOCS_BASE=/ DOCS_INDEXING=true pnpm --filter 
 The public documentation uses a separate Vercel project, `monoline-docs`, at
 <https://monolinedocs.chitrankagnihotri.com>. Its root directory is
 `apps/docs-demo`, with sources outside the root enabled and Node.js 24.x.
-[The committed configuration](../apps/docs-demo/vercel.json) selects the Other
+[The committed configuration](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/vercel.json) selects the Other
 preset, installs from the repository root, builds the Docs workspace first and
 publishes `dist`. Git deployments target `main` only; preview deployments are
 also disabled in project settings. The UI website remains a separate project.

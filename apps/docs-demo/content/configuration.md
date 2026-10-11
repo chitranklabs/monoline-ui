@@ -24,6 +24,40 @@ Directory paths loaded through the CLI or `loadConfig` are relative to the
 configuration file, not the terminal's working directory. Unknown configuration
 keys fail validation, so a misspelled option does not silently do nothing.
 
+## Include existing documentation directories
+
+Use `contentMounts` to publish existing local Markdown or MDX directories without
+copying their files into `contentDirectory`:
+
+```yaml
+contentDirectory: ./content
+contentMounts:
+  - directory: ../../docs
+    route: /repository
+```
+
+Each mount requires a local `directory` and a non-root `route` without a trailing
+slash. Paths are relative to the configuration file when using the CLI or
+`loadConfig`; direct build API paths follow the caller's working directory.
+Routes, including explicit page slugs, are prefixed by the mount route.
+A top-level `index.md` or `README.md` becomes the mount's landing page.
+
+Mounted pages require the same title frontmatter as other pages. A leading H1
+matching the frontmatter title is omitted from the mounted page's rendered body,
+because the shell displays that title. This preserves the heading in repository
+Markdown without duplicating it on the site. Other headings remain unchanged.
+
+Relative Markdown links resolve across published source directories. Links to
+repository files that are not published pages should use their GitHub URLs.
+Mounted pages participate in navigation, search, sitemaps and Markdown/AI exports;
+draft and `noindex` rules still apply. Preview watches edits and new pages in
+mounted directories. Global `content.editLink` applies only to the primary tree;
+mounted pages omit it rather than generating an incorrect relative edit path.
+
+The builder rejects duplicate routes, repeated source files and overlap between
+mounted content and output directories. [Repository guides](/repository/) show
+this configuration in use.
+
 ## Editor completion
 
 The package ships `schema.json` for YAML editors that support JSON Schema, such

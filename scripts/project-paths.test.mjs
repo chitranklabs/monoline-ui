@@ -252,6 +252,7 @@ test("Vercel skips only unrelated commits from either working directory", () => 
 			["tsconfig.json", 1, 1],
 			["packages/docs/src/index.ts", 0, 1],
 			["README.md", 0, 0],
+			["docs/architecture.md", 0, 1],
 			["apps/docs-demo/content/index.mdx", 0, 1],
 			["packages/ui/src/foundations/theme/tokens.css", 1, 1],
 		]) {

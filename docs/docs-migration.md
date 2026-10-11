@@ -1,3 +1,8 @@
+---
+title: "Moving an existing site to Monoline Docs"
+description: "Move existing documentation to Monoline Docs while preserving routes, links and redirects."
+---
+
 # Moving an existing site to Monoline Docs
 
 A migration should preserve published URLs and verify the generated site before

@@ -1,3 +1,8 @@
+---
+title: "Monoline architecture"
+description: "Understand Monoline package boundaries, shared design tokens, documentation builds and verification layers."
+---
+
 # Monoline architecture
 
 Monoline keeps its React component library and static documentation builder in
@@ -64,7 +69,7 @@ boundaries and interrupted-promotion recovery.
 
 Configuration and MDX are trusted executable input. Draft and discovery settings
 control generated output; they do not provide authentication for published pages.
-See [support and limitations](../apps/docs-demo/content/support.md) and
+See [support and limitations](https://monolinedocs.chitrankagnihotri.com/support/) and
 [deployment](docs-deployment.md) before publishing.
 
 ## Verification boundaries
@@ -83,7 +88,7 @@ widths; they are repository test assets and do not ship in npm packages.
 
 CI selects checks by the owning workspace and shared dependencies. Root and site
 changes do not all require the same work. Read
-[CI selection](../CONTRIBUTING.md#ci-selection-and-maintenance) before changing
+[CI selection](https://github.com/chitranklabs/monoline-ui/blob/main/CONTRIBUTING.md#ci-selection-and-maintenance) before changing
 filters and [visual regression checks](docs-release.md#visual-regression-checks)
 before intentionally updating screenshot baselines.
 
@@ -96,5 +101,5 @@ A consumer-site-only change does not require a package release.
 [UI release operations](releases.md) and [Docs release operations](docs-release.md)
 are authoritative for publication and retry procedures. Local checks do not
 establish hosted credentials, provenance, real-device accessibility or deployment
-acceptance. The [Docs roadmap](../packages/docs/ROADMAP.md) retains outstanding
+acceptance. The [Docs roadmap](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/ROADMAP.md) retains outstanding
 release gates.

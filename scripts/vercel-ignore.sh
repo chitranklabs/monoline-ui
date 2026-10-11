@@ -5,6 +5,7 @@ git rev-parse --verify "${previous}^{commit}" >/dev/null 2>&1 || exit 1
 if [ "${1:-ui}" = "docs" ]; then
   git diff --quiet "$previous" HEAD -- \
     ':(top)apps/docs-demo' ':(top)packages/docs' \
+    ':(top)docs' \
     ':(top)apps/website/public/identity.json' \
     ':(top)packages/ui/src/foundations/theme/tokens.css' ':(top)scripts' \
     ':(top)pnpm-lock.yaml' ':(top)pnpm-workspace.yaml' \

@@ -65,6 +65,11 @@ export async function loadConfig(options: LoadConfigOptions = {}) {
 				...config.openapi,
 				file: resolve(dirname(file), config.openapi.file),
 			}
+		if (config.contentMounts)
+			config.contentMounts = config.contentMounts.map((mount) => ({
+				...mount,
+				directory: resolve(dirname(file), mount.directory),
+			}))
 		return config
 	} catch (error) {
 		throw new Error(

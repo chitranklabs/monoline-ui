@@ -40,6 +40,12 @@ that directory. [Deployment settings](vercel.json) build the Docs package first
 and publish `dist`. See [deployment guidance](../../docs/docs-deployment.md#this-monorepos-demo)
 for the production environment and hosting checks.
 
+## Repository guides
+
+The demo mounts the authoritative `docs/` directory at `/repository/` using
+`contentMounts`. No authored copies are kept in the demo content directory.
+Repository guide changes trigger Docs CI and deployment checks.
+
 ## Creator identity
 
 The demo's production structured data identifies Chitrank Agnihotri as the

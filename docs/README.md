@@ -1,3 +1,8 @@
+---
+title: "Monoline documentation"
+description: "Find Monoline UI and Docs package guides, contributor documentation, architecture and release operations."
+---
+
 # Monoline documentation
 
 Use Monoline UI to build React interfaces, or Monoline Docs to build static
@@ -6,12 +11,12 @@ repository development and operations; each topic has one owning location.
 
 ## Start using a package
 
-| Goal                             | Start here                                                                | Continue with                                                                                                                                                |
-| :------------------------------- | :------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Add UI components to a React app | [UI package guide](../packages/ui/README.md)                              | [Installation](https://monolineui.chitrankagnihotri.com/docs/installation) and [component catalog](https://monolineui.chitrankagnihotri.com/docs/components) |
-| Create a documentation site      | [Docs package guide](../packages/docs/README.md#installation)             | [Getting started](../apps/docs-demo/content/getting-started.mdx) and [writing pages](../apps/docs-demo/content/writing.md)                                   |
-| Explore the Docs package in use  | [Run the demo](../apps/docs-demo/README.md)                               | [Authoring components](../apps/docs-demo/content/components.mdx)                                                                                             |
-| Generate Docs with an agent      | [Using with AI agents](../apps/docs-demo/content/using-with-ai-agents.md) | [Maintained Docs skill](../packages/docs/skills/monoline-docs/SKILL.md)                                                                                      |
+| Goal                             | Start here                                                                                                       | Continue with                                                                                                                                                |
+| :------------------------------- | :--------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Add UI components to a React app | [UI package guide](https://github.com/chitranklabs/monoline-ui/blob/main/packages/ui/README.md)                  | [Installation](https://monolineui.chitrankagnihotri.com/docs/installation) and [component catalog](https://monolineui.chitrankagnihotri.com/docs/components) |
+| Create a documentation site      | [Docs package guide](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/README.md#installation) | [Getting started](https://monolinedocs.chitrankagnihotri.com/getting-started/) and [writing pages](https://monolinedocs.chitrankagnihotri.com/writing/)      |
+| Explore the Docs package in use  | [Run the demo](https://github.com/chitranklabs/monoline-ui/blob/main/apps/docs-demo/README.md)                   | [Authoring components](https://monolinedocs.chitrankagnihotri.com/components/)                                                                               |
+| Generate Docs with an agent      | [Using with AI agents](https://monolinedocs.chitrankagnihotri.com/using-with-ai-agents/)                         | [Maintained Docs skill](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/skills/monoline-docs/SKILL.md)                                   |
 
 Both packages are available on npm. The repository demo is an ordinary Docs
 consumer, not an additional package API.
@@ -24,24 +29,24 @@ consumer, not an additional package API.
 [accessibility](https://monolineui.chitrankagnihotri.com/docs/accessibility) and
 [compatibility](https://monolineui.chitrankagnihotri.com/docs/compatibility).
 
-**Docs:** [Configuration](../apps/docs-demo/content/configuration.md),
-[frontmatter](../apps/docs-demo/content/frontmatter.md),
-[CLI](../apps/docs-demo/content/cli.md),
-[programmatic API](../apps/docs-demo/content/programmatic-api.md),
-[OpenAPI generation](../apps/docs-demo/content/openapi.md),
-[Markdown/AI exports](../apps/docs-demo/content/exports.md),
-[troubleshooting](../apps/docs-demo/content/troubleshooting.md) and
-[support boundaries](../apps/docs-demo/content/support.md).
+**Docs:** [Configuration](https://monolinedocs.chitrankagnihotri.com/configuration/),
+[frontmatter](https://monolinedocs.chitrankagnihotri.com/frontmatter/),
+[CLI](https://monolinedocs.chitrankagnihotri.com/cli/),
+[programmatic API](https://monolinedocs.chitrankagnihotri.com/programmatic-api/),
+[OpenAPI generation](https://monolinedocs.chitrankagnihotri.com/openapi/),
+[Markdown/AI exports](https://monolinedocs.chitrankagnihotri.com/exports/),
+[troubleshooting](https://monolinedocs.chitrankagnihotri.com/troubleshooting/) and
+[support boundaries](https://monolinedocs.chitrankagnihotri.com/support/).
 
 ## Contribute and understand the repository
 
-- [Contributor guide](../CONTRIBUTING.md): prerequisites, local setup, focused
+- [Contributor guide](https://github.com/chitranklabs/monoline-ui/blob/main/CONTRIBUTING.md): prerequisites, local setup, focused
   verification, component changes and PR workflow for all four workspaces.
 - [Architecture](architecture.md): package boundaries, shared colors, build
   pipelines and verification layers.
-- [Root guidelines](../AGENTS.md) and [Docs guidelines](../packages/docs/AGENTS.md):
+- [Root guidelines](https://github.com/chitranklabs/monoline-ui/blob/main/AGENTS.md) and [Docs guidelines](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/AGENTS.md):
   engineering instructions for work in this repository.
-- [Docs fixtures](../packages/docs/fixtures/README.md): stable test consumers,
+- [Docs fixtures](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/fixtures/README.md): stable test consumers,
   separate from the public demo.
 
 ## Deploy and maintain
@@ -56,7 +61,7 @@ consumer, not an additional package API.
   when moving an existing site.
 - [Docs performance](docs-performance.md): benchmark commands, measured scope and
   regression budgets.
-- [Docs roadmap](../packages/docs/ROADMAP.md): remaining package priorities and
+- [Docs roadmap](https://github.com/chitranklabs/monoline-ui/blob/main/packages/docs/ROADMAP.md): remaining package priorities and
   release acceptance gates.
 
 ## Where documentation lives

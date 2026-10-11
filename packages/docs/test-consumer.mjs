@@ -436,7 +436,27 @@ try {
 			"example-api.yml",
 		])
 			await cp(join(demo, name), join(ownDocs, name), { recursive: true })
+		await cp(
+			new URL("../../docs/", import.meta.url),
+			join(ownDocs, "repository"),
+			{ recursive: true }
+		)
+		const configPath = join(ownDocs, "monoline-docs.yml")
+		await writeFile(
+			configPath,
+			(await readFile(configPath, "utf8")).replace(
+				"directory: ../../docs",
+				"directory: ./repository"
+			)
+		)
 		run(join(directory, "node_modules/.bin/monoline-docs"), ["build"], ownDocs)
+		const repositoryPage = await readFile(
+			join(ownDocs, "dist/repository/index.html"),
+			"utf8"
+		)
+		assert.equal((repositoryPage.match(/<h1\b/g) ?? []).length, 1)
+		assert(repositoryPage.includes("Monoline documentation"))
+		assert.doesNotMatch(repositoryPage, /<h2[^>]*>Monoline documentation/)
 		const docsHome = await readFile(join(ownDocs, "dist/index.html"), "utf8")
 		assert(docsHome.includes("Create your first site"))
 		assert(docsHome.includes("Reference"))

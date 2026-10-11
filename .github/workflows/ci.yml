@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - "docs/**"
       - ".vscode/**"
       - ".editorconfig"
       - "cliff.toml"
@@ -63,6 +62,7 @@ jobs:
               - 'tsconfig.json'
               - 'packages/docs/**'
               - 'apps/docs-demo/**'
+              - 'docs/**'
               - 'apps/website/public/identity.json'
               - 'scripts/docs-release*.mjs'
               - 'scripts/lib/release-plan.mjs'

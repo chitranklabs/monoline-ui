@@ -344,6 +344,26 @@
 		"editLink": {
 			"$ref": "#/definitions/editLink",
 			"description": "Legacy alias. Prefer content.editLink; runtime rejects conflicting values."
+		},
+		"contentMounts": {
+			"type": "array",
+			"description": "Additional local documentation trees, resolved relative to the configuration file.",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"required": ["directory", "route"],
+				"properties": {
+					"directory": {
+						"type": "string",
+						"minLength": 1,
+						"pattern": "\\S"
+					},
+					"route": {
+						"type": "string",
+						"pattern": "^/[^/].*[^/]$|^/[^/]$"
+					}
+				}
+			}
 		}
 	},
 	"required": ["title"],

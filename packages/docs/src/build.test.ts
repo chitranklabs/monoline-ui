@@ -43,6 +43,88 @@ async function fixture() {
 	}
 }
 
+it("mounts existing Markdown and MDX trees with one heading, links, exports and draft filtering", async () => {
+	const options = await fixture()
+	const directory = join(options.contentDirectory, "..", "repository")
+	await mkdir(directory)
+	await writeFile(
+		join(directory, "README.md"),
+		"---\ntitle: Repository\n---\n# Repository\n\n[Architecture](architecture.md#boundaries)\n[Home](../content/index.md)\n"
+	)
+	await writeFile(
+		join(directory, "architecture.md"),
+		"---\ntitle: Architecture\n---\n# Architecture\n\n## Boundaries\n\nRepository guidance.\n"
+	)
+	await writeFile(
+		join(directory, "example.mdx"),
+		'---\ntitle: Example\n---\nexport const value = "sample"\n\n# Example\n\n## Usage\n\n{value}\n'
+	)
+	await writeFile(
+		join(directory, "draft.md"),
+		"---\ntitle: Draft\ndraft: true\n---\nHidden text"
+	)
+	await buildDocs({
+		...options,
+		base: "/handbook/",
+		contentMounts: [{ directory, route: "/repository" }],
+	})
+	const html = await readFile(
+		join(options.outDirectory, "repository/index.html"),
+		"utf8"
+	)
+	expect(html.match(/<h1\b/g)).toHaveLength(1)
+	expect(html).not.toMatch(/<h2[^>]*>Repository/)
+	expect(html).toContain('href="/handbook/repository/architecture/#boundaries"')
+	expect(html).toContain('href="/handbook/"')
+	const mdx = await readFile(
+		join(options.outDirectory, "repository/example/index.html"),
+		"utf8"
+	)
+	expect(mdx.match(/<h1\b/g)).toHaveLength(1)
+	expect(mdx).not.toMatch(/<h2[^>]*>Example/)
+	expect(mdx).toContain("sample")
+	expect(
+		await readFile(
+			join(options.outDirectory, "repository/architecture/index.md"),
+			"utf8"
+		)
+	).toContain("## Boundaries")
+	expect(
+		await readFile(join(options.outDirectory, "llms.txt"), "utf8")
+	).toContain("/handbook/repository/architecture/index.md")
+	await expect(
+		access(join(options.outDirectory, "repository/draft/index.html"))
+	).rejects.toThrow()
+	await expect(
+		buildDocs({
+			...options,
+			contentMounts: [
+				{ directory, route: "/repository" },
+				{ directory, route: "/repository" },
+			],
+		})
+	).rejects.toThrow("duplicate documentation route")
+	expect(
+		await readFile(join(options.outDirectory, "repository/index.html"), "utf8")
+	).toBe(html)
+	await expect(
+		buildDocs({
+			...options,
+			outDirectory: join(directory, "output"),
+			contentMounts: [{ directory, route: "/repository" }],
+		})
+	).rejects.toThrow("must not overlap")
+	await expect(
+		buildDocs({
+			...options,
+			contentMounts: [
+				{ directory, route: "/repository" },
+				{ directory, route: "/copy" },
+			],
+		})
+	).rejects.toThrow("source is included more than once")
+})
+
 it("keeps hosted previews noindex without exposing drafts and restores production metadata", async () => {
 	const options = { ...(await fixture()), site: "https://example.com" }
 	await writeFile(

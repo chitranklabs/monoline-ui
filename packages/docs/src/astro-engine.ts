@@ -138,6 +138,29 @@ export async function buildAstroSite(
 	const pages = await discoverPages(content, {
 		environment: options.environment,
 	})
+	const mountedFiles = new Set<string>()
+	const sourceFiles = new Set(pages.map((page) => page.filePath))
+	const routes = new Set(pages.map((page) => page.route))
+	for (const mount of options.contentMounts ?? []) {
+		const directory = await realpath(mount.directory)
+		for (const page of await discoverPages(directory, {
+			environment: options.environment,
+		})) {
+			page.route =
+				`${mount.route}${page.route === "/" || page.route === "/README" ? "" : page.route}` as `/${string}`
+			if (routes.has(page.route))
+				throw new Error(
+					`${page.filePath}: duplicate documentation route ${page.route}`
+				)
+			routes.add(page.route)
+			if (sourceFiles.has(page.filePath))
+				throw new Error(`${page.filePath}: source is included more than once`)
+			sourceFiles.add(page.filePath)
+			mountedFiles.add(page.filePath.replaceAll("\\", "/"))
+			pages.push(page)
+		}
+	}
+	pages.sort((a, b) => a.route.localeCompare(b.route))
 	const generated = options.openapi
 		? await loadOpenApi(options.openapi.file, options.openapi.route)
 		: undefined
@@ -281,7 +304,7 @@ export async function buildAstroSite(
 				markdownEnabled: true,
 				titleTemplate: options.seo.titleTemplate,
 			})};`,
-			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},markdownHref:${JSON.stringify(!page.metadata.noindex ? options.base + (page.route === "/" ? "index.md" : page.route.slice(1) + (options.cleanUrls ? ".md" : "/index.md")) : undefined)},editHref:${JSON.stringify(options.editLink && !generated?.pages.includes(page) ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
+			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},markdownHref:${JSON.stringify(!page.metadata.noindex ? options.base + (page.route === "/" ? "index.md" : page.route.slice(1) + (options.cleanUrls ? ".md" : "/index.md")) : undefined)},editHref:${JSON.stringify(options.editLink && !mountedFiles.has(page.filePath.replaceAll("\\", "/")) && !generated?.pages.includes(page) ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
 		].join("\n")
 		const integration: AstroIntegration = {
 			name: "monoline-docs",
@@ -534,12 +557,24 @@ export async function buildAstroSite(
 					mdastPlugins: [
 						{
 							name: "monoline-markdown-policy",
-							before(_tree, context) {
+							before(tree, context) {
 								const page =
 									context.fileURL &&
 									sources.get(
 										fileURLToPath(context.fileURL).replaceAll("\\", "/")
 									)
+
+								const first = tree.children.find(
+									(node) => node.type !== "yaml" && node.type !== "mdxjsEsm"
+								)
+								if (
+									page &&
+									mountedFiles.has(page.filePath.replaceAll("\\", "/")) &&
+									first?.type === "heading" &&
+									first.depth === 1 &&
+									context.textContent(first) === page.metadata.title
+								)
+									context.removeNode(first)
 								// Astro reads Markdown directly; filter metadata in its processor before layout resolution.
 								if (page && context.data.astro) {
 									const { layout: _layout, ...frontmatter } = page.metadata

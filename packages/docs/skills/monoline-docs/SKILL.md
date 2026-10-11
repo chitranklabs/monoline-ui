@@ -42,6 +42,12 @@ mount path, such as `/handbook/`. A base path does not relocate output files.
 Use the matching deployment recipe for the actual host. Do not introduce an
 Astro project configuration just to configure Monoline Docs.
 
+Use `contentMounts` for additional existing local documentation directories. Each
+entry has `directory` and a non-root `route` prefix. Keep title frontmatter in
+mounted pages and link unpublished repository files using their repository URLs.
+Mounted trees share route validation, discovery exports and preview watching;
+they must not overlap the output directory.
+
 ## Write documentation grounded in the project
 
 - Derive commands and API descriptions from project source, manifests, tests and

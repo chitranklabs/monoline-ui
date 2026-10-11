@@ -27,6 +27,20 @@ it("resolves defaults and canonicalizes origin and language without mutating inp
 })
 
 it.each([
+	[{ contentMounts: "docs" }, "contentMounts must be an array"],
+	[{ contentMounts: [{ directory: "docs", route: "/" }] }, "non-root"],
+	[
+		{
+			contentMounts: [
+				{ directory: "https://example.com", route: "/repository" },
+			],
+		},
+		"local directory",
+	],
+	[
+		{ contentMounts: [{ directory: "docs", route: "/../repository" }] },
+		"non-root",
+	],
 	[{ titel: "Typo" }, "config.titel"],
 	[{ title: 42 }, "title"],
 	[{ base: "/missing-trailing-slash" }, "base"],

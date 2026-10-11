@@ -542,7 +542,11 @@ test("docs package changes run focused checks without the website build", () => 
 
 const cases = [
 	["root Markdown", ["README.md"], prose],
-	["nested Markdown", ["docs/contributing/review.md"], prose],
+	[
+		"mounted repository Markdown",
+		["docs/contributing/review.md"],
+		{ ...prose, docs: true },
+	],
 	["multiple prose files", ["README.md", "CONTRIBUTING.md"], prose],
 	["PR template", [".github/PULL_REQUEST_TEMPLATE.md"], prose],
 	["format config", [".prettierrc.json"], prose],
@@ -639,6 +643,7 @@ test("pull requests report the required gate and main pushes verify Docs Markdow
 		"packages/docs/README.md",
 		"apps/docs-demo/content/index.md",
 		"apps/docs-demo/content/guide.mdx",
+		"docs/architecture.md",
 	])
 		assert.equal(ignored(file), false, `${file} must trigger main CI`)
 	assert.equal(ci.jobs.ci_gate.name, "CI Gate 🚦")

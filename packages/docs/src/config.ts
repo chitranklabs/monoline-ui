@@ -79,6 +79,8 @@ export interface MonolineDocsConfig {
 	cleanUrls?: boolean
 	lang?: string
 	contentDirectory?: string
+	/** Additional local content trees published beneath distinct route prefixes. */
+	contentMounts?: Array<{ directory: string; route: `/${string}` }>
 	outDirectory?: string
 	assetsDirectory?: string
 	stylesheet?: string
@@ -163,6 +165,7 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"cleanUrls",
 		"lang",
 		"contentDirectory",
+		"contentMounts",
 		"outDirectory",
 		"assetsDirectory",
 		"stylesheet",
@@ -185,6 +188,20 @@ export function defineConfig(config: MonolineDocsConfig) {
 		"environment",
 	])
 	string(config.title, "title")
+	if (config.contentMounts !== undefined) {
+		if (!Array.isArray(config.contentMounts))
+			throw new Error("contentMounts must be an array")
+		for (const [index, mount] of config.contentMounts.entries()) {
+			const key = `contentMounts[${index}]`
+			object(mount, key, ["directory", "route"])
+			string(mount.directory, `${key}.directory`)
+			string(mount.route, `${key}.route`)
+			if (/^[a-z]+:/i.test(mount.directory))
+				throw new Error(`${key}.directory must be a local directory`)
+			if (!safeRoute(mount.route) || mount.route === "/")
+				throw new Error(`${key}.route must be a non-root documentation route`)
+		}
+	}
 	if (config.openapi !== undefined) {
 		object(config.openapi, "openapi", ["file", "route"])
 		string(config.openapi.file, "openapi.file")

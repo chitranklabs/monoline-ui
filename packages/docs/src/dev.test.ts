@@ -82,7 +82,7 @@ it("adopts newly generated preview routes when committed-output cleanup warns", 
 	expect(await page.text()).toContain("Published successfully")
 	expect(warning).toHaveBeenCalled()
 }, 10000)
-async function fixture(cleanUrls = false) {
+async function fixture(cleanUrls = false, mounted = false) {
 	const root = await mkdtemp(join(tmpdir(), "docs-preview-"))
 	cleanups.push(() => rm(root, { force: true, recursive: true }))
 	const contentDirectory = join(root, "content")
@@ -91,6 +91,14 @@ async function fixture(cleanUrls = false) {
 	await mkdir(contentDirectory)
 	await mkdir(assetsDirectory)
 	await mkdir(componentsDirectory)
+	const repository = join(root, "repository")
+	if (mounted) {
+		await mkdir(repository)
+		await writeFile(
+			join(repository, "README.md"),
+			"---\ntitle: Repository\n---\n# Repository\n\nOriginal mounted content"
+		)
+	}
 	const component = join(componentsDirectory, "Status.astro")
 	await writeFile(component, "<p>Component original</p>")
 	await writeFile(
@@ -110,12 +118,41 @@ async function fixture(cleanUrls = false) {
 			outDirectory: join(root, "dist"),
 			base: "/project/",
 			cleanUrls,
+			...(mounted && {
+				contentMounts: [
+					{ directory: repository, route: "/repository" as const },
+				],
+			}),
 		},
 		0
 	)
 	cleanups.push(server.close)
-	return { ...server, contentDirectory, assetsDirectory, component }
+	return { ...server, contentDirectory, assetsDirectory, component, repository }
 }
+
+it("watches edits and new pages in mounted directories", async () => {
+	const server = await fixture(false, true)
+	await writeFile(
+		join(server.repository, "README.md"),
+		"---\ntitle: Repository\n---\n# Repository\n\nUpdated mounted content"
+	)
+	await vi.waitFor(
+		async () =>
+			expect(await (await fetch(server.url + "repository/")).text()).toContain(
+				"Updated mounted content"
+			),
+		{ timeout: 10000 }
+	)
+	await writeFile(
+		join(server.repository, "new.md"),
+		"---\ntitle: New mounted page\n---\nNew page content"
+	)
+	await vi.waitFor(
+		async () =>
+			expect((await fetch(server.url + "repository/new/")).status).toBe(200),
+		{ timeout: 10000 }
+	)
+})
 
 it("serves extensionless clean URLs from flat HTML files", async () => {
 	const server = await fixture(true)

@@ -48,6 +48,11 @@ export async function resolveOutput(
 	const output = await canonicalPath(resolve(config.outDirectory ?? "./dist"))
 	if (inside(content, output) || inside(output, content))
 		throw new Error("Content and output directories must not overlap")
+	for (const mount of config.contentMounts ?? []) {
+		const directory = await realpath(resolve(mount.directory))
+		if (inside(directory, output) || inside(output, directory))
+			throw new Error("Mounted content and output directories must not overlap")
+	}
 	if (config.assetsDirectory) {
 		const assets = await realpath(resolve(config.assetsDirectory))
 		if (inside(assets, output) || inside(output, assets))

@@ -121,3 +121,14 @@ it("resolves local OpenAPI paths relative to the config file", async () => {
 			.openapi
 	).toEqual({ file: join(root, "spec.yml"), route: "/api" })
 })
+
+it("resolves mounted content relative to the selected configuration file", async () => {
+	const root = await fixture()
+	await writeFile(
+		join(root, "monoline-docs.yml"),
+		"title: Docs\ncontentMounts:\n  - directory: ../repository\n    route: /repository\n"
+	)
+	expect((await loadConfig({ cwd: root })).contentMounts).toEqual([
+		{ directory: join(root, "..", "repository"), route: "/repository" },
+	])
+})

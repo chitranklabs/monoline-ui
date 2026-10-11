@@ -1,3 +1,8 @@
+---
+title: "Docs verification and performance"
+description: "Run Monoline Docs renderer, browser and performance checks and maintain the shared design tokens."
+---
+
 # Docs verification and performance
 
 Run these checks from the repository root after installing workspace dependencies:
