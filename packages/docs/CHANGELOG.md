@@ -1,5 +1,11 @@
 # @chitrank2050/monoline-docs
 
+## 0.1.2
+
+### Patch Changes
+
+- 2845162: Skip initial anchor lookup when the page URL has no fragment, avoiding Firefox's empty element ID warning while preserving heading alignment.
+
 ## 0.1.1
 
 ### Patch Changes
