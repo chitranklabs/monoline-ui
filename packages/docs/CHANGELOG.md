@@ -1,5 +1,11 @@
 # @chitrank2050/monoline-docs
 
+## 0.2.0
+
+### Minor Changes
+
+- 642a179: Publish additional local documentation directories with `contentMounts`, preserving their source files while sharing navigation, search, exports and preview watching. Reject conflicting routes and output overlap, and avoid duplicate matching title headings in mounted pages.
+
 ## 0.1.4
 
 ### Patch Changes
