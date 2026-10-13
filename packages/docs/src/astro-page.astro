@@ -43,6 +43,17 @@ const pageTitle = site.titleTemplate.replace(
 )
 const websiteUrl = site.site ? new URL(href("/"), site.site).href : undefined
 const websiteId = websiteUrl ? `${websiteUrl}#website` : undefined
+const seoEntity = (entity) =>
+	entity
+		? {
+				"@type": entity.type,
+				name: entity.name,
+				...(entity.url ? { url: entity.url } : {}),
+				...(entity.sameAs ? { sameAs: entity.sameAs } : {}),
+			}
+		: undefined
+const author = seoEntity(site.author)
+const publisher = seoEntity(site.publisher)
 const websiteData =
 	websiteUrl && !site.noindex && !page.metadata.noindex
 		? {
@@ -51,6 +62,7 @@ const websiteData =
 				"@id": websiteId,
 				url: websiteUrl,
 				name: site.title,
+				...(publisher ? { publisher } : {}),
 				inLanguage: site.lang,
 				...(site.description ? { description: site.description } : {}),
 			}
@@ -71,6 +83,8 @@ const structuredData =
 				name: page.metadata.seoTitle ?? page.metadata.title,
 				headline: page.metadata.seoTitle ?? page.metadata.title,
 				url: canonical,
+				...(author ? { author } : {}),
+				...(publisher ? { publisher } : {}),
 				...(description ? { description } : {}),
 				...(page.metadata.updatedAt
 					? { dateModified: page.metadata.updatedAt }
@@ -150,13 +164,13 @@ const breadcrumbData =
 		{site.socialImage && (
 			<>
 				<meta property="og:image" content={site.socialImage} />
-				<meta property="og:image:alt" content={site.title} />
+				<meta property="og:image:alt" content={site.socialImageAlt} />
 			</>
 		)}
 		{site.socialImage && (
 			<>
 				<meta name="twitter:image" content={site.socialImage} />
-				<meta name="twitter:image:alt" content={site.title} />
+				<meta name="twitter:image:alt" content={site.socialImageAlt} />
 			</>
 		)}
 		{websiteData && (

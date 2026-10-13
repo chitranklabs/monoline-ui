@@ -260,9 +260,66 @@
 					"type": "string",
 					"minLength": 1,
 					"pattern": "\\S"
+				},
+				"socialImageAlt": {
+					"type": "string",
+					"minLength": 1,
+					"pattern": "\\S"
+				},
+				"author": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["type", "name"],
+					"properties": {
+						"type": {
+							"enum": ["Person", "Organization"]
+						},
+						"name": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"url": {
+							"type": "string",
+							"pattern": "^https?://"
+						},
+						"sameAs": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"pattern": "^https?://"
+							}
+						}
+					}
+				},
+				"publisher": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["type", "name"],
+					"properties": {
+						"type": {
+							"enum": ["Person", "Organization"]
+						},
+						"name": {
+							"type": "string",
+							"minLength": 1,
+							"pattern": "\\S"
+						},
+						"url": {
+							"type": "string",
+							"pattern": "^https?://"
+						},
+						"sameAs": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"pattern": "^https?://"
+							}
+						}
+					}
 				}
 			},
-			"description": "Page title template and local social image."
+			"description": "Page titles, local social images and optional author/publisher identity."
 		},
 		"integrations": {
 			"type": "object",

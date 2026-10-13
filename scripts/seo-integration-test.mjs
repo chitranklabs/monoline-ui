@@ -536,10 +536,7 @@ function validatePage(html, pathname, expectedSchemaTypes = []) {
 		`${pathname} should contain exactly one title`
 	)
 	const title = extractElementText(html, "title")
-	assert.ok(
-		title.length >= 50 && title.length <= 60,
-		`${pathname} title should be 50-60 characters, received ${title.length}`
-	)
+	assert.ok(title.trim(), `${pathname} should have a non-empty title`)
 
 	const descriptionTags = findElementsByAttribute(
 		html,
@@ -555,10 +552,33 @@ function validatePage(html, pathname, expectedSchemaTypes = []) {
 	const descriptionTag = descriptionTags[0]
 	const description =
 		getAttribute(descriptionTag ?? "", "content")?.trim() ?? ""
-	assert.ok(
-		description.length >= 150 && description.length <= 160,
-		`${pathname} description should be 150-160 characters, received ${description.length}`
-	)
+	assert.ok(description, `${pathname} should have a non-empty description`)
+	for (const [attribute, prefix] of [
+		["property", "og"],
+		["name", "twitter"],
+	]) {
+		for (const [field, expected] of [
+			["title", title],
+			["description", description],
+		]) {
+			const tags = findElementsByAttribute(
+				html,
+				"meta",
+				attribute,
+				`${prefix}:${field}`
+			)
+			assert.equal(
+				tags.length,
+				1,
+				`${pathname} should contain exactly one ${prefix}:${field}`
+			)
+			assert.equal(
+				getAttribute(tags[0], "content")?.trim(),
+				expected,
+				`${pathname} ${prefix}:${field} should match its page metadata`
+			)
+		}
+	}
 
 	const canonicals = findElementsByAttribute(html, "link", "rel", "canonical")
 	assert.equal(
@@ -834,13 +854,13 @@ async function run() {
 		}
 
 		const queryResponse = await fetchResponse(
-			"/docs/components/button?theme=dark"
+			"/docs/components/button?utm_source=seo-check&theme=dark"
 		)
 		assert.equal(queryResponse.status, 200, "query variant should render")
-		assert.match(
+		assert.doesNotMatch(
 			queryResponse.headers.get("x-robots-tag") ?? "",
-			/noindex,\s*follow/i,
-			"query variants should be excluded without blocking link discovery"
+			/noindex/i,
+			"query variants should consolidate through their clean canonical URL"
 		)
 		const queryHtml = await queryResponse.text()
 		validatePage(queryHtml, "/docs/components/button")

@@ -303,6 +303,9 @@ export async function buildAstroSite(
 				searchEnabled: options.search.enabled,
 				markdownEnabled: true,
 				titleTemplate: options.seo.titleTemplate,
+				socialImageAlt: options.seo.socialImageAlt ?? options.title,
+				author: options.seo.author,
+				publisher: options.seo.publisher,
 			})};`,
 			`export const pages = [${pages.map((page, index) => `{route:${JSON.stringify(page.route)},metadata:${JSON.stringify(page.metadata)},markdownHref:${JSON.stringify(!page.metadata.noindex ? options.base + (page.route === "/" ? "index.md" : page.route.slice(1) + (options.cleanUrls ? ".md" : "/index.md")) : undefined)},editHref:${JSON.stringify(options.editLink && !mountedFiles.has(page.filePath.replaceAll("\\", "/")) && !generated?.pages.includes(page) ? options.editLink.href.replace("{path}", relative(content, page.filePath).split(sep).map(encodeURIComponent).join("/")) : undefined)},editLabel:${JSON.stringify(options.editLink?.label ?? "Edit this page")},Content:document${index}.Content ?? document${index}.default}`).join(",")}];`,
 		].join("\n")
@@ -658,7 +661,7 @@ export async function buildAstroSite(
 					.filter((page) => !page.metadata.noindex)
 					.map(
 						(page) =>
-							`<url><loc>${new URL(routeHref(page.route, options.base, options.cleanUrls), options.site).href}</loc></url>`
+							`<url><loc>${new URL(routeHref(page.route, options.base, options.cleanUrls), options.site).href}</loc>${page.metadata.updatedAt ? `<lastmod>${page.metadata.updatedAt}</lastmod>` : ""}</url>`
 					)
 					.join("")}</urlset>`
 			)

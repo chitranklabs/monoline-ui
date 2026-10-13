@@ -75,7 +75,12 @@ For search or publishing work, follow the SEO guide linked from the installed
 README and confirm its options against the installed declarations. Set `site`
 to the real publishing origin and `base` to its mount path. Use page descriptions
 and `seoTitle` where appropriate, with the site's title template and social image;
-do not copy Monoline's branding, analytics or hosting configuration into a user's site.
+set `seo.socialImageAlt` to describe the image. Optional `seo.author` and
+`seo.publisher` accept `{ type: "Person" | "Organization", name, url?, sameAs? }`;
+use the site's actual identity and absolute HTTP(S) URLs without credentials.
+Do not copy Monoline's branding, analytics or hosting configuration into a user's site.
+Author-maintained `updatedAt` dates populate schema `dateModified` and sitemap
+`lastmod`; omit the date when no truthful content modification date is available.
 
 Use `indexing: false` for staging production builds. A development build can
 include drafts; `noindex` is not access control. Without `site`, the package cannot

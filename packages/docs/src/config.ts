@@ -60,11 +60,21 @@ export interface DocsSearchConfig {
 	enabled?: boolean
 }
 
+export interface DocsSeoEntity {
+	type: "Person" | "Organization"
+	name: string
+	url?: string
+	sameAs?: string[]
+}
+
 export interface DocsSeoConfig {
 	/** `%s` is replaced with the page SEO title. */
 	titleTemplate?: string
 	/** Local image from assetsDirectory. */
 	socialImage?: string
+	socialImageAlt?: string
+	author?: DocsSeoEntity
+	publisher?: DocsSeoEntity
 }
 
 export interface MonolineDocsConfig {
@@ -274,7 +284,36 @@ export function defineConfig(config: MonolineDocsConfig) {
 	if (config.search !== undefined)
 		object(config.search as unknown, "search", ["enabled"])
 	if (config.seo !== undefined)
-		object(config.seo as unknown, "seo", ["titleTemplate", "socialImage"])
+		object(config.seo as unknown, "seo", [
+			"titleTemplate",
+			"socialImage",
+			"socialImageAlt",
+			"author",
+			"publisher",
+		])
+	if (config.seo?.socialImageAlt !== undefined)
+		string(config.seo.socialImageAlt, "seo.socialImageAlt")
+	for (const role of ["author", "publisher"] as const) {
+		const entity = config.seo?.[role]
+		if (entity === undefined) continue
+		const path = `seo.${role}`
+		object(entity, path, ["type", "name", "url", "sameAs"])
+		if (!["Person", "Organization"].includes(entity.type))
+			throw new Error(`${path}.type must be Person or Organization`)
+		string(entity.name, `${path}.name`)
+		if (entity.url !== undefined) {
+			string(entity.url, `${path}.url`)
+			httpUrl(entity.url, `${path}.url`)
+		}
+		if (entity.sameAs !== undefined) {
+			if (!Array.isArray(entity.sameAs))
+				throw new Error(`${path}.sameAs must be an array`)
+			for (const url of entity.sameAs) {
+				string(url, `${path}.sameAs entry`)
+				httpUrl(url, `${path}.sameAs entry`)
+			}
+		}
+	}
 	if (config.integrations !== undefined) {
 		object(config.integrations as unknown, "integrations", ["scripts"])
 		if (config.integrations.scripts !== undefined) {

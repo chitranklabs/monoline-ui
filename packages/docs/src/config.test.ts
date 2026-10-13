@@ -390,3 +390,44 @@ it.each([
 		defineConfig({ title: "Docs", ...input } as unknown as MonolineDocsConfig)
 	).toThrow(error)
 })
+
+it("validates optional SEO identity and image descriptions", () => {
+	const author = {
+		type: "Person" as const,
+		name: "SDK author",
+		url: "https://example.com/about",
+		sameAs: ["https://github.com/example"],
+	}
+	expect(
+		defineConfig({
+			title: "Docs",
+			seo: {
+				author,
+				publisher: { type: "Organization", name: "Example" },
+				socialImageAlt: "SDK illustration",
+			},
+		}).seo
+	).toMatchObject({ author, socialImageAlt: "SDK illustration" })
+	for (const entity of [
+		{ type: "Product", name: "Example" },
+		{ type: "Person", name: "" },
+		{ type: "Person", name: "Author", url: "javascript:alert(1)" },
+		{
+			type: "Person",
+			name: "Author",
+			sameAs: ["https://user:pass@example.com"],
+		},
+		{ type: "Person", name: "Author", sameAs: "https://example.com" },
+		{ type: "Person", name: "Author", typo: true },
+	]) {
+		expect(() =>
+			defineConfig({
+				title: "Docs",
+				seo: { author: entity },
+			} as unknown as MonolineDocsConfig)
+		).toThrow(/seo.author/)
+	}
+	expect(() =>
+		defineConfig({ title: "Docs", seo: { socialImageAlt: "" } })
+	).toThrow(/seo.socialImageAlt/)
+})

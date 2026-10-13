@@ -1,4 +1,5 @@
 import { loadConfig } from "@chitrank2050/monoline-docs"
+import { readFile } from "node:fs/promises"
 import { fileURLToPath } from "node:url"
 
 if (
@@ -7,7 +8,7 @@ if (
 )
 	throw new Error("DOCS_INDEXING must be true or false")
 
-export default await loadConfig({
+const config = await loadConfig({
 	cwd: fileURLToPath(new URL(".", import.meta.url)),
 	overrides: {
 		...(process.env.DOCS_BASE !== undefined && { base: process.env.DOCS_BASE }),
@@ -17,3 +18,24 @@ export default await loadConfig({
 		}),
 	},
 })
+
+// Keep the demo’s owner identity local; consumer sites supply their own entities.
+const identity = JSON.parse(
+	await readFile(
+		new URL("../website/public/identity.json", import.meta.url),
+		"utf8"
+	)
+)
+const owner = {
+	type: "Person",
+	name: identity.name,
+	url: identity.websiteUrl,
+	sameAs: [identity.socials.github, identity.socials.linkedin],
+}
+config.seo = {
+	...config.seo,
+	author: owner,
+	publisher: owner,
+	socialImageAlt: "Monoline Docs — Markdown and MDX documentation",
+}
+export default config

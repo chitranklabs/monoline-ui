@@ -33,6 +33,7 @@ it("covers the public configuration properties and rejects unknown keys", async 
 		DocsSidebarConfig: schema.properties.sidebar,
 		DocsSearchConfig: schema.properties.search,
 		DocsSeoConfig: schema.properties.seo,
+		DocsSeoEntity: schema.properties.seo.properties.author,
 		DocsLink: schema.definitions.link,
 		DocsLogo: schema.definitions.logo,
 		DocsEditLink: schema.definitions.editLink,

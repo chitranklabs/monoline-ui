@@ -154,7 +154,7 @@ Use `appearance` for `defaultMode`, `density`, `radius`, `accent` and local font
 
 ## Search, exports and integrations
 
-`search.enabled` controls the search feature. `seo` accepts optional `titleTemplate` and `socialImage`. `integrations.scripts` adds explicitly authored local asset or HTTPS script URLs.
+`search.enabled` controls the search feature. `seo` accepts optional `titleTemplate`, `socialImage`, `socialImageAlt`, `author` and `publisher`. See [SEO and social sharing](seo.md) for identity configuration and publishing checks. `integrations.scripts` adds explicitly authored local asset or HTTPS script URLs.
 
 `footer.showBranding` defaults to true; footer text and links can be configured independently. See [exports](exports.md), [OpenAPI](openapi.md), [CLI](cli.md) and the [programmatic API](programmatic-api.md) for their respective workflows.
 
@@ -165,13 +165,26 @@ absolute social image URL. The renderer includes Open Graph and Twitter titles,
 descriptions and sharing images. Indexable pages also emit website, page and
 breadcrumb structured data using the configured site URL and language.
 Images must be local `/assets/` PNG, JPEG or WebP
-files, resolved from `assetsDirectory`.
+files, resolved from `assetsDirectory`. Use `socialImageAlt` to describe the image;
+it defaults to the site title. Optional `author` and `publisher` identify the
+actual person or organization responsible for the documentation. Their objects
+accept `type` (`Person` or `Organization`), `name`, and optional HTTP(S) `url`
+and `sameAs` profile URLs.
+
+Author-maintained page `updatedAt` dates supply structured-data `dateModified`
+and sitemap `lastmod`. Leave dates absent when no truthful modification date
+is available; a build timestamp is not a content update.
 
 ```yaml
 site: https://docs.example.com
 seo:
   titleTemplate: "%s | Team handbook"
   socialImage: /assets/social.png
+  socialImageAlt: Example SDK documentation
+  publisher:
+    type: Organization
+    name: Example SDK
+    url: https://example.com
 integrations:
   scripts:
     - /assets/analytics.js

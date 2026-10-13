@@ -251,7 +251,11 @@ it("exports published Markdown and emits configured social and integration metad
 	await buildDocs({
 		...options,
 		assetsDirectory,
-		seo: { socialImage: "/assets/social.png" },
+		seo: {
+			socialImage: "/assets/social.png",
+			socialImageAlt: "An SDK diagram",
+			publisher: { type: "Organization", name: "Example" },
+		},
 		integrations: { scripts: ["/assets/analytics.js"] },
 	})
 	const html = await readFile(join(options.outDirectory, "index.html"), "utf8")
@@ -259,6 +263,8 @@ it("exports published Markdown and emits configured social and integration metad
 	expect(html).toContain('property="og:site_name" content="Monoline"')
 	expect(html).toContain('name="twitter:title" content="Home | Monoline"')
 	expect(html).toContain('property="og:type" content="website"')
+	expect(html).toContain('property="og:image:alt" content="An SDK diagram"')
+	expect(html).toContain('name="twitter:image:alt" content="An SDK diagram"')
 	const entities = [
 		...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs),
 	].map((match) => JSON.parse(match[1]))
@@ -268,6 +274,7 @@ it("exports published Markdown and emits configured social and integration metad
 			"@id": "https://example.com/docs/#website",
 			url: "https://example.com/docs/",
 			name: "Monoline",
+			publisher: { "@type": "Organization", name: "Example" },
 		})
 	)
 	expect(entities).toContainEqual(
@@ -302,11 +309,26 @@ it("exports published Markdown and emits configured social and integration metad
 		join(options.contentDirectory, "guide.md"),
 		"---\ntitle: Guide\nlayout: reference\n---\n# Install\n"
 	)
-	await buildDocs({ ...options, assetsDirectory })
+	await buildDocs({
+		...options,
+		assetsDirectory,
+		seo: { socialImage: "/assets/social.png" },
+	})
+	expect(
+		await readFile(join(options.outDirectory, "index.html"), "utf8")
+	).toContain('property="og:image:alt" content="Monoline"')
 	expect(
 		await readFile(join(options.outDirectory, "guide/index.html"), "utf8")
 	).toContain('"@type":"TechArticle"')
-	await buildDocs({ ...options, assetsDirectory, indexing: false })
+	await buildDocs({
+		...options,
+		assetsDirectory,
+		indexing: false,
+		seo: {
+			author: { type: "Person", name: "Hidden author" },
+			publisher: { type: "Organization", name: "Hidden publisher" },
+		},
+	})
 	expect(
 		await readFile(join(options.outDirectory, "index.html"), "utf8")
 	).not.toContain("application/ld+json")
@@ -611,7 +633,22 @@ layout: reference
 [Home](/)
 `
 		)
-		await buildDocs({ ...options, seo: { titleTemplate: "%s — Handbook" } })
+		await buildDocs({
+			...options,
+			seo: {
+				titleTemplate: "%s — Handbook",
+				author: {
+					type: "Person",
+					name: title,
+					url: "https://example.com/author",
+				},
+				publisher: {
+					type: "Organization",
+					name: "Example SDK",
+					sameAs: ["https://github.com/example"],
+				},
+			},
+		})
 		const html = await readFile(
 			join(options.outDirectory, cleanUrls ? "guide.html" : "guide/index.html"),
 			"utf8"
@@ -672,13 +709,23 @@ layout: reference
 				headline: title,
 				description,
 				dateModified: "2026-10-11",
+				author: {
+					"@type": "Person",
+					name: title,
+					url: "https://example.com/author",
+				},
+				publisher: {
+					"@type": "Organization",
+					name: "Example SDK",
+					sameAs: ["https://github.com/example"],
+				},
 				url: canonical,
 				isPartOf: { "@id": `https://example.com${base}#website` },
 			})
 		)
 		expect(
 			await readFile(join(options.outDirectory, "sitemap.xml"), "utf8")
-		).toContain(`<loc>${canonical}</loc>`)
+		).toContain(`<loc>${canonical}</loc><lastmod>2026-10-11</lastmod>`)
 		if (base === "/")
 			expect(
 				await readFile(join(options.outDirectory, "robots.txt"), "utf8")

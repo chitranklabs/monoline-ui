@@ -15,22 +15,6 @@ if (beaconToken !== undefined && !/^[a-f0-9]{32}$/i.test(beaconToken))
 
 const result = await buildDocs(config)
 if (config.site && config.indexing !== false) {
-	// Share our website's identity snapshot without making builds depend on its availability.
-	const identity = JSON.parse(
-		await readFile(
-			new URL("../website/public/identity.json", import.meta.url),
-			"utf8"
-		)
-	)
-	const person = {
-		"@context": "https://schema.org",
-		"@type": "Person",
-		"@id": new URL("/#person", identity.websiteUrl).href,
-		name: identity.name,
-		url: identity.websiteUrl,
-		sameAs: [identity.socials.github, identity.socials.linkedin],
-	}
-	const creator = { "@id": person["@id"] }
 	const packageInfo = JSON.parse(
 		await readFile(
 			new URL("../../packages/docs/package.json", import.meta.url),
@@ -55,40 +39,23 @@ if (config.site && config.indexing !== false) {
 		runtimePlatform: `Node.js ${packageInfo.engines.node}`,
 		sameAs: ["https://www.npmjs.com/package/@chitrank2050/monoline-docs"],
 		isAccessibleForFree: true,
-		creator,
-	}
-	for (const file of await readdir(result.outDirectory, { recursive: true })) {
-		if (!file.endsWith(".html")) continue
-		const filePath = join(result.outDirectory, file)
-		const html = await readFile(filePath, "utf8")
-		if (/<meta name="robots" content="[^"]*noindex/.test(html)) continue
-		const updated = html.replace(
-			/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
-			(_match, source) => {
-				const entity = JSON.parse(source)
-				if (entity["@type"] === "WebSite") entity.publisher = creator
-				if (["Article", "TechArticle"].includes(entity["@type"]))
-					entity.author = creator
-				return `<script type="application/ld+json">${JSON.stringify(entity).replaceAll("<", "\\u003c")}</script>`
-			}
-		)
-		await writeFile(
-			filePath,
-			updated.replace(
-				"</head>",
-				`<script type="application/ld+json">${JSON.stringify(person).replaceAll("<", "\\u003c")}</script></head>`
-			)
-		)
+		creator: {
+			"@type": config.seo.author.type,
+			name: config.seo.author.name,
+			url: config.seo.author.url,
+			sameAs: config.seo.author.sameAs,
+		},
 	}
 	const homepage = join(result.outDirectory, "index.html")
 	const html = await readFile(homepage, "utf8")
-	await writeFile(
-		homepage,
-		html.replace(
-			"</head>",
-			`<script type="application/ld+json">${JSON.stringify(product).replaceAll("<", "\\u003c")}</script></head>`
+	if (!/<meta name="robots" content="[^"]*noindex/.test(html))
+		await writeFile(
+			homepage,
+			html.replace(
+				"</head>",
+				`<script type="application/ld+json">${JSON.stringify(product).replaceAll("<", "\\u003c")}</script></head>`
+			)
 		)
-	)
 }
 if (beaconToken) {
 	// Instrument our hosted site only; the published package and local preview remain independent.

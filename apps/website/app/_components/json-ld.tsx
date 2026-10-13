@@ -97,11 +97,11 @@ export function getSoftwareSourceCodeJsonLd(
 		name: "Monoline UI",
 		alternateName: "@chitrank2050/monoline-ui",
 		description:
-			"A monochrome-first React 19 component library for personal sites, portfolios, product interfaces, and developer documentation.",
+			"A monochrome-first React component library for personal sites, portfolios, product interfaces, and developer documentation.",
 		url: siteUrl,
 		codeRepository: "https://github.com/chitranklabs/monoline-ui",
 		programmingLanguage: ["TypeScript", "CSS"],
-		runtimePlatform: "React 19",
+		runtimePlatform: "React 18.2 or React 19",
 		license: "https://github.com/chitranklabs/monoline-ui/blob/main/LICENSE",
 		sameAs: [
 			"https://github.com/chitranklabs/monoline-ui",

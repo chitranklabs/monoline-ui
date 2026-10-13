@@ -37,10 +37,7 @@ export function proxy(request: NextRequest) {
 	}
 
 	const response = NextResponse.next()
-	if (
-		request.nextUrl.search.length > 0 ||
-		(!isLocal && host.endsWith(".vercel.app") && host !== canonicalHost)
-	) {
+	if (!isLocal && host.endsWith(".vercel.app") && host !== canonicalHost) {
 		response.headers.set("X-Robots-Tag", "noindex, follow")
 	}
 

@@ -23,6 +23,15 @@ assetsDirectory: ./assets
 seo:
   titleTemplate: "%s | Team handbook"
   socialImage: /assets/social.png
+  socialImageAlt: Example SDK documentation
+  author:
+    type: Person
+    name: Alex Example
+    url: https://example.com/about
+  publisher:
+    type: Organization
+    name: Example SDK
+    url: https://example.com
 ```
 
 `site` is an HTTP(S) origin without a path, query or fragment. For documentation
@@ -36,7 +45,14 @@ descriptive and avoid repeating the site name in `seoTitle`.
 
 `socialImage` requires `site` and a local PNG, JPEG or WebP file under
 `assetsDirectory`. The example uses `assets/social.png`. Monoline emits an
-absolute image URL for Open Graph and Twitter sharing metadata.
+absolute image URL for Open Graph and Twitter sharing metadata. `socialImageAlt`
+provides a meaningful image description; it defaults to the site title.
+
+`author` and `publisher` are optional identity objects with `type` (`Person` or
+`Organization`), `name`, and optional HTTP(S) `url` and `sameAs` profile URLs.
+Use the actual content author and publishing identity. Publisher information is
+attached to the website and pages; author information is attached to pages.
+Do not use product websites as alternate personal identities.
 
 ## Write page metadata
 
@@ -93,7 +109,8 @@ Run `npm run build` and inspect the configured output directory before deploying
   uses `WebPage`; other pages use `Article`, or `TechArticle` with `layout: reference`.
   Non-home pages also contain `BreadcrumbList` data from navigation.
 - `sitemap.xml` contains production routes with the configured origin and base,
-  excluding drafts and noindex pages. `updatedAt` does not add sitemap `lastmod`.
+  excluding drafts and noindex pages. Authored `updatedAt` supplies `lastmod`;
+  pages without that date omit it. Do not substitute the build date.
 - With `base: /`, `robots.txt` allows crawling and points to the sitemap.
   With a subpath, Monoline omits this file: the origin owner manages `/robots.txt`
   and can add `Sitemap: https://example.com/handbook/sitemap.xml` there.

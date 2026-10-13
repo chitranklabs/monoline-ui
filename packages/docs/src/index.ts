@@ -26,6 +26,7 @@ export {
 	type DocsLogo,
 	type DocsSearchConfig,
 	type DocsSeoConfig,
+	type DocsSeoEntity,
 	type DocsSidebarConfig,
 	type MonolineDocsConfig,
 } from "./config.ts"
