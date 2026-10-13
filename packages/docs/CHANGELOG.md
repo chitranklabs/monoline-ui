@@ -1,5 +1,11 @@
 # @chitrank2050/monoline-docs
 
+## 0.3.0
+
+### Minor Changes
+
+- 6fd6ec4: Add optional author and publisher identities and descriptive social-image text to native SEO configuration. Emit authored page modification dates in sitemaps while preserving indexing exclusions and neutral consumer defaults.
+
 ## 0.2.0
 
 ### Minor Changes
