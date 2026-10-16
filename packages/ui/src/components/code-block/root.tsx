@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { cn } from "../../lib/utils"
 import type { CodeBlockProps } from "./types"
@@ -15,13 +15,41 @@ export function CodeBlockRoot({
 	ref,
 	...props
 }: CodeBlockProps): React.ReactElement {
-	const [copied, setCopied] = useState(false)
+	const [copyState, setCopyState] = useState<{
+		code: string | undefined
+		status: "idle" | "copying" | "copied" | "error"
+	}>({ code, status: "idle" })
+	const requestId = useRef(0)
+	const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const status = copyState.code === code ? copyState.status : "idle"
+	const copied = status === "copied"
 
-	function copy() {
-		if (!code) return
-		navigator.clipboard?.writeText(code)
-		setCopied(true)
-		setTimeout(() => setCopied(false), 1400)
+	useEffect(
+		() => () => {
+			requestId.current += 1
+			if (resetTimer.current) clearTimeout(resetTimer.current)
+		},
+		[]
+	)
+
+	async function copy() {
+		if (!code || status === "copying") return
+		const request = ++requestId.current
+		if (resetTimer.current) clearTimeout(resetTimer.current)
+		setCopyState({ code, status: "copying" })
+		try {
+			if (!navigator.clipboard?.writeText)
+				throw new Error("Clipboard unavailable")
+			await navigator.clipboard.writeText(code)
+			if (request !== requestId.current) return
+			setCopyState({ code, status: "copied" })
+			resetTimer.current = setTimeout(() => {
+				if (request === requestId.current)
+					setCopyState({ code, status: "idle" })
+			}, 1400)
+		} catch {
+			if (request === requestId.current) setCopyState({ code, status: "error" })
+		}
 	}
 
 	return (
@@ -52,10 +80,11 @@ export function CodeBlockRoot({
 					{code && (
 						<button
 							type="button"
-							onClick={copy}
+							onClick={() => void copy()}
+							disabled={status === "copying"}
 							className="cursor-pointer border-none bg-transparent font-mono text-[10px] text-text-muted transition-colors duration-(--duration-micro) hover:text-text"
 						>
-							{copied ? "✓ Copied" : "Copy"}
+							{copied ? "✓ Copied" : status === "copying" ? "Copying…" : "Copy"}
 						</button>
 					)}
 				</header>
@@ -63,17 +92,32 @@ export function CodeBlockRoot({
 				code && (
 					<button
 						type="button"
-						onClick={copy}
+						onClick={() => void copy()}
+						disabled={status === "copying"}
 						className={cn(
 							"absolute top-3 right-3 z-10 cursor-pointer rounded border border-border bg-card px-2 py-1 font-mono text-[10px] text-text-muted opacity-0 transition-[border-color,box-shadow,color,opacity] duration-(--duration-fast) hover:border-border-strong hover:text-text focus-visible:opacity-100 focus-visible:outline-none focus-visible:shadow-(--focus-ring) group-hover:opacity-100",
 							copied &&
 								"opacity-100 border-accent/30 text-accent hover:text-accent"
 						)}
 					>
-						{copied ? "✓ Copied" : "Copy"}
+						{copied ? "✓ Copied" : status === "copying" ? "Copying…" : "Copy"}
 					</button>
 				)
 			)}
+			<p
+				role="status"
+				className={
+					status === "error"
+						? "m-0 px-4 py-3 text-xs text-text-secondary"
+						: "sr-only"
+				}
+			>
+				{status === "error"
+					? "Copy unavailable. Select the code and copy it manually."
+					: copied
+						? "Code copied to clipboard."
+						: ""}
+			</p>
 			{children ?? (
 				<pre
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex

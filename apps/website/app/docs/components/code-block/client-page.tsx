@@ -58,7 +58,7 @@ export default function CodeBlockPageClient() {
 	return (
 		<ComponentPlayground
 			title="CodeBlock"
-			description="Display preformatted code with optional contextual descriptions, filename headers, language metadata, and 1-click clipboard copying."
+			description="Display preformatted code with optional descriptions, filenames and language metadata. Copy feedback confirms successful clipboard writes; blocked access provides manual-copy guidance."
 			importStatement='import { CodeBlock } from "@chitrank2050/monoline-ui/code-block"'
 			usageCode={usageCode}
 			props={propsRows}
