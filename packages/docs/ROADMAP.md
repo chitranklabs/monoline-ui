@@ -8,10 +8,10 @@ independently.
 ## Release acceptance
 
 - [ ] Complete manual screen-reader and real iOS keyboard/safe-area checks.
-- [ ] Verify a subpath deployment on a real static host.
-      The first npm release is published. Recheck package verification, publishing
-      credentials and provenance for each release candidate; publication does not
-      establish hosted deployment or manual device acceptance.
+
+The first npm release is published. Recheck package verification, publishing
+credentials and provenance for each release candidate; publication does not
+establish manual device acceptance.
 
 Use the [Docs release and recovery guide](../../docs/docs-release.md) and
 [deployment guide](../../docs/docs-deployment.md) for these gates.
