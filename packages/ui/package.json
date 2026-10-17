@@ -1,6 +1,6 @@
 {
 	"name": "@chitrank2050/monoline-ui",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "Monochrome React components for developer portfolios, documentation, and editorial interfaces with Tailwind CSS v4 design tokens.",
 	"type": "module",
 	"author": {
@@ -65,11 +65,15 @@
 		"access": "public",
 		"directory": "dist"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"sideEffects": ["./dist/styles/theme.css"],
+	"sideEffects": [
+		"./dist/styles/theme.css"
+	],
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
