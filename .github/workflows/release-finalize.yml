@@ -335,6 +335,11 @@ jobs:
             scripts/release-registry.mjs
             scripts/lib/jsr-publication.mjs
 
+      # The workflow-pinned tools are not part of the immutable package source.
+      - name: Exclude verification checkout from source status
+        run: |
+          printf '\n/.release-tools/\n' >> "$(git rev-parse --git-path info/exclude)"
+
       - name: Verify JSR Version 🔄
         run: |
           PACKAGE_VERSION="$(jq -r .version packages/ui/package.json)"

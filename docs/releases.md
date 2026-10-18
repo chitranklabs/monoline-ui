@@ -93,7 +93,9 @@ intended for the Prepare workflow; running it locally consumes pending changeset
   publish current main under an older version. An existing GitHub release must
   contain the matching tarball; missing or conflicting assets require review.
 - UI JSR verification loads tools from the immutable workflow commit, separately
-  from the tagged package source. Once a verifier fix lands on `main`, dispatch
+  from the tagged package source. Its helper checkout is locally excluded from Git
+  status; package edits and unrelated untracked files still block publication.
+  Once a verifier fix lands on `main`, dispatch
   **UI Release 2 - Finalize Tag** from `main` with the existing tag and target
   `github-release` to verify both registries and create the missing release.
   Re-running an old run uses its old workflow, so it cannot apply this fix.

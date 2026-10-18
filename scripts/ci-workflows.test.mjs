@@ -1,7 +1,13 @@
 import { load } from "js-yaml"
 import assert from "node:assert/strict"
 import { execFileSync, spawnSync } from "node:child_process"
-import { mkdtempSync, readFileSync, rmSync } from "node:fs"
+import {
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs"
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { test } from "node:test"
@@ -298,6 +304,52 @@ test("UI recovery uses workflow-pinned verifiers with immutable package source",
 		release.env.JSR_RECOVERY_NOTES,
 		"${{ runner.temp }}/release-notes.md"
 	)
+})
+
+test("JSR helper checkout stays outside source cleanliness checks without hiding package edits", (t) => {
+	const steps = readWorkflow("release-finalize").jobs["publish-jsr"].steps
+	const helper = steps.findIndex((step) => step.with?.path === ".release-tools")
+	const isolate = steps.findIndex(
+		(step) => step.name === "Exclude verification checkout from source status"
+	)
+	const publish = steps.findIndex((step) => step.run?.includes("deno publish"))
+	assert.ok(helper >= 0 && isolate > helper && isolate < publish)
+	assert.doesNotMatch(steps[publish].run, /--allow-dirty/)
+	const directory = mkdtempSync(path.join(tmpdir(), "jsr-checkout-"))
+	t.after(() => rmSync(directory, { recursive: true, force: true }))
+	const git = (...args) =>
+		execFileSync("git", args, {
+			cwd: directory,
+			encoding: "utf8",
+			stdio: ["ignore", "pipe", "pipe"],
+		})
+	git("init", "--quiet")
+	writeFileSync(path.join(directory, "package.ts"), "export const value = 1\n")
+	git("add", "package.ts")
+	git(
+		"-c",
+		"user.name=Fixture",
+		"-c",
+		"user.email=fixture@example.invalid",
+		"-c",
+		"commit.gpgsign=false",
+		"commit",
+		"--quiet",
+		"-m",
+		"fixture"
+	)
+	mkdirSync(path.join(directory, ".release-tools"))
+	writeFileSync(
+		path.join(directory, ".release-tools", "verifier.mjs"),
+		"export {}\n"
+	)
+	assert.match(git("status", "--porcelain"), /\?\? \.release-tools\//)
+	execFileSync("bash", ["-e", "-c", steps[isolate].run], { cwd: directory })
+	assert.equal(git("status", "--porcelain"), "")
+	writeFileSync(path.join(directory, "package.ts"), "export const value = 2\n")
+	assert.match(git("status", "--porcelain"), /M package\.ts/)
+	writeFileSync(path.join(directory, "unrelated.ts"), "export {}\n")
+	assert.match(git("status", "--porcelain"), /\?\? unrelated\.ts/)
 })
 
 test("Docs release automation changes select package integration", () => {
