@@ -42,6 +42,19 @@ measure representative content before promising larger-site performance.
 Search timings exclude network transfer, index parsing and DOM updates.
 The script prints current measurements; saved reports are not required.
 
+## Live site health
+
+`pnpm check:seo:live` checks HTTPS, the homepage canonical, `robots.txt` and
+`sitemap.xml` on the portfolio and six product/documentation sites. It uses no
+credentials, validates certificates normally, limits response sizes and retries
+failed requests once. Page-level SEO remains covered by existing build tests.
+
+The **Live SEO health** workflow runs weekly and supports manual dispatch. It
+stays separate from pull-request checks; its fixture tests run in normal CI.
+Failures appear in workflow logs and the job summary. This check does not crawl
+all content, interpret robots crawl rules, validate the full sitemap schema, run
+Lighthouse or establish Google indexing, traffic or growth.
+
 ## Shared colors
 
 Docs ships a generated subset of Monoline UI's light/dark semantic colors. The

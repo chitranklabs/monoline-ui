@@ -11,7 +11,7 @@ explicit hydrated islands. The default site is static HTML, not a production SSR
 server. Basic reading and navigation work without JavaScript; search and theme
 controls require it.
 
-The first release targets npm. JSR cannot currently parse the package's public
+The package is published on npm. JSR cannot currently parse the package's public
 Astro component exports. A local dry-run probe rejects an `.astro` export; no JSR
 compatibility is promised.
 

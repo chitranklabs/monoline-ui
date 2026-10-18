@@ -37,6 +37,10 @@ export function Example() {
 }
 ```
 
+Run your application and confirm the button renders with Monoline styling.
+If styles are missing, check the global stylesheet import and the
+[installation guide](https://monolineui.chitrankagnihotri.com/docs/installation).
+
 ## Technical specification
 
 - React and React DOM: 18.2 or 19.

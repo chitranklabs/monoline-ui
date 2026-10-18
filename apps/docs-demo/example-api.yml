@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Notes API
+  title: Example Notes API
   version: 1.0.0
   description: >-
     A small fictional API for tracking documentation tasks. List notes with
@@ -11,8 +11,9 @@ paths:
   /notes:
     get:
       operationId: listNotes
-      summary: List notes
+      summary: List notes example
       description: >-
+        Illustrative operation; this documentation demo has no connected backend.
         Retrieve notes in creation order. Use limit to choose the page size and
         pass the nextCursor from a response to retrieve the following page.
         An absent nextCursor means there are no more results.
@@ -57,8 +58,9 @@ paths:
                 message: limit must be between 1 and 100.
     post:
       operationId: createNote
-      summary: Create a note
+      summary: Create a note example
       description: >-
+        Illustrative operation; this documentation demo has no connected backend.
         Create a documentation task. Supply a title and an optional body.
         New notes start with open status; the service assigns the identifier
         and creation timestamp.
