@@ -102,7 +102,12 @@ ask questions in [discussions](https://github.com/chitranklabs/monoline-ui/discu
 and report vulnerabilities through [SECURITY.md](./SECURITY.md).
 
 [Code of Conduct](./CODE_OF_CONDUCT.md) · [MIT License](./LICENSE) ·
-[Quality checks](https://scorecard.dev/viewer/?uri=github.com/chitranklabs/monoline-ui) ·
-[Support the project](https://ko-fi.com/D1D71U581P)
+[Quality checks](https://scorecard.dev/viewer/?uri=github.com/chitranklabs/monoline-ui)
+
+## Support
+
+If this project is useful to you, you can support its maintenance on Ko-fi.
+
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D71U581P)
 
 <p align="center">Developed by <a href="https://chitrankagnihotri.com">Chitrank Agnihotri</a></p>
