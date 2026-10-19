@@ -4,6 +4,8 @@ Build static documentation from Markdown and MDX for libraries, SDKs and API
 products. Includes navigation, local search, light/dark themes, highlighted code,
 authoring components, OpenAPI reference generation and Markdown/AI exports.
 
+[Website & Docs](https://monolinedocs.chitrankagnihotri.com/) · [Quickstart](https://monolinedocs.chitrankagnihotri.com/getting-started/) · [Examples](https://monolinedocs.chitrankagnihotri.com/components/) · [npm](https://www.npmjs.com/package/@chitrank2050/monoline-docs)
+
 ## Installation
 
 Use Node.js 24.14 or newer. In a new or existing project directory:

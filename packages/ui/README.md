@@ -3,7 +3,8 @@
 React components for developer portfolios, documentation, and editorial interfaces.
 The library provides 47 components and a shared Tailwind CSS v4 token layer.
 
-[Documentation](https://monolineui.chitrankagnihotri.com/docs) ·
+[Website](https://monolineui.chitrankagnihotri.com) · [Docs](https://monolineui.chitrankagnihotri.com/docs) · [Installation](#installation) · [npm](https://www.npmjs.com/package/@chitrank2050/monoline-ui)
+
 [Component catalog](https://monolineui.chitrankagnihotri.com/docs/components) ·
 [Release history](https://monolineui.chitrankagnihotri.com/docs/changelog)
 
