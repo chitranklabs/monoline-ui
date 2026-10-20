@@ -177,7 +177,7 @@ importers:
         version: 5.4.1
       markdown-it:
         specifier: '>=14.3.0'
-        version: 15.0.1
+        version: 15.0.2
       parse5:
         specifier: 8.0.1
         version: 8.0.1
@@ -2272,6 +2272,9 @@ packages:
   argparse@3.0.2:
     resolution: {integrity: sha512-mFdDM6WqWKraGLsVb+C9CahPnzTXOefAOLq3jYcca2YZ8bEWpr++Tzj+zSaKW9+X9L5uSxcm1AZ3Y6aZJ09OhQ==}
 
+  argparse@3.0.3:
+    resolution: {integrity: sha512-Sn98ftV3KfsO8xfLPHG6oT8y+b0yvbrLgZjgPDXsharNY15tTAjqIsIju4S32nl6/iEUNNE4v+yL2Zhm8ooP3w==}
+
   argue-cli@3.2.0:
     resolution: {integrity: sha512-VipTB0gXgGIFO2Rg9yEVN5wLt2AurJcZqDbgmYSwPwsykhLrQhs240/bfceev4w68lI8JshoOJIk9uW7tFzROw==}
     engines: {node: '>=22'}
@@ -3539,6 +3542,10 @@ packages:
 
   markdown-it@15.0.1:
     resolution: {integrity: sha512-9/7gE95FNPkfUWrjJIoHZza2iLmuJlPD0UNMxPi7bxUrbCR525YZY0r+zyfes0dZI5ZZ/uNIXUJca0pJvtw41g==}
+    hasBin: true
+
+  markdown-it@15.0.2:
+    resolution: {integrity: sha512-q4IGxMv56jCqT4OCRCADBoDP3LO4MhmTXjFbphHPXs4g3j9Xg5RDnxqN8IF/3vIWEU+VCnUq+7JUg/cfy2E6Qw==}
     hasBin: true
 
   markdownlint-cli@0.49.1:
@@ -6501,6 +6508,8 @@ snapshots:
 
   argparse@3.0.2: {}
 
+  argparse@3.0.3: {}
+
   argue-cli@3.2.0: {}
 
   aria-hidden@1.2.6:
@@ -7897,6 +7906,15 @@ snapshots:
   markdown-it@15.0.1:
     dependencies:
       argparse: 3.0.2
+      entities: 8.1.0
+      linkify-it: 6.1.0
+      mdurl: 2.1.0
+      punycode.js: 2.3.1
+      uc.micro: 3.0.0
+
+  markdown-it@15.0.2:
+    dependencies:
+      argparse: 3.0.3
       entities: 8.1.0
       linkify-it: 6.1.0
       mdurl: 2.1.0
