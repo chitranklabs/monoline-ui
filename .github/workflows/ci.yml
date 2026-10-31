@@ -41,7 +41,7 @@ jobs:
       workflows: ${{ steps.filter.outputs.workflows }}
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
 
@@ -151,7 +151,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
 
@@ -161,13 +161,13 @@ jobs:
           persist-credentials: false
 
       - name: Install pnpm 📦
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
-          version: 11.18.0
+          version: 11.28.10
           run_install: false
 
       - name: Setup Node.js 🟢
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
@@ -254,7 +254,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
       - name: Checkout 📥
@@ -262,12 +262,12 @@ jobs:
         with:
           persist-credentials: false
       - name: Install pnpm 📦
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
-          version: 11.18.0
+          version: 11.28.10
           run_install: false
       - name: Setup Node.js 🟢
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
@@ -293,7 +293,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
       - name: Checkout 📥
@@ -301,18 +301,18 @@ jobs:
         with:
           persist-credentials: false
       - name: Install pnpm 📦
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
-          version: 11.18.0
+          version: 11.28.10
           run_install: false
       - name: Setup Node.js 🟢
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
       - name: Restore Next.js build cache
         if: needs.changes.outputs.docs == 'true' || needs.changes.outputs.library == 'true' || needs.changes.outputs.shared_deps == 'true'
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.0.3
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
         with:
           path: apps/website/.next/cache
           key: ${{ runner.os }}-next-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('apps/website/app/**/*', 'packages/ui/src/**/*', 'apps/website/public/**/*', 'apps/website/next.config.ts') }}
@@ -347,7 +347,7 @@ jobs:
             node node_modules/@playwright/test/cli.js test --config packages/docs/visual/playwright.config.ts
       - name: Upload browser diagnostics
         if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-diagnostics
           path: |
@@ -366,7 +366,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
       - name: Checkout 📥
@@ -390,7 +390,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
       - name: Checkout 📥
@@ -422,7 +422,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner 🛡️
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
       - name: Checkout 📥
