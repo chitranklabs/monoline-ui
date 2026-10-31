@@ -64,7 +64,7 @@
 	"devDependencies": {
 		"@changesets/cli": "3.0.2",
 		"@chitrank2050/git-hygiene": "^0.5.1",
-		"@eslint/js": "^9.39.5",
+		"@eslint/js": "^10.0.1",
 		"@playwright/test": "1.63.0",
 		"@testing-library/jest-dom": "^7.0.1",
 		"@testing-library/react": "^16.3.2",
@@ -75,8 +75,8 @@
 		"@types/react-dom": "^19.3.0",
 		"axe-core": "4.13.0",
 		"esbuild": "^0.28.1",
-		"eslint": "^9.39.5",
-		"eslint-plugin-astro": "1.7.0",
+		"eslint": "^10.14.0",
+		"eslint-plugin-astro": "3.2.1",
 		"eslint-plugin-jsx-a11y": "^6.10.2",
 		"globals": "^17.8.0",
 		"js-yaml": "5.4.1",
@@ -88,14 +88,14 @@
 		"prettier-plugin-astro": "1.0.0",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
-		"tsup": "^8.5.1",
-		"typescript": "^6.0.3",
+		"tsup": "^9.0.0",
+		"typescript": "^7.0.2",
 		"typescript-eslint": "^8.65.0",
 		"vitest": "^5.0.0"
 	},
-	"packageManager": "pnpm@11.18.0",
+	"packageManager": "pnpm@12.16.1",
 	"engines": {
-		"node": ">=24.14.0"
+		"node": ">=26.13.0"
 	},
 	"git-hygiene": {
 		"types": [
