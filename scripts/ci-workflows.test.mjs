@@ -503,6 +503,7 @@ function applicable(condition, changes) {
 	return condition
 		.trim()
 		.split(/\s*\|\|\s*/)
+		.filter((clause) => !clause.includes("startsWith(github.head_ref"))
 		.map((clause) => {
 			const match = /^needs\.changes\.outputs\.(\w+) == 'true'$/.exec(clause)
 			assert.ok(match, `Unsupported condition: ${clause}`)
@@ -764,7 +765,7 @@ test("hygiene keeps title validation on edits without fetching history", () => {
 	const workflow = readWorkflow("hygiene")
 	assert.ok(workflow.on.pull_request.types.includes("edited"))
 	const job = workflow.jobs["branch-name"]
-	assert.equal(job.if, undefined)
+	assert.equal(job.if, "!startsWith(github.head_ref, 'renovate/')")
 	assert.equal(
 		job.steps.find((step) => step.name === "Validate PR Title 🏷️").if,
 		undefined
@@ -775,6 +776,26 @@ test("hygiene keeps title validation on edits without fetching history", () => {
 		],
 		1
 	)
+})
+
+test("Renovate branches trigger basic build and test verification", () => {
+	assert.ok(
+		ci.jobs.package_contract.if.includes(
+			"startsWith(github.head_ref, 'renovate/')"
+		)
+	)
+	for (const stepName of [
+		"Lint code",
+		"Typecheck",
+		"Run library unit tests",
+		"Run website unit tests",
+	]) {
+		const step = ci.jobs.quality.steps.find((s) => s.name === stepName)
+		assert.ok(
+			step.if.includes("startsWith(github.head_ref, 'renovate/')"),
+			`${stepName} must run on Renovate branches`
+		)
+	}
 })
 
 test("prose changes keep cheap checks without running ESLint", () => {
